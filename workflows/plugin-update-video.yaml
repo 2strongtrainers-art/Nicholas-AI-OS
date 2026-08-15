@@ -1,0 +1,73 @@
+id: plugin-update-video
+version: 1
+status: scaffolded
+purpose: >-
+  Turn a plain-English request about newly acquired ChatGPT plugins/connectors and GitHub
+  capabilities into a concise branded vertical video.
+
+trigger_examples:
+  - "Make me another video about the new plugins I acquired over the last four days and now having a GitHub account."
+
+inputs:
+  topic: required
+  target_duration_seconds:
+    default: 90
+  orientation:
+    default: 9:16
+  audience:
+    default: general
+
+routing:
+  inventory_current_plugins: ChatGPT connected plugin/tool inventory
+  verify_current_product_facts: official web sources when facts may have changed
+  script_generation: ChatGPT
+  narration: ElevenLabs
+  visuals: Pexels or native/generated assets where appropriate
+  assembly: GitHub Actions + FFmpeg
+  qa: ChatGPT + deterministic checks
+
+narration:
+  voice_id: eZ6srIcJSJNcqcDrI68r
+  model: eleven_multilingual_v2
+  settings:
+    stability: 0.45
+    similarity_boost: 0.85
+    style: 0.20
+    use_speaker_boost: true
+    speed: 1.10
+
+cost_policy:
+  default_compute: GitHub Actions
+  default_visual_source: Pexels
+  avoid_replit_unless_needed: true
+  paid_specialist_requires_reason: true
+
+steps:
+  - classify_request
+  - inventory_relevant_plugins
+  - verify_time_sensitive_claims
+  - write_script
+  - produce_visual_plan
+  - synthesize_narration
+  - retrieve_or_generate_visuals
+  - render_vertical_video
+  - validate_duration_and_media
+  - inspect_output
+  - deliver_artifact
+  - record_lessons_if_workflow_changed
+
+acceptance_criteria:
+  - duration_is_close_to_requested_target
+  - narration_uses_configured_voice
+  - no_unverified_current_product_claims
+  - visuals_are_licensed_or_generated_for_use
+  - output_is_mobile_ready_vertical_mp4
+  - no_secrets_are_written_to_repository
+
+required_secrets:
+  - ELEVENLABS_API_KEY
+  - PEXELS_API_KEY
+
+notes:
+  - This definition is safe to commit because secret values are never stored here.
+  - End-to-end rendering is not considered production-ready until a real render passes QA.
