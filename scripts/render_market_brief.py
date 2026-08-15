@@ -154,7 +154,7 @@ def main():
             run([
                 "ffmpeg", "-y", "-loop", "1", "-i", str(png), "-i", str(mp3),
                 "-t", f"{dur:.3f}", "-r", str(FPS),
-                "-vf", "format=yuv420p,fade=t=in:st=0:d=.18",
+                "-vf", "format=yuv420p,fade=t=in:st=0:d=0.18",
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
                 "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
                 "-shortest", "-movflags", "+faststart", str(seg)
