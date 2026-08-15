@@ -1,0 +1,17 @@
+{
+  "workflow_id": "plugin-update-video",
+  "request": "Create a short proof video showing that my expanded ChatGPT plugin stack and GitHub-based Nicholas AI OS are now connected and operational.",
+  "created_at": "2026-08-15T16:08:00-07:00",
+  "mode": "proof",
+  "retry_of": "jobs/demo-plugin-github-proof.json",
+  "orientation": "9:16",
+  "output_filename": "nicholas-ai-os-github-proof.mp4",
+  "scenes": [
+    {"headline":"Your AI stack just changed","body":"ChatGPT is no longer working as a collection of isolated conversations. The connected tools can now be routed around the job you actually want done.","seconds":5},
+    {"headline":"Specialist tools are connected","body":"Research, email, calendar, CRM, finance, design, websites, analytics, market data and other specialist capabilities can be selected when they are the right fit.","seconds":5},
+    {"headline":"GitHub adds persistence","body":"Nicholas AI OS now has a private repository where reusable code, routing rules, workflow definitions and automation can live permanently and be versioned.","seconds":5},
+    {"headline":"A plain-English request can become a job","body":"ChatGPT can write a structured job into GitHub. That commit can trigger an Action, run deterministic code, verify the result and package the finished artifact.","seconds":5},
+    {"headline":"This video is the proof","body":"The MP4 you are watching was requested in chat, rendered by GitHub Actions with FFmpeg, checked automatically and returned as an artifact without using Replit or a paid render API.","seconds":5},
+    {"headline":"Next: production video mode","body":"The same pipeline can be upgraded with August Nick narration, licensed or generated visuals, captions, branding and stronger QA while keeping GitHub as the durable execution layer.","seconds":5}
+  ]
+}
