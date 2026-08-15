@@ -1,0 +1,81 @@
+id: default-video
+version: 1
+status: beta
+purpose: >-
+  Default workflow for Nicholas video requests. Turn a plain-English topic or objective into a
+  researched, conversational, mobile-ready vertical video using ChatGPT for orchestration,
+  August Nick for narration, and GitHub Actions + FFmpeg for rendering.
+
+trigger_examples:
+  - "Make me a video about what is happening in the stock market."
+  - "Give me a 90-second wildfire update."
+  - "Turn this into a video."
+  - "Make another video about this topic."
+
+routing_rule: >-
+  Any normal request to make, create, render, or produce a video should use this workflow by
+  default unless the user explicitly requests another engine or the workflow cannot satisfy the
+  requested format. Do not default to Replit.
+
+inputs:
+  topic: required
+  target_duration_seconds:
+    default: 90
+  orientation:
+    default: 9:16
+  audience:
+    default: general
+  narration_style:
+    default: conversational_nick
+
+routing:
+  research: best current connected/public tools for the subject
+  script_generation: ChatGPT
+  narration: ElevenLabs August Nick
+  visuals: native/generated/licensed assets as appropriate
+  assembly: GitHub Actions + FFmpeg
+  qa: ChatGPT + deterministic checks
+
+narration:
+  voice_id: eZ6srIcJSJNcqcDrI68r
+  model: eleven_multilingual_v2
+  settings:
+    stability: 0.40
+    similarity_boost: 0.85
+    style: 0.0
+    use_speaker_boost: true
+    speed: 1.03
+  delivery_profile: conversational_nick
+
+spoken_script_rules:
+  - Write for speech, not for reading.
+  - Sound like Nicholas is explaining the topic to one person he knows.
+  - Use contractions and natural transitions such as "here's the thing", "what matters is", and "so" only when they fit naturally.
+  - Prefer short and medium sentences with deliberately uneven sentence lengths.
+  - Avoid numbered-list cadence in narration even when the visuals contain numbered cards.
+  - Do not narrate card text word-for-word.
+  - Convert dense statistics into spoken language and explain why the number matters.
+  - Use occasional rhetorical questions or pivots where natural.
+  - Insert paragraph breaks and punctuation to create breathing room.
+  - Avoid announcer voice, corporate copy, essay phrasing, and repetitive sentence openings.
+  - Keep the delivery informed and confident without sounding rehearsed.
+
+visual_script_separation:
+  on_screen_text: concise facts, labels, charts, numbers, source labels
+  narration: interpretation, context, transitions, and conversational explanation
+
+cost_policy:
+  default_compute: GitHub Actions
+  avoid_replit_unless_needed: true
+  paid_specialist_requires_reason: true
+
+acceptance_criteria:
+  - narration_uses_august_nick
+  - narration_does_not_sound_like_card_text_being_read_verbatim
+  - current_claims_are_verified_when_needed
+  - output_is_mobile_ready_vertical_mp4
+  - deterministic_media_qa_passes
+  - no_secrets_are_written_to_repository
+
+required_secrets:
+  - ELEVENLABS_API_KEY
