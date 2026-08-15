@@ -19,6 +19,26 @@ Turn a plain-English request into the smallest reliable toolchain that completes
 3. Specialist managed service only when quality, speed, or capability justifies extra cost.
 4. Replit only as a fallback/prototype environment when GitHub or native tools are insufficient.
 
+## Default video routing
+A normal plain-English request to **make, create, render, produce, or turn something into a video** routes to `workflows/default-video.yaml` unless the user explicitly requests a different engine or the requested format cannot be produced by that workflow.
+
+Examples that should trigger the default workflow without special syntax:
+- “Make me a video about the stock market.”
+- “Give me a 90-second wildfire update.”
+- “Turn this into a video.”
+- “Make another video on this topic.”
+
+Default video toolchain:
+1. ChatGPT orchestrates and researches with the best connected/public sources for the topic.
+2. ChatGPT writes separate **spoken narration** and **on-screen visual copy**.
+3. ElevenLabs synthesizes the configured August Nick voice.
+4. GitHub Actions + FFmpeg render and validate the video.
+5. The finished artifact is returned to ChatGPT after QA.
+
+Do **not** default video work to Replit. Use Replit only if the user explicitly asks for it or GitHub/native tooling cannot satisfy a required capability.
+
+For narration, default to the `conversational_nick` delivery profile: speech should sound like Nicholas explaining something naturally to one person, not reading the on-screen cards or a written report verbatim.
+
 ## Domain routing
 - Personal finance / balances / spending / debts / holdings -> Finances.
 - Live market data / options / pricing -> Alpaca.
@@ -31,6 +51,7 @@ Turn a plain-English request into the smallest reliable toolchain that completes
 - Payments / products / payment links -> Stripe.
 - Product analytics -> PostHog.
 - Design -> Canva or native image generation.
+- Video creation -> `workflows/default-video.yaml` -> research tools + ElevenLabs August Nick + GitHub Actions/FFmpeg.
 - Current public research -> web; deep web/data research -> Exa; academic -> Sider Scholar; freshness/unknown-unknown support -> Acumen when useful.
 - Durable automation / scripts / versioned workflows -> GitHub.
 
