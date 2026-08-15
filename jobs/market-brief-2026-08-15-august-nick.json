@@ -1,0 +1,94 @@
+{
+  "workflow_id": "market-geopolitics-august-nick-v1",
+  "created_at": "2026-08-15T16:38:00-07:00",
+  "market_as_of": "2026-08-14 U.S. market close",
+  "output_filename": "market-geopolitics-august-nick-2026-08-15.mp4",
+  "sources": [
+    "Alpaca IEX snapshots for SPY, QQQ, DIA, IWM, XLK, XLE, XLI, ITA, GLD, TLT as of Aug 14, 2026 close",
+    "Federal Reserve FOMC statement, July 29, 2026",
+    "U.S. State Department Worldwide Caution, July 22, 2026",
+    "U.S. Treasury Iran sanctions release, July 15, 2026",
+    "White House semiconductor proclamation, January 14, 2026",
+    "White House Canada motor vehicles proclamation, July 20, 2026"
+  ],
+  "scenes": [
+    {
+      "headline": "Stock Market + Geopolitics",
+      "subhead": "What the tape is saying right now",
+      "body": "Friday ended with mild pressure on the major U.S. indexes, but the internals were more interesting than the headline.",
+      "bullets": [
+        "Broad indexes slightly lower",
+        "Small caps, energy, defense and gold stronger",
+        "Rates, tariffs and Middle East risk remain the macro drivers"
+      ],
+      "source_label": "Market close: Aug 14, 2026 • Brief prepared Aug 15",
+      "narration": "Here is the market and geopolitical setup as of the August fourteenth U.S. close. The major indexes finished slightly lower, but underneath the surface there was clear rotation into small caps, energy, defense, and gold. That tells me this is not a simple risk-off tape. Investors are balancing solid growth and AI investment against higher-for-longer rates, trade friction, and elevated Middle East risk."
+    },
+    {
+      "type": "returns",
+      "headline": "Friday's Market Tape",
+      "subhead": "Rotation, not a broad liquidation",
+      "returns": {
+        "SPY": -0.20,
+        "QQQ": -0.15,
+        "DIA": -0.20,
+        "IWM": 0.53,
+        "XLE": 1.42,
+        "ITA": 1.49,
+        "GLD": 0.63,
+        "TLT": -0.67
+      },
+      "body": "Broad equity weakness was modest while energy, aerospace/defense and gold outperformed.",
+      "source_label": "Alpaca IEX snapshots • Aug 14 close",
+      "narration": "The numbers make the rotation clear. S P Y fell about two tenths of a percent, Q Q Q slipped fifteen basis points, and the Dow ETF fell about two tenths. But small caps gained roughly half a percent. Energy rose about one point four percent, aerospace and defense about one point five percent, and gold gained roughly six tenths. Long Treasuries fell about seven tenths. That is a market pricing multiple competing themes at the same time."
+    },
+    {
+      "headline": "The Fed Is Still Restrictive",
+      "subhead": "3.5% to 3.75% policy range",
+      "body": "The Fed held rates steady on July 29. It described economic activity as solid, while saying inflation remains elevated and noting energy-related supply shocks.",
+      "bullets": [
+        "Growth and productivity remain supportive",
+        "Inflation is still above the 2% goal",
+        "Three voters preferred a 25-basis-point hike"
+      ],
+      "source_label": "Federal Reserve • July 29, 2026",
+      "narration": "The Fed remains a major constraint on valuations. On July twenty ninth, policymakers held the target range at three and a half to three and three quarters percent. The Fed said economic activity is expanding at a solid pace, but inflation remains elevated, with supply shocks pushing prices higher in sectors including energy. Three voters even preferred another quarter point hike. So the market still does not have a clean easy-money backdrop."
+    },
+    {
+      "headline": "Middle East Risk Is Still Live",
+      "subhead": "Shipping and energy are the transmission channels",
+      "body": "The State Department says heightened Middle East tensions carry the potential for unforeseen escalation. Treasury has also cited Iranian attacks on commercial vessels in the Strait of Hormuz.",
+      "bullets": [
+        "Oil and shipping can react quickly to escalation",
+        "Energy and defense strength fit that risk backdrop",
+        "A de-escalation would remove an inflation pressure point"
+      ],
+      "source_label": "State Department + U.S. Treasury",
+      "narration": "Geopolitics is the second major driver. The State Department's worldwide caution says heightened Middle East tensions create the potential for unforeseen escalation. Treasury also tied July sanctions to Iranian attacks on commercial vessels in the Strait of Hormuz. For markets, the key transmission mechanism is energy and shipping. If that situation worsens, oil can feed directly back into inflation expectations and rate sensitivity."
+    },
+    {
+      "headline": "Trade Policy Adds Another Layer",
+      "subhead": "Semiconductors, autos and supply chains",
+      "body": "Washington has tied semiconductor import policy to national security and recently added duties connected to the Canada auto trade dispute.",
+      "bullets": [
+        "Semiconductor supply chains remain strategic",
+        "Autos and industrials face tariff sensitivity",
+        "Policy headlines can move sector leadership quickly"
+      ],
+      "source_label": "White House proclamations • 2026",
+      "narration": "Trade policy is the third layer. The White House has framed semiconductor import dependence as a national security risk, and it recently imposed additional duties connected to the Canada motor vehicle dispute. That keeps semiconductors, autos, industrials, and multinational supply chains exposed to policy headlines. It also means strong earnings alone may not be enough to determine sector leadership."
+    },
+    {
+      "headline": "My Read on the Setup",
+      "subhead": "Constructive, but headline-sensitive",
+      "body": "The broad market is not showing panic. But the rotation toward energy, defense and gold says investors are actively hedging geopolitical and inflation risk.",
+      "bullets": [
+        "Bull case: solid growth + AI capex + productivity",
+        "Bear case: oil shock + sticky inflation + tariffs",
+        "Watch: tech leadership, energy, defense, gold and bond yields"
+      ],
+      "source_label": "Synthesis of verified market and official-source data",
+      "narration": "My read is constructive but headline sensitive. The market is not behaving like investors expect an immediate crisis. Broad losses were small and small caps actually outperformed. But strength in energy, defense, and gold says geopolitical and inflation hedging is real. The bullish path is solid growth, productivity, and continued A I capital spending. The bearish path is a new oil shock, sticky inflation, or deeper trade friction. I would watch tech leadership, energy, defense, gold, and bond yields for the next signal. This is market analysis, not personalized financial advice."
+    }
+  ]
+}
