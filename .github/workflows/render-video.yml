@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Ensure FFmpeg and fonts are available
         shell: bash
@@ -45,10 +47,10 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             JOB_PATH='${{ inputs.job_path }}'
           else
-            JOB_PATH=$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^jobs/.*\.json$' | tail -n 1 || true)
+            JOB_PATH=$(git show --pretty='' --name-only "$GITHUB_SHA" | grep '^jobs/.*\.json$' | tail -n 1 || true)
           fi
           if [ -z "$JOB_PATH" ]; then
-            echo "No changed job JSON was found. Skipping proof render."
+            echo "No changed job JSON was found. Skipping render."
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
