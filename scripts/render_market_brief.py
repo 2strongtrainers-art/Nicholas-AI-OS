@@ -39,11 +39,11 @@ def tts(text, out_path):
         "text": text,
         "model_id": "eleven_multilingual_v2",
         "voice_settings": {
-            "stability": 0.45,
+            "stability": 0.40,
             "similarity_boost": 0.85,
-            "style": 0.20,
+            "style": 0.0,
             "use_speaker_boost": True,
-            "speed": 1.10
+            "speed": 1.03
         }
     }
     req = urllib.request.Request(
@@ -172,6 +172,7 @@ def main():
         "resolution": [W,H],
         "voice": "August Nick",
         "voice_id": VOICE_ID,
+        "delivery_profile": "conversational_nick",
         "qa": "passed" if duration > 30 else "failed",
         "sources": job.get("sources", []),
         "market_as_of": job.get("market_as_of")
