@@ -1,0 +1,50 @@
+name: Validate AI OS Jobs
+
+on:
+  push:
+    paths:
+      - 'jobs/**/*.json'
+      - '.github/workflows/validate-jobs.yml'
+  pull_request:
+    paths:
+      - 'jobs/**/*.json'
+      - '.github/workflows/validate-jobs.yml'
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate job JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob globstar
+          files=(jobs/**/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No job JSON files found; validation passed."
+            exit 0
+          fi
+          for file in "${files[@]}"; do
+            echo "Validating $file"
+            python -m json.tool "$file" >/dev/null
+          done
+
+      - name: Check required top-level fields
+        shell: python
+        run: |
+          import glob, json, sys
+          required = {"workflow_id", "request", "created_at"}
+          failures = []
+          for path in glob.glob("jobs/**/*.json", recursive=True):
+              with open(path, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+              missing = sorted(required - set(data))
+              if missing:
+                  failures.append(f"{path}: missing {', '.join(missing)}")
+          if failures:
+              print("\n".join(failures))
+              sys.exit(1)
+          print("All job files contain required fields.")
