@@ -201,6 +201,7 @@ async function loadDashboard() {
     renderWorkout(state.workout);
     renderRewards(state.newlyEarnedRewards || []);
     renderProgressHistory(state.recentProgress || []);
+    renderCompletion(state);
     renderContinuation(state);
     await Promise.all([renderReferral(), renderLeaderboard()]);
   } catch (error) {
@@ -269,6 +270,20 @@ async function renderLeaderboard() {
     console.error("FORGE leaderboard load error", error);
     $w("#forgeLeaderboardBox").collapse();
   }
+}
+
+function renderCompletion(data) {
+  const qualified = Number(data.currentDay) >= 90 && Number(data.adherence) >= 85;
+  if (!qualified) {
+    $w("#forgeCompletionBox").collapse();
+    return;
+  }
+
+  $w("#forgeCompletionBox").expand();
+  $w("#forgeCompletionTitle").text = "FORGE 90 COMPLETE";
+  $w("#forgeCompletionBadge").text = "FORGE 90";
+  $w("#forgeCompletionStats").text = `90 days • ${data.adherence}% adherence • ${data.tier}`;
+  $w("#forgeCompletionShareText").text = `FORGE 90 COMPLETE — ${data.adherence}% adherence. Strength. Discipline. Brotherhood.`;
 }
 
 function renderContinuation(data) {
