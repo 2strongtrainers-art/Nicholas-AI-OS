@@ -139,6 +139,18 @@ Inside each progress-history row:
 
 The backend supports `photoUrls` in the progress record. Progress-photo upload should be added after the page is linked to the actual Wix Git Integration repo so Wix Media Manager upload can be bound to the member page safely.
 
+## Day-90 completion recognition
+
+This card is hidden until the member reaches Day 90 with at least 85% adherence. It is designed as a clean black/gold screenshot-ready recognition card that pairs with the member's FORGE 90 badge.
+
+- `forgeCompletionBox` — collapsible card/box
+- `forgeCompletionTitle` — heading
+- `forgeCompletionBadge` — large badge-style text
+- `forgeCompletionStats` — text
+- `forgeCompletionShareText` — text formatted cleanly for a screenshot/share
+
+Recommended visual treatment: centered black card, thin muted-gold border, large `FORGE 90`, smaller adherence line, tagline `Strength. Discipline. Brotherhood.`
+
 ## Day-90 continuation card
 
 This card stays collapsed before Day 90. On Day 90 and later it gives qualified members a direct in-dashboard purchase path to the private `$129/month` FORGE Continuation plan.
@@ -168,7 +180,8 @@ The page code calls Wix Pricing Plans checkout directly using the private Contin
 13. Consistency leaderboard
 14. 30/60/90 progress check-in
 15. Progress history
-16. Day-90 Continuation card when eligible
+16. Day-90 completion card when qualified
+17. Day-90 Continuation card when eligible
 
 Keep every tap target at least mobile-button size and keep load/reps/RPE inputs on one row per set where screen width allows.
 
