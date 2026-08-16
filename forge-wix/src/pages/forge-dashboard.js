@@ -1,4 +1,8 @@
-import { loadForgeDashboard, saveForgeWorkoutLog } from "backend/forgeEngine.web";
+import {
+  loadForgeDashboard,
+  saveForgeProgressCheckIn,
+  saveForgeWorkoutLog,
+} from "backend/forgeEngine.web";
 
 let state = null;
 
@@ -36,12 +40,28 @@ function wireActions() {
     $w("#forgeSaveStatus").text = "Saving progress…";
     try {
       await saveForgeWorkoutLog(state.workout._id, collectLogPayload(false));
-      $w("#forgeSaveStatus").text = "Progress saved.";
+      $w("#forgeSaveStatus").text = "Workout progress saved.";
     } catch (error) {
       $w("#forgeSaveStatus").text = "Progress could not be saved. Please try again.";
-      console.error("FORGE progress save error", error);
+      console.error("FORGE workout progress save error", error);
     } finally {
       $w("#forgeSaveButton").enable();
+    }
+  });
+
+  $w("#forgeProgressButton").onClick(async () => {
+    $w("#forgeProgressButton").disable();
+    $w("#forgeProgressStatus").text = "Saving check-in…";
+    try {
+      const result = await saveForgeProgressCheckIn(collectProgressPayload());
+      $w("#forgeProgressStatus").text = `Progress check-in saved for Day ${result.dayNumber}.`;
+      clearProgressInputs();
+      await loadDashboard();
+    } catch (error) {
+      $w("#forgeProgressStatus").text = "Progress check-in could not be saved. Please try again.";
+      console.error("FORGE progress check-in error", error);
+    } finally {
+      $w("#forgeProgressButton").enable();
     }
   });
 }
@@ -68,6 +88,7 @@ async function loadDashboard() {
     renderHeader(state);
     renderWorkout(state.workout);
     renderRewards(state.newlyEarnedRewards || []);
+    renderProgressHistory(state.recentProgress || []);
   } catch (error) {
     console.error("FORGE dashboard error", error);
     $w("#forgeNoAccessTitle").text = "FORGE is temporarily unavailable";
@@ -157,6 +178,63 @@ function collectLogPayload(completed) {
     memberNotes: $w("#forgeMemberNotes").value || "",
     exerciseResults,
   };
+}
+
+function collectProgressPayload() {
+  return {
+    weight: numberValue($w("#forgeProgressWeight").value),
+    measurements: {
+      waist: numberValue($w("#forgeProgressWaist").value),
+      chest: numberValue($w("#forgeProgressChest").value),
+      hips: numberValue($w("#forgeProgressHips").value),
+      arm: numberValue($w("#forgeProgressArm").value),
+      thigh: numberValue($w("#forgeProgressThigh").value),
+      calf: numberValue($w("#forgeProgressCalf").value),
+    },
+    performanceMetrics: {
+      pushups: numberValue($w("#forgeProgressPushups").value),
+      plankSeconds: numberValue($w("#forgeProgressPlank").value),
+      notes: $w("#forgeProgressPerformanceNotes").value || "",
+    },
+    recoveryScore: numberValue($w("#forgeProgressRecovery").value),
+    sleepHours: numberValue($w("#forgeProgressSleepHours").value),
+    notes: $w("#forgeProgressNotes").value || "",
+    photoUrls: [],
+  };
+}
+
+function renderProgressHistory(items) {
+  $w("#forgeProgressHistory").data = items.map((item, index) => ({
+    _id: item._id || `progress-${index}`,
+    ...item,
+  }));
+
+  $w("#forgeProgressHistory").onItemReady(($item, itemData) => {
+    $item("#progressHistoryDay").text = `Day ${itemData.dayNumber || "—"}`;
+    $item("#progressHistoryWeight").text = itemData.weight ? `${itemData.weight} lb` : "Weight optional";
+    $item("#progressHistoryWaist").text = itemData.measurements?.waist ? `Waist: ${itemData.measurements.waist}` : "";
+    $item("#progressHistoryRecovery").text = itemData.recoveryScore ? `Recovery: ${itemData.recoveryScore}/10` : "";
+  });
+}
+
+function clearProgressInputs() {
+  [
+    "#forgeProgressWeight",
+    "#forgeProgressWaist",
+    "#forgeProgressChest",
+    "#forgeProgressHips",
+    "#forgeProgressArm",
+    "#forgeProgressThigh",
+    "#forgeProgressCalf",
+    "#forgeProgressPushups",
+    "#forgeProgressPlank",
+    "#forgeProgressRecovery",
+    "#forgeProgressSleepHours",
+    "#forgeProgressPerformanceNotes",
+    "#forgeProgressNotes",
+  ].forEach((selector) => {
+    $w(selector).value = "";
+  });
 }
 
 function renderRewards(rewards) {
