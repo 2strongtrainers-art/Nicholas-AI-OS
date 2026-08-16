@@ -75,6 +75,20 @@ The seeded FORGE strength templates currently prescribe a maximum of 3 working s
 - `forgeCompleteButton` — primary button, label `Complete Workout`
 - `forgeSaveStatus` — text for success/error state
 
+## FORGE referral card
+
+Every active paid member gets a personal referral code. When a new paid member applies an existing member's code, both members receive a `$25 FORGE credit`. Each new membership can redeem one referral code and self-referrals are rejected.
+
+- `forgeReferralBox` — collapsible box
+- `forgeReferralCode` — prominent text showing the member's personal code
+- `forgeReferralOffer` — explanatory text
+- `forgeReferralRedeemBox` — collapsible box containing the redemption controls
+- `forgeReferralInput` — text input, label `Referral code`
+- `forgeReferralButton` — button, label `Apply Referral Code`
+- `forgeReferralStatus` — text
+
+Credits are stored in `ForgeRewards`, are not cash redeemable, and remain unredeemed until they are applied to a future FORGE purchase/service.
+
 ## 30 / 60 / 90 progress check-in
 
 Use a separate card or collapsible section below the workout. Body weight and measurements are optional and are never challenge-completion requirements.
@@ -130,9 +144,10 @@ The page code calls Wix Pricing Plans checkout directly using the private Contin
 9. Daily recovery/session feedback
 10. Save Progress / Complete Workout
 11. Reward banner
-12. 30/60/90 progress check-in
-13. Progress history
-14. Day-90 Continuation card when eligible
+12. Referral card
+13. 30/60/90 progress check-in
+14. Progress history
+15. Day-90 Continuation card when eligible
 
 Keep every tap target at least mobile-button size and keep load/reps/RPE inputs on one row per set where screen width allows.
 
