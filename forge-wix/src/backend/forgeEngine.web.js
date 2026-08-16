@@ -237,6 +237,25 @@ function sanitizeExerciseResults(results) {
   };
 }
 
+function sanitizeMeasurements(value = {}) {
+  const source = typeof value === "object" && value ? value : {};
+  const result = {};
+  ["waist", "chest", "hips", "arm", "thigh", "calf"].forEach((key) => {
+    const number = Number(source[key]);
+    if (Number.isFinite(number) && number > 0 && number < 200) result[key] = number;
+  });
+  return result;
+}
+
+function sanitizePerformanceMetrics(value = {}) {
+  const source = typeof value === "object" && value ? value : {};
+  return {
+    notes: String(source.notes || "").slice(0, 1000),
+    pushups: clamp(source.pushups, 0, 500),
+    plankSeconds: clamp(source.plankSeconds, 0, 3600),
+  };
+}
+
 export const loadForgeDashboard = webMethod(Permissions.SiteMember, async () => {
   const member = await loggedInMember();
   const order = await activeForgeOrder();
@@ -250,6 +269,12 @@ export const loadForgeDashboard = webMethod(Permissions.SiteMember, async () => 
   const profile = await profileFor(member, order);
   const workout = await getOrCreateTodayWorkout(member._id, profile, assessment);
   const milestoneState = await evaluateMilestones(profile, assessment);
+  const progressResult = await wixData
+    .query(FORGE.collections.PROGRESS)
+    .eq("memberId", member._id)
+    .descending("checkinDate")
+    .limit(4)
+    .find(DATA_OPTIONS);
 
   return {
     entitled: true,
@@ -260,6 +285,7 @@ export const loadForgeDashboard = webMethod(Permissions.SiteMember, async () => 
     streak: profile.streak,
     adherence: milestoneState.adherence,
     newlyEarnedRewards: milestoneState.newlyEarned,
+    recentProgress: progressResult.items || [],
     workout,
   };
 });
@@ -317,6 +343,29 @@ export const saveForgeWorkoutLog = webMethod(Permissions.SiteMember, async (work
   };
 });
 
+export const saveForgeProgressCheckIn = webMethod(Permissions.SiteMember, async (payload = {}) => {
+  const member = await loggedInMember();
+  const order = await activeForgeOrder();
+  if (!order) throw new Error("No active FORGE entitlement.");
+  const profile = await profileFor(member, order);
+
+  const progress = {
+    memberId: member._id,
+    checkinDate: new Date(),
+    dayNumber: profile.currentDay,
+    weight: Number(payload.weight) > 0 ? clamp(payload.weight, 1, 1000) : undefined,
+    measurements: sanitizeMeasurements(payload.measurements),
+    performanceMetrics: sanitizePerformanceMetrics(payload.performanceMetrics),
+    photoUrls: asArray(payload.photoUrls).slice(0, 6),
+    recoveryScore: clamp(payload.recoveryScore, 0, 10),
+    sleepHours: clamp(payload.sleepHours, 0, 24),
+    notes: String(payload.notes || "").slice(0, 2000),
+  };
+
+  const saved = await wixData.insert(FORGE.collections.PROGRESS, progress, DATA_OPTIONS);
+  return { saved: true, progressId: saved._id, dayNumber: profile.currentDay };
+});
+
 export const getForgeProgress = webMethod(Permissions.SiteMember, async () => {
   const member = await loggedInMember();
   const order = await activeForgeOrder();
@@ -333,10 +382,17 @@ export const getForgeProgress = webMethod(Permissions.SiteMember, async () => {
     .descending("earnedDate")
     .limit(100)
     .find(DATA_OPTIONS);
+  const progressResult = await wixData
+    .query(FORGE.collections.PROGRESS)
+    .eq("memberId", member._id)
+    .ascending("checkinDate")
+    .limit(100)
+    .find(DATA_OPTIONS);
 
   return {
     entitled: true,
     profile: profileResult.items[0] || null,
     rewards: rewardsResult.items || [],
+    progress: progressResult.items || [],
   };
 });
