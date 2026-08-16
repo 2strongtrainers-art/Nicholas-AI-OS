@@ -1,0 +1,78 @@
+{
+  "workflow_id": "kenny-24-hour-fitness-next-phase-v1",
+  "created_at": "2026-08-15T17:05:00-07:00",
+  "client": "Kenny Singh",
+  "output_filename": "kenny-24-hour-fitness-next-phase-august-nick-2026-08-15.mp4",
+  "sources": [
+    "Kenny Singh Master Training & Progress Report through August 14, 2026",
+    "24 Hour Fitness Livermore Super-Sport official membership page checked August 15, 2026",
+    "24 Hour Fitness San Ramon Ultra-Sport official membership page checked August 15, 2026",
+    "24 Hour Fitness Pleasanton Super-Sport official membership page checked August 15, 2026"
+  ],
+  "scenes": [
+    {
+      "headline": "Kenny — This Is the Next Phase",
+      "subhead": "The gym membership matters. The strategy matters more.",
+      "body": "You have already built the foundation. Now we can use a larger training environment to make your progress more measurable and more repeatable.",
+      "bullets": [
+        "Keep fat loss moving without sacrificing strength",
+        "Add progressive resistance with more equipment options",
+        "Keep protecting your knee, wrist and shoulder while we build capacity"
+      ],
+      "source_label": "Coach Nick • TriValley.fit • August 15, 2026",
+      "narration": "Kenny, before you sign up for a gym, I wanted to put this into context. You have already done the part most people skip: you built a foundation. The goal now is not just to get access to more equipment. It is to use that equipment strategically so we can keep leaning you out, build strength, and make the next month easier to measure without sacrificing your joints or recovery."
+    },
+    {
+      "type": "numbers",
+      "headline": "Your Foundation Is Working",
+      "subhead": "Verified progress from your first paid session through the August checkpoint",
+      "metrics": [
+        {"value": "12", "label": "session checkpoint reached by August 14", "positive": true},
+        {"value": "~235 → 227.7 lb", "label": "starting weight to latest verified July 31 weight", "positive": true},
+        {"value": "37 / min", "label": "established kettlebell swing conditioning benchmark", "positive": true}
+      ],
+      "body": "The bigger win is behavioral: consistent walking, better protein awareness, independent follow-through and useful recovery feedback.",
+      "source_label": "Kenny Master Progress Report • verified coaching record",
+      "narration": "Your numbers give us a useful starting point. By the August fourteenth checkpoint you had reached session twelve. Your documented weight moved from about two hundred thirty-five pounds to two twenty-seven point seven by July thirty-first, and we established a thirty-seven-swing one-minute conditioning benchmark. But the part I care about most is that you have been walking consistently, thinking about protein, completing independent work, and giving me recovery feedback I can actually coach from."
+    },
+    {
+      "type": "prices",
+      "headline": "Best 24 Hour Fitness Value I Found",
+      "subhead": "Yearly Platinum pricing checked directly on August 15",
+      "prices": [
+        {"name": "Livermore Super-Sport", "price": "$323.88 / yr", "note": "Best current yearly Platinum price of these three"},
+        {"name": "San Ramon Ultra-Sport", "price": "$347.88 / yr", "note": "Convenient local option"},
+        {"name": "Pleasanton Super-Sport", "price": "$419.88 / yr", "note": "Currently the highest of the three"}
+      ],
+      "body": "Platinum includes national club access and a Buddy Pass. Pricing, taxes and applicable fees can change, so verify the checkout total before purchasing.",
+      "source_label": "Official 24 Hour Fitness club pages • checked Aug 15, 2026",
+      "narration": "I also compared the current membership pricing instead of just telling you to join the closest location. As of today, the yearly Platinum price is three hundred twenty-three dollars and eighty-eight cents through Livermore, three forty-seven eighty-eight through San Ramon, and four nineteen eighty-eight through Pleasanton. Platinum includes national club access and a Buddy Pass, so Livermore is the strongest value of those three if the checkout terms work for you. Prices and applicable fees can change, so I would still verify the final total before purchasing."
+    },
+    {
+      "headline": "Why This Helps Your Program",
+      "subhead": "More equipment only helps when the progression is intentional.",
+      "body": "A commercial gym gives us better tools for progressive loading, machine work, cables and controlled exercise substitutions.",
+      "bullets": [
+        "Progress posterior-chain and leg strength without chasing exhaustion",
+        "Build upper-back, posture and pressing capacity around shoulder tolerance",
+        "Use machines and cables to create safer, more measurable overload",
+        "Keep walking and low-impact conditioning because they are working"
+      ],
+      "source_label": "TriValley.fit next-phase programming strategy",
+      "narration": "For your program, the advantage of a commercial gym is not that we suddenly need complicated workouts. It gives us more precise tools. We can progress your posterior chain and legs, build your upper back and posture, use cables and machines for controlled overload, and make smarter substitutions when the knee, wrist, or shoulder needs one. We keep the walking and low-impact conditioning because your adherence there has been one of the strongest parts of the plan."
+    },
+    {
+      "headline": "The Membership Is the Tool",
+      "subhead": "The plan is what turns it into results.",
+      "body": "The next month should be measured by more than the scale: weight trend, waist, strength, conditioning, recovery, photos and consistency.",
+      "bullets": [
+        "Standardize the next measurements and progress photos",
+        "Retest the 25-lb swing benchmark",
+        "Track one upper-body and one lower-body performance marker",
+        "Progress only when execution and recovery justify it"
+      ],
+      "source_label": "Coach Nick • TriValley.fit",
+      "narration": "The membership is the tool. The plan is what turns it into results. For the next month, I want us judging progress by your weight trend, waist, strength, conditioning, recovery, photos, and consistency together, not by one scale number. If we keep working together, my job is to keep removing the guesswork, progress you when the data says you are ready, and make sure every month has a clear reason behind what we are doing. You have momentum now. The next phase is about making that momentum visible."
+    }
+  ]
+}
