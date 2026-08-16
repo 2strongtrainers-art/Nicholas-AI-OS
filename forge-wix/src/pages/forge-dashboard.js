@@ -1,9 +1,11 @@
+import { checkout } from "wix-pricing-plans-frontend";
 import {
   loadForgeDashboard,
   saveForgeProgressCheckIn,
   saveForgeWorkoutLog,
 } from "backend/forgeEngine.web";
 
+const CONTINUATION_PLAN_ID = "28a0386f-a21e-43ba-a171-f4dd92c945d9";
 let state = null;
 
 $w.onReady(async function () {
@@ -64,6 +66,23 @@ function wireActions() {
       $w("#forgeProgressButton").enable();
     }
   });
+
+  $w("#forgeContinuationButton").onClick(async () => {
+    $w("#forgeContinuationButton").disable();
+    $w("#forgeContinuationStatus").text = "Opening secure FORGE Continuation checkout…";
+    try {
+      const purchase = await checkout.startOnlinePurchase(CONTINUATION_PLAN_ID);
+      if (purchase) {
+        $w("#forgeContinuationStatus").text = "FORGE Continuation purchase completed.";
+        await loadDashboard();
+      }
+    } catch (error) {
+      $w("#forgeContinuationStatus").text = "Checkout was not completed. Your current FORGE access is unchanged.";
+      console.error("FORGE continuation checkout error", error);
+    } finally {
+      $w("#forgeContinuationButton").enable();
+    }
+  });
 }
 
 async function loadDashboard() {
@@ -89,6 +108,7 @@ async function loadDashboard() {
     renderWorkout(state.workout);
     renderRewards(state.newlyEarnedRewards || []);
     renderProgressHistory(state.recentProgress || []);
+    renderContinuation(state);
   } catch (error) {
     console.error("FORGE dashboard error", error);
     $w("#forgeNoAccessTitle").text = "FORGE is temporarily unavailable";
@@ -106,6 +126,26 @@ function renderHeader(data) {
   $w("#forgePhase").text = data.phase;
   $w("#forgeAdherence").text = `${data.adherence}%`;
   $w("#forgeStreak").text = `${data.streak || 0}`;
+}
+
+function renderContinuation(data) {
+  if (data.tier === "CONTINUATION") {
+    $w("#forgeContinuationBox").expand();
+    $w("#forgeContinuationTitle").text = "FORGE CONTINUATION ACTIVE";
+    $w("#forgeContinuationText").text = "Your $129/month alumni programming membership is active.";
+    $w("#forgeContinuationButton").hide();
+    return;
+  }
+
+  if (Number(data.currentDay) >= 90) {
+    $w("#forgeContinuationBox").expand();
+    $w("#forgeContinuationTitle").text = "KEEP FORGING";
+    $w("#forgeContinuationText").text = "Continue your adaptive programming, progress tracking and FORGE accountability for $129/month. Cancel according to your plan terms.";
+    $w("#forgeContinuationButton").label = "Continue FORGE — $129/month";
+    $w("#forgeContinuationButton").show();
+  } else {
+    $w("#forgeContinuationBox").collapse();
+  }
 }
 
 function renderWorkout(workout) {
