@@ -36,7 +36,7 @@ function cleanDisplayName(value) {
 
 function rankEntries(items) {
   return items
-    .filter((item) => item.leaderboardOptIn === true && item.leaderboardName)
+    .filter((item) => item.status === "ACTIVE" && item.leaderboardOptIn === true && item.leaderboardName)
     .sort((a, b) => {
       const adherenceDifference = Number(b.completionPercent || 0) - Number(a.completionPercent || 0);
       if (adherenceDifference !== 0) return adherenceDifference;
