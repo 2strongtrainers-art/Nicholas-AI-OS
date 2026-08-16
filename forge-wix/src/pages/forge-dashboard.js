@@ -9,9 +9,31 @@ const CONTINUATION_PLAN_ID = "28a0386f-a21e-43ba-a171-f4dd92c945d9";
 let state = null;
 
 $w.onReady(async function () {
+  configureRepeaters();
   wireActions();
   await loadDashboard();
 });
+
+function configureRepeaters() {
+  $w("#exerciseRepeater").onItemReady(($item, itemData, index) => {
+    $item("#exerciseName").text = itemData.exerciseName || `Exercise ${index + 1}`;
+    $item("#exercisePrescription").text = `${itemData.sets || 1} sets × ${itemData.reps || "controlled reps"} • RPE ${itemData.targetRpe || "7"}`;
+    $item("#exerciseGuidance").text = itemData.loadGuidance || "";
+    $item("#exerciseAlternatives").text = itemData.alternatives?.length
+      ? `Alternatives: ${itemData.alternatives.join(", ")}`
+      : "";
+    configureSetRow($item, 1, itemData.sets >= 1);
+    configureSetRow($item, 2, itemData.sets >= 2);
+    configureSetRow($item, 3, itemData.sets >= 3);
+  });
+
+  $w("#forgeProgressHistory").onItemReady(($item, itemData) => {
+    $item("#progressHistoryDay").text = `Day ${itemData.dayNumber || "—"}`;
+    $item("#progressHistoryWeight").text = itemData.weight ? `${itemData.weight} lb` : "Weight optional";
+    $item("#progressHistoryWaist").text = itemData.measurements?.waist ? `Waist: ${itemData.measurements.waist}` : "";
+    $item("#progressHistoryRecovery").text = itemData.recoveryScore ? `Recovery: ${itemData.recoveryScore}/10` : "";
+  });
+}
 
 function wireActions() {
   $w("#forgeCompleteButton").onClick(async () => {
@@ -163,18 +185,6 @@ function renderWorkout(workout) {
     ...exercise,
   }));
 
-  $w("#exerciseRepeater").onItemReady(($item, itemData, index) => {
-    $item("#exerciseName").text = itemData.exerciseName || `Exercise ${index + 1}`;
-    $item("#exercisePrescription").text = `${itemData.sets || 1} sets × ${itemData.reps || "controlled reps"} • RPE ${itemData.targetRpe || "7"}`;
-    $item("#exerciseGuidance").text = itemData.loadGuidance || "";
-    $item("#exerciseAlternatives").text = itemData.alternatives?.length
-      ? `Alternatives: ${itemData.alternatives.join(", ")}`
-      : "";
-    configureSetRow($item, 1, itemData.sets >= 1);
-    configureSetRow($item, 2, itemData.sets >= 2);
-    configureSetRow($item, 3, itemData.sets >= 3);
-  });
-
   if (workout.status === "COMPLETED") {
     $w("#forgeSaveStatus").text = "Today's workout is complete.";
   } else if (workout.status === "COACH_REVIEW") {
@@ -248,13 +258,6 @@ function renderProgressHistory(items) {
     _id: item._id || `progress-${index}`,
     ...item,
   }));
-
-  $w("#forgeProgressHistory").onItemReady(($item, itemData) => {
-    $item("#progressHistoryDay").text = `Day ${itemData.dayNumber || "—"}`;
-    $item("#progressHistoryWeight").text = itemData.weight ? `${itemData.weight} lb` : "Weight optional";
-    $item("#progressHistoryWaist").text = itemData.measurements?.waist ? `Waist: ${itemData.measurements.waist}` : "";
-    $item("#progressHistoryRecovery").text = itemData.recoveryScore ? `Recovery: ${itemData.recoveryScore}/10` : "";
-  });
 }
 
 function clearProgressInputs() {
