@@ -88,6 +88,19 @@ CTA: **JOIN ELITE — $1,200**
 
 ---
 
+## Refer someone who is ready to do the work
+
+Every active paid FORGE member receives a personal referral code inside the member dashboard.
+
+When a new paid member enrolls and applies that code:
+
+- The referring member earns a **$25 FORGE credit**
+- The new member earns a **$25 FORGE credit**
+
+Each new membership can apply one referral code. Self-referrals do not qualify. FORGE credits are for future FORGE purchases or services and are not cash redeemable.
+
+---
+
 ## The FORGE milestones
 
 ### DAY 30 — PROVE THE ROUTINE
