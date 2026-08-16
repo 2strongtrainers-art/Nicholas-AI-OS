@@ -50,6 +50,11 @@ export function localDateParts(date = new Date()) {
   };
 }
 
+export function localDateKey(date = new Date()) {
+  const p = localDateParts(date);
+  return `${p.year}-${String(p.month).padStart(2, "0")}-${String(p.day).padStart(2, "0")}`;
+}
+
 export function dateOnlyValue(date = new Date()) {
   const p = localDateParts(date);
   return new Date(Date.UTC(p.year, p.month - 1, p.day, 12, 0, 0));
@@ -309,10 +314,10 @@ async function buildWorkout(profile, assessment, log) {
 
 export async function getOrCreateTodayWorkout(memberId, profile, assessment) {
   const workoutDate = dateOnlyValue();
+  const dailyKey = `${memberId}:${localDateKey()}`;
   const existing = await wixData
     .query(FORGE.collections.WORKOUTS)
-    .eq("memberId", memberId)
-    .eq("workoutDate", workoutDate)
+    .eq("dailyKey", dailyKey)
     .limit(1)
     .find(DATA_OPTIONS);
 
@@ -320,9 +325,19 @@ export async function getOrCreateTodayWorkout(memberId, profile, assessment) {
 
   const log = await latestLog(memberId);
   const built = await buildWorkout(profile, assessment, log);
-  return wixData.insert(
-    FORGE.collections.WORKOUTS,
-    { memberId, workoutDate, ...built },
-    DATA_OPTIONS,
-  );
+  try {
+    return await wixData.insert(
+      FORGE.collections.WORKOUTS,
+      { memberId, workoutDate, dailyKey, ...built },
+      DATA_OPTIONS,
+    );
+  } catch (error) {
+    const raced = await wixData
+      .query(FORGE.collections.WORKOUTS)
+      .eq("dailyKey", dailyKey)
+      .limit(1)
+      .find(DATA_OPTIONS);
+    if (raced.items.length) return raced.items[0];
+    throw error;
+  }
 }
