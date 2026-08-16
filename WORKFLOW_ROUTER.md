@@ -31,9 +31,18 @@ Examples that should trigger the default workflow without special syntax:
 Default video toolchain:
 1. ChatGPT orchestrates and researches with the best connected/public sources for the topic.
 2. ChatGPT writes separate **spoken narration** and **on-screen visual copy**.
-3. ElevenLabs synthesizes the configured August Nick voice.
+3. ElevenLabs synthesizes the configured August Nick voice using the GitHub Actions secret-backed integration.
 4. GitHub Actions + FFmpeg render and validate the video.
-5. The finished artifact is returned to ChatGPT after QA.
+5. The finished MP4 and QA artifact are returned to ChatGPT after successful execution.
+
+### Hard routing rule for Nicholas video requests
+- **GitHub Actions is the primary and first execution path for video generation.**
+- Do **not** probe, test, or call the legacy Replit ElevenLabs Bridge before attempting the GitHub workflow.
+- A 404, timeout, or connection failure from the old Replit/ElevenLabs bridge does **not** indicate that the August Nick video workflow is unavailable.
+- Use the configured GitHub Actions `ELEVENLABS_API_KEY` secret and the hard-locked August Nick voice ID for narration.
+- Check the relevant GitHub Actions workflow run and artifact status before declaring a video workflow unavailable.
+- Replit may be used only when the user explicitly requests Replit or when the GitHub/native workflow has been attempted and a required capability cannot be satisfied there.
+- If a legacy bridge is ever used as a fallback, identify it as a fallback and never treat its health as the health of the main video system.
 
 Do **not** default video work to Replit. Use Replit only if the user explicitly asks for it or GitHub/native tooling cannot satisfy a required capability.
 
@@ -51,7 +60,7 @@ For narration, default to the `conversational_nick` delivery profile: speech sho
 - Payments / products / payment links -> Stripe.
 - Product analytics -> PostHog.
 - Design -> Canva or native image generation.
-- Video creation -> `workflows/default-video.yaml` -> research tools + ElevenLabs August Nick + GitHub Actions/FFmpeg.
+- Video creation -> `workflows/default-video.yaml` -> research tools + ElevenLabs August Nick via GitHub Actions secrets + GitHub Actions/FFmpeg.
 - Current public research -> web; deep web/data research -> Exa; academic -> Sider Scholar; freshness/unknown-unknown support -> Acumen when useful.
 - Durable automation / scripts / versioned workflows -> GitHub.
 
