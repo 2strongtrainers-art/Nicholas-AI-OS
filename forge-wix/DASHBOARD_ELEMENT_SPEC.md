@@ -89,6 +89,26 @@ Every active paid member gets a personal referral code. When a new paid member a
 
 Credits are stored in `ForgeRewards`, are not cash redeemable, and remain unredeemed until they are applied to a future FORGE purchase/service.
 
+## FORGE consistency leaderboard
+
+The leaderboard is **opt-in only** and ranks consistency rather than body composition. Default state is private. A member can choose a public display name; email, legal name, weight, photos, measurements, pain data, and assessment details are never returned by the leaderboard API.
+
+- `forgeLeaderboardBox` — collapsible box
+- `forgeLeaderboardMetric` — explanatory text, e.g. `Adherence first • then streak • then workouts completed`
+- `forgeLeaderboardOptIn` — checkbox, label `Show me on the FORGE consistency leaderboard`
+- `forgeLeaderboardDisplayName` — text input, label `Leaderboard display name`
+- `forgeLeaderboardSaveButton` — button, label `Save Leaderboard Preference`
+- `forgeLeaderboardStatus` — text
+- `forgeLeaderboardRepeater` — repeater containing the top 20 opted-in members
+
+Inside each leaderboard row:
+- `leaderboardRank` — text
+- `leaderboardName` — text
+- `leaderboardAdherence` — text
+- `leaderboardStreak` — text
+
+Ranking order: adherence percentage descending, then current streak descending, then workouts completed descending.
+
 ## 30 / 60 / 90 progress check-in
 
 Use a separate card or collapsible section below the workout. Body weight and measurements are optional and are never challenge-completion requirements.
@@ -145,9 +165,10 @@ The page code calls Wix Pricing Plans checkout directly using the private Contin
 10. Save Progress / Complete Workout
 11. Reward banner
 12. Referral card
-13. 30/60/90 progress check-in
-14. Progress history
-15. Day-90 Continuation card when eligible
+13. Consistency leaderboard
+14. 30/60/90 progress check-in
+15. Progress history
+16. Day-90 Continuation card when eligible
 
 Keep every tap target at least mobile-button size and keep load/reps/RPE inputs on one row per set where screen width allows.
 
