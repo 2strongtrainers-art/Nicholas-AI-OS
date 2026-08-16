@@ -21,13 +21,7 @@ The page code in `src/pages/forge-dashboard.js` expects these element IDs.
 - `forgeStreak` — text
 - `forgeRewardBanner` — text/box, hidden by default
 
-Recommended card labels:
-
-- Tier
-- Challenge Day
-- Phase
-- Adherence
-- Current Streak
+Recommended card labels: Tier, Challenge Day, Phase, Adherence, Current Streak.
 
 ## Today's workout
 
@@ -67,7 +61,7 @@ Set 3 container: `set3Box`
 
 The seeded FORGE strength templates currently prescribe a maximum of 3 working sets per exercise; unused set containers collapse automatically.
 
-## Session feedback
+## Daily session feedback
 
 - `forgeDuration` — number input, minutes
 - `forgeSessionRpe` — number input, 1–10
@@ -75,14 +69,41 @@ The seeded FORGE strength templates currently prescribe a maximum of 3 working s
 - `forgeSoreness` — number input, 1–10
 - `forgeSleep` — number input, 1–10
 - `forgePainFlag` — checkbox, label `I experienced pain that should affect my next workout`
-- `forgePainNotes` — text input / text box
+- `forgePainNotes` — text box
 - `forgeMemberNotes` — text box
-
-## Actions
-
 - `forgeSaveButton` — button, label `Save Progress`
 - `forgeCompleteButton` — primary button, label `Complete Workout`
 - `forgeSaveStatus` — text for success/error state
+
+## 30 / 60 / 90 progress check-in
+
+Use a separate card or collapsible section below the workout. Body weight and measurements are optional and are never challenge-completion requirements.
+
+- `forgeProgressWeight` — number input, optional
+- `forgeProgressWaist` — number input, optional
+- `forgeProgressChest` — number input, optional
+- `forgeProgressHips` — number input, optional
+- `forgeProgressArm` — number input, optional
+- `forgeProgressThigh` — number input, optional
+- `forgeProgressCalf` — number input, optional
+- `forgeProgressPushups` — number input, optional
+- `forgeProgressPlank` — number input, seconds, optional
+- `forgeProgressRecovery` — number input, 1–10
+- `forgeProgressSleepHours` — number input
+- `forgeProgressPerformanceNotes` — text box
+- `forgeProgressNotes` — text box
+- `forgeProgressButton` — button, label `Save Progress Check-In`
+- `forgeProgressStatus` — text
+
+Progress-history repeater ID: `forgeProgressHistory`
+
+Inside each progress-history row:
+- `progressHistoryDay` — text
+- `progressHistoryWeight` — text
+- `progressHistoryWaist` — text
+- `progressHistoryRecovery` — text
+
+The backend supports `photoUrls` in the progress record. Progress-photo upload should be added after the page is linked to the actual Wix Git Integration repo so Wix Media Manager upload can be bound to the member page safely.
 
 ## Mobile layout
 
@@ -94,9 +115,11 @@ The seeded FORGE strength templates currently prescribe a maximum of 3 working s
 6. Exercise repeater
 7. Conditioning
 8. Cooldown
-9. Recovery/session feedback
+9. Daily recovery/session feedback
 10. Save Progress / Complete Workout
 11. Reward banner
+12. 30/60/90 progress check-in
+13. Progress history
 
 Keep every tap target at least mobile-button size and keep load/reps/RPE inputs on one row per set where screen width allows.
 
