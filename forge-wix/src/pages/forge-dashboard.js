@@ -4,6 +4,10 @@ import {
   saveForgeProgressCheckIn,
   saveForgeWorkoutLog,
 } from "backend/forgeEngine.web";
+import {
+  loadForgeReferral,
+  redeemForgeReferral,
+} from "backend/forgeReferral.web";
 
 const CONTINUATION_PLAN_ID = "28a0386f-a21e-43ba-a171-f4dd92c945d9";
 let state = null;
@@ -89,6 +93,38 @@ function wireActions() {
     }
   });
 
+  $w("#forgeReferralButton").onClick(async () => {
+    const code = String($w("#forgeReferralInput").value || "").trim();
+    if (!code) {
+      $w("#forgeReferralStatus").text = "Enter the FORGE referral code you received.";
+      return;
+    }
+
+    $w("#forgeReferralButton").disable();
+    $w("#forgeReferralStatus").text = "Checking referral code…";
+    try {
+      const result = await redeemForgeReferral(code);
+      if (result.success) {
+        $w("#forgeReferralStatus").text = `Referral confirmed. You and the member who referred you each earned a ${result.creditValue} FORGE credit.`;
+        $w("#forgeReferralInput").value = "";
+        await renderReferral();
+        return;
+      }
+
+      const messages = {
+        ALREADY_REDEEMED: "A referral code has already been applied to this membership.",
+        SELF_REFERRAL: "Your own referral code cannot be applied to your membership.",
+        INVALID_CODE: "That FORGE referral code was not found.",
+      };
+      $w("#forgeReferralStatus").text = messages[result.reason] || "That referral code could not be applied.";
+    } catch (error) {
+      $w("#forgeReferralStatus").text = "The referral code could not be applied. Please try again.";
+      console.error("FORGE referral error", error);
+    } finally {
+      $w("#forgeReferralButton").enable();
+    }
+  });
+
   $w("#forgeContinuationButton").onClick(async () => {
     $w("#forgeContinuationButton").disable();
     $w("#forgeContinuationStatus").text = "Opening secure FORGE Continuation checkout…";
@@ -131,6 +167,7 @@ async function loadDashboard() {
     renderRewards(state.newlyEarnedRewards || []);
     renderProgressHistory(state.recentProgress || []);
     renderContinuation(state);
+    await renderReferral();
   } catch (error) {
     console.error("FORGE dashboard error", error);
     $w("#forgeNoAccessTitle").text = "FORGE is temporarily unavailable";
@@ -148,6 +185,33 @@ function renderHeader(data) {
   $w("#forgePhase").text = data.phase;
   $w("#forgeAdherence").text = `${data.adherence}%`;
   $w("#forgeStreak").text = `${data.streak || 0}`;
+}
+
+async function renderReferral() {
+  try {
+    const referral = await loadForgeReferral();
+    if (!referral.entitled || !referral.profileReady) {
+      $w("#forgeReferralBox").collapse();
+      return;
+    }
+
+    $w("#forgeReferralBox").expand();
+    $w("#forgeReferralCode").text = referral.referralCode;
+    $w("#forgeReferralOffer").text = `Refer a paid FORGE member. When they apply your code after enrolling, you both earn a ${referral.creditValue} FORGE credit.`;
+
+    if (referral.canRedeemReferral) {
+      $w("#forgeReferralRedeemBox").expand();
+      if (!$w("#forgeReferralStatus").text) {
+        $w("#forgeReferralStatus").text = "Have a referral code? Apply it once to this membership.";
+      }
+    } else {
+      $w("#forgeReferralRedeemBox").collapse();
+      $w("#forgeReferralStatus").text = `Referral applied: ${referral.referredByCode}.`;
+    }
+  } catch (error) {
+    console.error("FORGE referral load error", error);
+    $w("#forgeReferralBox").collapse();
+  }
 }
 
 function renderContinuation(data) {
