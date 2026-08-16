@@ -5,6 +5,9 @@ on:
     paths:
       - 'jobs/elevenlabs-demo-current.json'
 
+permissions:
+  contents: write
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -36,10 +39,18 @@ jobs:
             headers={'xi-api-key':os.environ['ELEVENLABS_API_KEY'],'Content-Type':'application/json','Accept':'audio/mpeg'}
           )
           with urllib.request.urlopen(req, timeout=90) as r:
-            open('august-nick-elevenlabs-demo.mp3','wb').write(r.read())
+            os.makedirs('public', exist_ok=True)
+            open('public/august-nick-elevenlabs-demo.mp3','wb').write(r.read())
           PY
+      - name: Commit hosted narration
+        run: |
+          git config user.name "Nicholas AI OS"
+          git config user.email "2strongtrainers@gmail.com"
+          git add public/august-nick-elevenlabs-demo.mp3
+          git commit -m "Host August Nick ElevenLabs demo audio" || exit 0
+          git push
       - name: Upload audio artifact
         uses: actions/upload-artifact@v4
         with:
           name: elevenlabs-demo-${{ github.run_id }}
-          path: august-nick-elevenlabs-demo.mp3
+          path: public/august-nick-elevenlabs-demo.mp3
