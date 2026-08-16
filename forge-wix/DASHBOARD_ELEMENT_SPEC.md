@@ -105,6 +105,18 @@ Inside each progress-history row:
 
 The backend supports `photoUrls` in the progress record. Progress-photo upload should be added after the page is linked to the actual Wix Git Integration repo so Wix Media Manager upload can be bound to the member page safely.
 
+## Day-90 continuation card
+
+This card stays collapsed before Day 90. On Day 90 and later it gives qualified members a direct in-dashboard purchase path to the private `$129/month` FORGE Continuation plan.
+
+- `forgeContinuationBox` — collapsible box
+- `forgeContinuationTitle` — heading
+- `forgeContinuationText` — text
+- `forgeContinuationButton` — button
+- `forgeContinuationStatus` — text
+
+The page code calls Wix Pricing Plans checkout directly using the private Continuation plan ID. If the member already owns Continuation, the card displays the active state and hides the purchase button.
+
 ## Mobile layout
 
 1. FORGE logo/title
@@ -120,6 +132,7 @@ The backend supports `photoUrls` in the progress record. Progress-photo upload s
 11. Reward banner
 12. 30/60/90 progress check-in
 13. Progress history
+14. Day-90 Continuation card when eligible
 
 Keep every tap target at least mobile-button size and keep load/reps/RPE inputs on one row per set where screen width allows.
 
