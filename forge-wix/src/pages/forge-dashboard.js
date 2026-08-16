@@ -8,6 +8,10 @@ import {
   loadForgeReferral,
   redeemForgeReferral,
 } from "backend/forgeReferral.web";
+import {
+  loadForgeLeaderboard,
+  updateForgeLeaderboardPreference,
+} from "backend/forgeLeaderboard.web";
 
 const CONTINUATION_PLAN_ID = "28a0386f-a21e-43ba-a171-f4dd92c945d9";
 let state = null;
@@ -36,6 +40,13 @@ function configureRepeaters() {
     $item("#progressHistoryWeight").text = itemData.weight ? `${itemData.weight} lb` : "Weight optional";
     $item("#progressHistoryWaist").text = itemData.measurements?.waist ? `Waist: ${itemData.measurements.waist}` : "";
     $item("#progressHistoryRecovery").text = itemData.recoveryScore ? `Recovery: ${itemData.recoveryScore}/10` : "";
+  });
+
+  $w("#forgeLeaderboardRepeater").onItemReady(($item, itemData) => {
+    $item("#leaderboardRank").text = `#${itemData.rank}`;
+    $item("#leaderboardName").text = itemData.displayName;
+    $item("#leaderboardAdherence").text = `${itemData.adherence}% adherence`;
+    $item("#leaderboardStreak").text = `${itemData.streak} streak • ${itemData.workoutsCompleted} completed`;
   });
 }
 
@@ -125,6 +136,30 @@ function wireActions() {
     }
   });
 
+  $w("#forgeLeaderboardSaveButton").onClick(async () => {
+    $w("#forgeLeaderboardSaveButton").disable();
+    $w("#forgeLeaderboardStatus").text = "Saving leaderboard preference…";
+    try {
+      const result = await updateForgeLeaderboardPreference(
+        $w("#forgeLeaderboardOptIn").checked === true,
+        $w("#forgeLeaderboardDisplayName").value || "",
+      );
+      if (!result.success && result.reason === "DISPLAY_NAME_REQUIRED") {
+        $w("#forgeLeaderboardStatus").text = "Enter a display name before opting into the leaderboard.";
+        return;
+      }
+      $w("#forgeLeaderboardStatus").text = result.optIn
+        ? "You are now visible on the FORGE consistency leaderboard."
+        : "You are private and not shown on the leaderboard.";
+      await renderLeaderboard();
+    } catch (error) {
+      $w("#forgeLeaderboardStatus").text = "Leaderboard preference could not be saved. Please try again.";
+      console.error("FORGE leaderboard save error", error);
+    } finally {
+      $w("#forgeLeaderboardSaveButton").enable();
+    }
+  });
+
   $w("#forgeContinuationButton").onClick(async () => {
     $w("#forgeContinuationButton").disable();
     $w("#forgeContinuationStatus").text = "Opening secure FORGE Continuation checkout…";
@@ -167,7 +202,7 @@ async function loadDashboard() {
     renderRewards(state.newlyEarnedRewards || []);
     renderProgressHistory(state.recentProgress || []);
     renderContinuation(state);
-    await renderReferral();
+    await Promise.all([renderReferral(), renderLeaderboard()]);
   } catch (error) {
     console.error("FORGE dashboard error", error);
     $w("#forgeNoAccessTitle").text = "FORGE is temporarily unavailable";
@@ -211,6 +246,28 @@ async function renderReferral() {
   } catch (error) {
     console.error("FORGE referral load error", error);
     $w("#forgeReferralBox").collapse();
+  }
+}
+
+async function renderLeaderboard() {
+  try {
+    const leaderboard = await loadForgeLeaderboard();
+    if (!leaderboard.entitled || !leaderboard.profileReady) {
+      $w("#forgeLeaderboardBox").collapse();
+      return;
+    }
+
+    $w("#forgeLeaderboardBox").expand();
+    $w("#forgeLeaderboardMetric").text = leaderboard.metricLabel;
+    $w("#forgeLeaderboardOptIn").checked = leaderboard.optIn === true;
+    $w("#forgeLeaderboardDisplayName").value = leaderboard.displayName || "";
+    $w("#forgeLeaderboardRepeater").data = (leaderboard.entries || []).map((entry) => ({
+      _id: `leaderboard-${entry.rank}`,
+      ...entry,
+    }));
+  } catch (error) {
+    console.error("FORGE leaderboard load error", error);
+    $w("#forgeLeaderboardBox").collapse();
   }
 }
 
