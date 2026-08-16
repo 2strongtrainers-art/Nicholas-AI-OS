@@ -80,4 +80,4 @@ Cloudflare is only the bridge/hosting layer. Using the Worker does not remove El
 
 ## Status
 
-Code is staged on the `elevenlabs-cloudflare-bridge` branch. It is not considered live until it has been deployed to the user's Cloudflare account, secrets have been configured, and end-to-end tool calls have passed.
+The Cloudflare build configuration has been corrected and this commit is intended to trigger a fresh production deployment from `main`. The bridge is not considered fully live until the Worker deploys successfully, `ELEVENLABS_API_KEY` and `BRIDGE_TOKEN` are configured as Cloudflare runtime secrets, and end-to-end tool calls pass.
