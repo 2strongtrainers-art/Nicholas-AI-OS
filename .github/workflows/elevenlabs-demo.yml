@@ -38,17 +38,7 @@ jobs:
           with urllib.request.urlopen(req, timeout=90) as r:
             open('august-nick-elevenlabs-demo.mp3','wb').write(r.read())
           PY
-      - name: Upload narration to Wix Media
-        run: |
-          python3 - <<'PY'
-          import json, urllib.request
-          job=json.load(open('jobs/elevenlabs-demo-current.json', encoding='utf-8'))
-          data=open('august-nick-elevenlabs-demo.mp3','rb').read()
-          req=urllib.request.Request(job['upload_url'], data=data, method='PUT', headers={'Content-Type':'audio/mpeg'})
-          with urllib.request.urlopen(req, timeout=90) as r:
-            print(r.read().decode('utf-8','replace'))
-          PY
-      - name: Upload debug artifact
+      - name: Upload audio artifact
         uses: actions/upload-artifact@v4
         with:
           name: elevenlabs-demo-${{ github.run_id }}
