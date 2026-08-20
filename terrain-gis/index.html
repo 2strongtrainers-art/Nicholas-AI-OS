@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Terrain Environmental GIS</title>
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.18.0/dist/leaflet-geoman.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">TG</div>
+        <div>
+          <h1>Terrain Environmental GIS</h1>
+          <p>Free field-to-map environmental workspace</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="locateBtn" class="btn">Locate</button>
+        <button id="helpBtn" class="btn">Help</button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside id="leftPanel" class="panel left-panel">
+        <div class="panel-section">
+          <label class="field-label" for="projectName">Project</label>
+          <input id="projectName" class="input" value="Untitled Project" />
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">Jump to area</div>
+          <div class="preset-grid">
+            <button class="btn preset" data-preset="placer">Placer County</button>
+            <button class="btn preset" data-preset="plymouth">Plymouth / Amador</button>
+          </div>
+          <div class="search-row">
+            <input id="searchInput" class="input" placeholder="City, address, county…" />
+            <button id="searchBtn" class="btn primary">Go</button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">Field data</div>
+          <input id="fileInput" type="file" multiple accept=".geojson,.json,.kml,.kmz,.gpx,.csv,.zip" hidden />
+          <button id="importBtn" class="btn primary full">Import GIS files</button>
+          <p class="hint">GeoJSON, KML, KMZ, GPX, CSV, zipped Shapefile</p>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">Basemap</div>
+          <select id="basemapSelect" class="input">
+            <option value="osm">OpenStreetMap</option>
+            <option value="usgsTopo">USGS Topo</option>
+            <option value="usgsImagery">USGS Imagery</option>
+            <option value="usgsImageryTopo">USGS Imagery + Topo</option>
+          </select>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">Environmental layers</div>
+          <label class="toggle"><input type="checkbox" id="firePerimetersToggle" /> CAL FIRE historical fire perimeters</label>
+          <label class="toggle"><input type="checkbox" id="fhzToggle" /> CAL FIRE fire hazard severity zones</label>
+          <p class="hint">Official public services; availability depends on agency endpoints.</p>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">Project summary</div>
+          <div id="summary" class="summary-grid"></div>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">Export</div>
+          <div class="export-grid">
+            <button class="btn" data-export="geojson">GeoJSON</button>
+            <button class="btn" data-export="kml">KML</button>
+            <button class="btn" data-export="gpx">GPX</button>
+            <button id="summaryBtn" class="btn">Summary</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="map-wrap">
+        <div id="map"></div>
+        <div class="map-badge" id="statusBadge">Ready</div>
+        <div id="elevationCard" class="elevation-card hidden"></div>
+        <button id="panelToggle" class="mobile-panel-toggle">Layers & Project</button>
+      </main>
+
+      <aside id="rightPanel" class="panel right-panel">
+        <div class="panel-section">
+          <div class="section-title">Selected feature</div>
+          <div id="featureEmpty" class="empty-state">Tap a mapped feature to inspect it.</div>
+          <div id="featureEditor" class="hidden">
+            <label class="field-label">Name</label>
+            <input id="featureName" class="input" />
+            <label class="field-label">Description / notes</label>
+            <textarea id="featureDescription" class="input textarea"></textarea>
+            <div id="featureMetrics" class="feature-metrics"></div>
+            <button id="saveFeatureBtn" class="btn primary full">Save feature</button>
+            <button id="deleteFeatureBtn" class="btn danger full">Delete feature</button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-title">How to use it</div>
+          <p class="hint">Use the drawing controls on the map to add points, lines and polygons. Polygon acreage and line mileage are calculated automatically.</p>
+          <p class="hint"><strong>Elevation:</strong> tap the map while not drawing to query USGS elevation at that location.</p>
+        </div>
+      </aside>
+    </section>
+
+    <dialog id="helpDialog" class="dialog">
+      <div class="dialog-head">
+        <h2>Field-to-GIS workflow</h2>
+        <button id="closeHelpBtn" class="btn">Close</button>
+      </div>
+      <div class="dialog-body">
+        <h3>Avenza → this app</h3>
+        <p>Export your Avenza map features as KML/KMZ, GPX, CSV, or Shapefile ZIP. On iPhone, save the export to Files, then tap <strong>Import GIS files</strong> here and choose it directly.</p>
+        <h3>Google Earth Pro → this app</h3>
+        <p>Save Places as KML or KMZ, then import the file. Names, descriptions, points, lines and polygons are carried into the project where possible.</p>
+        <h3>ArcGIS / QGIS interoperability</h3>
+        <p>Export GeoJSON or KML from this app for use in ArcGIS Pro, ArcGIS Online, QGIS and Google Earth. The original imported attributes remain attached to mapped features when supported.</p>
+        <h3>Privacy</h3>
+        <p>The MVP processes project files in your browser and autosaves locally on the device. It does not require an account or upload your project to a database.</p>
+      </div>
+    </dialog>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.18.0/dist/leaflet-geoman.min.js"></script>
+  <script src="https://unpkg.com/@turf/turf@7.2.0/turf.min.js"></script>
+  <script src="https://unpkg.com/@tmcw/togeojson@6.0.1/dist/togeojson.umd.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/shpjs@6.1.0/dist/shp.js"></script>
+  <script src="https://unpkg.com/papaparse@5.5.3/papaparse.min.js"></script>
+  <script src="https://unpkg.com/tokml@0.4.0/tokml.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
