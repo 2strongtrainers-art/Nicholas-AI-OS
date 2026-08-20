@@ -1,0 +1,103 @@
+version: 1
+name: free-ai-8
+mode: zero-spend-first
+
+policy:
+  monthly_ai_api_budget_usd: 0
+  allow_paid_ai: false
+  allow_credit_spend: false
+  allow_outbound_send: false
+  require_dedupe: true
+  require_audit_log: true
+  secrets_in_repo: false
+
+systems:
+  chatgpt:
+    role: supervisor
+    enabled: true
+    duties: [routing, qa, exceptions, connected_app_actions]
+
+  hubspot:
+    role: crm_source_of_truth
+    enabled: true
+    canonical_entities: [contacts, companies, deals, tasks]
+    write_policy: approval_gated_by_connector
+
+  apollo:
+    role: prospect_discovery
+    enabled: true
+    default_operations:
+      people_search: allowed_zero_credit
+      contact_search: allowed_zero_credit
+      organization_search: blocked_credit_spend
+      enrichment: blocked_credit_spend
+      sequence_activation: blocked_irreversible_send
+
+  dify:
+    role: workflow_engine
+    enabled_when_secret_present: true
+    free_mode: sandbox
+    routing_priority: 1
+    optimization:
+      deterministic_before_llm: true
+      cache_reusable_outputs: true
+      stop_on_invalid_input: true
+
+  fish_audio:
+    role: voice
+    enabled_when_secret_present: true
+    free_api_model: s2.1-pro-free
+    free_api_valid_through: '2026-08-31'
+    after_expiry: disable_until_revalidated
+    commercial_terms_check_required: true
+
+  minimax:
+    role: multimodal_fallback
+    enabled: false
+    reason: api_is_metered
+    enable_only_if: ALLOW_PAID_AI=true
+
+  qoder:
+    role: primary_code_qa
+    enabled_when_secret_present: true
+    github_action: QoderAI/qoder-action@v0
+    max_pr_lines_for_auto_review: 500
+
+  freebuff:
+    role: secondary_code_agent
+    enabled: true
+    scope: low_sensitivity_only
+    source_of_truth: false
+    accepted_changes_destination: github
+
+routes:
+  lead_discovery:
+    - apollo.people_search
+    - supervisor.qualify
+    - hubspot.dedupe_upsert
+    - hubspot.create_followup_task
+
+  inbound_lead:
+    - hubspot.capture
+    - dify.qualify
+    - supervisor.qa_high_value
+    - hubspot.update_stage
+
+  content_voice:
+    - dify.structure
+    - supervisor.qa
+    - fish_audio.tts
+    - minimax.optional_visual
+
+  code_change:
+    - github.branch
+    - qoder.review
+    - freebuff.optional_implementation
+    - tests
+    - supervisor.qa
+    - github.pr
+
+kill_switches:
+  paid_ai: ALLOW_PAID_AI
+  paid_apollo_credits: ALLOW_APOLLO_CREDIT_SPEND
+  outbound_send: ALLOW_OUTBOUND_SEND

@@ -1,0 +1,42 @@
+name: Qoder PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    env:
+      QODER_TOKEN: ${{ secrets.QODER_PERSONAL_ACCESS_TOKEN }}
+    steps:
+      - name: Check PR size
+        id: size
+        shell: bash
+        run: |
+          LINES_CHANGED=$(jq '.pull_request.additions + .pull_request.deletions' "$GITHUB_EVENT_PATH")
+          echo "lines=$LINES_CHANGED" >> "$GITHUB_OUTPUT"
+          if [ "$LINES_CHANGED" -gt 500 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Qoder review
+        if: env.QODER_TOKEN != '' && steps.size.outputs.skip == 'false'
+        uses: QoderAI/qoder-action@v0
+        with:
+          qoder_personal_access_token: ${{ secrets.QODER_PERSONAL_ACCESS_TOKEN }}
+          prompt: |
+            /review-pr
+            REPO:${{ github.repository }} PR_NUMBER:${{ github.event.pull_request.number }}
+            Review against AGENTS.md. Prioritize correctness, security, secret handling,
+            zero-spend guards, idempotent CRM writes, external side effects, and tests.
+      - name: Explain skipped Qoder review
+        if: env.QODER_TOKEN == '' || steps.size.outputs.skip == 'true'
+        run: |
+          echo "Qoder review skipped: token missing or PR exceeds 500 changed lines."
