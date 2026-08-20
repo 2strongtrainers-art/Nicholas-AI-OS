@@ -1,95 +1,98 @@
 # Free AI 8 — Zero-Spend-First Automation Stack
 
-This stack turns eight AI/business tools into one operating system without duplicating responsibilities.
+This stack turns eight AI/business tools into one coordinated operating system while keeping vendor lock-in, duplicate work, and accidental spend to a minimum.
 
-## Design rule
+## Operating principle
 
-ChatGPT is the supervisory control plane. GitHub/Nicholas-AI-OS is durable wiring and version control, not a ninth AI product. HubSpot owns CRM truth. Apollo owns prospect discovery. Dify owns repeatable automation. Fish Audio owns voice. MiniMax is an optional metered multimodal fallback. Qoder and Freebuff are development agents that work against the same repository rather than separate production systems.
+The system must keep functioning even when optional third-party AI accounts are unavailable. ChatGPT is the supervisory control plane. GitHub/Nicholas-AI-OS is the durable execution/audit layer. HubSpot owns CRM truth. Apollo owns prospect discovery. Dify, Fish Audio, MiniMax, Qoder, and Freebuff are accelerators, not single points of failure.
 
-## The eight tools and exactly one job each
+## The eight tools and one job each
 
 1. **ChatGPT — Supervisor / QA / decision layer**
-   - Chooses workflow, reviews outputs, uses connected HubSpot/Apollo/GitHub tools, and handles exceptions.
-   - Never stores the canonical lead/customer database.
+   - Routes work, uses connected apps, checks outputs, handles exceptions, and runs scheduled monitoring.
 
 2. **HubSpot Free — CRM source of truth**
-   - Contacts, companies, deals, lifecycle stages, tasks, landing pages.
-   - Every qualified lead ultimately lands here.
+   - Contacts, companies, deals, lifecycle state, tasks, landing pages.
+   - Writes remain subject to the connector's required confirmation rules.
 
 3. **Apollo Free — Prospect discovery**
-   - Net-new people/company discovery and zero-credit searches where possible.
-   - Credit-spending enrichment and real outbound sends remain gated.
+   - Net-new people discovery and zero-credit searches where possible.
+   - Paid enrichment and real outbound activation remain explicitly gated.
 
-4. **Dify Sandbox / Community — Workflow engine**
-   - Triggers, branching, tool calls, model routing, retries, logging.
-   - Use rule-based nodes before LLM calls to conserve free message credits.
+4. **Dify Sandbox / Community — Optional workflow engine**
+   - Useful for branching, tool calls, retries, and model routing once separately authenticated.
+   - The autonomous core must continue without Dify.
 
-5. **Fish Audio — Voice layer**
+5. **Fish Audio — Optional voice layer**
    - TTS for reels, explainers, client updates, and sales content.
-   - Developer free API is treated as temporary and policy-gated.
+   - The current `s2.1-pro-free` developer window is treated as temporary and hard-gated by date/terms checks.
 
 6. **MiniMax — Optional multimodal fallback**
-   - Text/video/audio only when free credits are available or spending is explicitly enabled.
-   - Disabled by default in zero-spend mode.
+   - Text/video/audio only when a verified free allowance exists or spending is explicitly enabled.
+   - Disabled by default.
 
-7. **Qoder — Primary code QA / repo agent**
-   - GitHub PR review, implementation support, security/test checks.
-   - Uses the same Nicholas-AI-OS repo and AGENTS/rules as every other coding agent.
+7. **Qoder — Optional code QA / repo agent**
+   - Automated PR review after its PAT/GitHub App is authorized.
+   - CI and merge safety do not depend on it.
 
-8. **Freebuff — Secondary free coding agent**
-   - Rapid implementation/prototyping on low-sensitivity work.
-   - Never becomes the source of truth; all accepted changes return to GitHub.
+8. **Freebuff — Human-started coding assistant only**
+   - Useful for free interactive coding/prototyping.
+   - Its free-service terms prohibit bot/script/headless automation, so it is never part of unattended jobs.
 
-## Core automated pipelines
+## Autonomous core that is live without new vendor accounts
+
+- ChatGPT connected-app supervision and scheduled monitoring.
+- HubSpot read access and review-gated writes through the connected account.
+- Apollo free search capacity and credit/spend guardrails.
+- GitHub Actions CI, daily health checks, audit trail, and cost kill switches.
+- Futurepedia high-ROI AI scan scheduled daily in ChatGPT.
+
+This means the system degrades gracefully: if Dify, Fish, Qoder, MiniMax, or Freebuff are unavailable, the core research, QA, monitoring, code testing, and routing functions continue.
+
+## Core pipelines
 
 ### Revenue Engine
-
-Apollo zero-credit people search -> qualification/ranking -> HubSpot dedupe/upsert -> deal/task creation -> personalized outreach draft -> human approval before irreversible sending -> response tracked in HubSpot -> follow-up queue.
+Apollo free people search -> qualification/ranking -> HubSpot duplicate check -> review-gated CRM write -> personalized outreach draft -> explicit approval before irreversible enrollment/sending -> response/follow-up tracking.
 
 ### Inbound Lead Engine
-
-Landing page/form -> HubSpot contact -> Dify qualification -> lead score -> task/deal -> ChatGPT review for high-value leads -> booking/follow-up.
+Landing page/form -> HubSpot -> deterministic qualification -> optional Dify scoring -> high-value lead review -> follow-up/booking.
 
 ### Content Engine
-
-Topic/research -> Dify outline -> ChatGPT QA -> script -> Fish Audio TTS -> optional MiniMax visual generation only when budget policy allows -> packaged content -> performance data back to HubSpot/content analytics.
+Topic/research -> ChatGPT outline/QA -> script -> Fish TTS when free/approved -> optional MiniMax visuals only when policy permits -> publish package -> performance feedback.
 
 ### Build Engine
-
-Feature request -> Nicholas-AI-OS issue/branch -> Qoder review + Freebuff optional implementation -> automated tests -> PR -> ChatGPT/Codex QA -> merge after verified checks.
+Feature request -> Nicholas-AI-OS branch -> CI/tests -> optional Qoder review -> optional human-started Freebuff session -> PR -> ChatGPT/Codex QA -> verified merge.
 
 ## Non-negotiable guards
 
 - Default monthly AI API budget: **$0**.
-- No secret keys in source control.
+- No secrets in source control.
 - No paid API call unless `ALLOW_PAID_AI=true`.
-- No Apollo enrichment or organization search that spends credits without an explicit budget rule and approval.
-- No automatic cold-email activation; outbound content may be prepared automatically but activation/sending remains approval-gated.
-- HubSpot is canonical for leads/customers. Apollo is not the CRM.
-- Dedupe before creating CRM records.
-- Log every automated decision and provider used.
-- Sensitive/proprietary code should prefer Qoder/GitHub workflows over ad-supported Freebuff.
-- Fish free developer API expires/changes; the health workflow must flag this before use.
+- No Apollo credit-spending enrichment unless explicitly approved.
+- No automatic cold-email activation.
+- HubSpot remains canonical for leads/customers.
+- Dedupe before CRM creation.
+- Log automated decisions and provider usage.
+- Freebuff is human-initiated only; unattended invocation is prohibited.
+- Fish free API access is blocked after its verified free window until revalidated.
 - MiniMax is disabled in strict zero-spend mode.
 
-## Current live-account status discovered 2026-08-19
+## Live status — 2026-08-19
 
-- HubSpot: connected; CONTACT/COMPANY/DEAL/TASK/LANDING_PAGE writes available. Portal onboarding is incomplete. Only sample contacts were present when checked.
-- Apollo: connected; no sequences yet. Current cycle showed 200 lead credits and 5,000 AI credits available; direct-dial credits were exhausted.
-- ChatGPT scheduled-task capacity: currently full at 5 active tasks, so GitHub/Dify should carry recurring automation until a task slot is freed.
-- Qoder, Freebuff, Dify, Fish Audio, MiniMax: no direct ChatGPT connector was found; they must connect through GitHub, API keys, or Dify plugins.
+- **HubSpot:** connected. CONTACT/COMPANY/DEAL/TASK/LANDING_PAGE write capability exists, but the portal's own onboarding is incomplete and the connector exposes no onboarding action in this chat.
+- **Apollo:** connected. 200 lead credits and 5,000 AI credits were available in the current cycle when checked; no sequences existed. Credit spending remains disabled by policy.
+- **Futurepedia scan:** active daily, replacing the lower-ROI Weekend Long Read task so the automation limit is respected.
+- **Dify / Fish / Qoder / Freebuff / MiniMax:** no direct ChatGPT connectors are currently available. Gmail also showed no existing account/verification mail for these providers, so no existing authorization could be recovered.
+- **Qoder:** workflow is installed and will activate automatically once a Qoder PAT is added; CI remains independent.
+- **Freebuff:** kept interactive-only because its terms prohibit autonomous/headless operation.
+- **MiniMax:** kept disabled because its general API is metered rather than permanently free.
 
-## Deployment order
+## External authorization boundary
 
-1. Finish HubSpot onboarding and define lifecycle/deal stages.
-2. Create Dify Sandbox account/workspace and import/build workflows.
-3. Add provider secrets to GitHub/Dify secret stores, never source.
-4. Connect Qoder to the Nicholas-AI-OS repo and add Qoder PAT as a GitHub Actions secret.
-5. Install Freebuff CLI only for low-sensitivity development tasks.
-6. Create Fish API key; enable the free developer model only while terms/availability allow.
-7. Leave MiniMax disabled until a free allowance or approved budget exists.
-8. Run health check; then enable automation one pipeline at a time.
+The only remaining non-automatable step is first-party account authorization for providers that require a browser sign-in, OAuth consent, or a secret created inside the vendor account. ChatGPT cannot manufacture those credentials or accept third-party terms on the user's behalf when no account-creation connector is exposed.
+
+After any optional credential is added to the prepared GitHub/Dify secret slot, the existing code can use it without redesigning the stack.
 
 ## Success metric
 
-The stack is working when one lead/content/build request enters once, every tool receives only the information it needs, duplicate work is eliminated, costs remain within policy, and the final result returns to the correct system of record with a complete audit trail.
+One request enters once, every service receives only the minimum information it needs, the lowest-cost capable route is chosen automatically, provider failures do not break the system, irreversible actions remain properly gated, and the final state is auditable in HubSpot/GitHub.
