@@ -68,6 +68,10 @@ def run_logged(cmd, job_id: str, cwd=None, timeout=900):
 
 
 def git_sync():
+    # GitHub is the source of truth for queue files. A killed worker can leave a
+    # locally modified job JSON behind; discard only queue-file edits before sync
+    # so they cannot permanently block future pulls.
+    run(["git", "restore", "--staged", "--worktree", "--", "jobs/openmontage"], cwd=QUEUE_REPO, timeout=60, check=False)
     run(["git", "pull", "--ff-only"], cwd=QUEUE_REPO, timeout=120)
 
 
@@ -108,7 +112,6 @@ def complete_job(path: Path, job: dict, final_mp4: Path, job_log=None):
 
 
 def run_direct_smoke(job_id: str, project_id: str):
-    # Use the exact zero-key render path already proven manually on this Mac.
     run_logged(["make", "demo"], job_id, cwd=OPENMONTAGE, timeout=600)
     source = OPENMONTAGE / "projects" / "demos" / "renders" / "code-to-screen.mp4"
     if not source.exists():
