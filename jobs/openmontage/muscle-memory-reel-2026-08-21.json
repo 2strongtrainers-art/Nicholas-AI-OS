@@ -1,7 +1,7 @@
 {
   "id": "muscle-memory-reel-2026-08-21",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "muscle-memory-reel-2026-08-21",
   "runtime": "hyperframes",
   "composition_mode": "templated",
@@ -9,5 +9,8 @@
   "output_filename": "muscle-memory-reel-2026-08-21.mp4",
   "retry": 1,
   "brief": "Create a 60-second vertical 9:16 Reel titled 'Muscle Memory Is Real, But Not How You Think.' Use real/open/stock footage only and no synthetic AI people. Prefer OpenMontage's free real-footage documentary path. Visuals should include resistance training, close-ups of muscle contraction or anatomy, detraining/return-to-training imagery, and tasteful scientific imagery. Fast documentary pacing, clean professional captions, subtle transitions, and no paid providers. Narration/script: 0-7 sec: 'Ever come back to the gym after months off and regain muscle surprisingly fast? That isn't just in your head.' 7-19 sec: 'Scientists call this skeletal-muscle memory. Training changes muscle at the cellular level—and some of those adaptations can persist even after you stop training.' 19-34 sec: 'One human study found that strength training increased the number of nuclei inside muscle fibers. After 16 weeks without training, those additional myonuclei were maintained.' 34-47 sec: 'But here's where it gets interesting: scientists still debate exactly how much those nuclei explain faster regrowth. Epigenetic changes and retained protein adaptations may also contribute.' 47-60 sec: 'So when you return after time away, you're not necessarily starting from zero. Your muscles may retain biological traces of the work you did before. Training doesn't just change what your body looks like—it may change how it responds the next time.' Keep all scientific claims cautious and avoid overstating causality. Complete the full production and render an actual MP4.",
-  "started_at": "2026-08-21T23:02:33.113449+00:00"
+  "started_at": "2026-08-21T23:02:33.113449+00:00",
+  "failed_at": "2026-08-21T23:33:18.810620+00:00",
+  "error": "Process exceeded 900s; see /Users/nickkaplan/Library/Logs/OpenMontageJobs/muscle-memory-reel-2026-08-21.log",
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/muscle-memory-reel-2026-08-21.log"
 }
