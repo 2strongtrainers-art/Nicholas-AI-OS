@@ -4,7 +4,6 @@ import os
 import shutil
 import subprocess
 import sys
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -48,17 +47,23 @@ def save_job(path: Path, job: dict):
 def push_status(path: Path, message: str):
     rel = path.relative_to(QUEUE_REPO)
     run(["git", "add", str(rel)], cwd=QUEUE_REPO, timeout=60)
-    # Commit may have nothing to do if another sync raced; tolerate that.
     cp = subprocess.run(["git", "commit", "-m", message], cwd=str(QUEUE_REPO), text=True, capture_output=True)
     if cp.returncode == 0:
         run(["git", "push"], cwd=QUEUE_REPO, timeout=120)
 
 
+def newest_mp4(project_dir: Path):
+    if not project_dir.exists():
+        return None
+    files = [p for p in project_dir.rglob("*.mp4") if p.is_file()]
+    if not files:
+        return None
+    return max(files, key=lambda p: p.stat().st_mtime)
+
+
 def process_job(path: Path):
     job = json.loads(path.read_text(encoding="utf-8"))
-    if job.get("status") != "queued":
-        return False
-    if job.get("type") != "openmontage_video":
+    if job.get("status") != "queued" or job.get("type") != "openmontage_video":
         return False
 
     job_id = job.get("id") or path.stem
@@ -77,16 +82,40 @@ def process_job(path: Path):
 
     job["status"] = "running"
     job["started_at"] = datetime.now(timezone.utc).isoformat()
+    job.pop("error", None)
+    job.pop("failed_at", None)
     save_job(path, job)
     push_status(path, f"OpenMontage job {job_id}: running")
 
-    prompt = f"""You are operating inside the OpenMontage repository. Execute this production job through OpenMontage's documented pipeline system and obey CODEX.md / AGENT_GUIDE.md.\n\nJOB ID: {job_id}\nPROJECT ID: {project_id}\nUSER BRIEF:\n{brief}\n\nPRE-APPROVED PRODUCTION DECISIONS FROM THE USER:\n- render runtime: {runtime}\n- composition mode: {composition_mode}\n- cost policy: {cost_policy}\n- output must be a real MP4 at: projects/{project_id}/renders/final.mp4\n\nDo not substitute paid providers when cost_policy is free_only. Prefer OpenMontage's real/open/stock-footage path when the brief asks for real footage. If a required capability is unavailable, stop and clearly report the blocker rather than silently changing the approved plan. Complete the production if the approved path is available.\n"""
+    prompt = f"""You are operating inside the OpenMontage repository. Execute this production job through OpenMontage's documented pipeline system and obey CODEX.md / AGENT_GUIDE.md.
 
+JOB ID: {job_id}
+PROJECT ID: {project_id}
+USER BRIEF:
+{brief}
+
+THE USER HAS ALREADY EXPLICITLY APPROVED THESE PRODUCTION DECISIONS FOR THIS RUN:
+- render runtime: {runtime}
+- composition mode: {composition_mode}
+- cost policy: {cost_policy}
+- final deliverable must be an actual MP4
+
+This is a non-interactive worker run. Treat the above approvals as satisfying any proposal/checkpoint choice that asks for those same decisions. Do not stop merely to ask again for runtime, composition mode, or cost approval. Continue through the full documented pipeline to final render whenever the approved path is available.
+
+Do not substitute paid providers when cost_policy is free_only. Prefer OpenMontage's real/open/stock-footage path when the brief asks for real footage. If a genuinely new consequential choice or blocker is required, stop and report it clearly rather than silently substituting.
+
+Target output path: projects/{project_id}/renders/final.mp4
+If OpenMontage's native pipeline writes the completed MP4 under a different filename inside projects/{project_id}/, that is acceptable; complete the render and report the actual path in your final response.
+"""
+
+    result = None
     try:
         result = run(["codex", "exec", prompt], cwd=OPENMONTAGE, timeout=7200)
-        final_mp4 = OPENMONTAGE / "projects" / project_id / "renders" / "final.mp4"
-        if not final_mp4.exists():
-            raise RuntimeError("Codex/OpenMontage completed but final.mp4 was not found at the required path")
+        project_dir = OPENMONTAGE / "projects" / project_id
+        preferred = project_dir / "renders" / "final.mp4"
+        final_mp4 = preferred if preferred.exists() else newest_mp4(project_dir)
+        if not final_mp4:
+            raise RuntimeError("Codex/OpenMontage returned without producing any MP4 inside the project directory")
 
         ICLOUD_OUT.mkdir(parents=True, exist_ok=True)
         out_name = job.get("output_filename") or f"{project_id}.mp4"
@@ -97,7 +126,8 @@ def process_job(path: Path):
         job["completed_at"] = datetime.now(timezone.utc).isoformat()
         job["local_output"] = str(final_mp4)
         job["icloud_output"] = str(out_path)
-        job["codex_stdout_tail"] = result.stdout[-4000:]
+        job["codex_stdout_tail"] = result.stdout[-8000:]
+        job["codex_stderr_tail"] = result.stderr[-4000:]
         save_job(path, job)
         push_status(path, f"OpenMontage job {job_id}: completed")
         log(f"COMPLETED {job_id}: {out_path}")
@@ -105,6 +135,9 @@ def process_job(path: Path):
         job["status"] = "failed"
         job["failed_at"] = datetime.now(timezone.utc).isoformat()
         job["error"] = str(e)
+        if result is not None:
+            job["codex_stdout_tail"] = result.stdout[-8000:]
+            job["codex_stderr_tail"] = result.stderr[-4000:]
         save_job(path, job)
         try:
             push_status(path, f"OpenMontage job {job_id}: failed")
@@ -132,7 +165,7 @@ def main():
         git_sync()
         for path in sorted(JOBS_DIR.glob("*.json")):
             if process_job(path):
-                break  # one render per launch to avoid overlapping heavy jobs
+                break
         return 0
     except Exception as e:
         log(f"Worker error: {e}")
