@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -14,6 +15,7 @@ JOBS_DIR = QUEUE_REPO / "jobs" / "openmontage"
 ICLOUD_OUT = HOME / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / "OpenMontage Output"
 LOCK = HOME / ".openmontage-worker.lock"
 LOG = HOME / "Library" / "Logs" / "OpenMontageWorker.log"
+JOB_LOG_DIR = HOME / "Library" / "Logs" / "OpenMontageJobs"
 
 
 def log(msg: str):
@@ -26,14 +28,43 @@ def log(msg: str):
 def run(cmd, cwd=None, timeout=None, check=True):
     log("RUN: " + " ".join(map(str, cmd)))
     return subprocess.run(
-        [str(x) for x in cmd],
-        cwd=str(cwd) if cwd else None,
-        text=True,
-        capture_output=True,
-        timeout=timeout,
-        check=check,
+        [str(x) for x in cmd], cwd=str(cwd) if cwd else None,
+        text=True, capture_output=True, timeout=timeout, check=check,
         env=os.environ.copy(),
     )
+
+
+def run_logged(cmd, job_id: str, cwd=None, timeout=900):
+    JOB_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    job_log = JOB_LOG_DIR / f"{job_id}.log"
+    log(f"RUN-LIVE ({timeout}s timeout): {' '.join(map(str, cmd))}")
+    start = time.time()
+    with job_log.open("a", encoding="utf-8") as out:
+        out.write(f"\n=== {datetime.now(timezone.utc).isoformat()} START ===\n")
+        out.flush()
+        proc = subprocess.Popen(
+            [str(x) for x in cmd], cwd=str(cwd) if cwd else None,
+            text=True, stdout=out, stderr=subprocess.STDOUT,
+            env=os.environ.copy(),
+        )
+        while True:
+            rc = proc.poll()
+            if rc is not None:
+                break
+            if time.time() - start > timeout:
+                proc.terminate()
+                try:
+                    proc.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    proc.wait()
+                raise TimeoutError(f"Process exceeded {timeout}s; see {job_log}")
+            time.sleep(1)
+        out.write(f"\n=== EXIT {proc.returncode} ===\n")
+        out.flush()
+    if proc.returncode != 0:
+        raise RuntimeError(f"Process exited {proc.returncode}; see {job_log}")
+    return job_log
 
 
 def git_sync():
@@ -56,9 +87,38 @@ def newest_mp4(project_dir: Path):
     if not project_dir.exists():
         return None
     files = [p for p in project_dir.rglob("*.mp4") if p.is_file()]
-    if not files:
-        return None
-    return max(files, key=lambda p: p.stat().st_mtime)
+    return max(files, key=lambda p: p.stat().st_mtime) if files else None
+
+
+def complete_job(path: Path, job: dict, final_mp4: Path, job_log=None):
+    project_id = job.get("project_id") or job.get("id") or path.stem
+    ICLOUD_OUT.mkdir(parents=True, exist_ok=True)
+    out_name = job.get("output_filename") or f"{project_id}.mp4"
+    out_path = ICLOUD_OUT / out_name
+    shutil.copy2(final_mp4, out_path)
+    job["status"] = "completed"
+    job["completed_at"] = datetime.now(timezone.utc).isoformat()
+    job["local_output"] = str(final_mp4)
+    job["icloud_output"] = str(out_path)
+    if job_log:
+        job["execution_log"] = str(job_log)
+    save_job(path, job)
+    push_status(path, f"OpenMontage job {job.get('id', path.stem)}: completed")
+    log(f"COMPLETED {job.get('id', path.stem)}: {out_path}")
+
+
+def run_direct_smoke(job_id: str, project_id: str):
+    # Use the exact zero-key render path already proven manually on this Mac.
+    run_logged(["make", "demo"], job_id, cwd=OPENMONTAGE, timeout=600)
+    source = OPENMONTAGE / "projects" / "demos" / "renders" / "code-to-screen.mp4"
+    if not source.exists():
+        source = newest_mp4(OPENMONTAGE / "projects" / "demos")
+    if not source:
+        raise RuntimeError("make demo completed but no demo MP4 was found")
+    target = OPENMONTAGE / "projects" / project_id / "renders" / "final.mp4"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, target)
+    return target, JOB_LOG_DIR / f"{job_id}.log"
 
 
 def process_job(path: Path):
@@ -70,74 +130,39 @@ def process_job(path: Path):
     project_id = job.get("project_id") or job_id
     brief = job.get("brief", "").strip()
     if not brief:
-        job["status"] = "failed"
-        job["error"] = "Missing brief"
-        save_job(path, job)
-        push_status(path, f"OpenMontage job {job_id}: failed missing brief")
+        job["status"] = "failed"; job["error"] = "Missing brief"
+        save_job(path, job); push_status(path, f"OpenMontage job {job_id}: failed missing brief")
         return True
 
     runtime = job.get("runtime", "hyperframes")
     composition_mode = job.get("composition_mode", "templated")
     cost_policy = job.get("cost_policy", "free_only")
+    timeout_seconds = int(job.get("timeout_seconds", 900))
 
     job["status"] = "running"
     job["started_at"] = datetime.now(timezone.utc).isoformat()
-    job.pop("error", None)
-    job.pop("failed_at", None)
-    save_job(path, job)
-    push_status(path, f"OpenMontage job {job_id}: running")
+    job.pop("error", None); job.pop("failed_at", None)
+    save_job(path, job); push_status(path, f"OpenMontage job {job_id}: running")
 
-    prompt = f"""You are operating inside the OpenMontage repository. Execute this production job through OpenMontage's documented pipeline system and obey CODEX.md / AGENT_GUIDE.md.
-
-JOB ID: {job_id}
-PROJECT ID: {project_id}
-USER BRIEF:
-{brief}
-
-THE USER HAS ALREADY EXPLICITLY APPROVED THESE PRODUCTION DECISIONS FOR THIS RUN:
-- render runtime: {runtime}
-- composition mode: {composition_mode}
-- cost policy: {cost_policy}
-- final deliverable must be an actual MP4
-
-This is a non-interactive worker run. Treat the above approvals as satisfying any proposal/checkpoint choice that asks for those same decisions. Do not stop merely to ask again for runtime, composition mode, or cost approval. Continue through the full documented pipeline to final render whenever the approved path is available.
-
-Do not substitute paid providers when cost_policy is free_only. Prefer OpenMontage's real/open/stock-footage path when the brief asks for real footage. If a genuinely new consequential choice or blocker is required, stop and report it clearly rather than silently substituting.
-
-Target output path: projects/{project_id}/renders/final.mp4
-If OpenMontage's native pipeline writes the completed MP4 under a different filename inside projects/{project_id}/, that is acceptable; complete the render and report the actual path in your final response.
-"""
-
-    result = None
     try:
-        result = run(["codex", "exec", prompt], cwd=OPENMONTAGE, timeout=7200)
+        if job.get("execution_mode") == "direct_smoke_test":
+            final_mp4, job_log = run_direct_smoke(job_id, project_id)
+            complete_job(path, job, final_mp4, job_log)
+            return True
+
+        prompt = f"""You are operating inside the OpenMontage repository. Execute this production job through OpenMontage's documented pipeline system and obey CODEX.md / AGENT_GUIDE.md.\n\nJOB ID: {job_id}\nPROJECT ID: {project_id}\nUSER BRIEF:\n{brief}\n\nTHE USER HAS ALREADY APPROVED:\n- render runtime: {runtime}\n- composition mode: {composition_mode}\n- cost policy: {cost_policy}\n- final deliverable must be an actual MP4\n\nThis is non-interactive. Do not stop to re-ask those approvals. Continue through the documented pipeline to final render when available. Do not use paid providers when cost_policy is free_only. If blocked, fail clearly rather than silently substituting. Target output: projects/{project_id}/renders/final.mp4.\n"""
+        job_log = run_logged(["codex", "exec", prompt], job_id, cwd=OPENMONTAGE, timeout=timeout_seconds)
         project_dir = OPENMONTAGE / "projects" / project_id
         preferred = project_dir / "renders" / "final.mp4"
         final_mp4 = preferred if preferred.exists() else newest_mp4(project_dir)
         if not final_mp4:
-            raise RuntimeError("Codex/OpenMontage returned without producing any MP4 inside the project directory")
-
-        ICLOUD_OUT.mkdir(parents=True, exist_ok=True)
-        out_name = job.get("output_filename") or f"{project_id}.mp4"
-        out_path = ICLOUD_OUT / out_name
-        shutil.copy2(final_mp4, out_path)
-
-        job["status"] = "completed"
-        job["completed_at"] = datetime.now(timezone.utc).isoformat()
-        job["local_output"] = str(final_mp4)
-        job["icloud_output"] = str(out_path)
-        job["codex_stdout_tail"] = result.stdout[-8000:]
-        job["codex_stderr_tail"] = result.stderr[-4000:]
-        save_job(path, job)
-        push_status(path, f"OpenMontage job {job_id}: completed")
-        log(f"COMPLETED {job_id}: {out_path}")
+            raise RuntimeError(f"Codex returned without an MP4; see {job_log}")
+        complete_job(path, job, final_mp4, job_log)
     except Exception as e:
         job["status"] = "failed"
         job["failed_at"] = datetime.now(timezone.utc).isoformat()
         job["error"] = str(e)
-        if result is not None:
-            job["codex_stdout_tail"] = result.stdout[-8000:]
-            job["codex_stderr_tail"] = result.stderr[-4000:]
+        job["execution_log"] = str(JOB_LOG_DIR / f"{job_id}.log")
         save_job(path, job)
         try:
             push_status(path, f"OpenMontage job {job_id}: failed")
@@ -155,12 +180,10 @@ def main():
             return 0
         except Exception:
             LOCK.unlink(missing_ok=True)
-
     LOCK.write_text(str(os.getpid()))
     try:
         if not QUEUE_REPO.exists() or not OPENMONTAGE.exists():
-            log("Required repositories missing")
-            return 2
+            log("Required repositories missing"); return 2
         JOBS_DIR.mkdir(parents=True, exist_ok=True)
         git_sync()
         for path in sorted(JOBS_DIR.glob("*.json")):
@@ -168,8 +191,7 @@ def main():
                 break
         return 0
     except Exception as e:
-        log(f"Worker error: {e}")
-        return 1
+        log(f"Worker error: {e}"); return 1
     finally:
         LOCK.unlink(missing_ok=True)
 
