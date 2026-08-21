@@ -1,12 +1,14 @@
 {
   "id": "bridge-smoke-test-2026-08-21",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "queued",
   "project_id": "bridge-smoke-test-2026-08-21",
   "runtime": "hyperframes",
   "composition_mode": "templated",
   "cost_policy": "free_only",
+  "execution_mode": "direct_smoke_test",
+  "timeout_seconds": 600,
   "output_filename": "bridge-smoke-test-2026-08-21.mp4",
-  "brief": "Create a very short 8-10 second zero-cost vertical 9:16 test video using only local/zero-key OpenMontage capabilities. Use a simple title card plus one or two basic visual elements and render an actual MP4. This is a bridge smoke test, not a polished production. Complete the full render and write the MP4 inside projects/bridge-smoke-test-2026-08-21/renders/.",
-  "started_at": "2026-08-21T18:28:29.357887+00:00"
+  "retry": 2,
+  "brief": "Render a deterministic zero-key smoke test using the already-proven local OpenMontage demo render path, then copy the resulting MP4 into this project's renders/final.mp4 and iCloud output."
 }
