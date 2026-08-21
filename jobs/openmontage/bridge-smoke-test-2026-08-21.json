@@ -1,7 +1,7 @@
 {
   "id": "bridge-smoke-test-2026-08-21",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "bridge-smoke-test-2026-08-21",
   "runtime": "hyperframes",
   "composition_mode": "templated",
@@ -10,5 +10,6 @@
   "timeout_seconds": 600,
   "output_filename": "bridge-smoke-test-2026-08-21.mp4",
   "retry": 2,
-  "brief": "Render a deterministic zero-key smoke test using the already-proven local OpenMontage demo render path, then copy the resulting MP4 into this project's renders/final.mp4 and iCloud output."
+  "brief": "Render a deterministic zero-key smoke test using the already-proven local OpenMontage demo render path, then copy the resulting MP4 into this project's renders/final.mp4 and iCloud output.",
+  "started_at": "2026-08-21T22:52:10.805557+00:00"
 }
