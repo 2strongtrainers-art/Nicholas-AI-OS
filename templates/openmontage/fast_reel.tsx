@@ -184,7 +184,7 @@ const CaptionPill: React.FC<{text: string; accentColor: string}> = ({text, accen
         position: "absolute",
         left: 84,
         right: 84,
-        bottom: 190,
+        bottom: 285,
         padding: "24px 32px 27px",
         borderRadius: 30,
         border: "1px solid rgba(255,255,255,.16)",
@@ -255,6 +255,23 @@ const FastReel: React.FC<FastReelProps> = (props) => {
           {props.branding}
         </div>
       ) : null}
+
+      <div
+        style={{
+          position: "absolute",
+          top: 270,
+          left: 84,
+          right: 84,
+          color: "rgba(248,250,252,.78)",
+          fontFamily: "Arial, Helvetica, sans-serif",
+          fontWeight: 900,
+          fontSize: 36,
+          letterSpacing: 6,
+          textTransform: "uppercase",
+        }}
+      >
+        {props.title}
+      </div>
 
       {frame < hookFrames ? (
         <KineticText
