@@ -1,7 +1,7 @@
 {
   "id": "bridge-smoke-test-2026-08-21",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "bridge-smoke-test-2026-08-21",
   "runtime": "hyperframes",
   "composition_mode": "templated",
@@ -11,5 +11,8 @@
   "output_filename": "bridge-smoke-test-2026-08-21.mp4",
   "retry": 3,
   "brief": "Use the already-completed local OpenMontage demo MP4 to prove the bridge handoff immediately, copy it into this project's renders/final.mp4, then copy it to iCloud output and mark the job completed. Do not rerender the demo suite if a demo MP4 already exists.",
-  "started_at": "2026-08-22T00:19:04.589799+00:00"
+  "started_at": "2026-08-22T00:19:04.589799+00:00",
+  "failed_at": "2026-08-22T00:29:06.471510+00:00",
+  "error": "Process exceeded 600s; see /Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-smoke-test-2026-08-21.log",
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-smoke-test-2026-08-21.log"
 }
