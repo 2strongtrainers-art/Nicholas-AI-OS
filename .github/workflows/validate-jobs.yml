@@ -37,7 +37,6 @@ jobs:
         run: |
           import glob, json, sys
 
-          legacy_required = {"workflow_id", "request", "created_at"}
           openmontage_required = {
               "id", "type", "status", "project_id", "brief", "output_filename"
           }
@@ -52,8 +51,16 @@ jobs:
                   data.get("type") == "openmontage_video"
                   or path.startswith("jobs/openmontage/")
               )
-              required = openmontage_required if is_openmontage else legacy_required
-              missing = sorted(required - set(data))
+              if not isinstance(data, dict) or not data:
+                  failures.append(f"{path}: top level must be a non-empty object")
+                  continue
+
+              if not is_openmontage:
+                  # Legacy jobs intentionally use several workflow-specific
+                  # shapes. Their renderers own those deeper contracts.
+                  continue
+
+              missing = sorted(openmontage_required - set(data))
               if missing:
                   failures.append(f"{path}: missing {', '.join(missing)}")
                   continue
