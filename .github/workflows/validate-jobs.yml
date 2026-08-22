@@ -32,19 +32,48 @@ jobs:
             python -m json.tool "$file" >/dev/null
           done
 
-      - name: Check required top-level fields
+      - name: Check schema-specific required fields
         shell: python
         run: |
           import glob, json, sys
-          required = {"workflow_id", "request", "created_at"}
+
+          openmontage_required = {
+              "id", "type", "status", "project_id", "brief", "output_filename"
+          }
+          openmontage_statuses = {"queued", "running", "completed", "failed"}
           failures = []
+
           for path in glob.glob("jobs/**/*.json", recursive=True):
               with open(path, "r", encoding="utf-8") as f:
                   data = json.load(f)
-              missing = sorted(required - set(data))
+
+              is_openmontage = (
+                  data.get("type") == "openmontage_video"
+                  or path.startswith("jobs/openmontage/")
+              )
+              if not isinstance(data, dict) or not data:
+                  failures.append(f"{path}: top level must be a non-empty object")
+                  continue
+
+              if not is_openmontage:
+                  # Legacy jobs intentionally use several workflow-specific
+                  # shapes. Their renderers own those deeper contracts.
+                  continue
+
+              missing = sorted(openmontage_required - set(data))
               if missing:
                   failures.append(f"{path}: missing {', '.join(missing)}")
+                  continue
+
+              if is_openmontage and data.get("type") != "openmontage_video":
+                  failures.append(f"{path}: type must be openmontage_video")
+              if is_openmontage and data.get("status") not in openmontage_statuses:
+                  failures.append(
+                      f"{path}: invalid status {data.get('status')!r}; "
+                      f"expected one of {sorted(openmontage_statuses)}"
+                  )
+
           if failures:
               print("\n".join(failures))
               sys.exit(1)
-          print("All job files contain required fields.")
+          print("All job files satisfy their schema-specific requirements.")
