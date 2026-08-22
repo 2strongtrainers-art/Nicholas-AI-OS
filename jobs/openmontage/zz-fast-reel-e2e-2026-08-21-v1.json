@@ -4,7 +4,7 @@
   "created_at": "2026-08-22T01:27:00Z",
   "id": "fast-reel-e2e-2026-08-21-v1",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "fast-reel-e2e-2026-08-21-v1",
   "runtime": "hyperframes",
   "composition_mode": "templated",
@@ -26,5 +26,8 @@
     "branding": "TriValley.fit",
     "accent_color": "#67E8F9",
     "background_color": "#07111F"
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "default fast path; no full-production trigger found",
+  "started_at": "2026-08-22T02:06:31.734061+00:00"
 }
