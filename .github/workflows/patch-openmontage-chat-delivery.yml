@@ -3,7 +3,7 @@ name: Patch OpenMontage Chat Delivery
 on:
   push:
     paths:
-      - 'scripts/patch_openmontage_chat_delivery.py'
+      - '.github/commands/openmontage-chat-delivery.trigger'
 
 permissions:
   contents: write
@@ -17,8 +17,44 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Apply bridge patch
-        run: python3 scripts/patch_openmontage_chat_delivery.py
+      - name: Add private chat-delivery handoff to worker
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          worker = Path('scripts/openmontage_worker.py')
+          text = worker.read_text(encoding='utf-8')
+
+          if 'CHAT_DELIVERY_DIR = JOBS_DIR / "chat-delivery"' not in text:
+              anchor = 'JOBS_DIR = QUEUE_REPO / "jobs" / "openmontage"\n'
+              if anchor not in text:
+                  raise SystemExit('JOBS_DIR anchor missing')
+              text = text.replace(anchor, anchor + 'CHAT_DELIVERY_DIR = JOBS_DIR / "chat-delivery"\n', 1)
+
+          if 'def publish_chat_delivery(job: dict):' not in text:
+              anchor = 'def probe_video(path: Path):\n'
+              if anchor not in text:
+                  raise SystemExit('probe_video anchor missing')
+              helper = '''def publish_chat_delivery(job: dict):\n    source_raw = str(job.get("local_output") or "").strip()\n    if not source_raw:\n        return None\n    source = Path(source_raw).expanduser()\n    if not source.is_file():\n        return None\n    CHAT_DELIVERY_DIR.mkdir(parents=True, exist_ok=True)\n    requested_name = str(job.get("output_filename") or source.name)\n    safe_name = safe_slug(Path(requested_name).name)\n    if not safe_name.lower().endswith(".mp4"):\n        safe_name += ".mp4"\n    target = CHAT_DELIVERY_DIR / safe_name\n    source_hash = sha256_file(source)\n    if not target.exists() or sha256_file(target) != source_hash:\n        shutil.copy2(source, target)\n    job["chat_delivery_ready"] = True\n    job["chat_delivery_repo_path"] = str(target.relative_to(QUEUE_REPO))\n    job["chat_delivery_sha256"] = source_hash\n    job["chat_delivery_size_bytes"] = target.stat().st_size\n    return target\n\n\ndef backfill_latest_completed_chat_delivery():\n    candidates = []\n    for path in JOBS_DIR.glob("*.json"):\n        try:\n            job = json.loads(path.read_text(encoding="utf-8"))\n        except Exception:\n            continue\n        if job.get("status") != "completed" or job.get("chat_delivery_repo_path") or not job.get("local_output"):\n            continue\n        candidates.append((str(job.get("completed_at") or ""), path, job))\n    for _, path, job in sorted(candidates, key=lambda item: item[0], reverse=True):\n        target = publish_chat_delivery(job)\n        if not target:\n            continue\n        save_job(path, job)\n        push_status(path, f"OpenMontage job {job.get('id', path.stem)}: chat delivery ready", extra_paths=[target])\n        log(f"CHAT DELIVERY BACKFILL {job.get('id', path.stem)}: {target}")\n        return True\n    return False\n\n\n'''
+              text = text.replace(anchor, helper + anchor, 1)
+
+          old = '    extra_paths = []\n    if job.get("render_mode_resolved") == "fast_reel":\n'
+          new = '    extra_paths = []\n    chat_copy = publish_chat_delivery(job)\n    if chat_copy:\n        extra_paths.append(chat_copy)\n    if job.get("render_mode_resolved") == "fast_reel":\n'
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif 'chat_copy = publish_chat_delivery(job)' not in text:
+              raise SystemExit('complete_job anchor missing')
+
+          old = '        git_sync()\n        for path in sorted(JOBS_DIR.glob("*.json")):\n'
+          new = '        git_sync()\n        if backfill_latest_completed_chat_delivery():\n            return 0\n        for path in sorted(JOBS_DIR.glob("*.json")):\n'
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif 'if backfill_latest_completed_chat_delivery():' not in text:
+              raise SystemExit('main git_sync anchor missing')
+
+          worker.write_text(text, encoding='utf-8')
+          PY
 
       - name: Verify patched worker compiles
         run: python3 -m py_compile scripts/openmontage_worker.py
