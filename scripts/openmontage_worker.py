@@ -14,6 +14,7 @@ HOME = Path.home()
 QUEUE_REPO = HOME / "Nicholas-AI-OS"
 OPENMONTAGE = HOME / "OpenMontage"
 JOBS_DIR = QUEUE_REPO / "jobs" / "openmontage"
+CHAT_DELIVERY_DIR = JOBS_DIR / "chat-delivery"
 ICLOUD_OUT = HOME / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / "OpenMontage Output"
 LOCK = HOME / ".openmontage-worker.lock"
 LOG = HOME / "Library" / "Logs" / "OpenMontageWorker.log"
@@ -214,6 +215,50 @@ def sha256_file(path: Path):
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def publish_chat_delivery(job: dict):
+    source_raw = str(job.get("local_output") or "").strip()
+    if not source_raw:
+        return None
+    source = Path(source_raw).expanduser()
+    if not source.is_file():
+        return None
+    CHAT_DELIVERY_DIR.mkdir(parents=True, exist_ok=True)
+    requested_name = str(job.get("output_filename") or source.name)
+    safe_name = safe_slug(Path(requested_name).name)
+    if not safe_name.lower().endswith(".mp4"):
+        safe_name += ".mp4"
+    target = CHAT_DELIVERY_DIR / safe_name
+    source_hash = sha256_file(source)
+    if not target.exists() or sha256_file(target) != source_hash:
+        shutil.copy2(source, target)
+    job["chat_delivery_ready"] = True
+    job["chat_delivery_repo_path"] = str(target.relative_to(QUEUE_REPO))
+    job["chat_delivery_sha256"] = source_hash
+    job["chat_delivery_size_bytes"] = target.stat().st_size
+    return target
+
+
+def backfill_latest_completed_chat_delivery():
+    candidates = []
+    for path in JOBS_DIR.glob("*.json"):
+        try:
+            job = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if job.get("status") != "completed" or job.get("chat_delivery_repo_path") or not job.get("local_output"):
+            continue
+        candidates.append((str(job.get("completed_at") or ""), path, job))
+    for _, path, job in sorted(candidates, key=lambda item: item[0], reverse=True):
+        target = publish_chat_delivery(job)
+        if not target:
+            continue
+        save_job(path, job)
+        push_status(path, f"OpenMontage job {job.get('id', path.stem)}: chat delivery ready", extra_paths=[target])
+        log(f"CHAT DELIVERY BACKFILL {job.get('id', path.stem)}: {target}")
+        return True
+    return False
 
 
 def probe_video(path: Path):
@@ -417,6 +462,9 @@ def complete_job(path: Path, job: dict, final_mp4: Path, job_log=None, render_me
     job["output_size_bytes"] = out_path.stat().st_size
     qa = {"passed": True, "source_ffprobe": probe, "delivered_ffprobe": copied_probe}
     extra_paths = []
+    chat_copy = publish_chat_delivery(job)
+    if chat_copy:
+        extra_paths.append(chat_copy)
     if job.get("render_mode_resolved") == "fast_reel":
         duration = float((copied_probe.get("format") or {}).get("duration") or 0)
         preview_path = make_contact_sheet(out_path, job.get("id", path.stem), duration)
@@ -603,6 +651,8 @@ def main():
             return 2
         JOBS_DIR.mkdir(parents=True, exist_ok=True)
         git_sync()
+        if backfill_latest_completed_chat_delivery():
+            return 0
         for path in sorted(JOBS_DIR.glob("*.json")):
             if process_job(path):
                 break
