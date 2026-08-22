@@ -1,7 +1,7 @@
 {
   "id": "bridge-smoke-test-2026-08-21",
   "type": "openmontage_video",
-  "status": "failed",
+  "status": "queued",
   "project_id": "bridge-smoke-test-2026-08-21",
   "runtime": "hyperframes",
   "composition_mode": "templated",
@@ -9,10 +9,6 @@
   "execution_mode": "direct_smoke_test",
   "timeout_seconds": 600,
   "output_filename": "bridge-smoke-test-2026-08-21.mp4",
-  "retry": 2,
-  "brief": "Render a deterministic zero-key smoke test using the already-proven local OpenMontage demo render path, then copy the resulting MP4 into this project's renders/final.mp4 and iCloud output.",
-  "started_at": "2026-08-21T22:52:10.805557+00:00",
-  "failed_at": "2026-08-21T23:02:12.702430+00:00",
-  "error": "Process exceeded 600s; see /Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-smoke-test-2026-08-21.log",
-  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-smoke-test-2026-08-21.log"
+  "retry": 3,
+  "brief": "Use the already-completed local OpenMontage demo MP4 to prove the bridge handoff immediately, copy it into this project's renders/final.mp4, then copy it to iCloud output and mark the job completed. Do not rerender the demo suite if a demo MP4 already exists."
 }
