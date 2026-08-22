@@ -1,0 +1,16 @@
+{
+  "workflow_id": "openmontage-mac-bridge-e2e-v1",
+  "request": "From ChatGPT on iPhone, render a fresh OpenMontage bridge test video on the Mac and deliver the verified MP4 to iCloud Drive.",
+  "created_at": "2026-08-21T17:40:00-07:00",
+  "id": "bridge-e2e-chatgpt-iphone-2026-08-21-v1",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "bridge-e2e-chatgpt-iphone-2026-08-21-v1",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "execution_mode": "direct_smoke_test",
+  "timeout_seconds": 1800,
+  "output_filename": "OpenMontage-Bridge-E2E-2026-08-21.mp4",
+  "brief": "Render one fresh official OpenMontage zero-key code-to-screen demo through the Mac's local OpenMontage installation. This is the end-to-end ChatGPT iPhone bridge acceptance test. Do not reuse an existing MP4. After rendering, verify the source, copy it to iCloud Drive/OpenMontage Output, verify the delivered copy, and publish completion metadata to this job."
+}
