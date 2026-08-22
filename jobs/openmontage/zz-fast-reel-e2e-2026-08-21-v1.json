@@ -105,5 +105,9 @@
       "audioSrc": null
     }
   },
-  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/fast-reel-e2e-2026-08-21-v1.log"
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/fast-reel-e2e-2026-08-21-v1.log",
+  "chat_delivery_ready": true,
+  "chat_delivery_repo_path": "jobs/openmontage/chat-delivery/Fast-Reel-Mode-E2E-2026-08-21.mp4",
+  "chat_delivery_sha256": "3d6ca294dc9b66ef13f64359f8c2e4e86b9bf78d7d5849a64d1ee873ed9f6060",
+  "chat_delivery_size_bytes": 6744052
 }
