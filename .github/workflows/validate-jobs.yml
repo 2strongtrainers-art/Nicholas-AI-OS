@@ -41,6 +41,7 @@ jobs:
               "id", "type", "status", "project_id", "brief", "output_filename"
           }
           openmontage_statuses = {"queued", "running", "completed", "failed"}
+          openmontage_modes = {"fast_reel", "full_production"}
           failures = []
 
           for path in glob.glob("jobs/**/*.json", recursive=True):
@@ -72,6 +73,24 @@ jobs:
                       f"{path}: invalid status {data.get('status')!r}; "
                       f"expected one of {sorted(openmontage_statuses)}"
                   )
+              if "render_mode" in data and data.get("render_mode") not in openmontage_modes:
+                  failures.append(
+                      f"{path}: invalid render_mode {data.get('render_mode')!r}; "
+                      f"expected one of {sorted(openmontage_modes)}"
+                  )
+              fast_reel = data.get("fast_reel")
+              if fast_reel is not None and not isinstance(fast_reel, dict):
+                  failures.append(f"{path}: fast_reel must be an object")
+              elif isinstance(fast_reel, dict) and "duration_seconds" in fast_reel:
+                  try:
+                      duration = float(fast_reel["duration_seconds"])
+                  except (TypeError, ValueError):
+                      failures.append(f"{path}: fast_reel.duration_seconds must be numeric")
+                  else:
+                      if not 15 <= duration <= 90:
+                          failures.append(
+                              f"{path}: fast_reel.duration_seconds must be between 15 and 90"
+                          )
 
           if failures:
               print("\n".join(failures))
