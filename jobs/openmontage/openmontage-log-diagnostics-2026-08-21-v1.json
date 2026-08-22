@@ -4,7 +4,7 @@
   "created_at": "2026-08-22T01:25:00Z",
   "id": "openmontage-log-diagnostics-2026-08-21-v1",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "openmontage-log-diagnostics-2026-08-21-v1",
   "execution_mode": "diagnose_logs",
   "cost_policy": "free_only",
@@ -15,5 +15,8 @@
     "josh-instagram-reel-2026-08-21-v1",
     "muscle-memory-reel-2026-08-21",
     "bridge-smoke-test-2026-08-21"
-  ]
+  ],
+  "render_mode_resolved": "diagnostic",
+  "routing_reason": "explicit log diagnostic request",
+  "started_at": "2026-08-22T02:05:23.115894+00:00"
 }
