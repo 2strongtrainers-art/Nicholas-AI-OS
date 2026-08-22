@@ -1,0 +1,30 @@
+{
+  "workflow_id": "openmontage-josh-fast-reel-v1",
+  "request": "OpenMontage bridge this into an Instagram Reel about client Josh.",
+  "created_at": "2026-08-22T05:57:00-07:00",
+  "id": "josh-fast-reel-2026-08-22-v1",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "josh-fast-reel-2026-08-22-v1",
+  "render_mode": "fast_reel",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "timeout_seconds": 600,
+  "output_filename": "Josh-Fast-Reel-2026-08-22.mp4",
+  "brief": "Create a clean, motivational vertical Instagram Reel about Josh rebuilding momentum through consistent training. Keep it uplifting and coaching-focused. Do not include medical, sobriety, medication, or other sensitive information. Do not invent progress claims or measurements. Use the proven deterministic Fast Reel template with no paid services, no watermarks, no internet research, and no manual checkpoints.",
+  "fast_reel": {
+    "duration_seconds": 30,
+    "hook": "JOSH: BUILD THE MOMENTUM",
+    "title": "THE COMEBACK STARTS WITH THE NEXT REP",
+    "body_lines": [
+      "TRAIN WITH INTENT",
+      "BUILD THE LEGS",
+      "BUILD THE ENGINE",
+      "STACK SMALL WINS",
+      "CONSISTENCY BECOMES MOMENTUM"
+    ],
+    "cta": "SHOW UP. STACK WINS. REPEAT.",
+    "branding": "TriValley.fit Coaching"
+  }
+}
