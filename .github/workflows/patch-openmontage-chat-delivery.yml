@@ -3,7 +3,7 @@ name: Patch OpenMontage Chat Delivery
 on:
   push:
     paths:
-      - '.github/commands/openmontage-chat-delivery.trigger'
+      - 'docs/openmontage-chat-delivery.md'
 
 permissions:
   contents: write
