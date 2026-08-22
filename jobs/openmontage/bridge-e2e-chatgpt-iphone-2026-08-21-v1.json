@@ -61,5 +61,9 @@
       }
     }
   },
-  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-e2e-chatgpt-iphone-2026-08-21-v1.log"
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-e2e-chatgpt-iphone-2026-08-21-v1.log",
+  "chat_delivery_ready": true,
+  "chat_delivery_repo_path": "jobs/openmontage/chat-delivery/OpenMontage-Bridge-E2E-2026-08-21.mp4",
+  "chat_delivery_sha256": "9e080175b2c2e9da83f272fb6f830b4d05a46671cb9eff583228be351d632928",
+  "chat_delivery_size_bytes": 3679827
 }
