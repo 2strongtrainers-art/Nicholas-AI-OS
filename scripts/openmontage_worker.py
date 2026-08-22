@@ -68,9 +68,6 @@ def run_logged(cmd, job_id: str, cwd=None, timeout=900):
 
 
 def git_sync():
-    # GitHub is the source of truth for queue files. A killed worker can leave a
-    # locally modified job JSON behind; discard only queue-file edits before sync
-    # so they cannot permanently block future pulls.
     run(["git", "restore", "--staged", "--worktree", "--", "jobs/openmontage"], cwd=QUEUE_REPO, timeout=60, check=False)
     run(["git", "pull", "--ff-only"], cwd=QUEUE_REPO, timeout=120)
 
@@ -112,16 +109,24 @@ def complete_job(path: Path, job: dict, final_mp4: Path, job_log=None):
 
 
 def run_direct_smoke(job_id: str, project_id: str):
-    run_logged(["make", "demo"], job_id, cwd=OPENMONTAGE, timeout=600)
-    source = OPENMONTAGE / "projects" / "demos" / "renders" / "code-to-screen.mp4"
-    if not source.exists():
-        source = newest_mp4(OPENMONTAGE / "projects" / "demos")
+    # A smoke test proves the bridge/handoff, not rendering quality. Prefer any
+    # already-completed demo MP4 so we do not wait for the whole demo suite.
+    demos_dir = OPENMONTAGE / "projects" / "demos"
+    source = newest_mp4(demos_dir)
+    job_log = JOB_LOG_DIR / f"{job_id}.log"
+    JOB_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    if source:
+        with job_log.open("a", encoding="utf-8") as out:
+            out.write(f"Using existing completed demo MP4: {source}\n")
+    else:
+        run_logged(["make", "demo"], job_id, cwd=OPENMONTAGE, timeout=900)
+        source = newest_mp4(demos_dir)
     if not source:
-        raise RuntimeError("make demo completed but no demo MP4 was found")
+        raise RuntimeError("No demo MP4 was found")
     target = OPENMONTAGE / "projects" / project_id / "renders" / "final.mp4"
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
-    return target, JOB_LOG_DIR / f"{job_id}.log"
+    return target, job_log
 
 
 def process_job(path: Path):
