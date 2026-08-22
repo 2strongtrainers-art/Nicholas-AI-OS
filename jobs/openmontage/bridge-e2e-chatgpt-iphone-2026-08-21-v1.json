@@ -4,7 +4,7 @@
   "created_at": "2026-08-21T17:40:00-07:00",
   "id": "bridge-e2e-chatgpt-iphone-2026-08-21-v1",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "bridge-e2e-chatgpt-iphone-2026-08-21-v1",
   "runtime": "remotion",
   "composition_mode": "templated",
@@ -13,5 +13,53 @@
   "timeout_seconds": 1800,
   "output_filename": "OpenMontage-Bridge-E2E-2026-08-21.mp4",
   "brief": "Render one fresh official OpenMontage zero-key code-to-screen demo through the Mac's local OpenMontage installation. This is the end-to-end ChatGPT iPhone bridge acceptance test. Do not reuse an existing MP4. After rendering, verify the source, copy it to iCloud Drive/OpenMontage Output, verify the delivered copy, and publish completion metadata to this job.",
-  "started_at": "2026-08-22T00:40:46.493356+00:00"
+  "started_at": "2026-08-22T00:40:46.493356+00:00",
+  "completed_at": "2026-08-22T00:45:38.568526+00:00",
+  "local_output": "/Users/nickkaplan/OpenMontage/projects/bridge-e2e-chatgpt-iphone-2026-08-21-v1/renders/final.mp4",
+  "icloud_output": "/Users/nickkaplan/Library/Mobile Documents/com~apple~CloudDocs/OpenMontage Output/OpenMontage-Bridge-E2E-2026-08-21.mp4",
+  "phone_location": "Files > iCloud Drive > OpenMontage Output > OpenMontage-Bridge-E2E-2026-08-21.mp4",
+  "sha256": "9e080175b2c2e9da83f272fb6f830b4d05a46671cb9eff583228be351d632928",
+  "output_size_bytes": 3679827,
+  "qa": {
+    "passed": true,
+    "source_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "duration": "25.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "25.045333",
+        "size": "3679827"
+      }
+    },
+    "delivered_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "duration": "25.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "25.045333",
+        "size": "3679827"
+      }
+    }
+  },
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/bridge-e2e-chatgpt-iphone-2026-08-21-v1.log"
 }
