@@ -1,7 +1,7 @@
 {
   "id": "josh-fast-reel-retry-2026-08-23-0753",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "josh-fast-reel-retry-2026-08-23-0753",
   "request": "OpenMontage bridge this into an Instagram Reel about client Josh.",
   "render_mode": "fast_reel",
@@ -24,5 +24,8 @@
     ],
     "cta": "SHOW UP. STACK WINS. REPEAT.",
     "branding": "TriValley.fit Coaching"
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "explicit render_mode=fast_reel",
+  "started_at": "2026-08-23T14:53:36.881733+00:00"
 }
