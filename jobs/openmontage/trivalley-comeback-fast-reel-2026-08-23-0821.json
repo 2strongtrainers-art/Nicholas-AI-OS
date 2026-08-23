@@ -1,0 +1,31 @@
+{
+  "id": "trivalley-comeback-fast-reel-2026-08-23-0821",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "trivalley-comeback-fast-reel-2026-08-23-0821",
+  "request": "OpenMontage bridge this into a 30-second Instagram Fast Reel.",
+  "render_mode": "fast_reel",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "timeout_seconds": 240,
+  "output_filename": "TriValley-Comeback-Fast-Reel-2026-08-23.mp4",
+  "brief": "Create a premium, motivational TriValley.fit Instagram Reel using the deterministic Fast Reel template. Dark athletic aesthetic, cyan accents, bold clean captions, strong kinetic text, no watermark, no paid services, no internet research, no manual checkpoints. This version is text-motion driven because no verified Mac-accessible training footage path was supplied.",
+  "fast_reel": {
+    "duration_seconds": 30,
+    "title": "THE COMEBACK STARTS WITH THE NEXT REP",
+    "hook": "THE COMEBACK STARTS WITH THE NEXT REP",
+    "body_lines": [
+      "SHOW UP",
+      "STACK SMALL WINS",
+      "TRAIN WITH INTENT",
+      "BUILD THE LEGS",
+      "BUILD THE ENGINE",
+      "CONSISTENCY BECOMES MOMENTUM"
+    ],
+    "cta": "REPLY COACHING TO GET STARTED",
+    "branding": "TRIVALLEY.FIT",
+    "accent_color": "#19D3F3",
+    "background_color": "#07111F"
+  }
+}
