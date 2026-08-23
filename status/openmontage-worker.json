@@ -1,12 +1,16 @@
 {
   "component": "Mac OpenMontage Worker",
-  "state": "activation_pending",
-  "checked_at": "2026-08-23T14:00:00Z",
+  "state": "healthy",
+  "checked_at": "2026-08-23T15:25:11.830460+00:00",
+  "host": "Nicks-MacBook-Pro.local",
+  "worker": "openmontage_worker_resilient.py",
+  "worker_version": 3,
+  "heartbeat_interval_seconds": 900,
+  "last_worker_exit_code": 0,
+  "keepawake_policy": "AC-power LaunchAgent",
   "last_successful_job": "josh-fast-reel-retry-2026-08-23-0753",
   "last_successful_job_completed_at": "2026-08-23T14:55:04.082567+00:00",
   "fast_reel_render_seconds": 84.3,
   "qa_passed": true,
-  "delivery": "iCloud + GitHub chat delivery",
-  "source": "forced stale marker to verify resilient worker v3 activation",
-  "heartbeat_interval_seconds": 900
+  "delivery": "iCloud + GitHub chat delivery"
 }
