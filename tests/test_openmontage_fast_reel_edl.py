@@ -39,6 +39,12 @@ class FastReelEdlTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             edl.normalize_clip_specs({"clips": ["clip.mp4"] * (edl.MAX_CLIPS + 1)})
 
+    def test_rejects_remote_clip_urls(self):
+        with self.assertRaisesRegex(RuntimeError, "local video paths only"):
+            edl.normalize_clip_specs(
+                {"clips": ["https://example.com/private.mp4?token=do-not-log"]}
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
