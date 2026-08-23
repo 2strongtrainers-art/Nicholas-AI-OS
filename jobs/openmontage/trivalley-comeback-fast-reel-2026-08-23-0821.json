@@ -1,7 +1,7 @@
 {
   "id": "trivalley-comeback-fast-reel-2026-08-23-0821",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "trivalley-comeback-fast-reel-2026-08-23-0821",
   "request": "OpenMontage bridge this into a 30-second Instagram Fast Reel.",
   "render_mode": "fast_reel",
@@ -27,5 +27,8 @@
     "branding": "TRIVALLEY.FIT",
     "accent_color": "#19D3F3",
     "background_color": "#07111F"
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "explicit render_mode=fast_reel",
+  "started_at": "2026-08-23T15:26:15.673442+00:00"
 }
