@@ -1,0 +1,14 @@
+{
+  "id": "resilient-activation-a-2026-08-23",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "resilient-activation-a-2026-08-23",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "execution_mode": "diagnose_logs",
+  "timeout_seconds": 120,
+  "output_filename": "resilient-activation-a.mp4",
+  "brief": "Zero-render diagnostic used only to force the Mac worker to pull the resilient worker activation commits.",
+  "diagnostic_job_ids": ["josh-fast-reel-retry-2026-08-23-0753"]
+}
