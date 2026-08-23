@@ -1,0 +1,22 @@
+{
+  "id": "fast-reel-healthcheck-2026-08-23-0749",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "fast-reel-healthcheck-2026-08-23-0749",
+  "request": "OpenMontage bridge this into a Fast Reel healthcheck.",
+  "render_mode": "fast_reel",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "timeout_seconds": 120,
+  "output_filename": "Fast-Reel-Healthcheck-2026-08-23.mp4",
+  "brief": "Render a minimal text-only vertical Fast Reel to verify the Remotion fast path after the Mac woke. No media, no audio, no paid services.",
+  "fast_reel": {
+    "duration_seconds": 15,
+    "title": "FAST REEL HEALTHCHECK",
+    "hook": "SYSTEM ONLINE",
+    "body_lines": ["MAC WORKER", "REMOTION", "ICLOUD DELIVERY"],
+    "cta": "HEALTHCHECK COMPLETE",
+    "branding": "TriValley.fit"
+  }
+}
