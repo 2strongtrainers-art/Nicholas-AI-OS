@@ -11,7 +11,6 @@ full-production pipeline.
 from __future__ import annotations
 
 import copy
-import re
 from pathlib import Path
 from typing import Any
 
@@ -51,6 +50,11 @@ def normalize_clip_specs(config: dict) -> list[dict]:
         source = str(item.get("media") or item.get("src") or item.get("path") or "").strip()
         if not source:
             raise RuntimeError(f"fast_reel.clips[{index - 1}] is missing media/src/path")
+        if source.lower().startswith(("http://", "https://")):
+            raise RuntimeError(
+                "fast_reel.clips accepts local video paths only; remote URLs are rejected "
+                "to keep signed URLs and credentials out of worker logs"
+            )
 
         start = max(0.0, _float(item.get("start_seconds"), "start_seconds", 0.0) or 0.0)
         end = _float(item.get("end_seconds"), "end_seconds")
@@ -71,9 +75,6 @@ def normalize_clip_specs(config: dict) -> list[dict]:
 
 
 def _resolve_source(worker, raw: str) -> str:
-    if re.match(r"^https?://", raw, flags=re.I):
-        return raw
-
     candidate = Path(raw).expanduser()
     candidates = [candidate] if candidate.is_absolute() else [worker.QUEUE_REPO / candidate, worker.OPENMONTAGE / candidate]
     source = next((path for path in candidates if path.is_file()), None)
@@ -82,12 +83,6 @@ def _resolve_source(worker, raw: str) -> str:
     if source.suffix.lower() not in VIDEO_EXTENSIONS:
         raise RuntimeError(f"Fast Reel EDL source must be a video file: {source.name}")
     return str(source)
-
-
-def _source_label(raw: str) -> str:
-    if re.match(r"^https?://", raw, flags=re.I):
-        return Path(raw.split("?", 1)[0]).name or "remote-video"
-    return Path(raw).name
 
 
 def build_edl_video(worker, job: dict, job_id: str, project_id: str, timeout_seconds: int) -> Path | None:
@@ -121,10 +116,13 @@ def build_edl_video(worker, job: dict, job_id: str, project_id: str, timeout_sec
         label = f"v{index}"
         filters.append(
             f"[{index}:v]scale=1080:1920:force_original_aspect_ratio=increase,"
-            f"crop=1080:1920,fps=24,setsar=1,format=yuv420p[{label}]"
+            f"crop=1080:1920,fps=24,setsar=1,setpts=PTS-STARTPTS,format=yuv420p[{label}]"
         )
         video_labels.append(f"[{label}]")
-    filters.append("".join(video_labels) + f"concat=n={len(video_labels)}:v=1:a=0[outv]")
+    filters.append("".join(video_labels) + f"concat=n={len(video_labels)}:v=1:a=0[concatv]")
+    # If selected clips are shorter than the requested Reel, hold the last frame
+    # rather than returning a short media stream under a longer Remotion composition.
+    filters.append("[concatv]tpad=stop_mode=clone:stop_duration=90[outv]")
 
     target_duration = _float(config.get("duration_seconds", job.get("duration_seconds", 30)), "duration_seconds", 30.0) or 30.0
     target_duration = max(15.0, min(90.0, target_duration))
@@ -161,15 +159,25 @@ def build_edl_video(worker, job: dict, job_id: str, project_id: str, timeout_sec
 
     probe = worker.probe_video(output)
     stream = (probe.get("streams") or [{}])[0]
-    if (int(stream.get("width", 0)), int(stream.get("height", 0))) != (1080, 1920):
+    fmt = probe.get("format") or {}
+    width = int(stream.get("width", 0))
+    height = int(stream.get("height", 0))
+    duration = float(fmt.get("duration") or stream.get("duration") or 0)
+    if (width, height) != (1080, 1920):
         raise RuntimeError("Fast Reel EDL assembly failed 1080x1920 validation")
+    if abs(duration - target_duration) > 0.75:
+        raise RuntimeError(
+            f"Fast Reel EDL duration validation failed: got {duration:.3f}s, "
+            f"expected about {target_duration:.3f}s"
+        )
 
     job["fast_reel_edl"] = {
         "clip_count": len(specs),
-        "source_names": [_source_label(spec["source"]) for spec in specs],
+        "source_names": [Path(spec["source"]).name for spec in specs],
         "target_duration_seconds": target_duration,
         "assembled": True,
         "video_only": True,
+        "qa": {"width": width, "height": height, "duration_seconds": duration},
     }
     return output
 
