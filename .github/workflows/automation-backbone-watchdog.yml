@@ -1,0 +1,95 @@
+name: Automation Backbone Watchdog
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Mac worker heartbeat and running jobs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = '[Automation Health] Mac/OpenMontage backbone';
+            const problems = [];
+            const now = Date.now();
+
+            async function readJson(path) {
+              const response = await github.rest.repos.getContent({owner, repo, path});
+              if (Array.isArray(response.data) || !response.data.content) {
+                throw new Error(`Expected file at ${path}`);
+              }
+              const text = Buffer.from(response.data.content, 'base64').toString('utf8');
+              return JSON.parse(text);
+            }
+
+            try {
+              const heartbeat = await readJson('status/openmontage-worker.json');
+              const checked = Date.parse(heartbeat.checked_at || '');
+              const ageMinutes = Number.isFinite(checked) ? (now - checked) / 60000 : Infinity;
+              if (heartbeat.state !== 'healthy') {
+                problems.push(`Worker heartbeat state is ${JSON.stringify(heartbeat.state)}.`);
+              }
+              if (ageMinutes > 30) {
+                problems.push(`Worker heartbeat is ${Math.round(ageMinutes)} minutes old (limit: 30).`);
+              }
+              if (heartbeat.last_worker_exit_code != null && Number(heartbeat.last_worker_exit_code) !== 0) {
+                problems.push(`Last worker exit code was ${heartbeat.last_worker_exit_code}.`);
+              }
+            } catch (error) {
+              problems.push(`Unable to read/parse worker heartbeat: ${error.message}`);
+            }
+
+            try {
+              const listing = await github.rest.repos.getContent({owner, repo, path: 'jobs/openmontage'});
+              const files = Array.isArray(listing.data) ? listing.data.filter(x => x.type === 'file' && x.name.endsWith('.json')) : [];
+              for (const file of files.slice(0, 100)) {
+                try {
+                  const job = await readJson(file.path);
+                  if (job.type !== 'openmontage_video' || job.status !== 'running') continue;
+                  const started = Date.parse(job.started_at || '');
+                  if (!Number.isFinite(started)) continue;
+                  const timeoutSeconds = Number(job.timeout_seconds || (job.render_mode_resolved === 'fast_reel' ? 600 : 3600));
+                  const ageSeconds = (now - started) / 1000;
+                  if (ageSeconds > timeoutSeconds + 120) {
+                    problems.push(`${file.name} has been running ${Math.round(ageSeconds)}s, beyond timeout ${timeoutSeconds}s + 120s grace.`);
+                  }
+                } catch (error) {
+                  core.warning(`Could not inspect ${file.path}: ${error.message}`);
+                }
+              }
+            } catch (error) {
+              problems.push(`Unable to inspect OpenMontage jobs: ${error.message}`);
+            }
+
+            const issues = await github.rest.issues.listForRepo({owner, repo, state: 'all', per_page: 100});
+            const matching = issues.data.filter(i => !i.pull_request && i.title === title);
+            const openIssue = matching.find(i => i.state === 'open');
+            const body = [
+              'Automated health check from `.github/workflows/automation-backbone-watchdog.yml`.',
+              '',
+              `Checked: ${new Date(now).toISOString()}`,
+              '',
+              ...(problems.length ? ['Problems:', ...problems.map(p => `- ${p}`)] : ['No current problems detected.'])
+            ].join('\n');
+
+            if (problems.length) {
+              if (openIssue) {
+                await github.rest.issues.createComment({owner, repo, issue_number: openIssue.number, body});
+              } else {
+                await github.rest.issues.create({owner, repo, title, body});
+              }
+              core.setFailed(problems.join(' | '));
+            } else if (openIssue) {
+              await github.rest.issues.createComment({owner, repo, issue_number: openIssue.number, body: `${body}\n\nClosing automatically because health recovered.`});
+              await github.rest.issues.update({owner, repo, issue_number: openIssue.number, state: 'closed', state_reason: 'completed'});
+            }
