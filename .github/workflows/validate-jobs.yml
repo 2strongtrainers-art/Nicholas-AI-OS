@@ -36,6 +36,7 @@ jobs:
         shell: python
         run: |
           import glob, json, sys
+          from pathlib import Path
 
           openmontage_required = {
               "id", "type", "status", "project_id", "brief", "output_filename"
@@ -48,17 +49,22 @@ jobs:
               with open(path, "r", encoding="utf-8") as f:
                   data = json.load(f)
 
-              is_openmontage = (
-                  data.get("type") == "openmontage_video"
-                  or path.startswith("jobs/openmontage/")
-              )
               if not isinstance(data, dict) or not data:
                   failures.append(f"{path}: top level must be a non-empty object")
                   continue
 
+              # Only direct children of jobs/openmontage/ are queue jobs.
+              # Nested JSON files such as chat-delivery/latest-artifact.json are
+              # transport manifests and intentionally do not use the job schema.
+              is_openmontage_job_path = Path(path).parent.as_posix() == "jobs/openmontage"
+              is_openmontage = (
+                  data.get("type") == "openmontage_video"
+                  or is_openmontage_job_path
+              )
+
               if not is_openmontage:
-                  # Legacy jobs intentionally use several workflow-specific
-                  # shapes. Their renderers own those deeper contracts.
+                  # Legacy jobs and OpenMontage support manifests intentionally use
+                  # workflow-specific shapes. Their producers own those contracts.
                   continue
 
               missing = sorted(openmontage_required - set(data))
@@ -66,9 +72,9 @@ jobs:
                   failures.append(f"{path}: missing {', '.join(missing)}")
                   continue
 
-              if is_openmontage and data.get("type") != "openmontage_video":
+              if data.get("type") != "openmontage_video":
                   failures.append(f"{path}: type must be openmontage_video")
-              if is_openmontage and data.get("status") not in openmontage_statuses:
+              if data.get("status") not in openmontage_statuses:
                   failures.append(
                       f"{path}: invalid status {data.get('status')!r}; "
                       f"expected one of {sorted(openmontage_statuses)}"
