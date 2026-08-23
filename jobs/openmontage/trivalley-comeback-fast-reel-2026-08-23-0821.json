@@ -1,7 +1,7 @@
 {
   "id": "trivalley-comeback-fast-reel-2026-08-23-0821",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "trivalley-comeback-fast-reel-2026-08-23-0821",
   "request": "OpenMontage bridge this into a 30-second Instagram Fast Reel.",
   "render_mode": "fast_reel",
@@ -30,5 +30,87 @@
   },
   "render_mode_resolved": "fast_reel",
   "routing_reason": "explicit render_mode=fast_reel",
-  "started_at": "2026-08-23T15:26:15.673442+00:00"
+  "started_at": "2026-08-23T15:26:15.673442+00:00",
+  "completed_at": "2026-08-23T15:27:45.961442+00:00",
+  "local_output": "/Users/nickkaplan/OpenMontage/projects/trivalley-comeback-fast-reel-2026-08-23-0821/renders/final.mp4",
+  "icloud_output": "/Users/nickkaplan/Library/Mobile Documents/com~apple~CloudDocs/OpenMontage Output/TriValley-Comeback-Fast-Reel-2026-08-23.mp4",
+  "phone_location": "Files > iCloud Drive > OpenMontage Output > TriValley-Comeback-Fast-Reel-2026-08-23.mp4",
+  "sha256": "07b8a885ebcb5d4b86e96c04bad8748e3a3f7157dce3bb5188215a143aa47076",
+  "output_size_bytes": 9622213,
+  "chat_delivery_ready": true,
+  "chat_delivery_repo_path": "jobs/openmontage/chat-delivery/TriValley-Comeback-Fast-Reel-2026-08-23.mp4",
+  "chat_delivery_sha256": "07b8a885ebcb5d4b86e96c04bad8748e3a3f7157dce3bb5188215a143aa47076",
+  "chat_delivery_size_bytes": 9622213,
+  "preview_repo_path": "jobs/openmontage/previews/trivalley-comeback-fast-reel-2026-08-23-0821.jpg",
+  "qa": {
+    "passed": true,
+    "source_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 1920,
+          "duration": "30.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "30.058667",
+        "size": "9622213"
+      }
+    },
+    "delivered_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 1920,
+          "duration": "30.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "30.058667",
+        "size": "9622213"
+      }
+    },
+    "contact_sheet_created": true
+  },
+  "render_metrics": {
+    "renderer": "openmontage_remotion_fast_reel",
+    "render_seconds": 87.032,
+    "fps": 24,
+    "width": 1080,
+    "height": 1920,
+    "template": "templates/openmontage/fast_reel.tsx",
+    "props": {
+      "durationSeconds": 30.0,
+      "title": "THE COMEBACK STARTS WITH THE NEXT REP",
+      "hook": "THE COMEBACK STARTS WITH THE NEXT REP",
+      "bodyLines": [
+        "SHOW UP",
+        "STACK SMALL WINS",
+        "TRAIN WITH INTENT",
+        "BUILD THE LEGS",
+        "BUILD THE ENGINE",
+        "CONSISTENCY BECOMES MOMENTUM"
+      ],
+      "cta": "REPLY COACHING TO GET STARTED",
+      "branding": "TRIVALLEY.FIT",
+      "accentColor": "#19D3F3",
+      "backgroundColor": "#07111F",
+      "mediaSrc": null,
+      "mediaType": null,
+      "audioSrc": null
+    }
+  },
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/trivalley-comeback-fast-reel-2026-08-23-0821.log"
 }
