@@ -1,7 +1,7 @@
 {
   "id": "gpt56-multiclip-smoke-2026-08-23-1130",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "gpt56-multiclip-smoke-2026-08-23-1130",
   "request": "Verify the upgraded GPT-5.6 Fast Reel director can assemble multiple existing local clips into one Reel.",
   "render_mode": "fast_reel",
@@ -35,5 +35,8 @@
         "duration_seconds": 8
       }
     ]
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "explicit render_mode=fast_reel",
+  "started_at": "2026-08-23T20:10:56.899334+00:00"
 }
