@@ -1,0 +1,13 @@
+{
+  "id": "install-keepawake-agent-v3",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "install-keepawake-agent-v3",
+  "runtime": "maintenance",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "execution_mode": "install_keepawake_agent",
+  "timeout_seconds": 120,
+  "output_filename": "install-keepawake-agent-v3.mp4",
+  "brief": "Install the allowlisted AC-power keep-awake LaunchAgent so the Mac OpenMontage worker does not silently stop during normal idle system sleep while plugged in."
+}
