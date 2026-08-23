@@ -53,7 +53,7 @@ const Background: React.FC<Pick<FastReelProps, "accentColor" | "backgroundColor"
         <OffthreadVideo
           src={source}
           muted
-          style={{width: "100%", height: "100%", objectFit: "cover", opacity: 0.5}}
+          style={{width: "100%", height: "100%", objectFit: "cover", opacity: 0.94}}
         />
       ) : source && mediaType === "image" ? (
         <Img
@@ -62,7 +62,7 @@ const Background: React.FC<Pick<FastReelProps, "accentColor" | "backgroundColor"
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            opacity: 0.5,
+            opacity: 0.94,
             transform: `scale(${1.06 + frame / 16000})`,
           }}
         />
@@ -75,7 +75,7 @@ const Background: React.FC<Pick<FastReelProps, "accentColor" | "backgroundColor"
             radial-gradient(circle at 84% ${76 - drift / 28}%, #8B5CF655 0, transparent 38%),
             linear-gradient(155deg, ${backgroundColor} 0%, #101D34 52%, #050A13 100%)
           `,
-          opacity: source ? 0.82 : 1,
+          opacity: source ? 0.42 : 1,
         }}
       />
 
@@ -85,7 +85,7 @@ const Background: React.FC<Pick<FastReelProps, "accentColor" | "backgroundColor"
             "linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
           transform: `translateY(${(frame * 0.45) % 72}px)`,
-          opacity: 0.75,
+          opacity: source ? 0.25 : 0.75,
         }}
       />
 
