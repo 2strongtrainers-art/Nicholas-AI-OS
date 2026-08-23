@@ -1,7 +1,7 @@
 {
   "id": "fast-reel-healthcheck-2026-08-23-0749",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "fast-reel-healthcheck-2026-08-23-0749",
   "request": "OpenMontage bridge this into a Fast Reel healthcheck.",
   "render_mode": "fast_reel",
@@ -15,8 +15,15 @@
     "duration_seconds": 15,
     "title": "FAST REEL HEALTHCHECK",
     "hook": "SYSTEM ONLINE",
-    "body_lines": ["MAC WORKER", "REMOTION", "ICLOUD DELIVERY"],
+    "body_lines": [
+      "MAC WORKER",
+      "REMOTION",
+      "ICLOUD DELIVERY"
+    ],
     "cta": "HEALTHCHECK COMPLETE",
     "branding": "TriValley.fit"
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "explicit render_mode=fast_reel",
+  "started_at": "2026-08-23T14:50:38.634678+00:00"
 }
