@@ -4,37 +4,56 @@ on:
   push:
     paths:
       - 'jobs/host-august-audio-*.txt'
-      - '.github/workflows/host-august-audio.yml'
 
 jobs:
   host-audio:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Generate August Nick MP3
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: |
+          set -euo pipefail
+          INPUT="$(ls -1t jobs/host-august-audio-*.txt | head -1)"
+          export AUGUST_SCRIPT="$(cat "$INPUT")"
           python3 - <<'PY'
           import json, os, urllib.request
-          voice='eZ6srIcJSJNcqcDrI68r'
-          text="Hi, I'm Nicholas Kaplan with TriValley.fit. I help people improve body composition, build strength, and create a training plan they can actually sustain. My coaching combines intelligent programming, accountability, and real-world strategy so progress is measurable and realistic. If you're ready to look better, feel better, and perform at a higher level, TriValley.fit is built for you. Train with purpose. Perform at your best."
-          payload={"text":text,"model_id":"eleven_multilingual_v2","voice_settings":{"stability":0.40,"similarity_boost":0.85,"style":0.0,"use_speaker_boost":True,"speed":1.03}}
-          req=urllib.request.Request(f'https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128',data=json.dumps(payload).encode(),method='POST',headers={'xi-api-key':os.environ['ELEVENLABS_API_KEY'],'Content-Type':'application/json','Accept':'audio/mpeg'})
-          with urllib.request.urlopen(req,timeout=90) as r: open('august-nick.mp3','wb').write(r.read())
+          voice = 'eZ6srIcJSJNcqcDrI68r'
+          text = os.environ['AUGUST_SCRIPT'].strip()
+          if not text:
+              raise SystemExit('Audio script is empty')
+          payload = {
+              'text': text,
+              'model_id': 'eleven_multilingual_v2',
+              'voice_settings': {
+                  'stability': 0.40,
+                  'similarity_boost': 0.85,
+                  'style': 0.0,
+                  'use_speaker_boost': True,
+                  'speed': 1.03,
+              },
+          }
+          req = urllib.request.Request(
+              f'https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128',
+              data=json.dumps(payload).encode(),
+              method='POST',
+              headers={
+                  'xi-api-key': os.environ['ELEVENLABS_API_KEY'],
+                  'Content-Type': 'application/json',
+                  'Accept': 'audio/mpeg',
+              },
+          )
+          with urllib.request.urlopen(req, timeout=90) as r:
+              open('august-nick.mp3', 'wb').write(r.read())
           PY
-      - name: Upload MP3 to Wix signed URL
-        env:
-          WIX_UPLOAD_URL: 'https://upload.wixmp.com/upload/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NDRiODdiMy05MmRmLTRjYTktOGRiYS1iNGRmNjc3MTUxZmMiLCJhdWQiOiJ1cm46c2VydmljZTp1cGxvYWQiLCJpc3MiOiJ1cm46c2VydmljZTp1cGxvYWQiLCJleHAiOjE3ODY5MzA1ODUsImlhdCI6MTc4Njg0NDE3NSwiYnVja2V0IjoidXBsb2FkLXRtcC13aXhtcC1jZGZjMzg0ZjE1ODQxYWFhNWVhYjE2YjEiLCJwYXRoIjoibXAzLzg1NmFlMl8wYTMxN2VjYTEyZmU0ZTZhOTQ2NjU0ZmQzYjA3YmViYi5tcDMiLCJjYWxsYmFja1VybCI6Imh0dHBzOi8vZ3ctd2l4bXAtY2RmYzM4NGYxNTg0MWFhYTVlYWIxNmIxLndpeG1wLmNvbS9fYXBpL3YzL3VwbG9hZC9jYWxsYmFjaz91cGxvYWRUb2tlbj1leUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcGMzTWlPaUoxY200NmMyVnlkbWxqWlRwbWFXeGxMblZ3Ykc5aFpDSXNJbUYxWkNJNkluVnlianB6WlhKMmFXTmxPbVpwYkdVdWRYQnNiMkZrSWl3aWMzVmlJam9pZFhKdU9tRndjRHBsTmpZMk16QmxOekUwWmpBME9UQmhZV1ZoTVdZeE5EbGlNMkkyT1dVek1pSXNJbWxoZENJNk1UYzROamcwTkRFM05Td2laWGh3SWpveE56ZzJPRGczTXpjMUxDSnFkR2tpT2lJeU4yTTBPRGRtT0RObE9ERWlMQ0ppYTNRaU9pSnpkR0YwYVdNdWQybDRjM1JoZEdsakxtTnZiU0lzSW5CMGFDSTZJaTl0Y0RNdk9EVTJZV1V5WHpCaE16RTNaV05oTVRKbVpUUmxObUU1TkRZMk5UUm1aRE5pTURkaVpXSmlMbTF3TXlJc0ltRmpiQ0k2SW5CMVlteHBZeUlzSW14bVl5STZiblZzYkN3aVkyeGlJanA3SW5WeWJDSTZJbWgwZEhCek9pOHZjSEpwZG1GMFpTMXRaV1JwWVMxMWNDMDBkM3B0WVRaemJqWmhMWFZqTG1FdWNuVnVMbUZ3Y0M5Mk15OXRjQzltYVd4bGN5OTFjR3h2WVdRdmJYQXpMemcxTm1GbE1sOHdZVE14TjJWallURXlabVUwWlRaaE9UUTJOalUwWm1RellqQTNZbVZpWWk1dGNETWlMQ0poZEhSaFkyaHRaVzUwSWpwN0luQmhkR2dpT2lJdmJYQXpMemcxTm1GbE1sOHdZVE14TjJWallURXlabVUwWlRaaE9UUTJOalUwWm1RellqQTNZbVZpWWk1dGNETWlMQ0oxY0d4dllXUmZkRzlyWlc0aU9pSkNUR3hXYlVndGRGVk9OMmxvUjBJelQyeEhTa3A2VkZabGNsWXdkRGwyYjJ4eE4zTjZWVVp4Y21velNHNUtTbHBPYlROR1FrTXhZemxmYVhwdlZ5MWFVbms0ZHpOWWRHZHNublJWTkd3dFVIUldkR2sxTUhsMU0ySlpUMFJ6WlRKTmQxVTNWR2xSWVZoNFJsTTNObEJKT1ZGM1UzbGhlR3BUWTNOT1YyaHNPSFJ3VkRSeE4yeG9PRmRxUW5CU1p6ZEpNV3N3YnpCMlNGbHVVVGRYT0RkQlVYQXdNVVl6VFVaTWVVY3phelJyVVhadU9HMUVkVGM1U1RoQ1dIVmxZM2wwY0dweVVYSkNkMjlxTkZwaVNtcHFMWE0yWVZFMWIycDVabTQyVDFKcWJXMURUMnBYZFRCWVp6RXRkM2RxUzE5R2FVMDNZMWR1UlZKSlZYWTJWVVJOYkVoUGNXOXliVTVZU2taelgyOUtkbmRzWVdOd1dEWXhhSEZ6Tm14VVkyODRkVEF3ZDBoNGRVbGlPRmRvY0ZjdGRYVXlZbVI1YWt4a1JGVkxTbmgwTkhkc2FqbFdVRlpDUld4VmEyVkZNVm94ZUhCclgwaHVjR3hvWm1OemFsUXdkMnBtWVhZeE0wUnNRMjlFWVVWQ1EwdDJjblZ1UW5OVFZGSjBSbXR0U1c1cWNHNXFjVFE0UWsxd2JFZzRjSFE0WVdWWlRrbE1jVWd3V1hsM2VuRlhWMFZPZUZsUGNuZFpPRUl5T0RoM2NURjVNMUpNUXpFMFZYZDJZVEptYVRKTlVtRXpOWFF3Tm01MlQxbGtkakF3WldWeVlqSm1ha3BYYjJkd09GWnplVEZsWHpGalVEUXRWVTFQTnpsWVMySnZlbHBHYVU1b2MwNU1ZVTVTY0VsdVJsSlpRblo2UnpRNVZXc3pRVlowTVcwMlh6aEVPRzU2VUVkeVpITndSek5HU2pFMFduSkthVTVJZGt4a1RsWjNURmczT0U4MVIwMUdRakk1UmtSdldYSTVTRkZqVHpaeVFXMTZOMnBDT0Y5MWREbFdUak53WkU1dU1rbGlkazlIUW1KV1kwczVjRXMyU1VkZmVuZzNablpDU1hSbVVYWnNVV0pOUzNSb2EzTmpZVTR0WkRaelNWbHNiVVJZZEZsRFEzSnpSbWhwZHowOUluMHNJbWhsWVdSbGNuTWlPbTUxYkd3c0luQmhjM04wYUhKdmRXZG9JanAwY25WbGZYMC5CV2Q0SFU3djlyU1Rnc3JXanF1NVZXUmZQd2J6TnpZbzQ3akVuTjlqX2o0Jm1ldGFkYXRhPWV5SmxlSFJ5WVdOMFgyMWxkR0ZrWVhSaElqb2dkSEoxWlN3Z0ltMWxkR0ZrWVhSaFgyWmxZWFIxY21Weklqb2diblZzYkN3Z2JXbHRaVlI1Y0dVaU9pQWlZWFZrYVc4dmJYQmxaeUlzSUNKa2FYTndiR0Y1VG1GdFpTSTZJQ0pCZFdSMWRYUmZUbWxqYXk1dGNETWlmUT09' 
-        run: |
-          set -euo pipefail
-          curl -sS -X PUT "$WIX_UPLOAD_URL" -H 'Content-Type: audio/mpeg' --data-binary @august-nick.mp3 | tee wix-upload-response.json
-          echo '---WIX_RESPONSE---'
-          cat wix-upload-response.json
-      - name: Upload debug response
+          test -s august-nick.mp3
+          ffprobe -v error -show_entries format=duration,size -of json august-nick.mp3
+      - name: Upload August Nick audio
         uses: actions/upload-artifact@v4
         with:
-          name: august-audio-host-${{ github.run_id }}
-          path: |
-            august-nick.mp3
-            wix-upload-response.json
+          name: august-audio-${{ github.run_id }}
+          path: august-nick.mp3
+          retention-days: 7
