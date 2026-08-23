@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Generate August Nick MP3
+      - name: Generate compact August Nick MP3
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: |
@@ -37,7 +37,7 @@ jobs:
               },
           }
           req = urllib.request.Request(
-              f'https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128',
+              f'https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_22050_32',
               data=json.dumps(payload).encode(),
               method='POST',
               headers={
@@ -52,28 +52,19 @@ jobs:
               raise SystemExit('Generated MP3 is unexpectedly small')
           print({'bytes': os.path.getsize('august-nick.mp3')})
           PY
-      - name: Upload voiceover to Wix Media Manager
-        run: |
-          set -euo pipefail
-          WIX_UPLOAD_URL="$(cat jobs/august-audio-upload-url.txt)"
-          curl -sS -X PUT "$WIX_UPLOAD_URL" -H 'Content-Type: audio/mpeg' --data-binary @august-nick.mp3 | tee august-nick-wix-response.json
-          test -s august-nick-wix-response.json
-      - name: Publish latest voiceover metadata into private repo
+      - name: Publish compact voiceover into private repo
         run: |
           set -euo pipefail
           mkdir -p generated/audio
-          cp august-nick.mp3 generated/audio/august-nick-latest.mp3
-          cp august-nick-wix-response.json generated/audio/august-nick-wix-response.json
+          cp august-nick.mp3 generated/audio/august-nick-reel-32k.mp3
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add generated/audio/august-nick-latest.mp3 generated/audio/august-nick-wix-response.json
-          git commit -m 'Publish latest August Nick voiceover' || exit 0
+          git add generated/audio/august-nick-reel-32k.mp3
+          git commit -m 'Publish compact August Nick Reel voiceover' || exit 0
           git push
-      - name: Upload August Nick audio artifact
+      - name: Upload compact voiceover artifact
         uses: actions/upload-artifact@v4
         with:
-          name: august-audio-${{ github.run_id }}
-          path: |
-            august-nick.mp3
-            august-nick-wix-response.json
+          name: august-reel-voice-${{ github.run_id }}
+          path: august-nick.mp3
           retention-days: 7
