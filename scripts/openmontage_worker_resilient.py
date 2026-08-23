@@ -151,8 +151,34 @@ def resilient_process_job(path):
         job["completed_at"] = worker.utc_now()
         job["maintenance_result"] = worker.sanitize_log_text(result.stdout.strip())[-6000:]
         job["keepawake_installed"] = "KEEP_AWAKE_INSTALLED=1" in result.stdout
+
+        heartbeat = {}
+        if HEARTBEAT_PATH.exists():
+            try:
+                heartbeat = json.loads(HEARTBEAT_PATH.read_text(encoding="utf-8"))
+            except Exception:
+                heartbeat = {}
+        heartbeat.update({
+            "component": "Mac OpenMontage Worker",
+            "state": "healthy",
+            "checked_at": worker.utc_now(),
+            "worker": "openmontage_worker_resilient.py",
+            "worker_version": 3,
+            "last_worker_exit_code": 0,
+            "heartbeat_interval_seconds": HEARTBEAT_INTERVAL_SECONDS,
+            "keepawake_policy": "AC-power LaunchAgent",
+            "keepawake_installed": bool(job["keepawake_installed"]),
+            "keepawake_installed_at": job["completed_at"],
+        })
+        HEARTBEAT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        HEARTBEAT_PATH.write_text(json.dumps(heartbeat, indent=2) + "\n", encoding="utf-8")
+
         worker.save_job(path, job)
-        worker.push_status(path, f"OpenMontage maintenance {job_id}: completed")
+        worker.push_status(
+            path,
+            f"OpenMontage maintenance {job_id}: completed",
+            extra_paths=[HEARTBEAT_PATH],
+        )
         worker.log(f"MAINTENANCE COMPLETED {job_id}: keep-awake agent installed")
     except Exception as exc:
         job["status"] = "failed"
@@ -211,6 +237,7 @@ def publish_remote_heartbeat(worker_exit_code: int) -> None:
             "qa_passed",
             "delivery",
             "keepawake_installed",
+            "keepawake_installed_at",
         ):
             if key in existing:
                 payload[key] = existing[key]
