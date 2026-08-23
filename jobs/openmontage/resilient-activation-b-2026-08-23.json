@@ -1,7 +1,7 @@
 {
   "id": "resilient-activation-b-2026-08-23",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "resilient-activation-b-2026-08-23",
   "runtime": "remotion",
   "composition_mode": "templated",
@@ -10,5 +10,10 @@
   "timeout_seconds": 120,
   "output_filename": "resilient-activation-b.mp4",
   "brief": "Second zero-render diagnostic used to verify the Mac worker restarted from the resilient entrypoint.",
-  "diagnostic_job_ids": ["fast-reel-healthcheck-2026-08-23-0749"]
+  "diagnostic_job_ids": [
+    "fast-reel-healthcheck-2026-08-23-0749"
+  ],
+  "render_mode_resolved": "diagnostic",
+  "routing_reason": "explicit log diagnostic request",
+  "started_at": "2026-08-23T15:25:06.786329+00:00"
 }
