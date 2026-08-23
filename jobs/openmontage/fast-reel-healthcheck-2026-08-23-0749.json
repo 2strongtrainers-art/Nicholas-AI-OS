@@ -1,7 +1,7 @@
 {
   "id": "fast-reel-healthcheck-2026-08-23-0749",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "fast-reel-healthcheck-2026-08-23-0749",
   "request": "OpenMontage bridge this into a Fast Reel healthcheck.",
   "render_mode": "fast_reel",
@@ -25,5 +25,84 @@
   },
   "render_mode_resolved": "fast_reel",
   "routing_reason": "explicit render_mode=fast_reel",
-  "started_at": "2026-08-23T14:50:38.634678+00:00"
+  "started_at": "2026-08-23T14:50:38.634678+00:00",
+  "completed_at": "2026-08-23T14:51:28.275314+00:00",
+  "local_output": "/Users/nickkaplan/OpenMontage/projects/fast-reel-healthcheck-2026-08-23-0749/renders/final.mp4",
+  "icloud_output": "/Users/nickkaplan/Library/Mobile Documents/com~apple~CloudDocs/OpenMontage Output/Fast-Reel-Healthcheck-2026-08-23.mp4",
+  "phone_location": "Files > iCloud Drive > OpenMontage Output > Fast-Reel-Healthcheck-2026-08-23.mp4",
+  "sha256": "d0f7ae588223d186f71c1eef90605bb97d8922754bfc894b1054ebf7637dd117",
+  "output_size_bytes": 4723858,
+  "chat_delivery_ready": true,
+  "chat_delivery_repo_path": "jobs/openmontage/chat-delivery/Fast-Reel-Healthcheck-2026-08-23.mp4",
+  "chat_delivery_sha256": "d0f7ae588223d186f71c1eef90605bb97d8922754bfc894b1054ebf7637dd117",
+  "chat_delivery_size_bytes": 4723858,
+  "preview_repo_path": "jobs/openmontage/previews/fast-reel-healthcheck-2026-08-23-0749.jpg",
+  "qa": {
+    "passed": true,
+    "source_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 1920,
+          "duration": "15.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "15.061333",
+        "size": "4723858"
+      }
+    },
+    "delivered_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 1920,
+          "duration": "15.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "15.061333",
+        "size": "4723858"
+      }
+    },
+    "contact_sheet_created": true
+  },
+  "render_metrics": {
+    "renderer": "openmontage_remotion_fast_reel",
+    "render_seconds": 46.593,
+    "fps": 24,
+    "width": 1080,
+    "height": 1920,
+    "template": "templates/openmontage/fast_reel.tsx",
+    "props": {
+      "durationSeconds": 15.0,
+      "title": "FAST REEL HEALTHCHECK",
+      "hook": "SYSTEM ONLINE",
+      "bodyLines": [
+        "MAC WORKER",
+        "REMOTION",
+        "ICLOUD DELIVERY"
+      ],
+      "cta": "HEALTHCHECK COMPLETE",
+      "branding": "TriValley.fit",
+      "accentColor": "#67E8F9",
+      "backgroundColor": "#07111F",
+      "mediaSrc": null,
+      "mediaType": null,
+      "audioSrc": null
+    }
+  },
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/fast-reel-healthcheck-2026-08-23-0749.log"
 }
