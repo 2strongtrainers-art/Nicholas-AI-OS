@@ -48,9 +48,10 @@ jobs:
           )
           with urllib.request.urlopen(req, timeout=90) as r:
               open('august-nick.mp3', 'wb').write(r.read())
+          if os.path.getsize('august-nick.mp3') < 1000:
+              raise SystemExit('Generated MP3 is unexpectedly small')
+          print({'bytes': os.path.getsize('august-nick.mp3')})
           PY
-          test -s august-nick.mp3
-          ffprobe -v error -show_entries format=duration,size -of json august-nick.mp3
       - name: Publish latest voiceover into private repo
         run: |
           set -euo pipefail
