@@ -1,7 +1,7 @@
 {
   "id": "worker-heartbeat-2026-08-23-0739",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "worker-heartbeat-2026-08-23-0739",
   "runtime": "remotion",
   "composition_mode": "templated",
@@ -15,5 +15,40 @@
   ],
   "render_mode_resolved": "diagnostic",
   "routing_reason": "explicit log diagnostic request",
-  "started_at": "2026-08-23T14:47:22.717726+00:00"
+  "started_at": "2026-08-23T14:47:22.717726+00:00",
+  "diagnostics": [
+    {
+      "job_id": "josh-fast-reel-2026-08-22-v1",
+      "found": true,
+      "path": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/josh-fast-reel-2026-08-22-v1.log",
+      "size_bytes": 1103,
+      "line_count": 13,
+      "diagnosis": "render_or_render_preparation",
+      "signal_lines": [
+        "ProtocolError: Protocol error (Target.createTarget): Target closed. https://www.remotion.dev/docs/target-closed",
+        "    at #onClose ($HOME/OpenMontage/remotion-composer/node_modules/@remotion/renderer/dist/browser/Connection.js:127:42)",
+        "    at WebSocket.<anonymous> ($HOME/OpenMontage/remotion-composer/node_modules/@remotion/renderer/dist/browser/NodeWebSocketTransport.js:63:30)",
+        "    at callListener ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/event-target.js:290:14)",
+        "    at WebSocket.onClose ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/event-target.js:220:9)",
+        "    at WebSocket.emitClose ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/websocket.js:279:10)",
+        "    at Receiver.receiverOnFinish ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/websocket.js:1228:20)"
+      ],
+      "tail": [
+        "",
+        "=== 2026-08-22T13:01:36.458271+00:00 START ===",
+        "ProtocolError: Protocol error (Target.createTarget): Target closed. https://www.remotion.dev/docs/target-closed",
+        "    at #onClose ($HOME/OpenMontage/remotion-composer/node_modules/@remotion/renderer/dist/browser/Connection.js:127:42)",
+        "    at WebSocket.<anonymous> ($HOME/OpenMontage/remotion-composer/node_modules/@remotion/renderer/dist/browser/NodeWebSocketTransport.js:63:30)",
+        "    at callListener ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/event-target.js:290:14)",
+        "    at WebSocket.onClose ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/event-target.js:220:9)",
+        "    at WebSocket.emit (node:events:514:20)",
+        "    at WebSocket.emitClose ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/websocket.js:279:10)",
+        "    at Receiver.receiverOnFinish ($HOME/OpenMontage/remotion-composer/node_modules/ws/lib/websocket.js:1228:20)",
+        "    at Receiver.emit (node:events:514:20)",
+        "    at finish (node:internal/streams/writable:957:10)",
+        "    at node:internal/streams/writable:938:13"
+      ]
+    }
+  ],
+  "completed_at": "2026-08-23T14:47:29.375856+00:00"
 }
