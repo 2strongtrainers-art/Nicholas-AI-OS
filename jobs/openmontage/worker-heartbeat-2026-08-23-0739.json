@@ -1,0 +1,16 @@
+{
+  "id": "worker-heartbeat-2026-08-23-0739",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "worker-heartbeat-2026-08-23-0739",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "execution_mode": "diagnose_logs",
+  "timeout_seconds": 120,
+  "output_filename": "worker-heartbeat-2026-08-23-0739.mp4",
+  "brief": "Mac OpenMontage worker heartbeat test. Do not render video. Complete diagnostic mode and publish status so ChatGPT can verify the worker is alive.",
+  "diagnostic_job_ids": [
+    "josh-fast-reel-2026-08-22-v1"
+  ]
+}
