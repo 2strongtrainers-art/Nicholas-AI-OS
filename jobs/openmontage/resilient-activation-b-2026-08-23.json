@@ -1,7 +1,7 @@
 {
   "id": "resilient-activation-b-2026-08-23",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "resilient-activation-b-2026-08-23",
   "runtime": "remotion",
   "composition_mode": "templated",
@@ -15,5 +15,25 @@
   ],
   "render_mode_resolved": "diagnostic",
   "routing_reason": "explicit log diagnostic request",
-  "started_at": "2026-08-23T15:25:06.786329+00:00"
+  "started_at": "2026-08-23T15:25:06.786329+00:00",
+  "diagnostics": [
+    {
+      "job_id": "fast-reel-healthcheck-2026-08-23-0749",
+      "found": true,
+      "path": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/fast-reel-healthcheck-2026-08-23-0749.log",
+      "size_bytes": 64,
+      "line_count": 4,
+      "diagnosis": "completed_or_inconclusive",
+      "signal_lines": [
+        "=== EXIT 0 ==="
+      ],
+      "tail": [
+        "",
+        "=== 2026-08-23T14:50:41.176846+00:00 START ===",
+        "",
+        "=== EXIT 0 ==="
+      ]
+    }
+  ],
+  "completed_at": "2026-08-23T15:25:09.373784+00:00"
 }
