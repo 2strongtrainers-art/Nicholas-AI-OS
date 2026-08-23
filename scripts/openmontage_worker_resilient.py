@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Resilience wrapper for the Nicholas-AI-OS OpenMontage Mac worker.
 
-Adds two production safeguards without changing the proven fast path:
+Adds production safeguards without slowing the proven normal path:
 1. Retry a Remotion Fast Reel once at concurrency=1 with verbose logging when
    Chromium crashes with the known Target closed / Target.createTarget failure.
 2. Publish a lightweight remote worker heartbeat to GitHub at most every 15
    minutes so ChatGPT can distinguish an idle worker from an offline Mac.
+3. Support a tightly allowlisted maintenance job that installs the AC-power
+   keep-awake LaunchAgent without granting arbitrary shell execution.
 """
 
 import json
@@ -14,9 +16,8 @@ import shutil
 import sys
 import time
 from datetime import datetime, timezone
-from pathlib import Path
 
-import openmontage_worker as worker
+import openmontage_worker_base as worker
 
 HEARTBEAT_PATH = worker.QUEUE_REPO / "status" / "openmontage-worker.json"
 HEARTBEAT_INTERVAL_SECONDS = 15 * 60
@@ -29,6 +30,7 @@ TRANSIENT_BROWSER_SIGNATURES = (
 )
 
 _original_run_fast_reel = worker.run_fast_reel
+_original_process_job = worker.process_job
 
 
 def _read_job_log(job_id: str) -> str:
@@ -116,6 +118,55 @@ def resilient_run_fast_reel(job: dict, job_id: str, project_id: str, timeout_sec
         return final_mp4, job_log, props, elapsed
 
 
+def resilient_process_job(path):
+    """Intercept only explicitly allowlisted maintenance; delegate all media jobs."""
+    try:
+        job = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return _original_process_job(path)
+
+    if not (
+        job.get("status") == "queued"
+        and job.get("type") == "openmontage_video"
+        and job.get("execution_mode") == "install_keepawake_agent"
+    ):
+        return _original_process_job(path)
+
+    job_id = job.get("id") or path.stem
+    script = worker.QUEUE_REPO / "scripts" / "install_keepawake_agent.sh"
+    job["render_mode_resolved"] = "maintenance"
+    job["routing_reason"] = "explicit allowlisted keep-awake LaunchAgent installation"
+    job["status"] = "running"
+    job["started_at"] = worker.utc_now()
+    job.pop("error", None)
+    job.pop("failed_at", None)
+    worker.save_job(path, job)
+    worker.push_status(path, f"OpenMontage maintenance {job_id}: running")
+
+    try:
+        if not script.exists():
+            raise RuntimeError(f"Maintenance script missing: {script}")
+        result = worker.run(["/bin/zsh", script], cwd=worker.QUEUE_REPO, timeout=90)
+        job["status"] = "completed"
+        job["completed_at"] = worker.utc_now()
+        job["maintenance_result"] = worker.sanitize_log_text(result.stdout.strip())[-6000:]
+        job["keepawake_installed"] = "KEEP_AWAKE_INSTALLED=1" in result.stdout
+        worker.save_job(path, job)
+        worker.push_status(path, f"OpenMontage maintenance {job_id}: completed")
+        worker.log(f"MAINTENANCE COMPLETED {job_id}: keep-awake agent installed")
+    except Exception as exc:
+        job["status"] = "failed"
+        job["failed_at"] = worker.utc_now()
+        job["error"] = str(exc)
+        worker.save_job(path, job)
+        try:
+            worker.push_status(path, f"OpenMontage maintenance {job_id}: failed")
+        except Exception as push_err:
+            worker.log(f"Failed to push maintenance failure status: {push_err}")
+        worker.log(f"MAINTENANCE FAILED {job_id}: {exc}")
+    return True
+
+
 def _parse_iso(value: str):
     if not value:
         return None
@@ -147,19 +198,19 @@ def publish_remote_heartbeat(worker_exit_code: int) -> None:
             "checked_at": now.isoformat(),
             "host": os.uname().nodename,
             "worker": "openmontage_worker_resilient.py",
-            "worker_version": 2,
+            "worker_version": 3,
             "heartbeat_interval_seconds": HEARTBEAT_INTERVAL_SECONDS,
             "last_worker_exit_code": int(worker_exit_code),
             "keepawake_policy": "AC-power LaunchAgent",
         }
 
-        # Preserve useful last-known successful job metadata seeded by completed jobs/tests.
         for key in (
             "last_successful_job",
             "last_successful_job_completed_at",
             "fast_reel_render_seconds",
             "qa_passed",
             "delivery",
+            "keepawake_installed",
         ):
             if key in existing:
                 payload[key] = existing[key]
@@ -168,12 +219,12 @@ def publish_remote_heartbeat(worker_exit_code: int) -> None:
         HEARTBEAT_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         worker.push_status(HEARTBEAT_PATH, f"OpenMontage worker heartbeat: {state}")
     except Exception as exc:
-        # Heartbeat publication must never prevent real jobs from running.
         worker.log(f"Heartbeat publication failed: {exc}")
 
 
 def main() -> int:
     worker.run_fast_reel = resilient_run_fast_reel
+    worker.process_job = resilient_process_job
     code = int(worker.main())
     publish_remote_heartbeat(code)
     return code
