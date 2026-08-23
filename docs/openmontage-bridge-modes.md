@@ -31,7 +31,7 @@ An explicit `render_mode` always wins. When it is omitted, the router defaults t
 }
 ```
 
-`clips` is the preferred input when ChatGPT has multiple source videos. It accepts up to 12 clips. Each clip can be a path string or an object with `media`/`src`/`path`, `start_seconds`, and either `end_seconds` or `duration_seconds`. The worker normalizes the selected segments to 1080x1920/24fps, concatenates them without source audio, and then lets Remotion add the configured Reel graphics and optional narration/audio.
+`clips` is the preferred input when ChatGPT has multiple source videos. It accepts up to 12 **local** video paths. Each clip can be a path string or an object with `media`/`src`/`path`, `start_seconds`, and either `end_seconds` or `duration_seconds`. Remote URLs are rejected for multi-clip EDL input so signed URLs or credentials cannot leak into worker command logs. The worker resets clip timestamps, normalizes selected segments to 1080x1920/24fps, concatenates them without source audio, and pads the final frame when necessary so the assembled footage matches the requested Reel duration before Remotion adds graphics and optional narration/audio.
 
 For one background image or video, `media` is still supported. `branding`, `media`, `clips`, and `audio` are optional. No paid service is invoked by the Fast Reel renderer itself.
 
