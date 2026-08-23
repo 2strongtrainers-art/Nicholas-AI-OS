@@ -1,9 +1,9 @@
 {
-  "run_id": 32577584824,
+  "run_id": 32646720494,
   "run_attempt": 1,
-  "commit_sha": "3e5bfe62d75596855841a20c4fdc420527b134fa",
-  "artifact_name": "openmontage-chat-delivery-32577584824",
+  "commit_sha": "eca86005fcaf441bf179b1117a4fca21cd81cb30",
+  "artifact_name": "openmontage-chat-delivery-32646720494",
   "files": [
-    "OpenMontage-Bridge-E2E-2026-08-21.mp4"
+    "Fast-Reel-Healthcheck-2026-08-23.mp4"
   ]
 }
