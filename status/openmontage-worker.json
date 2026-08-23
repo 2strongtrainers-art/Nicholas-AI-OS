@@ -1,0 +1,12 @@
+{
+  "component": "Mac OpenMontage Worker",
+  "state": "healthy",
+  "checked_at": "2026-08-23T14:55:04Z",
+  "last_successful_job": "josh-fast-reel-retry-2026-08-23-0753",
+  "last_successful_job_completed_at": "2026-08-23T14:55:04.082567+00:00",
+  "fast_reel_render_seconds": 84.3,
+  "qa_passed": true,
+  "delivery": "iCloud + GitHub chat delivery",
+  "source": "seeded after verified live end-to-end test",
+  "heartbeat_interval_seconds": 900
+}
