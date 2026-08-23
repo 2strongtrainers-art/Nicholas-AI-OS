@@ -1,7 +1,7 @@
 {
   "id": "install-keepawake-agent-v3",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "install-keepawake-agent-v3",
   "runtime": "maintenance",
   "composition_mode": "templated",
@@ -12,5 +12,8 @@
   "brief": "Install the allowlisted AC-power keep-awake LaunchAgent so the Mac OpenMontage worker does not silently stop during normal idle system sleep while plugged in.",
   "render_mode_resolved": "maintenance",
   "routing_reason": "explicit allowlisted keep-awake LaunchAgent installation",
-  "started_at": "2026-08-23T17:09:10.245166+00:00"
+  "started_at": "2026-08-23T17:09:10.245166+00:00",
+  "completed_at": "2026-08-23T17:22:00.404123+00:00",
+  "maintenance_result": "KEEP_AWAKE_INSTALLED=1\nPOLICY=Prevent idle system sleep while connected to AC power; display sleep remains allowed\n\tstate = running\n\tpid = 22566\n   PreventSystemSleep             1\n   PreventUserIdleSystemSleep     1\nListed by owning process:\n   pid 551(usernoted): [0x0002288a000191c3] 00:00:00 PreventUserIdleSystemSleep named: \"com.apple.usernoted.add-notification\"  \n   pid 22566(caffeinate): [0x0002288a000791c2] 00:00:00 PreventSystemSleep named: \"caffeinate command-line tool\"  \n   pid 172(runningboardd): [0x0002288a000191b9] 00:00:00 PreventUserIdleSystemSleep named: \"app<application.com.apple.TV.1152921500311902223.1152921500311902228(501)>172-1234-56152:KeepAlive[58003A63]:AMSMetricsDatabase-transaction-[.rbsAssertion, .osTransaction]\"",
+  "keepawake_installed": true
 }

@@ -1,7 +1,7 @@
 {
   "component": "Mac OpenMontage Worker",
   "state": "healthy",
-  "checked_at": "2026-08-23T15:41:13.673116+00:00",
+  "checked_at": "2026-08-23T17:22:00.408314+00:00",
   "host": "Nicks-MacBook-Pro.local",
   "worker": "openmontage_worker_resilient.py",
   "worker_version": 3,
@@ -12,5 +12,7 @@
   "last_successful_job_completed_at": "2026-08-23T14:55:04.082567+00:00",
   "fast_reel_render_seconds": 84.3,
   "qa_passed": true,
-  "delivery": "iCloud + GitHub chat delivery"
+  "delivery": "iCloud + GitHub chat delivery",
+  "keepawake_installed": true,
+  "keepawake_installed_at": "2026-08-23T17:22:00.404123+00:00"
 }
