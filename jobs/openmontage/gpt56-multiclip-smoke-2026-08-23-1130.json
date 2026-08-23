@@ -1,0 +1,39 @@
+{
+  "id": "gpt56-multiclip-smoke-2026-08-23-1130",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "gpt56-multiclip-smoke-2026-08-23-1130",
+  "request": "Verify the upgraded GPT-5.6 Fast Reel director can assemble multiple existing local clips into one Reel.",
+  "render_mode": "fast_reel",
+  "runtime": "remotion",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "timeout_seconds": 300,
+  "output_filename": "GPT56-Multiclip-Smoke-2026-08-23.mp4",
+  "brief": "Deterministic zero-cost multi-clip smoke test using two previously verified local OpenMontage renders. No paid services, no web sourcing, no narration.",
+  "fast_reel": {
+    "duration_seconds": 15,
+    "hook": "MULTI-CLIP EDIT ONLINE",
+    "title": "GPT-5.6 FAST REEL DIRECTOR",
+    "body_lines": [
+      "CLIP 1 TRIMMED",
+      "CLIP 2 TRIMMED",
+      "FFMPEG EDL",
+      "REMOTION FINISH"
+    ],
+    "cta": "MULTI-CLIP PATH VERIFIED",
+    "branding": "TriValley.fit",
+    "clips": [
+      {
+        "media": "/Users/nickkaplan/OpenMontage/projects/fast-reel-healthcheck-2026-08-23-0749/renders/final.mp4",
+        "start_seconds": 0,
+        "duration_seconds": 7
+      },
+      {
+        "media": "/Users/nickkaplan/OpenMontage/projects/josh-fast-reel-retry-2026-08-23-0753/renders/final.mp4",
+        "start_seconds": 0,
+        "duration_seconds": 8
+      }
+    ]
+  }
+}
