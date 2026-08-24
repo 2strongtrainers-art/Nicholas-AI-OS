@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/openmontage*.py'
       - 'scripts/install_agent_stack.sh'
+      - 'scripts/configure_hermes_safe.sh'
       - 'templates/openmontage/**'
       - 'tests/test_openmontage*.py'
       - 'docs/openmontage-bridge-modes.md'
@@ -36,6 +37,7 @@ jobs:
             scripts/openmontage_agent_stack.py \
             scripts/openmontage_fast_reel_edl.py
           bash -n scripts/install_agent_stack.sh
+          bash -n scripts/configure_hermes_safe.sh
 
       - name: Run OpenMontage unit tests
         run: python -m unittest discover -s tests -p 'test_openmontage*.py' -v

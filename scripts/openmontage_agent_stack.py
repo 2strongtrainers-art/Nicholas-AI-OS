@@ -27,10 +27,15 @@ def install(resilient, worker):
         except Exception:
             return previous(path)
 
+        allowed_modes = {
+            "install_agent_stack",
+            "demo_codex_readonly",
+            "configure_hermes_safe",
+        }
         if not (
             job.get("status") == "queued"
             and job.get("type") == "openmontage_video"
-            and job.get("execution_mode") in {"install_agent_stack", "demo_codex_readonly"}
+            and job.get("execution_mode") in allowed_modes
         ):
             return previous(path)
 
@@ -44,6 +49,8 @@ def install(resilient, worker):
 
         if mode == "install_agent_stack":
             job["routing_reason"] = "explicit allowlisted Codex + Hermes + Agent Skills installation"
+        elif mode == "configure_hermes_safe":
+            job["routing_reason"] = "explicit allowlisted Hermes local scheduler + zero-spend health job configuration"
         else:
             job["routing_reason"] = "explicit allowlisted Codex read-only repository demonstration"
 
@@ -66,6 +73,26 @@ def install(resilient, worker):
                 job["awesome_agent_skills_installed"] = "AWESOME_AGENT_SKILLS_INSTALLED=1" in output
                 job["agent_stack_verified"] = "AGENT_STACK_INSTALL_OK=1" in output
                 job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
+            elif mode == "configure_hermes_safe":
+                script = worker.QUEUE_REPO / "scripts" / "configure_hermes_safe.sh"
+                if not script.exists():
+                    raise RuntimeError(f"Hermes configuration script missing: {script}")
+                result = worker.run(
+                    ["/bin/zsh", script],
+                    cwd=worker.QUEUE_REPO,
+                    timeout=300,
+                )
+                output = result.stdout or ""
+                job["hermes_safe_configured"] = "HERMES_SAFE_CONFIG_OK=1" in output
+                job["hermes_local_scheduler"] = "HERMES_GATEWAY_LOCAL_SCHEDULER=1" in output
+                job["hermes_external_messaging_configured"] = False
+                job["hermes_model_provider_configured"] = False
+                job["hermes_cron_no_agent"] = "HERMES_CRON_NO_AGENT=1" in output
+                job["hermes_cron_schedule"] = "30 7 * * *"
+                job["hermes_cron_delivery"] = "local"
+                job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
+                if not job["hermes_safe_configured"]:
+                    raise RuntimeError("Hermes safe configuration did not return verification marker")
             else:
                 prompt = (
                     "Inspect this Nicholas-AI-OS repository in read-only mode. Do not edit files, "
