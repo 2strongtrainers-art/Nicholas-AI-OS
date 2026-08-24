@@ -6,6 +6,9 @@ on:
       - 'scripts/openmontage*.py'
       - 'scripts/install_agent_stack.sh'
       - 'scripts/configure_hermes_safe.sh'
+      - 'scripts/configure_nicholas_operator_brain.sh'
+      - 'hermes/**'
+      - '.hermes.md'
       - 'templates/openmontage/**'
       - 'tests/test_openmontage*.py'
       - 'docs/openmontage-bridge-modes.md'
@@ -38,6 +41,7 @@ jobs:
             scripts/openmontage_fast_reel_edl.py
           bash -n scripts/install_agent_stack.sh
           bash -n scripts/configure_hermes_safe.sh
+          bash -n scripts/configure_nicholas_operator_brain.sh
 
       - name: Run OpenMontage unit tests
         run: python -m unittest discover -s tests -p 'test_openmontage*.py' -v
