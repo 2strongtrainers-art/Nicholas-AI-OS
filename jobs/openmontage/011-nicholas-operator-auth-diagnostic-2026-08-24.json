@@ -2,7 +2,7 @@
   "id": "nicholas-operator-auth-diagnostic-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "configure_nicholas_operator_brain",
-  "status": "queued",
+  "status": "running",
   "request": "Run safe boolean-only diagnostics for Nicholas Operator Codex OAuth import.",
   "safety": {
     "credential_values_exposed": false,
@@ -10,5 +10,8 @@
     "external_messaging": false,
     "unattended_ai_cron": false
   },
-  "queued_at": "2026-08-24T23:55:00Z"
+  "queued_at": "2026-08-24T23:55:00Z",
+  "render_mode_resolved": "maintenance",
+  "started_at": "2026-08-24T23:54:36.261101+00:00",
+  "routing_reason": "explicit allowlisted Nicholas Operator Hermes brain activation"
 }
