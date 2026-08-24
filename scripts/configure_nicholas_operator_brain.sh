@@ -2,9 +2,9 @@
 set -euo pipefail
 
 HERMES_BIN="$HOME/.local/bin/hermes"
-UV_BIN="$HOME/.local/bin/uv"
 HERMES_HOME_DIR="${HERMES_HOME:-$HOME/.hermes}"
 HERMES_REPO="$HOME/.hermes/hermes-agent"
+HERMES_PYTHON="$HERMES_REPO/.venv/bin/python"
 CODEX_AUTH_FILE="$HOME/.codex/auth.json"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOUL_SOURCE="$REPO_ROOT/hermes/NICHOLAS_OPERATOR_SOUL.md"
@@ -34,21 +34,21 @@ chmod 600 "$SOUL_TARGET"
 "$HERMES_BIN" config set agent.verify_on_stop true >/dev/null
 "$HERMES_BIN" config set agent.run_budget_seconds 1800 >/dev/null
 
-UV_PRESENT=0
+HERMES_PYTHON_PRESENT=0
 HERMES_REPO_PRESENT=0
 CODEX_AUTH_FILE_PRESENT=0
-[[ -x "$UV_BIN" ]] && UV_PRESENT=1
+[[ -x "$HERMES_PYTHON" ]] && HERMES_PYTHON_PRESENT=1
 [[ -d "$HERMES_REPO" ]] && HERMES_REPO_PRESENT=1
 [[ -f "$CODEX_AUTH_FILE" ]] && CODEX_AUTH_FILE_PRESENT=1
 
 CODEX_IMPORT=0
 IMPORT_RC=99
 IMPORT_OUTPUT=""
-if [[ "$UV_PRESENT" == "1" && "$HERMES_REPO_PRESENT" == "1" ]]; then
+if [[ "$HERMES_PYTHON_PRESENT" == "1" && "$HERMES_REPO_PRESENT" == "1" ]]; then
   set +e
   IMPORT_OUTPUT="$(
     cd "$HERMES_REPO"
-    "$UV_BIN" run python - <<'PY'
+    "$HERMES_PYTHON" - <<'PY'
 from hermes_cli.auth import _import_codex_cli_tokens, _save_codex_tokens
 
 tokens = _import_codex_cli_tokens()
@@ -115,7 +115,7 @@ echo "NICHOLAS_OPERATOR_CODEX_AUTH_DETECTED=$CODEX_AUTH"
 echo "NICHOLAS_OPERATOR_CODEX_AUTH_IMPORTED=$CODEX_IMPORT"
 echo "NICHOLAS_OPERATOR_CODEX_AUTH_FILE_PRESENT=$CODEX_AUTH_FILE_PRESENT"
 echo "NICHOLAS_OPERATOR_HERMES_REPO_PRESENT=$HERMES_REPO_PRESENT"
-echo "NICHOLAS_OPERATOR_UV_PRESENT=$UV_PRESENT"
+echo "NICHOLAS_OPERATOR_HERMES_PYTHON_PRESENT=$HERMES_PYTHON_PRESENT"
 echo "NICHOLAS_OPERATOR_IMPORT_RC=$IMPORT_RC"
 echo "NICHOLAS_OPERATOR_AUTH_ENTRY_PRESENT=$AUTH_ENTRY_PRESENT"
 echo "NICHOLAS_OPERATOR_MEMORY_APPROVAL=1"
