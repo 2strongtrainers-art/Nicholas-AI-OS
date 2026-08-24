@@ -2,7 +2,7 @@
   "id": "agent-stack-install-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "install_agent_stack",
-  "status": "queued",
+  "status": "running",
   "request": "Install and verify the recommended agent stack: OpenAI Codex CLI, Nous Hermes Agent runtime without setup or gateway credentials, and the Awesome Agent Skills catalog.",
   "safety": {
     "arbitrary_shell": false,
@@ -11,5 +11,8 @@
     "publish": false
   },
   "queued_at": "2026-08-24T23:04:00Z",
-  "routing_verified_by_ci": true
+  "routing_verified_by_ci": true,
+  "render_mode_resolved": "maintenance",
+  "routing_reason": "explicit allowlisted Codex + Hermes + Agent Skills installation",
+  "started_at": "2026-08-24T23:03:08.050681+00:00"
 }
