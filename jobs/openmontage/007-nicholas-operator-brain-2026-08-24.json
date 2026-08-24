@@ -2,7 +2,7 @@
   "id": "nicholas-operator-brain-2026-08-24-v2",
   "type": "openmontage_video",
   "execution_mode": "configure_nicholas_operator_brain",
-  "status": "running",
+  "status": "completed",
   "request": "Activate the Nicholas Operator Hermes brain using existing Codex OAuth, GPT-5.6 Sol, approval-gated memory, no unattended AI cron, and no external messaging.",
   "safety": {
     "reuse_existing_codex_oauth": true,
@@ -16,5 +16,17 @@
   "queued_at": "2026-08-24T23:38:00Z",
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-24T23:35:32.560101+00:00",
-  "routing_reason": "explicit allowlisted Nicholas Operator Hermes brain activation"
+  "routing_reason": "explicit allowlisted Nicholas Operator Hermes brain activation",
+  "nicholas_operator_configured": true,
+  "nicholas_operator_soul_installed": true,
+  "nicholas_operator_project_context": true,
+  "nicholas_operator_provider": "openai-codex",
+  "nicholas_operator_model": "gpt-5.6-sol",
+  "nicholas_operator_codex_auth_detected": true,
+  "nicholas_operator_memory_approval": true,
+  "nicholas_operator_unattended_ai_cron": false,
+  "nicholas_operator_external_messaging": false,
+  "nicholas_operator_gateway_ok": true,
+  "maintenance_result": "NICHOLAS_OPERATOR_CONFIG_OK=1\nNICHOLAS_OPERATOR_SOUL_INSTALLED=1\nNICHOLAS_OPERATOR_PROJECT_CONTEXT=1\nNICHOLAS_OPERATOR_PROVIDER=openai-codex\nNICHOLAS_OPERATOR_MODEL=gpt-5.6-sol\nNICHOLAS_OPERATOR_CODEX_AUTH_DETECTED=1\nNICHOLAS_OPERATOR_MEMORY_APPROVAL=1\nNICHOLAS_OPERATOR_UNATTENDED_AI_CRON=0\nNICHOLAS_OPERATOR_EXTERNAL_MESSAGING=0\nNICHOLAS_OPERATOR_GATEWAY_OK=1",
+  "completed_at": "2026-08-24T23:35:53.566636+00:00"
 }
