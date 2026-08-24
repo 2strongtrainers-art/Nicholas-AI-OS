@@ -6,8 +6,8 @@ Adds production safeguards without slowing the proven normal path:
    Chromium crashes with the known Target closed / Target.createTarget failure.
 2. Publish a lightweight remote worker heartbeat to GitHub at most every 15
    minutes so ChatGPT can distinguish an idle worker from an offline Mac.
-3. Support a tightly allowlisted maintenance job that installs the AC-power
-   keep-awake LaunchAgent without granting arbitrary shell execution.
+3. Support tightly allowlisted maintenance jobs without granting arbitrary
+   shell execution.
 """
 
 import json
@@ -18,6 +18,7 @@ import time
 from datetime import datetime, timezone
 
 import openmontage_worker_base as worker
+from openmontage_agent_stack import install as install_agent_stack
 
 HEARTBEAT_PATH = worker.QUEUE_REPO / "status" / "openmontage-worker.json"
 HEARTBEAT_INTERVAL_SECONDS = 15 * 60
@@ -247,6 +248,12 @@ def publish_remote_heartbeat(worker_exit_code: int) -> None:
         worker.push_status(HEARTBEAT_PATH, f"OpenMontage worker heartbeat: {state}")
     except Exception as exc:
         worker.log(f"Heartbeat publication failed: {exc}")
+
+
+# The installed macOS LaunchAgent currently invokes this module directly. Wire
+# the additional allowlisted maintenance mode here so both direct and wrapper
+# entrypoints see the same routing behavior.
+install_agent_stack(sys.modules[__name__], worker)
 
 
 def main() -> int:
