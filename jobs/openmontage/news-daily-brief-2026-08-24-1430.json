@@ -1,7 +1,7 @@
 {
   "id": "news-daily-brief-2026-08-24-1430",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "news-daily-brief-2026-08-24-1430",
   "render_mode": "fast_reel",
   "render_engine": "moneyprinter",
@@ -43,5 +43,88 @@
   },
   "render_mode_resolved": "fast_reel",
   "routing_reason": "explicit render_mode=fast_reel",
-  "started_at": "2026-08-24T21:31:32.476638+00:00"
+  "started_at": "2026-08-24T21:31:32.476638+00:00",
+  "moneyprinter_fallback": {
+    "used": true,
+    "error": "Command '['$HOME/.cache/nicholas-ai-os/moneyprinter-bootstrap/bin/python', '-m', 'uv', 'sync', '--frozen', '--no-dev']' returned non-zero exit status 2."
+  },
+  "completed_at": "2026-08-24T21:33:22.441527+00:00",
+  "local_output": "/Users/nickkaplan/OpenMontage/projects/news-daily-brief-2026-08-24-1430/renders/final.mp4",
+  "icloud_output": "/Users/nickkaplan/Library/Mobile Documents/com~apple~CloudDocs/OpenMontage Output/Nick-Daily-News-Aug-24-2026.mp4",
+  "phone_location": "Files > iCloud Drive > OpenMontage Output > Nick-Daily-News-Aug-24-2026.mp4",
+  "sha256": "a1d9edb4eb61d7f740089c090bd14e4f3a6ce74b653985bb2b3a1778862e3c74",
+  "output_size_bytes": 8751491,
+  "chat_delivery_ready": true,
+  "chat_delivery_repo_path": "jobs/openmontage/chat-delivery/Nick-Daily-News-Aug-24-2026.mp4",
+  "chat_delivery_sha256": "a1d9edb4eb61d7f740089c090bd14e4f3a6ce74b653985bb2b3a1778862e3c74",
+  "chat_delivery_size_bytes": 8751491,
+  "preview_repo_path": "jobs/openmontage/previews/news-daily-brief-2026-08-24-1430.jpg",
+  "qa": {
+    "passed": true,
+    "source_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 1920,
+          "duration": "26.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "26.048000",
+        "size": "8751491"
+      }
+    },
+    "delivered_ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 1920,
+          "duration": "26.000000",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "26.048000",
+        "size": "8751491"
+      }
+    },
+    "contact_sheet_created": true
+  },
+  "render_metrics": {
+    "renderer": "openmontage_remotion_fast_reel",
+    "render_seconds": 73.77,
+    "fps": 24,
+    "width": 1080,
+    "height": 1920,
+    "template": "templates/openmontage/fast_reel.tsx",
+    "props": {
+      "durationSeconds": 26.0,
+      "title": "MONDAY'S FAST NEWS BRIEF",
+      "hook": "3 THINGS THAT MOVED TODAY",
+      "bodyLines": [
+        "50% CANADA AUTO TARIFF THREAT",
+        "NEW IRAN SANCTIONS PRESSURE",
+        "ALIBABA WAN3.0 + TECH SELLOFF"
+      ],
+      "cta": "STAY INFORMED. MOVE SMART.",
+      "branding": "NICK'S DAILY BRIEF",
+      "accentColor": "#67E8F9",
+      "backgroundColor": "#07111F",
+      "mediaSrc": null,
+      "mediaType": null,
+      "audioSrc": null
+    }
+  },
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/news-daily-brief-2026-08-24-1430.log"
 }
