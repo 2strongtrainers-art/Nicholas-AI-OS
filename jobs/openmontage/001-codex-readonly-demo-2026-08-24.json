@@ -2,7 +2,7 @@
   "id": "codex-readonly-demo-2026-08-24-v2",
   "type": "openmontage_video",
   "execution_mode": "demo_codex_readonly",
-  "status": "queued",
+  "status": "running",
   "request": "Demonstrate Codex by inspecting Nicholas-AI-OS read-only and returning a concise improvement report.",
   "safety": {
     "sandbox": "read-only",
@@ -11,5 +11,8 @@
     "network_task": false,
     "edit_files": false
   },
-  "queued_at": "2026-08-24T23:12:30Z"
+  "queued_at": "2026-08-24T23:12:30Z",
+  "render_mode_resolved": "maintenance",
+  "started_at": "2026-08-24T23:12:49.535045+00:00",
+  "routing_reason": "explicit allowlisted Codex read-only repository demonstration"
 }
