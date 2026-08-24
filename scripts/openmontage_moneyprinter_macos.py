@@ -6,13 +6,23 @@ managed Python 3.11 runtime with uv before running ``uv sync --frozen``. The
 initial Nicholas-AI-OS sidecar installed uv but could attempt sync before that
 runtime was present. This patch preserves the sidecar/fallback design while
 following upstream's installation sequence exactly.
+
+MoneyPrinterTurbo's current lock can also select an ONNX Runtime build that no
+longer publishes a macOS x86_64 wheel. On Intel/Rosetta only, this module falls
+back to MoneyPrinter's supported requirements.txt install path with a narrow
+compatibility constraint for ONNX Runtime 1.23.2, which still publishes a
+CPython 3.11 macOS x86_64 wheel.
 """
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 
 import openmontage_moneyprinter as moneyprinter
+
+
+X86_ONNX_CONSTRAINTS = "onnxruntime==1.23.2\nctranslate2==4.8.1\n"
 
 
 def _runtime_is_ready(worker, python_bin: Path) -> bool:
@@ -31,7 +41,7 @@ def _runtime_is_ready(worker, python_bin: Path) -> bool:
     return check.returncode == 0
 
 
-def _run_uv_step(worker, bootstrap_python: Path, args: list[str], timeout: int) -> None:
+def _run_uv_step(worker, bootstrap_python: Path, args: list[str], timeout: int):
     result = worker.run(
         [bootstrap_python, "-m", "uv", *args],
         cwd=moneyprinter.MPT_DIR,
@@ -39,7 +49,7 @@ def _run_uv_step(worker, bootstrap_python: Path, args: list[str], timeout: int) 
         check=False,
     )
     if result.returncode == 0:
-        return
+        return result
 
     detail = worker.sanitize_log_text(
         (result.stderr or result.stdout or "uv command failed").strip()
@@ -51,6 +61,49 @@ def _run_uv_step(worker, bootstrap_python: Path, args: list[str], timeout: int) 
         f"MoneyPrinterTurbo uv {' '.join(args)} failed with exit "
         f"{result.returncode}: {detail}"
     )
+
+
+def _install_x86_compat_runtime(worker, bootstrap_python: Path, managed_python: Path) -> Path:
+    worker.log(
+        "MONEYPRINTER MACOS X86 COMPAT: rebuilding .venv with compatible ONNX Runtime"
+    )
+    venv_dir = moneyprinter.MPT_DIR / ".venv"
+    if venv_dir.exists():
+        shutil.rmtree(venv_dir)
+
+    _run_uv_step(
+        worker,
+        bootstrap_python,
+        ["venv", "--python", "3.11", ".venv"],
+        timeout=300,
+    )
+
+    constraints = moneyprinter.MPT_DIR / ".nicholas-macos-x86-constraints.txt"
+    constraints.write_text(X86_ONNX_CONSTRAINTS, encoding="utf-8")
+
+    _run_uv_step(
+        worker,
+        bootstrap_python,
+        [
+            "pip",
+            "install",
+            "--python",
+            str(managed_python),
+            "-r",
+            "requirements.txt",
+            "--constraint",
+            str(constraints),
+        ],
+        timeout=1800,
+    )
+
+    if not _runtime_is_ready(worker, managed_python):
+        raise RuntimeError(
+            "MoneyPrinterTurbo macOS x86 compatibility install completed but "
+            "the managed runtime failed its import preflight"
+        )
+    worker.log("MONEYPRINTER MACOS X86 COMPAT: runtime ready")
+    return managed_python
 
 
 def install(worker) -> None:
@@ -102,12 +155,27 @@ def install(worker) -> None:
             ["python", "install", "3.11"],
             timeout=600,
         )
-        _run_uv_step(
-            worker_module,
-            bootstrap_python,
-            ["sync", "--frozen"],
-            timeout=1500,
-        )
+        try:
+            _run_uv_step(
+                worker_module,
+                bootstrap_python,
+                ["sync", "--frozen"],
+                timeout=1500,
+            )
+        except RuntimeError as exc:
+            detail = str(exc).lower()
+            is_x86_onnx_gap = (
+                "onnxruntime" in detail
+                and "x86_64" in detail
+                and "doesn't have a source distribution or wheel" in detail
+            )
+            if not is_x86_onnx_gap:
+                raise
+            return _install_x86_compat_runtime(
+                worker_module,
+                bootstrap_python,
+                managed_python,
+            )
 
         if not _runtime_is_ready(worker_module, managed_python):
             raise RuntimeError(
