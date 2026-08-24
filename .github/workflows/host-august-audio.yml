@@ -12,13 +12,27 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Resolve exact triggering script
+        shell: bash
+        run: |
+          set -euo pipefail
+          INPUT="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^jobs/host-august-audio-.*\.txt$' | head -1 || true)"
+          if [ -z "$INPUT" ]; then
+            echo 'No August Nick script changed in triggering commit.' >&2
+            exit 1
+          fi
+          test -s "$INPUT"
+          echo "AUGUST_INPUT=$INPUT" >> "$GITHUB_ENV"
+          echo "AUGUST_STEM=$(basename "$INPUT" .txt)" >> "$GITHUB_ENV"
+          echo "Resolved voice script: $INPUT"
       - name: Generate compact August Nick MP3
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: |
           set -euo pipefail
-          INPUT="$(ls -1t jobs/host-august-audio-*.txt | head -1)"
-          export AUGUST_SCRIPT="$(cat "$INPUT")"
+          export AUGUST_SCRIPT="$(cat "$AUGUST_INPUT")"
           python3 - <<'PY'
           import json, os, urllib.request
           voice = 'eZ6srIcJSJNcqcDrI68r'
@@ -52,15 +66,23 @@ jobs:
               raise SystemExit('Generated MP3 is unexpectedly small')
           print({'bytes': os.path.getsize('august-nick.mp3')})
           PY
-      - name: Publish compact voiceover into private repo
+      - name: Verify and publish script-bound voiceover
+        shell: bash
         run: |
           set -euo pipefail
+          ffprobe -v error -show_entries format=duration,size -of json august-nick.mp3
           mkdir -p generated/audio
+          cp august-nick.mp3 "generated/audio/${AUGUST_STEM}.mp3"
+          cp "$AUGUST_INPUT" "generated/audio/${AUGUST_STEM}.txt"
+          sha256sum "generated/audio/${AUGUST_STEM}.mp3" > "generated/audio/${AUGUST_STEM}.sha256"
+          # Keep a convenience latest copy, but production jobs should reference
+          # the unique script-bound filename above.
           cp august-nick.mp3 generated/audio/august-nick-reel-32k.mp3
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add generated/audio/august-nick-reel-32k.mp3
-          git commit -m 'Publish compact August Nick Reel voiceover' || exit 0
+          git add generated/audio
+          git commit -m "Publish August Nick audio for ${AUGUST_STEM}" || exit 0
+          git pull --rebase
           git push
       - name: Upload compact voiceover artifact
         uses: actions/upload-artifact@v4
