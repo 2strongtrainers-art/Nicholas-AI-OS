@@ -2,7 +2,9 @@
 set -euo pipefail
 
 HERMES_BIN="$HOME/.local/bin/hermes"
+UV_BIN="$HOME/.local/bin/uv"
 HERMES_HOME_DIR="${HERMES_HOME:-$HOME/.hermes}"
+HERMES_REPO="$HOME/.hermes/hermes-agent"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOUL_SOURCE="$REPO_ROOT/hermes/NICHOLAS_OPERATOR_SOUL.md"
 SOUL_TARGET="$HERMES_HOME_DIR/SOUL.md"
@@ -35,19 +37,41 @@ chmod 600 "$SOUL_TARGET"
 "$HERMES_BIN" config set agent.verify_on_stop true >/dev/null
 "$HERMES_BIN" config set agent.run_budget_seconds 1800 >/dev/null
 
+# Hermes' normal Codex import asks an interactive yes/no question. The Mac worker
+# is headless, so perform the same supported import using Hermes' own functions.
+# Token values remain local and are never printed or passed through GitHub.
+CODEX_IMPORT=0
+if [[ -x "$UV_BIN" && -d "$HERMES_REPO" ]]; then
+  IMPORT_OUTPUT="$(
+    cd "$HERMES_REPO"
+    "$UV_BIN" run python - <<'PY'
+from hermes_cli.auth import _import_codex_cli_tokens, _save_codex_tokens
+
+tokens = _import_codex_cli_tokens()
+if tokens:
+    _save_codex_tokens(tokens)
+    print("CODEX_AUTH_IMPORTED=1")
+else:
+    print("CODEX_AUTH_IMPORTED=0")
+PY
+  )"
+  if [[ "$IMPORT_OUTPUT" == *"CODEX_AUTH_IMPORTED=1"* ]]; then
+    CODEX_IMPORT=1
+  fi
+fi
+
 # Keep unattended AI inference disabled: the existing daily health job remains no-agent.
 # Do not add or modify any external messaging platform here.
 
-# Load the credential pool. Hermes can seed openai-codex from ~/.codex/auth.json.
 AUTH_STATUS="$($HERMES_BIN auth status openai-codex 2>&1 || true)"
 AUTH_LIST="$($HERMES_BIN auth list openai-codex 2>&1 || true)"
-if echo "$AUTH_STATUS\n$AUTH_LIST" | grep -Eqi 'available|active|device_code|codex|credential'; then
+if [[ "$CODEX_IMPORT" == "1" ]] || echo "$AUTH_STATUS\n$AUTH_LIST" | grep -Eqi 'active|available|device_code'; then
   CODEX_AUTH=1
 else
   CODEX_AUTH=0
 fi
 
-# Restart only the local Hermes service so new sessions pick up SOUL/config.
+# Restart only the local Hermes service so new sessions pick up SOUL/config/auth.
 "$HERMES_BIN" gateway restart >/dev/null 2>&1 || true
 sleep 2
 GATEWAY_STATUS="$($HERMES_BIN gateway status 2>&1 || true)"
@@ -59,6 +83,7 @@ MEMORY_APPROVAL="$($HERMES_BIN config get memory.write_approval 2>/dev/null || t
 [[ "$MODEL_PROVIDER" == *"openai-codex"* ]] || { echo "Provider verification failed" >&2; exit 1; }
 [[ "$MODEL_DEFAULT" == *"gpt-5.6-sol"* ]] || { echo "Model verification failed" >&2; exit 1; }
 [[ "$MEMORY_APPROVAL" == *"true"* || "$MEMORY_APPROVAL" == *"True"* ]] || { echo "Memory approval verification failed" >&2; exit 1; }
+[[ "$CODEX_AUTH" == "1" ]] || { echo "Codex OAuth import verification failed" >&2; exit 1; }
 [[ -s "$SOUL_TARGET" ]] || { echo "SOUL verification failed" >&2; exit 1; }
 
 if echo "$GATEWAY_STATUS" | grep -Eqi 'supervised|running|PID|active'; then
@@ -74,6 +99,7 @@ echo "NICHOLAS_OPERATOR_PROJECT_CONTEXT=1"
 echo "NICHOLAS_OPERATOR_PROVIDER=openai-codex"
 echo "NICHOLAS_OPERATOR_MODEL=gpt-5.6-sol"
 echo "NICHOLAS_OPERATOR_CODEX_AUTH_DETECTED=$CODEX_AUTH"
+echo "NICHOLAS_OPERATOR_CODEX_AUTH_IMPORTED=$CODEX_IMPORT"
 echo "NICHOLAS_OPERATOR_MEMORY_APPROVAL=1"
 echo "NICHOLAS_OPERATOR_UNATTENDED_AI_CRON=0"
 echo "NICHOLAS_OPERATOR_EXTERNAL_MESSAGING=0"
