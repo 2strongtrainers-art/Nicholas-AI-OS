@@ -2,7 +2,7 @@
   "id": "nicholas-operator-brain-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "configure_nicholas_operator_brain",
-  "status": "queued",
+  "status": "failed",
   "request": "Activate the Nicholas Operator Hermes brain using existing Codex OAuth, GPT-5.6 Sol, approval-gated memory, no unattended AI cron, and no external messaging.",
   "safety": {
     "reuse_existing_codex_oauth": true,
@@ -13,5 +13,7 @@
     "pay_per_token_api_key_added": false,
     "arbitrary_shell": false
   },
-  "queued_at": "2026-08-24T23:36:00Z"
+  "queued_at": "2026-08-24T23:36:00Z",
+  "error": "Missing brief",
+  "failed_at": "2026-08-24T23:34:28.229291+00:00"
 }
