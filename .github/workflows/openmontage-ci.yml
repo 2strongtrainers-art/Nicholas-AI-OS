@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'scripts/openmontage*.py'
+      - 'scripts/install_agent_stack.sh'
       - 'templates/openmontage/**'
       - 'tests/test_openmontage*.py'
       - 'docs/openmontage-bridge-modes.md'
@@ -32,7 +33,9 @@ jobs:
             scripts/openmontage_worker.py \
             scripts/openmontage_worker_base.py \
             scripts/openmontage_worker_resilient.py \
+            scripts/openmontage_agent_stack.py \
             scripts/openmontage_fast_reel_edl.py
+          zsh -n scripts/install_agent_stack.sh
 
       - name: Run OpenMontage unit tests
         run: python -m unittest discover -s tests -p 'test_openmontage*.py' -v
