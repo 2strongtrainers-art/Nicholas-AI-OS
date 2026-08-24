@@ -1,7 +1,7 @@
 {
   "id": "news-daily-brief-2026-08-24-mpt-diag",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "news-daily-brief-2026-08-24-mpt-diag",
   "render_mode": "fast_reel",
   "render_engine": "moneyprinter",
@@ -43,5 +43,12 @@
   },
   "render_mode_resolved": "fast_reel",
   "routing_reason": "explicit render_mode=fast_reel",
-  "started_at": "2026-08-24T21:38:56.445023+00:00"
+  "started_at": "2026-08-24T21:38:56.445023+00:00",
+  "moneyprinter_fallback": {
+    "used": false,
+    "error": "MoneyPrinterTurbo uv sync --frozen failed with exit 2: warning: `VIRTUAL_ENV=$HOME/.cache/nicholas-ai-os/moneyprinter-bootstrap` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\nerror: Distribution `onnxruntime==1.24.4 @ registry+https://pypi.org/simple` can't be installed because it doesn't have a source distribution or wheel for the current platform\n\nhint: You're on macOS (`macosx_15_0_x86_64`), but `onnxruntime` (v1.24.4) only has wheels for the following platforms: `manylinux_2_27_aarch64`, `manylinux_2_27_x86_64`, `manylinux_2_28_aarch64`, `manylinux_2_28_x86_64`, `macosx_14_0_arm64`, `win_amd64`, `win_arm64`; consider adding \"sys_platform == 'darwin' and platform_machine == 'x86_64'\" to `tool.uv.required-environments` to ensure uv resolves to a version with compatible wheels"
+  },
+  "failed_at": "2026-08-24T21:39:00.167719+00:00",
+  "error": "MoneyPrinterTurbo uv sync --frozen failed with exit 2: warning: `VIRTUAL_ENV=$HOME/.cache/nicholas-ai-os/moneyprinter-bootstrap` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\nerror: Distribution `onnxruntime==1.24.4 @ registry+https://pypi.org/simple` can't be installed because it doesn't have a source distribution or wheel for the current platform\n\nhint: You're on macOS (`macosx_15_0_x86_64`), but `onnxruntime` (v1.24.4) only has wheels for the following platforms: `manylinux_2_27_aarch64`, `manylinux_2_27_x86_64`, `manylinux_2_28_aarch64`, `manylinux_2_28_x86_64`, `macosx_14_0_arm64`, `win_amd64`, `win_arm64`; consider adding \"sys_platform == 'darwin' and platform_machine == 'x86_64'\" to `tool.uv.required-environments` to ensure uv resolves to a version with compatible wheels",
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/news-daily-brief-2026-08-24-mpt-diag.log"
 }
