@@ -2,7 +2,7 @@
   "id": "codex-readonly-demo-2026-08-24-v4",
   "type": "openmontage_video",
   "execution_mode": "demo_codex_readonly",
-  "status": "running",
+  "status": "completed",
   "request": "Demonstrate Codex by inspecting Nicholas-AI-OS read-only and returning a concise improvement report.",
   "safety": {
     "sandbox": "read-only",
@@ -14,5 +14,10 @@
   "queued_at": "2026-08-24T23:16:10Z",
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-24T23:16:09.064921+00:00",
-  "routing_reason": "explicit allowlisted Codex read-only repository demonstration"
+  "routing_reason": "explicit allowlisted Codex read-only repository demonstration",
+  "codex_demo_sandbox": "read-only",
+  "codex_demo_ephemeral": true,
+  "codex_demo_result": "## 1) What this system already does well\n\n- Uses a clear job-driven architecture with GitHub as the durable control plane and audit trail.\n- Implements substantial deterministic video automation: routing, FFmpeg/Remotion rendering, validation, fallback engines, worker heartbeats, timeout detection, and artifact delivery.\n- Establishes strong operating policies: zero-spend defaults, HubSpot as CRM source of truth, Apollo restricted to discovery, no automatic outbound sending, and Freebuff limited to human-initiated use.\n- Generally fails closed: network timeouts are common, MiniMax requires explicit paid-AI permission, Fish Audio has a dated free-window cutoff, and HubSpot contact creation requires an email for deduplication.\n- Includes CI, schema checks, unit tests, health reporting, dependency/version pinning in important areas, and automated recovery issue management.\n\n## 2) The three highest-value improvements\n\n1. **Centralize policy enforcement.** Safety rules currently exist across documentation, workflow environment variables, and individual adapters. Introduce one reusable policy module that every paid call, CRM write, publishing action, or outbound action must invoke. ElevenLabs generation and direct HubSpot upserts particularly need explicit spend/approval gates.\n\n2. **Strengthen contract testing and schemas.** Current Free AI 8 tests cover only a few guard cases, while job validation permits several workflow-specific shapes without schemas. Add mocked-provider tests for retries, redaction, duplicate writes, approval denial, expired allowances, malformed responses, and partial failures. Validate every job type with versioned JSON Schema.\n\n3. **Reduce operational fragmentation.** Multiple OpenMontage worker variants, installers, render paths, and overlapping workflow/config documentation increase drift risk. Consolidate them behind one worker entry point, one state machine, and a generated capability registry. Add explicit terminal-state and idempotency rules so retries cannot duplicate delivery or CRM mutations.\n\n## 3) One concrete next automation to build\n\nBuild a **daily HubSpot follow-up opportunity queue**. It should read contacts, companies, deals, and tasks; deterministically identify stale deals, overdue follow-ups, missing next steps, and high-value inactive leads; deduplicate by HubSpot IDs; rank opportunities using rules rather than paid AI; and publish a redacted, auditable review artifact.\n\nKeep the first version Tier A: no CRM writes and no outbound messages. After verification, optionally add approval-gated task creation with before/after checks and an idempotency key. This directly supports revenue while respecting the repository’s cost, privacy, source-of-truth, and reversibility requirements.",
+  "codex_demo_verified": true,
+  "completed_at": "2026-08-24T23:17:16.379482+00:00"
 }
