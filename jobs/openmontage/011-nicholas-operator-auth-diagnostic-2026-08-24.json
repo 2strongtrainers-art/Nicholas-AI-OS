@@ -2,7 +2,7 @@
   "id": "nicholas-operator-auth-diagnostic-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "configure_nicholas_operator_brain",
-  "status": "running",
+  "status": "failed",
   "request": "Run safe boolean-only diagnostics for Nicholas Operator Codex OAuth import.",
   "safety": {
     "credential_values_exposed": false,
@@ -13,5 +13,18 @@
   "queued_at": "2026-08-24T23:55:00Z",
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-24T23:54:36.261101+00:00",
-  "routing_reason": "explicit allowlisted Nicholas Operator Hermes brain activation"
+  "routing_reason": "explicit allowlisted Nicholas Operator Hermes brain activation",
+  "nicholas_operator_configured": false,
+  "nicholas_operator_soul_installed": true,
+  "nicholas_operator_project_context": true,
+  "nicholas_operator_provider": "openai-codex",
+  "nicholas_operator_model": "gpt-5.6-sol",
+  "nicholas_operator_codex_auth_detected": false,
+  "nicholas_operator_memory_approval": true,
+  "nicholas_operator_unattended_ai_cron": false,
+  "nicholas_operator_external_messaging": false,
+  "nicholas_operator_gateway_ok": true,
+  "maintenance_result": "NICHOLAS_OPERATOR_CONFIG_OK=0\nNICHOLAS_OPERATOR_SOUL_INSTALLED=1\nNICHOLAS_OPERATOR_PROJECT_CONTEXT=1\nNICHOLAS_OPERATOR_PROVIDER=openai-codex\nNICHOLAS_OPERATOR_MODEL=gpt-5.6-sol\nNICHOLAS_OPERATOR_CODEX_AUTH_DETECTED=0\nNICHOLAS_OPERATOR_CODEX_AUTH_IMPORTED=0\nNICHOLAS_OPERATOR_CODEX_AUTH_FILE_PRESENT=1\nNICHOLAS_OPERATOR_HERMES_REPO_PRESENT=1\nNICHOLAS_OPERATOR_UV_PRESENT=0\nNICHOLAS_OPERATOR_IMPORT_RC=99\nNICHOLAS_OPERATOR_AUTH_ENTRY_PRESENT=0\nNICHOLAS_OPERATOR_MEMORY_APPROVAL=1\nNICHOLAS_OPERATOR_UNATTENDED_AI_CRON=0\nNICHOLAS_OPERATOR_EXTERNAL_MESSAGING=0\nNICHOLAS_OPERATOR_GATEWAY_OK=1\nNICHOLAS_OPERATOR_DIAGNOSTIC=codex_oauth_unavailable",
+  "failed_at": "2026-08-24T23:54:54.997981+00:00",
+  "error": "Nicholas Operator configuration did not return verification marker"
 }
