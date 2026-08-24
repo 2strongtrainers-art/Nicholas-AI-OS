@@ -31,6 +31,7 @@ def install(resilient, worker):
             "install_agent_stack",
             "demo_codex_readonly",
             "configure_hermes_safe",
+            "configure_nicholas_operator_brain",
         }
         if not (
             job.get("status") == "queued"
@@ -51,6 +52,8 @@ def install(resilient, worker):
             job["routing_reason"] = "explicit allowlisted Codex + Hermes + Agent Skills installation"
         elif mode == "configure_hermes_safe":
             job["routing_reason"] = "explicit allowlisted Hermes local scheduler + zero-spend health job configuration"
+        elif mode == "configure_nicholas_operator_brain":
+            job["routing_reason"] = "explicit allowlisted Nicholas Operator Hermes brain activation"
         else:
             job["routing_reason"] = "explicit allowlisted Codex read-only repository demonstration"
 
@@ -93,6 +96,29 @@ def install(resilient, worker):
                 job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
                 if not job["hermes_safe_configured"]:
                     raise RuntimeError("Hermes safe configuration did not return verification marker")
+            elif mode == "configure_nicholas_operator_brain":
+                script = worker.QUEUE_REPO / "scripts" / "configure_nicholas_operator_brain.sh"
+                if not script.exists():
+                    raise RuntimeError(f"Nicholas Operator configuration script missing: {script}")
+                result = worker.run(
+                    ["/bin/zsh", script],
+                    cwd=worker.QUEUE_REPO,
+                    timeout=300,
+                )
+                output = result.stdout or ""
+                job["nicholas_operator_configured"] = "NICHOLAS_OPERATOR_CONFIG_OK=1" in output
+                job["nicholas_operator_soul_installed"] = "NICHOLAS_OPERATOR_SOUL_INSTALLED=1" in output
+                job["nicholas_operator_project_context"] = "NICHOLAS_OPERATOR_PROJECT_CONTEXT=1" in output
+                job["nicholas_operator_provider"] = "openai-codex"
+                job["nicholas_operator_model"] = "gpt-5.6-sol"
+                job["nicholas_operator_codex_auth_detected"] = "NICHOLAS_OPERATOR_CODEX_AUTH_DETECTED=1" in output
+                job["nicholas_operator_memory_approval"] = "NICHOLAS_OPERATOR_MEMORY_APPROVAL=1" in output
+                job["nicholas_operator_unattended_ai_cron"] = False
+                job["nicholas_operator_external_messaging"] = False
+                job["nicholas_operator_gateway_ok"] = "NICHOLAS_OPERATOR_GATEWAY_OK=1" in output
+                job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
+                if not job["nicholas_operator_configured"]:
+                    raise RuntimeError("Nicholas Operator configuration did not return verification marker")
             else:
                 prompt = (
                     "Inspect this Nicholas-AI-OS repository in read-only mode. Do not edit files, "
