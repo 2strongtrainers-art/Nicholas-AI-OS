@@ -2,7 +2,7 @@
   "id": "nicholas-operator-first-test-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "run_nicholas_operator_first_test",
-  "status": "queued",
+  "status": "failed",
   "request": "Run the first controlled Nicholas Operator business reasoning test and return a recommendation only.",
   "safety": {
     "static_repository_prompt": true,
@@ -15,5 +15,7 @@
     "publishing": false,
     "financial_actions": false
   },
-  "queued_at": "2026-08-24T23:42:00Z"
+  "queued_at": "2026-08-24T23:42:00Z",
+  "error": "Missing brief",
+  "failed_at": "2026-08-24T23:43:43.876943+00:00"
 }
