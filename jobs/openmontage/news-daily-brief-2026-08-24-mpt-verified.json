@@ -1,7 +1,7 @@
 {
   "id": "news-daily-brief-2026-08-24-mpt-verified",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "news-daily-brief-2026-08-24-mpt-verified",
   "render_mode": "fast_reel",
   "render_engine": "moneyprinter",
@@ -40,5 +40,8 @@
       "font_size": 68,
       "stroke_width": 2.0
     }
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "explicit render_mode=fast_reel",
+  "started_at": "2026-08-24T21:36:45.502530+00:00"
 }
