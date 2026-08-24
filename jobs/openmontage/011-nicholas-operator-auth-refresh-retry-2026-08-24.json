@@ -1,0 +1,14 @@
+{
+  "id": "nicholas-operator-auth-refresh-2026-08-24-v2",
+  "type": "openmontage_video",
+  "execution_mode": "configure_nicholas_operator_brain",
+  "status": "queued",
+  "request": "Apply the corrected headless Codex OAuth import for Nicholas Operator and verify it without exposing credentials.",
+  "safety": {
+    "credential_values_exposed": false,
+    "uses_hermes_native_import_functions": true,
+    "external_messaging": false,
+    "unattended_ai_cron": false
+  },
+  "queued_at": "2026-08-24T23:58:00Z"
+}
