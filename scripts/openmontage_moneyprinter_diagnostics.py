@@ -49,8 +49,13 @@ def install(worker) -> None:
             if result.returncode == 0:
                 return result
 
-            raw_detail = (result.stderr or result.stdout or "MoneyPrinter CLI returned no diagnostic output").strip()
-            detail = worker_module.sanitize_log_text(raw_detail)[-6000:]
+            streams = []
+            if result.stderr and result.stderr.strip():
+                streams.append("STDERR:\n" + result.stderr.strip())
+            if result.stdout and result.stdout.strip():
+                streams.append("STDOUT:\n" + result.stdout.strip())
+            raw_detail = "\n\n".join(streams) or "MoneyPrinter CLI returned no diagnostic output"
+            detail = worker_module.sanitize_log_text(raw_detail)[-10000:]
             worker_module.log(
                 f"MONEYPRINTER CLI EXIT {result.returncode} {job_id}: {detail}"
             )
