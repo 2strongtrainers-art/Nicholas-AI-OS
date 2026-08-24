@@ -1,0 +1,15 @@
+{
+  "id": "hermes-safe-config-2026-08-24-v2",
+  "type": "openmontage_video",
+  "execution_mode": "configure_hermes_safe",
+  "status": "queued",
+  "request": "Configure Hermes as a local persistent scheduler for Nicholas-AI-OS with one zero-spend daily health job.",
+  "safety": {
+    "external_messaging": false,
+    "model_provider": false,
+    "paid_inference": false,
+    "arbitrary_shell": false,
+    "delivery": "local"
+  },
+  "queued_at": "2026-08-24T23:28:00Z"
+}
