@@ -2,8 +2,9 @@
 """Preserve MoneyPrinter Whisper timing while applying safe text-only cleanup.
 
 MoneyPrinterTurbo 1.3.5's subtitle.correct() can collapse unmatched script lines to
-00:00:00 timestamps. For this pre-authored Reel, Whisper timing is already good,
-so replace that correction call with narrow cleanup that never changes timing.
+00:00:00 timestamps. For this pre-authored Reel, raw Whisper timing is useful and
+should be retained. This patch replaces only the spoken text of known variants and
+removes isolated hallucinated one-word tail cues; it never changes timestamps.
 """
 from pathlib import Path
 
@@ -14,20 +15,27 @@ old = '''        logger.info("\\n\\n## correcting subtitle")
 '''
 new = '''        logger.info("\\n\\n## preserving Whisper timings with safe text cleanup")
         subtitle_text = Path(subtitle_path).read_text(encoding="utf-8")
-        for wrong in (
-            "Alibaba launched 1 3.0",
-            "Alibaba launched 1-3.0",
-            "Alabama launched 1 3.0",
-            "Alabama launched 1-3.0",
-        ):
-            subtitle_text = subtitle_text.replace(wrong, "Alibaba launched Wan 3.0")
-        subtitle_text = subtitle_text.replace("The US threat in 50%", "The US threatened 50%")
-        subtitle_text = subtitle_text.replace("Tesla's", "Teslas")
+        replacements = {
+            "The US threat in 50% tariffs on Canadian cars and trucks":
+                "The U.S. threatened 50 percent tariffs on Canadian cars and trucks",
+            "The US threatened 50% tariffs on Canadian cars and trucks":
+                "The U.S. threatened 50 percent tariffs on Canadian cars and trucks",
+            "beginning January 1 after trade talks broke down":
+                "beginning January first after trade talks broke down",
+            "Alibaba launched 1 3.0": "Alibaba launched Wan 3.0",
+            "Alibaba launched 1-3.0": "Alibaba launched Wan 3.0",
+            "Alabama launched 1 3.0": "Alibaba launched Wan 3.0",
+            "Alabama launched 1-3.0": "Alibaba launched Wan 3.0",
+            "including nearly 3 million Tesla's": "including nearly 3 million Teslas",
+            "that's the fast brief": "That's the fast brief.",
+        }
+        for wrong, right in replacements.items():
+            subtitle_text = subtitle_text.replace(wrong, right)
         subtitle_text = re.sub(r"\\babout 4\\.(?=\\s|$)", "about 4.3", subtitle_text)
         subtitle_blocks = []
         for block in subtitle_text.strip().split("\\n\\n"):
             lines = block.strip().splitlines()
-            spoken = lines[-1].strip().lower() if lines else ""
+            spoken = lines[-1].strip().lower().rstrip(".!?") if lines else ""
             if spoken in {"test", "fast"}:
                 continue
             subtitle_blocks.append(block)
