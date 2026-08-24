@@ -1,0 +1,33 @@
+{
+  "engine": "MoneyPrinterTurbo 1.3.5",
+  "upstream_commit": "110997c15abd1660b00add8e41feefedb3df6a8c",
+  "voice": "August Nick / ElevenLabs voice eZ6srIcJSJNcqcDrI68r",
+  "script_file": "proof/news-script.txt",
+  "subtitle_model": "Whisper base / CPU int8",
+  "fallback_used": false,
+  "qa": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "duration_seconds": 32.566667,
+    "audio_stream": true
+  },
+  "broll": [
+    {
+      "source": "Wikimedia Commons \u2014 Ford assembly line(1930).webm",
+      "license": "Public domain (U.S.)"
+    },
+    {
+      "source": "Wikimedia Commons \u2014 Oil tanker Niovi seized by Iran IRGC Navy.webm",
+      "license": "U.S. Navy public domain"
+    },
+    {
+      "source": "Wikimedia Commons \u2014 Animated Representation of Meta AI and Llama.webm",
+      "license": "CC0"
+    },
+    {
+      "source": "Wikimedia Commons \u2014 Wireless Charging for Electric Vehicles.webm",
+      "license": "U.S. Department of Energy public domain"
+    }
+  ]
+}
