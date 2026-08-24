@@ -18,6 +18,15 @@ def _codex_bin():
     return next((path for path in candidates if path.exists()), candidates[0])
 
 
+def _hermes_bin():
+    candidates = (
+        Path.home() / ".local" / "bin" / "hermes",
+        Path("/usr/local/bin/hermes"),
+        Path("/opt/homebrew/bin/hermes"),
+    )
+    return next((path for path in candidates if path.exists()), candidates[0])
+
+
 def install(resilient, worker):
     previous = resilient.resilient_process_job
 
@@ -32,6 +41,7 @@ def install(resilient, worker):
             "demo_codex_readonly",
             "configure_hermes_safe",
             "configure_nicholas_operator_brain",
+            "run_nicholas_operator_first_test",
         }
         if not (
             job.get("status") == "queued"
@@ -54,6 +64,8 @@ def install(resilient, worker):
             job["routing_reason"] = "explicit allowlisted Hermes local scheduler + zero-spend health job configuration"
         elif mode == "configure_nicholas_operator_brain":
             job["routing_reason"] = "explicit allowlisted Nicholas Operator Hermes brain activation"
+        elif mode == "run_nicholas_operator_first_test":
+            job["routing_reason"] = "explicit allowlisted Nicholas Operator read-only reasoning test"
         else:
             job["routing_reason"] = "explicit allowlisted Codex read-only repository demonstration"
 
@@ -119,6 +131,62 @@ def install(resilient, worker):
                 job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
                 if not job["nicholas_operator_configured"]:
                     raise RuntimeError("Nicholas Operator configuration did not return verification marker")
+            elif mode == "run_nicholas_operator_first_test":
+                prompt = """You are Nicholas Operator. This is your first controlled model-driven business reasoning run.
+
+Do not execute actions and do not call tools. Do not edit files, send messages, publish, schedule anything, spend money, alter financial systems, change a website, or change CRM records. Reason only from the audited facts below.
+
+AUDITED CURRENT STATE
+- Nicholas-AI-OS is a private GitHub-controlled automation system that can route approved jobs to a Mac worker and return verified results.
+- The Mac worker is healthy and has an AC-power keep-awake policy.
+- Codex CLI is installed and a read-only remote repository analysis has succeeded end-to-end.
+- Hermes is installed as a persistent launchd-supervised service.
+- Hermes has one zero-token no-agent daily Nicholas-AI-OS health job at 7:30 AM local time.
+- The Nicholas Operator SOUL and Nicholas-AI-OS project context are installed.
+- The reasoning provider is existing OpenAI Codex/ChatGPT OAuth with GPT-5.6 Sol; no new pay-per-token API key was added.
+- Persistent memory writes require approval.
+- External messaging and unattended AI cron remain disabled.
+- Awesome Agent Skills is installed as a local catalog for selective use.
+- Existing media automation includes vertical Reel production, ElevenLabs narration, MoneyPrinter/OpenMontage rendering, validation, and iCloud delivery.
+- The business has a TriValley.fit online-coaching funnel, including a $497/month online coaching offer and a $297 assessment. Publishing and consequential financial changes require approval.
+- The goal is to use automation to increase or protect legitimate business revenue while preserving review gates on consequential actions.
+
+OBJECTIVE
+Choose the single highest-value automation to build next that could plausibly increase or protect revenue within 7 days. Score your winner from 1-10 on revenue impact, time-to-value, reversibility, confidence, and implementation effort (10 = easiest). Give:
+1. The winner and one-sentence thesis.
+2. Why it beats the two best runners-up.
+3. The exact workflow from trigger to reviewed output.
+4. The minimum permissions it needs and what must remain approval-gated.
+5. Three measurable success metrics for the first 7 days.
+6. The first concrete Codex implementation task, scoped so it cannot publish, message prospects, or charge money.
+7. One failure mode that would cause you to stop or redesign the automation.
+
+Be specific, commercially grounded, concise, and skeptical. Maximum 700 words."""
+                usage_path = Path.home() / ".hermes" / "nicholas-operator-first-test-usage.json"
+                result = worker.run(
+                    [
+                        str(_hermes_bin()),
+                        "--provider", "openai-codex",
+                        "--model", "gpt-5.6-sol",
+                        "--reasoning", "high",
+                        "--toolsets", "search",
+                        "--usage-file", str(usage_path),
+                        "--oneshot", prompt,
+                    ],
+                    cwd=worker.QUEUE_REPO,
+                    timeout=900,
+                )
+                output = result.stdout or ""
+                job["nicholas_operator_first_test_verified"] = bool(output.strip())
+                job["nicholas_operator_first_test_provider"] = "openai-codex"
+                job["nicholas_operator_first_test_model"] = "gpt-5.6-sol"
+                job["nicholas_operator_first_test_reasoning"] = "high"
+                job["nicholas_operator_first_test_toolsets"] = "search (read-only)"
+                job["nicholas_operator_first_test_mutations_allowed"] = False
+                job["nicholas_operator_first_test_usage_report_written"] = usage_path.exists()
+                job["nicholas_operator_first_test_result"] = worker.sanitize_log_text(output.strip())[-16000:]
+                if not job["nicholas_operator_first_test_verified"]:
+                    raise RuntimeError("Nicholas Operator first reasoning test returned no output")
             else:
                 prompt = (
                     "Inspect this Nicholas-AI-OS repository in read-only mode. Do not edit files, "
