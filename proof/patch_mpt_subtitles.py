@@ -3,7 +3,7 @@
 
 MoneyPrinterTurbo 1.3.5's subtitle.correct() can collapse unmatched script lines to
 00:00:00 timestamps. For this pre-authored Reel, Whisper timing is already good,
-so replace that correction call with a narrow cleanup that never changes timing.
+so replace that correction call with narrow cleanup that never changes timing.
 """
 from pathlib import Path
 
@@ -14,17 +14,27 @@ old = '''        logger.info("\\n\\n## correcting subtitle")
 '''
 new = '''        logger.info("\\n\\n## preserving Whisper timings with safe text cleanup")
         subtitle_text = Path(subtitle_path).read_text(encoding="utf-8")
-        subtitle_text = subtitle_text.replace("Alibaba launched 1 3.0", "Alibaba launched Wan 3.0")
-        subtitle_text = subtitle_text.replace("about 4.", "about 4.3")
-        subtitle_blocks = [
-            block for block in subtitle_text.strip().split("\\n\\n")
-            if not block.strip().lower().endswith("\\ntest")
-        ]
+        for wrong in (
+            "Alibaba launched 1 3.0",
+            "Alibaba launched 1-3.0",
+            "Alabama launched 1 3.0",
+            "Alabama launched 1-3.0",
+        ):
+            subtitle_text = subtitle_text.replace(wrong, "Alibaba launched Wan 3.0")
+        subtitle_text = subtitle_text.replace("The US threat in 50%", "The US threatened 50%")
+        subtitle_text = subtitle_text.replace("Tesla's", "Teslas")
+        subtitle_text = re.sub(r"\\babout 4\\.(?=\\s|$)", "about 4.3", subtitle_text)
+        subtitle_blocks = []
+        for block in subtitle_text.strip().split("\\n\\n"):
+            lines = block.strip().splitlines()
+            spoken = lines[-1].strip().lower() if lines else ""
+            if spoken in {"test", "fast"}:
+                continue
+            subtitle_blocks.append(block)
         Path(subtitle_path).write_text("\\n\\n".join(subtitle_blocks) + "\\n", encoding="utf-8")
 '''
 if old not in text:
     raise SystemExit("MoneyPrinter subtitle correction block not found at pinned commit")
-# task.py already imports Path-style path helpers but not pathlib.Path; add a local import.
 new = '        from pathlib import Path\n' + new
 path.write_text(text.replace(old, new, 1), encoding="utf-8")
 print("patched MoneyPrinter subtitle correction to preserve Whisper timing")
