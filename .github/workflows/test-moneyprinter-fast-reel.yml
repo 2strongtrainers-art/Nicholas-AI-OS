@@ -50,19 +50,13 @@ jobs:
           ffmpeg -version | head -1
           ffprobe -version | head -1
 
-      - name: Reuse completed proof when already committed
+      - name: Force complete proof rebuild
         id: existing
         shell: bash
         run: |
-          set -euo pipefail
-          if [ -s generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.mp4 ]; then
-            echo 'ready=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'ready=false' >> "$GITHUB_OUTPUT"
-          fi
+          echo 'ready=false' >> "$GITHUB_OUTPUT"
 
       - name: Generate exact August Nick narration
-        if: steps.existing.outputs.ready != 'true'
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         shell: bash
@@ -104,7 +98,6 @@ jobs:
           ffprobe -v error -show_entries format=duration,size -of json august-news.mp3
 
       - name: Fetch and normalize open-license news B-roll
-        if: steps.existing.outputs.ready != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -132,9 +125,9 @@ jobs:
           make_clip broll/source/iran.webm 5 broll/ready/02-iran.mp4
           make_clip broll/source/ai.webm 0 broll/ready/03-ai.mp4
           make_clip broll/source/ev.webm 1 broll/ready/04-ev.mp4
+          make_clip broll/source/auto.webm 30 broll/ready/05-auto2.mp4
 
       - name: Install pinned MoneyPrinterTurbo
-        if: steps.existing.outputs.ready != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -158,7 +151,6 @@ jobs:
           PY
 
       - name: Render with MoneyPrinterTurbo only
-        if: steps.existing.outputs.ready != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -169,7 +161,7 @@ jobs:
           .venv/bin/python cli.py \
             --video-script "$SCRIPT" \
             --video-source local \
-            --video-materials "$ROOT/broll/ready/01-auto.mp4,$ROOT/broll/ready/02-iran.mp4,$ROOT/broll/ready/03-ai.mp4,$ROOT/broll/ready/04-ev.mp4" \
+            --video-materials "$ROOT/broll/ready/01-auto.mp4,$ROOT/broll/ready/02-iran.mp4,$ROOT/broll/ready/03-ai.mp4,$ROOT/broll/ready/04-ev.mp4,$ROOT/broll/ready/05-auto2.mp4" \
             --video-aspect 9:16 \
             --video-count 1 \
             --video-clip-duration 4 \
@@ -198,9 +190,13 @@ jobs:
           grep -Eiq 'Canada|Canadian' "$SRT"
           grep -Eiq 'Alibaba|Wan' "$SRT"
           grep -Eiq 'Tesla|vehicle' "$SRT"
+          if grep -q '00:00:00,000 --> 00:00:00,000' "$SRT"; then
+            echo 'Subtitle file contains zero-duration corrected cues' >&2
+            exit 1
+          fi
           cp "$SRT" "$ROOT/generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.srt"
 
-      - name: Validate final video and record provenance
+      - name: Validate full narration and final video
         shell: bash
         run: |
           set -euo pipefail
@@ -211,17 +207,22 @@ jobs:
           import json, subprocess
           from pathlib import Path
           video = Path('generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.mp4')
-          data = json.loads(subprocess.check_output([
-              'ffprobe','-v','error','-show_entries','stream=codec_type,codec_name,width,height',
-              '-show_entries','format=duration,size','-of','json',str(video)
-          ]))
+          def probe(path):
+              return json.loads(subprocess.check_output([
+                  'ffprobe','-v','error','-show_entries','stream=codec_type,codec_name,width,height',
+                  '-show_entries','format=duration,size','-of','json',str(path)
+              ]))
+          data = probe(video)
+          audio_data = probe(Path('august-news.mp3'))
           video_stream = next(s for s in data['streams'] if s.get('codec_type') == 'video')
           audio_streams = [s for s in data['streams'] if s.get('codec_type') == 'audio']
           assert video_stream.get('codec_name') == 'h264', video_stream
           assert (int(video_stream.get('width',0)), int(video_stream.get('height',0))) == (1080,1920), video_stream
           duration = float(data['format']['duration'])
+          narration_duration = float(audio_data['format']['duration'])
           assert 15 <= duration <= 90, duration
           assert audio_streams, 'final video has no audio stream'
+          assert duration >= narration_duration - 0.5, (duration, narration_duration)
           manifest = {
               'engine': 'MoneyPrinterTurbo 1.3.5',
               'upstream_commit': '110997c15abd1660b00add8e41feefedb3df6a8c',
@@ -229,7 +230,13 @@ jobs:
               'script_file': 'proof/news-script.txt',
               'subtitle_model': 'Whisper base / CPU int8',
               'fallback_used': False,
-              'qa': {'codec':'h264','width':1080,'height':1920,'duration_seconds':duration,'audio_stream':True},
+              'qa': {
+                  'codec':'h264','width':1080,'height':1920,
+                  'duration_seconds':duration,
+                  'narration_duration_seconds':narration_duration,
+                  'full_narration_preserved': True,
+                  'audio_stream':True
+              },
               'broll': [
                   {'source':'Wikimedia Commons — Ford assembly line(1930).webm','license':'Public domain (U.S.)'},
                   {'source':'Wikimedia Commons — Oil tanker Niovi seized by Iran IRGC Navy.webm','license':'U.S. Navy public domain'},
@@ -241,7 +248,6 @@ jobs:
           PY
 
       - name: Commit finished proof to proof branch
-        if: steps.existing.outputs.ready != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -251,5 +257,5 @@ jobs:
                   generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.srt \
                   generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.ffprobe.json \
                   generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.manifest.json
-          git commit -m 'Publish strict MoneyPrinter Aug 24 news proof'
+          git commit -m 'Publish complete MoneyPrinter Aug 24 news proof' || true
           git push origin HEAD:proof/moneyprinter-news-aug24
