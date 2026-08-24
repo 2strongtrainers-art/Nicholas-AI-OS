@@ -2,7 +2,7 @@
   "id": "agent-stack-install-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "install_agent_stack",
-  "status": "held",
+  "status": "queued",
   "request": "Install and verify the recommended agent stack: OpenAI Codex CLI, Nous Hermes Agent runtime without setup or gateway credentials, and the Awesome Agent Skills catalog.",
   "safety": {
     "arbitrary_shell": false,
@@ -10,6 +10,6 @@
     "start_gateway": false,
     "publish": false
   },
-  "queued_at": "2026-08-24T23:02:00Z",
-  "hold_reason": "Live LaunchAgent invokes openmontage_worker_resilient.py directly; routing patch is being applied before execution."
+  "queued_at": "2026-08-24T23:04:00Z",
+  "routing_verified_by_ci": true
 }
