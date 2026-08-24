@@ -1,0 +1,10 @@
+{
+  "id": "diagnose-moneyprinter-news-proof-2026-08-24",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "diagnose-moneyprinter-news-proof-2026-08-24",
+  "brief": "Generate the worker's built-in sanitized diagnostic summary for the failed MoneyPrinter news proof.",
+  "output_filename": "diagnostic-placeholder.mp4",
+  "execution_mode": "diagnose_logs",
+  "diagnostic_job_ids": ["news-daily-brief-2026-08-24-moneyprinter-proof"]
+}
