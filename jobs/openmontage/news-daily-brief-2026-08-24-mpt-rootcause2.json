@@ -1,0 +1,44 @@
+{
+  "id": "news-daily-brief-2026-08-24-mpt-rootcause2",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "news-daily-brief-2026-08-24-mpt-rootcause2",
+  "render_mode": "fast_reel",
+  "render_engine": "moneyprinter",
+  "brief": "Create a fast, credible vertical daily-news Reel covering three major developments from Monday, August 24, 2026: the threatened 50% U.S. tariffs on Canadian autos, the expanded U.S. Iran sanctions threat, and Alibaba's Wan3.0 AI video launch alongside weaker U.S. tech stocks ahead of Nvidia earnings. Keep the pacing modern, factual, and concise.",
+  "output_filename": "Nick-Daily-News-Aug-24-2026-MoneyPrinter.mp4",
+  "fast_reel": {
+    "duration_seconds": 26,
+    "title": "MONDAY'S FAST NEWS BRIEF",
+    "hook": "3 THINGS THAT MOVED TODAY",
+    "body_lines": [
+      "50% CANADA AUTO TARIFF THREAT",
+      "NEW IRAN SANCTIONS PRESSURE",
+      "ALIBABA WAN3.0 + TECH SELLOFF"
+    ],
+    "cta": "STAY INFORMED. MOVE SMART.",
+    "branding": "NICK'S DAILY BRIEF",
+    "moneyprinter": {
+      "enabled": true,
+      "auto_install": true,
+      "fallback_to_openmontage": false,
+      "video_source": "pexels",
+      "video_script": "Here's what mattered Monday, August 24. Trump threatened 50 percent tariffs on Canadian cars and trucks starting January first after trade talks collapsed. Washington also widened its Iran sanctions threat, warning countries doing business with Tehran. And in tech, Alibaba launched its Wan 3.0 AI video model while U.S. tech stocks slipped ahead of Nvidia earnings. That's your fast daily brief.",
+      "video_terms": [
+        "Canada auto manufacturing factory",
+        "US Canada trade shipping",
+        "Iran oil tanker Middle East",
+        "economic sanctions global trade",
+        "artificial intelligence video generation",
+        "technology stocks Wall Street"
+      ],
+      "voice_name": "elevenlabs:eZ6srIcJSJNcqcDrI68r:August Nick",
+      "clip_duration_seconds": 4,
+      "concat_mode": "sequential",
+      "bgm_type": "none",
+      "subtitle_position": "center",
+      "font_size": 68,
+      "stroke_width": 2.0
+    }
+  }
+}
