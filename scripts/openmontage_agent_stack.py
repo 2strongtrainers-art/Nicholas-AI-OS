@@ -78,9 +78,9 @@ def install(resilient, worker):
                 result = worker.run(
                     [
                         str(_codex_bin()),
+                        "--ask-for-approval", "never",
                         "exec",
                         "--sandbox", "read-only",
-                        "--ask-for-approval", "never",
                         "--ephemeral",
                         "--ignore-user-config",
                         prompt,
