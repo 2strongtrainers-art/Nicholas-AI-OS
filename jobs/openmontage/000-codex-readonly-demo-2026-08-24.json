@@ -1,0 +1,15 @@
+{
+  "id": "codex-readonly-demo-2026-08-24",
+  "type": "openmontage_video",
+  "execution_mode": "demo_codex_readonly",
+  "status": "queued",
+  "request": "Demonstrate Codex by inspecting Nicholas-AI-OS read-only and returning a concise improvement report.",
+  "safety": {
+    "sandbox": "read-only",
+    "approval_escalation": false,
+    "ephemeral": true,
+    "network_task": false,
+    "edit_files": false
+  },
+  "queued_at": "2026-08-24T23:11:30Z"
+}
