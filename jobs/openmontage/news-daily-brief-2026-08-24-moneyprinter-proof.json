@@ -1,7 +1,7 @@
 {
   "id": "news-daily-brief-2026-08-24-moneyprinter-proof",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "news-daily-brief-2026-08-24-moneyprinter-proof",
   "render_mode": "fast_reel",
   "render_engine": "moneyprinter",
@@ -47,5 +47,12 @@
   },
   "render_mode_resolved": "fast_reel",
   "routing_reason": "explicit render_mode=fast_reel",
-  "started_at": "2026-08-24T21:48:01.468587+00:00"
+  "started_at": "2026-08-24T21:48:01.468587+00:00",
+  "moneyprinter_fallback": {
+    "used": false,
+    "error": "MoneyPrinterTurbo CLI failed: MoneyPrinterTurbo CLI exit 1: 2026-08-24 14:48:05.222 | INFO     | app.config.config:load_config:471 - load config from file: $HOME/MoneyPrinterTurbo/config.toml\n2026-08-24 14:48:05.231 | INFO     | app.config.config:<module>:588 - MoneyPrinterTurbo v1.3.5"
+  },
+  "failed_at": "2026-08-24T21:48:07.283890+00:00",
+  "error": "MoneyPrinterTurbo CLI failed: MoneyPrinterTurbo CLI exit 1: 2026-08-24 14:48:05.222 | INFO     | app.config.config:load_config:471 - load config from file: $HOME/MoneyPrinterTurbo/config.toml\n2026-08-24 14:48:05.231 | INFO     | app.config.config:<module>:588 - MoneyPrinterTurbo v1.3.5",
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/news-daily-brief-2026-08-24-moneyprinter-proof.log"
 }
