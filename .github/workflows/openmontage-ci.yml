@@ -35,7 +35,7 @@ jobs:
             scripts/openmontage_worker_resilient.py \
             scripts/openmontage_agent_stack.py \
             scripts/openmontage_fast_reel_edl.py
-          zsh -n scripts/install_agent_stack.sh
+          bash -n scripts/install_agent_stack.sh
 
       - name: Run OpenMontage unit tests
         run: python -m unittest discover -s tests -p 'test_openmontage*.py' -v
