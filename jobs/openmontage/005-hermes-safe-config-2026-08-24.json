@@ -2,7 +2,7 @@
   "id": "hermes-safe-config-2026-08-24-v2",
   "type": "openmontage_video",
   "execution_mode": "configure_hermes_safe",
-  "status": "running",
+  "status": "completed",
   "request": "Configure Hermes as a local persistent scheduler for Nicholas-AI-OS with one zero-spend daily health job.",
   "safety": {
     "external_messaging": false,
@@ -14,5 +14,14 @@
   "queued_at": "2026-08-24T23:28:00Z",
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-24T23:26:52.980732+00:00",
-  "routing_reason": "explicit allowlisted Hermes local scheduler + zero-spend health job configuration"
+  "routing_reason": "explicit allowlisted Hermes local scheduler + zero-spend health job configuration",
+  "hermes_safe_configured": true,
+  "hermes_local_scheduler": true,
+  "hermes_external_messaging_configured": false,
+  "hermes_model_provider_configured": false,
+  "hermes_cron_no_agent": true,
+  "hermes_cron_schedule": "30 7 * * *",
+  "hermes_cron_delivery": "local",
+  "maintenance_result": "Created job: 702d5adb1663\n  Name: Nicholas AI OS Daily Health\n  Schedule: 30 7 * * *\n  Script: nicholas-ai-os-health.py\n  Mode: no-agent (script stdout delivered directly)\n  Next run: 2026-08-25T07:30:00-07:00\nTriggered job: Nicholas AI OS Daily Health (Nicholas AI OS Daily Health)\n  Next run: 2026-08-25T07:30:00-07:00\n  Ran now: succeeded.\nHERMES_SAFE_CONFIG_OK=1\nHERMES_GATEWAY_LOCAL_SCHEDULER=1\nHERMES_EXTERNAL_MESSAGING_CONFIGURED=0\nHERMES_MODEL_PROVIDER_CONFIGURED=0\nHERMES_CRON_NO_AGENT=1\nHERMES_CRON_SCHEDULE=30 7 * * *\nHERMES_CRON_DELIVERY=local\nHERMES_HEALTH_SCRIPT=$HOME/.hermes/scripts/nicholas-ai-os-health.py\n--- gateway status ---\nLaunchd plist: $HOME/Library/LaunchAgents/ai.hermes.gateway.plist\n✓ Service definition matches the current Hermes install\n✓ Gateway is supervised by launchd (PID 82564)\n  Auto-start at login and auto-restart on crash are available.\n\nRecent logs:\n--- cron list ---\n\n┌─────────────────────────────────────────────────────────────────────────┐\n│                         Scheduled Jobs                                  │\n└─────────────────────────────────────────────────────────────────────────┘\n\n  702d5adb1663 [active]\n    Name:      Nicholas AI OS Daily Health\n    Schedule:  30 7 * * *\n    Repeat:    ∞\n    Next run:  2026-08-25T07:30:00-07:00\n    Deliver:   local\n    Script:    nicholas-ai-os-health.py\n    Mode:      no-agent (script stdout delivered directly)\n    Last run:  2026-08-24T16:27:05.616858-07:00  ok\n    Execution: completed  72401c01c33740a0a17a01100db8aada\n--- recent runs ---\nNo cron execution attempts recorded.",
+  "completed_at": "2026-08-24T23:27:10.313901+00:00"
 }
