@@ -1,0 +1,14 @@
+{
+  "id": "nicholas-operator-auth-import-venv-2026-08-24",
+  "type": "openmontage_video",
+  "execution_mode": "configure_nicholas_operator_brain",
+  "status": "queued",
+  "request": "Import existing Codex OAuth into Hermes using Hermes virtualenv Python and verify without exposing credentials.",
+  "safety": {
+    "credential_values_exposed": false,
+    "raw_auth_output_exposed": false,
+    "external_messaging": false,
+    "unattended_ai_cron": false
+  },
+  "queued_at": "2026-08-24T23:58:00Z"
+}
