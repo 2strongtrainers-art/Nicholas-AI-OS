@@ -1,0 +1,19 @@
+{
+  "id": "nicholas-operator-first-test-2026-08-24-v2",
+  "type": "openmontage_video",
+  "execution_mode": "run_nicholas_operator_first_test",
+  "status": "queued",
+  "request": "Run the first controlled Nicholas Operator business reasoning test and return a recommendation only.",
+  "safety": {
+    "static_repository_prompt": true,
+    "toolsets": "search-only",
+    "file_writes": false,
+    "terminal": false,
+    "memory_writes": false,
+    "cron_mutation": false,
+    "external_messaging": false,
+    "publishing": false,
+    "financial_actions": false
+  },
+  "queued_at": "2026-08-24T23:44:00Z"
+}
