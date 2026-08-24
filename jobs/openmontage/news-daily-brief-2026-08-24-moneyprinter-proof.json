@@ -1,0 +1,48 @@
+{
+  "id": "news-daily-brief-2026-08-24-moneyprinter-proof",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "news-daily-brief-2026-08-24-moneyprinter-proof",
+  "render_mode": "fast_reel",
+  "render_engine": "moneyprinter",
+  "brief": "MoneyPrinter-only proof render for Monday, August 24, 2026. Use current-news B-roll, August Nick ElevenLabs narration, large readable captions, and a modern 9:16 pace. Do not fall back to Remotion; failure must remain visible for diagnosis.",
+  "output_filename": "Nick-Daily-News-Aug-24-MoneyPrinter-Proof.mp4",
+  "fast_reel": {
+    "duration_seconds": 32,
+    "title": "MONDAY NEWS — SO FAR",
+    "hook": "4 STORIES MOVING TODAY",
+    "body_lines": [
+      "50% CANADA AUTO TARIFF THREAT",
+      "IRAN SANCTIONS PRESSURE EXPANDS",
+      "ALIBABA LAUNCHES WAN 3.0",
+      "CHINA'S RECORD AUTO RECALL"
+    ],
+    "cta": "STAY INFORMED. MOVE SMART.",
+    "branding": "NICK'S DAILY BRIEF",
+    "moneyprinter": {
+      "enabled": true,
+      "auto_install": true,
+      "fallback_to_openmontage": false,
+      "video_source": "pexels",
+      "video_script": "Here's your Monday news brief so far. The U.S. threatened 50 percent tariffs on Canadian cars and trucks beginning January first after trade talks broke down. Washington also broadened its sanctions threat against countries doing business with Iran, raising pressure on global trade and oil flows. In tech, Alibaba launched Wan 3.0, its newest AI video model, after a major share sale to fund AI. And China's record auto recall is hitting about 4.3 million vehicles, including nearly 3 million Teslas. That's the fast brief.",
+      "video_terms": [
+        "Canada auto factory cars manufacturing",
+        "US Canada border trade trucks",
+        "Middle East oil tanker Iran",
+        "global economic sanctions trade",
+        "artificial intelligence video technology",
+        "Alibaba technology China AI",
+        "Tesla electric vehicles China",
+        "car recall automotive safety"
+      ],
+      "voice_name": "elevenlabs:eZ6srIcJSJNcqcDrI68r:August Nick",
+      "clip_duration_seconds": 4,
+      "concat_mode": "sequential",
+      "bgm_type": "none",
+      "subtitle_position": "center",
+      "font_size": 68,
+      "stroke_width": 2.0,
+      "timeout_seconds": 1200
+    }
+  }
+}
