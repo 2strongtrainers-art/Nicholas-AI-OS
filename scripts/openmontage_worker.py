@@ -10,6 +10,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 import openmontage_worker_base as worker
 import openmontage_worker_resilient as resilient
+from openmontage_agent_stack import install as install_agent_stack
 from openmontage_fast_reel_edl import install as install_fast_reel_edl
 from openmontage_fast_reel_edl import normalize_clip_specs
 from openmontage_moneyprinter import install as install_moneyprinter
@@ -25,13 +26,14 @@ build_fast_reel_props = worker.build_fast_reel_props
 # Keep the proven resilient worker, add the deterministic multi-clip edit layer,
 # repair MoneyPrinter's first-run macOS bootstrap, expose sanitized provider/CLI
 # errors, use a lighter Whisper model for short custom-audio captions, then
-# prefer MoneyPrinterTurbo as a safe sidecar. MoneyPrinter falls back to the
-# already-installed EDL/Remotion path when fallback is enabled.
+# prefer MoneyPrinterTurbo as a safe sidecar. Agent-stack maintenance remains a
+# separate, tightly allowlisted job and never accepts arbitrary shell commands.
 install_fast_reel_edl(resilient, worker)
 install_moneyprinter_macos(worker)
 install_moneyprinter_diagnostics(worker)
 install_moneyprinter_fast_whisper(worker)
 install_moneyprinter(resilient, worker)
+install_agent_stack(resilient, worker)
 main = resilient.main
 
 if __name__ == "__main__":
