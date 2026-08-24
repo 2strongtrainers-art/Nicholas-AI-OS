@@ -1,7 +1,7 @@
 {
   "id": "diagnose-moneyprinter-news-proof-2026-08-24",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "diagnose-moneyprinter-news-proof-2026-08-24",
   "brief": "Generate the worker's built-in sanitized diagnostic summary for the failed MoneyPrinter news proof.",
   "output_filename": "diagnostic-placeholder.mp4",
@@ -11,5 +11,13 @@
   ],
   "render_mode_resolved": "diagnostic",
   "routing_reason": "explicit log diagnostic request",
-  "started_at": "2026-08-24T21:49:11.568390+00:00"
+  "started_at": "2026-08-24T21:49:11.568390+00:00",
+  "diagnostics": [
+    {
+      "job_id": "news-daily-brief-2026-08-24-moneyprinter-proof",
+      "found": false,
+      "path": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/news-daily-brief-2026-08-24-moneyprinter-proof.log"
+    }
+  ],
+  "completed_at": "2026-08-24T21:49:14.344887+00:00"
 }
