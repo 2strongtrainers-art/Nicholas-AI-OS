@@ -1,7 +1,7 @@
 {
   "id": "news-daily-brief-2026-08-24-mpt-verified",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "news-daily-brief-2026-08-24-mpt-verified",
   "render_mode": "fast_reel",
   "render_engine": "moneyprinter",
@@ -43,5 +43,12 @@
   },
   "render_mode_resolved": "fast_reel",
   "routing_reason": "explicit render_mode=fast_reel",
-  "started_at": "2026-08-24T21:36:45.502530+00:00"
+  "started_at": "2026-08-24T21:36:45.502530+00:00",
+  "moneyprinter_fallback": {
+    "used": false,
+    "error": "MoneyPrinterTurbo CLI failed: Command '['$HOME/MoneyPrinterTurbo/.venv/bin/python', '$HOME/MoneyPrinterTurbo/cli.py', '--video-script', \"Here's what mattered Monday, August 24. Trump threatened 50 percent tariffs on Canadian cars and trucks starting January first after trade talks collapsed. Washington also widened its Iran sanctions threat, warning countries doing business with Tehran. And in tech, Alibaba launched its Wan 3.0 AI video model while U.S. tech stocks slipped ahead of Nvidia earnings. That's your fast daily brief.\", '--video-aspect', '9:16', '--video-source', 'pexels', '--video-count', '1', '--video-clip-duration', '4', '--video-concat-mode', 'sequential', '--match-materials-to-script', '--bgm-type', 'none', '--subtitle-enabled', '--subtitle-position', 'center', '--font-size', '68', '--stroke-width', '2.0', '--stop-at', 'video', '--video-terms', 'Canada auto manufacturing factory,US Canada trade shipping,Iran oil tanker Middle East,economic sanctions global trade,artificial intelligence video generation,technology stocks Wall Street', '--voice-name', 'elevenlabs:eZ6srIcJSJNcqcDrI68r:August Nick']' returned non-zero exit status 1."
+  },
+  "failed_at": "2026-08-24T21:36:49.938505+00:00",
+  "error": "MoneyPrinterTurbo CLI failed: Command '['/Users/nickkaplan/MoneyPrinterTurbo/.venv/bin/python', '/Users/nickkaplan/MoneyPrinterTurbo/cli.py', '--video-script', \"Here's what mattered Monday, August 24. Trump threatened 50 percent tariffs on Canadian cars and trucks starting January first after trade talks collapsed. Washington also widened its Iran sanctions threat, warning countries doing business with Tehran. And in tech, Alibaba launched its Wan 3.0 AI video model while U.S. tech stocks slipped ahead of Nvidia earnings. That's your fast daily brief.\", '--video-aspect', '9:16', '--video-source', 'pexels', '--video-count', '1', '--video-clip-duration', '4', '--video-concat-mode', 'sequential', '--match-materials-to-script', '--bgm-type', 'none', '--subtitle-enabled', '--subtitle-position', 'center', '--font-size', '68', '--stroke-width', '2.0', '--stop-at', 'video', '--video-terms', 'Canada auto manufacturing factory,US Canada trade shipping,Iran oil tanker Middle East,economic sanctions global trade,artificial intelligence video generation,technology stocks Wall Street', '--voice-name', 'elevenlabs:eZ6srIcJSJNcqcDrI68r:August Nick']' returned non-zero exit status 1.",
+  "execution_log": "/Users/nickkaplan/Library/Logs/OpenMontageJobs/news-daily-brief-2026-08-24-mpt-verified.log"
 }
