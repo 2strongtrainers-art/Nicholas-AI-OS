@@ -149,6 +149,7 @@ jobs:
           text = re.sub(r'(?m)^compute_type\s*=.*$', 'compute_type = "int8"', text, count=1)
           p.write_text(text)
           PY
+          python3 ../proof/patch_mpt_subtitles.py
 
       - name: Render with MoneyPrinterTurbo only
         shell: bash
@@ -229,6 +230,7 @@ jobs:
               'voice': 'August Nick / ElevenLabs voice eZ6srIcJSJNcqcDrI68r',
               'script_file': 'proof/news-script.txt',
               'subtitle_model': 'Whisper base / CPU int8',
+              'subtitle_timing_policy': 'raw Whisper timing preserved; text-only cleanup',
               'fallback_used': False,
               'qa': {
                   'codec':'h264','width':1080,'height':1920,
