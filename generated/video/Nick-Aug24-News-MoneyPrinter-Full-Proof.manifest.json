@@ -4,12 +4,15 @@
   "voice": "August Nick / ElevenLabs voice eZ6srIcJSJNcqcDrI68r",
   "script_file": "proof/news-script.txt",
   "subtitle_model": "Whisper base / CPU int8",
+  "subtitle_timing_policy": "raw Whisper timing preserved; text-only cleanup",
   "fallback_used": false,
   "qa": {
     "codec": "h264",
     "width": 1080,
     "height": 1920,
-    "duration_seconds": 32.566667,
+    "duration_seconds": 33.866667,
+    "narration_duration_seconds": 33.854694,
+    "full_narration_preserved": true,
     "audio_stream": true
   },
   "broll": [
