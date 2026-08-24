@@ -110,27 +110,27 @@ jobs:
           set -euo pipefail
           mkdir -p broll/source broll/ready
           curl -fL --retry 3 --connect-timeout 20 \
-            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ford_assembly_line_(1930).webm' \
+            'https://upload.wikimedia.org/wikipedia/commons/8/84/Ford_assembly_line%281930%29.webm' \
             -o broll/source/auto.webm
           curl -fL --retry 3 --connect-timeout 20 \
-            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Oil_tanker_Niovi_seized_by_Iran%27s_Islamic_Revolutionary_Guard_Corps_Navy.webm" \
+            'https://upload.wikimedia.org/wikipedia/commons/1/1b/Oil_tanker_Niovi_seized_by_Iran%27s_Islamic_Revolutionary_Guard_Corps_Navy.webm' \
             -o broll/source/iran.webm
           curl -fL --retry 3 --connect-timeout 20 \
-            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Sun-sunchronous_orbit_of_AI_data_centers.webm' \
+            'https://upload.wikimedia.org/wikipedia/commons/2/2d/Animated_Representation_of_Meta_AI_and_Llama_%28Meta_AI_Imagine%29.webm' \
             -o broll/source/ai.webm
           curl -fL --retry 3 --connect-timeout 20 \
-            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Inside_Waymo%2C_DTLA%2C_Jan_2026.webm' \
+            'https://upload.wikimedia.org/wikipedia/commons/a/af/Wireless_Charging_for_Electric_Vehicles.webm' \
             -o broll/source/ev.webm
 
           make_clip() {
             src="$1"; start="$2"; out="$3"
-            ffmpeg -y -hide_banner -loglevel error -ss "$start" -i "$src" -t 8 \
+            ffmpeg -y -hide_banner -loglevel error -stream_loop -1 -ss "$start" -i "$src" -t 8 \
               -vf 'scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=24' \
               -an -c:v libx264 -preset veryfast -crf 25 -pix_fmt yuv420p -movflags +faststart "$out"
           }
           make_clip broll/source/auto.webm 10 broll/ready/01-auto.mp4
           make_clip broll/source/iran.webm 5 broll/ready/02-iran.mp4
-          make_clip broll/source/ai.webm 2 broll/ready/03-ai.mp4
+          make_clip broll/source/ai.webm 0 broll/ready/03-ai.mp4
           make_clip broll/source/ev.webm 1 broll/ready/04-ev.mp4
 
       - name: Install pinned MoneyPrinterTurbo
@@ -233,8 +233,8 @@ jobs:
               'broll': [
                   {'source':'Wikimedia Commons — Ford assembly line(1930).webm','license':'Public domain (U.S.)'},
                   {'source':'Wikimedia Commons — Oil tanker Niovi seized by Iran IRGC Navy.webm','license':'U.S. Navy public domain'},
-                  {'source':'Wikimedia Commons — Sun-sunchronous orbit of AI data centers.webm','license':'CC0'},
-                  {'source':'Wikimedia Commons — Inside Waymo, DTLA, Jan 2026.webm','license':'CC0'},
+                  {'source':'Wikimedia Commons — Animated Representation of Meta AI and Llama.webm','license':'CC0'},
+                  {'source':'Wikimedia Commons — Wireless Charging for Electric Vehicles.webm','license':'U.S. Department of Energy public domain'},
               ],
           }
           Path('generated/video/Nick-Aug24-News-MoneyPrinter-Full-Proof.manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
