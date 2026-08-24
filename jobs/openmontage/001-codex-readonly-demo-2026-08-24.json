@@ -2,7 +2,7 @@
   "id": "codex-readonly-demo-2026-08-24-v2",
   "type": "openmontage_video",
   "execution_mode": "demo_codex_readonly",
-  "status": "running",
+  "status": "failed",
   "request": "Demonstrate Codex by inspecting Nicholas-AI-OS read-only and returning a concise improvement report.",
   "safety": {
     "sandbox": "read-only",
@@ -14,5 +14,7 @@
   "queued_at": "2026-08-24T23:12:30Z",
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-24T23:12:49.535045+00:00",
-  "routing_reason": "explicit allowlisted Codex read-only repository demonstration"
+  "routing_reason": "explicit allowlisted Codex read-only repository demonstration",
+  "failed_at": "2026-08-24T23:12:52.603033+00:00",
+  "error": "Command '['/Users/nickkaplan/.local/bin/codex', 'exec', '--sandbox', 'read-only', '--ask-for-approval', 'never', '--ephemeral', '--ignore-user-config', 'Inspect this Nicholas-AI-OS repository in read-only mode. Do not edit files, do not access network resources, do not inspect credential, token, .env, keychain, or secret files, and do not reveal secrets. Focus only on tracked source code and documentation. Return a concise report with exactly three sections: 1) What this system already does well, 2) The three highest-value improvements, 3) One concrete next automation to build. Keep the full response under 500 words.']' returned non-zero exit status 2."
 }
