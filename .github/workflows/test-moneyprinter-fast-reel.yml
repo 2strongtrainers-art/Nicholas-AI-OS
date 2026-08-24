@@ -6,12 +6,14 @@ on:
       - 'scripts/openmontage_moneyprinter.py'
       - 'scripts/openmontage_worker.py'
       - 'tests/test_openmontage_moneyprinter.py'
+      - 'proof/patch_mpt_subtitles.py'
       - '.github/workflows/test-moneyprinter-fast-reel.yml'
   pull_request:
     paths:
       - 'scripts/openmontage_moneyprinter.py'
       - 'scripts/openmontage_worker.py'
       - 'tests/test_openmontage_moneyprinter.py'
+      - 'proof/patch_mpt_subtitles.py'
       - '.github/workflows/test-moneyprinter-fast-reel.yml'
 
 jobs:
