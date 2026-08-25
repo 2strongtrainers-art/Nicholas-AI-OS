@@ -5,10 +5,13 @@ on:
     paths:
       - 'trading/coinbase_crypto_futures_policy.json'
       - 'trading/coinbase_crypto_futures_paper.py'
+      - 'trading/coinbase_mtf.py'
+      - 'trading/hermes_coinbase_supervisor.py'
       - 'scripts/run_coinbase_crypto_futures_paper_once.py'
       - 'scripts/install_coinbase_crypto_futures_paper.sh'
       - 'scripts/openmontage_trading_stack.py'
       - 'tests/test_coinbase_crypto_futures_paper.py'
+      - 'tests/test_coinbase_mtf_hermes.py'
       - '.github/workflows/coinbase-crypto-futures-paper-ci.yml'
   workflow_dispatch:
 
@@ -27,13 +30,16 @@ jobs:
         run: |
           python -m py_compile \
             trading/coinbase_crypto_futures_paper.py \
+            trading/coinbase_mtf.py \
+            trading/hermes_coinbase_supervisor.py \
             scripts/run_coinbase_crypto_futures_paper_once.py \
             scripts/openmontage_trading_stack.py \
-            tests/test_coinbase_crypto_futures_paper.py
+            tests/test_coinbase_crypto_futures_paper.py \
+            tests/test_coinbase_mtf_hermes.py
           bash -n scripts/install_coinbase_crypto_futures_paper.sh
       - name: Paper futures tests
-        run: python -m unittest tests.test_coinbase_crypto_futures_paper -v
-      - name: Assert live Coinbase execution is impossible
+        run: python -m unittest tests.test_coinbase_crypto_futures_paper tests.test_coinbase_mtf_hermes -v
+      - name: Assert MTF and Hermes safety boundary
         run: |
           python - <<'PY'
           import json
@@ -46,8 +52,27 @@ jobs:
           assert policy['public_market_data_only'] is True
           assert float(policy['max_notional_leverage']) <= 2.0
 
+          expected_timeframes = {
+              'ONE_MINUTE', 'FIVE_MINUTE', 'FIFTEEN_MINUTE', 'THIRTY_MINUTE',
+              'ONE_HOUR', 'TWO_HOUR', 'FOUR_HOUR', 'SIX_HOUR', 'ONE_DAY'
+          }
+          assert set(policy['timeframes']) == expected_timeframes
+          assert abs(sum(float(v['weight']) for v in policy['timeframes'].values()) - 1.0) < 1e-9
+
+          hermes = policy['hermes_supervisor']
+          assert hermes['enabled'] is True
+          assert hermes['fail_closed'] is True
+          assert hermes['can_increase_risk'] is False
+          assert hermes['can_change_side'] is False
+          assert hermes['can_loosen_stop'] is False
+          assert hermes['can_create_trade'] is False
+          assert float(hermes['max_size_multiplier']) <= 1.0
+          assert set(float(x) for x in hermes['allowed_size_multipliers']) <= {0.0, 0.5, 1.0}
+
           files = [
               'trading/coinbase_crypto_futures_paper.py',
+              'trading/coinbase_mtf.py',
+              'trading/hermes_coinbase_supervisor.py',
               'scripts/run_coinbase_crypto_futures_paper_once.py',
               'scripts/install_coinbase_crypto_futures_paper.sh',
               'scripts/openmontage_trading_stack.py',
@@ -65,5 +90,5 @@ jobs:
           )
           hits = [token for token in forbidden if token in text]
           assert not hits, f'live Coinbase trading capability detected: {hits}'
-          print('Coinbase crypto futures paper-only boundary verified')
+          print('Coinbase MTF + Hermes paper-only boundary verified')
           PY
