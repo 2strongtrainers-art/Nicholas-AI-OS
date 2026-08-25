@@ -1,0 +1,20 @@
+{
+  "id": "hermes-paper-desk-cycle-2026-08-25-0626",
+  "type": "openmontage_video",
+  "execution_mode": "run_hermes_paper_trading_desk",
+  "status": "queued",
+  "request": "Analyze trading/latest_market_snapshot.json for one paper-only market desk cycle. Return either a meaningful paper setup, a risk-control stop condition, or PASS. Treat stale or insufficient data as PASS. Futures must PASS unless an approved futures adapter supplies contract specifications.",
+  "brief": "Paper-only market analysis using the fresh repository-controlled Alpaca snapshot. Do not place or route orders. Do not modify broker settings, financial accounts, or execution permissions. live_execution_enabled must remain false.",
+  "paper_only": true,
+  "live_execution_enabled": false,
+  "safety": {
+    "paper_only": true,
+    "live_execution": false,
+    "broker_orders": false,
+    "financial_actions": false,
+    "external_messaging": false,
+    "memory_writes": false,
+    "cron_mutation": false
+  },
+  "queued_at": "2026-08-25T13:26:55Z"
+}
