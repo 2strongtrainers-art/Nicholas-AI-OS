@@ -1,0 +1,20 @@
+{
+  "id": "install-coinbase-crypto-futures-paper-2026-08-25",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "coinbase-crypto-futures-paper-v1",
+  "brief": "Install and start the 60-second Coinbase US crypto-futures public-market-data paper trading LaunchAgent. Paper execution only; no Coinbase credentials or live orders.",
+  "output_filename": "coinbase-crypto-futures-paper-status.json",
+  "execution_mode": "install_coinbase_crypto_futures_paper",
+  "paper_only": true,
+  "live_execution_enabled": false,
+  "safety": {
+    "live_orders": false,
+    "coinbase_credentials": false,
+    "trade_permission": false,
+    "public_market_data_only": true,
+    "allowed_underlyings": ["BTC", "ETH"],
+    "max_notional_leverage": 2.0
+  },
+  "queued_at": "2026-08-25T14:36:00Z"
+}
