@@ -36,7 +36,7 @@ jobs:
             scripts/run_paper_daytrade_cycle.py \
             scripts/run_paper_daytrade_feed_once.py \
             scripts/openmontage_trading_stack.py
-          zsh -n scripts/install_paper_daytrader_feed.sh
+          bash -n scripts/install_paper_daytrader_feed.sh
       - name: Paper trading tests
         run: python -m unittest tests.test_daytrade_engine tests.test_paper_trading_desk -v
       - name: Assert no broker adapters or order endpoints
