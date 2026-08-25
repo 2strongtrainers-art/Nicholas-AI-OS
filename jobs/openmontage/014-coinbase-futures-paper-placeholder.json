@@ -1,0 +1,15 @@
+{
+  "id": "coinbase-futures-paper-placeholder",
+  "type": "openmontage_video",
+  "execution_mode": "install_coinbase_crypto_futures_paper",
+  "status": "blocked_pending_merge",
+  "request": "Install Coinbase US crypto-futures public-data paper feed only after its PR is merged and CI is green.",
+  "paper_only": true,
+  "live_execution_enabled": false,
+  "safety": {
+    "live_orders": false,
+    "coinbase_credentials": false,
+    "trade_permission": false,
+    "public_market_data_only": true
+  }
+}
