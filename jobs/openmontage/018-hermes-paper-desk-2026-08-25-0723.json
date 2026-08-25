@@ -2,12 +2,18 @@
   "id": "hermes-paper-desk-2026-08-25-0723",
   "type": "openmontage_video",
   "execution_mode": "run_hermes_paper_trading_desk",
-  "status": "running",
+  "status": "completed",
   "brief": "Analyze trading/latest_market_snapshot.json for one paper-only market desk cycle. Use only the repository-controlled snapshot and paper risk policy. Never place or route a brokerage order. Keep live execution disabled. Treat futures as PASS unless an approved futures adapter supplies contract specifications. Return PASS if data is insufficient or no meaningful setup exists.",
   "paper_only": true,
   "live_execution_enabled": false,
   "queued_at": "2026-08-25T14:23:30Z",
   "render_mode_resolved": "maintenance",
   "routing_reason": "explicit allowlisted Hermes paper-only market analysis",
-  "started_at": "2026-08-25T15:07:07.034890+00:00"
+  "started_at": "2026-08-25T15:07:07.034890+00:00",
+  "hermes_paper_desk_verified": true,
+  "hermes_paper_desk_provider": "openai-codex",
+  "hermes_paper_desk_model": "gpt-5.6-sol",
+  "hermes_paper_desk_live_execution": false,
+  "hermes_paper_desk_result": "PAPER DESK REPORT\n\nMarket regime\n- Mixed/weak intraday index tape: SPY and QQQ are near session lows despite remaining above prior closes.\n- NVDA shows relative strength; AAPL is flat, while TSLA’s unusually wide IEX quote makes execution-quality analysis unreliable.\n- Crypto is mixed and volatile, with both BTC and ETH below session highs; available snapshots lack sufficient trend/volume confirmation.\n\nCandidate setups\n- PASS. No setup meets the required evidence standard.\n- QQQ data is contradictory: latest trade is 709.51, below the reported session low of 709.765.\n- IEX equity data is not consolidated, TSLA’s quote is explicitly unreliable, and the snapshot provides no volume or multi-bar confirmation for defining a robust entry and stop.\n\nSetup for deterministic paper risk engine\n- None. Do not submit a paper setup from this snapshot.\n\nEvidence that would invalidate the PASS recommendation\n- A fresh, internally consistent snapshot with latest trades contained within reported session ranges.\n- Consolidated or otherwise execution-reliable bid/ask data.\n- Multi-bar price and volume evidence confirming either continuation or reversal.\n- A setup with a mandatory stop, defined target, and sufficient reward relative to the $250 maximum risk per trade.\n- Account state still showing fewer than 3 positions, open risk below 0.75%, fewer than 6 trades today, and daily loss below 1.0%.\n\nLIVE EXECUTION: DISABLED",
+  "completed_at": "2026-08-25T15:07:38.594009+00:00"
 }
