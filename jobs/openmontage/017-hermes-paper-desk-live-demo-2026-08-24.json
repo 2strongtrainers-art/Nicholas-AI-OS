@@ -1,0 +1,17 @@
+{
+  "id": "hermes-paper-desk-live-demo-2026-08-24",
+  "type": "openmontage_video",
+  "execution_mode": "run_hermes_paper_trading_desk",
+  "status": "queued",
+  "request": "Run a live-data demonstration of the Hermes financial/trading agent using the repository-controlled Alpaca snapshot. Analyze only; paper trading only; return a recommendation or PASS.",
+  "safety": {
+    "paper_only": true,
+    "live_execution": false,
+    "broker_orders": false,
+    "financial_actions": false,
+    "external_messaging": false,
+    "memory_writes": false,
+    "cron_mutation": false
+  },
+  "queued_at": "2026-08-25T01:45:00Z"
+}
