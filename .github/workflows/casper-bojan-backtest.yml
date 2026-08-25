@@ -23,9 +23,10 @@ jobs:
         run: python -m pip install --disable-pip-version-check pandas numpy
       - name: Syntax and unit tests
         run: |
-          python -m py_compile research/casper-bojan-paperbot/src/bot.py research/casper-bojan-paperbot/backtest.py
+          python -m py_compile research/casper-bojan-paperbot/src/bot.py research/casper-bojan-paperbot/backtest.py research/casper-bojan-paperbot/paper_daemon.py
           python research/casper-bojan-paperbot/tests/test_bot.py
           python research/casper-bojan-paperbot/tests/test_backtest.py
+          python research/casper-bojan-paperbot/tests/test_paper_daemon.py
       - name: Assert paper-only execution boundary
         run: |
           python - <<'PY'
