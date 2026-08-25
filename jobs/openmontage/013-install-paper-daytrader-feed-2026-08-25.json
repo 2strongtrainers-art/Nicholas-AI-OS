@@ -1,0 +1,17 @@
+{
+  "id": "install-paper-daytrader-feed-2026-08-25",
+  "type": "openmontage_video",
+  "execution_mode": "install_paper_daytrader_feed",
+  "status": "queued",
+  "request": "Install and start the persistent 60-second paper-only day-trader market-data feed.",
+  "paper_only": true,
+  "live_execution_enabled": false,
+  "safety": {
+    "live_orders": false,
+    "broker_adapters": false,
+    "paid_inference": false,
+    "arbitrary_shell": false,
+    "publishes_only_status": true
+  },
+  "queued_at": "2026-08-25T14:20:44Z"
+}
