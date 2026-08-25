@@ -19,7 +19,11 @@ def install(resilient, worker):
             return previous(path)
 
         mode = job.get("execution_mode")
-        allowed = {"run_hermes_paper_trading_desk", "install_paper_daytrader_feed"}
+        allowed = {
+            "run_hermes_paper_trading_desk",
+            "install_paper_daytrader_feed",
+            "install_coinbase_crypto_futures_paper",
+        }
         if not (
             job.get("status") == "queued"
             and job.get("type") == "openmontage_video"
@@ -29,11 +33,12 @@ def install(resilient, worker):
 
         job_id = job.get("id") or path.stem
         job["render_mode_resolved"] = "maintenance"
-        job["routing_reason"] = (
-            "explicit allowlisted 60-second paper day-trader market-data feed installation"
-            if mode == "install_paper_daytrader_feed"
-            else "explicit allowlisted Hermes paper-only market analysis"
-        )
+        if mode == "install_paper_daytrader_feed":
+            job["routing_reason"] = "explicit allowlisted 60-second stock paper day-trader market-data feed installation"
+        elif mode == "install_coinbase_crypto_futures_paper":
+            job["routing_reason"] = "explicit allowlisted Coinbase US crypto-futures public-data paper feed installation"
+        else:
+            job["routing_reason"] = "explicit allowlisted Hermes paper-only market analysis"
         job["status"] = "running"
         job["started_at"] = worker.utc_now()
         job["paper_only"] = True
@@ -58,6 +63,25 @@ def install(resilient, worker):
                 job["paper_daytrader_interval_seconds"] = 60
                 job["paper_daytrader_live_execution"] = False
                 job["paper_daytrader_symbols"] = ["SPY", "QQQ", "NVDA", "AAPL", "MSFT", "AMD"]
+                job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
+            elif mode == "install_coinbase_crypto_futures_paper":
+                script = worker.QUEUE_REPO / "scripts" / "install_coinbase_crypto_futures_paper.sh"
+                if not script.exists():
+                    raise RuntimeError(f"Coinbase futures paper installer missing: {script}")
+                result = worker.run(["/bin/zsh", str(script)], cwd=worker.QUEUE_REPO, timeout=150)
+                output = result.stdout or ""
+                required = (
+                    "COINBASE_CRYPTO_FUTURES_PAPER_INSTALLED=1",
+                    "COINBASE_CRYPTO_FUTURES_LIVE_EXECUTION=0",
+                    "COINBASE_CRYPTO_FUTURES_PUBLIC_DATA_ONLY=1",
+                )
+                if not all(marker in output for marker in required):
+                    raise RuntimeError("Coinbase futures paper installer failed safety verification")
+                job["coinbase_crypto_futures_paper_installed"] = True
+                job["coinbase_crypto_futures_interval_seconds"] = 60
+                job["coinbase_crypto_futures_live_execution"] = False
+                job["coinbase_crypto_futures_public_data_only"] = True
+                job["coinbase_crypto_futures_allowed_underlyings"] = ["BTC", "ETH"]
                 job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
             else:
                 script = worker.QUEUE_REPO / "scripts" / "run_hermes_paper_trading_desk.py"
