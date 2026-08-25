@@ -1,0 +1,96 @@
+{
+  "paper_only": true,
+  "as_of": "2026-08-25T00:47:21Z",
+  "market_status": "US equities closed; crypto open",
+  "data_source": "Alpaca connector: IEX equities + US crypto",
+  "data_quality_note": "Equity after-hours IEX quotes may be sparse or wide; prioritize regular-session daily bars and closing trades. This snapshot is for paper research only.",
+  "futures_data_available": false,
+  "account": {
+    "equity": 100000.0,
+    "realized_pnl": 0.0,
+    "open_risk_pct": 0.0,
+    "open_positions": 0,
+    "trades_today": 0
+  },
+  "instruments": [
+    {
+      "symbol": "SPY",
+      "asset_class": "stock",
+      "last": 763.65,
+      "day_open": 764.75,
+      "day_high": 765.19,
+      "day_low": 762.08,
+      "day_close": 763.46,
+      "previous_close": 765.64,
+      "volume_iex": 912839
+    },
+    {
+      "symbol": "QQQ",
+      "asset_class": "stock",
+      "last": 706.31,
+      "day_open": 709.625,
+      "day_high": 709.65,
+      "day_low": 702.83,
+      "day_close": 706.38,
+      "previous_close": 713.41,
+      "volume_iex": 553614
+    },
+    {
+      "symbol": "NVDA",
+      "asset_class": "stock",
+      "last": 208.47,
+      "day_open": 215.445,
+      "day_high": 215.445,
+      "day_low": 207.4,
+      "day_close": 208.47,
+      "previous_close": 214.74,
+      "volume_iex": 3334636
+    },
+    {
+      "symbol": "TSLA",
+      "asset_class": "stock",
+      "last": 348.94,
+      "day_open": 362.84,
+      "day_high": 363.12,
+      "day_low": 348.325,
+      "day_close": 348.94,
+      "previous_close": 362.78,
+      "volume_iex": 712759
+    },
+    {
+      "symbol": "AAPL",
+      "asset_class": "stock",
+      "last": 310.385,
+      "day_open": 311.47,
+      "day_high": 313.34,
+      "day_low": 310.05,
+      "day_close": 310.385,
+      "previous_close": 309.27,
+      "volume_iex": 725005
+    },
+    {
+      "symbol": "BTC/USD",
+      "asset_class": "crypto",
+      "last": 79668.041,
+      "day_open": 78979.453,
+      "day_high": 79681.15,
+      "day_low": 78707.59,
+      "day_close": 79673.551,
+      "previous_close": 78981.3,
+      "bid": 79680.109,
+      "ask": 79695.871
+    },
+    {
+      "symbol": "ETH/USD",
+      "asset_class": "crypto",
+      "last": 2499.384,
+      "day_open": 2481.42,
+      "day_high": 2501.3,
+      "day_low": 2471.889,
+      "day_close": 2499.915,
+      "previous_close": 2482.891,
+      "bid": 2499.79,
+      "ask": 2500.258
+    }
+  ]
+}

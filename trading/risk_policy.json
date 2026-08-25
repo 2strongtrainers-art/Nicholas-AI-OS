@@ -1,0 +1,19 @@
+{
+  "mode": "paper_only",
+  "live_execution_enabled": false,
+  "starting_equity": 100000.0,
+  "risk_per_trade_pct": 0.25,
+  "max_daily_loss_pct": 1.0,
+  "max_open_risk_pct": 0.75,
+  "max_positions": 3,
+  "max_trades_per_day": 6,
+  "require_stop": true,
+  "allow_averaging_down": false,
+  "require_human_approval_for_live": true,
+  "allowed_asset_classes": [
+    "stock",
+    "crypto",
+    "future"
+  ],
+  "live_broker_adapters": []
+}

@@ -19,6 +19,7 @@ from datetime import datetime, timezone
 
 import openmontage_worker_base as worker
 from openmontage_agent_stack import install as install_agent_stack
+from openmontage_trading_stack import install as install_trading_stack
 
 HEARTBEAT_PATH = worker.QUEUE_REPO / "status" / "openmontage-worker.json"
 HEARTBEAT_INTERVAL_SECONDS = 15 * 60
@@ -251,9 +252,10 @@ def publish_remote_heartbeat(worker_exit_code: int) -> None:
 
 
 # The installed macOS LaunchAgent currently invokes this module directly. Wire
-# the additional allowlisted maintenance mode here so both direct and wrapper
+# the additional allowlisted maintenance modes here so both direct and wrapper
 # entrypoints see the same routing behavior.
 install_agent_stack(sys.modules[__name__], worker)
+install_trading_stack(sys.modules[__name__], worker)
 
 
 def main() -> int:

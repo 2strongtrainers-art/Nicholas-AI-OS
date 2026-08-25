@@ -1,0 +1,25 @@
+{
+  "paper_only": true,
+  "as_of": "2026-08-24T20:00:00-04:00",
+  "market_status": "closed",
+  "data_source": "example fixture only",
+  "account": {
+    "equity": 100000.0,
+    "realized_pnl": 0.0,
+    "open_risk_pct": 0.0,
+    "open_positions": 0,
+    "trades_today": 0
+  },
+  "instruments": [
+    {
+      "symbol": "DEMO",
+      "asset_class": "stock",
+      "last": 100.0,
+      "day_open": 98.5,
+      "day_high": 101.5,
+      "day_low": 97.9,
+      "volume": 1250000,
+      "note": "Synthetic fixture. Not a real security recommendation."
+    }
+  ]
+}
