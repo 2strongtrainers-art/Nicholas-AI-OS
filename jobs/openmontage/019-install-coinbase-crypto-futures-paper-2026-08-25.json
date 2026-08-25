@@ -1,7 +1,7 @@
 {
   "id": "install-coinbase-crypto-futures-paper-2026-08-25",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "coinbase-crypto-futures-paper-v1",
   "brief": "Install and start the 60-second Coinbase US crypto-futures public-market-data paper trading LaunchAgent. Paper execution only; no Coinbase credentials or live orders.",
   "output_filename": "coinbase-crypto-futures-paper-status.json",
@@ -13,14 +13,12 @@
     "coinbase_credentials": false,
     "trade_permission": false,
     "public_market_data_only": true,
-    "allowed_underlyings": [
-      "BTC",
-      "ETH"
-    ],
+    "allowed_underlyings": ["BTC", "ETH"],
     "max_notional_leverage": 2.0
   },
   "queued_at": "2026-08-25T14:36:00Z",
-  "render_mode_resolved": "maintenance",
-  "routing_reason": "explicit allowlisted Coinbase US crypto-futures public-data paper feed installation",
-  "started_at": "2026-08-25T15:10:25.072756+00:00"
+  "started_at": "2026-08-25T15:10:25.072756+00:00",
+  "failed_at": "2026-08-25T18:59:15Z",
+  "error": "Interrupted while Mac worker was offline; superseded by queued Coinbase MTF + Hermes v2 installer.",
+  "superseded_by": "upgrade-coinbase-futures-mtf-hermes-v2-2026-08-25"
 }
