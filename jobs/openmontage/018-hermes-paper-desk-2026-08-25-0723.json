@@ -1,0 +1,10 @@
+{
+  "id": "hermes-paper-desk-2026-08-25-0723",
+  "type": "openmontage_video",
+  "execution_mode": "run_hermes_paper_trading_desk",
+  "status": "queued",
+  "brief": "Analyze trading/latest_market_snapshot.json for one paper-only market desk cycle. Use only the repository-controlled snapshot and paper risk policy. Never place or route a brokerage order. Keep live execution disabled. Treat futures as PASS unless an approved futures adapter supplies contract specifications. Return PASS if data is insufficient or no meaningful setup exists.",
+  "paper_only": true,
+  "live_execution_enabled": false,
+  "queued_at": "2026-08-25T14:23:30Z"
+}
