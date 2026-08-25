@@ -36,7 +36,7 @@ def install(resilient, worker):
         if mode == "install_paper_daytrader_feed":
             job["routing_reason"] = "explicit allowlisted 60-second stock paper day-trader market-data feed installation"
         elif mode == "install_coinbase_crypto_futures_paper":
-            job["routing_reason"] = "explicit allowlisted Coinbase US crypto-futures public-data paper feed installation"
+            job["routing_reason"] = "explicit allowlisted Coinbase US crypto-futures all-timeframe Hermes-supervised paper feed installation"
         else:
             job["routing_reason"] = "explicit allowlisted Hermes paper-only market analysis"
         job["status"] = "running"
@@ -68,19 +68,28 @@ def install(resilient, worker):
                 script = worker.QUEUE_REPO / "scripts" / "install_coinbase_crypto_futures_paper.sh"
                 if not script.exists():
                     raise RuntimeError(f"Coinbase futures paper installer missing: {script}")
-                result = worker.run(["/bin/zsh", str(script)], cwd=worker.QUEUE_REPO, timeout=150)
+                result = worker.run(["/bin/zsh", str(script)], cwd=worker.QUEUE_REPO, timeout=180)
                 output = result.stdout or ""
                 required = (
                     "COINBASE_CRYPTO_FUTURES_PAPER_INSTALLED=1",
+                    "COINBASE_CRYPTO_FUTURES_MTF=1",
+                    "COINBASE_CRYPTO_FUTURES_HERMES_SUPERVISOR=1",
                     "COINBASE_CRYPTO_FUTURES_LIVE_EXECUTION=0",
                     "COINBASE_CRYPTO_FUTURES_PUBLIC_DATA_ONLY=1",
                 )
                 if not all(marker in output for marker in required):
-                    raise RuntimeError("Coinbase futures paper installer failed safety verification")
+                    raise RuntimeError("Coinbase futures MTF + Hermes installer failed safety verification")
                 job["coinbase_crypto_futures_paper_installed"] = True
                 job["coinbase_crypto_futures_interval_seconds"] = 60
                 job["coinbase_crypto_futures_live_execution"] = False
                 job["coinbase_crypto_futures_public_data_only"] = True
+                job["coinbase_crypto_futures_multi_timeframe"] = True
+                job["coinbase_crypto_futures_timeframes"] = [
+                    "ONE_MINUTE", "FIVE_MINUTE", "FIFTEEN_MINUTE", "THIRTY_MINUTE",
+                    "ONE_HOUR", "TWO_HOUR", "FOUR_HOUR", "SIX_HOUR", "ONE_DAY",
+                ]
+                job["coinbase_crypto_futures_hermes_supervisor"] = True
+                job["coinbase_crypto_futures_hermes_fail_closed"] = True
                 job["coinbase_crypto_futures_allowed_underlyings"] = ["BTC", "ETH"]
                 job["maintenance_result"] = worker.sanitize_log_text(output.strip())[-12000:]
             else:
