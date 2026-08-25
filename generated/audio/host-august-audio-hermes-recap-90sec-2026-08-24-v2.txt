@@ -1,0 +1,17 @@
+What I built is less like a chatbot and more like a small AI operating system. ChatGPT is the control room, and it can route work from my phone into a verified workflow.
+
+Hermes is the persistent operations manager. It keeps the objective in context, runs scheduled checks, and uses GPT-5.6 Sol to reason about what deserves attention.
+
+Codex is the engineering layer. When something needs code, testing, or repair, the system can delegate the work and verify the result instead of just talking about it.
+
+I also added workflow auditing. The system can look for broken handoffs, stale jobs, duplicated steps, unnecessary cost, and places where automation can replace repetitive work.
+
+On the business side, it can surface high-intent leads, rank them, and prepare the next best action without automatically contacting anyone.
+
+For markets, I built a paper-only trading desk. Live data comes in, hard risk rules are applied, Hermes analyzes the setup, and performance gets tracked before real capital is ever considered.
+
+The important part is the safety design. Research and reversible work can be automatic, but money, messages, publishing, and destructive actions stay behind approval gates.
+
+For someone in AI, this is orchestration, persistence, observability, and controlled autonomy. For everyone else, it simply means fewer repetitive tasks, fewer missed opportunities, and more verified work actually getting finished.
+
+That is the real upgrade: not more AI tools, but a coordinated system that can think, check, and improve how the work gets done.
