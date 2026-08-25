@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - 'jobs/host-august-audio-*.txt'
+  workflow_dispatch:
+    inputs:
+      script_path:
+        description: 'Repository path to an approved August Nick narration script'
+        required: true
+        type: string
 
 jobs:
   host-audio:
@@ -16,13 +22,19 @@ jobs:
           fetch-depth: 2
       - name: Resolve exact triggering script
         shell: bash
+        env:
+          DISPATCH_SCRIPT_PATH: ${{ inputs.script_path }}
         run: |
           set -euo pipefail
-          INPUT="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^jobs/host-august-audio-.*\.txt$' | head -1 || true)"
-          if [ -z "$INPUT" ]; then
-            echo 'No August Nick script changed in triggering commit.' >&2
-            exit 1
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            INPUT="$DISPATCH_SCRIPT_PATH"
+          else
+            INPUT="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^jobs/host-august-audio-.*\.txt$' | head -1 || true)"
           fi
+          case "$INPUT" in
+            jobs/host-august-audio-*.txt) ;;
+            *) echo 'Invalid August Nick script path.' >&2; exit 1 ;;
+          esac
           test -s "$INPUT"
           echo "AUGUST_INPUT=$INPUT" >> "$GITHUB_ENV"
           echo "AUGUST_STEM=$(basename "$INPUT" .txt)" >> "$GITHUB_ENV"
