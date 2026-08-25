@@ -43,11 +43,13 @@ jobs:
           PY
       - name: Run fixed BTC ETH historical backtest
         run: |
+          mkdir -p results/casper-bojan
           python research/casper-bojan-paperbot/backtest.py \
             --start 2026-02-26T00:00:00Z \
             --end 2026-08-24T23:55:00Z \
             --out results/casper-bojan | tee results/casper-bojan-ci.log
       - name: Upload reproducible research results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: casper-bojan-backtest-results
