@@ -1,0 +1,18 @@
+{
+  "voice": "August Nick",
+  "voice_id": "eZ6srIcJSJNcqcDrI68r",
+  "model": "eleven_multilingual_v2",
+  "format": "mp3_44100_128",
+  "bytes": 1253921,
+  "sha256": "f9819cf6d2b9ff68d455b33cc9ae8b7566638385c3d3641d167ea443fb4ead65",
+  "base64_chars": 1671896,
+  "chunk_chars": 300000,
+  "chunks": [
+    "host-august-audio-hermes-recap-90sec-2026-08-24-v4.b64.000.txt",
+    "host-august-audio-hermes-recap-90sec-2026-08-24-v4.b64.001.txt",
+    "host-august-audio-hermes-recap-90sec-2026-08-24-v4.b64.002.txt",
+    "host-august-audio-hermes-recap-90sec-2026-08-24-v4.b64.003.txt",
+    "host-august-audio-hermes-recap-90sec-2026-08-24-v4.b64.004.txt",
+    "host-august-audio-hermes-recap-90sec-2026-08-24-v4.b64.005.txt"
+  ]
+}
