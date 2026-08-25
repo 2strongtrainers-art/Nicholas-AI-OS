@@ -2,7 +2,7 @@
   "id": "hermes-paper-desk-cycle-2026-08-25-0626",
   "type": "openmontage_video",
   "execution_mode": "run_hermes_paper_trading_desk",
-  "status": "running",
+  "status": "completed",
   "request": "Analyze trading/latest_market_snapshot.json for one paper-only market desk cycle. Return either a meaningful paper setup, a risk-control stop condition, or PASS. Treat stale or insufficient data as PASS. Futures must PASS unless an approved futures adapter supplies contract specifications.",
   "brief": "Paper-only market analysis using the fresh repository-controlled Alpaca snapshot. Do not place or route orders. Do not modify broker settings, financial accounts, or execution permissions. live_execution_enabled must remain false.",
   "paper_only": true,
@@ -19,5 +19,11 @@
   "queued_at": "2026-08-25T13:26:55Z",
   "render_mode_resolved": "maintenance",
   "routing_reason": "explicit allowlisted Hermes paper-only market analysis",
-  "started_at": "2026-08-25T15:08:43.576213+00:00"
+  "started_at": "2026-08-25T15:08:43.576213+00:00",
+  "hermes_paper_desk_verified": true,
+  "hermes_paper_desk_provider": "openai-codex",
+  "hermes_paper_desk_model": "gpt-5.6-sol",
+  "hermes_paper_desk_live_execution": false,
+  "hermes_paper_desk_result": "PAPER DESK — SIMULATION ONLY\n\nMarket regime\n- Equities are mixed but positive versus prior closes; NVDA shows the strongest relative momentum, while QQQ and AAPL have faded from intraday highs.\n- SPY remains near its session low despite a positive gap, indicating weak broad-market follow-through.\n- Crypto is range-bound to soft; ETH shows relative weakness. TSLA is excluded because its unusually wide IEX quote makes execution-quality analysis unreliable.\n\nCandidate setups\n\n1. NVDA — LONG\n- Entry zone: 213.00–213.30, conditional on holding above 213.00\n- Stop: 210.90\n- Target: 216.60\n- Thesis: NVDA is approximately 2.3% above its prior close, traded well above its opening price, and is holding relatively close to the 214.67 session high. It has the clearest relative-strength profile in the snapshot.\n- Confidence: 6/10\n- Policy fit: Stock is permitted; stop is mandatory; deterministic sizing must cap simulated loss at $250 (0.25% of equity). No averaging down.\n\n2. QQQ — SHORT\n- Entry zone: 709.40–709.75, conditional on continued acceptance below 710.00\n- Stop: 711.25\n- Target: 706.50\n- Thesis: QQQ faded from 713.93 and is trading near its session low despite opening above the prior close. This indicates intraday rejection and creates a possible move back toward the 706.38 prior close.\n- Confidence: 5/10\n- Policy fit: Stock is permitted, risk is definable, and the proposed reward exceeds the stop distance. Simulated loss must remain at or below $250.\n\n3. ETH/USD — SHORT\n- Entry zone: 2468–2472\n- Stop: 2492\n- Target: 2442\n- Thesis: ETH is below its open and prior close, with weak latest-trade behavior relative to the current quote. The session low near 2440 provides a logical target.\n- Confidence: 4/10\n- Policy fit: Crypto is permitted and risk can be bounded, but confidence is reduced by the discrepancy among latest trade, quote, and day-last values.\n\nPaper risk-engine selection\n- Send only the NVDA conditional long setup to the deterministic paper risk engine.\n- Maximum simulated risk: $250.\n- The risk engine must reject it if the entry/stop combination cannot be sized within the 0.25% risk limit or if market data is no longer fresh.\n\nExact invalidation evidence\n- NVDA trades at or below 210.90.\n- NVDA fails to hold 213.00 after entering the stated zone.\n- NVDA quote or trade data becomes stale, contradictory, or materially wider.\n- SPY breaks and remains below 765.00 while QQQ continues making session lows, undermining the long market context.\n- NVDA reaches 214.67 before a qualifying entry without a controlled pullback, making the proposed entry obsolete.\n- Account open risk reaches 0.75%, positions reach three, trades reach six, or daily realized loss reaches $1,000.\n- Any indication that the order path is not strictly paper-only.\n\nLIVE EXECUTION: DISABLED",
+  "completed_at": "2026-08-25T15:09:19.783740+00:00"
 }
