@@ -84,17 +84,46 @@ jobs:
         run: |
           set -euo pipefail
           test -s august-nick.mp3
-          python3 - <<'PY'
-          import os
-          size = os.path.getsize('august-nick.mp3')
-          if size < 1000:
-              raise SystemExit('August Nick MP3 failed size verification')
-          print({'verified_bytes': size})
-          PY
           mkdir -p generated/audio
           cp august-nick.mp3 "generated/audio/${AUGUST_STEM}.mp3"
           cp "$AUGUST_INPUT" "generated/audio/${AUGUST_STEM}.txt"
-          sha256sum "generated/audio/${AUGUST_STEM}.mp3" > "generated/audio/${AUGUST_STEM}.sha256"
+          export AUGUST_MP3_PATH="generated/audio/${AUGUST_STEM}.mp3"
+          export AUGUST_TRANSFER_DIR="generated/audio"
+          python3 - <<'PY'
+          import base64, hashlib, json, os
+          from pathlib import Path
+
+          mp3 = Path(os.environ['AUGUST_MP3_PATH'])
+          out_dir = Path(os.environ['AUGUST_TRANSFER_DIR'])
+          stem = os.environ['AUGUST_STEM']
+          data = mp3.read_bytes()
+          if len(data) < 1000:
+              raise SystemExit('August Nick MP3 failed size verification')
+          digest = hashlib.sha256(data).hexdigest()
+          encoded = base64.b64encode(data).decode('ascii')
+          chunk_chars = 300000
+          chunks = []
+          for old in out_dir.glob(f'{stem}.b64.*.txt'):
+              old.unlink()
+          for index, start in enumerate(range(0, len(encoded), chunk_chars)):
+              name = f'{stem}.b64.{index:03d}.txt'
+              (out_dir / name).write_text(encoded[start:start + chunk_chars], encoding='ascii')
+              chunks.append(name)
+          manifest = {
+              'voice': 'August Nick',
+              'voice_id': 'eZ6srIcJSJNcqcDrI68r',
+              'model': 'eleven_multilingual_v2',
+              'format': 'mp3_44100_128',
+              'bytes': len(data),
+              'sha256': digest,
+              'base64_chars': len(encoded),
+              'chunk_chars': chunk_chars,
+              'chunks': chunks,
+          }
+          (out_dir / f'{stem}.b64.manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+          (out_dir / f'{stem}.sha256').write_text(f'{digest}  {mp3.name}\n', encoding='utf-8')
+          print({'verified_bytes': len(data), 'sha256': digest, 'chunks': len(chunks)})
+          PY
           cp august-nick.mp3 generated/audio/august-nick-reel.mp3
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
