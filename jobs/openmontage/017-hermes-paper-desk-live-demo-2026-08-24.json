@@ -2,7 +2,7 @@
   "id": "hermes-paper-desk-live-demo-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "run_hermes_paper_trading_desk",
-  "status": "running",
+  "status": "completed",
   "request": "Run a live-data demonstration of the Hermes financial/trading agent using the repository-controlled Alpaca snapshot. Analyze only; paper trading only; return a recommendation or PASS.",
   "safety": {
     "paper_only": true,
@@ -18,5 +18,11 @@
   "routing_reason": "explicit allowlisted Hermes paper-only market analysis",
   "started_at": "2026-08-25T01:52:47.294942+00:00",
   "paper_only": true,
-  "live_execution_enabled": false
+  "live_execution_enabled": false,
+  "completed_at": "2026-08-25T01:53:07.563548+00:00",
+  "hermes_paper_desk_verified": true,
+  "hermes_paper_desk_provider": "openai-codex",
+  "hermes_paper_desk_model": "gpt-5.6-sol",
+  "hermes_paper_desk_live_execution": false,
+  "hermes_paper_desk_result": "PAPER DESK REPORT\n\nMarket regime\n- US equities are closed; snapshots are post-close with sparse IEX volume, limiting entry and stop validation.\n- Risk-off equity session: QQQ, NVDA, and TSLA closed below prior closes, with NVDA and TSLA near session lows.\n- Crypto is open and modestly positive, but BTC and ETH remain inside their reported daily ranges without confirmed breakouts.\n\nCandidate setups\n- PASS. The snapshot lacks multi-session trend, volatility, liquidity, and confirmation data needed to define a sufficiently reliable entry, stop, and target.\n- No futures analysis: contract specifications and futures data were not supplied.\n\nPaper risk-engine decision\n- Send no setup to the deterministic paper risk engine.\n- Account limits are available—maximum simulated risk per trade is $250—but policy capacity alone does not justify a trade.\n\nEvidence that would invalidate the PASS recommendation\n- BTC/USD sustains above 79,977.0865 with current bid/ask confirmation, acceptable spread, and a subsequent hold or successful retest.\n- ETH/USD sustains above 2,504.25 with current bid/ask confirmation, acceptable spread, and a subsequent hold or successful retest.\n- Alternatively, either crypto asset breaks its reported daily low—BTC/USD below 78,707.59 or ETH/USD below 2,471.889—then fails to reclaim it, supported by current liquidity and volatility data.\n- For equities, a new regular-session snapshot with fresh consolidated quotes, adequate volume, and enough intraday or multi-session bars to confirm trend, entry, stop distance, and reward-to-risk.\n- Any corrected data showing the supplied prices, timestamps, session status, or daily ranges are inaccurate would require complete reassessment.\n\nLIVE EXECUTION: DISABLED"
 }
