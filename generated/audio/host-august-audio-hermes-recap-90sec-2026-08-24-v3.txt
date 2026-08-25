@@ -1,0 +1,17 @@
+I stopped using AI like a chatbot and started treating it like an operating system.
+
+ChatGPT is my control room. From my phone, I can send a request into a verified workflow instead of opening five different apps and starting over.
+
+Hermes is the persistent operations manager. It keeps the objective in context, runs scheduled checks, and uses GPT-5.6 Sol to decide what deserves attention.
+
+Codex is the engineering layer. If something needs code, testing, or repair, it can do the technical work and verify the result.
+
+I also added workflow auditing, so the system can find broken handoffs, stale jobs, duplicate steps, unnecessary costs, and tasks that should be automated.
+
+For business, it can identify high-intent leads, rank them, and prepare the next best action while I keep final control.
+
+For markets, I built a paper-only trading desk. Live data comes in, hard risk rules are applied, and Hermes tracks decisions before any real money is considered.
+
+The important part is controlled autonomy. Research and reversible work can happen automatically. Money, messages, publishing, and destructive actions stay approval-gated.
+
+For AI people, that means orchestration, persistence, observability, and guardrails. For everyone else, it means less repetitive work, fewer missed opportunities, and more useful work actually getting finished.
