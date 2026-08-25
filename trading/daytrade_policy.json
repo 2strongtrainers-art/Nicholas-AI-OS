@@ -1,0 +1,22 @@
+{
+  "mode": "paper_only",
+  "live_execution_enabled": false,
+  "live_broker_adapters": [],
+  "asset_class": "stock",
+  "strategy": "opening_range_vwap_breakout_v1",
+  "opening_range_minutes": 15,
+  "minimum_bars": 30,
+  "entry_cutoff_minutes_after_open": 240,
+  "min_price": 5.0,
+  "max_price": 1000.0,
+  "min_opening_range_pct": 0.15,
+  "max_opening_range_pct": 4.0,
+  "min_breakout_buffer_bps": 2.0,
+  "min_relative_volume": 1.25,
+  "max_spread_bps": 20.0,
+  "min_reward_to_risk": 1.75,
+  "slippage_bps": 2.0,
+  "conservative_same_bar_exit": true,
+  "max_candidates_per_cycle": 3,
+  "require_flat_by_session_end": true
+}
