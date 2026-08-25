@@ -2,7 +2,7 @@
   "id": "nicholas-operator-final-inference-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "run_nicholas_operator_first_test",
-  "status": "queued",
+  "status": "running",
   "request": "Run the final controlled Nicholas Operator GPT-5.6 Sol inference verification and return recommendation only.",
   "safety": {
     "static_repository_prompt": true,
@@ -15,5 +15,8 @@
     "publishing": false,
     "financial_actions": false
   },
-  "queued_at": "2026-08-25T00:13:00Z"
+  "queued_at": "2026-08-25T00:13:00Z",
+  "render_mode_resolved": "maintenance",
+  "started_at": "2026-08-25T00:35:08.582647+00:00",
+  "routing_reason": "explicit allowlisted Nicholas Operator read-only reasoning test"
 }
