@@ -48,6 +48,13 @@ jobs:
             --start 2026-02-26T00:00:00Z \
             --end 2026-08-24T23:55:00Z \
             --out results/casper-bojan | tee results/casper-bojan-ci.log
+      - name: Run untouched prior-window falsification
+        run: |
+          mkdir -p results/casper-bojan-prior
+          python research/casper-bojan-paperbot/backtest.py \
+            --start 2025-08-29T00:00:00Z \
+            --end 2026-02-25T23:55:00Z \
+            --out results/casper-bojan-prior | tee results/casper-bojan-prior-ci.log
       - name: Upload reproducible research results
         if: always()
         uses: actions/upload-artifact@v4
@@ -56,4 +63,6 @@ jobs:
           path: |
             results/casper-bojan/
             results/casper-bojan-ci.log
+            results/casper-bojan-prior/
+            results/casper-bojan-prior-ci.log
           if-no-files-found: error
