@@ -1,4 +1,9 @@
+import json
+import subprocess
+import sys
+import tempfile
 import unittest
+from pathlib import Path
 
 from video_intelligence.caption_presets import get_caption_preset
 from video_intelligence.clip_intelligence import (
@@ -8,6 +13,9 @@ from video_intelligence.clip_intelligence import (
     rank_candidates,
 )
 from video_intelligence.smart_crop import crop_filter
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class VideoIntelligenceTests(unittest.TestCase):
@@ -66,6 +74,31 @@ class VideoIntelligenceTests(unittest.TestCase):
         self.assertIn("(iw-1080)*1.000000", filt)
         self.assertIn("(ih-1920)*0.000000", filt)
         self.assertIn("fps=24", filt)
+
+    def test_runner_dry_run_from_scripts_path(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            transcript = temp / "transcript.txt"
+            output = temp / "result.json"
+            transcript.write_text("[00:00] " + "useful coaching sentence " * 20, encoding="utf-8")
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "run_video_wizard_intelligence.py"),
+                    "--transcript", str(transcript),
+                    "--output", str(output),
+                    "--dry-run",
+                ],
+                cwd=ROOT,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=30,
+            )
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertTrue(payload["dry_run"])
+            self.assertIn("Return JSON only", payload["prompt"])
 
 
 if __name__ == "__main__":
