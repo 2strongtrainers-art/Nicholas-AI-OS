@@ -1,0 +1,17 @@
+{
+  "id": "hermes-paper-desk-postclose-2026-08-24",
+  "type": "openmontage_video",
+  "execution_mode": "run_hermes_paper_trading_desk",
+  "status": "queued",
+  "request": "Analyze the repository-controlled post-close Alpaca market snapshot for paper trading only.",
+  "safety": {
+    "paper_only": true,
+    "live_execution": false,
+    "broker_orders": false,
+    "financial_actions": false,
+    "external_messaging": false,
+    "memory_writes": false,
+    "cron_mutation": false
+  },
+  "queued_at": "2026-08-25T00:49:00Z"
+}
