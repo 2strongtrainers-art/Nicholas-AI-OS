@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.trivalley.casper-bojan-paper</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/env</string>
+    <string>python3</string>
+    <string>paper_daemon.py</string>
+    <string>--loop-seconds</string>
+    <string>300</string>
+  </array>
+  <key>WorkingDirectory</key><string>__REPLACE_WITH_PROJECT_DIRECTORY__</string>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>30</integer>
+  <key>StandardOutPath</key><string>__REPLACE_WITH_PROJECT_DIRECTORY__/state/daemon.out.log</string>
+  <key>StandardErrorPath</key><string>__REPLACE_WITH_PROJECT_DIRECTORY__/state/daemon.err.log</string>
+</dict>
+</plist>
