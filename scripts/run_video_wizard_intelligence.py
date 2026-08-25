@@ -13,7 +13,12 @@ import argparse
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from video_intelligence.caption_presets import get_caption_preset
 from video_intelligence.clip_intelligence import (
@@ -23,7 +28,6 @@ from video_intelligence.clip_intelligence import (
 )
 from video_intelligence.face_focus import estimate_face_focus
 
-ROOT = Path(__file__).resolve().parents[1]
 HERMES = Path.home() / ".local" / "bin" / "hermes"
 
 
@@ -119,7 +123,6 @@ def main() -> int:
 
         top = clips[0]
         if enriched:
-            # Use visually-derived focus when available.
             top = type(top)(
                 start_seconds=top.start_seconds,
                 end_seconds=top.end_seconds,
