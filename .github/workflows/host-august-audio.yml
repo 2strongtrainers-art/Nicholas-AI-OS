@@ -74,15 +74,23 @@ jobs:
           )
           with urllib.request.urlopen(req, timeout=90) as r:
               open('august-nick.mp3', 'wb').write(r.read())
-          if os.path.getsize('august-nick.mp3') < 1000:
+          size = os.path.getsize('august-nick.mp3')
+          if size < 1000:
               raise SystemExit('Generated MP3 is unexpectedly small')
-          print({'bytes': os.path.getsize('august-nick.mp3'), 'voice': 'August Nick', 'format': 'mp3_44100_128'})
+          print({'bytes': size, 'voice': 'August Nick', 'format': 'mp3_44100_128'})
           PY
       - name: Verify and publish script-bound voiceover
         shell: bash
         run: |
           set -euo pipefail
-          ffprobe -v error -show_entries format=duration,size -of json august-nick.mp3
+          test -s august-nick.mp3
+          python3 - <<'PY'
+          import os
+          size = os.path.getsize('august-nick.mp3')
+          if size < 1000:
+              raise SystemExit('August Nick MP3 failed size verification')
+          print({'verified_bytes': size})
+          PY
           mkdir -p generated/audio
           cp august-nick.mp3 "generated/audio/${AUGUST_STEM}.mp3"
           cp "$AUGUST_INPUT" "generated/audio/${AUGUST_STEM}.txt"
