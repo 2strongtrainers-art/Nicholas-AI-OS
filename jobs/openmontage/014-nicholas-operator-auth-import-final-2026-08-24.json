@@ -2,7 +2,7 @@
   "id": "nicholas-operator-auth-import-final-2026-08-24",
   "type": "openmontage_video",
   "execution_mode": "configure_nicholas_operator_brain",
-  "status": "queued",
+  "status": "running",
   "request": "Apply the corrected Hermes managed-venv Codex OAuth import and verify without exposing credentials.",
   "safety": {
     "credential_values_exposed": false,
@@ -10,5 +10,8 @@
     "external_messaging": false,
     "unattended_ai_cron": false
   },
-  "queued_at": "2026-08-25T00:12:00Z"
+  "queued_at": "2026-08-25T00:12:00Z",
+  "render_mode_resolved": "maintenance",
+  "started_at": "2026-08-25T00:12:44.045859+00:00",
+  "routing_reason": "explicit allowlisted Nicholas Operator Hermes brain activation"
 }
