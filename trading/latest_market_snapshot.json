@@ -1,9 +1,9 @@
 {
   "paper_only": true,
-  "as_of": "2026-08-25T00:47:21Z",
+  "as_of": "2026-08-25T01:44:41Z",
   "market_status": "US equities closed; crypto open",
   "data_source": "Alpaca connector: IEX equities + US crypto",
-  "data_quality_note": "Equity after-hours IEX quotes may be sparse or wide; prioritize regular-session daily bars and closing trades. This snapshot is for paper research only.",
+  "data_quality_note": "Equity snapshots are post-close and some IEX quotes are sparse/wide; use regular-session daily bars and closing trades for equity context. Crypto quotes are current. This snapshot is for paper research only.",
   "futures_data_available": false,
   "account": {
     "equity": 100000.0,
@@ -71,26 +71,28 @@
     {
       "symbol": "BTC/USD",
       "asset_class": "crypto",
-      "last": 79668.041,
+      "last": 79755.9,
+      "bid": 79702.4,
+      "ask": 79722.236,
       "day_open": 78979.453,
-      "day_high": 79681.15,
+      "day_high": 79977.0865,
       "day_low": 78707.59,
-      "day_close": 79673.551,
+      "day_close": 79716.1855,
       "previous_close": 78981.3,
-      "bid": 79680.109,
-      "ask": 79695.871
+      "snapshot_quote_at": "2026-08-25T01:44:41.362499Z"
     },
     {
       "symbol": "ETH/USD",
       "asset_class": "crypto",
-      "last": 2499.384,
+      "last": 2496.5,
+      "bid": 2494.63,
+      "ask": 2495.435,
       "day_open": 2481.42,
-      "day_high": 2501.3,
+      "day_high": 2504.25,
       "day_low": 2471.889,
-      "day_close": 2499.915,
+      "day_close": 2496.508,
       "previous_close": 2482.891,
-      "bid": 2499.79,
-      "ask": 2500.258
+      "snapshot_quote_at": "2026-08-25T01:44:08.333897Z"
     }
   ]
 }
