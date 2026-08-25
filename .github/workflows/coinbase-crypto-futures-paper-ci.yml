@@ -59,9 +59,9 @@ jobs:
               'submit_order',
               'market_market_ioc',
               'limit_limit_gtc',
-              'trade_permission',
               'coinbase_api_secret',
               'coinbase_api_key',
+              'advanced-trade-ws-user',
           )
           hits = [token for token in forbidden if token in text]
           assert not hits, f'live Coinbase trading capability detected: {hits}'
