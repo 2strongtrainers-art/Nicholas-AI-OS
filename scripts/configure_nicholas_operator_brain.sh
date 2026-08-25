@@ -4,7 +4,7 @@ set -euo pipefail
 HERMES_BIN="$HOME/.local/bin/hermes"
 HERMES_HOME_DIR="${HERMES_HOME:-$HOME/.hermes}"
 HERMES_REPO="$HOME/.hermes/hermes-agent"
-HERMES_PYTHON="$HERMES_REPO/.venv/bin/python"
+HERMES_PYTHON="$HERMES_REPO/venv/bin/python"
 CODEX_AUTH_FILE="$HOME/.codex/auth.json"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOUL_SOURCE="$REPO_ROOT/hermes/NICHOLAS_OPERATOR_SOUL.md"
