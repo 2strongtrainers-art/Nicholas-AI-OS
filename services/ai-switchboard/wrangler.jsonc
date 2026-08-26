@@ -5,6 +5,7 @@
   "compatibility_date": "2026-08-26",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "OX_MODEL": "z-ai/glm-5.3"
+    "OX_MODEL": "z-ai/glm-5.3",
+    "QWEN_MODEL": "qwen/qwen3.8-2.4t-a95b"
   }
 }

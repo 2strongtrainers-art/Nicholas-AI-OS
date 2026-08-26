@@ -65,12 +65,24 @@ if [[ -z "$OX_MODEL" ]]; then
   echo "Warning: neither Ox Alpha nor a current GLM route was found in the refreshed catalog; using fallback $OX_MODEL" >&2
 fi
 
+# Qwen3.8 is the required generation. Prefer the 2.4T A95B model explicitly,
+# then other official 3.8 variants. Only fall back to older Qwen generations if
+# no Qwen3.8 route is present in the refreshed provider catalog.
 QWEN_MODEL="$(python3 - "$TMP_CLEAN" <<'PY'
 import re
 import sys
 
 text = open(sys.argv[1], "r", encoding="utf-8", errors="replace").read()
 ids = sorted(set(re.findall(r"openrouter/qwen/[^\s]+", text)))
+
+for preferred in (
+    "openrouter/qwen/qwen3.8-2.4t-a95b",
+    "openrouter/qwen/qwen3.8-max",
+    "openrouter/qwen/qwen3.8-27b",
+):
+    if preferred in ids:
+        print(preferred)
+        raise SystemExit(0)
 
 def version(model):
     s = model.lower()
@@ -85,14 +97,17 @@ def scale(model):
     m = re.search(r"(?:^|[-_/])(\d+(?:\.\d+)?)b(?:[-_/]|$)", s)
     return float(m.group(1)) if m else 0.0
 
-if ids:
+qwen38 = [m for m in ids if "qwen3.8" in m.lower()]
+if qwen38:
+    print(max(qwen38, key=lambda model: (scale(model), model)))
+elif ids:
     print(max(ids, key=lambda model: (version(model), scale(model), model)))
 PY
 )"
 
 if [[ -z "$QWEN_MODEL" ]]; then
   QWEN_MODEL="openrouter/qwen/qwen3.8-2.4t-a95b"
-  echo "Warning: Qwen was not found in the refreshed OpenCode catalog; using current fallback $QWEN_MODEL" >&2
+  echo "Warning: Qwen was not found in the refreshed OpenCode catalog; using required Qwen3.8 fallback $QWEN_MODEL" >&2
 fi
 
 INSTALL_DIR="$HOME/.local/bin"
@@ -127,7 +142,7 @@ Nicholas AI Switcher
 
   ai             Open OpenCode and use its built-in model selector
   ai ox          Open current project with the Ox successor/current GLM route
-  ai qwen        Open current project with the verified Qwen model
+  ai qwen        Open current project with the verified Qwen3.8 model
   ai models      Refresh/show available OpenRouter models
   ai status      Show the model IDs currently assigned to shortcuts
 
