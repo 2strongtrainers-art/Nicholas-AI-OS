@@ -1,7 +1,7 @@
 {
   "id": "worker-recovery-probe-2026-08-26",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "worker-recovery-probe-2026-08-26",
   "runtime": "maintenance",
   "composition_mode": "templated",
@@ -13,5 +13,7 @@
   "diagnostic_job_ids": [],
   "render_mode_resolved": "diagnostic",
   "routing_reason": "explicit log diagnostic request",
-  "started_at": "2026-08-26T17:58:33.011744+00:00"
+  "started_at": "2026-08-26T17:58:33.011744+00:00",
+  "diagnostics": [],
+  "completed_at": "2026-08-26T17:58:36.965856+00:00"
 }
