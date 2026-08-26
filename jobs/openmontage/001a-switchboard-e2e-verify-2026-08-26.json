@@ -1,0 +1,22 @@
+{
+  "id": "switchboard-e2e-verify-2026-08-26",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "nicholas-ai-switchboard",
+  "runtime": "maintenance",
+  "composition_mode": "templated",
+  "cost_policy": "tiny_provider_validation_only",
+  "execution_mode": "install_agent_stack",
+  "verify_ai_switchboard": true,
+  "deploy_ai_switchboard": false,
+  "preserve_ox_alpha": false,
+  "timeout_seconds": 1500,
+  "output_filename": "nicholas-ai-switchboard-e2e-status.json",
+  "brief": "Run the repository-controlled Nicholas AI Switchboard verifier after worker recovery. Verify health and exact resolved aliases, then make only tiny validation calls to Ox/GLM, Qwen3.8, and OpenRouter Auto. Never print or commit credentials. Preserve all existing models and services. Publish only sanitized verification output.",
+  "expected_models": {
+    "ox": "z-ai/glm-5.3",
+    "qwen": "qwen/qwen3.8-2.4t-a95b",
+    "auto": "openrouter/auto"
+  },
+  "queued_at": "2026-08-26T18:03:00Z"
+}
