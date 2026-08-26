@@ -238,5 +238,51 @@ test -x "$HOME/bin/ox"
 test -x "$HERMES_BIN"
 test -s "$CATALOG_DIR/README.md"
 
+# Optional, tightly scoped extension for a queue job that explicitly requests
+# deployment of the private ChatGPT/OpenCode AI switchboard. The Mac worker's
+# existing install_agent_stack allowlist remains the execution boundary; no
+# arbitrary command from a job file is executed.
+DEPLOY_SWITCHBOARD="$(python3 - "$HOME/Nicholas-AI-OS/jobs/openmontage" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+requested = False
+for path in root.glob("*.json"):
+    try:
+        job = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        continue
+    if (
+        job.get("status") == "running"
+        and job.get("execution_mode") == "install_agent_stack"
+        and job.get("deploy_ai_switchboard") is True
+    ):
+        requested = True
+        break
+print("1" if requested else "0")
+PY
+)"
+
+if [ "$DEPLOY_SWITCHBOARD" = "1" ]; then
+  SWITCHBOARD_SCRIPT="$HOME/Nicholas-AI-OS/scripts/deploy_ai_switchboard.sh"
+  if [ ! -f "$SWITCHBOARD_SCRIPT" ]; then
+    log "AI_SWITCHBOARD_DEPLOY_SCRIPT_MISSING=1"
+  else
+    set +e
+    SWITCHBOARD_OUT="$(/bin/zsh "$SWITCHBOARD_SCRIPT" 2>&1)"
+    SWITCHBOARD_RC=$?
+    set -e
+    printf '%s\n' "$SWITCHBOARD_OUT"
+    log "AI_SWITCHBOARD_DEPLOY_RC=$SWITCHBOARD_RC"
+    if [ "$SWITCHBOARD_RC" -eq 0 ]; then
+      log "AI_SWITCHBOARD_DEPLOY_REQUEST_COMPLETED=1"
+    else
+      log "AI_SWITCHBOARD_DEPLOY_REQUEST_COMPLETED=0"
+    fi
+  fi
+fi
+
 log "AI_TERMINAL_STACK_AUDIT=1"
 log "AGENT_STACK_INSTALL_OK=1"
