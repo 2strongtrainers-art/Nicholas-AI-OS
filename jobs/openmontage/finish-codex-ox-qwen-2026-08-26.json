@@ -1,7 +1,7 @@
 {
   "id": "finish-codex-ox-qwen-2026-08-26",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "failed",
   "project_id": "codex-opencode-ox-qwen-terminal-stack",
   "brief": "Finish the current Codex terminal stack on the Mac: update Codex, install/update OpenCode, create the ox launcher for OpenRouter Ox Alpha, live-test Ox when existing OpenRouter authentication permits it, and non-destructively audit Mac RAM, Qwen3.5/Qwen3.8 files/processes, and the existing port-8080 local model service. Preserve Qwen3.5; do not delete or replace local models.",
   "output_filename": "codex-opencode-ox-qwen-terminal-stack-status.json",
@@ -19,5 +19,7 @@
   "queued_at": "2026-08-26T13:35:00Z",
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-26T18:13:27.229425+00:00",
-  "routing_reason": "explicit allowlisted Codex + Hermes + Agent Skills installation"
+  "routing_reason": "explicit allowlisted Codex + Hermes + Agent Skills installation",
+  "failed_at": "2026-08-26T18:14:43.454151+00:00",
+  "error": "Command '['/bin/zsh', '/Users/nickkaplan/Nicholas-AI-OS/scripts/install_agent_stack.sh']' returned non-zero exit status 128."
 }
