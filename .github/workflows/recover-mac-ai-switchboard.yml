@@ -1,10 +1,14 @@
 name: Recover Mac AI Switchboard
 
-# One-shot recovery trigger refreshed 2026-08-26 via merge event.
+# One-shot recovery path for the Nicholas macOS host.
 on:
   push:
     paths:
       - ".github/workflows/recover-mac-ai-switchboard.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "ops/mac-ai-recovery-trigger.txt"
   workflow_dispatch:
 
 jobs:
