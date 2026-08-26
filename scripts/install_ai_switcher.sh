@@ -7,7 +7,7 @@ if ! command -v opencode >/dev/null 2>&1; then
 fi
 
 if ! command -v python3 >/dev/null 2>&1; then
-  echo "python3 is required to resolve the newest Qwen model safely." >&2
+  echo "python3 is required to resolve the current models safely." >&2
   exit 1
 fi
 
@@ -32,10 +32,37 @@ text = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
 open(dst, "w", encoding="utf-8").write(text)
 PY
 
-OX_MODEL="$(grep -Eo 'openrouter/[^[:space:]]*ox-alpha[^[:space:]]*' "$TMP_CLEAN" | head -n 1 || true)"
+# Ox Alpha's stealth preview ended Aug 26, 2026. Keep the familiar `ai ox`
+# shortcut, but when the retired stealth route is absent, resolve it to the
+# revealed/current Z.AI GLM route instead of leaving a dead model ID.
+OX_MODEL="$(python3 - "$TMP_CLEAN" <<'PY'
+import re
+import sys
+
+text = open(sys.argv[1], "r", encoding="utf-8", errors="replace").read()
+ids = sorted(set(re.findall(r"openrouter/[^\s]+", text)))
+
+for preferred in (
+    "openrouter/stealth/ox-alpha",
+    "openrouter/z-ai/glm-5.3",
+    "openrouter/z-ai/glm-latest",
+):
+    if preferred in ids:
+        print(preferred)
+        raise SystemExit(0)
+
+def glm_version(model):
+    m = re.search(r"glm[-_. ]?([0-9]+)(?:[.-]([0-9]+))?", model.lower())
+    return (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
+
+glm_ids = [m for m in ids if m.startswith("openrouter/z-ai/glm-")]
+if glm_ids:
+    print(max(glm_ids, key=lambda model: (glm_version(model), model)))
+PY
+)"
 if [[ -z "$OX_MODEL" ]]; then
-  OX_MODEL="openrouter/stealth/ox-alpha"
-  echo "Warning: Ox Alpha was not found in the refreshed OpenCode catalog; using current fallback $OX_MODEL" >&2
+  OX_MODEL="openrouter/z-ai/glm-5.3"
+  echo "Warning: neither Ox Alpha nor a current GLM route was found in the refreshed catalog; using fallback $OX_MODEL" >&2
 fi
 
 QWEN_MODEL="$(python3 - "$TMP_CLEAN" <<'PY'
@@ -91,7 +118,7 @@ if [[ -f "$MODEL_FILE" ]]; then
   source "$MODEL_FILE"
 fi
 
-AI_OX_MODEL="${AI_OX_MODEL:-openrouter/stealth/ox-alpha}"
+AI_OX_MODEL="${AI_OX_MODEL:-openrouter/z-ai/glm-5.3}"
 AI_QWEN_MODEL="${AI_QWEN_MODEL:-openrouter/qwen/qwen3.8-2.4t-a95b}"
 
 usage() {
@@ -99,7 +126,7 @@ usage() {
 Nicholas AI Switcher
 
   ai             Open OpenCode and use its built-in model selector
-  ai ox          Open current project with Ox Alpha
+  ai ox          Open current project with the Ox successor/current GLM route
   ai qwen        Open current project with the verified Qwen model
   ai models      Refresh/show available OpenRouter models
   ai status      Show the model IDs currently assigned to shortcuts
@@ -122,7 +149,7 @@ case "${1:-}" in
     exec opencode models openrouter --refresh
     ;;
   status)
-    printf 'Ox:   %s\nQwen: %s\n' "$AI_OX_MODEL" "$AI_QWEN_MODEL"
+    printf 'Ox/GLM: %s\nQwen:   %s\n' "$AI_OX_MODEL" "$AI_QWEN_MODEL"
     ;;
   help|-h|--help)
     usage
@@ -152,7 +179,7 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 
 echo "AI switcher installed: $LAUNCHER"
-echo "Verified Ox shortcut:   $OX_MODEL"
-echo "Verified Qwen shortcut: $QWEN_MODEL"
+echo "Verified Ox/GLM shortcut: $OX_MODEL"
+echo "Verified Qwen shortcut:   $QWEN_MODEL"
 echo
 echo "Use: ai | ai ox | ai qwen | ai models | ai status"
