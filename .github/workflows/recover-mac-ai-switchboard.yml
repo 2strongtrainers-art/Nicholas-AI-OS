@@ -1,0 +1,55 @@
+name: Recover Mac AI Switchboard
+
+on:
+  push:
+    paths:
+      - ".github/workflows/recover-mac-ai-switchboard.yml"
+  workflow_dispatch:
+
+jobs:
+  recover:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify this is the Nicholas Mac
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -s)" = "Darwin"
+          test -d "$HOME/Nicholas-AI-OS/.git"
+          test -f "$HOME/Nicholas-AI-OS/scripts/install_openmontage_worker.sh"
+          test -f "$HOME/Nicholas-AI-OS/scripts/deploy_ai_switchboard.sh"
+
+      - name: Recover OpenMontage worker and deploy AI switchboard
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$HOME/Nicholas-AI-OS"
+          git restore --staged --worktree -- jobs/openmontage >/dev/null 2>&1 || true
+          git pull --rebase
+          /bin/zsh "$HOME/Nicholas-AI-OS/scripts/install_openmontage_worker.sh"
+          /bin/zsh "$HOME/Nicholas-AI-OS/scripts/deploy_ai_switchboard.sh"
+
+      - name: Verify local AI toggle
+        shell: bash
+        run: |
+          set -euo pipefail
+          AI="$HOME/.local/bin/ai"
+          test -x "$AI"
+          "$AI" status
+
+      - name: Verify switchboard health and model resolution without exposing secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEPLOY_ENV="$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          test -f "$DEPLOY_ENV"
+          source "$DEPLOY_ENV"
+          KEY="$(security find-generic-password -s nicholas-ai-switchboard -a gpt-action -w)"
+          test -n "$KEY"
+          curl -fsS "$AI_SWITCHBOARD_URL/health" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d.get("ok") is True; print("SWITCHBOARD_HEALTH=PASS")'
+          curl -fsS -H "Authorization: Bearer $KEY" "$AI_SWITCHBOARD_URL/models?refresh=1" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d.get("ok") is True; assert d.get("ox"); assert d.get("qwen"); print("OX_MODEL="+str(d["ox"])); print("QWEN_MODEL="+str(d["qwen"])); print("MODEL_TOGGLE=PASS")'
+          unset KEY
