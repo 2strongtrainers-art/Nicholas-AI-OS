@@ -1,7 +1,7 @@
 {
   "id": "upgrade-coinbase-futures-mtf-hermes-v2-2026-08-25",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "coinbase-crypto-futures-mtf-hermes-v2",
   "brief": "Upgrade and verify the Coinbase US crypto-futures PAPER LaunchAgent to the all-nine-timeframe strategy with fail-closed Hermes supervision. Public market data only; no Coinbase credentials or live orders.",
   "output_filename": "coinbase-crypto-futures-mtf-hermes-v2-status.json",
@@ -26,5 +26,29 @@
   "queued_at": "2026-08-25T15:53:30Z",
   "render_mode_resolved": "maintenance",
   "routing_reason": "explicit allowlisted Coinbase US crypto-futures all-timeframe Hermes-supervised paper feed installation",
-  "started_at": "2026-08-26T18:12:05.321322+00:00"
+  "started_at": "2026-08-26T18:12:05.321322+00:00",
+  "coinbase_crypto_futures_paper_installed": true,
+  "coinbase_crypto_futures_interval_seconds": 60,
+  "coinbase_crypto_futures_live_execution": false,
+  "coinbase_crypto_futures_public_data_only": true,
+  "coinbase_crypto_futures_multi_timeframe": true,
+  "coinbase_crypto_futures_timeframes": [
+    "ONE_MINUTE",
+    "FIVE_MINUTE",
+    "FIFTEEN_MINUTE",
+    "THIRTY_MINUTE",
+    "ONE_HOUR",
+    "TWO_HOUR",
+    "FOUR_HOUR",
+    "SIX_HOUR",
+    "ONE_DAY"
+  ],
+  "coinbase_crypto_futures_hermes_supervisor": true,
+  "coinbase_crypto_futures_hermes_fail_closed": true,
+  "coinbase_crypto_futures_allowed_underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "maintenance_result": "COINBASE_CRYPTO_FUTURES_PAPER_INSTALLED=1\nCOINBASE_CRYPTO_FUTURES_MTF=1\nCOINBASE_CRYPTO_FUTURES_HERMES_SUPERVISOR=1\nCOINBASE_CRYPTO_FUTURES_LIVE_EXECUTION=0\nCOINBASE_CRYPTO_FUTURES_PUBLIC_DATA_ONLY=1\nCOINBASE_CRYPTO_FUTURES_INTERVAL_SECONDS=60\nCOINBASE_CRYPTO_FUTURES_STATUS=$HOME/.nicholas-ai-os/coinbase-futures-paper/status.json\nCOINBASE_CRYPTO_FUTURES_LOG=$HOME/Library/Logs/CoinbaseCryptoFuturesPaper.log\n{\n  \"checked_at\": \"2026-08-26T18:12:20.183284+00:00\",\n  \"component\": \"Coinbase Crypto Futures MTF + Hermes Paper Feed\",\n  \"day_realized_pnl\": 0.0,\n  \"equity\": 100000.0,\n  \"hermes_fail_closed\": true,\n  \"hermes_last_review\": null,\n  \"hermes_supervisor_enabled\": true,\n  \"live_execution_enabled\": false,\n  \"open_positions\": 0,\n  \"paper_only\": true,\n  \"public_market_data_only\": true,\n  \"selected_products\": {},\n  \"state\": \"no_eligible_products\",\n  \"strategy\": \"coinbase_crypto_futures_mtf_hermes_v2\",\n  \"timeframes_checked\": [\n    \"ONE_MINUTE\",\n    \"FIVE_MINUTE\",\n    \"FIFTEEN_MINUTE\",\n    \"THIRTY_MINUTE\",\n    \"ONE_HOUR\",\n    \"TWO_HOUR\",\n    \"FOUR_HOUR\",\n    \"SIX_HOUR\",\n    \"ONE_DAY\"\n  ]\n}",
+  "completed_at": "2026-08-26T18:12:20.425585+00:00"
 }
