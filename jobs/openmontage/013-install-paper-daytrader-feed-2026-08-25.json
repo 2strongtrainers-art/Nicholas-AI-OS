@@ -2,7 +2,7 @@
   "id": "install-paper-daytrader-feed-2026-08-25",
   "type": "openmontage_video",
   "execution_mode": "install_paper_daytrader_feed",
-  "status": "running",
+  "status": "completed",
   "project_id": "paper-daytrader-feed-v1",
   "brief": "Install and start the persistent 60-second paper-only stock day-trader market-data feed.",
   "output_filename": "paper-daytrader-status.json",
@@ -19,5 +19,10 @@
   "queued_at": "2026-08-25T18:59:10Z",
   "render_mode_resolved": "maintenance",
   "routing_reason": "explicit allowlisted 60-second stock paper day-trader market-data feed installation",
-  "started_at": "2026-08-26T14:45:17.773130+00:00"
+  "started_at": "2026-08-26T14:45:17.773130+00:00",
+  "completed_at": "2026-08-26T15:29:32.296323+00:00",
+  "paper_daytrader_feed_installed": true,
+  "paper_daytrader_interval_seconds": 60,
+  "paper_daytrader_live_execution": false,
+  "reconciled_from_live_feed_status": true
 }
