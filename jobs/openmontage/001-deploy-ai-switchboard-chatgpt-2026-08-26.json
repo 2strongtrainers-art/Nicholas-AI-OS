@@ -1,7 +1,7 @@
 {
   "id": "deploy-ai-switchboard-chatgpt-2026-08-26",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "nicholas-ai-switchboard",
   "brief": "Deploy the already-reviewed Nicholas AI Switchboard from services/ai-switchboard through the existing Mac and Cloudflare environment. Reuse the OpenRouter credential already stored locally by OpenCode without printing or committing it. Generate/store the GPT Action bearer key only in macOS Keychain and Cloudflare Worker secrets. Install the local ai launcher, resolve the live Ox/GLM and Qwen3.8 model IDs, perform health/model checks and the tiny Ox end-to-end switchboard test, and report only non-secret deployment metadata. Preserve all existing models and services.",
   "output_filename": "nicholas-ai-switchboard-status.json",
@@ -17,5 +17,8 @@
     "modify_existing_elevenlabs_worker": false,
     "external_qwen_inference_during_deploy": false
   },
-  "queued_at": "2026-08-26T15:45:00Z"
+  "queued_at": "2026-08-26T15:45:00Z",
+  "render_mode_resolved": "maintenance",
+  "started_at": "2026-08-26T17:58:43.295730+00:00",
+  "routing_reason": "explicit allowlisted Codex + Hermes + Agent Skills installation"
 }
