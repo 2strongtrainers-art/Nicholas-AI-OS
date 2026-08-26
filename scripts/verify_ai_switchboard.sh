@@ -42,15 +42,55 @@ verify_call() {
   expected_model="$3"
   req="$TMP/${alias}-request.json"
   resp="$TMP/${alias}-response.json"
+  code_file="$TMP/${alias}-code.txt"
+
   python3 - "$req" "$alias" "$expected_text" <<'PY'
 import json, sys
-json.dump({'model':sys.argv[2],'prompt':f'Return exactly {sys.argv[3]}','max_tokens':256}, open(sys.argv[1],'w'))
+json.dump({
+  'model': sys.argv[2],
+  'system': 'Return only the exact token requested by the user, with no punctuation or extra text.',
+  'prompt': f'Return exactly {sys.argv[3]}',
+  'max_tokens': 256,
+}, open(sys.argv[1], 'w'))
 PY
-  curl -fsS \
-    -H "Authorization: Bearer $KEY" \
-    -H "Content-Type: application/json" \
-    --data-binary "@$req" \
-    "$AI_SWITCHBOARD_URL/ask" >"$resp"
+
+  attempt=1
+  while [ "$attempt" -le 3 ]; do
+    http_code="$(curl -sS \
+      -o "$resp" \
+      -w '%{http_code}' \
+      -H "Authorization: Bearer $KEY" \
+      -H "Content-Type: application/json" \
+      --data-binary "@$req" \
+      "$AI_SWITCHBOARD_URL/ask" || true)"
+    printf '%s' "$http_code" >"$code_file"
+
+    if [ "$http_code" = "200" ]; then
+      break
+    fi
+
+    if [ "$http_code" = "429" ] || [ "$http_code" = "502" ] || [ "$http_code" = "503" ]; then
+      if [ "$attempt" -lt 3 ]; then
+        sleep $((attempt * 2))
+        attempt=$((attempt + 1))
+        continue
+      fi
+    fi
+
+    python3 - "$resp" "$alias" "$http_code" <<'PY'
+import json, re, sys
+path, alias, code = sys.argv[1:4]
+try:
+    payload = json.load(open(path))
+except Exception:
+    payload = {'error': 'non-JSON upstream error'}
+text = str(payload.get('error') or payload.get('message') or payload)
+text = re.sub(r'(?i)(api[_-]?key|token|authorization|secret)\s*[:=]\s*\S+', r'\1=[REDACTED]', text)
+print(f"{alias.upper()}_LIVE_TEST=FAIL http={code} error={text[:300]}")
+PY
+    return 1
+  done
+
   python3 - "$resp" "$alias" "$expected_text" "$expected_model" <<'PY'
 import json, sys
 p=json.load(open(sys.argv[1]))
