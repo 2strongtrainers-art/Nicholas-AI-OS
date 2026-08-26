@@ -1,5 +1,6 @@
 name: Recover Mac AI Switchboard
 
+# One-shot recovery trigger refreshed 2026-08-26.
 on:
   push:
     paths:
