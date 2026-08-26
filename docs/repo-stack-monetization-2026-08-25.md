@@ -53,6 +53,30 @@ These repositories are approved as **reference integrations** for Nicholas-AI-OS
    - License signal: MIT in repository README.
    - Nicholas-AI-OS use: authorized defensive-security playbooks only; do not target systems without explicit permission.
 
+10. **lissy93/bug-bounties** — https://github.com/lissy93/bug-bounties
+   - Role: community-maintained directory/API/MCP for active bug bounty and responsible-disclosure programs.
+   - License signal: MIT.
+   - Nicholas-AI-OS use: program discovery, scope/policy lookup, contact discovery, and responsible-disclosure workflow routing. Treat every program's written scope and rules as binding.
+
+11. **mukul975/cve-mcp-server** — https://github.com/mukul975/cve-mcp-server
+   - Role: CVE and threat-intelligence MCP with risk triage, vulnerability intelligence, DevSecOps checks, and reporting.
+   - License signal: MIT in repository README.
+   - Nicholas-AI-OS use: defensive CVE prioritization, patch intelligence, dependency review, and authorized security reporting. External target probing is not enabled by default.
+
+12. **mukul975/Anthropic-Cybersecurity-Skills** — https://github.com/mukul975/Anthropic-Cybersecurity-Skills
+   - Role: large agent-skills library spanning defensive and dual-use cybersecurity domains.
+   - License signal: Apache-2.0 in repository README.
+   - Nicholas-AI-OS use: knowledge/reference layer for defensive security, incident response, vulnerability management, compliance, and explicitly authorized testing only.
+
+## Local model candidates
+
+### HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF
+- Source: https://huggingface.co/HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF
+- Role: locally runnable 27B GGUF model candidate for isolated research and offline/private inference.
+- License signal: Apache-2.0 on the model card.
+- Nicholas-AI-OS use: **evaluation candidate only**, not a trusted autonomous operator. Because the model is explicitly tuned for minimal/no refusal behavior, it must remain behind Nicholas-AI-OS authorization, tool-permission, network, and human-approval controls.
+- Do not give this model unrestricted credentials, production write access, or unsupervised external security-testing capability.
+
 ## Highest-value monetization combinations
 
 ### 1. Wildfire / Property Intelligence Pack
@@ -106,11 +130,36 @@ Package intake, check-ins, workout notes, follow-ups, content prompts, payment/a
 **Test pricing:** $497–$1,997 setup + $99–$299/month support, or bundle it into premium consulting/coaching.
 
 ### 7. Authorized Defensive Security Workflow
-**Stack:** reverse-skill + jcode + Agent Memory
+**Stack:** reverse-skill + jcode + Agent Memory + CVE MCP + Cybersecurity Skills
 
-Use only for systems the client owns or has explicit authorization to test. Productize repeatable evidence capture, configuration review, remediation tracking, and internal security playbooks. Partner with a qualified security professional when the engagement exceeds your expertise.
+Use only for systems the client owns or has explicit authorization to test. Productize repeatable vulnerability triage, evidence capture, configuration review, remediation tracking, incident-response preparation, and internal security playbooks. Partner with a qualified security professional when the engagement exceeds your expertise.
 
 **Test pricing:** $1,000–$5,000+ for scoped defensive assessments or internal workflow setup, depending on authorization and deliverables.
+
+### 8. Vulnerability Intelligence / Patch-Priority Brief
+**Stack:** CVE MCP Server + Agent Memory + OpenWork
+
+Create recurring executive vulnerability briefs for small businesses, MSPs, or software teams:
+- newly relevant CVEs for their approved technology inventory
+- CISA KEV / exploitation-priority review
+- patch-priority ranking
+- dependency/advisory review
+- remediation status tracking
+- short executive summary
+
+**Test pricing:** $300–$1,500/month for a small scoped environment, with higher pricing for larger inventories or hands-on remediation support.
+
+### 9. Responsible-Disclosure Research Desk
+**Stack:** lissy93/bug-bounties + CVE MCP Server + Cybersecurity Skills + Agent Memory
+
+Use the bug-bounty directory to identify **explicitly authorized** programs and organize policy/scope intelligence. Monetization must come from legitimate bounty awards, contracted defensive research, or reporting/triage services—not from unauthorized access.
+
+Nicholas-AI-OS should enforce:
+1. written program scope check before any target-specific action
+2. prohibited-technique and rate-limit rules from the program
+3. human approval before active testing
+4. evidence logging
+5. responsible-disclosure/report workflow
 
 ## Best first revenue experiment
 
@@ -135,5 +184,8 @@ Target: sell the first paid pilot before building a full SaaS product.
 - Preserve license notices and attribution where required.
 - Do not upload copyrighted books or confidential client files into a skill pipeline without rights/authorization.
 - Do not execute reverse-engineering/security workflows against systems without explicit authorization.
-- Benchmark AirLLM on the actual target hardware before quoting performance.
+- Bug-bounty activity must remain strictly inside each program's written scope and rules.
+- No autonomous external exploitation or persistence. Human approval is required before active target testing.
+- Treat uncensored/no-refusal local models as untrusted components; sandbox them and restrict tool/network/credential access.
+- Benchmark AirLLM and local models on the actual target hardware before quoting performance.
 - Treat GitHub star counts and social-media claims as marketing signals, not technical validation.
