@@ -1,0 +1,14 @@
+{
+  "id": "worker-recovery-probe-2026-08-26",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "worker-recovery-probe-2026-08-26",
+  "runtime": "maintenance",
+  "composition_mode": "templated",
+  "cost_policy": "free_only",
+  "execution_mode": "diagnose_logs",
+  "timeout_seconds": 120,
+  "output_filename": "worker-recovery-probe-2026-08-26.json",
+  "brief": "Mac OpenMontage worker recovery probe. Do not render video, call a model provider, or spend credits. Complete diagnostic mode and publish the updated job and worker heartbeat so GitHub can verify the Mac worker is alive before later queued maintenance jobs run.",
+  "diagnostic_job_ids": []
+}
