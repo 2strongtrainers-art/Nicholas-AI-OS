@@ -48,6 +48,10 @@ gh auth status >/dev/null
 
 echo "Updating Nicholas-AI-OS..."
 cd "$REPO"
+# The worker owns queue/status transport files and may briefly leave a tracked
+# status edit between runs. Preserve any such edit automatically during future
+# `git pull --rebase` operations instead of wedging the LaunchAgent.
+git config rebase.autoStash true
 git pull --ff-only
 
 mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs"
