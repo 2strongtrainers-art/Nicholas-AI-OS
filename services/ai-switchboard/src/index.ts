@@ -81,9 +81,9 @@ async function getModels(env: Env, force = false): Promise<OpenRouterModel[]> {
 }
 
 function parseQwenVersion(value: string): [number, number] {
-  const match = value.toLowerCase().match(/qwen\s*3(?:[.\-_ ]?(\d+))?/);
+  const match = value.toLowerCase().match(/qwen\s*([0-9]+)(?:[.\-_ ]?([0-9]+))?/);
   if (!match) return [0, 0];
-  return [3, Number(match[1] || 0)];
+  return [Number(match[1] || 0), Number(match[2] || 0)];
 }
 
 function parseScale(value: string): number {
