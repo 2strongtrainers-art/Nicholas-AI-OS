@@ -28,6 +28,20 @@ routing:
   academic_research: Sider_Scholar
   freshness_research: Acumen_by_Talarion
 
+external_repositories:
+  policy: reference_only_until_security_dependency_and_license_review
+  manifest: docs/repo-stack-monetization-2026-08-25.md
+  repositories:
+    - TencentCloud/TencentDB-Agent-Memory
+    - opengeos/GeoLibre
+    - 1jehuang/jcode
+    - lyogavin/airllm
+    - ayghri/i-have-adhd
+    - different-ai/openwork
+    - virgiliojr94/book-to-skill
+    - microsoft/AI-For-Beginners
+    - boboidvtw/reverse-skill
+
 cost_guard:
   tiers:
     - included_native
