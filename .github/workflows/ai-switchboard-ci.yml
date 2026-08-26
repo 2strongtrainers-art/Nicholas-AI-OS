@@ -32,8 +32,8 @@ jobs:
       - name: Validate shell scripts
         run: |
           bash -n scripts/install_ai_switcher.sh
-          zsh -n scripts/deploy_ai_switchboard.sh || true
-          zsh -n scripts/install_agent_stack.sh || true
+          bash -n scripts/deploy_ai_switchboard.sh
+          bash -n scripts/install_agent_stack.sh
 
       - name: Install worker dependencies
         working-directory: services/ai-switchboard
