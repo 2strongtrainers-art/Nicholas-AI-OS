@@ -1,0 +1,40 @@
+name: AI Switchboard CI
+
+on:
+  pull_request:
+    paths:
+      - "services/ai-switchboard/**"
+      - "scripts/install_ai_switcher.sh"
+      - ".github/workflows/ai-switchboard-ci.yml"
+  push:
+    branches:
+      - "feat/ai-switchboard-chatgpt-opencode"
+    paths:
+      - "services/ai-switchboard/**"
+      - "scripts/install_ai_switcher.sh"
+      - ".github/workflows/ai-switchboard-ci.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate shell launcher
+        run: bash -n scripts/install_ai_switcher.sh
+
+      - name: Install worker dependencies
+        working-directory: services/ai-switchboard
+        run: npm install
+
+      - name: Typecheck worker
+        working-directory: services/ai-switchboard
+        run: npm run typecheck
+
+      - name: Validate Wrangler build
+        working-directory: services/ai-switchboard
+        run: npx wrangler deploy --dry-run
