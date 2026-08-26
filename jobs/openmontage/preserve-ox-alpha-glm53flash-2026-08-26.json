@@ -1,0 +1,24 @@
+{
+  "id": "preserve-ox-alpha-glm53flash-2026-08-26",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "ox-alpha-official-preservation",
+  "brief": "Preserve the newly identified official Ox Alpha source release, Z.ai GLM-5.3-Flash, from the verified zai-org Hugging Face repository under its MIT license. Check free disk space before downloading the 328 GB repository; if there is not at least 368 GB free, do not download. Preserve Qwen3.5 and port 8080 unchanged. Store Ox under ~/Models/Ox-Alpha/GLM-5.3-Flash, pin the source revision, record SHA-256 checksums, and retain provenance metadata. Attempt local inference verification only if a compatible local runner is already available; do not delete or replace any existing model.",
+  "output_filename": "ox-alpha-preservation-status.json",
+  "execution_mode": "install_agent_stack",
+  "preserve_ox_alpha": true,
+  "deploy_ai_switchboard": false,
+  "safety": {
+    "source_repo": "zai-org/GLM-5.3-Flash",
+    "publisher": "Z.ai",
+    "license": "MIT",
+    "observed_revision": "84c6a6a",
+    "expected_repo_size_gb_decimal": 328,
+    "minimum_free_space_gb_decimal": 368,
+    "preserve_existing_qwen35": true,
+    "preserve_port_8080": true,
+    "delete_existing_models": false,
+    "replace_existing_models": false
+  },
+  "queued_at": "2026-08-26T16:08:00Z"
+}
