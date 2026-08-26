@@ -28,7 +28,7 @@ type AskBody = {
 };
 
 const OPENROUTER_API = "https://openrouter.ai/api/v1";
-const DEFAULT_OX_MODEL = "stealth/ox-alpha";
+const DEFAULT_OX_MODEL = "z-ai/glm-5.3";
 const DEFAULT_QWEN_MODEL = "qwen/qwen3.8-2.4t-a95b";
 const DEFAULT_AUTO_MODEL = "openrouter/auto";
 const MODEL_CACHE_MS = 5 * 60 * 1000;
@@ -94,15 +94,28 @@ function parseScale(value: string): number {
   return billion ? Number(billion[1]) : 0;
 }
 
+function parseGlmVersion(value: string): [number, number] {
+  const match = value.toLowerCase().match(/glm[-_. ]?([0-9]+)(?:[.-]([0-9]+))?/);
+  if (!match) return [0, 0];
+  return [Number(match[1] || 0), Number(match[2] || 0)];
+}
+
 function newestOx(models: OpenRouterModel[], configured?: string): string {
   if (configured && models.some((m) => m.id === configured)) return configured;
 
-  const candidates = models.filter((m) => {
-    const text = `${m.id} ${m.name || ""}`.toLowerCase();
-    return m.id.toLowerCase().startsWith("stealth/") && text.includes("ox-alpha");
+  for (const preferred of ["z-ai/glm-5.3", "z-ai/glm-latest"]) {
+    if (models.some((m) => m.id === preferred)) return preferred;
+  }
+
+  const candidates = models.filter((m) => m.id.toLowerCase().startsWith("z-ai/glm-"));
+  candidates.sort((a, b) => {
+    const [aMajor, aMinor] = parseGlmVersion(a.id);
+    const [bMajor, bMinor] = parseGlmVersion(b.id);
+    if (bMajor !== aMajor) return bMajor - aMajor;
+    if (bMinor !== aMinor) return bMinor - aMinor;
+    return (b.created || 0) - (a.created || 0) || b.id.localeCompare(a.id);
   });
 
-  candidates.sort((a, b) => (b.created || 0) - (a.created || 0) || b.id.localeCompare(a.id));
   return candidates[0]?.id || configured || DEFAULT_OX_MODEL;
 }
 
@@ -219,7 +232,7 @@ function openApi(origin: string) {
     info: {
       title: "Nicholas AI Switchboard",
       version: "1.0.0",
-      description: "Route explicit ChatGPT requests to Ox Alpha, the newest verified Qwen family model, or OpenRouter Auto.",
+      description: "Route explicit ChatGPT requests to the current Z.AI GLM route, Qwen3.8, or OpenRouter Auto.",
     },
     servers: [{ url: origin }],
     paths: {
