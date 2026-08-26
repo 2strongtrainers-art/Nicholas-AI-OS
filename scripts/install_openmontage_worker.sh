@@ -8,6 +8,7 @@ LOG="$HOME/Library/Logs/OpenMontageWorker.log"
 KEEP_AWAKE_LOG="$HOME/Library/Logs/AutomationKeepAwake.log"
 WORKER="$REPO/scripts/openmontage_worker_resilient.py"
 BASE_WORKER="$REPO/scripts/openmontage_worker.py"
+LOCK="$HOME/.openmontage-worker.lock"
 
 if [[ ! -d "$HOME/OpenMontage" ]]; then
   echo "ERROR: $HOME/OpenMontage not found"
@@ -121,7 +122,11 @@ EOF
 plutil -lint "$WORKER_PLIST" >/dev/null
 plutil -lint "$KEEP_AWAKE_PLIST" >/dev/null
 
+# Stop the old worker first, then remove any PID lock it may have left behind.
+# This prevents a stale/recycled PID from making every future LaunchAgent run
+# exit before it can git-sync and consume queued recovery/deployment jobs.
 launchctl bootout "gui/$(id -u)" "$WORKER_PLIST" >/dev/null 2>&1 || true
+rm -f "$LOCK"
 launchctl bootout "gui/$(id -u)" "$KEEP_AWAKE_PLIST" >/dev/null 2>&1 || true
 launchctl bootstrap "gui/$(id -u)" "$KEEP_AWAKE_PLIST"
 launchctl bootstrap "gui/$(id -u)" "$WORKER_PLIST"
