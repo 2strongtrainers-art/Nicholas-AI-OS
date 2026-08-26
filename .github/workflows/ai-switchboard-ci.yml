@@ -5,13 +5,18 @@ on:
     paths:
       - "services/ai-switchboard/**"
       - "scripts/install_ai_switcher.sh"
+      - "scripts/deploy_ai_switchboard.sh"
+      - "scripts/install_agent_stack.sh"
       - ".github/workflows/ai-switchboard-ci.yml"
   push:
     branches:
       - "feat/ai-switchboard-chatgpt-opencode"
+      - "feat/deploy-ai-switchboard-mac"
     paths:
       - "services/ai-switchboard/**"
       - "scripts/install_ai_switcher.sh"
+      - "scripts/deploy_ai_switchboard.sh"
+      - "scripts/install_agent_stack.sh"
       - ".github/workflows/ai-switchboard-ci.yml"
 
 jobs:
@@ -24,8 +29,11 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Validate shell launcher
-        run: bash -n scripts/install_ai_switcher.sh
+      - name: Validate shell scripts
+        run: |
+          bash -n scripts/install_ai_switcher.sh
+          bash -n scripts/deploy_ai_switchboard.sh
+          bash -n scripts/install_agent_stack.sh
 
       - name: Install worker dependencies
         working-directory: services/ai-switchboard
