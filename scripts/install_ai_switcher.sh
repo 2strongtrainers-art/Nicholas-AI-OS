@@ -32,9 +32,9 @@ text = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
 open(dst, "w", encoding="utf-8").write(text)
 PY
 
-# Ox Alpha's stealth preview ended Aug 26, 2026. Keep the familiar `ai ox`
-# shortcut, but when the retired stealth route is absent, resolve it to the
-# revealed/current Z.AI GLM route instead of leaving a dead model ID.
+# `ai ox` now means the current Ox successor/current Z.AI GLM route. The
+# retired stealth/ox-alpha preview is intentionally not preferred even if a
+# stale provider catalog entry still exposes that alias.
 OX_MODEL="$(python3 - "$TMP_CLEAN" <<'PY'
 import re
 import sys
@@ -43,7 +43,6 @@ text = open(sys.argv[1], "r", encoding="utf-8", errors="replace").read()
 ids = sorted(set(re.findall(r"openrouter/[^\s]+", text)))
 
 for preferred in (
-    "openrouter/stealth/ox-alpha",
     "openrouter/z-ai/glm-5.3",
     "openrouter/z-ai/glm-latest",
 ):
@@ -62,7 +61,7 @@ PY
 )"
 if [[ -z "$OX_MODEL" ]]; then
   OX_MODEL="openrouter/z-ai/glm-5.3"
-  echo "Warning: neither Ox Alpha nor a current GLM route was found in the refreshed catalog; using fallback $OX_MODEL" >&2
+  echo "Warning: a current GLM route was not found in the refreshed catalog; using fallback $OX_MODEL" >&2
 fi
 
 # Qwen3.8 is the required generation. Prefer the 2.4T A95B model explicitly,
