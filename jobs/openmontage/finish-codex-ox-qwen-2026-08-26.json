@@ -1,0 +1,20 @@
+{
+  "id": "finish-codex-ox-qwen-2026-08-26",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "codex-opencode-ox-qwen-terminal-stack",
+  "brief": "Finish the current Codex terminal stack on the Mac: update Codex, install/update OpenCode, create the ox launcher for OpenRouter Ox Alpha, live-test Ox when existing OpenRouter authentication permits it, and non-destructively audit Mac RAM, Qwen3.5/Qwen3.8 files/processes, and the existing port-8080 local model service. Preserve Qwen3.5; do not delete or replace local models.",
+  "output_filename": "codex-opencode-ox-qwen-terminal-stack-status.json",
+  "execution_mode": "install_agent_stack",
+  "safety": {
+    "preserve_existing_qwen35": true,
+    "delete_local_models": false,
+    "replace_qwen_without_audit": false,
+    "store_api_keys_in_repo": false,
+    "print_credentials": false,
+    "ox_model": "openrouter/stealth/ox-alpha",
+    "qwen38_candidate": "HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF",
+    "local_service_port": 8080
+  },
+  "queued_at": "2026-08-26T13:35:00Z"
+}
