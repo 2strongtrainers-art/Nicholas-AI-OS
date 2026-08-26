@@ -41,6 +41,28 @@ external_repositories:
     - virgiliojr94/book-to-skill
     - microsoft/AI-For-Beginners
     - boboidvtw/reverse-skill
+    - lissy93/bug-bounties
+    - mukul975/cve-mcp-server
+    - mukul975/Anthropic-Cybersecurity-Skills
+
+local_models:
+  policy: evaluation_only_until_benchmarked_sandboxed_and_approved
+  candidates:
+    - id: HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF
+      source: huggingface
+      role: isolated_local_research_inference
+      trust: untrusted_no_refusal_variant
+      production_write_access: false
+      unrestricted_credentials: false
+      unsupervised_external_security_testing: false
+
+security_research:
+  authorization_required: true
+  require_written_scope_for_bug_bounty: true
+  human_approval_before_active_target_testing: true
+  autonomous_external_exploitation: false
+  persistence_on_external_targets: false
+  log_evidence_and_scope_decisions: true
 
 cost_guard:
   tiers:
