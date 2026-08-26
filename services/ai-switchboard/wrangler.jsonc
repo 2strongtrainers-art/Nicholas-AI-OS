@@ -3,5 +3,8 @@
   "name": "nicholas-ai-switchboard",
   "main": "src/index.ts",
   "compatibility_date": "2026-08-26",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "OX_MODEL": "z-ai/glm-5.3"
+  }
 }
