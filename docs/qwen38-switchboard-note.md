@@ -1,1 +1,0 @@
-Temporary note: pin AI Switchboard Qwen routing to the current Qwen3.8 API model exposed by OpenRouter, while preserving dynamic catalog checks. This file can be removed after the routing patch is merged.
