@@ -26,7 +26,7 @@ mkdir -p "$HOME/bin"
 cat > "$HOME/bin/ox" <<'EOF'
 #!/bin/zsh
 set -e
-MODEL="${OX_MODEL:-openrouter/stealth/ox-alpha}"
+MODEL="${OX_MODEL:-openrouter/z-ai/glm-5.3}"
 exec opencode --model "$MODEL" "$@"
 EOF
 chmod 700 "$HOME/bin/ox"
@@ -38,17 +38,18 @@ log "OX_LAUNCHER_CREATED=1"
 FLAGS="$(python3 - "$JOBS" <<'PY'
 import json,sys
 from pathlib import Path
-p=Path(sys.argv[1]); preserve=switch=False
+p=Path(sys.argv[1]); preserve=switch=verify=False
 for f in p.glob('*.json'):
     try: j=json.loads(f.read_text())
     except Exception: continue
     if j.get('status')=='running' and j.get('execution_mode')=='install_agent_stack':
         preserve = preserve or j.get('preserve_ox_alpha') is True
         switch = switch or j.get('deploy_ai_switchboard') is True
-print(('1' if preserve else '0')+('1' if switch else '0'))
+        verify = verify or j.get('verify_ai_switchboard') is True
+print(('1' if preserve else '0')+('1' if switch else '0')+('1' if verify else '0'))
 PY
 )"
-PRESERVE="${FLAGS[1]:-0}"; SWITCH="${FLAGS[2]:-0}"
+PRESERVE="${FLAGS[1]:-0}"; SWITCH="${FLAGS[2]:-0}"; VERIFY="${FLAGS[3]:-0}"
 
 if [ "$PRESERVE" = "1" ]; then
   PRESERVE_SCRIPT="$ROOT/scripts/preserve_ox_alpha.sh"
@@ -69,6 +70,14 @@ log "QWEN35_FILE_DETECTED=$FOUND35"; log "QWEN38_FILE_DETECTED=$FOUND38"; log "Q
 # Keep the pre-existing switchboard deployment behavior available when explicitly requested.
 if [ "$SWITCH" = "1" ]; then
   /bin/zsh "$ROOT/scripts/deploy_ai_switchboard.sh" || log "AI_SWITCHBOARD_DEPLOY_REQUEST_COMPLETED=0"
+fi
+
+# Run only the repository-controlled switchboard verifier when explicitly requested.
+if [ "$VERIFY" = "1" ]; then
+  VERIFY_SCRIPT="$ROOT/scripts/verify_ai_switchboard.sh"
+  [ -f "$VERIFY_SCRIPT" ] || { log "AI_SWITCHBOARD_VERIFY_SCRIPT_MISSING=1"; exit 31; }
+  /bin/zsh "$VERIFY_SCRIPT"
+  log "AI_SWITCHBOARD_VERIFY_REQUEST_COMPLETED=1"
 fi
 
 # Hermes runtime only; do not turn on external messaging or provider keys here.
