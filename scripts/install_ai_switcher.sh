@@ -32,9 +32,7 @@ text = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
 open(dst, "w", encoding="utf-8").write(text)
 PY
 
-# `ai ox` now means the current Ox successor/current Z.AI GLM route. The
-# retired stealth/ox-alpha preview is intentionally not preferred even if a
-# stale provider catalog entry still exposes that alias.
+# `ai ox` means the current Ox successor/current Z.AI GLM route.
 OX_MODEL="$(python3 - "$TMP_CLEAN" <<'PY'
 import re
 import sys
@@ -135,6 +133,13 @@ fi
 AI_OX_MODEL="${AI_OX_MODEL:-openrouter/z-ai/glm-5.3}"
 AI_QWEN_MODEL="${AI_QWEN_MODEL:-openrouter/qwen/qwen3.8-2.4t-a95b}"
 
+require_cmd() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "$1 is not installed or not on PATH." >&2
+    exit 1
+  fi
+}
+
 usage() {
   cat <<USAGE
 Nicholas AI Switcher
@@ -142,8 +147,12 @@ Nicholas AI Switcher
   ai             Open OpenCode and use its built-in model selector
   ai ox          Open current project with the Ox successor/current GLM route
   ai qwen        Open current project with the verified Qwen3.8 model
+  ai fcc         Open current project through Free Claude Code + OpenCode
+  ai codex       Open Codex through Free Claude Code
+  ai hermes      Open Hermes through Free Claude Code
+  ai fcc-server  Start the Free Claude Code local server/Admin UI
   ai models      Refresh/show available OpenRouter models
-  ai status      Show the model IDs currently assigned to shortcuts
+  ai status      Show direct aliases plus FCC availability
 
 Inside OpenCode you can also press Ctrl+X then M to switch models.
 USAGE
@@ -159,11 +168,34 @@ case "${1:-}" in
   qwen)
     exec opencode "$PWD" --model "$AI_QWEN_MODEL"
     ;;
+  fcc)
+    require_cmd fcc-opencode
+    exec fcc-opencode "$PWD"
+    ;;
+  codex)
+    require_cmd fcc-codex
+    exec fcc-codex
+    ;;
+  hermes)
+    require_cmd fcc-hermes
+    exec fcc-hermes
+    ;;
+  fcc-server)
+    require_cmd fcc-server
+    exec fcc-server
+    ;;
   models)
     exec opencode models openrouter --refresh
     ;;
   status)
     printf 'Ox/GLM: %s\nQwen:   %s\n' "$AI_OX_MODEL" "$AI_QWEN_MODEL"
+    for cmd in fcc-server fcc-opencode fcc-codex fcc-hermes; do
+      if command -v "$cmd" >/dev/null 2>&1; then
+        printf '%-12s %s\n' "$cmd:" "READY"
+      else
+        printf '%-12s %s\n' "$cmd:" "MISSING"
+      fi
+    done
     ;;
   help|-h|--help)
     usage
@@ -195,5 +227,10 @@ export PATH="$HOME/.local/bin:$PATH"
 echo "AI switcher installed: $LAUNCHER"
 echo "Verified Ox/GLM shortcut: $OX_MODEL"
 echo "Verified Qwen shortcut:   $QWEN_MODEL"
+if command -v fcc-server >/dev/null 2>&1; then
+  echo "Free Claude Code bridge:  READY"
+else
+  echo "Free Claude Code bridge:  not installed yet"
+fi
 echo
-echo "Use: ai | ai ox | ai qwen | ai models | ai status"
+echo "Use: ai | ai ox | ai qwen | ai fcc | ai codex | ai hermes | ai fcc-server | ai models | ai status"

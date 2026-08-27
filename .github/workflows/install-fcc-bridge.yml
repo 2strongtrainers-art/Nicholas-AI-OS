@@ -1,0 +1,55 @@
+name: Install Free Claude Code Bridge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/install_fcc_bridge.sh"
+      - "scripts/install_ai_switcher.sh"
+      - ".github/workflows/install-fcc-bridge.yml"
+  workflow_dispatch:
+
+jobs:
+  install:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 30
+    steps:
+      - name: Check out Nicholas-AI-OS
+        uses: actions/checkout@v4
+
+      - name: Verify Nicholas Mac host
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -s)" = "Darwin"
+          test -d "$HOME"
+          mkdir -p "$HOME/.local/bin"
+
+      - name: Install pinned Free Claude Code bridge
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x scripts/install_fcc_bridge.sh scripts/install_ai_switcher.sh
+          ./scripts/install_fcc_bridge.sh
+
+      - name: Rebuild Nicholas AI shortcuts
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
+          ./scripts/install_ai_switcher.sh
+
+      - name: Verify unified AI switcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
+          AI="$HOME/.local/bin/ai"
+          test -x "$AI"
+          "$AI" status
+          command -v fcc-server
+          command -v fcc-opencode
+          command -v fcc-codex
+          command -v fcc-hermes
+          fcc-server --version
+          echo "FCC_INTEGRATION=PASS"
