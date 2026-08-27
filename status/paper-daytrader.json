@@ -1,17 +1,77 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-08-27T16:40:18.937061+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 719.9739830932617,
+      "execution": "paper",
+      "opening_range_high": 718.47,
+      "opening_range_low": 715.0,
+      "relative_volume": 4.187,
+      "score": 81.1,
+      "side": "long",
+      "stop": 717.6024780273438,
+      "symbol": "QQQ",
+      "target": 724.1241169586182,
+      "timestamp": "2026-08-27T16:40:00+00:00",
+      "vwap": 718.1716
+    },
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 771.7542955810546,
+      "execution": "paper",
+      "opening_range_high": 769.2,
+      "opening_range_low": 767.16,
+      "relative_volume": 1.336,
+      "score": 64.87,
+      "side": "long",
+      "stop": 768.6900024414062,
+      "symbol": "SPY",
+      "target": 777.1168085754393,
+      "timestamp": "2026-08-27T16:40:00+00:00",
+      "vwap": 770.1398
+    }
+  ],
+  "checked_at": "2026-08-27T16:41:22.751974+00:00",
   "component": "Paper Day Trader Feed",
-  "equity": 100055.883066,
-  "events": [],
-  "latest_data_at": "2026-08-27T16:39:00+00:00",
+  "equity": 100493.747713,
+  "events": [
+    {
+      "entry": 769.7239213256836,
+      "exit": 771.533279,
+      "paper_only": true,
+      "pnl": 437.86,
+      "quantity": 242,
+      "reason": "TARGET",
+      "side": "long",
+      "symbol": "SPY",
+      "timestamp": "2026-08-27T16:40:00+00:00",
+      "type": "EXIT"
+    },
+    {
+      "entry": 719.9739830932617,
+      "opened_at": "2026-08-27T16:40:00+00:00",
+      "paper_only": true,
+      "quantity": 105,
+      "risk_dollars": 249.0080319213871,
+      "score": 81.1,
+      "side": "long",
+      "stop": 717.6024780273438,
+      "symbol": "QQQ",
+      "target": 724.1241169586182,
+      "timestamp": "2026-08-27T16:40:00+00:00",
+      "type": "ENTRY"
+    }
+  ],
+  "latest_data_at": "2026-08-27T16:40:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": -499.567988,
+  "realized_pnl": -61.703341,
   "session_complete": false,
   "session_id": "2026-08-27",
   "state": "running",
@@ -31,5 +91,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 5
+  "trades_today": 6
 }
