@@ -1,27 +1,46 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-08-27T14:38:34.994488+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 312.94258088378905,
+      "execution": "paper",
+      "opening_range_high": 312.035,
+      "opening_range_low": 309.4001,
+      "relative_volume": 1.726,
+      "score": 76.31,
+      "side": "long",
+      "stop": 311.3762741088867,
+      "symbol": "AAPL",
+      "target": 315.6836177398681,
+      "timestamp": "2026-08-27T14:38:00+00:00",
+      "vwap": 310.9003
+    }
+  ],
+  "checked_at": "2026-08-27T14:39:38.987966+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100055.883066,
   "events": [
     {
-      "entry": 226.0902071685791,
-      "exit": 224.5975,
+      "entry": 312.94258088378905,
+      "opened_at": "2026-08-27T14:38:00+00:00",
       "paper_only": true,
-      "pnl": -249.28,
-      "quantity": 167,
-      "reason": "STOP",
+      "quantity": 159,
+      "risk_dollars": 249.04277720947044,
+      "score": 76.31,
       "side": "long",
-      "symbol": "NVDA",
-      "timestamp": "2026-08-27T14:37:00+00:00",
-      "type": "EXIT"
+      "stop": 311.3762741088867,
+      "symbol": "AAPL",
+      "target": 315.6836177398681,
+      "timestamp": "2026-08-27T14:38:00+00:00",
+      "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-08-27T14:37:00+00:00",
+  "latest_data_at": "2026-08-27T14:38:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 2,
+  "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": -499.567988,
@@ -44,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 4
+  "trades_today": 5
 }
