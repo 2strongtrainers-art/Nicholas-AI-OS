@@ -1,28 +1,11 @@
 {
   "broker_order_capability": false,
-  "candidates": [
-    {
-      "asset_class": "stock",
-      "average_down": false,
-      "entry": 719.2638191162109,
-      "execution": "paper",
-      "opening_range_high": 718.47,
-      "opening_range_low": 715.0,
-      "relative_volume": 9.606,
-      "score": 78.11,
-      "side": "long",
-      "stop": 717.6024780273438,
-      "symbol": "QQQ",
-      "target": 722.1711660217285,
-      "timestamp": "2026-08-27T15:08:00+00:00",
-      "vwap": 718.1839
-    }
-  ],
-  "checked_at": "2026-08-27T15:09:46.262031+00:00",
+  "candidates": [],
+  "checked_at": "2026-08-27T15:39:56.745767+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100055.883066,
   "events": [],
-  "latest_data_at": "2026-08-27T15:08:00+00:00",
+  "latest_data_at": "2026-08-27T15:38:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 3,
