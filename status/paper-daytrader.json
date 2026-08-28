@@ -4,43 +4,43 @@
     {
       "asset_class": "stock",
       "average_down": false,
-      "entry": 477.17540256958006,
+      "entry": 318.52368345336913,
       "execution": "paper",
-      "opening_range_high": 476.55,
-      "opening_range_low": 469.8,
-      "relative_volume": 2.954,
-      "score": 84.21,
+      "opening_range_high": 318.13,
+      "opening_range_low": 315.5,
+      "relative_volume": 1.806,
+      "score": 73.35,
       "side": "long",
-      "stop": 474.86248779296875,
-      "symbol": "AMD",
-      "target": 481.22300342864986,
-      "timestamp": "2026-08-28T14:34:00+00:00",
-      "vwap": 473.7721
+      "stop": 317.4725036621094,
+      "symbol": "AAPL",
+      "target": 320.3632480880737,
+      "timestamp": "2026-08-28T14:43:00+00:00",
+      "vwap": 316.8285
     }
   ],
-  "checked_at": "2026-08-28T14:35:59.675973+00:00",
+  "checked_at": "2026-08-28T14:44:13.241691+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100285.695683,
   "events": [
     {
-      "entry": 477.17540256958006,
-      "opened_at": "2026-08-28T14:34:00+00:00",
+      "entry": 318.52368345336913,
+      "opened_at": "2026-08-28T14:43:00+00:00",
       "paper_only": true,
-      "quantity": 108,
-      "risk_dollars": 249.79479587402125,
-      "score": 84.21,
+      "quantity": 238,
+      "risk_dollars": 250.18079031982188,
+      "score": 73.35,
       "side": "long",
-      "stop": 474.86248779296875,
-      "symbol": "AMD",
-      "target": 481.22300342864986,
-      "timestamp": "2026-08-28T14:34:00+00:00",
+      "stop": 317.4725036621094,
+      "symbol": "AAPL",
+      "target": 320.3632480880737,
+      "timestamp": "2026-08-28T14:43:00+00:00",
       "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-08-28T14:35:00+00:00",
+  "latest_data_at": "2026-08-28T14:43:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 2,
+  "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": -502.422274,
@@ -63,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 4
+  "trades_today": 5
 }
