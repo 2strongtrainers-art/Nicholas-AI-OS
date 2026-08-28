@@ -83,7 +83,7 @@ jobs:
           else
             python3 -m unittest discover -s tests -p 'test_tool_intelligence.py'
           fi
-          ruby -e 'require "yaml"; files=Dir[".github/workflows/*.{yml,yaml}"]; files.each { |f| YAML.load_file(f, aliases: true) }; puts "WORKFLOW_YAML_PARSE_PASS=#{files.length}"'
+          ruby -e 'require "yaml"; files=Dir[".github/workflows/*.{yml,yaml}"]; files.each { |f| YAML.load_file(f) }; puts "WORKFLOW_YAML_PARSE_PASS=#{files.length}"'
           if grep -REn 'actions/(checkout@v4|setup-node@v4|setup-python@v5|github-script@v7|upload-artifact@v4)' .github/workflows; then
             echo "Obsolete GitHub JavaScript action pin found." >&2
             exit 1
