@@ -17,7 +17,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 2
       - name: Resolve exact triggering script
@@ -132,7 +132,7 @@ jobs:
           git pull --rebase
           git push
       - name: Upload canonical voiceover artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: august-nick-voice-${{ github.run_id }}
           path: august-nick.mp3

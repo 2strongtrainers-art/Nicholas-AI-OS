@@ -68,6 +68,7 @@ Do **not** default video work to Replit.
 For narration, default to the `conversational_nick` delivery profile: speech should sound like Nicholas explaining something naturally to one person, not reading the on-screen cards or a written report verbatim.
 
 ## Domain routing
+- Capability/tool discovery -> search `data/tool-intelligence/canonical-tools.json` with `scripts/search_tool_intelligence.py`; only confirmed mappings are routable, and `Unknown` API/MCP/CLI values must remain unknown.
 - Personal finance / balances / spending / debts / holdings -> Finances.
 - Live market data / options / pricing -> Alpaca.
 - Email -> Gmail.
@@ -84,6 +85,9 @@ For narration, default to the `conversational_nick` delivery profile: speech sho
 - Advanced/cinematic production -> OpenMontage `full_production`.
 - Current public research -> web; deep web/data research -> Exa; academic -> Sider Scholar; freshness/unknown-unknown support -> Acumen when useful.
 - Durable automation / scripts / versioned workflows -> GitHub.
+
+## Tool Intelligence safety
+Tool Intelligence is queried by capability or tool name, not primarily by Lucas Part number. Confirmed records may be suggested with their access restrictions and evidence provenance. Probable records remain in `probable-review.json`; pending evidence remains in `pending-evidence.json`. Neither queue is eligible for normal routing. Public website access is distinct from a structured API, MCP server, or CLI, and no structured interface may be inferred from a working website.
 
 ## Cost Guard
 Prefer, in order:

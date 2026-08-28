@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Check out Nicholas-AI-OS
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Verify Nicholas Mac host
         shell: bash

@@ -1,0 +1,90 @@
+[
+  {
+    "part": 741,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
+    "video_id": "7675406339895610646",
+    "exact_caption": "",
+    "website_name": "GrabCraft",
+    "canonical_url": "https://www.grabcraft.com/",
+    "match_confidence": "Probable",
+    "evidence_summary": "Original Lucas-post indexing confirms Part 741 and the caption prefix 'Learn step-by-step how to...'. Lucas Instagram indexing for Part 741 describes a library of Minecraft builds from starter houses to castles, portals, and redstone farms. GrabCraft independently matches that function with Minecraft blueprints and step-by-step, layer-based build instructions. The exact full TikTok caption/domain frame was not recovered, so the match remains Probable.",
+    "verification_status": "Canonical site and matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Minecraft build blueprints, floor plans, material counts, and layer-by-layer instructions.",
+    "access_type": "Free public web",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Yes for public-page research; no structured agent interface verified.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
+      "https://www.instagram.com/reel/DcMBkdWI8ht/",
+      "https://www.grabcraft.com/"
+    ],
+    "normalized_domain": "grabcraft.com",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
+      "video_id": "7675406339895610646"
+    }
+  },
+  {
+    "part": 744,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7676520158701030688",
+    "video_id": "7676520158701030688",
+    "exact_caption": "Powerful Websites You Should Know (Part 744) Massive library with almost any course from top institutions with certificates. #student #studytok #stem #lucaswebq",
+    "website_name": "Coursera Plus",
+    "canonical_url": "https://www.coursera.org/courseraplus",
+    "match_confidence": "Probable",
+    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 744 and the exact caption. Lucas's current official Linktree includes Coursera Plus, and Coursera Plus independently matches the caption with 10,000+ programs from 350+ universities/companies and certificates. Exact video-frame/domain evidence was not recovered, so the mapping is Probable.",
+    "verification_status": "Canonical site and matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Subscription access to thousands of online courses and certificate programs from universities and companies.",
+    "access_type": "Paid subscription; individual courses may have separate access options",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Limited: public catalog research is accessible; coursework/certificates require user enrollment and often payment.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7676520158701030688",
+      "https://linktr.ee/lucaswebq",
+      "https://www.coursera.org/courseraplus"
+    ],
+    "normalized_domain": "coursera.org",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7676520158701030688",
+      "video_id": "7676520158701030688"
+    }
+  },
+  {
+    "part": 749,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7678376034017742102",
+    "video_id": "7678376034017742102",
+    "exact_caption": "Powerful Websites You Should Know (Part 749) Create landing pages, pitch decks, brand kits, websites, product videos and workflows all in one place. #design #developer #productivity #lucaswebq",
+    "website_name": "Runable",
+    "canonical_url": "https://runable.com/",
+    "match_confidence": "Probable",
+    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 749 and the exact caption. Runable's official site and documentation independently match the distinctive combination of websites/landing pages, slides/pitch decks, videos, brand assets, and workflows. Exact frame/domain evidence was not recovered, so the mapping is Probable.",
+    "verification_status": "Canonical site and distinctive matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "General AI agent for creating websites, slides, videos, images, reports, and repeatable workflows.",
+    "access_type": "Free tier plus paid plans; account required for creation",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Yes through its own AI-agent interface; external API/MCP/CLI availability not verified.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7678376034017742102",
+      "https://runable.com/",
+      "https://docs.runable.com",
+      "https://runable.com/workflows"
+    ],
+    "normalized_domain": "runable.com",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7678376034017742102",
+      "video_id": "7678376034017742102"
+    }
+  }
+]

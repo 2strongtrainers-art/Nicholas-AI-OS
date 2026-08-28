@@ -1,0 +1,119 @@
+[
+  {
+    "part": 683,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7653516171005775126",
+    "video_id": "7653516171005775126",
+    "exact_caption": "Powerful Websites You Should Know (Part 683) Find thousands of lecture videos, notes, problems sets, exams, answers to any topic or college course. #student #stem #studytok #lucaswebq",
+    "website_name": "MIT OpenCourseWare",
+    "canonical_url": "https://ocw.mit.edu/",
+    "match_confidence": "Confirmed",
+    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 683 and the exact caption. Search indexing for that exact video identifies MIT OpenCourseWare, whose official site independently offers lecture notes, exams, videos, assignments, and problem sets.",
+    "verification_status": "Verified public canonical site and function",
+    "current_function": "Free MIT course materials including lecture notes, exams, videos, assignments, and problem sets.",
+    "access_type": "Free public web; no registration required",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Yes for public-page research; respect site terms, robots, and Creative Commons license conditions.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7653516171005775126",
+      "https://www.tiktok.com/@lucaswebq/video/7653516171005775126",
+      "https://ocw.mit.edu/"
+    ],
+    "normalized_domain": "ocw.mit.edu",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7653516171005775126",
+      "video_id": "7653516171005775126"
+    }
+  },
+  {
+    "part": 704,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7661680143441661207",
+    "video_id": "7661680143441661207",
+    "exact_caption": "Powerful Websites You Should Know (Part 704) Learn almost any song on guitar, piano and other instruments. #piano #guitar #pianotutorial #lucaswebq",
+    "website_name": "Yousician",
+    "canonical_url": "https://yousician.com/",
+    "match_confidence": "Confirmed",
+    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 704 and the exact caption. TikTok discovery indexing associates the exact Part 704 post with Yousician, and Yousician independently verifies lessons and song libraries for guitar, piano, bass, ukulele, and singing.",
+    "verification_status": "Verified public canonical site and function",
+    "current_function": "Interactive instrument lessons and song-based practice with real-time feedback.",
+    "access_type": "Freemium web/mobile/desktop app; paid Premium tiers",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Limited: public product research is accessible; personalized lessons require an account and some content requires subscription.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7661680143441661207",
+      "https://www.tiktok.com/discover/a-website-that-can-hear-and-help-you-learn-guitar",
+      "https://yousician.com/"
+    ],
+    "normalized_domain": "yousician.com",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7661680143441661207",
+      "video_id": "7661680143441661207"
+    }
+  },
+  {
+    "part": 736,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7673554479370849558",
+    "video_id": "7673554479370849558",
+    "exact_caption": "Powerful Websites You Should Know (Part 736) Access an all in one AI assistant that can plan your week, write scripts, summarise documents, organise everything! #dola #uk #productivity #lucaswebq",
+    "website_name": "Dola AI",
+    "canonical_url": "https://dola.com/",
+    "match_confidence": "Confirmed",
+    "evidence_summary": "Official TikTok oEmbed binds Part 736 to a caption explicitly tagged #dola. Dola's official site identifies itself as an everyday AI assistant, while official app listings independently verify summarization and organization functions.",
+    "verification_status": "Verified public canonical site and function",
+    "current_function": "General-purpose AI assistant for planning, writing, summarization, and organization.",
+    "access_type": "Public web and mobile apps; account may be required for use",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Limited: public site is accessible, but assistant use may require account/app interaction.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7673554479370849558",
+      "https://www.tiktok.com/@lucaswebq/video/7673554479370849558",
+      "https://dola.com/",
+      "https://play.google.com/store/apps/details?id=com.larus.wolf"
+    ],
+    "normalized_domain": "dola.com",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7673554479370849558",
+      "video_id": "7673554479370849558"
+    }
+  },
+  {
+    "part": 743,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7676147643696876822",
+    "video_id": "7676147643696876822",
+    "exact_caption": "Powerful Websites You Should Know (Part 743) Find owners manual, repair guides and fuse box diagrams for any car. #cartok #mechanic #repair #lucaswebq",
+    "website_name": "StartMyCar",
+    "canonical_url": "https://www.startmycar.com/",
+    "match_confidence": "Confirmed",
+    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 743 and the exact caption. TikTok topic/discovery indexing connects that exact Part 743 caption to StartMyCar, and the public StartMyCar site independently verifies vehicle problem/solution and make/model resources.",
+    "verification_status": "Verified public canonical site; exact content sections are vehicle-dependent",
+    "current_function": "Vehicle problem knowledge base plus owner/manual, repair, and fuse-diagram resources organized by make/model.",
+    "access_type": "Free public web with optional community participation",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Yes for public-page research; no structured agent interface verified.",
+    "checked_at": "2026-08-28T17:55:10Z",
+    "evidence_sources": [
+      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7676147643696876822",
+      "https://www.tiktok.com/topic/start-my-car",
+      "https://www.startmycar.com/"
+    ],
+    "normalized_domain": "startmycar.com",
+    "provenance": {
+      "source": "hermes",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7676147643696876822",
+      "video_id": "7676147643696876822"
+    }
+  }
+]
