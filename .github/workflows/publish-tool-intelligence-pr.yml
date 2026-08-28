@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  validate-and-push:
+  validate-and-export:
     runs-on: [self-hosted, macOS]
     timeout-minutes: 45
     env:
@@ -35,7 +35,7 @@ jobs:
           echo "LOCAL_BRANCH=$BRANCH"
           echo "LOCAL_HEAD=$(git -C "$WT" rev-parse --short HEAD)"
           test "$BRANCH" = "$EXPECTED_BRANCH"
-          rm -rf "$WT/tests/__pycache__" "$WT/tool_intelligence/__pycache__"
+          rm -rf "$WT/tests/__pycache__" "$WT/tool_intelligence/__pycache__" "$WT/.pytest_cache"
           STATUS="$(git -C "$WT" status --porcelain)"
           if [[ -n "$STATUS" ]]; then
             echo "Local integration worktree is not clean:" >&2
@@ -69,7 +69,7 @@ jobs:
             echo "origin/main advanced; rebasing integration branch."
             if ! git -C "$WT" rebase origin/main; then
               git -C "$WT" rebase --abort || true
-              echo "Rebase failed and was aborted; branch left unpushed." >&2
+              echo "Rebase failed and was aborted; integration branch left local." >&2
               exit 1
             fi
           fi
@@ -103,16 +103,87 @@ jobs:
           test -z "$(git status --porcelain)"
           echo "FOCUSED_VALIDATION=PASS"
 
-      - name: Push validated integration branch
+      - name: Export validated integration snapshot
         shell: bash
         run: |
           set -euo pipefail
           WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
-          export GIT_SSH_COMMAND='ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new'
-          if ! git -C "$WT" ls-remote git@github.com:2strongtrainers-art/Nicholas-AI-OS.git HEAD >/dev/null 2>&1; then
-            echo "No usable non-interactive SSH GitHub credential is available on the Mac runner; validated branch remains local." >&2
-            exit 1
+          EXPORT_ROOT="$GITHUB_WORKSPACE/ops-export/tool-intelligence"
+          rm -rf "$EXPORT_ROOT"
+          mkdir -p "$EXPORT_ROOT/files"
+          python3 - "$WT" "$EXPORT_ROOT" <<'PY'
+          import json
+          import shutil
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          wt = Path(sys.argv[1])
+          out = Path(sys.argv[2])
+
+          def git(*args: str, text=True):
+              return subprocess.run(
+                  ["git", "-C", str(wt), *args],
+                  check=True,
+                  stdout=subprocess.PIPE,
+                  stderr=subprocess.PIPE,
+                  text=text,
+              ).stdout
+
+          raw = git("diff", "--name-status", "-z", "origin/main...HEAD", text=False)
+          fields = raw.split(b"\0")
+          entries = []
+          i = 0
+          while i < len(fields) and fields[i]:
+              status = fields[i].decode("utf-8", "replace")
+              i += 1
+              if status.startswith("R") or status.startswith("C"):
+                  old_path = fields[i].decode("utf-8", "surrogateescape")
+                  new_path = fields[i + 1].decode("utf-8", "surrogateescape")
+                  i += 2
+                  path = new_path
+              else:
+                  old_path = None
+                  path = fields[i].decode("utf-8", "surrogateescape")
+                  i += 1
+
+              mode = None
+              if not status.startswith("D"):
+                  ls = git("ls-files", "-s", "--", path).strip()
+                  mode = ls.split()[0] if ls else "100644"
+                  src = wt / path
+                  dst = out / "files" / path
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(src, dst)
+
+              entries.append({
+                  "status": status,
+                  "path": path,
+                  "old_path": old_path,
+                  "mode": mode,
+              })
+
+          manifest = {
+              "base_sha": git("rev-parse", "origin/main").strip(),
+              "head_sha": git("rev-parse", "HEAD").strip(),
+              "branch": git("branch", "--show-current").strip(),
+              "ahead_count": int(git("rev-list", "--count", "origin/main..HEAD").strip()),
+              "entries": entries,
+          }
+          (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          print(f"EXPORTED_FILES={sum(1 for e in entries if not e['status'].startswith('D'))}")
+          print(f"EXPORTED_ENTRIES={len(entries)}")
+          print(f"EXPORTED_HEAD={manifest['head_sha']}")
+          PY
+
+          git config user.name "Nicholas Integration Export"
+          git config user.email "actions@users.noreply.github.com"
+          git add ops-export/tool-intelligence
+          if git diff --cached --quiet; then
+            echo "Validated export already current."
+          else
+            git commit -m "ops: export validated tool intelligence integration"
+            git push origin HEAD:"$GITHUB_REF_NAME"
           fi
-          git -C "$WT" push git@github.com:2strongtrainers-art/Nicholas-AI-OS.git HEAD:refs/heads/codex/hermes-tool-intelligence-node24
-          echo "PUBLISHED_BRANCH=codex/hermes-tool-intelligence-node24"
-          echo "PUBLISHED_HEAD=$(git -C "$WT" rev-parse HEAD)"
+          test -f "$EXPORT_ROOT/manifest.json"
+          echo "VALIDATED_EXPORT=PASS"
