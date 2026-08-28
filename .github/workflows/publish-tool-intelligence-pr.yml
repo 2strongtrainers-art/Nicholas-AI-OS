@@ -43,7 +43,19 @@ jobs:
         run: |
           set -euo pipefail
           WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
-          git -C "$WT" fetch origin main --prune
+          ASKPASS="$RUNNER_TEMP/nicholas-ai-fetch-askpass.sh"
+          cat > "$ASKPASS" <<'SH'
+          #!/bin/sh
+          case "$1" in
+            *Username*) printf '%s\n' 'x-access-token' ;;
+            *Password*) printf '%s\n' "$GITHUB_TOKEN" ;;
+          esac
+          SH
+          chmod 700 "$ASKPASS"
+          export GIT_ASKPASS="$ASKPASS"
+          export GIT_TERMINAL_PROMPT=0
+          git -C "$WT" fetch https://github.com/2strongtrainers-art/Nicholas-AI-OS.git main:refs/remotes/origin/main --prune
+          rm -f "$ASKPASS"
           if git -C "$WT" merge-base --is-ancestor origin/main HEAD; then
             echo "Integration branch already contains current origin/main."
           else
@@ -88,7 +100,7 @@ jobs:
         run: |
           set -euo pipefail
           WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
-          ASKPASS="$RUNNER_TEMP/nicholas-ai-git-askpass.sh"
+          ASKPASS="$RUNNER_TEMP/nicholas-ai-push-askpass.sh"
           cat > "$ASKPASS" <<'SH'
           #!/bin/sh
           case "$1" in
