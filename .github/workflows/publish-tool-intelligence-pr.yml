@@ -1,0 +1,105 @@
+name: Publish Tool Intelligence PR Branch
+
+on:
+  push:
+    branches:
+      - ops/publish-tool-intelligence-pr
+    paths:
+      - .github/workflows/publish-tool-intelligence-pr.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-push:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 45
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out control branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate local integration worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
+          EXPECTED_BRANCH="codex/hermes-tool-intelligence-node24"
+          test -d "$WT"
+          git -C "$WT" rev-parse --is-inside-work-tree >/dev/null
+          BRANCH="$(git -C "$WT" branch --show-current)"
+          test "$BRANCH" = "$EXPECTED_BRANCH"
+          test -z "$(git -C "$WT" status --porcelain)"
+          echo "LOCAL_BRANCH=$BRANCH"
+          echo "LOCAL_HEAD=$(git -C "$WT" rev-parse --short HEAD)"
+          echo "Local integration worktree is clean."
+
+      - name: Rebase safely onto current origin main if needed
+        shell: bash
+        run: |
+          set -euo pipefail
+          WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
+          git -C "$WT" fetch origin main --prune
+          if git -C "$WT" merge-base --is-ancestor origin/main HEAD; then
+            echo "Integration branch already contains current origin/main."
+          else
+            echo "origin/main advanced; rebasing integration branch."
+            if ! git -C "$WT" rebase origin/main; then
+              git -C "$WT" rebase --abort || true
+              echo "Rebase failed and was aborted; branch left unpushed." >&2
+              exit 1
+            fi
+          fi
+          test -z "$(git -C "$WT" status --porcelain)"
+          echo "CURRENT_MAIN=$(git -C "$WT" rev-parse --short origin/main)"
+          echo "REBASING_HEAD=$(git -C "$WT" rev-parse --short HEAD)"
+          echo "AHEAD_COUNT=$(git -C "$WT" rev-list --count origin/main..HEAD)"
+
+      - name: Re-run focused Tool Intelligence checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
+          cd "$WT"
+          if python3 -m pytest --version >/dev/null 2>&1; then
+            python3 -m pytest -q tests/test_tool_intelligence.py
+          else
+            python3 -m unittest discover -s tests -p 'test_tool_intelligence.py'
+          fi
+          ruby -e 'require "yaml"; files=Dir[".github/workflows/*.{yml,yaml}"]; files.each { |f| YAML.load_file(f, aliases: true) }; puts "WORKFLOW_YAML_PARSE_PASS=#{files.length}"'
+          if grep -REn 'actions/(checkout@v4|setup-node@v4|setup-python@v5|github-script@v7|upload-artifact@v4)' .github/workflows; then
+            echo "Obsolete GitHub JavaScript action pin found." >&2
+            exit 1
+          fi
+          if grep -REn 'ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION' .github/workflows; then
+            echo "Insecure Node runtime override found." >&2
+            exit 1
+          fi
+          git diff --check origin/main...HEAD
+          test -z "$(git status --porcelain)"
+          echo "FOCUSED_VALIDATION=PASS"
+
+      - name: Push validated integration branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
+          ASKPASS="$RUNNER_TEMP/nicholas-ai-git-askpass.sh"
+          cat > "$ASKPASS" <<'SH'
+          #!/bin/sh
+          case "$1" in
+            *Username*) printf '%s\n' 'x-access-token' ;;
+            *Password*) printf '%s\n' "$GITHUB_TOKEN" ;;
+          esac
+          SH
+          chmod 700 "$ASKPASS"
+          export GIT_ASKPASS="$ASKPASS"
+          export GIT_TERMINAL_PROMPT=0
+          git -C "$WT" push --set-upstream https://github.com/2strongtrainers-art/Nicholas-AI-OS.git HEAD:codex/hermes-tool-intelligence-node24
+          rm -f "$ASKPASS"
+          echo "PUBLISHED_BRANCH=codex/hermes-tool-intelligence-node24"
+          echo "PUBLISHED_HEAD=$(git -C "$WT" rev-parse HEAD)"
