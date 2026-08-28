@@ -4,43 +4,43 @@
     {
       "asset_class": "stock",
       "average_down": false,
-      "entry": 224.72505027160645,
+      "entry": 770.7358366455078,
       "execution": "paper",
-      "opening_range_high": 229.26,
-      "opening_range_low": 226.05,
-      "relative_volume": 1.255,
-      "score": 73.19,
+      "opening_range_high": 772.84,
+      "opening_range_low": 771.47,
+      "relative_volume": 1.403,
+      "score": 60.89,
       "side": "short",
-      "stop": 226.85250091552734,
-      "symbol": "NVDA",
-      "target": 221.00201164474487,
-      "timestamp": "2026-08-28T14:06:00+00:00",
-      "vwap": 226.6021
+      "stop": 771.8124847412109,
+      "symbol": "SPY",
+      "target": 768.8517024780273,
+      "timestamp": "2026-08-28T14:07:00+00:00",
+      "vwap": 771.9121
     }
   ],
-  "checked_at": "2026-08-28T14:07:02.644194+00:00",
+  "checked_at": "2026-08-28T14:08:06.094099+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100788.117957,
   "events": [
     {
-      "entry": 224.72505027160645,
-      "opened_at": "2026-08-28T14:06:00+00:00",
+      "entry": 770.7358366455078,
+      "opened_at": "2026-08-28T14:07:00+00:00",
       "paper_only": true,
-      "quantity": 118,
-      "risk_dollars": 251.0391759826656,
-      "score": 73.19,
+      "quantity": 234,
+      "risk_dollars": 251.93565439453687,
+      "score": 60.89,
       "side": "short",
-      "stop": 226.85250091552734,
-      "symbol": "NVDA",
-      "target": 221.00201164474487,
-      "timestamp": "2026-08-28T14:06:00+00:00",
+      "stop": 771.8124847412109,
+      "symbol": "SPY",
+      "target": 768.8517024780273,
+      "timestamp": "2026-08-28T14:07:00+00:00",
       "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-08-28T14:06:00+00:00",
+  "latest_data_at": "2026-08-28T14:07:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 1,
+  "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
@@ -63,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 1
+  "trades_today": 2
 }
