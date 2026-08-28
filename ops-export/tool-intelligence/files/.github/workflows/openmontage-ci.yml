@@ -1,0 +1,57 @@
+name: OpenMontage Worker CI
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/openmontage*.py'
+      - 'scripts/run_hermes_paper_trading_desk.py'
+      - 'scripts/install_agent_stack.sh'
+      - 'scripts/configure_hermes_safe.sh'
+      - 'scripts/configure_nicholas_operator_brain.sh'
+      - 'hermes/**'
+      - 'trading/**'
+      - '.hermes.md'
+      - 'templates/openmontage/**'
+      - 'tests/test_openmontage*.py'
+      - 'tests/test_paper_trading_desk.py'
+      - 'docs/openmontage-bridge-modes.md'
+      - 'docs/hermes-paper-trading-desk.md'
+      - 'WORKFLOW_ROUTER.md'
+      - '.github/workflows/openmontage-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Syntax check worker modules
+        run: |
+          python -m py_compile \
+            scripts/openmontage_worker.py \
+            scripts/openmontage_worker_base.py \
+            scripts/openmontage_worker_resilient.py \
+            scripts/openmontage_agent_stack.py \
+            scripts/openmontage_trading_stack.py \
+            scripts/openmontage_fast_reel_edl.py \
+            scripts/run_hermes_paper_trading_desk.py \
+            trading/paper_engine.py
+          bash -n scripts/install_agent_stack.sh
+          bash -n scripts/configure_hermes_safe.sh
+          bash -n scripts/configure_nicholas_operator_brain.sh
+
+      - name: Run OpenMontage unit tests
+        run: python -m unittest discover -s tests -p 'test_openmontage*.py' -v
+
+      - name: Run paper trading safety tests
+        run: python -m unittest discover -s tests -p 'test_paper_trading_desk.py' -v

@@ -1,0 +1,51 @@
+name: Free AI 8 Health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 15 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    env:
+      ALLOW_PAID_AI: 'false'
+      ALLOW_APOLLO_CREDIT_SPEND: 'false'
+      ALLOW_OUTBOUND_SEND: 'false'
+      HUBSPOT_ACCESS_TOKEN: ${{ secrets.HUBSPOT_ACCESS_TOKEN }}
+      APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+      DIFY_API_KEY: ${{ secrets.DIFY_API_KEY }}
+      FISH_API_KEY: ${{ secrets.FISH_API_KEY }}
+      FISH_MODEL: s2.1-pro-free
+      MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+      QODER_PERSONAL_ACCESS_TOKEN: ${{ secrets.QODER_PERSONAL_ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r stacks/free-ai-8/requirements.txt
+      - name: Generate health report
+        run: python stacks/free-ai-8/orchestrator.py health --output free-ai-8-health.json
+      - name: Show health report
+        run: cat free-ai-8-health.json
+      - name: Guard Fish free-window expiry
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          data=json.load(open('free-ai-8-health.json'))
+          fish=data['providers']['fish_audio']
+          if fish['configured'] and not fish['free_model_window_valid']:
+              raise SystemExit('Fish free API window expired: revalidate pricing/terms before use.')
+          PY
+      - name: Upload health artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: free-ai-8-health
+          path: free-ai-8-health.json
+          retention-days: 14

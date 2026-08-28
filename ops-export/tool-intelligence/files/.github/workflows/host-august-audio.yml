@@ -1,0 +1,139 @@
+name: Host August Nick Audio
+
+on:
+  push:
+    paths:
+      - 'jobs/host-august-audio-*.txt'
+  workflow_dispatch:
+    inputs:
+      script_path:
+        description: 'Repository path to an approved August Nick narration script'
+        required: true
+        type: string
+
+jobs:
+  host-audio:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - name: Resolve exact triggering script
+        shell: bash
+        env:
+          DISPATCH_SCRIPT_PATH: ${{ inputs.script_path }}
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            INPUT="$DISPATCH_SCRIPT_PATH"
+          else
+            INPUT="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^jobs/host-august-audio-.*\.txt$' | head -1 || true)"
+          fi
+          case "$INPUT" in
+            jobs/host-august-audio-*.txt) ;;
+            *) echo 'Invalid August Nick script path.' >&2; exit 1 ;;
+          esac
+          test -s "$INPUT"
+          echo "AUGUST_INPUT=$INPUT" >> "$GITHUB_ENV"
+          echo "AUGUST_STEM=$(basename "$INPUT" .txt)" >> "$GITHUB_ENV"
+          echo "Resolved voice script: $INPUT"
+      - name: Generate canonical August Nick MP3
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: |
+          set -euo pipefail
+          export AUGUST_SCRIPT="$(cat "$AUGUST_INPUT")"
+          python3 - <<'PY'
+          import json, os, urllib.request
+          voice = 'eZ6srIcJSJNcqcDrI68r'
+          text = os.environ['AUGUST_SCRIPT'].strip()
+          if not text:
+              raise SystemExit('Audio script is empty')
+          payload = {
+              'text': text,
+              'model_id': 'eleven_multilingual_v2',
+              'voice_settings': {
+                  'stability': 0.45,
+                  'similarity_boost': 0.85,
+                  'style': 0.20,
+                  'use_speaker_boost': True,
+                  'speed': 1.10,
+              },
+          }
+          req = urllib.request.Request(
+              f'https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128',
+              data=json.dumps(payload).encode(),
+              method='POST',
+              headers={
+                  'xi-api-key': os.environ['ELEVENLABS_API_KEY'],
+                  'Content-Type': 'application/json',
+                  'Accept': 'audio/mpeg',
+              },
+          )
+          with urllib.request.urlopen(req, timeout=90) as r:
+              open('august-nick.mp3', 'wb').write(r.read())
+          size = os.path.getsize('august-nick.mp3')
+          if size < 1000:
+              raise SystemExit('Generated MP3 is unexpectedly small')
+          print({'bytes': size, 'voice': 'August Nick', 'format': 'mp3_44100_128'})
+          PY
+      - name: Verify and publish script-bound voiceover
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s august-nick.mp3
+          mkdir -p generated/audio
+          cp august-nick.mp3 "generated/audio/${AUGUST_STEM}.mp3"
+          cp "$AUGUST_INPUT" "generated/audio/${AUGUST_STEM}.txt"
+          export AUGUST_MP3_PATH="generated/audio/${AUGUST_STEM}.mp3"
+          export AUGUST_TRANSFER_DIR="generated/audio"
+          python3 - <<'PY'
+          import base64, hashlib, json, os
+          from pathlib import Path
+
+          mp3 = Path(os.environ['AUGUST_MP3_PATH'])
+          out_dir = Path(os.environ['AUGUST_TRANSFER_DIR'])
+          stem = os.environ['AUGUST_STEM']
+          data = mp3.read_bytes()
+          if len(data) < 1000:
+              raise SystemExit('August Nick MP3 failed size verification')
+          digest = hashlib.sha256(data).hexdigest()
+          encoded = base64.b64encode(data).decode('ascii')
+          chunk_chars = 300000
+          chunks = []
+          for old in out_dir.glob(f'{stem}.b64.*.txt'):
+              old.unlink()
+          for index, start in enumerate(range(0, len(encoded), chunk_chars)):
+              name = f'{stem}.b64.{index:03d}.txt'
+              (out_dir / name).write_text(encoded[start:start + chunk_chars], encoding='ascii')
+              chunks.append(name)
+          manifest = {
+              'voice': 'August Nick',
+              'voice_id': 'eZ6srIcJSJNcqcDrI68r',
+              'model': 'eleven_multilingual_v2',
+              'format': 'mp3_44100_128',
+              'bytes': len(data),
+              'sha256': digest,
+              'base64_chars': len(encoded),
+              'chunk_chars': chunk_chars,
+              'chunks': chunks,
+          }
+          (out_dir / f'{stem}.b64.manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+          (out_dir / f'{stem}.sha256').write_text(f'{digest}  {mp3.name}\n', encoding='utf-8')
+          print({'verified_bytes': len(data), 'sha256': digest, 'chunks': len(chunks)})
+          PY
+          cp august-nick.mp3 generated/audio/august-nick-reel.mp3
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add generated/audio
+          git commit -m "Publish August Nick audio for ${AUGUST_STEM}" || exit 0
+          git pull --rebase
+          git push
+      - name: Upload canonical voiceover artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: august-nick-voice-${{ github.run_id }}
+          path: august-nick.mp3
+          retention-days: 7

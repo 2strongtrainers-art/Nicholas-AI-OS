@@ -1,0 +1,60 @@
+name: Paper Day Trader CI
+
+on:
+  pull_request:
+    paths:
+      - 'trading/daytrade_engine.py'
+      - 'trading/daytrade_policy.json'
+      - 'trading/market_feed.py'
+      - 'trading/paper_engine.py'
+      - 'trading/risk_policy.json'
+      - 'scripts/run_paper_daytrade_cycle.py'
+      - 'scripts/run_paper_daytrade_feed_once.py'
+      - 'scripts/install_paper_daytrader_feed.sh'
+      - 'scripts/openmontage_trading_stack.py'
+      - 'tests/test_daytrade_engine.py'
+      - '.github/workflows/paper-daytrader-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            trading/daytrade_engine.py \
+            trading/market_feed.py \
+            trading/paper_engine.py \
+            scripts/run_paper_daytrade_cycle.py \
+            scripts/run_paper_daytrade_feed_once.py \
+            scripts/openmontage_trading_stack.py
+          bash -n scripts/install_paper_daytrader_feed.sh
+      - name: Paper trading tests
+        run: python -m unittest tests.test_daytrade_engine tests.test_paper_trading_desk -v
+      - name: Assert no broker adapters or order endpoints
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in ('trading/daytrade_policy.json', 'trading/risk_policy.json'):
+              policy = json.load(open(path))
+              assert policy['mode'] == 'paper_only'
+              assert policy['live_execution_enabled'] is False
+              assert not policy.get('live_broker_adapters')
+          text = '\n'.join(Path(p).read_text() for p in (
+              'trading/market_feed.py',
+              'scripts/run_paper_daytrade_feed_once.py',
+              'scripts/openmontage_trading_stack.py',
+          )).lower()
+          forbidden = ('/orders', 'submit_order', 'tradingclient', 'paper-api.alpaca.markets')
+          assert not any(token in text for token in forbidden), 'live order capability detected'
+          print('paper-only feed verified')
+          PY

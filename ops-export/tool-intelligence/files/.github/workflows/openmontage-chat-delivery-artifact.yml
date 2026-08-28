@@ -1,0 +1,76 @@
+name: OpenMontage Chat Delivery Artifact
+
+on:
+  push:
+    paths:
+      - 'jobs/openmontage/chat-delivery/*.mp4'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Collect newly delivered MP4s
+        id: collect
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifact
+          before='${{ github.event.before }}'
+          if [[ "$before" =~ ^0+$ ]]; then
+            git ls-files 'jobs/openmontage/chat-delivery/*.mp4' > /tmp/changed.txt
+          else
+            git diff --name-only "$before" '${{ github.sha }}' -- 'jobs/openmontage/chat-delivery/*.mp4' > /tmp/changed.txt
+          fi
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            [ -f "$file" ] || continue
+            cp "$file" artifact/
+          done < /tmp/changed.txt
+          test -n "$(find artifact -maxdepth 1 -type f -name '*.mp4' -print -quit)"
+
+      - name: Upload private ChatGPT delivery artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: openmontage-chat-delivery-${{ github.run_id }}
+          path: artifact/*.mp4
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+      - name: Publish artifact lookup manifest
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import glob, json, os
+          files = [os.path.basename(p) for p in sorted(glob.glob('artifact/*.mp4'))]
+          payload = {
+              'run_id': int(os.environ['RUN_ID']),
+              'run_attempt': int(os.environ['RUN_ATTEMPT']),
+              'commit_sha': os.environ['COMMIT_SHA'],
+              'artifact_name': f"openmontage-chat-delivery-{os.environ['RUN_ID']}",
+              'files': files,
+          }
+          os.makedirs('jobs/openmontage/chat-delivery', exist_ok=True)
+          with open('jobs/openmontage/chat-delivery/latest-artifact.json', 'w', encoding='utf-8') as f:
+              json.dump(payload, f, indent=2)
+              f.write('\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add jobs/openmontage/chat-delivery/latest-artifact.json
+          git commit -m 'Publish OpenMontage chat delivery artifact manifest' || exit 0
+          git push

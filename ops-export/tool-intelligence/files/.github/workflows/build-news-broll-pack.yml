@@ -1,0 +1,69 @@
+name: Build News B-roll Pack
+
+on:
+  push:
+    paths:
+      - 'jobs/build-news-broll-*.txt'
+
+jobs:
+  build-broll:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build compact vertical B-roll clips
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p generated/broll source-broll
+
+          curl -fL --retry 3 --connect-timeout 20 \
+            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ford_assembly_line_(1947).webm' \
+            -o source-broll/auto.webm
+          curl -fL --retry 3 --connect-timeout 20 \
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/Oil_tanker_Niovi_seized_by_Iran%27s_Islamic_Revolutionary_Guard_Corps_Navy.webm" \
+            -o source-broll/iran.webm
+          curl -fL --retry 3 --connect-timeout 20 \
+            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Sun-sunchronous_orbit_of_AI_data_centers.webm' \
+            -o source-broll/ai.webm
+          curl -fL --retry 3 --connect-timeout 20 \
+            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Energy_By_the_Numbers-_Electric_Vehicles.webm' \
+            -o source-broll/ev.webm
+
+          make_clip() {
+            src="$1"; start="$2"; out="$3"
+            ffmpeg -y -hide_banner -loglevel error -ss "$start" -i "$src" -t 8 \
+              -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=24" \
+              -an -c:v libx264 -preset veryfast -crf 26 -pix_fmt yuv420p -movflags +faststart "$out"
+            ffprobe -v error -select_streams v:0 \
+              -show_entries stream=codec_name,width,height -show_entries format=duration,size \
+              -of json "$out"
+          }
+
+          make_clip source-broll/auto.webm 20 generated/broll/01-auto-manufacturing.mp4
+          make_clip source-broll/iran.webm 5 generated/broll/02-iran-oil-shipping.mp4
+          make_clip source-broll/ai.webm 2 generated/broll/03-ai-technology.mp4
+          make_clip source-broll/ev.webm 12 generated/broll/04-electric-vehicles.mp4
+
+          cat > generated/broll/SOURCES.md <<'EOF'
+          # August 24 News B-roll Sources
+
+          These clips are cropped/transcoded derivatives used as illustrative B-roll, not footage of the August 24, 2026 events themselves.
+
+          1. `01-auto-manufacturing.mp4` — Ford assembly line (1947), U.S. National Archives / Ford Motor Company collection, public domain in the U.S. Source: Wikimedia Commons `File:Ford assembly line (1947).webm`.
+          2. `02-iran-oil-shipping.mp4` — U.S. Navy footage of the tanker Niovi in the Strait of Hormuz (2023), U.S. federal government work / public domain. Source: Wikimedia Commons `File:Oil tanker Niovi seized by Iran's Islamic Revolutionary Guard Corps Navy.webm`.
+          3. `03-ai-technology.mp4` — `Sun-sunchronous orbit of AI data centers.webm`, dedicated to the public domain under CC0 by its creator. Source: Wikimedia Commons.
+          4. `04-electric-vehicles.mp4` — `Energy By the Numbers- Electric Vehicles.webm`, public domain. Source: Wikimedia Commons.
+          EOF
+
+      - name: Publish B-roll pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add generated/broll
+          git commit -m 'Publish licensed Aug 24 news B-roll pack' || exit 0
+          git pull --rebase
+          git push

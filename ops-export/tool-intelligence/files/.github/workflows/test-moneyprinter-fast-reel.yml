@@ -1,0 +1,30 @@
+name: Test MoneyPrinter Fast Reel
+
+on:
+  push:
+    paths:
+      - 'scripts/openmontage_moneyprinter.py'
+      - 'scripts/openmontage_worker.py'
+      - 'tests/test_openmontage_moneyprinter.py'
+      - '.github/workflows/test-moneyprinter-fast-reel.yml'
+  pull_request:
+    paths:
+      - 'scripts/openmontage_moneyprinter.py'
+      - 'scripts/openmontage_worker.py'
+      - 'tests/test_openmontage_moneyprinter.py'
+      - '.github/workflows/test-moneyprinter-fast-reel.yml'
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Compile integration modules
+        run: |
+          python -m py_compile scripts/openmontage_moneyprinter.py scripts/openmontage_worker.py
+      - name: Run unit tests
+        run: |
+          python -m unittest tests.test_openmontage_moneyprinter -v

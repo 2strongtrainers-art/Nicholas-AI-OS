@@ -1,0 +1,104 @@
+name: Validate AI OS Jobs
+
+on:
+  push:
+    paths:
+      - 'jobs/**/*.json'
+      - '.github/workflows/validate-jobs.yml'
+  pull_request:
+    paths:
+      - 'jobs/**/*.json'
+      - '.github/workflows/validate-jobs.yml'
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Validate job JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob globstar
+          files=(jobs/**/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No job JSON files found; validation passed."
+            exit 0
+          fi
+          for file in "${files[@]}"; do
+            echo "Validating $file"
+            python -m json.tool "$file" >/dev/null
+          done
+
+      - name: Check schema-specific required fields
+        shell: python
+        run: |
+          import glob, json, sys
+          from pathlib import Path
+
+          openmontage_required = {
+              "id", "type", "status", "project_id", "brief", "output_filename"
+          }
+          openmontage_statuses = {"queued", "running", "completed", "failed"}
+          openmontage_modes = {"fast_reel", "full_production"}
+          failures = []
+
+          for path in glob.glob("jobs/**/*.json", recursive=True):
+              with open(path, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+
+              if not isinstance(data, dict) or not data:
+                  failures.append(f"{path}: top level must be a non-empty object")
+                  continue
+
+              # Only direct children of jobs/openmontage/ are queue jobs.
+              # Nested JSON files such as chat-delivery/latest-artifact.json are
+              # transport manifests and intentionally do not use the job schema.
+              is_openmontage_job_path = Path(path).parent.as_posix() == "jobs/openmontage"
+              is_openmontage = (
+                  data.get("type") == "openmontage_video"
+                  or is_openmontage_job_path
+              )
+
+              if not is_openmontage:
+                  # Legacy jobs and OpenMontage support manifests intentionally use
+                  # workflow-specific shapes. Their producers own those contracts.
+                  continue
+
+              missing = sorted(openmontage_required - set(data))
+              if missing:
+                  failures.append(f"{path}: missing {', '.join(missing)}")
+                  continue
+
+              if data.get("type") != "openmontage_video":
+                  failures.append(f"{path}: type must be openmontage_video")
+              if data.get("status") not in openmontage_statuses:
+                  failures.append(
+                      f"{path}: invalid status {data.get('status')!r}; "
+                      f"expected one of {sorted(openmontage_statuses)}"
+                  )
+              if "render_mode" in data and data.get("render_mode") not in openmontage_modes:
+                  failures.append(
+                      f"{path}: invalid render_mode {data.get('render_mode')!r}; "
+                      f"expected one of {sorted(openmontage_modes)}"
+                  )
+              fast_reel = data.get("fast_reel")
+              if fast_reel is not None and not isinstance(fast_reel, dict):
+                  failures.append(f"{path}: fast_reel must be an object")
+              elif isinstance(fast_reel, dict) and "duration_seconds" in fast_reel:
+                  try:
+                      duration = float(fast_reel["duration_seconds"])
+                  except (TypeError, ValueError):
+                      failures.append(f"{path}: fast_reel.duration_seconds must be numeric")
+                  else:
+                      if not 15 <= duration <= 90:
+                          failures.append(
+                              f"{path}: fast_reel.duration_seconds must be between 15 and 90"
+                          )
+
+          if failures:
+              print("\n".join(failures))
+              sys.exit(1)
+          print("All job files satisfy their schema-specific requirements.")

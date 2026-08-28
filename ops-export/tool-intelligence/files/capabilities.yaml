@@ -1,0 +1,128 @@
+version: 1
+system: Nicholas-AI-OS
+principles:
+  - native_or_connected_first
+  - lowest_cost_capable_tool
+  - no_secrets_in_source_control
+  - verify_before_claiming_success
+  - persist_repeatable_workflows
+
+routing:
+  tool_discovery: Tool_Intelligence
+  finance_personal: Finances
+  market_data: Alpaca
+  email: Gmail
+  calendar: Google_Calendar
+  contacts: Google_Contacts
+  crm: HubSpot
+  prospecting: Apollo.io
+  knowledge_base: Notion
+  structured_ops: Airtable
+  design: Canva
+  website: Wix
+  payments: Stripe
+  analytics: PostHog
+  code_automation: GitHub
+  prototype_fallback: Replit
+  web_research: web
+  deep_web_research: Exa
+  academic_research: Sider_Scholar
+  freshness_research: Acumen_by_Talarion
+
+tool_intelligence:
+  canonical_registry: data/tool-intelligence/canonical-tools.json
+  probable_review: data/tool-intelligence/probable-review.json
+  pending_evidence: data/tool-intelligence/pending-evidence.json
+  importer: scripts/import_hermes_tool_intelligence.py
+  router: scripts/search_tool_intelligence.py
+  route_confirmed_only: true
+  never_infer_structured_interfaces: true
+
+external_repositories:
+  policy: reference_only_until_security_dependency_and_license_review
+  manifest: docs/repo-stack-monetization-2026-08-25.md
+  repositories:
+    - TencentCloud/TencentDB-Agent-Memory
+    - opengeos/GeoLibre
+    - 1jehuang/jcode
+    - lyogavin/airllm
+    - ayghri/i-have-adhd
+    - different-ai/openwork
+    - virgiliojr94/book-to-skill
+    - microsoft/AI-For-Beginners
+    - boboidvtw/reverse-skill
+    - lissy93/bug-bounties
+    - mukul975/cve-mcp-server
+    - mukul975/Anthropic-Cybersecurity-Skills
+
+local_models:
+  policy: evaluation_only_until_benchmarked_sandboxed_and_approved
+  candidates:
+    - id: HauhauCS/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-GGUF
+      source: huggingface
+      role: isolated_local_research_inference
+      trust: untrusted_no_refusal_variant
+      production_write_access: false
+      unrestricted_credentials: false
+      unsupervised_external_security_testing: false
+
+security_research:
+  authorization_required: true
+  require_written_scope_for_bug_bounty: true
+  human_approval_before_active_target_testing: true
+  autonomous_external_exploitation: false
+  persistence_on_external_targets: false
+  log_evidence_and_scope_decisions: true
+
+cost_guard:
+  tiers:
+    - included_native
+    - github_actions_or_owned_api
+    - paid_specialist
+    - replit_fallback
+  require_reason_for_paid_specialist: true
+
+qa_gate:
+  require_source_verification_for_current_facts: true
+  require_execution_test_for_automation_claims: true
+  require_acceptance_criteria_check: true
+
+video:
+  default_orientation: vertical_9_16
+  default_engine: github_actions_ffmpeg
+  execution_priority:
+    - github_actions_ffmpeg
+    - native_supported_video_path
+    - specialist_managed_service
+    - replit_fallback
+  never_probe_legacy_replit_bridge_first: true
+  legacy_bridge_health_is_not_primary_workflow_health: true
+  verify_github_workflow_and_artifact_before_declaring_unavailable: true
+  narration_provider: elevenlabs
+  narration_auth: github_actions_secret
+  preferred_voice_name: August Nick
+  preferred_voice_id: eZ6srIcJSJNcqcDrI68r
+  preferred_voice_model: eleven_multilingual_v2
+  voice_settings:
+    stability: 0.45
+    similarity_boost: 0.85
+    style: 0.20
+    use_speaker_boost: true
+    speed: 1.10
+  licensed_visual_source: pexels
+  paid_fallbacks:
+    - HeyGen
+    - managed_video_render_service
+  avoid_primary_engine: Replit
+  use_replit_only_when:
+    - user_explicitly_requests_replit
+    - github_attempted_and_required_capability_unavailable
+
+security:
+  repository_visibility: private
+  secrets_location: github_actions_secrets
+  never_commit:
+    - ELEVENLABS_API_KEY
+    - PEXELS_API_KEY
+    - GITHUB_TOKEN
+    - STRIPE_SECRET_KEY

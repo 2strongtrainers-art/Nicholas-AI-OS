@@ -1,0 +1,218 @@
+{
+  "base_sha": "f6801792b96847b4f6e1006bd39d70a200fa4c36",
+  "head_sha": "85674540769443b4b15485e4867445cf43d00044",
+  "branch": "codex/hermes-tool-intelligence-node24",
+  "ahead_count": 4,
+  "entries": [
+    {
+      "status": "M",
+      "path": ".github/workflows/ai-switchboard-ci.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/automation-backbone-watchdog.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/build-news-broll-pack.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/coinbase-crypto-futures-paper-ci.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/elevenlabs-demo.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/free-ai-8-ci.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/free-ai-8-health.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/host-august-audio.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/install-fcc-bridge.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/openmontage-chat-delivery-artifact.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/openmontage-ci.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/paper-daytrader-ci.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/patch-openmontage-chat-delivery.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/recover-mac-ai-switchboard.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/render-client-brief.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/render-market-brief.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/render-photo-intro.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/render-video.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/test-elevenlabs.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/test-moneyprinter-fast-reel.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": ".github/workflows/validate-jobs.yml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": "WORKFLOW_ROUTER.md",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "M",
+      "path": "capabilities.yaml",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "data/tool-intelligence/canonical-tools.json",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "data/tool-intelligence/pending-evidence.json",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "data/tool-intelligence/probable-review.json",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "docs/HERMES_TOOL_INTELLIGENCE_INTEGRATION.md",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "hermes/research/TOOL_INTELLIGENCE_PARALLEL_REPORT.md",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "hermes/research/lucaswebq-parts-351-749-evidence.csv",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "hermes/research/lucaswebq-parts-351-749-evidence.jsonl",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "scripts/import_hermes_tool_intelligence.py",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "scripts/search_tool_intelligence.py",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "tests/test_tool_intelligence.py",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "tool_intelligence/__init__.py",
+      "old_path": null,
+      "mode": "100644"
+    },
+    {
+      "status": "A",
+      "path": "tool_intelligence/registry.py",
+      "old_path": null,
+      "mode": "100644"
+    }
+  ]
+}

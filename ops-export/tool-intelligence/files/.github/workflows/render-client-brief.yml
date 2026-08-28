@@ -1,0 +1,56 @@
+name: Render August Nick Client Brief
+
+on:
+  push:
+    paths:
+      - 'jobs/client-brief-*.json'
+      - 'scripts/render_client_brief.py'
+      - '.github/workflows/render-client-brief.yml'
+
+jobs:
+  render-client-brief:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Install render dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core python3-pip
+          python3 -m pip install --user pillow
+
+      - name: Select latest client brief job
+        id: job
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB_PATH=$(find jobs -maxdepth 1 -type f -name 'client-brief-*.json' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n1 | cut -d' ' -f2- || true)
+          if [ -z "$JOB_PATH" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "No client brief job exists yet."
+            exit 0
+          fi
+          echo "path=$JOB_PATH" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "Selected $JOB_PATH"
+
+      - name: Render with August Nick
+        if: steps.job.outputs.skip != 'true'
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: python3 scripts/render_client_brief.py "${{ steps.job.outputs.path }}"
+
+      - name: Upload finished MP4 and QA manifest
+        if: steps.job.outputs.skip != 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: august-nick-client-brief-${{ github.run_id }}
+          path: |
+            output/*.mp4
+            output/*.manifest.json
+          if-no-files-found: error
+          retention-days: 14

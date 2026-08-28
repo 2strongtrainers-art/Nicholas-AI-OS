@@ -1,0 +1,30 @@
+name: Free AI 8 CI
+
+on:
+  pull_request:
+    paths:
+      - 'stacks/free-ai-8/**'
+      - 'tests/test_free_ai_8.py'
+      - 'AGENTS.md'
+      - '.github/workflows/free-ai-8-*.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install -r stacks/free-ai-8/requirements.txt
+          pip install pytest
+      - name: Syntax check
+        run: python -m py_compile stacks/free-ai-8/orchestrator.py
+      - name: Unit tests
+        run: pytest -q tests/test_free_ai_8.py

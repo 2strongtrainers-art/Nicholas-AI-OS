@@ -1,0 +1,79 @@
+name: Render AI OS Video
+
+on:
+  push:
+    paths:
+      - 'jobs/**/*.json'
+      - '!jobs/openmontage/**'
+      - 'scripts/render_video.py'
+      - '.github/workflows/render-video.yml'
+  workflow_dispatch:
+    inputs:
+      job_path:
+        description: 'Path to a job JSON file'
+        required: true
+        default: 'jobs/demo-plugin-github-proof.json'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+
+      - name: Ensure FFmpeg and fonts are available
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          if [ ! -f /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf ]; then
+            sudo apt-get update
+            sudo apt-get install -y fonts-dejavu-core
+          fi
+          ffmpeg -version | head -n 1
+
+      - name: Select job file
+        id: job
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            JOB_PATH='${{ inputs.job_path }}'
+          else
+            JOB_PATH=$(git show --pretty='' --name-only "$GITHUB_SHA" \
+              | grep '^jobs/.*\.json$' \
+              | grep -v '^jobs/openmontage/' \
+              | tail -n 1 || true)
+          fi
+          if [ -z "$JOB_PATH" ]; then
+            echo "No changed cloud-render job JSON was found. Skipping render."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          test -f "$JOB_PATH"
+          echo "path=$JOB_PATH" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "Selected $JOB_PATH"
+
+      - name: Render vertical MP4
+        if: steps.job.outputs.skip != 'true'
+        run: python3 scripts/render_video.py "${{ steps.job.outputs.path }}"
+
+      - name: Upload rendered video and QA manifest
+        if: steps.job.outputs.skip != 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: rendered-video-${{ github.run_id }}
+          path: |
+            output/*.mp4
+            output/*.manifest.json
+          if-no-files-found: error
+          retention-days: 14
