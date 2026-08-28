@@ -177,17 +177,16 @@ case "${1:-}" in
     exec fcc-codex
     ;;
   hermes)
-    # Prefer the FCC bridge, but fall back to the direct Hermes CLI when the
-    # bridge is unavailable or exits before opening an interactive session.
-    if command -v fcc-hermes >/dev/null 2>&1; then
-      fcc-hermes && exit 0
-      echo "fcc-hermes exited unsuccessfully; launching Hermes directly." >&2
-    fi
+    # Launch the proven local Hermes CLI directly. Keep the FCC bridge as a
+    # compatibility fallback for machines where only fcc-hermes is installed.
     if [[ -x "$HOME/.local/bin/hermes" ]]; then
       exec "$HOME/.local/bin/hermes"
     fi
-    require_cmd hermes
-    exec hermes
+    if command -v hermes >/dev/null 2>&1; then
+      exec hermes
+    fi
+    require_cmd fcc-hermes
+    exec fcc-hermes
     ;;
   fcc-server)
     require_cmd fcc-server
