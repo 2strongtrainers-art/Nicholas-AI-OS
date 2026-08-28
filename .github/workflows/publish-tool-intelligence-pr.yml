@@ -108,18 +108,30 @@ jobs:
         run: |
           set -euo pipefail
           WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
+          if ! command -v gh >/dev/null 2>&1; then
+            echo "GitHub CLI is not installed on the Mac runner; branch remains local." >&2
+            exit 1
+          fi
+          if ! gh auth status -h github.com >/dev/null 2>&1; then
+            echo "No usable existing GitHub CLI login is available on the Mac runner; branch remains local." >&2
+            exit 1
+          fi
+          PUSH_TOKEN="$(gh auth token -h github.com)"
+          test -n "$PUSH_TOKEN"
           ASKPASS="$RUNNER_TEMP/nicholas-ai-push-askpass.sh"
           cat > "$ASKPASS" <<'SH'
           #!/bin/sh
           case "$1" in
             *Username*) printf '%s\n' 'x-access-token' ;;
-            *Password*) printf '%s\n' "$GITHUB_TOKEN" ;;
+            *Password*) printf '%s\n' "$PUSH_TOKEN" ;;
           esac
           SH
           chmod 700 "$ASKPASS"
+          export PUSH_TOKEN
           export GIT_ASKPASS="$ASKPASS"
           export GIT_TERMINAL_PROMPT=0
-          git -C "$WT" push origin HEAD:refs/heads/codex/hermes-tool-intelligence-node24
+          git -C "$WT" push https://github.com/2strongtrainers-art/Nicholas-AI-OS.git HEAD:refs/heads/codex/hermes-tool-intelligence-node24
           rm -f "$ASKPASS"
+          unset PUSH_TOKEN
           echo "PUBLISHED_BRANCH=codex/hermes-tool-intelligence-node24"
           echo "PUBLISHED_HEAD=$(git -C "$WT" rev-parse HEAD)"
