@@ -32,10 +32,15 @@ jobs:
           test -d "$WT"
           git -C "$WT" rev-parse --is-inside-work-tree >/dev/null
           BRANCH="$(git -C "$WT" branch --show-current)"
-          test "$BRANCH" = "$EXPECTED_BRANCH"
-          test -z "$(git -C "$WT" status --porcelain)"
           echo "LOCAL_BRANCH=$BRANCH"
           echo "LOCAL_HEAD=$(git -C "$WT" rev-parse --short HEAD)"
+          test "$BRANCH" = "$EXPECTED_BRANCH"
+          STATUS="$(git -C "$WT" status --porcelain)"
+          if [[ -n "$STATUS" ]]; then
+            echo "Local integration worktree is not clean:" >&2
+            printf '%s\n' "$STATUS" >&2
+            exit 1
+          fi
           echo "Local integration worktree is clean."
 
       - name: Rebase safely onto current origin main if needed
