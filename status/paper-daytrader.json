@@ -1,28 +1,11 @@
 {
   "broker_order_capability": false,
-  "candidates": [
-    {
-      "asset_class": "stock",
-      "average_down": false,
-      "entry": 769.7460444091797,
-      "execution": "paper",
-      "opening_range_high": 772.84,
-      "opening_range_low": 771.47,
-      "relative_volume": 1.506,
-      "score": 67.46,
-      "side": "short",
-      "stop": 771.8124847412109,
-      "symbol": "SPY",
-      "target": 766.129773828125,
-      "timestamp": "2026-08-28T16:20:00+00:00",
-      "vwap": 772.4289
-    }
-  ],
-  "checked_at": "2026-08-28T16:21:36.850183+00:00",
+  "candidates": [],
+  "checked_at": "2026-08-28T16:52:23.869103+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100222.678094,
   "events": [],
-  "latest_data_at": "2026-08-28T16:20:00+00:00",
+  "latest_data_at": "2026-08-28T16:51:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 1,
