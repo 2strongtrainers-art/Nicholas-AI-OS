@@ -54,7 +54,8 @@ jobs:
           chmod 700 "$ASKPASS"
           export GIT_ASKPASS="$ASKPASS"
           export GIT_TERMINAL_PROMPT=0
-          git -C "$WT" fetch https://github.com/2strongtrainers-art/Nicholas-AI-OS.git main:refs/remotes/origin/main --prune
+          git -C "$WT" fetch --no-tags https://github.com/2strongtrainers-art/Nicholas-AI-OS.git refs/heads/main
+          git -C "$WT" update-ref refs/remotes/origin/main FETCH_HEAD
           rm -f "$ASKPASS"
           if git -C "$WT" merge-base --is-ancestor origin/main HEAD; then
             echo "Integration branch already contains current origin/main."
@@ -111,7 +112,7 @@ jobs:
           chmod 700 "$ASKPASS"
           export GIT_ASKPASS="$ASKPASS"
           export GIT_TERMINAL_PROMPT=0
-          git -C "$WT" push --set-upstream https://github.com/2strongtrainers-art/Nicholas-AI-OS.git HEAD:codex/hermes-tool-intelligence-node24
+          git -C "$WT" push origin HEAD:refs/heads/codex/hermes-tool-intelligence-node24
           rm -f "$ASKPASS"
           echo "PUBLISHED_BRANCH=codex/hermes-tool-intelligence-node24"
           echo "PUBLISHED_HEAD=$(git -C "$WT" rev-parse HEAD)"
