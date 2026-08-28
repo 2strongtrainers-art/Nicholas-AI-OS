@@ -1,14 +1,46 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-08-28T14:05:59.381983+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 224.72505027160645,
+      "execution": "paper",
+      "opening_range_high": 229.26,
+      "opening_range_low": 226.05,
+      "relative_volume": 1.255,
+      "score": 73.19,
+      "side": "short",
+      "stop": 226.85250091552734,
+      "symbol": "NVDA",
+      "target": 221.00201164474487,
+      "timestamp": "2026-08-28T14:06:00+00:00",
+      "vwap": 226.6021
+    }
+  ],
+  "checked_at": "2026-08-28T14:07:02.644194+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100788.117957,
-  "events": [],
-  "latest_data_at": "2026-08-28T14:04:00+00:00",
+  "events": [
+    {
+      "entry": 224.72505027160645,
+      "opened_at": "2026-08-28T14:06:00+00:00",
+      "paper_only": true,
+      "quantity": 118,
+      "risk_dollars": 251.0391759826656,
+      "score": 73.19,
+      "side": "short",
+      "stop": 226.85250091552734,
+      "symbol": "NVDA",
+      "target": 221.00201164474487,
+      "timestamp": "2026-08-28T14:06:00+00:00",
+      "type": "ENTRY"
+    }
+  ],
+  "latest_data_at": "2026-08-28T14:06:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 0,
+  "open_positions": 1,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
@@ -31,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 0
+  "trades_today": 1
 }
