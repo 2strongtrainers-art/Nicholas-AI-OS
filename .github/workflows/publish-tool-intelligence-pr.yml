@@ -35,6 +35,7 @@ jobs:
           echo "LOCAL_BRANCH=$BRANCH"
           echo "LOCAL_HEAD=$(git -C "$WT" rev-parse --short HEAD)"
           test "$BRANCH" = "$EXPECTED_BRANCH"
+          rm -rf "$WT/tests/__pycache__" "$WT/tool_intelligence/__pycache__"
           STATUS="$(git -C "$WT" status --porcelain)"
           if [[ -n "$STATUS" ]]; then
             echo "Local integration worktree is not clean:" >&2
@@ -84,10 +85,11 @@ jobs:
           WT="$HOME/Nicholas-AI-OS-node24-tool-intelligence"
           cd "$WT"
           if python3 -m pytest --version >/dev/null 2>&1; then
-            python3 -m pytest -q tests/test_tool_intelligence.py
+            PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q -p no:cacheprovider tests/test_tool_intelligence.py
           else
-            python3 -m unittest discover -s tests -p 'test_tool_intelligence.py'
+            PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_tool_intelligence.py'
           fi
+          rm -rf tests/__pycache__ tool_intelligence/__pycache__ .pytest_cache
           ruby -e 'require "yaml"; files=Dir[".github/workflows/*.{yml,yaml}"]; files.each { |f| YAML.load_file(f) }; puts "WORKFLOW_YAML_PARSE_PASS=#{files.length}"'
           if grep -REn 'actions/(checkout@v4|setup-node@v4|setup-python@v5|github-script@v7|upload-artifact@v4)' .github/workflows; then
             echo "Obsolete GitHub JavaScript action pin found." >&2
