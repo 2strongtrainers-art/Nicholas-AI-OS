@@ -1,30 +1,61 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-08-28T14:56:31.048299+00:00",
-  "component": "Paper Day Trader Feed",
-  "equity": 100034.656507,
-  "events": [
+  "candidates": [
     {
-      "entry": 224.72505027160645,
-      "exit": 226.852501,
-      "paper_only": true,
-      "pnl": -251.04,
-      "quantity": 118,
-      "reason": "STOP",
-      "side": "short",
-      "symbol": "NVDA",
-      "timestamp": "2026-08-28T14:55:00+00:00",
-      "type": "EXIT"
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 320.32406176757814,
+      "execution": "paper",
+      "opening_range_high": 318.13,
+      "opening_range_low": 315.5,
+      "relative_volume": 1.378,
+      "score": 76.27,
+      "side": "long",
+      "stop": 317.4725036621094,
+      "symbol": "AAPL",
+      "target": 325.3142884521485,
+      "timestamp": "2026-08-28T14:56:00+00:00",
+      "vwap": 317.4935
     }
   ],
-  "latest_data_at": "2026-08-28T14:55:00+00:00",
+  "checked_at": "2026-08-28T14:57:33.861355+00:00",
+  "component": "Paper Day Trader Feed",
+  "equity": 100472.47289,
+  "events": [
+    {
+      "entry": 318.52368345336913,
+      "exit": 320.363248,
+      "paper_only": true,
+      "pnl": 437.82,
+      "quantity": 238,
+      "reason": "TARGET",
+      "side": "long",
+      "symbol": "AAPL",
+      "timestamp": "2026-08-28T14:56:00+00:00",
+      "type": "EXIT"
+    },
+    {
+      "entry": 320.32406176757814,
+      "opened_at": "2026-08-28T14:56:00+00:00",
+      "paper_only": true,
+      "quantity": 88,
+      "risk_dollars": 250.93711328125164,
+      "score": 76.27,
+      "side": "long",
+      "stop": 317.4725036621094,
+      "symbol": "AAPL",
+      "target": 325.3142884521485,
+      "timestamp": "2026-08-28T14:56:00+00:00",
+      "type": "ENTRY"
+    }
+  ],
+  "latest_data_at": "2026-08-28T14:56:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": -753.46145,
+  "realized_pnl": -315.645067,
   "session_complete": false,
   "session_id": "2026-08-28",
   "state": "running",
@@ -44,5 +75,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 5
+  "trades_today": 6
 }
