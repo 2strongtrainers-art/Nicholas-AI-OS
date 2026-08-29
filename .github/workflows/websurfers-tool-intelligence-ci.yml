@@ -1,0 +1,79 @@
+name: Web Surfers Tool Intelligence CI
+
+on:
+  push:
+    branches:
+      - integrate/websurfers-tool-router-2026-08-29
+    paths:
+      - 'hermes/tool_registry/websurfers/**'
+      - 'hermes/tool_registry/websurfers-index.json'
+      - 'data/tool-intelligence/**'
+      - 'tool_intelligence/**'
+      - 'scripts/tool_intelligence_router.py'
+      - 'scripts/nicholas_tool_router.py'
+      - 'scripts/validate_tool_intelligence.py'
+      - 'tests/test_tool_intelligence.py'
+      - 'tests/test_tool_intelligence_router.py'
+      - 'tests/test_nicholas_tool_router.py'
+      - '.github/workflows/websurfers-tool-intelligence-ci.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'hermes/tool_registry/websurfers/**'
+      - 'hermes/tool_registry/websurfers-index.json'
+      - 'data/tool-intelligence/**'
+      - 'tool_intelligence/**'
+      - 'scripts/tool_intelligence_router.py'
+      - 'scripts/nicholas_tool_router.py'
+      - 'scripts/validate_tool_intelligence.py'
+      - 'tests/test_tool_intelligence.py'
+      - 'tests/test_tool_intelligence_router.py'
+      - 'tests/test_nicholas_tool_router.py'
+      - '.github/workflows/websurfers-tool-intelligence-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Validate merged canonical Tool Intelligence
+        run: python -m unittest tests/test_tool_intelligence.py
+
+      - name: Validate paid-directory router
+        run: python -m unittest tests/test_tool_intelligence_router.py tests/test_nicholas_tool_router.py
+
+      - name: Validate registry invariants
+        run: python scripts/validate_tool_intelligence.py
+
+      - name: Smoke-test MIT routing
+        run: |
+          python scripts/nicholas_tool_router.py find free MIT course lecture notes exams --limit 3 > /tmp/mit-route.json
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/mit-route.json'))
+          assert data['status']=='matched'
+          assert data['primary']['domain']=='ocw.mit.edu'
+          assert 683 in data['primary']['lucas_confirmed_parts']
+          print('MIT_ROUTE_OK')
+          PY
+
+      - name: Smoke-test execution gating
+        run: |
+          python scripts/nicholas_tool_router.py create a social media design in Canva --runtime-adapters Canva --limit 3 > /tmp/canva-route.json
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/canva-route.json'))
+          assert data['status']=='matched'
+          assert data['primary']['website_name']=='Canva'
+          assert data['primary']['can_execute_now'] is True
+          print('EXECUTION_GATE_OK')
+          PY
