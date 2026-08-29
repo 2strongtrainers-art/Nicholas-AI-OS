@@ -7,7 +7,7 @@
     "website_name": "GrabCraft",
     "canonical_url": "https://www.grabcraft.com/",
     "match_confidence": "Probable",
-    "evidence_summary": "Original Lucas-post indexing confirms Part 741 and the caption prefix 'Learn step-by-step how to...'. Lucas Instagram indexing for Part 741 describes a library of Minecraft builds from starter houses to castles, portals, and redstone farms. GrabCraft independently matches that function with Minecraft blueprints and step-by-step, layer-based build instructions. The exact full TikTok caption/domain frame was not recovered, so the match remains Probable.",
+    "evidence_summary": "Original Lucas-post indexing confirms Part 741 and the caption prefix 'Learn step-by-step how to...'. Lucas Instagram indexing for Part 741 describes a library of Minecraft builds from starter houses to castles, portals, and redstone farms. GrabCraft independently matches that function with Minecraft blueprints and step-by-step, layer-based build instructions. The authenticated Web Surfers Gaming directory also lists GrabCraft as a free Minecraft 3D blueprint library. Exact full TikTok caption/domain-frame evidence is still missing, so the match remains Probable.",
     "verification_status": "Canonical site and matching function verified; exact post-to-domain binding incomplete",
     "current_function": "Minecraft build blueprints, floor plans, material counts, and layer-by-layer instructions.",
     "access_type": "Free public web",
@@ -15,18 +15,15 @@
     "mcp_available": "Unknown",
     "cli_available": "Unknown",
     "agent_accessible": "Yes for public-page research; no structured agent interface verified.",
-    "checked_at": "2026-08-28T17:55:10Z",
+    "checked_at": "2026-08-29T19:59:00Z",
     "evidence_sources": [
       "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
       "https://www.instagram.com/reel/DcMBkdWI8ht/",
-      "https://www.grabcraft.com/"
+      "https://www.grabcraft.com/",
+      "google-drive://1nnlkuhRFf5g2xl3IXOc3Ftj3rh361qf-mgQ0Shl8JQ0#Gaming-row-76"
     ],
     "normalized_domain": "grabcraft.com",
-    "provenance": {
-      "source": "hermes",
-      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
-      "video_id": "7675406339895610646"
-    }
+    "provenance": {"source":"hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7675406339895610646","video_id":"7675406339895610646"}
   },
   {
     "part": 744,
@@ -36,7 +33,7 @@
     "website_name": "Coursera Plus",
     "canonical_url": "https://www.coursera.org/courseraplus",
     "match_confidence": "Probable",
-    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 744 and the exact caption. Lucas's current official Linktree includes Coursera Plus, and Coursera Plus independently matches the caption with 10,000+ programs from 350+ universities/companies and certificates. Exact video-frame/domain evidence was not recovered, so the mapping is Probable.",
+    "evidence_summary": "Official TikTok oEmbed binds the Lucas video ID to Part 744 and the exact caption. Lucas's current official Linktree includes Coursera Plus, and Coursera Plus independently matches the caption with thousands of programs from universities/companies and certificates. Exact video-frame/domain evidence was not recovered, so the mapping is Probable.",
     "verification_status": "Canonical site and matching function verified; exact post-to-domain binding incomplete",
     "current_function": "Subscription access to thousands of online courses and certificate programs from universities and companies.",
     "access_type": "Paid subscription; individual courses may have separate access options",
@@ -45,17 +42,72 @@
     "cli_available": "Unknown",
     "agent_accessible": "Limited: public catalog research is accessible; coursework/certificates require user enrollment and often payment.",
     "checked_at": "2026-08-28T17:55:10Z",
-    "evidence_sources": [
-      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7676520158701030688",
-      "https://linktr.ee/lucaswebq",
-      "https://www.coursera.org/courseraplus"
-    ],
+    "evidence_sources": ["https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7676520158701030688","https://linktr.ee/lucaswebq","https://www.coursera.org/courseraplus"],
     "normalized_domain": "coursera.org",
-    "provenance": {
-      "source": "hermes",
-      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7676520158701030688",
-      "video_id": "7676520158701030688"
-    }
+    "provenance": {"source":"hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7676520158701030688","video_id":"7676520158701030688"}
+  },
+  {
+    "part": 745,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7676892079577976096",
+    "video_id": "7676892079577976096",
+    "exact_caption": "Powerful Websites You Should Know (Part 745) Create professional videos for your brand! Select from templates, create your own videos, then schedule with cross-posting. #videoediting #editingtips #contentcreation #lucaswebq",
+    "website_name": "Post Bridge",
+    "canonical_url": "https://www.post-bridge.com/",
+    "match_confidence": "Probable",
+    "evidence_summary": "Lucas indexing preserves the exact Part 745 caption. Post Bridge's official site independently matches the unusually specific combination in that caption: proven templates to create videos for a brand, social scheduling, and cross-posting to multiple platforms. Official Post Bridge pages additionally document API and native MCP access. Exact Lucas video-frame/domain evidence has not been recovered, so the identity remains Probable rather than Confirmed.",
+    "verification_status": "Canonical site and distinctive matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Create branded social videos from templates, schedule posts, and cross-post content to multiple social platforms.",
+    "access_type": "Paid service with a 7-day free trial; account and connected social accounts required for publishing",
+    "api_available": "Yes — official site documents an API for agent-driven scheduling/publishing",
+    "mcp_available": "Yes — official native MCP server documented",
+    "cli_available": "Unknown",
+    "agent_accessible": "Yes through official MCP/API when separately authenticated; no direct ChatGPT connector is installed in the current runtime.",
+    "checked_at": "2026-08-29T19:59:00Z",
+    "evidence_sources": ["https://www.tiktok.com/@lucaswebq/video/7676892079577976096","https://www.post-bridge.com/","https://www.post-bridge.com/cross-posting","https://www.post-bridge.com/social-media-scheduler","https://www.post-bridge.com/mcp"],
+    "normalized_domain": "post-bridge.com",
+    "provenance": {"source":"atlas+hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7676892079577976096","video_id":"7676892079577976096"}
+  },
+  {
+    "part": 746,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7677262872535223585",
+    "video_id": "7677262872535223585",
+    "exact_caption": "Powerful Websites You Should Know (Part 746) Learn how to play almost any song on guitar or piano. #guitar #piano #musician #lucaswebq",
+    "website_name": "Chordify",
+    "canonical_url": "https://chordify.net/",
+    "match_confidence": "Probable",
+    "evidence_summary": "Lucas indexing preserves the exact Part 746 caption. Chordify's official site independently states that it helps users learn and play favorite songs on guitar and piano (as well as ukulele and mandolin), which is a strong functional match. Because several music-learning services could fit the short caption and no exact Lucas frame/domain evidence was recovered, the mapping remains Probable.",
+    "verification_status": "Canonical site and matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Turns songs into synchronized chord guidance for guitar, piano, ukulele, and mandolin practice.",
+    "access_type": "Freemium web/mobile service; account and Premium plan unlock additional features",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Public catalog/page research is accessible; personalized song practice is primarily user-facing.",
+    "checked_at": "2026-08-29T19:59:00Z",
+    "evidence_sources": ["https://www.tiktok.com/@lucaswebq/video/7677262872535223585","https://chordify.net/en/"],
+    "normalized_domain": "chordify.net",
+    "provenance": {"source":"atlas+hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7677262872535223585","video_id":"7677262872535223585"}
+  },
+  {
+    "part": 748,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7678005208135322883",
+    "video_id": "7678005208135322883",
+    "exact_caption": "Powerful Websites You Should Know (Part 748) Build your dream home in 3D. #interiordesign #design #homedecor #lucaswebq",
+    "website_name": "Planner 5D",
+    "canonical_url": "https://planner5d.com/",
+    "match_confidence": "Probable",
+    "evidence_summary": "Lucas indexing preserves the exact Part 748 caption. Planner 5D's official site uses the distinctive phrase 'Design your dream home' and offers 2D floor planning plus 3D home design. The authenticated Web Surfers Design directory independently lists Planner 5D as a 2D/3D room planner. Exact Lucas video-frame/domain evidence was not recovered, so the identity remains Probable.",
+    "verification_status": "Canonical site and distinctive matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Create floor plans, furnish rooms, and visualize complete home/interior designs in 2D and 3D.",
+    "access_type": "Freemium web/mobile/desktop service; account used for project creation/sync and paid plans unlock more features",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Public research is accessible; design creation is primarily through Planner 5D's user interface and no external agent interface is verified.",
+    "checked_at": "2026-08-29T19:59:00Z",
+    "evidence_sources": ["https://www.tiktok.com/@lucaswebq/video/7678005208135322883","https://planner5d.com/","https://planner5d.com/use/free-floor-plan-creator","google-drive://17zjPsKp8ZOXumyn-JH5Mzi_SA3BXYDPJAK51jzcktNg#Design-row-354"],
+    "normalized_domain": "planner5d.com",
+    "provenance": {"source":"atlas+hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7678005208135322883","video_id":"7678005208135322883"}
   },
   {
     "part": 749,
@@ -74,17 +126,8 @@
     "cli_available": "Unknown",
     "agent_accessible": "Yes through its own AI-agent interface; external API/MCP/CLI availability not verified.",
     "checked_at": "2026-08-28T17:55:10Z",
-    "evidence_sources": [
-      "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7678376034017742102",
-      "https://runable.com/",
-      "https://docs.runable.com",
-      "https://runable.com/workflows"
-    ],
+    "evidence_sources": ["https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7678376034017742102","https://runable.com/","https://docs.runable.com","https://runable.com/workflows"],
     "normalized_domain": "runable.com",
-    "provenance": {
-      "source": "hermes",
-      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7678376034017742102",
-      "video_id": "7678376034017742102"
-    }
+    "provenance": {"source":"hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7678376034017742102","video_id":"7678376034017742102"}
   }
 ]

@@ -1,38 +1,40 @@
 {
-  "registry_version": "1.0.0",
+  "registry_version": "1.1.0",
   "registry_name": "Web Surfers Paid Tool Intelligence",
   "privacy": "private_repo_only",
-  "generated_at": "2026-08-29T17:10:00Z",
+  "generated_at": "2026-08-29T19:59:00Z",
   "counts": {
-    "tool_records": 1414,
-    "unique_domains": 1173,
-    "categories": 27,
-    "subcategories": 135,
-    "pricing": {"free":856,"freemium":496,"paid":58,"unspecified":4},
-    "direct_connector_records_current_chatgpt": 40
+    "tool_records": 1800,
+    "unique_domains": 1501,
+    "categories": 33,
+    "subcategories": 163,
+    "pricing": {"free":1204,"freemium":530,"paid":63,"unspecified":3},
+    "connector_candidate_records_current_chatgpt": 64,
+    "direct_connector_records_current_chatgpt": 21
   },
   "sources": [
     {"name":"AI Tools (19/06/2026)","google_drive_file_id":"1ryROQ0UO904kM7jY16wP0mjMTmrFsiZj4P07rLxwoss","sheet":"🤖 AI Tools","tool_records":270,"access":"authenticated Google Drive / Shared with me"},
-    {"name":"Design & Creative Tools - (19/06/2026)","google_drive_file_id":"17zjPsKp8ZOXumyn-JH5Mzi_SA3BXYDPJAK51jzcktNg","sheet":"🎨 Design & Creative","tool_records":366,"access":"authenticated Google Drive / Shared with me"},
-    {"name":"Education & Learning Tools (03/07/2026)","google_drive_file_id":"1Mn2IozwzNX0S6spUZ0_6onjHZ06L4ZHOt6k3A6QNCVM","sheet":"📚 Education & Learning","tool_records":778,"access":"authenticated Google Drive / Shared with me"}
+    {"name":"Design & Creative Tools - (19/06/2026)","google_drive_file_id":"17zjPsKp8ZOXumyn-JH5Mzi_SA3BXYDPJAK51jzcktNg","sheet":"🎨 Design & Creative","tool_records":364,"access":"authenticated Google Drive / Shared with me","note":"Two historical URL-only rows without website names are excluded from the routable registry (source rows 40 and 171)."},
+    {"name":"Education & Learning Tools (03/07/2026)","google_drive_file_id":"1Mn2IozwzNX0S6spUZ0_6onjHZ06L4ZHOt6k3A6QNCVM","sheet":"📚 Education & Learning","tool_records":778,"access":"authenticated Google Drive / Shared with me"},
+    {"name":"Gaming Tools (19/06/2026)","google_drive_file_id":"1nnlkuhRFf5g2xl3IXOc3Ftj3rh361qf-mgQ0Shl8JQ0","sheet":"🎮 Gaming","tool_records":388,"access":"authenticated Google Drive / Shared with me"}
   ],
   "compact_schema": {
-    "storage":"compact arrays: [name,url,category_index,subcategory_index,price_index,up_to_8_routing_keywords,source_row]",
+    "storage":"historical compact base arrays plus readable Gaming supplement records",
     "d":"domain derived from URL at load time",
     "id":"stable sequential/name id derived at load time",
-    "l":"sparse explicit login claims stored in payload",
-    "x":"connector candidate derived from domain at load time; runtime still must confirm it is live",
-    "src":"source spreadsheet inferred from stable source ordering plus stored row"
+    "l":"sparse explicit login claims stored in the historical compact payload; unknown for supplements unless explicitly enriched",
+    "x":"direct execution connector only when the connector can operate the listed service itself; hosted GitHub projects, HubSpot Academy, and Wix Logo Maker are not treated as executable merely because a related platform connector exists",
+    "src":"source spreadsheet and original row preserved on every routable record"
   },
   "routing_policy": {
     "tool_selection":"Web Surfers entries may be auto-selected as candidate tools because the paid directory identifies the tool and URL.",
-    "execution":"Automatic execution is allowed only when an approved runtime adapter/connector/API/MCP/CLI path is actually available in the current runtime.",
-    "lucas_mapping":"Never infer Lucas Part numbers from Web Surfers membership alone. Lucas Part identity must remain independently proven in lucas_registry.json.",
+    "execution":"Automatic execution is allowed only when an approved runtime adapter/connector/API/MCP/CLI path can operate that listed service in the current runtime. A hosting/source-code/platform connector is not an execution adapter for a different capability hosted by that platform.",
+    "lucas_mapping":"Never infer Lucas Part numbers from Web Surfers membership alone. Lucas Part identity remains independently proven through the canonical data/tool-intelligence confidence registries.",
     "unknown_interfaces":"Unknown API/MCP/CLI fields are not executable.",
     "side_effects":"Writes, purchases, publishing, messages, destructive actions, and other consequential operations remain subject to runtime/user approval policy."
   },
   "storage": {
-    "format":"gzip+base64-compact-v2",
+    "format":"gzip+base64-compact-v2-plus-json-supplements",
     "payload_parts":[
       "hermes/tool_registry/websurfers/websurfers-registry-v2.b64.01",
       "hermes/tool_registry/websurfers/websurfers-registry-v2.b64.02",
@@ -43,9 +45,20 @@
       "hermes/tool_registry/websurfers/websurfers-registry-v2.b64.07",
       "hermes/tool_registry/websurfers/websurfers-registry-v2.b64.08"
     ],
-    "uncompressed_json_bytes":204529,
-    "compressed_bytes":50639,
-    "base64_chars":67520,
-    "note":"Private compact routing payload; dictionary indexes reduce duplication while preserving all 1,414 records and source rows. Eight routing keywords per record retained after regression testing."
+    "base_filter":{"drop_missing_name_or_invalid_url":true},
+    "supplements":[
+      "hermes/tool_registry/websurfers/gaming-tools-01.json",
+      "hermes/tool_registry/websurfers/gaming-tools-02.json",
+      "hermes/tool_registry/websurfers/gaming-tools-03.json",
+      "hermes/tool_registry/websurfers/gaming-tools-04.json",
+      "hermes/tool_registry/websurfers/gaming-tools-05.json",
+      "hermes/tool_registry/websurfers/gaming-tools-06.json",
+      "hermes/tool_registry/websurfers/gaming-tools-07.json",
+      "hermes/tool_registry/websurfers/gaming-tools-08.json"
+    ],
+    "historical_base_tool_records":1414,
+    "historical_base_valid_named_records":1412,
+    "supplement_records":388,
+    "note":"The original three-sheet compact payload is preserved for stability. Runtime loaders filter its two unnamed URL-only Design rows, then append the authenticated Gaming supplement for 1,800 valid routable records."
   }
 }

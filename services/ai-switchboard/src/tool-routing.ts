@@ -6,6 +6,14 @@ import shard05 from "./catalog/websurfers-05.txt";
 import shard06 from "./catalog/websurfers-06.txt";
 import shard07 from "./catalog/websurfers-07.txt";
 import shard08 from "./catalog/websurfers-08.txt";
+import gaming01 from "../../../hermes/tool_registry/websurfers/gaming-tools-01.json";
+import gaming02 from "../../../hermes/tool_registry/websurfers/gaming-tools-02.json";
+import gaming03 from "../../../hermes/tool_registry/websurfers/gaming-tools-03.json";
+import gaming04 from "../../../hermes/tool_registry/websurfers/gaming-tools-04.json";
+import gaming05 from "../../../hermes/tool_registry/websurfers/gaming-tools-05.json";
+import gaming06 from "../../../hermes/tool_registry/websurfers/gaming-tools-06.json";
+import gaming07 from "../../../hermes/tool_registry/websurfers/gaming-tools-07.json";
+import gaming08 from "../../../hermes/tool_registry/websurfers/gaming-tools-08.json";
 
 export interface ToolRoutingEnv {
   TOOL_ROUTER_URL?: string;
@@ -45,6 +53,22 @@ type CompactRegistry = {
   tools: Array<[string, string, number, number, number, string[], number]>;
 };
 
+type SupplementRecord = {
+  n: string;
+  u: string;
+  c: string;
+  s: string;
+  p: string;
+  k: string[];
+  row: number;
+  l?: string;
+};
+
+type Supplement = {
+  source: string;
+  records: SupplementRecord[];
+};
+
 type CatalogTool = {
   tool_id: string;
   website_name: string;
@@ -58,8 +82,14 @@ type CatalogTool = {
   direct_connector: string | null;
 };
 
-const CATALOG_B64 = [shard01, shard02, shard03, shard04, shard05, shard06, shard07, shard08].join("").replace(/\s+/g, "");
+const CATALOG_B64 = [shard01, shard02, shard03, shard04, shard05, shard06, shard07, shard08]
+  .join("")
+  .replace(/\s+/g, "");
+const GAMING: Supplement[] = [gaming01, gaming02, gaming03, gaming04, gaming05, gaming06, gaming07, gaming08] as Supplement[];
 const PRICES: CatalogTool["pricing"][] = ["free", "freemium", "paid", "unknown"];
+const DESIGN_START_INDEX = 270;
+const DESIGN_END_INDEX_EXCLUSIVE = 270 + 366;
+const INVALID_DESIGN_ROWS = new Set([40, 171]);
 let catalogPromise: Promise<CatalogTool[]> | undefined;
 
 const STOPWORDS = new Set([
@@ -67,7 +97,6 @@ const STOPWORDS = new Set([
   "i", "in", "is", "it", "me", "my", "of", "on", "or", "please", "show", "that", "the",
   "this", "to", "tool", "tools", "use", "using", "want", "with", "you", "your", "find", "need", "make",
 ]);
-
 const CONSTRAINTS = new Set(["free", "no-cost", "browser", "online", "web-based", "api", "mcp", "cli"]);
 const NON_ENTITY_ACRONYMS = new Set(["ai", "api", "mcp", "cli", "ui", "ux"]);
 const ALIASES: Record<string, string[]> = {
@@ -96,10 +125,7 @@ const ALIASES: Record<string, string[]> = {
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data, null, 2), {
     status,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-    },
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
 }
 
@@ -122,25 +148,44 @@ function domainOf(url: string): string {
   }
 }
 
-function connectorForDomain(domain: string): string | null {
+function validHttpUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return (parsed.protocol === "http:" || parsed.protocol === "https:") && Boolean(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function connectorForTool(name: string, url: string, domain: string): string | null {
   const mapping: Record<string, string> = {
     "canva.com": "Canva",
     "figma.com": "Figma",
-    "github.com": "GitHub",
     "notion.so": "Notion",
     "replit.com": "Replit",
-    "wix.com": "Wix",
-    "hubspot.com": "HubSpot",
+    "heygen.com": "HeyGen",
     "chatgpt.com": "ChatGPT native",
   };
   if (mapping[domain]) return mapping[domain];
-  if (domain.endsWith(".hubspot.com")) return "HubSpot";
+  if (domain === "github.com") {
+    try {
+      const parsed = new URL(url);
+      if ((parsed.pathname === "" || parsed.pathname === "/") && name.trim().toLowerCase() === "github") return "GitHub";
+    } catch {
+      return null;
+    }
+  }
   return null;
 }
 
 function normalizeAdapters(value: unknown): Set<string> {
   if (!Array.isArray(value)) return new Set();
-  return new Set(value.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean));
+  return new Set(
+    value
+      .filter((item): item is string => typeof item === "string")
+      .map((item) => item.trim())
+      .filter(Boolean),
+  );
 }
 
 function intersect(a: Set<string>, b: Set<string>): string[] {
@@ -149,9 +194,7 @@ function intersect(a: Set<string>, b: Set<string>): string[] {
 
 function expand(values: Set<string>): Set<string> {
   const out = new Set(values);
-  for (const value of values) {
-    for (const alias of ALIASES[value] || []) out.add(alias);
-  }
+  for (const value of values) for (const alias of ALIASES[value] || []) out.add(alias);
   return out;
 }
 
@@ -176,35 +219,88 @@ function intent(task: string) {
   };
 }
 
+function makeTool(
+  id: string,
+  name: string,
+  url: string,
+  category: string,
+  subcategory: string,
+  pricing: string,
+  keywords: string[],
+  login: string,
+): CatalogTool | null {
+  const domain = domainOf(url);
+  if (!name.trim() || !domain || !validHttpUrl(url)) return null;
+  const normalizedPrice: CatalogTool["pricing"] = PRICES.includes(pricing as CatalogTool["pricing"])
+    ? pricing as CatalogTool["pricing"]
+    : "unknown";
+  const normalizedLogin: CatalogTool["login"] = login === "not_required_claimed" || login === "required_claimed"
+    ? login
+    : "unknown";
+  return {
+    tool_id: id,
+    website_name: name.trim(),
+    canonical_url: url.trim(),
+    domain,
+    category: category || "",
+    subcategory: subcategory || "",
+    pricing: normalizedPrice,
+    keywords: Array.isArray(keywords) ? keywords : [],
+    login: normalizedLogin,
+    direct_connector: connectorForTool(name, url, domain),
+  };
+}
+
+function assertCount(actual: number, expected: number, label: string): void {
+  if (actual !== expected) throw new Error(`${label} count mismatch: expected ${expected}, got ${actual}`);
+}
+
 async function decodeCatalog(): Promise<CatalogTool[]> {
   const binary = atob(CATALOG_B64);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
-
   const body = new Blob([bytes.buffer as ArrayBuffer]).stream().pipeThrough(new DecompressionStream("gzip"));
-  const text = await new Response(body).text();
-  const compact = JSON.parse(text) as CompactRegistry;
-  if (!Array.isArray(compact.tools) || compact.tools.length !== 1414) {
-    throw new Error(`embedded Web Surfers catalog count mismatch: ${compact.tools?.length || 0}`);
-  }
+  const compact = JSON.parse(await new Response(body).text()) as CompactRegistry;
+  assertCount(Array.isArray(compact.tools) ? compact.tools.length : 0, 1414, "historical Web Surfers base");
 
-  return compact.tools.map((record, index) => {
-    const [name, url, categoryIndex, subcategoryIndex, priceIndex, keywords] = record;
-    const domain = domainOf(url);
+  const tools: CatalogTool[] = [];
+  compact.tools.forEach((record, index) => {
+    const [name, url, categoryIndex, subcategoryIndex, priceIndex, keywords, sourceRow] = record;
+    const isDesignRecord = index >= DESIGN_START_INDEX && index < DESIGN_END_INDEX_EXCLUSIVE;
+    if (isDesignRecord && INVALID_DESIGN_ROWS.has(sourceRow)) return;
+
     const loginCode = compact.login[String(index)];
-    return {
-      tool_id: `ws-${String(index + 1).padStart(4, "0")}-${slug(name)}`,
-      website_name: name,
-      canonical_url: url,
-      domain,
-      category: compact.cats[categoryIndex] || "",
-      subcategory: compact.subs[subcategoryIndex] || "",
-      pricing: PRICES[priceIndex] || "unknown",
-      keywords: Array.isArray(keywords) ? keywords : [],
-      login: loginCode === 0 ? "not_required_claimed" : loginCode === 1 ? "required_claimed" : "unknown",
-      direct_connector: connectorForDomain(domain),
-    };
+    const tool = makeTool(
+      `ws-base-${String(index + 1).padStart(4, "0")}-${slug(name || "")}`,
+      name || "",
+      url || "",
+      compact.cats[categoryIndex] || "",
+      compact.subs[subcategoryIndex] || "",
+      PRICES[priceIndex] || "unknown",
+      keywords || [],
+      loginCode === 0 ? "not_required_claimed" : loginCode === 1 ? "required_claimed" : "unknown",
+    );
+    if (tool) tools.push(tool);
   });
+  assertCount(tools.length, 1412, "filtered historical Web Surfers base");
+
+  for (const supplement of GAMING) {
+    for (const record of supplement.records || []) {
+      const tool = makeTool(
+        `ws-${String(tools.length + 1).padStart(4, "0")}-${slug(record.n || "")}`,
+        record.n || "",
+        record.u || "",
+        record.c || "",
+        record.s || "",
+        record.p || "unknown",
+        record.k || [],
+        record.l || "unknown",
+      );
+      if (tool) tools.push(tool);
+    }
+  }
+  assertCount(tools.length, 1800, "embedded Web Surfers catalog");
+  return tools;
 }
 
 function loadCatalog(): Promise<CatalogTool[]> {
@@ -227,8 +323,8 @@ function scoreTool(task: string, tool: CatalogTool) {
   const acronymOverlap = intersect(acronyms, allToolTokens);
 
   if (acronyms.size && !acronymOverlap.length) return { score: 0, reason: [] as string[] };
-  if (semantic.size >= 3 && rawOverlap.length < 2 && !exactName) return { score: 0, reason: [] as string[] };
-  if (!rawOverlap.length && !exactName) return { score: 0, reason: [] as string[] };
+  const requiredOverlap = semantic.size >= 5 ? 3 : semantic.size >= 3 ? 2 : 1;
+  if (rawOverlap.length < requiredOverlap && !exactName) return { score: 0, reason: [] as string[] };
 
   let score = 0;
   const reason: string[] = [];
@@ -240,7 +336,6 @@ function scoreTool(task: string, tool: CatalogTool) {
     score += 6 * acronymOverlap.length;
     reason.push(`named entity match: ${acronymOverlap.slice(0, 4).join(", ")}`);
   }
-
   const nameOverlap = intersect(semantic, nameTokens);
   if (nameOverlap.length) {
     score += 5 * nameOverlap.length;
@@ -256,7 +351,6 @@ function scoreTool(task: string, tool: CatalogTool) {
     score += 2 * keywordOverlap.length;
     reason.push(`capability match: ${keywordOverlap.slice(0, 6).join(", ")}`);
   }
-
   const aliasOnly = new Set([...expand(semantic)].filter((value) => !semantic.has(value)));
   const aliasOverlap = intersect(aliasOnly, allToolTokens);
   if (aliasOverlap.length) {
@@ -286,7 +380,7 @@ function scoreTool(task: string, tool: CatalogTool) {
   }
   if (tool.direct_connector) {
     score += 0.5;
-    reason.push(`direct connector available: ${tool.direct_connector}`);
+    reason.push(`direct connector candidate: ${tool.direct_connector}`);
     if (flags.wantsExecute) score += 2;
   }
   if (flags.wantsApi || flags.wantsMcp || flags.wantsCli) score -= 0.5;
@@ -298,6 +392,7 @@ async function embeddedCatalogRoute(body: RouteBody & { task: string; limit: num
   const catalog = await loadCatalog();
   const runtime = normalizeAdapters(body.runtime_adapters);
   const flags = intent(body.task);
+
   const ranked = catalog
     .filter((tool) => body.include_paid !== false || tool.pricing !== "paid")
     .map((tool) => ({ tool, ...scoreTool(body.task, tool) }))
@@ -340,11 +435,11 @@ async function embeddedCatalogRoute(body: RouteBody & { task: string; limit: num
     status: results.length ? "matched" : "no_match",
     task: body.task,
     source: "embedded_private_websurfers",
-    catalog_scope: "full 1414-resource private catalog; task-scoped top results only",
+    catalog_scope: "full 1800-resource private catalog; task-scoped top results only",
     primary: results[0] || null,
     fallbacks: results.slice(1),
     results,
-    execution_note: "Selection uses the full private catalog. Execution remains allowed only when a direct connector is explicitly reported live in this request.",
+    execution_note: "Selection uses the full private catalog. Execution is allowed only when a direct connector is explicitly reported live in this request.",
   };
 }
 
@@ -362,7 +457,9 @@ function sanitizeToolResult(value: unknown): PublicToolResult | null {
     category: typeof row.category === "string" ? row.category : undefined,
     subcategory: typeof row.subcategory === "string" ? row.subcategory : undefined,
     pricing: typeof row.pricing === "string" ? row.pricing : undefined,
-    direct_connector: typeof row.direct_connector === "string" || row.direct_connector === null ? row.direct_connector as string | null : undefined,
+    direct_connector: typeof row.direct_connector === "string" || row.direct_connector === null
+      ? row.direct_connector as string | null
+      : undefined,
     runtime_adapter_live: typeof row.runtime_adapter_live === "boolean" ? row.runtime_adapter_live : undefined,
     reason: Array.isArray(row.reason) ? row.reason.slice(0, 8) : undefined,
     lucas_confirmed_parts: Array.isArray(row.lucas_confirmed_parts) ? row.lucas_confirmed_parts.slice(0, 10) : undefined,
@@ -377,7 +474,10 @@ function sanitizeUpstream(payload: unknown, task: string, limit: number) {
   const candidates = Array.isArray(raw.results)
     ? raw.results
     : [raw.primary, ...(Array.isArray(raw.fallbacks) ? raw.fallbacks : [])];
-  const results = candidates.map(sanitizeToolResult).filter((row): row is PublicToolResult => row !== null).slice(0, limit);
+  const results = candidates
+    .map(sanitizeToolResult)
+    .filter((row): row is PublicToolResult => row !== null)
+    .slice(0, limit);
   if (!results.length && raw.status !== "no_match") return null;
   return {
     ok: true,
@@ -392,7 +492,10 @@ function sanitizeUpstream(payload: unknown, task: string, limit: number) {
   };
 }
 
-async function upstreamRoute(body: RouteBody & { task: string; limit: number }, env: ToolRoutingEnv): Promise<Response | null> {
+async function upstreamRoute(
+  body: RouteBody & { task: string; limit: number },
+  env: ToolRoutingEnv,
+): Promise<Response | null> {
   if (!env.TOOL_ROUTER_URL) return null;
   let url: URL;
   try {
