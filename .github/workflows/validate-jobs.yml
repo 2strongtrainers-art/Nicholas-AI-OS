@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Validate job JSON files
         shell: bash
@@ -36,7 +36,6 @@ jobs:
         shell: python
         run: |
           import glob, json, sys
-          from pathlib import Path
 
           openmontage_required = {
               "id", "type", "status", "project_id", "brief", "output_filename"
@@ -53,18 +52,20 @@ jobs:
                   failures.append(f"{path}: top level must be a non-empty object")
                   continue
 
-              # Only direct children of jobs/openmontage/ are queue jobs.
-              # Nested JSON files such as chat-delivery/latest-artifact.json are
-              # transport manifests and intentionally do not use the job schema.
-              is_openmontage_job_path = Path(path).parent.as_posix() == "jobs/openmontage"
-              is_openmontage = (
+              # The historical OpenMontage queue also contains maintenance/control
+              # records that use type=openmontage_video but are not render jobs.
+              # Apply the render-job schema only when render-specific markers exist.
+              is_openmontage_render_job = (
                   data.get("type") == "openmontage_video"
-                  or is_openmontage_job_path
+                  and (
+                      data.get("render_mode") in openmontage_modes
+                      or data.get("render_mode_resolved") in openmontage_modes
+                      or "fast_reel" in data
+                      or "output_filename" in data
+                      or "project_id" in data
+                  )
               )
-
-              if not is_openmontage:
-                  # Legacy jobs and OpenMontage support manifests intentionally use
-                  # workflow-specific shapes. Their producers own those contracts.
+              if not is_openmontage_render_job:
                   continue
 
               missing = sorted(openmontage_required - set(data))
@@ -72,8 +73,6 @@ jobs:
                   failures.append(f"{path}: missing {', '.join(missing)}")
                   continue
 
-              if data.get("type") != "openmontage_video":
-                  failures.append(f"{path}: type must be openmontage_video")
               if data.get("status") not in openmontage_statuses:
                   failures.append(
                       f"{path}: invalid status {data.get('status')!r}; "

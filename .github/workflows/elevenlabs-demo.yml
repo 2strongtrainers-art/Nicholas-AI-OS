@@ -12,7 +12,7 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Generate August Nick narration
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
@@ -50,7 +50,7 @@ jobs:
           git commit -m "Host August Nick ElevenLabs demo audio" || exit 0
           git push
       - name: Upload audio artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: elevenlabs-demo-${{ github.run_id }}
           path: public/august-nick-elevenlabs-demo.mp3

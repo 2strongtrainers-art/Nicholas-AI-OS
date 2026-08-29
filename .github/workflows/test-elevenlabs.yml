@@ -14,7 +14,7 @@ jobs:
       contents: read
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Synthesize short August Nick sample
         env:
@@ -33,7 +33,7 @@ jobs:
           PY
 
       - name: Upload August Nick test artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: august-nick-secret-test-${{ github.run_id }}
           path: |

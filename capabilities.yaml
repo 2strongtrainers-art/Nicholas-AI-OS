@@ -8,6 +8,7 @@ principles:
   - persist_repeatable_workflows
 
 routing:
+  tool_discovery: Tool_Intelligence
   finance_personal: Finances
   market_data: Alpaca
   email: Gmail
@@ -27,6 +28,15 @@ routing:
   deep_web_research: Exa
   academic_research: Sider_Scholar
   freshness_research: Acumen_by_Talarion
+
+tool_intelligence:
+  canonical_registry: data/tool-intelligence/canonical-tools.json
+  probable_review: data/tool-intelligence/probable-review.json
+  pending_evidence: data/tool-intelligence/pending-evidence.json
+  importer: scripts/import_hermes_tool_intelligence.py
+  router: scripts/search_tool_intelligence.py
+  route_confirmed_only: true
+  never_infer_structured_interfaces: true
 
 external_repositories:
   policy: reference_only_until_security_dependency_and_license_review
