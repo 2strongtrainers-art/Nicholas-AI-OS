@@ -1,0 +1,45 @@
+name: Lucas Public Feed Recovery
+
+on:
+  push:
+    branches:
+      - research/lucas-feed-recovery-336-2026-08-29
+    paths:
+      - '.github/workflows/lucas-public-feed-recovery.yml'
+      - 'scripts/recover_lucas_public_feed.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Recover public Lucas creator feed
+        run: python scripts/recover_lucas_public_feed.py --output /tmp/lucas-public-feed-351-749.json
+      - name: Show recovery summary
+        run: |
+          python - <<'PY'
+          import json
+          p='/tmp/lucas-public-feed-351-749.json'
+          d=json.load(open(p))
+          print('LUCAS_PUBLIC_FEED_RECOVERY')
+          print('pages_fetched=', d['pages_fetched'])
+          print('feed_posts_seen=', d['feed_posts_seen'])
+          print('range_records=', len(d['records']))
+          print('missing_count=', len(d['missing_parts']))
+          print('missing_parts=', ','.join(map(str,d['missing_parts'])))
+          print('duplicate_parts=', d['duplicate_parts'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lucas-public-feed-351-749
+          path: /tmp/lucas-public-feed-351-749.json
+          if-no-files-found: error
+          retention-days: 7
