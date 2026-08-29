@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 BASE_ROUTER = ROOT / "scripts" / "tool_intelligence_router.py"
 REGISTRY_DIR = ROOT / "data" / "tool-intelligence"
+DESIGN_SOURCE = "Design & Creative Tools - (19/06/2026)"
 
 
 def _load_router():
@@ -60,15 +61,17 @@ def main() -> None:
         source_counts[source] = source_counts.get(source, 0) + 1
     assert source_counts == {
         "AI Tools (19/06/2026)": 270,
-        "Design & Creative Tools - (19/06/2026)": 364,
+        DESIGN_SOURCE: 364,
         "Education & Learning Tools (03/07/2026)": 778,
         "Gaming Tools (19/06/2026)": 388,
     }
 
-    # The two historical URL-only Design rows must never become routable tools.
-    assert all(tool["n"] for tool in tools)
-    assert not any(tool["u"].rstrip("/") == "https://benditomockup.com" for tool in tools)
-    assert not any(tool["u"].rstrip("/") == "https://sketchdesign.club" for tool in tools)
+    # Only the two blank Design source rows are excluded. Their URLs also have
+    # legitimate named rows, which must remain routable.
+    invalid_source_rows = {(DESIGN_SOURCE, 40), (DESIGN_SOURCE, 171)}
+    assert not any(tuple((tool.get("src") or [None, None])[:2]) in invalid_source_rows for tool in tools)
+    assert any(tool["n"] == "Bendito Mockup" and tool["u"].rstrip("/") == "https://benditomockup.com" for tool in tools)
+    assert any(tool["n"] == "Sketch Tools" and tool["u"].rstrip("/") == "https://sketchdesign.club" for tool in tools)
 
     # Gaming supplement and provenance check.
     grabcraft = [tool for tool in tools if tool["d"] == "grabcraft.com"]
