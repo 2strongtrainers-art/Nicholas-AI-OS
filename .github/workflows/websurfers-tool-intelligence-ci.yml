@@ -3,7 +3,7 @@ name: Web Surfers Tool Intelligence CI
 on:
   push:
     branches:
-      - integrate/websurfers-tool-router-2026-08-29
+      - update/websurfers-1800-lucas-probables-2026-08-29-v2
     paths:
       - 'hermes/tool_registry/websurfers/**'
       - 'hermes/tool_registry/websurfers-index.json'
@@ -15,6 +15,7 @@ on:
       - 'tests/test_tool_intelligence.py'
       - 'tests/test_tool_intelligence_router.py'
       - 'tests/test_nicholas_tool_router.py'
+      - 'tests/test_lucas_probable_updates.py'
       - '.github/workflows/websurfers-tool-intelligence-ci.yml'
   pull_request:
     branches:
@@ -30,6 +31,7 @@ on:
       - 'tests/test_tool_intelligence.py'
       - 'tests/test_tool_intelligence_router.py'
       - 'tests/test_nicholas_tool_router.py'
+      - 'tests/test_lucas_probable_updates.py'
       - '.github/workflows/websurfers-tool-intelligence-ci.yml'
   workflow_dispatch:
 
@@ -48,8 +50,8 @@ jobs:
       - name: Validate merged canonical Tool Intelligence
         run: python -m unittest tests/test_tool_intelligence.py
 
-      - name: Validate paid-directory router
-        run: python -m unittest tests/test_tool_intelligence_router.py tests/test_nicholas_tool_router.py
+      - name: Validate paid-directory router and Lucas evidence transitions
+        run: python -m unittest tests/test_tool_intelligence_router.py tests/test_nicholas_tool_router.py tests/test_lucas_probable_updates.py
 
       - name: Validate registry invariants
         run: python scripts/validate_tool_intelligence.py
@@ -76,4 +78,16 @@ jobs:
           assert data['primary']['website_name']=='Canva'
           assert data['primary']['can_execute_now'] is True
           print('EXECUTION_GATE_OK')
+          PY
+
+      - name: Smoke-test Gaming supplement
+        run: |
+          python scripts/nicholas_tool_router.py minecraft 3d blueprint building guide --limit 3 > /tmp/gaming-route.json
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/gaming-route.json'))
+          assert data['status']=='matched'
+          assert data['primary']['website_name']=='GrabCraft'
+          assert data['primary']['source']['spreadsheet']=='Gaming Tools (19/06/2026)'
+          print('GAMING_ROUTE_OK')
           PY
