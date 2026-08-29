@@ -10,17 +10,20 @@ class LucasProbableUpdateTests(unittest.TestCase):
     def load(self, name):
         return json.loads((DATA / name).read_text(encoding="utf-8"))
 
-    def test_new_probables_are_review_only_evidence(self):
+    def test_probables_are_review_only_evidence(self):
         probable = {row["part"]: row for row in self.load("probable-review.json")}
-        self.assertEqual(set(probable), {741, 744, 745, 746, 748, 749})
+        self.assertEqual(set(probable), {642, 655, 741, 744, 745, 746, 748, 749})
+        self.assertEqual(probable[642]["website_name"], "Servier Medical ART")
+        self.assertEqual(probable[655]["website_name"], "DanceLogo")
         self.assertEqual(probable[745]["website_name"], "Post Bridge")
         self.assertEqual(probable[746]["website_name"], "Chordify")
         self.assertEqual(probable[748]["website_name"], "Planner 5D")
         self.assertTrue(all(row["match_confidence"] == "Probable" for row in probable.values()))
 
-    def test_pending_remains_identity_free(self):
+    def test_deep_pending_remains_identity_free(self):
         pending = {row["part"]: row for row in self.load("pending-evidence.json")}
-        self.assertEqual(set(pending), {731, 735, 737})
+        expected = {460, 621, 638, 640, 644, 646, 653, 654, 688, 707, 731, 735, 737}
+        self.assertEqual(set(pending), expected)
         for row in pending.values():
             self.assertEqual(row["website_name"], "")
             self.assertEqual(row["canonical_url"], "")
