@@ -52,10 +52,20 @@ jobs:
                   failures.append(f"{path}: top level must be a non-empty object")
                   continue
 
-              # Only records that explicitly declare the OpenMontage video-job type
-              # use this schema. Historical maintenance/control records may also live
-              # directly under jobs/openmontage/ and intentionally use other contracts.
-              if data.get("type") != "openmontage_video":
+              # The historical OpenMontage queue also contains maintenance/control
+              # records that use type=openmontage_video but are not render jobs.
+              # Apply the render-job schema only when render-specific markers exist.
+              is_openmontage_render_job = (
+                  data.get("type") == "openmontage_video"
+                  and (
+                      data.get("render_mode") in openmontage_modes
+                      or data.get("render_mode_resolved") in openmontage_modes
+                      or "fast_reel" in data
+                      or "output_filename" in data
+                      or "project_id" in data
+                  )
+              )
+              if not is_openmontage_render_job:
                   continue
 
               missing = sorted(openmontage_required - set(data))
