@@ -12,6 +12,9 @@ Build reliable, low-cost, auditable automation that increases revenue or meaning
 6. Make changes reversible and reviewable.
 7. Never automate a provider in a way its terms prohibit.
 
+## Parallel work safety
+Multiple ChatGPT/Codex/Hermes sessions may edit this repository at the same time. Before changing an existing subsystem, read `docs/PARALLEL_WORK_COORDINATION.md`, fetch the live `main` head, inspect overlapping open PRs/recent commits, and reconcile any newer work before merge. Do not use a stale branch or remembered chat state as the source of truth when `main` has advanced.
+
 ## Cost controls
 - `ALLOW_PAID_AI=false` means no metered AI provider may be invoked.
 - `ALLOW_APOLLO_CREDIT_SPEND=false` means no Apollo endpoint that spends credits may be invoked.
