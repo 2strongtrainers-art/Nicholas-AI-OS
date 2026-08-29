@@ -82,10 +82,14 @@ type CatalogTool = {
   direct_connector: string | null;
 };
 
-const CATALOG_B64 = [shard01, shard02, shard03, shard04, shard05, shard06, shard07, shard08].join("").replace(/\s+/g, "");
+const CATALOG_B64 = [shard01, shard02, shard03, shard04, shard05, shard06, shard07, shard08]
+  .join("")
+  .replace(/\s+/g, "");
 const GAMING: Supplement[] = [gaming01, gaming02, gaming03, gaming04, gaming05, gaming06, gaming07, gaming08] as Supplement[];
 const PRICES: CatalogTool["pricing"][] = ["free", "freemium", "paid", "unknown"];
-const LEGACY_EXCLUDED_URLS = new Set(["https://benditomockup.com", "https://sketchdesign.club"]);
+const DESIGN_START_INDEX = 270;
+const DESIGN_END_INDEX_EXCLUSIVE = 270 + 366;
+const INVALID_DESIGN_ROWS = new Set([40, 171]);
 let catalogPromise: Promise<CatalogTool[]> | undefined;
 
 const STOPWORDS = new Set([
@@ -176,7 +180,12 @@ function connectorForTool(name: string, url: string, domain: string): string | n
 
 function normalizeAdapters(value: unknown): Set<string> {
   if (!Array.isArray(value)) return new Set();
-  return new Set(value.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean));
+  return new Set(
+    value
+      .filter((item): item is string => typeof item === "string")
+      .map((item) => item.trim())
+      .filter(Boolean),
+  );
 }
 
 function intersect(a: Set<string>, b: Set<string>): string[] {
@@ -220,14 +229,14 @@ function makeTool(
   keywords: string[],
   login: string,
 ): CatalogTool | null {
-  const normalizedUrl = (url || "").trim().replace(/\/$/, "").toLowerCase();
-  if (LEGACY_EXCLUDED_URLS.has(normalizedUrl)) return null;
   const domain = domainOf(url);
   if (!name.trim() || !domain || !validHttpUrl(url)) return null;
   const normalizedPrice: CatalogTool["pricing"] = PRICES.includes(pricing as CatalogTool["pricing"])
     ? pricing as CatalogTool["pricing"]
     : "unknown";
-  const normalizedLogin: CatalogTool["login"] = login === "not_required_claimed" || login === "required_claimed" ? login : "unknown";
+  const normalizedLogin: CatalogTool["login"] = login === "not_required_claimed" || login === "required_claimed"
+    ? login
+    : "unknown";
   return {
     tool_id: id,
     website_name: name.trim(),
@@ -242,19 +251,24 @@ function makeTool(
   };
 }
 
+function assertCount(actual: number, expected: number, label: string): void {
+  if (actual !== expected) throw new Error(`${label} count mismatch: expected ${expected}, got ${actual}`);
+}
+
 async function decodeCatalog(): Promise<CatalogTool[]> {
   const binary = atob(CATALOG_B64);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
   const body = new Blob([bytes.buffer as ArrayBuffer]).stream().pipeThrough(new DecompressionStream("gzip"));
   const compact = JSON.parse(await new Response(body).text()) as CompactRegistry;
-  if (!Array.isArray(compact.tools) || compact.tools.length !== 1414) {
-    throw new Error(`historical Web Surfers base count mismatch: ${compact.tools?.length || 0}`);
-  }
+  assertCount(Array.isArray(compact.tools) ? compact.tools.length : 0, 1414, "historical Web Surfers base");
 
   const tools: CatalogTool[] = [];
   compact.tools.forEach((record, index) => {
-    const [name, url, categoryIndex, subcategoryIndex, priceIndex, keywords] = record;
+    const [name, url, categoryIndex, subcategoryIndex, priceIndex, keywords, sourceRow] = record;
+    const isDesignRecord = index >= DESIGN_START_INDEX && index < DESIGN_END_INDEX_EXCLUSIVE;
+    if (isDesignRecord && INVALID_DESIGN_ROWS.has(sourceRow)) return;
+
     const loginCode = compact.login[String(index)];
     const tool = makeTool(
       `ws-base-${String(index + 1).padStart(4, "0")}-${slug(name || "")}`,
@@ -268,7 +282,7 @@ async function decodeCatalog(): Promise<CatalogTool[]> {
     );
     if (tool) tools.push(tool);
   });
-  if (tools.length !== 1412) throw new Error(`filtered historical Web Surfers base count mismatch: ${tools.length}`);
+  assertCount(tools.length, 1412, "filtered historical Web Surfers base");
 
   for (const supplement of GAMING) {
     for (const record of supplement.records || []) {
@@ -285,7 +299,7 @@ async function decodeCatalog(): Promise<CatalogTool[]> {
       if (tool) tools.push(tool);
     }
   }
-  if (tools.length !== 1800) throw new Error(`embedded Web Surfers catalog count mismatch: ${tools.length}`);
+  assertCount(tools.length, 1800, "embedded Web Surfers catalog");
   return tools;
 }
 
@@ -314,34 +328,63 @@ function scoreTool(task: string, tool: CatalogTool) {
 
   let score = 0;
   const reason: string[] = [];
-  if (exactName) { score += 12; reason.push("exact tool-name match"); }
-  if (acronymOverlap.length) { score += 6 * acronymOverlap.length; reason.push(`named entity match: ${acronymOverlap.slice(0, 4).join(", ")}`); }
+  if (exactName) {
+    score += 12;
+    reason.push("exact tool-name match");
+  }
+  if (acronymOverlap.length) {
+    score += 6 * acronymOverlap.length;
+    reason.push(`named entity match: ${acronymOverlap.slice(0, 4).join(", ")}`);
+  }
   const nameOverlap = intersect(semantic, nameTokens);
-  if (nameOverlap.length) { score += 5 * nameOverlap.length; reason.push(`name match: ${nameOverlap.slice(0, 5).join(", ")}`); }
+  if (nameOverlap.length) {
+    score += 5 * nameOverlap.length;
+    reason.push(`name match: ${nameOverlap.slice(0, 5).join(", ")}`);
+  }
   const categoryOverlap = intersect(semantic, categoryTokens);
-  if (categoryOverlap.length) { score += 2.25 * categoryOverlap.length; reason.push(`category match: ${categoryOverlap.slice(0, 5).join(", ")}`); }
+  if (categoryOverlap.length) {
+    score += 2.25 * categoryOverlap.length;
+    reason.push(`category match: ${categoryOverlap.slice(0, 5).join(", ")}`);
+  }
   const keywordOverlap = intersect(semantic, keywordTokens);
-  if (keywordOverlap.length) { score += 2 * keywordOverlap.length; reason.push(`capability match: ${keywordOverlap.slice(0, 6).join(", ")}`); }
+  if (keywordOverlap.length) {
+    score += 2 * keywordOverlap.length;
+    reason.push(`capability match: ${keywordOverlap.slice(0, 6).join(", ")}`);
+  }
   const aliasOnly = new Set([...expand(semantic)].filter((value) => !semantic.has(value)));
   const aliasOverlap = intersect(aliasOnly, allToolTokens);
-  if (aliasOverlap.length) { score += 0.35 * Math.min(5, aliasOverlap.length); reason.push(`related capability: ${aliasOverlap.slice(0, 4).join(", ")}`); }
+  if (aliasOverlap.length) {
+    score += 0.35 * Math.min(5, aliasOverlap.length);
+    reason.push(`related capability: ${aliasOverlap.slice(0, 4).join(", ")}`);
+  }
 
   const flags = intent(task);
   if (flags.wantsFree) {
-    if (tool.pricing === "free") { score += 4; reason.push("free"); }
-    else if (tool.pricing === "freemium") { score += 1.5; reason.push("freemium"); }
-    else if (tool.pricing === "paid") score -= 6;
+    if (tool.pricing === "free") {
+      score += 4;
+      reason.push("free");
+    } else if (tool.pricing === "freemium") {
+      score += 1.5;
+      reason.push("freemium");
+    } else if (tool.pricing === "paid") score -= 6;
   }
   if (flags.wantsNoLogin) {
-    if (tool.login === "not_required_claimed") { score += 5; reason.push("directory explicitly indicates no account"); }
-    else if (tool.login === "required_claimed") score -= 5;
+    if (tool.login === "not_required_claimed") {
+      score += 5;
+      reason.push("directory explicitly indicates no account");
+    } else if (tool.login === "required_claimed") score -= 5;
   }
-  if (flags.wantsBrowser) { score += 2.5; reason.push("browser-based candidate"); }
+  if (flags.wantsBrowser) {
+    score += 2.5;
+    reason.push("browser-based candidate");
+  }
   if (tool.direct_connector) {
-    score += flags.wantsExecute ? 2.5 : 0.5;
-    reason.push(`direct connector available: ${tool.direct_connector}`);
+    score += 0.5;
+    reason.push(`direct connector candidate: ${tool.direct_connector}`);
+    if (flags.wantsExecute) score += 2;
   }
   if (flags.wantsApi || flags.wantsMcp || flags.wantsCli) score -= 0.5;
+
   return { score: Math.round(score * 1000) / 1000, reason };
 }
 
@@ -349,6 +392,7 @@ async function embeddedCatalogRoute(body: RouteBody & { task: string; limit: num
   const catalog = await loadCatalog();
   const runtime = normalizeAdapters(body.runtime_adapters);
   const flags = intent(body.task);
+
   const ranked = catalog
     .filter((tool) => body.include_paid !== false || tool.pricing !== "paid")
     .map((tool) => ({ tool, ...scoreTool(body.task, tool) }))
@@ -395,7 +439,7 @@ async function embeddedCatalogRoute(body: RouteBody & { task: string; limit: num
     primary: results[0] || null,
     fallbacks: results.slice(1),
     results,
-    execution_note: "Selection uses the full private catalog. Execution remains allowed only when a direct connector can operate the listed service and that adapter is explicitly reported live.",
+    execution_note: "Selection uses the full private catalog. Execution is allowed only when a direct connector is explicitly reported live in this request.",
   };
 }
 
@@ -413,7 +457,9 @@ function sanitizeToolResult(value: unknown): PublicToolResult | null {
     category: typeof row.category === "string" ? row.category : undefined,
     subcategory: typeof row.subcategory === "string" ? row.subcategory : undefined,
     pricing: typeof row.pricing === "string" ? row.pricing : undefined,
-    direct_connector: typeof row.direct_connector === "string" || row.direct_connector === null ? row.direct_connector as string | null : undefined,
+    direct_connector: typeof row.direct_connector === "string" || row.direct_connector === null
+      ? row.direct_connector as string | null
+      : undefined,
     runtime_adapter_live: typeof row.runtime_adapter_live === "boolean" ? row.runtime_adapter_live : undefined,
     reason: Array.isArray(row.reason) ? row.reason.slice(0, 8) : undefined,
     lucas_confirmed_parts: Array.isArray(row.lucas_confirmed_parts) ? row.lucas_confirmed_parts.slice(0, 10) : undefined,
@@ -425,8 +471,13 @@ function sanitizeToolResult(value: unknown): PublicToolResult | null {
 function sanitizeUpstream(payload: unknown, task: string, limit: number) {
   if (!payload || typeof payload !== "object") return null;
   const raw = payload as Record<string, unknown>;
-  const candidates = Array.isArray(raw.results) ? raw.results : [raw.primary, ...(Array.isArray(raw.fallbacks) ? raw.fallbacks : [])];
-  const results = candidates.map(sanitizeToolResult).filter((row): row is PublicToolResult => row !== null).slice(0, limit);
+  const candidates = Array.isArray(raw.results)
+    ? raw.results
+    : [raw.primary, ...(Array.isArray(raw.fallbacks) ? raw.fallbacks : [])];
+  const results = candidates
+    .map(sanitizeToolResult)
+    .filter((row): row is PublicToolResult => row !== null)
+    .slice(0, limit);
   if (!results.length && raw.status !== "no_match") return null;
   return {
     ok: true,
@@ -441,29 +492,51 @@ function sanitizeUpstream(payload: unknown, task: string, limit: number) {
   };
 }
 
-async function upstreamRoute(body: RouteBody & { task: string; limit: number }, env: ToolRoutingEnv): Promise<Response | null> {
+async function upstreamRoute(
+  body: RouteBody & { task: string; limit: number },
+  env: ToolRoutingEnv,
+): Promise<Response | null> {
   if (!env.TOOL_ROUTER_URL) return null;
   let url: URL;
-  try { url = new URL(env.TOOL_ROUTER_URL); } catch { return null; }
+  try {
+    url = new URL(env.TOOL_ROUTER_URL);
+  } catch {
+    return null;
+  }
   if (url.protocol !== "https:") return null;
+
   const base = url.toString().endsWith("/") ? url.toString() : `${url.toString()}/`;
+  const endpoint = new URL("route", base);
   const headers = new Headers({ "content-type": "application/json" });
   if (env.TOOL_ROUTER_SHARED_SECRET) headers.set("authorization", `Bearer ${env.TOOL_ROUTER_SHARED_SECRET}`);
+
   try {
-    const response = await fetch(new URL("route", base).toString(), { method: "POST", headers, body: JSON.stringify(body) });
+    const response = await fetch(endpoint.toString(), {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+    });
     if (!response.ok) return null;
-    const sanitized = sanitizeUpstream(await response.json(), body.task, body.limit);
+    const payload = await response.json();
+    const sanitized = sanitizeUpstream(payload, body.task, body.limit);
     return sanitized ? json(sanitized) : null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 export async function routeTools(request: Request, env: ToolRoutingEnv): Promise<Response> {
   let body: RouteBody;
-  try { body = (await request.json()) as RouteBody; }
-  catch { return json({ ok: false, error: "Request body must be valid JSON" }, 400); }
+  try {
+    body = (await request.json()) as RouteBody;
+  } catch {
+    return json({ ok: false, error: "Request body must be valid JSON" }, 400);
+  }
+
   const task = typeof body.task === "string" ? body.task.trim() : "";
   if (!task) return json({ ok: false, error: "task is required" }, 400);
   if (task.length > 10_000) return json({ ok: false, error: "task is too large" }, 413);
+
   const limit = Math.min(Math.max(Number(body.limit || 3), 1), 5);
   const normalized: RouteBody & { task: string; limit: number } = {
     task,
@@ -471,10 +544,12 @@ export async function routeTools(request: Request, env: ToolRoutingEnv): Promise
     runtime_adapters: Array.from(normalizeAdapters(body.runtime_adapters)).slice(0, 50),
     include_paid: body.include_paid !== false,
   };
+
   const upstream = await upstreamRoute(normalized, env);
   if (upstream) return upstream;
-  try { return json(await embeddedCatalogRoute(normalized)); }
-  catch (error) {
+  try {
+    return json(await embeddedCatalogRoute(normalized));
+  } catch (error) {
     return json({
       ok: false,
       status: "router_unavailable",
