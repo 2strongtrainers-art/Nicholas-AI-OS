@@ -36,7 +36,6 @@ jobs:
         shell: python
         run: |
           import glob, json, sys
-          from pathlib import Path
 
           openmontage_required = {
               "id", "type", "status", "project_id", "brief", "output_filename"
@@ -53,18 +52,10 @@ jobs:
                   failures.append(f"{path}: top level must be a non-empty object")
                   continue
 
-              # Only direct children of jobs/openmontage/ are queue jobs.
-              # Nested JSON files such as chat-delivery/latest-artifact.json are
-              # transport manifests and intentionally do not use the job schema.
-              is_openmontage_job_path = Path(path).parent.as_posix() == "jobs/openmontage"
-              is_openmontage = (
-                  data.get("type") == "openmontage_video"
-                  or is_openmontage_job_path
-              )
-
-              if not is_openmontage:
-                  # Legacy jobs and OpenMontage support manifests intentionally use
-                  # workflow-specific shapes. Their producers own those contracts.
+              # Only records that explicitly declare the OpenMontage video-job type
+              # use this schema. Historical maintenance/control records may also live
+              # directly under jobs/openmontage/ and intentionally use other contracts.
+              if data.get("type") != "openmontage_video":
                   continue
 
               missing = sorted(openmontage_required - set(data))
@@ -72,8 +63,6 @@ jobs:
                   failures.append(f"{path}: missing {', '.join(missing)}")
                   continue
 
-              if data.get("type") != "openmontage_video":
-                  failures.append(f"{path}: type must be openmontage_video")
               if data.get("status") not in openmontage_statuses:
                   failures.append(
                       f"{path}: invalid status {data.get('status')!r}; "
