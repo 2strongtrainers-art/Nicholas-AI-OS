@@ -85,6 +85,7 @@ type CatalogTool = {
 const CATALOG_B64 = [shard01, shard02, shard03, shard04, shard05, shard06, shard07, shard08].join("").replace(/\s+/g, "");
 const GAMING: Supplement[] = [gaming01, gaming02, gaming03, gaming04, gaming05, gaming06, gaming07, gaming08] as Supplement[];
 const PRICES: CatalogTool["pricing"][] = ["free", "freemium", "paid", "unknown"];
+const LEGACY_EXCLUDED_URLS = new Set(["https://benditomockup.com", "https://sketchdesign.club"]);
 let catalogPromise: Promise<CatalogTool[]> | undefined;
 
 const STOPWORDS = new Set([
@@ -219,6 +220,8 @@ function makeTool(
   keywords: string[],
   login: string,
 ): CatalogTool | null {
+  const normalizedUrl = (url || "").trim().replace(/\/$/, "").toLowerCase();
+  if (LEGACY_EXCLUDED_URLS.has(normalizedUrl)) return null;
   const domain = domainOf(url);
   if (!name.trim() || !domain || !validHttpUrl(url)) return null;
   const normalizedPrice: CatalogTool["pricing"] = PRICES.includes(pricing as CatalogTool["pricing"])
