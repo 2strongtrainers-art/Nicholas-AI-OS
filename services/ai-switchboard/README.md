@@ -1,6 +1,6 @@
 # Nicholas AI Switchboard
 
-Private routing layer for using Ox/GLM and Qwen from a ChatGPT custom GPT, plus a task-scoped tool-routing surface backed by the Nicholas-AI-OS Tool Intelligence system.
+Private routing layer for using Ox/GLM and Qwen from a ChatGPT custom GPT, plus task-scoped selection across the private Web Surfers / Nicholas-AI-OS Tool Intelligence catalog.
 
 ## Architecture
 
@@ -10,9 +10,9 @@ External-model routing:
 
 Tool selection:
 
-`ChatGPT/runtime -> POST /tools/route -> Switchboard -> private Tool Router when configured -> primary tool + limited fallbacks`
+`ChatGPT/runtime -> POST /tools/route -> Switchboard -> embedded private 1,414-resource catalog -> primary tool + limited fallbacks`
 
-The worker does not replace ChatGPT's native model. It gives the custom GPT explicit external-model actions and a private tool-selection contract.
+The Worker does not replace ChatGPT's native model. It gives the custom GPT explicit external-model actions and a private tool-selection contract.
 
 ## Routes
 
@@ -20,26 +20,22 @@ The worker does not replace ChatGPT's native model. It gives the custom GPT expl
 - `GET /openapi.json` — public, self-hosted OpenAPI schema for the GPT Action editor.
 - `GET /privacy` — plain-language privacy notice.
 - `GET /models` — authenticated live alias resolution.
-- `POST /ask` — authenticated model request.
-- `POST /tools/route` — authenticated, task-scoped tool selection. Returns at most five allow-listed results and never exposes the paid catalog as a list/dump endpoint.
-
-Model aliases:
-
-- `ox` — live Z.AI GLM successor route from OpenRouter.
-- `qwen` — newest detected Qwen generation, preferring the largest flagship variant within that generation; current fallback is `qwen/qwen3.8-2.4t-a95b`.
-- `auto` — `openrouter/auto`.
-- `openai` is intentionally not an API alias. The custom GPT instructions tell ChatGPT to answer natively for `/openai`.
+- `POST /ask` — authenticated external-model request.
+- `POST /tools/route` — authenticated, task-scoped tool selection. Returns at most five allow-listed results and has no catalog-list/dump mode.
 
 ## Tool-routing behavior
 
-The full private discovery router is implemented in `scripts/nicholas_tool_router.py` and uses:
+The Worker contains the compressed private Web Surfers catalog directly. When `/tools/route` is called, it decodes and caches the catalog, ranks all 1,414 resource records, deduplicates canonical URLs, and returns only the small requested result set.
 
-- the private Web Surfers catalog for candidate discovery;
-- `data/tool-intelligence/canonical-tools.json` for Confirmed Lucas provenance;
-- `data/tool-intelligence/probable-review.json` for review-only Lucas candidates;
-- `data/tool-intelligence/pending-evidence.json` for unresolved evidence only.
+The repository-side canonical router remains `scripts/nicholas_tool_router.py`. Lucas provenance remains separate and authoritative in:
 
-The Switchboard endpoint accepts a task such as:
+- `data/tool-intelligence/canonical-tools.json` — Confirmed Lucas mappings;
+- `data/tool-intelligence/probable-review.json` — review-only mappings;
+- `data/tool-intelligence/pending-evidence.json` — unresolved evidence with no speculative website identity.
+
+The paid Web Surfers directory can help choose candidate tools. It does not prove a Lucas Part number.
+
+Example request:
 
 ```json
 {
@@ -50,13 +46,30 @@ The Switchboard endpoint accepts a task such as:
 }
 ```
 
-`runtime_adapters` must contain only adapters the caller has actually verified are live in its current runtime. A directory match, domain match, or connector name never makes a tool executable by itself.
+`runtime_adapters` must contain only adapters the caller has actually verified are live in the current runtime. A directory match, domain match, or connector name never makes a tool executable by itself.
 
-If `TOOL_ROUTER_URL` is configured, the Worker forwards the task to that private HTTPS router and then strips the response to an allow-listed, maximum-five-result schema before returning it. If the private router is not configured or is unavailable, the Worker falls back to a small connector-capable subset rather than pretending it searched all 1,414 Web Surfers resources.
+Normal embedded responses use:
 
-### Important ChatGPT product boundary
+`source = "embedded_private_websurfers"`
 
-The Switchboard custom GPT is action-based. Tool selection through `/tools/route` does not magically install or activate third-party ChatGPT connectors. Actual connector execution must occur in a ChatGPT/runtime context where that connector is available and authorized. The route response therefore separates `website_name` from `can_execute_now`.
+This means the Worker ranked the full private 1,414-resource catalog but returned only the task-scoped top results.
+
+### Optional private-router override
+
+`TOOL_ROUTER_URL` is optional. When configured, the Worker may ask that private HTTPS service to rank the task first. Its response is still stripped to the same allow-listed maximum-five-result schema. If the optional upstream router is absent or unavailable, the embedded full catalog remains the default; no second service is required.
+
+### Selection is not execution
+
+The Switchboard custom GPT is action-based. Tool selection through `/tools/route` does not install or activate third-party ChatGPT connectors. Actual connector execution must occur in a ChatGPT/runtime context where that connector is available and authorized. The route response therefore keeps `website_name`, `direct_connector`, `runtime_adapter_live`, and `can_execute_now` separate.
+
+Unknown API/MCP/CLI availability is never guessed.
+
+## Model aliases
+
+- `ox` — live Z.AI GLM successor route from OpenRouter.
+- `qwen` — newest detected Qwen generation, preferring the largest flagship variant within that generation; current fallback is `qwen/qwen3.8-2.4t-a95b`.
+- `auto` — `openrouter/auto`.
+- `openai` is intentionally not an API alias. The custom GPT instructions tell ChatGPT to answer natively for `/openai`.
 
 ## Required Cloudflare secrets
 
@@ -67,20 +80,16 @@ npx wrangler secret put OPENROUTER_API_KEY
 npx wrangler secret put SWITCHBOARD_API_KEY
 ```
 
-`SWITCHBOARD_API_KEY` should be a random secret used only between the private GPT Action and this worker.
-
 Optional Worker variables/secrets:
 
-- `OX_MODEL` — pins an exact OpenRouter Ox/GLM model if needed.
-- `QWEN_MODEL` — pins an exact OpenRouter Qwen model if needed.
-- `OPENROUTER_SITE_URL` — attribution URL sent to OpenRouter.
-- `OPENROUTER_APP_NAME` — defaults to `Nicholas AI Switchboard`.
-- `TOOL_ROUTER_URL` — HTTPS base URL of the private full-catalog tool-router service. The Worker calls `<base>/route`.
-- `TOOL_ROUTER_SHARED_SECRET` — optional bearer secret used only between the Switchboard and the private tool-router service.
+- `OX_MODEL`
+- `QWEN_MODEL`
+- `OPENROUTER_SITE_URL`
+- `OPENROUTER_APP_NAME`
+- `TOOL_ROUTER_URL` — optional HTTPS override router base URL;
+- `TOOL_ROUTER_SHARED_SECRET` — optional bearer secret for that override.
 
-If `OX_MODEL` or `QWEN_MODEL` is set but that model disappears from the live OpenRouter catalog, the worker falls back to live family discovery rather than silently using an unavailable ID.
-
-## Deploy
+## Deploy and verify
 
 ```bash
 cd services/ai-switchboard
@@ -89,23 +98,14 @@ npm run typecheck
 npm run deploy
 ```
 
-Expected worker name: `nicholas-ai-switchboard`.
-
-After deployment, verify:
+Then verify public surfaces:
 
 ```bash
 curl https://YOUR-WORKER.workers.dev/health
 curl https://YOUR-WORKER.workers.dev/openapi.json
 ```
 
-Then verify authenticated model resolution without printing the key into logs or shared screenshots:
-
-```bash
-curl -H "Authorization: Bearer $SWITCHBOARD_API_KEY" \
-  https://YOUR-WORKER.workers.dev/models?refresh=1
-```
-
-Verify tool routing without printing the key:
+Verify authenticated tool routing without printing the key into shared logs/screenshots:
 
 ```bash
 curl -X POST \
@@ -115,23 +115,23 @@ curl -X POST \
   https://YOUR-WORKER.workers.dev/tools/route
 ```
 
+A successful embedded response should report `source: embedded_private_websurfers` and should never return more than five results.
+
 ## ChatGPT custom GPT
 
 In the GPT editor:
 
-1. Create or open the private **Nicholas AI Switchboard** GPT.
-2. Paste the contents of `GPT_INSTRUCTIONS.md` into Instructions.
-3. Under Actions, import the deployed Worker's `https://YOUR-WORKER.workers.dev/openapi.json` URL.
-4. Configure Action authentication as **API key -> Bearer** and enter the same `SWITCHBOARD_API_KEY` stored in Cloudflare.
-5. Keep the GPT private/workspace-only while testing.
-6. Test `/ox Return exactly OX_SWITCHBOARD_READY` and `/qwen Return exactly QWEN_SWITCHBOARD_READY`.
-7. Ask `which models are active?` and verify the exact `resolved_model` values returned by `/models`.
-8. Ask `which tool should I use to create a social media design?` and verify the GPT calls `routeNicholasTool` rather than inventing a catalog result.
+1. Open the private **Nicholas AI Switchboard** GPT.
+2. Paste the current `GPT_INSTRUCTIONS.md` into Instructions.
+3. Under Actions, import the deployed Worker's `https://YOUR-WORKER.workers.dev/openapi.json`.
+4. Configure Action authentication as **API key -> Bearer** with the same `SWITCHBOARD_API_KEY` stored in Cloudflare.
+5. Test `/ox Return exactly OX_SWITCHBOARD_READY` and `/qwen Return exactly QWEN_SWITCHBOARD_READY`.
+6. Ask `which tool should I use to create a social media design?` and verify the GPT calls `routeNicholasTool` rather than inventing a catalog result.
 
-The GPT editor is the only part of this setup that repository code cannot update automatically. Backend code, schema, model resolution, routing policy, tests, and deployment configuration are maintained here.
+The GPT editor itself is not updated by repository commits; its action schema/instructions must reflect the deployed Worker before the new route can be invoked from that custom GPT.
 
 ## Privacy
 
-Only explicitly routed external-model requests should leave ChatGPT for OpenRouter. Do not send passwords, API secrets, financial account data, medical records, or private client data through external-model routes unless disclosure is deliberate and appropriate.
+Only explicitly routed external-model requests should leave ChatGPT for OpenRouter. Tool-routing requests remain inside the Switchboard unless the optional private-router override is configured.
 
-Tool-routing responses are deliberately task-scoped. The Worker has no endpoint that returns the entire paid Web Surfers membership catalog, and upstream router responses are reduced to an allow-listed top-N schema before being returned.
+The Worker has no endpoint that enumerates or dumps the paid Web Surfers membership catalog. The catalog is used as private routing data and responses are limited to task-scoped top results.
