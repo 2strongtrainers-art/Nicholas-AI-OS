@@ -10,7 +10,7 @@
     "subcategories": 163,
     "pricing": {"free":1204,"freemium":530,"paid":63,"unspecified":3},
     "connector_candidate_records_current_chatgpt": 64,
-    "direct_connector_records_current_chatgpt": 22
+    "direct_connector_records_current_chatgpt": 21
   },
   "sources": [
     {"name":"AI Tools (19/06/2026)","google_drive_file_id":"1ryROQ0UO904kM7jY16wP0mjMTmrFsiZj4P07rLxwoss","sheet":"🤖 AI Tools","tool_records":270,"access":"authenticated Google Drive / Shared with me"},
@@ -23,12 +23,12 @@
     "d":"domain derived from URL at load time",
     "id":"stable sequential/name id derived at load time",
     "l":"sparse explicit login claims stored in the historical compact payload; unknown for supplements unless explicitly enriched",
-    "x":"direct execution connector only when the connector can operate the listed service itself; hosted GitHub projects are not treated as executable merely because GitHub can read the repository",
+    "x":"direct execution connector only when the connector can operate the listed service itself; hosted GitHub projects, HubSpot Academy, and Wix Logo Maker are not treated as executable merely because a related platform connector exists",
     "src":"source spreadsheet and original row preserved on every routable record"
   },
   "routing_policy": {
     "tool_selection":"Web Surfers entries may be auto-selected as candidate tools because the paid directory identifies the tool and URL.",
-    "execution":"Automatic execution is allowed only when an approved runtime adapter/connector/API/MCP/CLI path can operate that listed service in the current runtime. A hosting/source-code connector is not an execution adapter for the hosted project.",
+    "execution":"Automatic execution is allowed only when an approved runtime adapter/connector/API/MCP/CLI path can operate that listed service in the current runtime. A hosting/source-code/platform connector is not an execution adapter for a different capability hosted by that platform.",
     "lucas_mapping":"Never infer Lucas Part numbers from Web Surfers membership alone. Lucas Part identity remains independently proven through the canonical data/tool-intelligence confidence registries.",
     "unknown_interfaces":"Unknown API/MCP/CLI fields are not executable.",
     "side_effects":"Writes, purchases, publishing, messages, destructive actions, and other consequential operations remain subject to runtime/user approval policy."
