@@ -1,5 +1,54 @@
 [
   {
+    "part": 642,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7637592980404079894",
+    "video_id": "7637592980404079894",
+    "exact_caption": "Powerful Websites You Should Know (Part 642) Full library of diagrams for the entire human anatomy, disease, cells, medicine and more. #medicine #stem #student #lucaswebq",
+    "website_name": "Servier Medical ART",
+    "canonical_url": "https://smart.servier.com/",
+    "match_confidence": "Probable",
+    "evidence_summary": "Archived Lucas indexing binds Part 642 to TikTok video 7637592980404079894 and preserves the exact caption. Servier Medical ART independently matches the unusually specific description with a large free medical-image library spanning human anatomy, cellular biology, pathology/disease, medical specialties, drugs and treatments. The authenticated Web Surfers Education directory also lists Servier Medical ART as 3,000+ professional medical illustrations covering anatomy, physiology and pathology. No exact Lucas frame/domain binding was recovered, so the identity remains Probable rather than Confirmed.",
+    "verification_status": "Canonical site and distinctive matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Free professional medical illustrations covering anatomy, physiology, pathology, cells, medical specialties, drugs and treatments.",
+    "access_type": "Free public web; illustrations offered under the site's stated Creative Commons terms",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Yes for public-page research and asset discovery; no structured agent interface verified.",
+    "checked_at": "2026-08-29T21:28:00Z",
+    "evidence_sources": [
+      "https://urlebird.com/video/powerful-websites-you-should-know-part-642-full-library-of-diagr-7637592980404079894/",
+      "https://smart.servier.com/",
+      "google-drive://1Mn2IozwzNX0S6spUZ0_6onjHZ06L4ZHOt6k3A6QNCVM#Education-row-507"
+    ],
+    "normalized_domain": "smart.servier.com",
+    "provenance": {"source":"atlas+hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7637592980404079894","video_id":"7637592980404079894"}
+  },
+  {
+    "part": 655,
+    "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7642416114240146710",
+    "video_id": "7642416114240146710",
+    "exact_caption": "Powerful Websites You Should Know (Part 655) Create your own 3D animated logos for free! #logo #graphicdesign #designtok #lucaswebq",
+    "website_name": "DanceLogo",
+    "canonical_url": "https://www.dancelogo.com/3d-logo-animation",
+    "match_confidence": "Probable",
+    "evidence_summary": "Archived Lucas indexing binds Part 655 to TikTok video 7642416114240146710 and preserves the exact caption. DanceLogo's official 3D Logo Animation page independently uses the same distinctive capability: creating 3D animated logos for free. The wording/function match is strong, but exact Lucas frame/domain evidence was not recovered, so this remains Probable and route-disabled.",
+    "verification_status": "Canonical site and distinctive matching function verified; exact post-to-domain binding incomplete",
+    "current_function": "Create free 3D animated logo videos in a browser-based logo animation tool.",
+    "access_type": "Public web; free creation/export options subject to current site limits",
+    "api_available": "Unknown",
+    "mcp_available": "Unknown",
+    "cli_available": "Unknown",
+    "agent_accessible": "Public product research is accessible; no structured external agent interface verified.",
+    "checked_at": "2026-08-29T21:28:00Z",
+    "evidence_sources": [
+      "https://urlebird.com/video/powerful-websites-you-should-know-part-655-create-your-own-3d-an-7642416114240146710/",
+      "https://www.dancelogo.com/3d-logo-animation"
+    ],
+    "normalized_domain": "dancelogo.com",
+    "provenance": {"source":"atlas+hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7642416114240146710","video_id":"7642416114240146710"}
+  },
+  {
     "part": 741,
     "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
     "video_id": "7675406339895610646",
@@ -16,12 +65,7 @@
     "cli_available": "Unknown",
     "agent_accessible": "Yes for public-page research; no structured agent interface verified.",
     "checked_at": "2026-08-29T19:59:00Z",
-    "evidence_sources": [
-      "https://www.tiktok.com/@lucaswebq/video/7675406339895610646",
-      "https://www.instagram.com/reel/DcMBkdWI8ht/",
-      "https://www.grabcraft.com/",
-      "google-drive://1nnlkuhRFf5g2xl3IXOc3Ftj3rh361qf-mgQ0Shl8JQ0#Gaming-row-76"
-    ],
+    "evidence_sources": ["https://www.tiktok.com/@lucaswebq/video/7675406339895610646","https://www.instagram.com/reel/DcMBkdWI8ht/","https://www.grabcraft.com/","google-drive://1nnlkuhRFf5g2xl3IXOc3Ftj3rh361qf-mgQ0Shl8JQ0#Gaming-row-76"],
     "normalized_domain": "grabcraft.com",
     "provenance": {"source":"hermes","lucas_source_url":"https://www.tiktok.com/@lucaswebq/video/7675406339895610646","video_id":"7675406339895610646"}
   },
