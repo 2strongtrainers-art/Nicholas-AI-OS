@@ -19,6 +19,24 @@ type ConnectorTool = {
   keywords: string[];
 };
 
+type PublicToolResult = {
+  score?: number;
+  mode?: string;
+  can_execute_now?: boolean;
+  tool_id?: string;
+  website_name?: string;
+  canonical_url?: string;
+  domain?: string;
+  category?: string;
+  subcategory?: string;
+  pricing?: string;
+  direct_connector?: string | null;
+  runtime_adapter_live?: boolean;
+  reason?: unknown;
+  lucas_confirmed_parts?: unknown;
+  lucas_review_only_parts?: unknown;
+};
+
 const CONNECTOR_TOOLS: ConnectorTool[] = [
   {
     website_name: "Canva",
@@ -113,6 +131,14 @@ function normalizeAdapters(value: unknown): Set<string> {
   return new Set(value.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean));
 }
 
+function exactOrOverlap(task: string, name: string, overlap: string[], live: boolean): string[] {
+  const reason: string[] = [];
+  if (task.toLowerCase().includes(name.toLowerCase())) reason.push("exact tool-name match");
+  if (overlap.length) reason.push(`capability match: ${overlap.slice(0, 6).join(", ")}`);
+  reason.push(live ? "runtime adapter reported live" : "runtime adapter not reported live");
+  return reason;
+}
+
 function localConnectorRoute(body: Required<Pick<RouteBody, "task" | "limit">> & RouteBody) {
   const taskTokens = new Set(tokens(body.task));
   const runtime = normalizeAdapters(body.runtime_adapters);
@@ -158,12 +184,48 @@ function localConnectorRoute(body: Required<Pick<RouteBody, "task" | "limit">> &
   };
 }
 
-function exactOrOverlap(task: string, name: string, overlap: string[], live: boolean): string[] {
-  const reason: string[] = [];
-  if (task.toLowerCase().includes(name.toLowerCase())) reason.push("exact tool-name match");
-  if (overlap.length) reason.push(`capability match: ${overlap.slice(0, 6).join(", ")}`);
-  reason.push(live ? "runtime adapter reported live" : "runtime adapter not reported live");
-  return reason;
+function sanitizeToolResult(value: unknown): PublicToolResult | null {
+  if (!value || typeof value !== "object") return null;
+  const row = value as Record<string, unknown>;
+  const allowed: PublicToolResult = {
+    score: typeof row.score === "number" ? row.score : undefined,
+    mode: typeof row.mode === "string" ? row.mode : undefined,
+    can_execute_now: typeof row.can_execute_now === "boolean" ? row.can_execute_now : undefined,
+    tool_id: typeof row.tool_id === "string" ? row.tool_id : undefined,
+    website_name: typeof row.website_name === "string" ? row.website_name : undefined,
+    canonical_url: typeof row.canonical_url === "string" ? row.canonical_url : undefined,
+    domain: typeof row.domain === "string" ? row.domain : undefined,
+    category: typeof row.category === "string" ? row.category : undefined,
+    subcategory: typeof row.subcategory === "string" ? row.subcategory : undefined,
+    pricing: typeof row.pricing === "string" ? row.pricing : undefined,
+    direct_connector: typeof row.direct_connector === "string" || row.direct_connector === null ? row.direct_connector as string | null : undefined,
+    runtime_adapter_live: typeof row.runtime_adapter_live === "boolean" ? row.runtime_adapter_live : undefined,
+    reason: Array.isArray(row.reason) ? row.reason.slice(0, 8) : undefined,
+    lucas_confirmed_parts: Array.isArray(row.lucas_confirmed_parts) ? row.lucas_confirmed_parts.slice(0, 10) : undefined,
+    lucas_review_only_parts: Array.isArray(row.lucas_review_only_parts) ? row.lucas_review_only_parts.slice(0, 10) : undefined,
+  };
+  return allowed.website_name || allowed.domain ? allowed : null;
+}
+
+function sanitizeUpstream(payload: unknown, task: string, limit: number) {
+  if (!payload || typeof payload !== "object") return null;
+  const raw = payload as Record<string, unknown>;
+  const candidates = Array.isArray(raw.results)
+    ? raw.results
+    : [raw.primary, ...(Array.isArray(raw.fallbacks) ? raw.fallbacks : [])];
+  const results = candidates.map(sanitizeToolResult).filter((row): row is PublicToolResult => row !== null).slice(0, limit);
+  if (!results.length && raw.status !== "no_match") return null;
+  return {
+    ok: true,
+    status: results.length ? "matched" : "no_match",
+    task,
+    source: "private_tool_router",
+    catalog_scope: "task-scoped top results only",
+    primary: results[0] || null,
+    fallbacks: results.slice(1),
+    results,
+    execution_note: "The Switchboard strips upstream payloads to a small allow-listed result schema; the paid catalog itself is not returned.",
+  };
 }
 
 async function upstreamRoute(body: RouteBody & { task: string; limit: number }, env: ToolRoutingEnv): Promise<Response | null> {
@@ -176,7 +238,8 @@ async function upstreamRoute(body: RouteBody & { task: string; limit: number }, 
   }
   if (url.protocol !== "https:") return null;
 
-  const endpoint = new URL("route", url.toString().endsWith("/") ? url : new URL(`${url.toString()}/`));
+  const base = url.toString().endsWith("/") ? url.toString() : `${url.toString()}/`;
+  const endpoint = new URL("route", base);
   const headers = new Headers({ "content-type": "application/json" });
   if (env.TOOL_ROUTER_SHARED_SECRET) {
     headers.set("authorization", `Bearer ${env.TOOL_ROUTER_SHARED_SECRET}`);
@@ -190,11 +253,8 @@ async function upstreamRoute(body: RouteBody & { task: string; limit: number }, 
     });
     if (!response.ok) return null;
     const payload = await response.json();
-    return json({
-      ok: true,
-      source: "private_tool_router",
-      ...((payload && typeof payload === "object") ? payload : { result: payload }),
-    });
+    const sanitized = sanitizeUpstream(payload, body.task, body.limit);
+    return sanitized ? json(sanitized) : null;
   } catch {
     return null;
   }
