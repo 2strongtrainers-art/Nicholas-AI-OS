@@ -27,6 +27,10 @@ STOPWORDS = {
     "to","tool","tools","use","using","want","with","you","your","find","need","make",
 }
 CONSTRAINTS = {"free","no-cost","browser","online","web-based","api","mcp","cli"}
+LEGACY_EXCLUDED_URLS = {
+    "https://benditomockup.com",
+    "https://sketchdesign.club",
+}
 ALIASES = {
     "car": {"vehicle","automotive","tuning","mechanic","fuse","manual"},
     "vehicle": {"car","automotive"},
@@ -107,7 +111,7 @@ def _connector_for_tool(name: str, url: str, domain: str) -> Optional[str]:
 
 
 def _source_name_for_base_index(i: int) -> str:
-    # Historical compact payload retains two unnamed Design rows, so its source
+    # Historical compact payload retains two invalid Design rows, so its source
     # boundaries remain 270 / 366 / 778 even though those two rows are filtered.
     if i < 270:
         return "AI Tools (19/06/2026)"
@@ -131,6 +135,9 @@ def _standard_tool(
 ) -> Optional[Dict[str, Any]]:
     name = (name or "").strip()
     url = (url or "").strip()
+    normalized_url = url.rstrip("/").lower()
+    if normalized_url in LEGACY_EXCLUDED_URLS:
+        return None
     domain = _domain(url)
     if not name or not domain or not _valid_http_url(url):
         return None
