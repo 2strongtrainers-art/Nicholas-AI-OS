@@ -1,4 +1,6 @@
-interface Env {
+import { routeTools, type ToolRoutingEnv } from "./tool-routing";
+
+interface Env extends ToolRoutingEnv {
   OPENROUTER_API_KEY: string;
   SWITCHBOARD_API_KEY: string;
   OX_MODEL?: string;
@@ -231,8 +233,8 @@ function openApi(origin: string) {
     openapi: "3.1.0",
     info: {
       title: "Nicholas AI Switchboard",
-      version: "1.0.0",
-      description: "Route explicit ChatGPT requests to the current Z.AI GLM route, Qwen3.8, or OpenRouter Auto.",
+      version: "1.1.0",
+      description: "Route explicit ChatGPT requests to Ox/Qwen/Auto and return private, task-scoped tool-routing recommendations.",
     },
     servers: [{ url: origin }],
     paths: {
@@ -278,6 +280,39 @@ function openApi(origin: string) {
           },
         },
       },
+      "/tools/route": {
+        post: {
+          operationId: "routeNicholasTool",
+          summary: "Choose a small task-scoped set of tools without exposing the private paid catalog.",
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["task"],
+                  properties: {
+                    task: { type: "string", maxLength: 10000 },
+                    runtime_adapters: {
+                      type: "array",
+                      maxItems: 50,
+                      items: { type: "string" },
+                      description: "Adapters the caller has verified are live in the current runtime.",
+                    },
+                    limit: { type: "integer", minimum: 1, maximum: 5, default: 3 },
+                    include_paid: { type: "boolean", default: true },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            "200": { description: "Primary tool plus limited fallbacks" },
+            "400": { description: "Invalid task" },
+            "401": { description: "Unauthorized" },
+          },
+        },
+      },
     },
   };
 }
@@ -287,7 +322,7 @@ export default {
     const url = new URL(request.url);
 
     if (request.method === "GET" && url.pathname === "/health") {
-      return json({ ok: true, service: "nicholas-ai-switchboard", version: "1.0.0" });
+      return json({ ok: true, service: "nicholas-ai-switchboard", version: "1.1.0", tool_routing: true });
     }
 
     if (request.method === "GET" && url.pathname === "/openapi.json") {
@@ -296,7 +331,7 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/privacy") {
       return new Response(
-        "Nicholas AI Switchboard is a private routing service. Prompts explicitly routed to Ox, Qwen, or Auto are sent to OpenRouter and the selected third-party model provider. Do not send secrets, credentials, private client records, financial records, or other sensitive data unless you have intentionally approved that disclosure. The switchboard itself does not intentionally persist prompts or model responses.",
+        "Nicholas AI Switchboard is a private routing service. Prompts explicitly routed to Ox, Qwen, or Auto are sent to OpenRouter and the selected third-party model provider. Tool routing is task-scoped: the service returns only a small ranked set and does not expose the underlying paid membership catalog. Do not send secrets, credentials, private client records, financial records, or other sensitive data unless you have intentionally approved that disclosure. The switchboard itself does not intentionally persist prompts, routing tasks, or model responses.",
         { headers: { "content-type": "text/plain; charset=utf-8" } },
       );
     }
@@ -317,6 +352,7 @@ export default {
     }
 
     if (request.method === "POST" && url.pathname === "/ask") return ask(request, env);
+    if (request.method === "POST" && url.pathname === "/tools/route") return routeTools(request, env);
 
     return new Response("Not Found", { status: 404 });
   },
