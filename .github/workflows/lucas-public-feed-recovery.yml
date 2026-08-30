@@ -63,6 +63,85 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+  recover-alternates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Inspect raw public profile HTML
+        shell: bash
+        run: |
+          set -u
+          URL='https://www.tiktok.com/@lucaswebq'
+          OUT="${RUNNER_TEMP}/lucas-profile.html"
+          curl -L --compressed --max-time 45 -A 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36' -H 'Accept-Language: en-US,en;q=0.9' "$URL" -o "$OUT" || true
+          echo "PROFILE_HTML_BYTES=$(wc -c < "$OUT" 2>/dev/null || echo 0)"
+          echo "UNIVERSAL_DATA_COUNT=$(grep -o '__UNIVERSAL_DATA_FOR_REHYDRATION__' "$OUT" 2>/dev/null | wc -l | tr -d ' ')"
+          echo "PART_TEXT_COUNT=$(grep -Eio 'Powerful Websites? You Should Know.{0,30}Part.{0,10}[0-9]+' "$OUT" 2>/dev/null | wc -l | tr -d ' ')"
+          grep -Eio 'Powerful Websites? You Should Know.{0,80}Part.{0,15}[0-9]+' "$OUT" 2>/dev/null | head -20 || true
+
+      - name: Try yt-dlp flat profile extraction
+        shell: bash
+        run: |
+          set -u
+          python -m pip install --disable-pip-version-check -q -U yt-dlp
+          OUT="${RUNNER_TEMP}/lucas-ytdlp.jsonl"
+          ERR="${RUNNER_TEMP}/lucas-ytdlp.stderr.txt"
+          timeout 300 yt-dlp --ignore-errors --flat-playlist --dump-single-json --playlist-end 850 'https://www.tiktok.com/@lucaswebq' > "$OUT" 2> "$ERR" || true
+          echo "YTDLP_BYTES=$(wc -c < "$OUT" 2>/dev/null || echo 0)"
+          echo "YTDLP_ERR_BYTES=$(wc -c < "$ERR" 2>/dev/null || echo 0)"
+          head -c 1000 "$OUT" 2>/dev/null || true
+          echo
+          tail -40 "$ERR" 2>/dev/null || true
+
+      - name: Build alternate summary
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, re
+          rt=os.environ['RUNNER_TEMP']
+          p=os.path.join(rt,'lucas-ytdlp.jsonl')
+          out=os.path.join(rt,'lucas-alternate-summary.json')
+          data={"yt_dlp_entries":0,"target_parts":[],"records":[]}
+          try:
+            raw=open(p,'r',encoding='utf-8').read().strip()
+            if raw:
+              obj=json.loads(raw)
+              entries=obj.get('entries') or []
+              data['yt_dlp_entries']=len(entries)
+              for e in entries:
+                if not isinstance(e,dict): continue
+                text=' '.join(str(e.get(k) or '') for k in ('title','description','fulltitle'))
+                m=re.search(r'Powerful\s+Website(?:s)?\s+You\s+Should\s+Know\s*\(Part\s*(\d+)\)',text,re.I)
+                if m:
+                  part=int(m.group(1))
+                  if 351 <= part <= 749:
+                    rec={"part":part,"id":str(e.get('id') or ''),"url":e.get('url') or e.get('webpage_url'),"title":e.get('title') or e.get('description')}
+                    data['records'].append(rec)
+              data['records']=sorted({r['part']:r for r in data['records']}.values(),key=lambda r:r['part'])
+              data['target_parts']=[r['part'] for r in data['records']]
+          except Exception as exc:
+            data['parse_error']=repr(exc)
+          with open(out,'w',encoding='utf-8') as f: json.dump(data,f,indent=2)
+          print(json.dumps({k:v for k,v in data.items() if k!='records'},indent=2))
+          print('TARGET_RECORDS=',len(data['records']))
+          PY
+
+      - name: Upload alternate diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lucas-public-feed-alternates
+          path: |
+            ${{ runner.temp }}/lucas-alternate-summary.json
+            ${{ runner.temp }}/lucas-ytdlp.jsonl
+            ${{ runner.temp }}/lucas-ytdlp.stderr.txt
+          if-no-files-found: warn
+          retention-days: 7
+
   recover-mac:
     runs-on: [self-hosted, macOS]
     timeout-minutes: 25
