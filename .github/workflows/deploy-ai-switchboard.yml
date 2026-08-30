@@ -1,0 +1,117 @@
+name: Deploy AI Switchboard From Main
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/deploy-ai-switchboard.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 25
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Enforce trusted main-only deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(uname -s)" = "Darwin"
+          test -f "$GITHUB_WORKSPACE/scripts/deploy_ai_switchboard.sh"
+          test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/tool-routing.ts"
+
+      - name: Prepare checkout-root deploy wrapper without changing secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/deploy_ai_switchboard_from_checkout.sh"
+          python3 - "$GITHUB_WORKSPACE/scripts/deploy_ai_switchboard.sh" "$OUT" <<'PY'
+          import sys
+          from pathlib import Path
+
+          src = Path(sys.argv[1]).read_text(encoding="utf-8")
+          root_old = 'ROOT="${HOME}/Nicholas-AI-OS"'
+          root_new = 'ROOT="${NICHOLAS_AI_OS_ROOT:-${HOME}/Nicholas-AI-OS}"'
+          if src.count(root_old) != 1:
+              raise SystemExit("unexpected deploy script root declaration")
+          src = src.replace(root_old, root_new, 1)
+
+          start = '# A tiny Ox inference proves the external path end-to-end.'
+          end = '# Install/update the local `ai` launcher now that OpenCode is already working.'
+          if start not in src or end not in src:
+              raise SystemExit("expected external-model probe markers are missing")
+          before, rest = src.split(start, 1)
+          probe, after = rest.split(end, 1)
+          guarded = (
+              start + '\n'
+              + 'if [[ "${SKIP_EXTERNAL_MODEL_PROBE:-0}" == "1" ]]; then\n'
+              + '  echo "OX_LIVE_TEST=SKIPPED_ZERO_SPEND_DEPLOY"\n'
+              + 'else\n'
+              + probe
+              + 'fi\n\n'
+              + end
+          )
+          Path(sys.argv[2]).write_text(before + guarded + after, encoding="utf-8")
+          PY
+          chmod 700 "$OUT"
+
+      - name: Deploy current main to Cloudflare without metered model probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          NICHOLAS_AI_OS_ROOT="$GITHUB_WORKSPACE" \
+          SKIP_EXTERNAL_MODEL_PROBE=1 \
+          /bin/zsh "$RUNNER_TEMP/deploy_ai_switchboard_from_checkout.sh"
+
+      - name: Verify GPT Action schema and full private tool router
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEPLOY_ENV="$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          test -f "$DEPLOY_ENV"
+          source "$DEPLOY_ENV"
+          KEY="$(security find-generic-password -s nicholas-ai-switchboard -a gpt-action -w)"
+          test -n "$KEY"
+
+          curl -fsS "$AI_SWITCHBOARD_URL/health" \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d.get("ok") is True; assert d.get("tool_routing") is True; print("SWITCHBOARD_HEALTH=PASS")'
+
+          curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); p=d.get("paths",{}); assert "/tools/route" in p; assert p["/tools/route"]["post"].get("operationId")=="routeNicholasTool"; print("GPT_ACTION_SCHEMA=PASS")'
+
+          printf '%s' '{"task":"find a free browser tool for design graphics and images","runtime_adapters":[],"limit":3,"include_paid":false}' > "$RUNNER_TEMP/tool-route-request.json"
+          curl -fsS \
+            -H "Authorization: Bearer $KEY" \
+            -H "Content-Type: application/json" \
+            --data-binary "@$RUNNER_TEMP/tool-route-request.json" \
+            "$AI_SWITCHBOARD_URL/tools/route" > "$RUNNER_TEMP/tool-route-response.json"
+
+          python3 - "$RUNNER_TEMP/tool-route-response.json" <<'PY'
+          import json
+          import sys
+
+          data = json.load(open(sys.argv[1], encoding="utf-8"))
+          assert data.get("ok") is True
+          assert data.get("source") == "embedded_private_websurfers", data.get("source")
+          assert "1800" in str(data.get("catalog_scope") or "")
+          results = data.get("results") or []
+          assert 1 <= len(results) <= 3
+          assert all(isinstance(r, dict) and r.get("website_name") for r in results)
+          print("PRIVATE_TOOL_ROUTER=PASS")
+          print("CATALOG_SCOPE=" + str(data.get("catalog_scope")))
+          print("TOP_RESULT=" + str(results[0].get("website_name")))
+          PY
+
+          unset KEY
+
+      - name: Record deployment summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "AI_SWITCHBOARD_DEPLOY=PASS"
+          echo "GPT_TOOL_ROUTER_READY=PASS"
+          echo "METERED_MODEL_PROBE=SKIPPED"
