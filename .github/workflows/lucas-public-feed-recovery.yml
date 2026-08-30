@@ -1,0 +1,60 @@
+name: Lucas Public Feed Recovery
+
+on:
+  push:
+    branches:
+      - research/lucas-feed-recovery-2026-08-29
+    paths:
+      - scripts/recover_lucas_tiktok_feed.mjs
+      - .github/workflows/lucas-public-feed-recovery.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Show Node version
+        run: node --version
+
+      - name: Install temporary browser library
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP_NODE_DIR="${RUNNER_TEMP}/lucas-playwright"
+          mkdir -p "$TMP_NODE_DIR"
+          cd "$TMP_NODE_DIR"
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright-core@1.55.0
+          ln -s "$TMP_NODE_DIR/node_modules" "$GITHUB_WORKSPACE/node_modules"
+
+      - name: Recover public Lucas feed
+        env:
+          LUCAS_FEED_OUT: ${{ runner.temp }}/lucas-public-feed.json
+        run: node scripts/recover_lucas_tiktok_feed.mjs
+
+      - name: Summarize capture
+        if: always()
+        shell: bash
+        run: |
+          FILE="${RUNNER_TEMP}/lucas-public-feed.json"
+          if [[ -f "$FILE" ]]; then
+            node -e 'const p=require(process.argv[1]); console.log(JSON.stringify({totalPublicPostsCaptured:p.totalPublicPostsCaptured,targetPartsCaptured:p.targetPartsCaptured,targetPartMin:p.targetPartMin,targetPartMax:p.targetPartMax,responsePages:p.responseLog?.length||0},null,2))' "$FILE"
+          else
+            echo "No capture file was produced."
+          fi
+
+      - name: Upload recovery artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lucas-public-feed-recovery
+          path: ${{ runner.temp }}/lucas-public-feed.json
+          if-no-files-found: warn
+          retention-days: 7
