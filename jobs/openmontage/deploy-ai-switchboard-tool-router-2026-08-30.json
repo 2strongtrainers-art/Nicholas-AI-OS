@@ -1,0 +1,21 @@
+{
+  "id": "deploy-ai-switchboard-tool-router-2026-08-30",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "nicholas-ai-switchboard",
+  "brief": "Deploy the current reviewed Nicholas AI Switchboard from main so production exposes the authenticated task-scoped /tools/route endpoint backed by the private 1,800-resource Web Surfers catalog. Preserve all existing Ox/Qwen/OpenRouter behavior, Cloudflare configuration, Keychain credentials, OpenMontage, Codex, OpenCode, Hermes and other services. Do not print or commit secrets. After deployment, report only non-secret deployment metadata; production will also be independently checked from the public health and OpenAPI endpoints.",
+  "output_filename": "nicholas-ai-switchboard-tool-router-status.json",
+  "execution_mode": "install_agent_stack",
+  "deploy_ai_switchboard": true,
+  "verify_ai_switchboard": false,
+  "safety": {
+    "store_api_keys_in_repo": false,
+    "print_credentials": false,
+    "preserve_existing_qwen": true,
+    "delete_local_models": false,
+    "modify_existing_elevenlabs_worker": false,
+    "expose_paid_websurfers_catalog": false,
+    "publish_or_send_external_messages": false
+  },
+  "queued_at": "2026-08-30T20:04:00Z"
+}
