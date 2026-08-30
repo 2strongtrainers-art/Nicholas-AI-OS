@@ -1,0 +1,20 @@
+{
+  "status": "live",
+  "verified_at": "2026-08-30T20:31:00Z",
+  "service": "nicholas-ai-switchboard",
+  "base_url": "https://nicholas-ai-switchboard.2strongtrainers.workers.dev",
+  "version": "1.1.0",
+  "tool_routing": true,
+  "openapi_tool_route_operation": "routeNicholasTool",
+  "tool_route_path": "/tools/route",
+  "catalog_resources": 1800,
+  "catalog_domains": 1501,
+  "catalog_source": "embedded_private_websurfers",
+  "public_health_verified": true,
+  "public_openapi_verified": true,
+  "deployment_job_completed": true,
+  "deployment_backend_marker": "AI_SWITCHBOARD_BACKEND_VERIFIED=1",
+  "bearer_key_location": "macOS Keychain only",
+  "secrets_recorded": false,
+  "note": "The production health and OpenAPI gates are verified live. The GPT editor must refresh/import the v1.1 OpenAPI schema so the existing Nick's Assistant / NK GPT exposes routeNicholasTool."
+}
