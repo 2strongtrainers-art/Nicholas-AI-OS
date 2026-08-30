@@ -57,7 +57,7 @@ jobs:
         run: |
           set -euo pipefail
           export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
-          hermes -c "$(cat hermes/TASK_LUCAS_351_749_CANONICAL.md)"
+          hermes --create-if-missing -c "$(cat hermes/TASK_LUCAS_351_749_CANONICAL.md)"
 
       - name: Revalidate research output
         if: ${{ github.event_name == 'push' || inputs.run_research }}
