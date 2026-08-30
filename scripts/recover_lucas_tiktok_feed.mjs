@@ -12,10 +12,14 @@ const chromeCandidates = [
   '/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta',
   '/Applications/Chromium.app/Contents/MacOS/Chromium',
   '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+  '/usr/bin/google-chrome',
+  '/usr/bin/google-chrome-stable',
+  '/usr/bin/chromium',
+  '/usr/bin/chromium-browser',
 ].filter((p) => fs.existsSync(p));
 
 if (!chromeCandidates.length) {
-  throw new Error('No supported system Chromium browser found on the self-hosted macOS runner.');
+  throw new Error(`No supported system Chromium browser found on ${process.platform}.`);
 }
 
 const browser = await chromium.launch({
@@ -126,7 +130,6 @@ try {
     else unchanged = 0;
     previousCount = rows.size;
 
-    // We only need enough history to cover Parts 351-749, but collecting the whole public feed is cheap.
     if (hasMore === false && unchanged >= 2) break;
     if (unchanged >= 10) {
       console.log('No new posts after repeated scrolls; stopping to avoid an infinite loop.');
@@ -148,6 +151,7 @@ try {
     collectionMethod: 'public TikTok profile feed via browser page-context network responses; no login and no cookies persisted',
     browserExecutable: chromeCandidates[0],
     hostname: os.hostname(),
+    platform: process.platform,
     totalPublicPostsCaptured: partRecords.length,
     targetPartsCaptured: targetRecords.length,
     targetPartMin: targetRecords.length ? Math.min(...targetRecords.map((r) => r.part)) : null,
