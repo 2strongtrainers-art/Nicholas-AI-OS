@@ -20,6 +20,13 @@ def load_source_recovery(coverage):
     return rows
 
 
+def load_source_not_recovered(coverage):
+    payload = json.loads((ROOT / coverage["source_not_recovered_file"]).read_text(encoding="utf-8"))
+    if payload.get("creator"):
+        assert payload["creator"] == "@lucaswebq"
+    return payload
+
+
 class LucasCoverageTests(unittest.TestCase):
     def test_every_part_351_749_is_accounted_once(self):
         coverage = read("lucas-coverage-351-749.json")
@@ -73,6 +80,26 @@ class LucasCoverageTests(unittest.TestCase):
             self.assertTrue(row.get("caption_hint"))
             video_ids.append(video_id)
         self.assertEqual(len(video_ids), len(set(video_ids)), "duplicate Lucas video id")
+
+    def test_unrecovered_backlog_is_explicit_and_safe(self):
+        coverage = read("lucas-coverage-351-749.json")
+        payload = load_source_not_recovered(coverage)
+        rows = payload.get("records", [])
+        parts = [int(row["part"]) for row in rows]
+
+        self.assertEqual(payload.get("status"), "source_not_recovered")
+        self.assertEqual(payload.get("record_count"), 336)
+        self.assertEqual(len(rows), 336)
+        self.assertEqual(len(parts), len(set(parts)), "duplicate Part in unrecovered backlog")
+        self.assertEqual(set(parts), set(map(int, coverage["source_not_recovered_parts"])))
+
+        for row in rows:
+            self.assertEqual(row.get("status"), "source_not_recovered")
+            self.assertIsNone(row.get("source"))
+            self.assertIsNone(row.get("video_id"))
+            self.assertIsNone(row.get("caption_hint"))
+            self.assertIsNone(row.get("website_identity"))
+            self.assertFalse(row.get("routing_enabled"))
 
     def test_confidence_buckets_do_not_overclaim(self):
         confirmed = read("canonical-tools.json")
