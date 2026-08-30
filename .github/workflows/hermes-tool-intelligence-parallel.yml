@@ -1,0 +1,84 @@
+name: Hermes Tool Intelligence Parallel
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_research:
+        description: Run Hermes public-web Lucas source research after validating the canonical baseline
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  hermes-research:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 350
+
+    steps:
+      - name: Check out isolated Hermes branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate canonical Lucas baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_tool_intelligence.py
+          python3 -m unittest tests/test_lucas_coverage.py tests/test_lucas_probable_updates.py
+          python3 -m unittest tests/test_tool_intelligence.py
+
+      - name: Verify Hermes prerequisites
+        if: ${{ inputs.run_research }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
+          test "$(uname -s)" = "Darwin"
+          command -v hermes
+          hermes --version
+          test -f hermes/TASK_LUCAS_351_749_CANONICAL.md
+
+      - name: Run canonical Lucas source research
+        if: ${{ inputs.run_research }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
+          hermes -c "$(cat hermes/TASK_LUCAS_351_749_CANONICAL.md)"
+
+      - name: Revalidate research output
+        if: ${{ inputs.run_research }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_tool_intelligence.py
+          python3 -m unittest tests/test_lucas_coverage.py tests/test_lucas_probable_updates.py
+          python3 -m unittest tests/test_tool_intelligence.py
+
+      - name: Commit validated canonical outputs
+        if: ${{ inputs.run_research }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Nicholas Hermes Worker"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/tool-intelligence hermes/research 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No validated Lucas research changes to commit."
+          else
+            git commit -m "Hermes: advance canonical Lucas source recovery"
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi
+
+      - name: Final double-check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_tool_intelligence.py
+          python3 -m unittest tests/test_lucas_coverage.py tests/test_lucas_probable_updates.py
+          python3 -m unittest tests/test_tool_intelligence.py
+          echo "HERMES_LUCAS_CANONICAL_VALIDATION=PASS"
