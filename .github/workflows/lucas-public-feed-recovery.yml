@@ -14,7 +14,56 @@ permissions:
   contents: read
 
 jobs:
-  recover:
+  recover-cloud:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Show browser availability
+        shell: bash
+        run: |
+          node --version
+          command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser
+
+      - name: Install temporary browser library
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP_NODE_DIR="${RUNNER_TEMP}/lucas-playwright"
+          mkdir -p "$TMP_NODE_DIR"
+          cd "$TMP_NODE_DIR"
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright-core@1.55.0
+          ln -s "$TMP_NODE_DIR/node_modules" "$GITHUB_WORKSPACE/node_modules"
+
+      - name: Recover public Lucas feed
+        env:
+          LUCAS_FEED_OUT: ${{ runner.temp }}/lucas-public-feed-cloud.json
+        run: node scripts/recover_lucas_tiktok_feed.mjs
+
+      - name: Summarize capture
+        if: always()
+        shell: bash
+        run: |
+          FILE="${RUNNER_TEMP}/lucas-public-feed-cloud.json"
+          if [[ -f "$FILE" ]]; then
+            node -e 'const p=require(process.argv[1]); console.log(JSON.stringify({totalPublicPostsCaptured:p.totalPublicPostsCaptured,targetPartsCaptured:p.targetPartsCaptured,targetPartMin:p.targetPartMin,targetPartMax:p.targetPartMax,responsePages:p.responseLog?.length||0},null,2))' "$FILE"
+          else
+            echo "No cloud capture file was produced."
+          fi
+
+      - name: Upload cloud recovery artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lucas-public-feed-recovery-cloud
+          path: ${{ runner.temp }}/lucas-public-feed-cloud.json
+          if-no-files-found: warn
+          retention-days: 7
+
+  recover-mac:
     runs-on: [self-hosted, macOS]
     timeout-minutes: 25
     steps:
@@ -37,25 +86,25 @@ jobs:
 
       - name: Recover public Lucas feed
         env:
-          LUCAS_FEED_OUT: ${{ runner.temp }}/lucas-public-feed.json
+          LUCAS_FEED_OUT: ${{ runner.temp }}/lucas-public-feed-mac.json
         run: node scripts/recover_lucas_tiktok_feed.mjs
 
       - name: Summarize capture
         if: always()
         shell: bash
         run: |
-          FILE="${RUNNER_TEMP}/lucas-public-feed.json"
+          FILE="${RUNNER_TEMP}/lucas-public-feed-mac.json"
           if [[ -f "$FILE" ]]; then
             node -e 'const p=require(process.argv[1]); console.log(JSON.stringify({totalPublicPostsCaptured:p.totalPublicPostsCaptured,targetPartsCaptured:p.targetPartsCaptured,targetPartMin:p.targetPartMin,targetPartMax:p.targetPartMax,responsePages:p.responseLog?.length||0},null,2))' "$FILE"
           else
-            echo "No capture file was produced."
+            echo "No Mac capture file was produced."
           fi
 
-      - name: Upload recovery artifact
+      - name: Upload Mac recovery artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lucas-public-feed-recovery
-          path: ${{ runner.temp }}/lucas-public-feed.json
+          name: lucas-public-feed-recovery-mac
+          path: ${{ runner.temp }}/lucas-public-feed-mac.json
           if-no-files-found: warn
           retention-days: 7
