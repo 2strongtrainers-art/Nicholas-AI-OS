@@ -1,5 +1,6 @@
 name: Lucas Public Feed Recovery
 
+# Temporary research workflow: public creator metadata only; no saved browser profile.
 on:
   push:
     branches:
