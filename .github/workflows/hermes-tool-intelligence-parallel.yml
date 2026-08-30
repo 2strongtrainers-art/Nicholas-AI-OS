@@ -8,9 +8,18 @@ on:
         required: true
         default: false
         type: boolean
+  push:
+    branches:
+      - hermes/tool-intelligence-parallel
+    paths:
+      - hermes/TRIGGER_LUCAS_COMPLETION
 
 permissions:
   contents: write
+
+concurrency:
+  group: hermes-tool-intelligence-parallel
+  cancel-in-progress: false
 
 jobs:
   hermes-research:
@@ -32,7 +41,7 @@ jobs:
           python3 -m unittest tests/test_tool_intelligence.py
 
       - name: Verify Hermes prerequisites
-        if: ${{ inputs.run_research }}
+        if: ${{ github.event_name == 'push' || inputs.run_research }}
         shell: bash
         run: |
           set -euo pipefail
@@ -43,7 +52,7 @@ jobs:
           test -f hermes/TASK_LUCAS_351_749_CANONICAL.md
 
       - name: Run canonical Lucas source research
-        if: ${{ inputs.run_research }}
+        if: ${{ github.event_name == 'push' || inputs.run_research }}
         shell: bash
         run: |
           set -euo pipefail
@@ -51,7 +60,7 @@ jobs:
           hermes -c "$(cat hermes/TASK_LUCAS_351_749_CANONICAL.md)"
 
       - name: Revalidate research output
-        if: ${{ inputs.run_research }}
+        if: ${{ github.event_name == 'push' || inputs.run_research }}
         shell: bash
         run: |
           set -euo pipefail
@@ -60,7 +69,7 @@ jobs:
           python3 -m unittest tests/test_tool_intelligence.py
 
       - name: Commit validated canonical outputs
-        if: ${{ inputs.run_research }}
+        if: ${{ github.event_name == 'push' || inputs.run_research }}
         shell: bash
         run: |
           set -euo pipefail
