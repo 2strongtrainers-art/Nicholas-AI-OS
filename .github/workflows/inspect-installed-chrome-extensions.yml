@@ -1,0 +1,80 @@
+name: Inspect Installed Chrome Extensions
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-installed-chrome-extensions.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 3
+    steps:
+      - name: Inspect extension metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          root=Path.home()/"Library/Application Support/Google/Chrome"
+          print('CHROME_PROFILE_ROOT=' + ('FOUND' if root.exists() else 'MISSING'))
+          if not root.exists():
+              raise SystemExit(0)
+
+          profiles=[]
+          for p in root.iterdir():
+              if p.is_dir() and (p.name=='Default' or p.name.startswith('Profile ')):
+                  profiles.append(p)
+          print('CHROME_PROFILE_COUNT=' + str(len(profiles)))
+
+          def resolve_name(extdir, manifest):
+              name=str(manifest.get('name') or '')
+              if name.startswith('__MSG_') and name.endswith('__'):
+                  key=name[6:-2]
+                  for locale in [manifest.get('default_locale'),'en','en_US']:
+                      if not locale: continue
+                      f=extdir/'_locales'/str(locale)/'messages.json'
+                      if f.exists():
+                          try:
+                              data=json.load(open(f,encoding='utf-8'))
+                              msg=data.get(key) or data.get(key.lower())
+                              if isinstance(msg,dict) and msg.get('message'):
+                                  return str(msg['message'])
+                          except Exception: pass
+              return name
+
+          for profile in profiles:
+              extroot=profile/'Extensions'
+              if not extroot.exists():
+                  continue
+              for extid in sorted(extroot.iterdir()):
+                  if not extid.is_dir(): continue
+                  versions=[v for v in extid.iterdir() if v.is_dir() and (v/'manifest.json').exists()]
+                  if not versions: continue
+                  versions.sort(key=lambda x:x.name)
+                  v=versions[-1]
+                  try:
+                      m=json.load(open(v/'manifest.json',encoding='utf-8'))
+                  except Exception:
+                      continue
+                  name=resolve_name(v,m)
+                  perms=sorted(set(str(x) for x in (m.get('permissions') or [])))
+                  hosts=sorted(set(str(x) for x in (m.get('host_permissions') or [])))
+                  bg=m.get('background') or {}
+                  svc=str(bg.get('service_worker') or '') if isinstance(bg,dict) else ''
+                  print('EXTENSION=' + json.dumps({
+                      'profile':profile.name,
+                      'id':extid.name,
+                      'name':name,
+                      'version':str(m.get('version') or ''),
+                      'permissions':perms[:30],
+                      'host_permissions':hosts[:30],
+                      'service_worker':svc,
+                  },separators=(',',':')))
+          PY
