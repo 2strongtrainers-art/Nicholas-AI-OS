@@ -1,0 +1,45 @@
+name: Try Enable Safari WebDriver
+
+on:
+  push:
+    paths:
+      - ".github/workflows/try-enable-safari-webdriver.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  enable:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 2
+    steps:
+      - name: Attempt supported noninteractive Safari WebDriver enablement
+        shell: bash
+        run: |
+          set -euo pipefail
+          if sudo -n true >/dev/null 2>&1; then
+            echo 'PASSWORDLESS_SUDO=YES'
+          else
+            echo 'PASSWORDLESS_SUDO=NO'
+          fi
+          python3 - <<'PY'
+          import subprocess
+          try:
+              p=subprocess.run(['/usr/bin/safaridriver','--enable'],text=True,capture_output=True,timeout=8)
+              print('SAFARIDRIVER_ENABLE_EXIT=' + str(p.returncode))
+              text=((p.stdout or '')+'\n'+(p.stderr or '')).strip().replace('\n',' | ')
+              print('SAFARIDRIVER_ENABLE_OUTPUT=' + text[:1000])
+          except subprocess.TimeoutExpired:
+              print('SAFARIDRIVER_ENABLE=BLOCKED_ON_INTERACTIVE_AUTH')
+          PY
+          python3 - <<'PY'
+          import subprocess
+          try:
+              p=subprocess.run(['/usr/bin/safaridriver','-p','0'],text=True,capture_output=True,timeout=4)
+              print('SAFARIDRIVER_POSTCHECK_EXIT=' + str(p.returncode))
+              text=((p.stdout or '')+'\n'+(p.stderr or '')).strip().replace('\n',' | ')
+              print('SAFARIDRIVER_POSTCHECK=' + text[:800])
+          except subprocess.TimeoutExpired:
+              print('SAFARIDRIVER_POSTCHECK_SERVER_STARTED=PASS')
+          PY
