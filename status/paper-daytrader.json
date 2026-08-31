@@ -1,55 +1,11 @@
 {
   "broker_order_capability": false,
-  "candidates": [
-    {
-      "asset_class": "stock",
-      "average_down": false,
-      "entry": 314.26214720458984,
-      "execution": "paper",
-      "opening_range_high": 321.235,
-      "opening_range_low": 317.04,
-      "relative_volume": 30.628,
-      "score": 91.11,
-      "side": "short",
-      "stop": 318.08875274658203,
-      "symbol": "AAPL",
-      "target": 307.5655875061035,
-      "timestamp": "2026-08-31T16:30:00+00:00",
-      "vwap": 316.2567
-    }
-  ],
-  "checked_at": "2026-08-31T16:31:10.716377+00:00",
+  "candidates": [],
+  "checked_at": "2026-08-31T17:02:03.496622+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100599.770557,
-  "events": [
-    {
-      "entry": 316.41171110229493,
-      "exit": 313.476888,
-      "paper_only": true,
-      "pnl": 437.29,
-      "quantity": 149,
-      "reason": "TARGET",
-      "side": "short",
-      "symbol": "AAPL",
-      "timestamp": "2026-08-31T16:30:00+00:00",
-      "type": "EXIT"
-    },
-    {
-      "entry": 314.26214720458984,
-      "opened_at": "2026-08-31T16:30:00+00:00",
-      "paper_only": true,
-      "quantity": 65,
-      "risk_dollars": 248.7293602294926,
-      "score": 91.11,
-      "side": "short",
-      "stop": 318.08875274658203,
-      "symbol": "AAPL",
-      "target": 307.5655875061035,
-      "timestamp": "2026-08-31T16:30:00+00:00",
-      "type": "ENTRY"
-    }
-  ],
-  "latest_data_at": "2026-08-31T16:30:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-08-31T17:01:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 3,
