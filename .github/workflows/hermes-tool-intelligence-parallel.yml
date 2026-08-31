@@ -57,7 +57,16 @@ jobs:
         run: |
           set -euo pipefail
           export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
-          hermes -z "$(cat hermes/TASK_LUCAS_351_749_CANONICAL.md)"
+          LOG_FILE="${RUNNER_TEMP}/hermes-lucas-research.log"
+          set +e
+          hermes -z "$(cat hermes/TASK_LUCAS_351_749_CANONICAL.md)" 2>&1 | tee "$LOG_FILE"
+          hermes_status=${PIPESTATUS[0]}
+          set -e
+          if grep -Eqi 'HTTP 429|usage limit has been reached|rate limit' "$LOG_FILE"; then
+            echo "Hermes research is externally rate/usage limited; fail this run so it is not misreported as successful."
+            exit 75
+          fi
+          exit "$hermes_status"
 
       - name: Revalidate research output
         if: ${{ github.event_name == 'push' || inputs.run_research }}
