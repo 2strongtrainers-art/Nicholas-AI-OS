@@ -1,0 +1,89 @@
+name: Direct Chrome Inspect Session
+
+on:
+  push:
+    paths:
+      - ".github/workflows/direct-chrome-inspect-session.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 6
+    steps:
+      - name: Bind trusted Chrome runtime and inspect safe tab metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,subprocess,sys,time,tomllib,select,re
+          from pathlib import Path
+
+          cfg=tomllib.loads((Path.home()/'.codex/config.toml').read_text())
+          srv=cfg['mcp_servers']['node_repl']
+          env=os.environ.copy(); env.update({str(k):str(v) for k,v in srv.get('env',{}).items()})
+          p=subprocess.Popen([srv['command'],*srv.get('args',[])],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1,env=env)
+          next_id=1
+          def send(obj):
+              p.stdin.write(json.dumps(obj,separators=(',',':'))+'\n'); p.stdin.flush()
+          def recv_id(target,timeout=60):
+              end=time.time()+timeout
+              while time.time()<end:
+                  r,_,_=select.select([p.stdout],[],[],max(0,end-time.time()))
+                  if not r: break
+                  line=p.stdout.readline()
+                  if not line: break
+                  try:o=json.loads(line)
+                  except Exception:continue
+                  if o.get('id')==target:return o
+              return None
+          def req(method,params,timeout=60):
+              global next_id
+              i=next_id; next_id+=1
+              send({'jsonrpc':'2.0','id':i,'method':method,'params':params})
+              o=recv_id(i,timeout)
+              if o is None: raise RuntimeError('timeout waiting for '+method)
+              if 'error' in o: raise RuntimeError(str(o['error']))
+              return o.get('result') or {}
+          def call_js(code,title,timeout_ms=30000):
+              return req('tools/call',{'name':'js','arguments':{'code':code,'title':title,'timeout_ms':timeout_ms}},timeout=max(60,timeout_ms/1000+15))
+          def texts(result):
+              out=[]
+              for c in result.get('content') or []:
+                  if isinstance(c,dict) and c.get('type')=='text': out.append(str(c.get('text') or ''))
+              return '\n'.join(out)
+
+          init=req('initialize',{'protocolVersion':'2025-06-18','capabilities':{},'clientInfo':{'name':'nicholas-ai-direct','version':'1.0'}})
+          print('NODE_REPL_MCP=PASS')
+          send({'jsonrpc':'2.0','method':'notifications/initialized','params':{}})
+          root=str(Path.home()/'.codex/plugins/cache/openai-bundled/chrome/26.825.51511/scripts/browser-client.mjs')
+          r=call_js(f'''const {{ setupBrowserRuntime }} = await import({json.dumps(root)});\nconst agent = await setupBrowserRuntime();\nconst chrome = await agent.browsers.get("chrome");\nnodeRepl.write("CHROME_BINDING_OK");''','Connect to Chrome',45000)
+          txt=texts(r)
+          print('SETUP_RESULT=' + txt[:3000])
+          if 'CHROME_BINDING_OK' not in txt:
+              raise RuntimeError('Chrome binding did not succeed')
+          print('CHROME_BINDING=PASS')
+
+          # Per first-party Chrome skill, read complete documentation before interaction.
+          docs=call_js('nodeRepl.write(await chrome.documentation());','Read Chrome control documentation',45000)
+          dtext=texts(docs)
+          print('CHROME_DOCUMENTATION_BEGIN')
+          print(dtext)
+          print('CHROME_DOCUMENTATION_END')
+          if not dtext.strip(): raise RuntimeError('Chrome documentation was empty')
+          print('CHROME_DOCUMENTATION=PASS')
+
+          tabs=call_js('''const safeTabs = (await chrome.tabs.list()).map(t => { let safeUrl=""; try { const u=new URL(String(t.url||"")); safeUrl=u.origin+u.pathname; } catch {} return {id:t.id??null,title:String(t.title||"").slice(0,160),url:safeUrl}; }); nodeRepl.write(JSON.stringify(safeTabs));''','List Chrome tabs safely',30000)
+          ttext=texts(tabs)
+          print('SAFE_TABS_RESULT=' + ttext[:12000])
+          if 'chatgpt.com' in ttext:
+              print('CHATGPT_TAB_PRESENT=PASS')
+          else:
+              print('CHATGPT_TAB_PRESENT=NO')
+          print('DIRECT_TRUSTED_CHROME=PASS')
+          try:p.terminate();p.wait(timeout=2)
+          except Exception:p.kill()
+          PY
