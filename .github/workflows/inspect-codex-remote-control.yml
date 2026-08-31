@@ -1,0 +1,31 @@
+name: Inspect Codex Remote Control
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-codex-remote-control.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - name: Inspect Codex control surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          for cmd in \
+            "codex remote-control --help" \
+            "codex agents --help" \
+            "codex app-server --help" \
+            "codex exec --help" \
+            "codex mcp list" \
+            "codex plugin list" \
+            "codex features list"; do
+              echo "=== $cmd ==="
+              timeout 20s /bin/zsh -lc "$cmd" 2>&1 | head -220 || true
+          done
