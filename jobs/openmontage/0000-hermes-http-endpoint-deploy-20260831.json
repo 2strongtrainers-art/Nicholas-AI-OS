@@ -1,12 +1,12 @@
 {
   "id": "hermes-http-endpoint-deploy-2026-08-31",
   "type": "openmontage_video",
-  "status": "failed",
+  "status": "queued",
   "project_id": "nicholas-ai-os",
   "brief": "Deploy and verify the persistent authenticated Hermes HTTP create/result endpoint.",
   "execution_mode": "install_agent_stack",
   "deploy_hermes_http_endpoint": true,
-  "requeued_reason": "Headless deployment fixed to preserve the existing GPT bearer and use an owner-only local Hermes worker credential file.",
+  "requeued_reason": "Wrangler temporary config now resolves the Hermes Worker entrypoint to the real service source path.",
   "safety": {
     "arbitrary_shell_allowed": false,
     "fixed_repository_script_only": true,
@@ -14,10 +14,5 @@
     "external_messages_allowed": false,
     "publishing_allowed": false,
     "purchases_allowed": false
-  },
-  "render_mode_resolved": "maintenance",
-  "started_at": "2026-08-31T16:31:19.523752+00:00",
-  "routing_reason": "explicit allowlisted Codex + Hermes + Agent Skills installation",
-  "failed_at": "2026-08-31T16:31:57.581078+00:00",
-  "error": "Command '['/bin/zsh', '/Users/nickkaplan/Nicholas-AI-OS/scripts/install_agent_stack.sh']' returned non-zero exit status 1."
+  }
 }
