@@ -12,41 +12,59 @@ permissions:
 jobs:
   inspect:
     runs-on: [self-hosted, macOS]
-    timeout-minutes: 5
+    timeout-minutes: 2
     steps:
       - name: Check out trusted main
         uses: actions/checkout@v5
 
-      - name: Inspect Safari and UI automation availability
+      - name: Inspect Safari and UI automation availability without blocking
         shell: bash
         run: |
           set -euo pipefail
-          UI_ENABLED="$(/usr/bin/osascript -e 'tell application "System Events" to return UI elements enabled' 2>/dev/null || echo false)"
-          echo "MAC_UI_AUTOMATION_ENABLED=$UI_ENABLED"
-          if pgrep -x Safari >/dev/null 2>&1; then
-            echo "SAFARI_RUNNING=1"
-          else
-            echo "SAFARI_RUNNING=0"
-          fi
 
-          /usr/bin/open -a Safari 'https://chatgpt.com/gpts'
-          sleep 6
-          RAW_URL="$(/usr/bin/osascript -e 'tell application "Safari" to return URL of front document' 2>/dev/null || true)"
-          python3 - "$RAW_URL" <<'PY'
-          import sys, urllib.parse
-          raw=sys.argv[1].strip()
-          try:
-              u=urllib.parse.urlparse(raw)
-          except Exception:
-              u=None
-          host=(u.hostname or '') if u else ''
-          path=(u.path or '') if u else ''
-          print('CHATGPT_PAGE_HOST=' + host)
-          print('CHATGPT_GPTS_PAGE=' + ('PASS' if host in {'chatgpt.com','www.chatgpt.com'} and path.startswith('/gpts') else 'FAIL'))
+          python3 - <<'PY'
+          import subprocess
+
+          def run(args, timeout=5):
+              try:
+                  p=subprocess.run(args,text=True,capture_output=True,timeout=timeout)
+                  return p.returncode,(p.stdout or '').strip(),(p.stderr or '').strip(),False
+              except subprocess.TimeoutExpired:
+                  return 124,'','timeout',True
+
+          code,out,err,timed=run(['/usr/bin/osascript','-e','tell application "System Events" to return UI elements enabled'])
+          if timed:
+              print('MAC_UI_AUTOMATION_ENABLED=UNKNOWN_TIMEOUT')
+              print('MAC_ACCESSIBILITY_CHECK=BLOCKED_OR_PROMPTING')
+          elif code==0:
+              value=out.lower()
+              print('MAC_UI_AUTOMATION_ENABLED=' + value)
+              print('MAC_ACCESSIBILITY_CHECK=' + ('PASS' if value=='true' else 'BLOCKED'))
+          else:
+              print('MAC_UI_AUTOMATION_ENABLED=false')
+              print('MAC_ACCESSIBILITY_CHECK=BLOCKED')
+
+          p=subprocess.run(['/usr/bin/pgrep','-x','Safari'],text=True,capture_output=True)
+          print('SAFARI_RUNNING=' + ('1' if p.returncode==0 else '0'))
           PY
 
-          if [[ "$UI_ENABLED" = "true" ]]; then
-            echo "CHATGPT_EDITOR_UI_CONTROL=POSSIBLE"
-          else
-            echo "CHATGPT_EDITOR_UI_CONTROL=BLOCKED_BY_MAC_ACCESSIBILITY"
-          fi
+          /usr/bin/open -a Safari 'https://chatgpt.com/gpts' >/dev/null 2>&1 || true
+          sleep 5
+
+          python3 - <<'PY'
+          import subprocess, urllib.parse
+          try:
+              p=subprocess.run(['/usr/bin/osascript','-e','tell application "Safari" to return URL of front document'],text=True,capture_output=True,timeout=5)
+              raw=(p.stdout or '').strip() if p.returncode==0 else ''
+              safari_ok=p.returncode==0
+          except subprocess.TimeoutExpired:
+              raw=''
+              safari_ok=False
+              print('SAFARI_AUTOMATION=BLOCKED_OR_PROMPTING')
+          u=urllib.parse.urlparse(raw) if raw else None
+          host=(u.hostname or '') if u else ''
+          path=(u.path or '') if u else ''
+          print('SAFARI_AUTOMATION=' + ('PASS' if safari_ok else 'BLOCKED'))
+          print('CHATGPT_PAGE_HOST=' + host)
+          print('CHATGPT_GPTS_PAGE=' + ('PASS' if host in {'chatgpt.com','www.chatgpt.com'} and path.startswith('/gpts') else 'UNVERIFIED'))
+          PY
