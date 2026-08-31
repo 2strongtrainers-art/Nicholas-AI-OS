@@ -1,0 +1,25 @@
+{
+  "creator": "@lucaswebq",
+  "research_batch": {"start": 351, "end": 375},
+  "source_profile": "https://www.tiktok.com/@lucaswebq",
+  "records": [
+    {
+      "part": 362,
+      "video_id": "7533953249989102870",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7533953249989102870",
+      "caption_hint": "Powerful Websites You Should Know (Part 362) | #roadtrip #travel #tourist #tourism #vacation #traveltiktok #lucaswebq #websites #productivity",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7533953249989102870",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7533953249989102870 to the exact Part 362 caption. Public indexing and an official cross-post transcript describe a road-trip route with recommended stops, but no exact website/domain binding was recovered, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:20:17Z"
+    },
+    {
+      "part": 368,
+      "video_id": "7535435326244932886",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7535435326244932886",
+      "caption_hint": "Powerful Websites You Should Know (Part 368) Best graphic design tool. Use code: WEBQTT for 25% off | #design #productivity #logodesign #graphicdesign #logo #lucaswebq",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7535435326244932886",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7535435326244932886 to the exact Part 368 caption. Searches for the discount code and exact post did not establish a trustworthy website/domain binding, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:20:17Z"
+    }
+  ]
+}
