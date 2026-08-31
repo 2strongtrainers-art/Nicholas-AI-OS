@@ -186,11 +186,29 @@ jobs:
           )"
           test -n "$JOB_ID"
 
-          /usr/bin/python3 "$HOME/.local/share/nicholas-ai/hermes_switchboard_worker.py"
+          # Try an immediate worker cycle, then poll the persistent queue. The
+          # LaunchAgent also runs every 30 seconds, so queued/running are normal
+          # asynchronous states and must not be treated as immediate failures.
+          /usr/bin/python3 "$HOME/.local/share/nicholas-ai/hermes_switchboard_worker.py" || true
+          FINAL_STATUS=""
+          for attempt in $(seq 1 72); do
+            curl -fsS \
+              -H "Authorization: Bearer $WORKER_KEY" \
+              "$AI_SWITCHBOARD_URL/hermes/internal/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
+            FINAL_STATUS="$(python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json, sys
+          data=json.load(open(sys.argv[1], encoding='utf-8'))
+          assert data.get('ok') is True
+          print((data.get('job') or {}).get('status') or '')
+          PY
+            )"
+            if [[ "$FINAL_STATUS" = "completed" || "$FINAL_STATUS" = "failed" ]]; then
+              break
+            fi
+            sleep 5
+          done
+          test "$FINAL_STATUS" = "completed"
 
-          curl -fsS \
-            -H "Authorization: Bearer $WORKER_KEY" \
-            "$AI_SWITCHBOARD_URL/hermes/internal/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
           python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
           import json, sys
           data=json.load(open(sys.argv[1], encoding='utf-8'))
