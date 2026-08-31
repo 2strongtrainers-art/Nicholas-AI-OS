@@ -1,0 +1,90 @@
+name: Inspect ChatGPT Extension Control
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-chatgpt-extension-control.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 3
+    steps:
+      - name: Inspect non-secret extension and native messaging metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+
+          ext_id='hehggadaopoacecdllhhajmbjkdcmajg'
+          root=Path.home()/"Library/Application Support/Google/Chrome/Default/Extensions"/ext_id
+          versions=[p for p in root.iterdir() if p.is_dir() and (p/'manifest.json').exists()] if root.exists() else []
+          versions.sort(key=lambda p:p.name)
+          if not versions:
+              print('CHATGPT_EXTENSION=NOT_FOUND'); raise SystemExit(0)
+          d=versions[-1]
+          m=json.load(open(d/'manifest.json',encoding='utf-8'))
+          print('CHATGPT_EXTENSION=FOUND')
+          print('CHATGPT_EXTENSION_VERSION=' + str(m.get('version') or ''))
+          for key in ['externally_connectable','commands','content_scripts','side_panel','action','web_accessible_resources']:
+              if key in m:
+                  val=m[key]
+                  text=json.dumps(val,separators=(',',':'))
+                  print('MANIFEST_' + key.upper() + '=' + text[:5000])
+
+          files=[]
+          for p in d.rglob('*.js'):
+              try:
+                  if p.stat().st_size <= 25_000_000:
+                      files.append(p)
+              except Exception: pass
+          patterns={
+            'CONNECT_NATIVE':re.compile(r'(?:connectNative|sendNativeMessage)\s*\(\s*["\']([^"\']+)["\']'),
+            'MESSAGE_EXTERNAL':re.compile(r'onMessageExternal'),
+            'DEBUGGER_ATTACH':re.compile(r'(?:chrome\.)?debugger\.(?:attach|sendCommand|onEvent)'),
+            'LOCALHOST_URL':re.compile(r'https?://(?:127\.0\.0\.1|localhost):\d+[^"\'\s)]*'),
+            'WS_LOCALHOST':re.compile(r'wss?://(?:127\.0\.0\.1|localhost):\d+[^"\'\s)]*'),
+          }
+          native=set(); localhost=set(); flags=set()
+          for p in files:
+              try: text=p.read_text(encoding='utf-8',errors='ignore')
+              except Exception: continue
+              for x in patterns['CONNECT_NATIVE'].findall(text): native.add(x)
+              for x in patterns['LOCALHOST_URL'].findall(text): localhost.add(x)
+              for x in patterns['WS_LOCALHOST'].findall(text): localhost.add(x)
+              if patterns['MESSAGE_EXTERNAL'].search(text): flags.add('onMessageExternal')
+              if patterns['DEBUGGER_ATTACH'].search(text): flags.add('debugger_api')
+          print('EXTENSION_NATIVE_HOST_LITERALS=' + json.dumps(sorted(native)))
+          print('EXTENSION_LOCAL_ENDPOINT_LITERALS=' + json.dumps(sorted(localhost)[:30]))
+          print('EXTENSION_CONTROL_FLAGS=' + json.dumps(sorted(flags)))
+
+          host_roots=[
+            Path.home()/"Library/Application Support/Google/Chrome/NativeMessagingHosts",
+            Path('/Library/Google/Chrome/NativeMessagingHosts'),
+            Path.home()/"Library/Application Support/Chromium/NativeMessagingHosts",
+          ]
+          seen=set()
+          for hr in host_roots:
+              if not hr.exists(): continue
+              for f in sorted(hr.glob('*.json')):
+                  key=str(f.resolve())
+                  if key in seen: continue
+                  seen.add(key)
+                  try: h=json.load(open(f,encoding='utf-8'))
+                  except Exception: continue
+                  safe={
+                    'file':f.name,
+                    'name':h.get('name'),
+                    'description':h.get('description'),
+                    'type':h.get('type'),
+                    'allowed_origins':h.get('allowed_origins'),
+                    'path_basename':Path(str(h.get('path') or '')).name,
+                  }
+                  print('NATIVE_HOST=' + json.dumps(safe,separators=(',',':')))
+          PY
