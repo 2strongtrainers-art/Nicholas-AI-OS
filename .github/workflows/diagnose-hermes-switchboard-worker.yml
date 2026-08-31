@@ -1,0 +1,66 @@
+name: Diagnose Hermes Switchboard Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/diagnose-hermes-switchboard-worker.yml"
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - name: Inspect Hermes worker without secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          LABEL="com.nicholas.hermes-switchboard-worker"
+          DOMAIN="gui/$(id -u)"
+          LOG="$HOME/Library/Logs/HermesSwitchboardWorker.log"
+          OUT="$HOME/Library/Logs/HermesSwitchboardLaunchAgent.log"
+          ERR="$HOME/Library/Logs/HermesSwitchboardLaunchAgent.err.log"
+          LOCK="$HOME/.hermes-switchboard-worker.lock"
+          KEY_FILE="$HOME/.config/nicholas-ai-switchboard/hermes-worker.key"
+
+          echo "=== LAUNCHAGENT ==="
+          launchctl print "$DOMAIN/$LABEL" 2>&1 | grep -E 'state =|pid =|last exit code|runs =|program =' || true
+
+          echo "=== CREDENTIAL FILE METADATA ==="
+          if [[ -f "$KEY_FILE" ]]; then
+            stat -f 'mode=%Lp size=%z' "$KEY_FILE"
+          else
+            echo "worker_key_file=missing"
+          fi
+
+          echo "=== LOCK ==="
+          if [[ -f "$LOCK" ]]; then
+            PID="$(cat "$LOCK" 2>/dev/null || true)"
+            echo "lock_present=1"
+            echo "lock_pid=${PID:-unknown}"
+            if [[ "$PID" =~ ^[0-9]+$ ]] && kill -0 "$PID" 2>/dev/null; then
+              echo "lock_pid_alive=1"
+            else
+              echo "lock_pid_alive=0"
+            fi
+          else
+            echo "lock_present=0"
+          fi
+
+          echo "=== PROCESS ==="
+          ps -axo pid,etime,command | grep '[h]ermes_switchboard_worker.py' | sed "s#$HOME#\$HOME#g" || true
+
+          sanitize() {
+            sed -E \
+              -e 's#'$HOME'#\$HOME#g' \
+              -e 's/(Bearer )[A-Za-z0-9._~+\/-]+/\1[REDACTED]/Ig' \
+              -e 's/((api[_-]?key|token|secret|authorization)[=: ]+)[^ ]+/\1[REDACTED]/Ig'
+          }
+
+          echo "=== WORKER LOG TAIL ==="
+          [[ -f "$LOG" ]] && tail -n 100 "$LOG" | sanitize || echo "worker_log=missing"
+          echo "=== LAUNCH STDOUT TAIL ==="
+          [[ -f "$OUT" ]] && tail -n 60 "$OUT" | sanitize || echo "launch_stdout=missing"
+          echo "=== LAUNCH STDERR TAIL ==="
+          [[ -f "$ERR" ]] && tail -n 100 "$ERR" | sanitize || echo "launch_stderr=missing"
