@@ -1,0 +1,19 @@
+name: Reset Stale Hermes Tool Intelligence Run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/unstick-hermes-tool-intelligence.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: hermes-tool-intelligence-parallel
+  cancel-in-progress: true
+
+jobs:
+  release-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release stale Hermes concurrency slot
+        run: echo "STALE_HERMES_TOOL_INTELLIGENCE_RUN_RELEASED=1"
