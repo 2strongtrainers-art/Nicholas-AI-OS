@@ -70,8 +70,12 @@ fi
 
 python3 - "$SERVICE_DIR/wrangler.jsonc" "$TMP_DIR/wrangler-hermes.json" "$KV_ID" <<'PY'
 import json, sys
+from pathlib import Path
 src,out,kv_id=sys.argv[1:]
 data=json.load(open(src, encoding='utf-8'))
+main=data.get('main')
+if isinstance(main, str) and main and not Path(main).is_absolute():
+    data['main']=str((Path(src).parent / main).resolve())
 data['kv_namespaces']=[{'binding':'HERMES_JOBS','id':kv_id}]
 with open(out,'w',encoding='utf-8') as f:
     json.dump(data,f,indent=2); f.write('\n')
