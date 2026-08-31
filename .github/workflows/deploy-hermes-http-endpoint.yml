@@ -1,0 +1,236 @@
+name: Deploy Hermes HTTP Endpoint
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/deploy-hermes-http-endpoint.yml"
+      - "services/ai-switchboard/src/hermes-index.ts"
+      - "services/ai-switchboard/src/hermes-jobs.ts"
+      - "services/ai-switchboard/wrangler.jsonc"
+      - "scripts/hermes_switchboard_worker.py"
+      - "scripts/install_hermes_switchboard_worker.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-and-test:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 30
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Prepare existing Switchboard deploy script for checkout root
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/deploy_ai_switchboard_from_checkout.sh"
+          python3 - "$GITHUB_WORKSPACE/scripts/deploy_ai_switchboard.sh" "$OUT" <<'PY'
+          import sys
+          from pathlib import Path
+
+          src = Path(sys.argv[1]).read_text(encoding="utf-8")
+          root_old = 'ROOT="${HOME}/Nicholas-AI-OS"'
+          root_new = 'ROOT="${NICHOLAS_AI_OS_ROOT:-${HOME}/Nicholas-AI-OS}"'
+          if src.count(root_old) != 1:
+              raise SystemExit("unexpected deploy script root declaration")
+          src = src.replace(root_old, root_new, 1)
+
+          start = '# A tiny Ox inference proves the external path end-to-end.'
+          end = '# Install/update the local `ai` launcher now that OpenCode is already working.'
+          if start not in src or end not in src:
+              raise SystemExit("expected external-model probe markers are missing")
+          before, rest = src.split(start, 1)
+          probe, after = rest.split(end, 1)
+          guarded = (
+              start + '\n'
+              + 'if [[ "${SKIP_EXTERNAL_MODEL_PROBE:-0}" == "1" ]]; then\n'
+              + '  echo "OX_LIVE_TEST=SKIPPED_ZERO_SPEND_DEPLOY"\n'
+              + 'else\n'
+              + probe
+              + 'fi\n\n'
+              + end
+          )
+          Path(sys.argv[2]).write_text(before + guarded + after, encoding="utf-8")
+          PY
+          chmod 700 "$OUT"
+
+      - name: Deploy base Switchboard without metered model probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          NICHOLAS_AI_OS_ROOT="$GITHUB_WORKSPACE" \
+          SKIP_EXTERNAL_MODEL_PROBE=1 \
+          /bin/zsh "$RUNNER_TEMP/deploy_ai_switchboard_from_checkout.sh"
+
+      - name: Provision persistent Hermes KV binding
+        id: kv
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/services/ai-switchboard"
+          npx wrangler kv namespace list > "$RUNNER_TEMP/kv-list.json"
+          KV_ID="$(python3 - "$RUNNER_TEMP/kv-list.json" <<'PY'
+          import json, sys
+          rows = json.load(open(sys.argv[1], encoding='utf-8'))
+          for row in rows if isinstance(rows, list) else []:
+              title = str(row.get('title') or '')
+              if title.endswith('-HERMES_JOBS') or title == 'HERMES_JOBS' or 'HERMES_JOBS' in title:
+                  print(row.get('id') or '')
+                  break
+          PY
+          )"
+          if [[ -z "$KV_ID" ]]; then
+            npx wrangler kv namespace create HERMES_JOBS > "$RUNNER_TEMP/kv-create.log" 2>&1
+            npx wrangler kv namespace list > "$RUNNER_TEMP/kv-list-after.json"
+            KV_ID="$(python3 - "$RUNNER_TEMP/kv-list-after.json" <<'PY'
+          import json, sys
+          rows = json.load(open(sys.argv[1], encoding='utf-8'))
+          for row in rows if isinstance(rows, list) else []:
+              title = str(row.get('title') or '')
+              if title.endswith('-HERMES_JOBS') or title == 'HERMES_JOBS' or 'HERMES_JOBS' in title:
+                  print(row.get('id') or '')
+                  break
+          PY
+            )"
+          fi
+          test -n "$KV_ID"
+
+          python3 - "$GITHUB_WORKSPACE/services/ai-switchboard/wrangler.jsonc" "$RUNNER_TEMP/wrangler-hermes.json" "$KV_ID" <<'PY'
+          import json, sys
+          src, out, kv_id = sys.argv[1:]
+          data = json.load(open(src, encoding='utf-8'))
+          data['kv_namespaces'] = [{'binding': 'HERMES_JOBS', 'id': kv_id}]
+          with open(out, 'w', encoding='utf-8') as f:
+              json.dump(data, f, indent=2)
+              f.write('\n')
+          PY
+          echo "config=$RUNNER_TEMP/wrangler-hermes.json" >> "$GITHUB_OUTPUT"
+
+      - name: Configure worker-only bearer and deploy Hermes binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/services/ai-switchboard"
+          CFG="${{ steps.kv.outputs.config }}"
+          HERMES_WORKER_KEY="$(security find-generic-password -s nicholas-ai-switchboard -a hermes-worker -w 2>/dev/null || true)"
+          if [[ -z "$HERMES_WORKER_KEY" ]]; then
+            HERMES_WORKER_KEY="$(python3 - <<'PY'
+          import secrets
+          print(secrets.token_urlsafe(48))
+          PY
+            )"
+            security add-generic-password -U -s nicholas-ai-switchboard -a hermes-worker -w "$HERMES_WORKER_KEY" >/dev/null
+          fi
+          printf '%s' "$HERMES_WORKER_KEY" | npx wrangler secret put HERMES_WORKER_KEY --config "$CFG" > "$RUNNER_TEMP/hermes-worker-secret.log" 2>&1
+          unset HERMES_WORKER_KEY
+          npx wrangler deploy --config "$CFG" > "$RUNNER_TEMP/hermes-final-deploy.log" 2>&1
+
+      - name: Install persistent Hermes endpoint Mac worker
+        shell: bash
+        run: |
+          set -euo pipefail
+          NICHOLAS_AI_OS_ROOT="$GITHUB_WORKSPACE" /bin/zsh "$GITHUB_WORKSPACE/scripts/install_hermes_switchboard_worker.sh"
+
+      - name: Verify schema, queue, Mac execution, and returned result
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          GPT_KEY="$(security find-generic-password -s nicholas-ai-switchboard -a gpt-action -w)"
+          test -n "$GPT_KEY"
+
+          curl -fsS "$AI_SWITCHBOARD_URL/health" > "$RUNNER_TEMP/hermes-health.json"
+          python3 - "$RUNNER_TEMP/hermes-health.json" <<'PY'
+          import json, sys
+          data=json.load(open(sys.argv[1], encoding='utf-8'))
+          assert data.get('ok') is True
+          assert data.get('hermes_jobs') is True
+          print('HERMES_HEALTH=PASS')
+          PY
+
+          curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" > "$RUNNER_TEMP/hermes-openapi.json"
+          python3 - "$RUNNER_TEMP/hermes-openapi.json" <<'PY'
+          import json, sys
+          data=json.load(open(sys.argv[1], encoding='utf-8'))
+          paths=data.get('paths', {})
+          assert paths['/hermes/jobs']['post']['operationId'] == 'createHermesJob'
+          assert paths['/hermes/jobs/{job_id}']['get']['operationId'] == 'getHermesJob'
+          assert '/hermes/internal/claim' not in paths
+          print('HERMES_OPENAPI=PASS')
+          PY
+
+          printf '%s' '{"task":"Return exactly HERMES_HTTP_ENDPOINT_OK. Do not use tools.","timeout_seconds":300}' > "$RUNNER_TEMP/hermes-create.json"
+          curl -fsS \
+            -H "Authorization: Bearer $GPT_KEY" \
+            -H "Content-Type: application/json" \
+            --data-binary "@$RUNNER_TEMP/hermes-create.json" \
+            "$AI_SWITCHBOARD_URL/hermes/jobs" > "$RUNNER_TEMP/hermes-created.json"
+          JOB_ID="$(python3 - "$RUNNER_TEMP/hermes-created.json" <<'PY'
+          import json, sys
+          data=json.load(open(sys.argv[1], encoding='utf-8'))
+          assert data.get('ok') is True
+          job=data.get('job') or {}
+          assert job.get('status') == 'queued'
+          print(job['id'])
+          PY
+          )"
+          test -n "$JOB_ID"
+
+          /usr/bin/python3 "$HOME/.local/share/nicholas-ai/hermes_switchboard_worker.py"
+
+          curl -fsS \
+            -H "Authorization: Bearer $GPT_KEY" \
+            "$AI_SWITCHBOARD_URL/hermes/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
+          python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json, sys
+          data=json.load(open(sys.argv[1], encoding='utf-8'))
+          assert data.get('ok') is True
+          job=data.get('job') or {}
+          assert job.get('status') == 'completed', job
+          assert 'HERMES_HTTP_ENDPOINT_OK' in str(job.get('result') or ''), job.get('result')
+          assert job.get('profile') == 'research_readonly'
+          print('HERMES_ENDPOINT_E2E=PASS')
+          PY
+          unset GPT_KEY
+
+      - name: Persist non-secret endpoint status
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          python3 - "$GITHUB_SHA" "$GITHUB_RUN_ID" > status/hermes-http-endpoint.json <<'PY'
+          import json, sys
+          from datetime import datetime, timezone
+          print(json.dumps({
+              'status': 'verified',
+              'verified_at': datetime.now(timezone.utc).isoformat(),
+              'deployed_commit': sys.argv[1],
+              'workflow_run_id': sys.argv[2],
+              'service': 'nicholas-ai-switchboard',
+              'create_operation': 'createHermesJob',
+              'result_operation': 'getHermesJob',
+              'persistent_store': 'Cloudflare Workers KV',
+              'mac_worker': 'com.nicholas.hermes-switchboard-worker',
+              'profile': 'research_readonly',
+              'internal_routes_exposed_in_openapi': False,
+              'secrets_recorded': False,
+          }, indent=2))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status/hermes-http-endpoint.json
+          git commit -m "Hermes HTTP endpoint: verified" || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Record summary
+        shell: bash
+        run: |
+          echo "HERMES_HTTP_ENDPOINT=PASS"
+          echo "HERMES_CREATE_JOB=PASS"
+          echo "HERMES_GET_RESULT=PASS"
+          echo "HERMES_MAC_WORKER=PASS"
