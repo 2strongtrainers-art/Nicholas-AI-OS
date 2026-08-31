@@ -1,0 +1,47 @@
+name: Inspect Trusted Node Browser MCP
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-node-repl-mcp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - name: Inspect trusted Node REPL service without secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          NR="/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+          test -x "$NR"
+          echo 'NODE_REPL_BINARY=FOUND'
+          "$NR" --help 2>&1 | head -200 || true
+          echo '=== relevant config only ==='
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path.home()/'.codex/config.toml'
+          if not p.exists():
+              print('CODEX_CONFIG=MISSING'); raise SystemExit
+          text=p.read_text(encoding='utf-8',errors='ignore')
+          lines=text.splitlines()
+          keep=False
+          for line in lines:
+              s=line.strip()
+              if s.startswith('['):
+                  keep=('node_repl' in s.lower() or 'browser' in s.lower() or 'chrome' in s.lower())
+              if keep:
+                  low=s.lower()
+                  if any(x in low for x in ['token','secret','key','authorization','password']):
+                      k=line.split('=',1)[0] if '=' in line else line
+                      print(k + '= "[REDACTED]"')
+                  else:
+                      print(line[:2000])
+          PY
+          echo '=== browser-use sockets ==='
+          find /tmp/codex-browser-use -maxdepth 1 -type s -print 2>/dev/null | sed 's#^#SOCKET=#' || true
