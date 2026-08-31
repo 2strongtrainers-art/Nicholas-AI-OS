@@ -1,0 +1,8 @@
+Hermes HTTP endpoint headless deployment contract
+
+- Existing SWITCHBOARD_API_KEY remains unchanged during headless deploys.
+- Public /hermes/jobs routes require the existing GPT bearer.
+- Internal /hermes/internal/* routes require a separate Hermes worker bearer.
+- The Hermes worker bearer is stored only in ~/.config/nicholas-ai-switchboard/hermes-worker.key with owner-only permissions.
+- Internal routes are not present in the OpenAPI schema.
+- The Mac worker remains read-only and does not expose arbitrary shell execution.
