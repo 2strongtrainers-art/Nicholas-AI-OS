@@ -11,6 +11,7 @@ CONFIG_DIR="$HOME/.config/nicholas-ai-switchboard"
 WORKER_KEY_FILE="$CONFIG_DIR/hermes-worker.key"
 PLIST="$HOME/Library/LaunchAgents/com.nicholas.hermes-switchboard-worker.plist"
 LOG_DIR="$HOME/Library/Logs"
+LOCK_FILE="$HOME/.hermes-switchboard-worker.lock"
 
 [[ -f "$SOURCE" ]] || { echo "Hermes Switchboard worker missing: $SOURCE" >&2; exit 2; }
 command -v python3 >/dev/null 2>&1 || { echo "python3 is required" >&2; exit 3; }
@@ -45,6 +46,9 @@ chmod 600 "$PLIST"
 
 DOMAIN="gui/$(id -u)"
 launchctl bootout "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/null 2>&1 || true
+# The PID-file lock can survive a forced LaunchAgent termination. At this point
+# the managed worker has been unloaded, so removing it is a controlled reset.
+rm -f "$LOCK_FILE"
 launchctl bootstrap "$DOMAIN" "$PLIST"
 launchctl enable "$DOMAIN/com.nicholas.hermes-switchboard-worker"
 launchctl kickstart -k "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/null 2>&1 || true
@@ -53,3 +57,4 @@ echo "HERMES_SWITCHBOARD_WORKER_INSTALLED=1"
 echo "HERMES_SWITCHBOARD_POLL_SECONDS=30"
 echo "HERMES_SWITCHBOARD_STABLE_COPY=1"
 echo "HERMES_WORKER_CREDENTIAL_PROTECTED_FILE=1"
+echo "HERMES_STALE_LOCK_RESET=1"
