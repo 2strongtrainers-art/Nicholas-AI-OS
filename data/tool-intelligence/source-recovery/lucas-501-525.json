@@ -1,0 +1,43 @@
+{
+  "creator": "@lucaswebq",
+  "research_batch": {"start": 501, "end": 525},
+  "source_profile": "https://www.tiktok.com/@lucaswebq",
+  "records": [
+    {
+      "part": 502,
+      "video_id": "7583053136701525270",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7583053136701525270",
+      "caption_hint": "Powerful Websites You Should Know (Part 502)",
+      "archive_evidence_url": null,
+      "evidence_summary": "TikTok's indexed public result identifies the lucaswebq video URL and binds video 7583053136701525270 to exact Part 502. The indexed caption does not prove a website identity, so website identity remains blank.",
+      "checked_at": "2026-08-31T21:31:26Z"
+    },
+    {
+      "part": 507,
+      "video_id": "7584898317256215811",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7584898317256215811",
+      "caption_hint": "Powerful Websites You Should Know (Part 507) #website #productivity #ecommerce #student #lucaswebq",
+      "archive_evidence_url": null,
+      "evidence_summary": "TikTok's indexed public result identifies the lucaswebq video URL and binds video 7584898317256215811 to exact Part 507. The generic caption does not prove a website identity, so website identity remains blank.",
+      "checked_at": "2026-08-31T21:31:26Z"
+    },
+    {
+      "part": 514,
+      "video_id": "7587137326938115350",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7587137326938115350",
+      "caption_hint": "Powerful Websites You Should Know (Part 514) Design your room in 3D. #websites #productivitytips",
+      "archive_evidence_url": "https://urlebird.com/video/powerful-websites-you-should-know-part-514-design-your-room-in-3-7587137326938115350/",
+      "evidence_summary": "Urlebird's indexed page identifies author lucaswebq and binds video 7587137326938115350 to exact Part 514. Multiple room-design sites fit the caption, so website identity remains blank.",
+      "checked_at": "2026-08-31T21:31:26Z"
+    },
+    {
+      "part": 515,
+      "video_id": "7587506838099299606",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7587506838099299606",
+      "caption_hint": "Powerful Websites You Should Know (Part 515) Free workout plans, challenges and guides. #websites #productivitytips #webtools #fitness #workoutroutine",
+      "archive_evidence_url": null,
+      "evidence_summary": "TikTok's indexed public result identifies the lucaswebq video URL and binds video 7587506838099299606 to exact Part 515. Multiple fitness sites fit the caption, so website identity remains blank.",
+      "checked_at": "2026-08-31T21:31:26Z"
+    }
+  ]
+}
