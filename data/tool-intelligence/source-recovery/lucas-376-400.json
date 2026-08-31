@@ -1,0 +1,34 @@
+{
+  "creator": "@lucaswebq",
+  "research_batch": {"start": 376, "end": 400},
+  "source_profile": "https://www.tiktok.com/@lucaswebq",
+  "records": [
+    {
+      "part": 376,
+      "video_id": "7538111011908226326",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7538111011908226326",
+      "caption_hint": "Powerful Websites You Should Know (Part 376) | #podcasts #babypodcast #aitools #lucaswebq",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7538111011908226326",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7538111011908226326 to Part 376. The caption and indexed results do not prove a website identity, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:25:47Z"
+    },
+    {
+      "part": 386,
+      "video_id": "7541451173237247254",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7541451173237247254",
+      "caption_hint": "Powerful Websites You Should Know (Part 386) | #webdeveloper #webdesign #coding #productivity #lucaswebq",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7541451173237247254",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7541451173237247254 to Part 386. The generic caption does not establish a website identity, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:25:47Z"
+    },
+    {
+      "part": 392,
+      "video_id": "7543313362642275606",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7543313362642275606",
+      "caption_hint": "Powerful Websites You Should Know (Part 392) | #mockup #design #productivity #graphicdesign #lucaswebq",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7543313362642275606",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7543313362642275606 to Part 392. The caption and indexed results do not prove which mockup website was shown, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:25:47Z"
+    }
+  ]
+}
