@@ -1,0 +1,57 @@
+name: Inspect Browser Native Control
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-browser-native-control.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 3
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Inspect Safari WebDriver and Chromium debugging
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "SAFARIDRIVER_PATH=$(command -v safaridriver || true)"
+          if command -v safaridriver >/dev/null 2>&1; then
+            python3 - <<'PY'
+          import subprocess
+          try:
+              p=subprocess.run(['/usr/bin/safaridriver','-p','0'],text=True,capture_output=True,timeout=5)
+              print('SAFARIDRIVER_EXIT=' + str(p.returncode))
+              text=((p.stdout or '')+'\n'+(p.stderr or '')).strip().replace('\n',' | ')
+              print('SAFARIDRIVER_DIAGNOSTIC=' + text[:800])
+          except subprocess.TimeoutExpired as e:
+              print('SAFARIDRIVER_SERVER_STARTED=PASS')
+          PY
+          else
+            echo 'SAFARIDRIVER_AVAILABLE=NO'
+          fi
+
+          for port in 9222 9223 9333 9515; do
+            if /usr/bin/curl -fsS --max-time 2 "http://127.0.0.1:${port}/json/version" > "/tmp/cdp-${port}.json" 2>/dev/null; then
+              echo "CHROMIUM_CDP_PORT_${port}=PASS"
+              python3 - "$port" "/tmp/cdp-${port}.json" <<'PY'
+          import json,sys
+          port=sys.argv[1]
+          try: d=json.load(open(sys.argv[2]))
+          except Exception: d={}
+          print('CHROMIUM_CDP_BROWSER_' + port + '=' + str(d.get('Browser') or 'unknown'))
+          PY
+            else
+              echo "CHROMIUM_CDP_PORT_${port}=NO"
+            fi
+          done
+
+          for app in "Google Chrome" "Chromium" "Brave Browser" "Microsoft Edge"; do
+            if pgrep -x "$app" >/dev/null 2>&1; then echo "BROWSER_RUNNING_${app// /_}=1"; fi
+          done
