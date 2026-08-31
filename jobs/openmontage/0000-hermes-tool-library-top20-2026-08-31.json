@@ -1,0 +1,20 @@
+{
+  "id": "hermes-tool-library-top20-2026-08-31",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "nicholas-ai-os",
+  "brief": "Rank the 20 highest-value tools/sites in Nicholas-AI-OS tool intelligence for next integration.",
+  "execution_mode": "run_hermes_research_task",
+  "hermes_task": "Analyze the Nicholas-AI-OS private tool intelligence / Web Surfers catalog that is already integrated into this project (audited scope: about 1,800 resources across about 1,501 normalized domains). Use the project context and registry knowledge available to Nicholas Operator/Hermes; do not substitute a generic internet top-20 list. Determine the 20 highest-value tools/sites we should integrate next into Nicholas-AI-OS for practical ChatGPT-driven workflows. Prioritize tools that materially improve revenue generation, business operations, research, automation, content/media production, local/fire-grant work, client coaching operations, data analysis, and cross-app execution. Prefer tools that are realistically callable/automatable, have APIs or browser-accessible workflows, are free or low-cost when possible, and do not duplicate capabilities already well-covered by ChatGPT/GitHub/Gmail/Calendar/Drive/Notion/Canva/Wix/Stripe/Finances. For each ranked item provide: rank, exact tool/site name, domain if known, primary capability, why it is valuable specifically for Nicholas-AI-OS, likely integration method (API/MCP/browser/CLI/other), cost/access tier if known, integration difficulty 1-10 (10 easiest), expected impact 1-10, and a one-line first workflow to build. Then give: (A) the top 5 to integrate first in exact order, (B) 3 tools to avoid or defer and why, (C) the single best first implementation task. Distinguish catalog-grounded facts from uncertainty and explicitly state if any part of the 1,800-resource catalog is not visible to this Hermes run. Keep the answer concise but complete, maximum 2,500 words.",
+  "timeout_seconds": 1200,
+  "safety": {
+    "read_only": true,
+    "mutations_allowed": false,
+    "shell_allowed": false,
+    "file_edits_allowed": false,
+    "external_messages_allowed": false,
+    "publishing_allowed": false,
+    "purchases_allowed": false,
+    "secrets_allowed": false
+  }
+}
