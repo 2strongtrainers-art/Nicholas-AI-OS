@@ -1,0 +1,142 @@
+name: Verify Nicholas AI Live Backends
+
+on:
+  push:
+    paths:
+      - ".github/workflows/verify-nicholas-ai-live.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 15
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Verify Ox, Qwen, and Auto live
+        shell: bash
+        run: |
+          set -euo pipefail
+          /bin/zsh scripts/verify_ai_switchboard.sh | tee "$RUNNER_TEMP/switchboard-verify.log"
+          grep -Fq 'OX_LIVE_TEST=PASS' "$RUNNER_TEMP/switchboard-verify.log"
+          grep -Fq 'QWEN_LIVE_TEST=PASS' "$RUNNER_TEMP/switchboard-verify.log"
+          grep -Fq 'AUTO_LIVE_TEST=PASS' "$RUNNER_TEMP/switchboard-verify.log"
+          grep -Fq 'AI_SWITCHBOARD_E2E_VERIFIED=1' "$RUNNER_TEMP/switchboard-verify.log"
+
+      - name: Verify Hermes through public GPT Action surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +x
+          DEPLOY_ENV="$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          test -f "$DEPLOY_ENV"
+          source "$DEPLOY_ENV"
+          KEY="$(security find-generic-password -s nicholas-ai-switchboard -a gpt-action -w)"
+          test -n "$KEY"
+
+          curl -fsS "$AI_SWITCHBOARD_URL/health" > "$RUNNER_TEMP/health.json"
+          curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" > "$RUNNER_TEMP/openapi.json"
+          python3 - "$RUNNER_TEMP/health.json" "$RUNNER_TEMP/openapi.json" <<'PY'
+          import json,sys
+          health=json.load(open(sys.argv[1],encoding='utf-8'))
+          schema=json.load(open(sys.argv[2],encoding='utf-8'))
+          assert health.get('ok') is True, health
+          assert health.get('hermes_jobs') is True, health
+          paths=schema.get('paths') or {}
+          assert paths.get('/hermes/jobs',{}).get('post',{}).get('operationId')=='createHermesJob'
+          assert paths.get('/hermes/jobs/{job_id}',{}).get('get',{}).get('operationId')=='getHermesJob'
+          print('HERMES_SCHEMA=PASS')
+          PY
+
+          python3 - "$RUNNER_TEMP/hermes-create.json" <<'PY'
+          import json,sys
+          json.dump({
+            'task':'This is a live bridge diagnostic. Do not use tools and do not take actions. Return exactly HERMES_CHAT_BRIDGE_OK',
+            'timeout_seconds':300,
+          },open(sys.argv[1],'w',encoding='utf-8'))
+          PY
+
+          curl -fsS \
+            -H "Authorization: Bearer $KEY" \
+            -H "Content-Type: application/json" \
+            --data-binary "@$RUNNER_TEMP/hermes-create.json" \
+            "$AI_SWITCHBOARD_URL/hermes/jobs" > "$RUNNER_TEMP/hermes-created.json"
+
+          JOB_ID="$(python3 - "$RUNNER_TEMP/hermes-created.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert d.get('ok') is True, d
+          j=d.get('job') or {}
+          assert j.get('status') in {'queued','running','completed'}, j
+          print(j['id'])
+          PY
+          )"
+          test -n "$JOB_ID"
+
+          success=0
+          for _ in $(seq 1 30); do
+            curl -fsS \
+              -H "Authorization: Bearer $KEY" \
+              "$AI_SWITCHBOARD_URL/hermes/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
+            state="$(python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          print((d.get('job') or {}).get('status') or '')
+          PY
+            )"
+            if [ "$state" = "completed" ]; then
+              success=1
+              break
+            fi
+            if [ "$state" = "failed" ]; then
+              cat "$RUNNER_TEMP/hermes-result.json"
+              exit 1
+            fi
+            sleep 5
+          done
+          test "$success" = "1"
+
+          python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          j=d.get('job') or {}
+          assert j.get('status')=='completed', j
+          assert str(j.get('result') or '').strip()=='HERMES_CHAT_BRIDGE_OK', j
+          assert j.get('profile')=='research_readonly', j
+          print('HERMES_LIVE_TEST=PASS')
+          PY
+          unset KEY
+
+      - name: Persist sanitized live verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          python3 - "$GITHUB_SHA" "$GITHUB_RUN_ID" > status/nicholas-ai-live-backends.json <<'PY'
+          import json,sys
+          from datetime import datetime,timezone
+          print(json.dumps({
+            'status':'verified',
+            'verified_at':datetime.now(timezone.utc).isoformat(),
+            'tested_commit':sys.argv[1],
+            'workflow_run_id':sys.argv[2],
+            'switchboard':'pass',
+            'ox':'pass',
+            'qwen':'pass',
+            'auto':'pass',
+            'hermes':'pass',
+            'hermes_profile':'research_readonly',
+            'gpt_bearer':'preserved_keychain_secret',
+            'secrets_recorded':False,
+          },indent=2))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status/nicholas-ai-live-backends.json
+          git commit -m "Nicholas AI live backends: verified" || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
