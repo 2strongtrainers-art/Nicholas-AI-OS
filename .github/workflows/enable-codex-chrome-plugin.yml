@@ -1,0 +1,34 @@
+name: Enable Codex Chrome Plugin
+
+on:
+  push:
+    paths:
+      - ".github/workflows/enable-codex-chrome-plugin.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  enable:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - name: Enable first-party Chrome plugin
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== plugin help ==='
+          codex plugin --help 2>&1 | head -160 || true
+          echo '=== enable help ==='
+          codex plugin enable --help 2>&1 | head -160 || true
+          echo '=== enabling ==='
+          if codex plugin enable chrome@openai-bundled; then
+            echo 'CODEX_CHROME_PLUGIN_ENABLE=PASS'
+          elif codex plugin install chrome@openai-bundled; then
+            echo 'CODEX_CHROME_PLUGIN_ENABLE=PASS_VIA_INSTALL'
+          else
+            echo 'CODEX_CHROME_PLUGIN_ENABLE=FAIL'
+            exit 1
+          fi
+          codex plugin list 2>&1 | grep -E '^chrome@openai-bundled|chrome' | head -10 || true
