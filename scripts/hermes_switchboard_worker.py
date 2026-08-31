@@ -24,7 +24,7 @@ WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
 OPENCODE_AUTH_FILE = HOME / ".local" / "share" / "opencode" / "auth.json"
 LOCK = HOME / ".hermes-switchboard-worker.lock"
 LOG = HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log"
-WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.1"
+WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.2"
 
 # Codex OAuth can hit a ChatGPT/Codex usage ceiling independently of the rest of
 # Nicholas-AI-OS. Keep Hermes available through the already-configured
@@ -183,12 +183,49 @@ def execute(job: dict) -> str:
     return redact(output)[:50000]
 
 
-def main() -> int:
+def pid_is_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
     try:
-        fd = os.open(str(LOCK), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-        os.write(fd, str(os.getpid()).encode("ascii"))
-        os.close(fd)
-    except FileExistsError:
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+
+
+def acquire_lock() -> bool:
+    """Acquire the single-worker lock, recovering a stale PID file safely."""
+    for attempt in range(2):
+        try:
+            fd = os.open(str(LOCK), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            os.write(fd, str(os.getpid()).encode("ascii"))
+            os.close(fd)
+            return True
+        except FileExistsError:
+            try:
+                raw = LOCK.read_text(encoding="utf-8").strip()
+                owner_pid = int(raw)
+            except Exception:
+                owner_pid = 0
+            if pid_is_alive(owner_pid):
+                return False
+            try:
+                LOCK.unlink()
+                log(f"RECOVERED_STALE_LOCK pid={owner_pid or 'unknown'}")
+            except FileNotFoundError:
+                pass
+            except Exception as exc:
+                log(f"STALE_LOCK_RECOVERY_FAILED: {redact(str(exc))}")
+                return False
+            if attempt == 0:
+                continue
+    return False
+
+
+def main() -> int:
+    if not acquire_lock():
         return 0
 
     try:
