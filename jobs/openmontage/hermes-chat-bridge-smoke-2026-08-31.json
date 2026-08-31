@@ -1,7 +1,7 @@
 {
   "id": "hermes-chat-bridge-smoke-2026-08-31",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "nicholas-ai-os",
   "brief": "Verify the ChatGPT-to-Hermes GitHub control-plane bridge without taking actions.",
   "execution_mode": "run_hermes_research_task",
@@ -16,5 +16,8 @@
     "publishing_allowed": false,
     "purchases_allowed": false,
     "secrets_allowed": false
-  }
+  },
+  "render_mode_resolved": "fast_reel",
+  "routing_reason": "default fast path; no full-production trigger found",
+  "started_at": "2026-08-31T14:20:55.960440+00:00"
 }
