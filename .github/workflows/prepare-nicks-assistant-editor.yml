@@ -1,0 +1,32 @@
+name: Prepare Nick's Assistant Editor
+
+on:
+  push:
+    paths:
+      - ".github/workflows/prepare-nicks-assistant-editor.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 3
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Put final instructions on clipboard and open GPTs
+        shell: bash
+        run: |
+          set -euo pipefail
+          INSTRUCTIONS="$GITHUB_WORKSPACE/services/ai-switchboard/GPT_INSTRUCTIONS.md"
+          test -s "$INSTRUCTIONS"
+          /usr/bin/pbcopy < "$INSTRUCTIONS"
+          test "$(/usr/bin/pbpaste | shasum -a 256 | awk '{print $1}')" = "$(shasum -a 256 "$INSTRUCTIONS" | awk '{print $1}')"
+          /usr/bin/open -a Safari 'https://chatgpt.com/gpts' >/dev/null 2>&1 || true
+          echo 'GPT_FINAL_INSTRUCTIONS_CLIPBOARD=PASS'
+          echo 'CHATGPT_GPTS_PAGE_OPEN_REQUESTED=PASS'
+          echo 'SCHEMA_URL=https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0'
+          echo 'GPT_BEARER_ROTATED=NO'
