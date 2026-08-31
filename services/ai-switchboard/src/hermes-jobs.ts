@@ -26,6 +26,7 @@ const PREFIX = "hermes:job:";
 const MAX_TASK_CHARS = 12_000;
 const MAX_RESULT_CHARS = 50_000;
 const RETENTION_SECONDS = 7 * 24 * 60 * 60;
+const ORPHAN_GRACE_SECONDS = 120;
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data, null, 2), {
@@ -103,14 +104,32 @@ async function getJob(request: Request, env: HermesJobsEnv, id: string, secret?:
   return json({ ok: true, job: publicJob(job) });
 }
 
+function isOrphanedRunningJob(job: HermesJob, nowMs: number): boolean {
+  if (job.status !== "running" || !job.started_at) return false;
+  const startedMs = Date.parse(job.started_at);
+  if (!Number.isFinite(startedMs)) return true;
+  const allowedMs = (Math.max(60, Number(job.timeout_seconds || 900)) + ORPHAN_GRACE_SECONDS) * 1000;
+  return nowMs - startedMs > allowedMs;
+}
+
 async function claimJob(request: Request, env: HermesJobsEnv): Promise<Response> {
   if (!authorized(request, env.HERMES_WORKER_KEY)) return json({ ok: false, error: "Unauthorized" }, 401);
   if (!env.HERMES_JOBS) return json({ ok: false, error: "Hermes job store is not configured" }, 503);
   const listed = await env.HERMES_JOBS.list({ prefix: PREFIX, limit: 250 });
   const candidates: HermesJob[] = [];
+  const nowMs = Date.now();
   for (const key of listed.keys) {
     const job = await env.HERMES_JOBS.get(key.name, "json") as HermesJob | null;
-    if (job?.status === "queued") candidates.push(job);
+    if (!job) continue;
+    if (isOrphanedRunningJob(job, nowMs)) {
+      job.status = "failed";
+      job.failed_at = new Date(nowMs).toISOString();
+      job.error = "Hermes worker was interrupted before completing this job; retry the request.";
+      job.profile = job.profile || "research_readonly";
+      await save(env, job);
+      continue;
+    }
+    if (job.status === "queued") candidates.push(job);
   }
   candidates.sort((a, b) => a.created_at.localeCompare(b.created_at));
   const job = candidates[0];
