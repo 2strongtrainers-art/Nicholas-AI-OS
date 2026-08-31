@@ -1,0 +1,17 @@
+{
+  "id": "hermes-http-endpoint-deploy-2026-08-31",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "nicholas-ai-os",
+  "brief": "Deploy and verify the persistent authenticated Hermes HTTP create/result endpoint.",
+  "execution_mode": "install_agent_stack",
+  "deploy_hermes_http_endpoint": true,
+  "safety": {
+    "arbitrary_shell_allowed": false,
+    "fixed_repository_script_only": true,
+    "secrets_may_be_printed_or_committed": false,
+    "external_messages_allowed": false,
+    "publishing_allowed": false,
+    "purchases_allowed": false
+  }
+}
