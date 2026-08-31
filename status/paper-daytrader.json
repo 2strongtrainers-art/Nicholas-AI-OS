@@ -1,43 +1,11 @@
 {
   "broker_order_capability": false,
-  "candidates": [
-    {
-      "asset_class": "stock",
-      "average_down": false,
-      "entry": 219.87396783142088,
-      "execution": "paper",
-      "opening_range_high": 219.348,
-      "opening_range_low": 216.21,
-      "relative_volume": 1.379,
-      "score": 67.98,
-      "side": "long",
-      "stop": 218.56350708007812,
-      "symbol": "NVDA",
-      "target": 222.1672741462707,
-      "timestamp": "2026-08-31T14:18:00+00:00",
-      "vwap": 218.5185
-    }
-  ],
-  "checked_at": "2026-08-31T14:19:47.651765+00:00",
+  "candidates": [],
+  "checked_at": "2026-08-31T14:53:30.518083+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100162.481948,
-  "events": [
-    {
-      "entry": 219.87396783142088,
-      "opened_at": "2026-08-31T14:18:00+00:00",
-      "paper_only": true,
-      "quantity": 191,
-      "risk_dollars": 250.29800350646707,
-      "score": 67.98,
-      "side": "long",
-      "stop": 218.56350708007812,
-      "symbol": "NVDA",
-      "target": 222.1672741462707,
-      "timestamp": "2026-08-31T14:18:00+00:00",
-      "type": "ENTRY"
-    }
-  ],
-  "latest_data_at": "2026-08-31T14:18:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-08-31T14:52:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 2,
