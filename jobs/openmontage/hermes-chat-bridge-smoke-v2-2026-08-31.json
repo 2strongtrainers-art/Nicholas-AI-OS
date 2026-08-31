@@ -1,0 +1,20 @@
+{
+  "id": "hermes-chat-bridge-smoke-v2-2026-08-31",
+  "type": "openmontage_video",
+  "status": "queued",
+  "project_id": "nicholas-ai-os",
+  "brief": "Verify the reloaded ChatGPT-to-Hermes bridge without taking actions.",
+  "execution_mode": "run_hermes_research_task",
+  "hermes_task": "This is a bridge smoke test. Do not call tools and do not take actions. Return exactly: HERMES_CHAT_BRIDGE_OK",
+  "timeout_seconds": 300,
+  "safety": {
+    "read_only": true,
+    "mutations_allowed": false,
+    "shell_allowed": false,
+    "file_edits_allowed": false,
+    "external_messages_allowed": false,
+    "publishing_allowed": false,
+    "purchases_allowed": false,
+    "secrets_allowed": false
+  }
+}
