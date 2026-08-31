@@ -32,16 +32,15 @@ jobs:
           export CODEX_APP_TOOLS_PIPE_PATH="$PIPE"
           export CODEX_BROWSER_USE_NODE_PATH="$NODE"
           "$NODE" --input-type=module <<'JS'
-          import { setupBrowserRuntime } from process.env.HOME + '/.codex/plugins/cache/openai-bundled/chrome/26.825.51511/scripts/browser-client.mjs';
           try {
-            const agent = await setupBrowserRuntime();
+            const mod = await import(process.env.HOME + '/.codex/plugins/cache/openai-bundled/chrome/26.825.51511/scripts/browser-client.mjs');
+            const agent = await mod.setupBrowserRuntime();
             console.log('BROWSER_RUNTIME_SETUP=PASS');
             const chrome = await agent.browsers.get('chrome');
             console.log('CHROME_BINDING=PASS');
             const tabs = await chrome.tabs.list();
             console.log('CHROME_TABS_LIST=PASS');
             console.log('CHROME_TAB_COUNT=' + (Array.isArray(tabs) ? tabs.length : -1));
-            // Only report sanitized title and origin/path; no page body, cookies, storage, or form data.
             if (Array.isArray(tabs)) {
               for (const t of tabs.slice(0,25)) {
                 let u='';
