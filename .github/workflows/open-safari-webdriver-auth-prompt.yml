@@ -1,0 +1,43 @@
+name: Open Safari WebDriver Auth Prompt
+
+on:
+  push:
+    paths:
+      - ".github/workflows/open-safari-webdriver-auth-prompt.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prompt:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 2
+    steps:
+      - name: Open Apple-supported Safari WebDriver authentication prompt
+        shell: bash
+        run: |
+          set -euo pipefail
+          CMD="$HOME/Desktop/Enable-Nicks-Assistant-Safari.command"
+          cat > "$CMD" <<'EOF'
+          #!/bin/zsh
+          clear
+          echo "Nick's Assistant setup — Safari WebDriver"
+          echo "macOS requires your administrator password to enable Safari automation."
+          echo "Type your Mac password below when prompted. Nothing you type is sent to GitHub or ChatGPT."
+          echo
+          if /usr/bin/safaridriver --enable; then
+            echo
+            echo "SUCCESS: Safari WebDriver is enabled. You can close this window and return to ChatGPT."
+          else
+            echo
+            echo "Safari WebDriver was not enabled. You can retry this command later."
+          fi
+          echo
+          read -k 1 "?Press any key to close..."
+          rm -f "$HOME/Desktop/Enable-Nicks-Assistant-Safari.command"
+          EOF
+          chmod 700 "$CMD"
+          /usr/bin/open "$CMD"
+          echo 'SAFARI_WEBDRIVER_AUTH_PROMPT_OPENED=PASS'
+          echo 'PASSWORD_CAPTURED_BY_WORKFLOW=NO'
