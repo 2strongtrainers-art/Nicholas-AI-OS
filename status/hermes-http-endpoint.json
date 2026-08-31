@@ -1,0 +1,17 @@
+{
+  "status": "verified",
+  "verified_at": "2026-08-31T16:59:25.958350+00:00",
+  "deployed_commit": "13d6c12005ccc048fdc4613ceaa24730664144d9",
+  "workflow_run_id": "33416690137",
+  "service": "nicholas-ai-switchboard",
+  "create_operation": "createHermesJob",
+  "result_operation": "getHermesJob",
+  "persistent_store": "Cloudflare Workers KV",
+  "mac_worker": "com.nicholas.hermes-switchboard-worker",
+  "profile": "research_readonly",
+  "gpt_bearer": "preserved_existing_cloudflare_secret",
+  "worker_credential_storage": "owner_only_local_file",
+  "public_auth_barrier_verified": true,
+  "internal_routes_exposed_in_openapi": false,
+  "secrets_recorded": false
+}
