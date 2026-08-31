@@ -1,0 +1,39 @@
+name: Inspect Codex Browser Runtime
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-codex-browser-runtime.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 4
+    steps:
+      - name: Inspect installed OpenAI browser-control clients
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "CODEX_PATH=$(command -v codex || true)"
+          echo "AI_PATH=$(command -v ai || true)"
+          echo "CHATGPT_APP=$([[ -d /Applications/ChatGPT.app ]] && echo YES || echo NO)"
+          echo "CODEX_APP=$([[ -d /Applications/Codex.app ]] && echo YES || echo NO)"
+          if command -v codex >/dev/null 2>&1; then
+            codex --version 2>&1 | head -5 | sed 's/^/CODEX_VERSION=/' || true
+            codex --help 2>&1 | head -120 | sed 's/^/CODEX_HELP=/' || true
+          fi
+          if command -v ai >/dev/null 2>&1; then
+            ai --help 2>&1 | head -120 | sed 's/^/AI_HELP=/' || true
+          fi
+          for app in ChatGPT Codex; do
+            if pgrep -x "$app" >/dev/null 2>&1; then
+              echo "PROCESS_${app}=RUNNING"
+            else
+              echo "PROCESS_${app}=NOT_RUNNING"
+            fi
+          done
+          ps -axo pid,comm,args | grep -Ei 'ChatGPT|Codex|codexextension|browser.*control' | grep -v grep | sed -E 's/(--[^ =]*(token|key|secret|authorization)[^ =]*=)[^ ]+/\1[REDACTED]/Ig' | head -80 | sed 's/^/OPENAI_PROCESS=/' || true
