@@ -1,21 +1,21 @@
 # LucasWebQ Parts 351–749 — Checkpoint
 
-Checked at: 2026-08-31T17:33:51Z
+Checked at: 2026-08-31T21:11:57Z
 Branch: `hermes/tool-intelligence-parallel`
-Latest validated batch commit: `3a4d67e` (`Hermes: recover Lucas sources 401-425`)
+Latest validated batch: Parts 426–450 (commit pending at note-write time)
 
 ## Canonical totals
 
 - Confirmed: 4
 - Probable: 8
-- Source recovered, website unresolved: 61
-- Source recovered total: 73
-- Source not recovered: 326
+- Source recovered, website unresolved: 69
+- Source recovered total: 81
+- Source not recovered: 318
 - Accounted total: 399
 
 ## Latest batch
 
-Exact Lucas-owned TikTok source bindings were recovered for Parts 406, 416, 417, and 422. Website identities remain blank because the public captions and indexed evidence do not prove the domains shown.
+Exact Lucas-owned TikTok source bindings were recovered for Parts 427, 431, 433, 435, 442, 443, 445, and 448. Website identities remain blank because the public captions and indexed evidence do not prove the domains shown.
 
 Validation passed before commit:
 
@@ -25,4 +25,4 @@ Validation passed before commit:
 
 ## Resume point
 
-Resume with the ascending unresolved batch Parts 426–450 after pulling/rebasing from `origin/hermes/tool-intelligence-parallel`. Preserve all stronger existing evidence and only move a Part out of `source_not_recovered` when exact Lucas-owned/canonical Part-to-post evidence is available.
+Resume with the ascending unresolved batch Parts 451–475 after pulling/rebasing from `origin/hermes/tool-intelligence-parallel`. Preserve all stronger existing evidence and only move a Part out of `source_not_recovered` when exact Lucas-owned/canonical Part-to-post evidence is available.
