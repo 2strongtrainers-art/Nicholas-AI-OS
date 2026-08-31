@@ -29,7 +29,7 @@ jobs:
           if not path.exists():
               print('HERMES_WORKER_LOG=missing')
               raise SystemExit
-          text=path.read_text(encoding='utf-8',errors='replace')[-6000:]
+          text=path.read_text(encoding='utf-8',errors='replace')[-3000:]
           text=text.replace(str(Path.home()), '$HOME')
           text=re.sub(r'(?i)((?:api[_-]?key|token|authorization|secret)\s*[:=]\s*)\S+',r'\1[REDACTED]',text)
           print('HERMES_WORKER_LOG_SANITIZED_BEGIN')
@@ -37,29 +37,45 @@ jobs:
           print('HERMES_WORKER_LOG_SANITIZED_END')
           PY
 
-      - name: Run mirrored Hermes CLI smoke test
+      - name: Run Hermes through existing OpenRouter credential
         shell: bash
         run: |
           set -euo pipefail
           set +x
           HERMES="$HOME/.local/bin/hermes"
           ROOT="$HOME/Nicholas-AI-OS"
+          AUTH_FILE="$HOME/.local/share/opencode/auth.json"
           test -x "$HERMES"
           test -d "$ROOT"
+          test -f "$AUTH_FILE"
+          OPENROUTER_API_KEY="$(python3 - "$AUTH_FILE" <<'PY'
+          import json,sys
+          try:
+              data=json.load(open(sys.argv[1],encoding='utf-8'))
+          except Exception:
+              print(''); raise SystemExit
+          entry=data.get('openrouter') if isinstance(data,dict) else None
+          key=entry.get('key') if isinstance(entry,dict) else ''
+          print(key.strip() if isinstance(key,str) else '')
+          PY
+          )"
+          test -n "$OPENROUTER_API_KEY"
+          export OPENROUTER_API_KEY
           OUT="$RUNNER_TEMP/hermes-runtime.out"
           ERR="$RUNNER_TEMP/hermes-runtime.err"
           USAGE="$RUNNER_TEMP/hermes-runtime-usage.json"
           set +e
           "$HERMES" \
-            --provider openai-codex \
-            --model gpt-5.6-sol \
+            --provider openrouter \
+            --model z-ai/glm-5.3 \
             --reasoning high \
             --toolsets search \
             --usage-file "$USAGE" \
-            --oneshot 'This is a runtime smoke test. Do not use tools and do not take actions. Return exactly HERMES_RUNTIME_OK' \
+            --oneshot 'This is a runtime smoke test. Do not use tools and do not take actions. Return exactly HERMES_OPENROUTER_OK' \
             >"$OUT" 2>"$ERR"
           code=$?
           set -e
+          unset OPENROUTER_API_KEY
           python3 - "$OUT" "$ERR" "$code" <<'PY'
           import re,sys
           from pathlib import Path
@@ -71,13 +87,13 @@ jobs:
               s=re.sub(r'(?i)((?:api[_-]?key|token|authorization|secret)\s*[:=]\s*)\S+',r'\1[REDACTED]',s)
               return s[-2000:]
           if code != 0:
-              print(f'HERMES_RUNTIME_LIVE=FAIL exit={code}')
-              print('HERMES_RUNTIME_ERROR=' + scrub(err or out or 'no output'))
+              print(f'HERMES_OPENROUTER_LIVE=FAIL exit={code}')
+              print('HERMES_OPENROUTER_ERROR=' + scrub(err or out or 'no output'))
               raise SystemExit(1)
-          if out.strip() != 'HERMES_RUNTIME_OK':
-              print('HERMES_RUNTIME_LIVE=FAIL unexpected_output')
-              print('HERMES_RUNTIME_OUTPUT=' + scrub(out))
+          if out.strip() != 'HERMES_OPENROUTER_OK':
+              print('HERMES_OPENROUTER_LIVE=FAIL unexpected_output')
+              print('HERMES_OPENROUTER_OUTPUT=' + scrub(out))
               raise SystemExit(1)
-          print('HERMES_RUNTIME_LIVE=PASS')
-          print('HERMES_RUNTIME_OUTPUT=HERMES_RUNTIME_OK')
+          print('HERMES_OPENROUTER_LIVE=PASS')
+          print('HERMES_OPENROUTER_OUTPUT=HERMES_OPENROUTER_OK')
           PY
