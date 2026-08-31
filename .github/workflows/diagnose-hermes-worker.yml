@@ -1,0 +1,114 @@
+name: Diagnose Hermes Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/diagnose-hermes-worker.yml"
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 12
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Inspect and repair worker state safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          HOME_DIR="$HOME"
+          LOG="$HOME/Library/Logs/HermesSwitchboardWorker.log"
+          ERR="$HOME/Library/Logs/HermesSwitchboardLaunchAgent.err.log"
+          LOCK="$HOME/.hermes-switchboard-worker.lock"
+          KEY_FILE="$HOME/.config/nicholas-ai-switchboard/hermes-worker.key"
+          DEPLOY_ENV="$HOME/.config/nicholas-ai-switchboard/deployment.env"
+
+          test -s "$KEY_FILE"
+          test "$(stat -f '%Lp' "$KEY_FILE")" = "600"
+          test -s "$DEPLOY_ENV"
+          echo "HERMES_WORKER_CREDENTIAL=PASS"
+
+          if [[ -f "$LOCK" ]]; then
+            PID="$(cat "$LOCK" 2>/dev/null || true)"
+            if [[ "$PID" =~ ^[0-9]+$ ]] && kill -0 "$PID" 2>/dev/null; then
+              echo "HERMES_WORKER_LOCK=ACTIVE"
+            else
+              rm -f "$LOCK"
+              echo "HERMES_WORKER_LOCK=STALE_REMOVED"
+            fi
+          else
+            echo "HERMES_WORKER_LOCK=ABSENT"
+          fi
+
+          DOMAIN="gui/$(id -u)"
+          launchctl print "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/null 2>&1 \
+            && echo "HERMES_LAUNCHAGENT=LOADED" \
+            || echo "HERMES_LAUNCHAGENT=NOT_LOADED"
+
+          echo "--- SAFE WORKER LOG TAIL ---"
+          if [[ -f "$LOG" ]]; then
+            tail -n 40 "$LOG" | sed "s#${HOME_DIR}#\$HOME#g" | sed -E 's/(token|key|secret|authorization)[=: ]+[^ ]+/\1=[REDACTED]/Ig'
+          else
+            echo "NO_WORKER_LOG"
+          fi
+          if [[ -f "$ERR" ]]; then
+            echo "--- SAFE LAUNCHAGENT STDERR TAIL ---"
+            tail -n 20 "$ERR" | sed "s#${HOME_DIR}#\$HOME#g" | sed -E 's/(token|key|secret|authorization)[=: ]+[^ ]+/\1=[REDACTED]/Ig'
+          fi
+
+      - name: Verify Hermes CLI responds
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import subprocess
+          from pathlib import Path
+          home = Path.home()
+          candidates = [home/'.local/bin/hermes', Path('/usr/local/bin/hermes'), Path('/opt/homebrew/bin/hermes')]
+          hermes = next((str(p) for p in candidates if p.exists()), None)
+          if not hermes:
+              raise SystemExit('HERMES_BIN_MISSING')
+          try:
+              r = subprocess.run([hermes, '--version'], text=True, capture_output=True, timeout=20)
+          except subprocess.TimeoutExpired:
+              raise SystemExit('HERMES_VERSION_TIMEOUT')
+          print('HERMES_VERSION_EXIT=' + str(r.returncode))
+          print('HERMES_VERSION_OUTPUT=' + ((r.stdout or r.stderr or '').strip()[:300]))
+          if r.returncode != 0:
+              raise SystemExit('HERMES_VERSION_FAILED')
+          PY
+
+      - name: Run direct Hermes no-tool smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import re, subprocess
+          from pathlib import Path
+          home = Path.home()
+          hermes = next(str(p) for p in [home/'.local/bin/hermes', Path('/usr/local/bin/hermes'), Path('/opt/homebrew/bin/hermes')] if p.exists())
+          cmd = [hermes, '--provider', 'openai-codex', '--model', 'gpt-5.6-sol', '--reasoning', 'high', '--oneshot', 'Return exactly HERMES_DIRECT_OK. Do not use tools.']
+          try:
+              r = subprocess.run(cmd, cwd=str(home/'Nicholas-AI-OS'), text=True, capture_output=True, timeout=150)
+          except subprocess.TimeoutExpired:
+              raise SystemExit('HERMES_DIRECT_TIMEOUT')
+          combined = '\n'.join(x for x in [(r.stdout or '').strip(), (r.stderr or '').strip()] if x)
+          combined = re.sub(r'(?i)((?:api[_-]?key|token|authorization|secret)\s*[:=]\s*)\S+', r'\1[REDACTED]', combined)
+          print('HERMES_DIRECT_EXIT=' + str(r.returncode))
+          print('HERMES_DIRECT_OUTPUT=' + combined[-1200:])
+          if r.returncode != 0 or 'HERMES_DIRECT_OK' not in (r.stdout or ''):
+              raise SystemExit('HERMES_DIRECT_FAILED')
+          print('HERMES_DIRECT=PASS')
+          PY
+
+      - name: Restart persistent Hermes worker
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          DOMAIN="gui/$(id -u)"
+          launchctl kickstart -k "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/null 2>&1 || true
+          echo "HERMES_WORKER_RESTARTED=1"
