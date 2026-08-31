@@ -1,7 +1,7 @@
 {
   "id": "hermes-chat-bridge-smoke-v2-2026-08-31",
   "type": "openmontage_video",
-  "status": "running",
+  "status": "completed",
   "project_id": "nicholas-ai-os",
   "brief": "Verify the reloaded ChatGPT-to-Hermes bridge without taking actions.",
   "execution_mode": "run_hermes_research_task",
@@ -19,5 +19,15 @@
   },
   "render_mode_resolved": "maintenance",
   "started_at": "2026-08-31T14:24:56.226093+00:00",
-  "routing_reason": "explicit allowlisted Hermes one-shot read-only research task"
+  "routing_reason": "explicit allowlisted Hermes one-shot read-only research task",
+  "hermes_profile": "research_readonly",
+  "hermes_provider": "openai-codex",
+  "hermes_model": "gpt-5.6-sol",
+  "hermes_reasoning": "high",
+  "hermes_toolsets": "search (read-only)",
+  "hermes_mutations_allowed": false,
+  "hermes_usage_report_written": true,
+  "hermes_result": "HERMES_CHAT_BRIDGE_OK",
+  "hermes_verified": true,
+  "completed_at": "2026-08-31T14:25:10.032649+00:00"
 }
