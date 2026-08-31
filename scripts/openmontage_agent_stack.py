@@ -8,6 +8,10 @@ execution modes and runs only repository-controlled actions.
 import json
 from pathlib import Path
 
+HERMES_RESEARCH_TASK_MAX_CHARS = 12000
+HERMES_RESEARCH_TIMEOUT_DEFAULT = 900
+HERMES_RESEARCH_TIMEOUT_MAX = 1200
+
 
 def _codex_bin():
     candidates = (
@@ -27,6 +31,24 @@ def _hermes_bin():
     return next((path for path in candidates if path.exists()), candidates[0])
 
 
+def _hermes_research_prompt(task: str) -> str:
+    return f"""You are Nicholas Operator/Hermes running an authenticated one-shot task from the Nicholas-AI-OS GitHub control plane.
+
+SAFETY PROFILE — READ ONLY
+- Perform reasoning and public-information research only.
+- Use only the enabled search toolset.
+- Do not edit or create files.
+- Do not run terminal or shell commands.
+- Do not send messages, publish content, schedule tasks, make purchases, change accounts, change websites, alter CRM/payment systems, or control the computer.
+- Do not access, reveal, print, or infer credentials, tokens, API keys, .env files, Keychain data, or other secrets.
+- If the task requires a mutation or a capability outside this read-only profile, explain the blocked action instead of attempting it.
+
+USER TASK
+{task}
+
+Return the useful result directly and distinguish verified facts from uncertainty."""
+
+
 def install(resilient, worker):
     previous = resilient.resilient_process_job
 
@@ -42,6 +64,7 @@ def install(resilient, worker):
             "configure_hermes_safe",
             "configure_nicholas_operator_brain",
             "run_nicholas_operator_first_test",
+            "run_hermes_research_task",
         }
         if not (
             job.get("status") == "queued"
@@ -66,6 +89,8 @@ def install(resilient, worker):
             job["routing_reason"] = "explicit allowlisted Nicholas Operator Hermes brain activation"
         elif mode == "run_nicholas_operator_first_test":
             job["routing_reason"] = "explicit allowlisted Nicholas Operator read-only reasoning test"
+        elif mode == "run_hermes_research_task":
+            job["routing_reason"] = "explicit allowlisted Hermes one-shot read-only research task"
         else:
             job["routing_reason"] = "explicit allowlisted Codex read-only repository demonstration"
 
@@ -187,6 +212,43 @@ Be specific, commercially grounded, concise, and skeptical. Maximum 700 words.""
                 job["nicholas_operator_first_test_result"] = worker.sanitize_log_text(output.strip())[-16000:]
                 if not job["nicholas_operator_first_test_verified"]:
                     raise RuntimeError("Nicholas Operator first reasoning test returned no output")
+            elif mode == "run_hermes_research_task":
+                task = str(job.get("hermes_task") or job.get("brief") or "").strip()
+                if not task:
+                    raise RuntimeError("Missing hermes_task")
+                if len(task) > HERMES_RESEARCH_TASK_MAX_CHARS:
+                    raise RuntimeError(
+                        f"hermes_task exceeds {HERMES_RESEARCH_TASK_MAX_CHARS} characters"
+                    )
+                timeout_seconds = int(job.get("timeout_seconds", HERMES_RESEARCH_TIMEOUT_DEFAULT))
+                timeout_seconds = max(60, min(timeout_seconds, HERMES_RESEARCH_TIMEOUT_MAX))
+                usage_path = Path.home() / ".hermes" / f"{worker.safe_slug(job_id)}-usage.json"
+                prompt = _hermes_research_prompt(task)
+                result = worker.run(
+                    [
+                        str(_hermes_bin()),
+                        "--provider", "openai-codex",
+                        "--model", "gpt-5.6-sol",
+                        "--reasoning", "high",
+                        "--toolsets", "search",
+                        "--usage-file", str(usage_path),
+                        "--oneshot", prompt,
+                    ],
+                    cwd=worker.QUEUE_REPO,
+                    timeout=timeout_seconds,
+                )
+                output = result.stdout or ""
+                job["hermes_profile"] = "research_readonly"
+                job["hermes_provider"] = "openai-codex"
+                job["hermes_model"] = "gpt-5.6-sol"
+                job["hermes_reasoning"] = "high"
+                job["hermes_toolsets"] = "search (read-only)"
+                job["hermes_mutations_allowed"] = False
+                job["hermes_usage_report_written"] = usage_path.exists()
+                job["hermes_result"] = worker.sanitize_log_text(output.strip())[-20000:]
+                job["hermes_verified"] = bool(output.strip())
+                if not job["hermes_verified"]:
+                    raise RuntimeError("Hermes read-only task returned no output")
             else:
                 prompt = (
                     "Inspect this Nicholas-AI-OS repository in read-only mode. Do not edit files, "
