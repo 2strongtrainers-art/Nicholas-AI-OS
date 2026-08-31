@@ -6,6 +6,30 @@ ver(){ command -v "$1" >/dev/null 2>&1 && "$1" --version 2>&1 | head -1 || print
 ROOT="$HOME/Nicholas-AI-OS"
 JOBS="$ROOT/jobs/openmontage"
 
+# Endpoint-only maintenance uses the existing tightly allowlisted install_agent_stack
+# execution mode but exits before updating Codex/OpenCode/Hermes. This gives the
+# independent Mac queue a safe deployment path when the GitHub Actions runner is busy.
+ENDPOINT_ONLY="$(python3 - "$JOBS" <<'PY'
+import json,sys
+from pathlib import Path
+p=Path(sys.argv[1]); enabled=False
+for f in p.glob('*.json'):
+    try: j=json.loads(f.read_text())
+    except Exception: continue
+    if j.get('status')=='running' and j.get('execution_mode')=='install_agent_stack':
+        enabled = enabled or j.get('deploy_hermes_http_endpoint') is True
+print('1' if enabled else '0')
+PY
+)"
+if [ "$ENDPOINT_ONLY" = "1" ]; then
+  ENDPOINT_SCRIPT="$ROOT/scripts/deploy_hermes_http_endpoint.sh"
+  [ -f "$ENDPOINT_SCRIPT" ] || { log "HERMES_ENDPOINT_DEPLOY_SCRIPT_MISSING=1"; exit 32; }
+  /bin/zsh "$ENDPOINT_SCRIPT"
+  log "HERMES_HTTP_ENDPOINT_DEPLOY_REQUEST_COMPLETED=1"
+  log "AGENT_STACK_INSTALL_OK=1"
+  exit 0
+fi
+
 log "AGENT_STACK_INSTALL_START=1"
 log "CODEX_BEFORE=$(ver codex)"
 curl -fsSL https://chatgpt.com/codex/install.sh | sh
