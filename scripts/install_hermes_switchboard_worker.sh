@@ -4,15 +4,18 @@ set +x
 umask 077
 
 ROOT="${NICHOLAS_AI_OS_ROOT:-${HOME}/Nicholas-AI-OS}"
-SCRIPT="$ROOT/scripts/hermes_switchboard_worker.py"
+SOURCE="$ROOT/scripts/hermes_switchboard_worker.py"
+INSTALL_DIR="$HOME/.local/share/nicholas-ai"
+SCRIPT="$INSTALL_DIR/hermes_switchboard_worker.py"
 PLIST="$HOME/Library/LaunchAgents/com.nicholas.hermes-switchboard-worker.plist"
 LOG_DIR="$HOME/Library/Logs"
 
-[[ -f "$SCRIPT" ]] || { echo "Hermes Switchboard worker missing: $SCRIPT" >&2; exit 2; }
+[[ -f "$SOURCE" ]] || { echo "Hermes Switchboard worker missing: $SOURCE" >&2; exit 2; }
 command -v python3 >/dev/null 2>&1 || { echo "python3 is required" >&2; exit 3; }
 command -v security >/dev/null 2>&1 || { echo "macOS Keychain is required" >&2; exit 4; }
 
-mkdir -p "$HOME/Library/LaunchAgents" "$LOG_DIR"
+mkdir -p "$HOME/Library/LaunchAgents" "$LOG_DIR" "$INSTALL_DIR"
+cp "$SOURCE" "$SCRIPT"
 chmod 700 "$SCRIPT"
 
 cat > "$PLIST" <<EOF
@@ -44,3 +47,4 @@ launchctl kickstart -k "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/nu
 
 echo "HERMES_SWITCHBOARD_WORKER_INSTALLED=1"
 echo "HERMES_SWITCHBOARD_POLL_SECONDS=30"
+echo "HERMES_SWITCHBOARD_STABLE_COPY=1"
