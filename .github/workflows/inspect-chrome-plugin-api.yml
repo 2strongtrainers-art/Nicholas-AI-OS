@@ -1,0 +1,27 @@
+name: Inspect Chrome Plugin API
+
+on:
+  push:
+    paths:
+      - ".github/workflows/inspect-chrome-plugin-api.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 4
+    steps:
+      - name: Read first-party Chrome plugin API instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$HOME/.codex/plugins/cache/openai-bundled/chrome/26.825.51511"
+          echo '=== SKILL ==='
+          sed -n '1,360p' "$ROOT/skills/control-chrome/SKILL.md"
+          echo '=== PLUGIN JSON ==='
+          cat "$ROOT/.codex-plugin/plugin.json"
+          echo '=== TOP FILES ==='
+          find "$ROOT" -maxdepth 2 -type f | sed "s#^$ROOT/##" | sort | head -160
