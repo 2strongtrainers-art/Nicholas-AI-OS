@@ -1,0 +1,168 @@
+name: Deploy Repaired Hermes Worker
+
+on:
+  push:
+    paths:
+      - ".github/workflows/deploy-hermes-openrouter-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-and-verify:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 15
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Install patched Hermes worker without touching GPT bearer
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +x
+          SOURCE="$GITHUB_WORKSPACE/scripts/hermes_switchboard_worker.py"
+          INSTALL_DIR="$HOME/.local/share/nicholas-ai"
+          TARGET="$INSTALL_DIR/hermes_switchboard_worker.py"
+          PLIST="$HOME/Library/LaunchAgents/com.nicholas.hermes-switchboard-worker.plist"
+          WORKER_KEY_FILE="$HOME/.config/nicholas-ai-switchboard/hermes-worker.key"
+          test -f "$SOURCE"
+          test -s "$WORKER_KEY_FILE"
+          mkdir -p "$INSTALL_DIR"
+          cp "$SOURCE" "$TARGET"
+          chmod 700 "$TARGET"
+          test -f "$PLIST"
+          DOMAIN="gui/$(id -u)"
+          launchctl bootout "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/null 2>&1 || true
+          launchctl bootstrap "$DOMAIN" "$PLIST"
+          launchctl enable "$DOMAIN/com.nicholas.hermes-switchboard-worker"
+          launchctl kickstart -k "$DOMAIN/com.nicholas.hermes-switchboard-worker" >/dev/null 2>&1 || true
+          echo 'HERMES_WORKER_PATCH_INSTALLED=PASS'
+          echo 'GPT_BEARER_TOUCHED=NO'
+
+      - name: Verify Hermes queue end to end
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +x
+          DEPLOY_ENV="$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          WORKER_KEY_FILE="$HOME/.config/nicholas-ai-switchboard/hermes-worker.key"
+          WORKER_BIN="$HOME/.local/share/nicholas-ai/hermes_switchboard_worker.py"
+          test -f "$DEPLOY_ENV"
+          test -s "$WORKER_KEY_FILE"
+          test -x "$WORKER_BIN"
+          source "$DEPLOY_ENV"
+          WORKER_KEY="$(cat "$WORKER_KEY_FILE")"
+          test -n "$WORKER_KEY"
+
+          curl -fsS "$AI_SWITCHBOARD_URL/health" > "$RUNNER_TEMP/health.json"
+          python3 - "$RUNNER_TEMP/health.json" <<'PY'
+          import json,sys
+          h=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert h.get('ok') is True,h
+          assert h.get('version')=='1.2.0',h
+          assert h.get('hermes_jobs') is True,h
+          print('SWITCHBOARD_HERMES_SURFACE=PASS')
+          PY
+
+          python3 - "$RUNNER_TEMP/hermes-create.json" <<'PY'
+          import json,sys
+          json.dump({
+            'task':'This is a live production queue diagnostic. Do not use tools and do not take actions. Return exactly HERMES_SWITCHBOARD_OK',
+            'timeout_seconds':300,
+          },open(sys.argv[1],'w',encoding='utf-8'))
+          PY
+
+          curl -fsS \
+            -H "Authorization: Bearer $WORKER_KEY" \
+            -H 'Content-Type: application/json' \
+            --data-binary "@$RUNNER_TEMP/hermes-create.json" \
+            "$AI_SWITCHBOARD_URL/hermes/internal/jobs" > "$RUNNER_TEMP/hermes-created.json"
+          JOB_ID="$(python3 - "$RUNNER_TEMP/hermes-created.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert d.get('ok') is True,d
+          j=d.get('job') or {}
+          assert j.get('status')=='queued',j
+          print(j['id'])
+          PY
+          )"
+          test -n "$JOB_ID"
+
+          success=0
+          for _ in $(seq 1 60); do
+            /usr/bin/python3 "$WORKER_BIN" >/dev/null 2>&1 || true
+            curl -fsS \
+              -H "Authorization: Bearer $WORKER_KEY" \
+              "$AI_SWITCHBOARD_URL/hermes/internal/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
+            state="$(python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          print((d.get('job') or {}).get('status') or '')
+          PY
+            )"
+            if [ "$state" = 'completed' ]; then
+              success=1
+              break
+            fi
+            if [ "$state" = 'failed' ]; then
+              python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          j=d.get('job') or {}
+          print('HERMES_SWITCHBOARD_LIVE=FAIL')
+          print('HERMES_FAILURE=' + str(j.get('error') or '')[:600])
+          PY
+              exit 1
+            fi
+            sleep 5
+          done
+          test "$success" = '1'
+
+          python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          j=d.get('job') or {}
+          assert j.get('status')=='completed',j
+          assert str(j.get('result') or '').strip()=='HERMES_SWITCHBOARD_OK',j
+          assert j.get('profile')=='research_readonly',j
+          assert j.get('provider')=='openrouter',j
+          assert j.get('model')=='openrouter/free',j
+          print('HERMES_SWITCHBOARD_LIVE=PASS')
+          print('HERMES_RESULT=HERMES_SWITCHBOARD_OK')
+          print('HERMES_PROVIDER=openrouter')
+          print('HERMES_MODEL=openrouter/free')
+          print('HERMES_PROFILE=research_readonly')
+          PY
+          unset WORKER_KEY
+
+      - name: Persist sanitized repair status
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          python3 - "$GITHUB_SHA" "$GITHUB_RUN_ID" > status/hermes-runtime-repair.json <<'PY'
+          import json,sys
+          from datetime import datetime,timezone
+          print(json.dumps({
+            'status':'verified',
+            'verified_at':datetime.now(timezone.utc).isoformat(),
+            'tested_commit':sys.argv[1],
+            'workflow_run_id':sys.argv[2],
+            'switchboard_version':'1.2.0',
+            'hermes_queue':'pass',
+            'hermes_provider':'openrouter',
+            'hermes_model':'openrouter/free',
+            'hermes_max_tokens':4096,
+            'hermes_profile':'research_readonly',
+            'gpt_bearer_rotated':False,
+            'secrets_recorded':False,
+          },indent=2))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/hermes-runtime-repair.json
+          git commit -m 'Hermes runtime repair: verified' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
