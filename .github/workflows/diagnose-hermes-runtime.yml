@@ -17,27 +17,7 @@ jobs:
       - name: Check out trusted main
         uses: actions/checkout@v5
 
-      - name: Read sanitized Hermes worker diagnostics
-        shell: bash
-        run: |
-          set -euo pipefail
-          LOG="$HOME/Library/Logs/HermesSwitchboardWorker.log"
-          python3 - "$LOG" <<'PY'
-          import re,sys
-          from pathlib import Path
-          path=Path(sys.argv[1])
-          if not path.exists():
-              print('HERMES_WORKER_LOG=missing')
-              raise SystemExit
-          text=path.read_text(encoding='utf-8',errors='replace')[-3000:]
-          text=text.replace(str(Path.home()), '$HOME')
-          text=re.sub(r'(?i)((?:api[_-]?key|token|authorization|secret)\s*[:=]\s*)\S+',r'\1[REDACTED]',text)
-          print('HERMES_WORKER_LOG_SANITIZED_BEGIN')
-          print(text)
-          print('HERMES_WORKER_LOG_SANITIZED_END')
-          PY
-
-      - name: Run Hermes through existing OpenRouter credential
+      - name: Run Hermes through free OpenRouter route
         shell: bash
         run: |
           set -euo pipefail
@@ -61,21 +41,22 @@ jobs:
           )"
           test -n "$OPENROUTER_API_KEY"
           export OPENROUTER_API_KEY
+          export HERMES_MAX_TOKENS=4096
           OUT="$RUNNER_TEMP/hermes-runtime.out"
           ERR="$RUNNER_TEMP/hermes-runtime.err"
           USAGE="$RUNNER_TEMP/hermes-runtime-usage.json"
           set +e
           "$HERMES" \
             --provider openrouter \
-            --model z-ai/glm-5.3 \
+            --model openrouter/free \
             --reasoning high \
             --toolsets search \
             --usage-file "$USAGE" \
-            --oneshot 'This is a runtime smoke test. Do not use tools and do not take actions. Return exactly HERMES_OPENROUTER_OK' \
+            --oneshot 'This is a runtime smoke test. Do not use tools and do not take actions. Return exactly HERMES_FREE_OK' \
             >"$OUT" 2>"$ERR"
           code=$?
           set -e
-          unset OPENROUTER_API_KEY
+          unset OPENROUTER_API_KEY HERMES_MAX_TOKENS
           python3 - "$OUT" "$ERR" "$code" <<'PY'
           import re,sys
           from pathlib import Path
@@ -87,13 +68,13 @@ jobs:
               s=re.sub(r'(?i)((?:api[_-]?key|token|authorization|secret)\s*[:=]\s*)\S+',r'\1[REDACTED]',s)
               return s[-2000:]
           if code != 0:
-              print(f'HERMES_OPENROUTER_LIVE=FAIL exit={code}')
-              print('HERMES_OPENROUTER_ERROR=' + scrub(err or out or 'no output'))
+              print(f'HERMES_FREE_LIVE=FAIL exit={code}')
+              print('HERMES_FREE_ERROR=' + scrub(err or out or 'no output'))
               raise SystemExit(1)
-          if out.strip() != 'HERMES_OPENROUTER_OK':
-              print('HERMES_OPENROUTER_LIVE=FAIL unexpected_output')
-              print('HERMES_OPENROUTER_OUTPUT=' + scrub(out))
+          if out.strip() != 'HERMES_FREE_OK':
+              print('HERMES_FREE_LIVE=FAIL unexpected_output')
+              print('HERMES_FREE_OUTPUT=' + scrub(out))
               raise SystemExit(1)
-          print('HERMES_OPENROUTER_LIVE=PASS')
-          print('HERMES_OPENROUTER_OUTPUT=HERMES_OPENROUTER_OK')
+          print('HERMES_FREE_LIVE=PASS')
+          print('HERMES_FREE_OUTPUT=HERMES_FREE_OK')
           PY
