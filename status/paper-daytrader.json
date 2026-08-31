@@ -1,22 +1,23 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-08-29T03:44:21.321444+00:00",
+  "checked_at": "2026-08-31T05:26:10.876203+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100162.481948,
   "events": [],
   "latest_data_at": "2026-08-28T19:59:00+00:00",
   "live_execution_enabled": false,
-  "market_data_errors": {},
+  "market_data_errors": {
+    "SPY": "The read operation timed out"
+  },
   "open_positions": 0,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": -625.636009,
-  "session_complete": true,
-  "session_id": "2026-08-28",
+  "realized_pnl": 0.0,
+  "session_complete": false,
+  "session_id": "2026-08-31",
   "state": "running",
   "symbols_received": [
-    "SPY",
     "QQQ",
     "NVDA",
     "AAPL",
@@ -31,5 +32,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 6
+  "trades_today": 0
 }
