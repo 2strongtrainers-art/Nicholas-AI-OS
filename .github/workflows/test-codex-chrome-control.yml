@@ -1,0 +1,65 @@
+name: Test Codex Chrome Control
+
+on:
+  push:
+    paths:
+      - ".github/workflows/test-codex-chrome-control.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 10
+    steps:
+      - name: Inspect Chrome plugin instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$HOME/.codex/plugins/cache/openai-bundled/chrome/26.825.51511"
+          test -d "$ROOT"
+          echo 'CHROME_PLUGIN_ROOT=FOUND'
+          find "$ROOT" -maxdepth 3 -type f \( -iname 'SKILL.md' -o -iname 'README*' -o -iname 'plugin.json' -o -iname 'manifest.json' \) -print | head -30 | sed 's/^/PLUGIN_FILE=/'
+          for f in "$ROOT/SKILL.md" "$ROOT/README.md" "$ROOT/plugin.json"; do
+            if [[ -f "$f" ]]; then
+              echo "=== $(basename "$f") ==="
+              sed -n '1,240p' "$f"
+            fi
+          done
+
+      - name: Run harmless existing Chrome browser list via Codex
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/codex-chrome-last.txt"
+          PROMPT='Use the installed first-party Chrome browser-control capability. Connect to the existing signed-in Chrome browser using the Chrome extension/native host. Do not read cookies, passwords, tokens, form values, or page contents. Perform only a harmless control-plane diagnostic: initialize Chrome browser control and list the available browser instances/tabs/windows with URL origins and titles if the tool provides them. Do not navigate, click, type, submit, edit, or close anything. Clearly state CHROME_CONTROL_OK only if the Chrome control tool itself successfully connects to the existing Chrome runtime.'
+          python3 - "$OUT" "$PROMPT" <<'PY'
+          import subprocess,sys
+          out,prompt=sys.argv[1:]
+          cmd=['codex','exec','--skip-git-repo-check','--ephemeral','--output-last-message',out,prompt]
+          try:
+              p=subprocess.run(cmd,text=True,capture_output=True,timeout=360)
+          except subprocess.TimeoutExpired as e:
+              print('CODEX_CHROME_DIAGNOSTIC=TIMEOUT')
+              sys.exit(124)
+          print('CODEX_EXIT=' + str(p.returncode))
+          # Print only agent final response; avoid verbose tool/env logs.
+          try:
+              text=open(out,encoding='utf-8').read()
+          except Exception:
+              text=''
+          print('CODEX_FINAL_BEGIN')
+          print(text[:8000])
+          print('CODEX_FINAL_END')
+          if p.returncode != 0 or 'CHROME_CONTROL_OK' not in text:
+              # expose a short sanitized stderr tail for diagnosis
+              err=(p.stderr or '')[-4000:]
+              import re
+              err=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+/-]+',r'\1[REDACTED]',err)
+              err=re.sub(r'(?i)((?:token|api[_-]?key|secret)\s*[=:]\s*)\S+',r'\1[REDACTED]',err)
+              print('CODEX_STDERR_TAIL=' + err)
+              sys.exit(2)
+          print('CODEX_CHROME_CONTROL=PASS')
+          PY
