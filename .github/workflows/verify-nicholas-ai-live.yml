@@ -159,11 +159,30 @@ jobs:
           )"
           test -n "$JOB_ID"
 
-          /usr/bin/python3 "$WORKER_BIN"
+          success=0
+          for _ in $(seq 1 60); do
+            curl -fsS \
+              -H "Authorization: Bearer $WORKER_KEY" \
+              "$AI_SWITCHBOARD_URL/hermes/internal/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
+            state="$(python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          print((d.get('job') or {}).get('status') or '')
+          PY
+            )"
+            if [ "$state" = "completed" ]; then
+              success=1
+              break
+            fi
+            if [ "$state" = "failed" ]; then
+              echo 'HERMES_BACKEND_LIVE=FAIL job_status=failed'
+              exit 1
+            fi
+            /usr/bin/python3 "$WORKER_BIN" >/dev/null 2>&1 || true
+            sleep 5
+          done
+          test "$success" = "1"
 
-          curl -fsS \
-            -H "Authorization: Bearer $WORKER_KEY" \
-            "$AI_SWITCHBOARD_URL/hermes/internal/jobs/$JOB_ID" > "$RUNNER_TEMP/hermes-result.json"
           python3 - "$RUNNER_TEMP/hermes-result.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1],encoding='utf-8'))
