@@ -1,7 +1,7 @@
 {
   "id": "hermes-tool-library-top20-2026-08-31",
   "type": "openmontage_video",
-  "status": "queued",
+  "status": "running",
   "project_id": "nicholas-ai-os",
   "brief": "Rank the 20 highest-value tools/sites in Nicholas-AI-OS tool intelligence for next integration.",
   "execution_mode": "run_hermes_research_task",
@@ -16,5 +16,8 @@
     "publishing_allowed": false,
     "purchases_allowed": false,
     "secrets_allowed": false
-  }
+  },
+  "render_mode_resolved": "maintenance",
+  "started_at": "2026-08-31T14:28:17.300208+00:00",
+  "routing_reason": "explicit allowlisted Hermes one-shot read-only research task"
 }
