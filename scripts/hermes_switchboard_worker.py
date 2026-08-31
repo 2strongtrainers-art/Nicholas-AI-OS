@@ -2,8 +2,8 @@
 """Poll the Nicholas AI Switchboard for one allowlisted Hermes job and return its result.
 
 No arbitrary shell is exposed. The task is always executed with Hermes in a fixed
-read-only one-shot profile and the worker-only bearer key stays in a local file
-with owner-only permissions outside the repository.
+read-only one-shot profile and worker credentials stay in owner-only local files
+outside the repository.
 """
 
 import json
@@ -21,9 +21,18 @@ ROOT = HOME / "Nicholas-AI-OS"
 CONFIG_DIR = HOME / ".config" / "nicholas-ai-switchboard"
 DEPLOY_ENV = CONFIG_DIR / "deployment.env"
 WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
+OPENCODE_AUTH_FILE = HOME / ".local" / "share" / "opencode" / "auth.json"
 LOCK = HOME / ".hermes-switchboard-worker.lock"
 LOG = HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log"
-WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.0"
+WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.1"
+
+# Codex OAuth can hit a ChatGPT/Codex usage ceiling independently of the rest of
+# Nicholas-AI-OS. Keep Hermes available through the already-configured
+# OpenRouter credential, using OpenRouter's zero-cost router and a bounded output
+# budget. These can be overridden locally without changing repository code.
+HERMES_PROVIDER = os.environ.get("NICHOLAS_HERMES_PROVIDER", "openrouter").strip() or "openrouter"
+HERMES_MODEL = os.environ.get("NICHOLAS_HERMES_MODEL", "openrouter/free").strip() or "openrouter/free"
+HERMES_MAX_TOKENS = os.environ.get("NICHOLAS_HERMES_MAX_TOKENS", "4096").strip() or "4096"
 
 
 def log(message: str) -> None:
@@ -60,11 +69,33 @@ def worker_key() -> str:
     return key
 
 
+def openrouter_key() -> str:
+    existing = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    if existing:
+        return existing
+    if not OPENCODE_AUTH_FILE.exists():
+        raise RuntimeError("OpenRouter credential source is missing")
+    try:
+        data = json.loads(OPENCODE_AUTH_FILE.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RuntimeError("OpenRouter credential source could not be parsed") from exc
+    entry = data.get("openrouter") if isinstance(data, dict) else None
+    key = entry.get("key") if isinstance(entry, dict) else None
+    if not isinstance(key, str) or not key.strip():
+        raise RuntimeError("OpenRouter credential is missing")
+    return key.strip()
+
+
+def hermes_environment() -> dict:
+    env = os.environ.copy()
+    if HERMES_PROVIDER == "openrouter":
+        env["OPENROUTER_API_KEY"] = openrouter_key()
+        env["HERMES_MAX_TOKENS"] = HERMES_MAX_TOKENS
+    return env
+
+
 def request_json(url: str, key: str, payload=None, retries: int = 3):
     data = json.dumps(payload or {}).encode("utf-8") if payload is not None else None
-    # Cloudflare may reject Python's default urllib fingerprint before a request
-    # reaches the Worker. Send an explicit service identity and standard JSON
-    # headers so this background client follows the same accepted path as curl.
     headers = {
         "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
@@ -80,8 +111,6 @@ def request_json(url: str, key: str, payload=None, retries: int = 3):
                 raw = response.read().decode("utf-8")
                 return json.loads(raw) if raw else {}
         except urllib.error.HTTPError as exc:
-            # Never include response bodies here; an upstream error page is not
-            # needed for recovery and could contain request metadata.
             last_error = RuntimeError(f"HTTP {exc.code} {exc.reason}")
             if attempt + 1 < retries:
                 time.sleep(2 ** attempt)
@@ -130,14 +159,15 @@ def execute(job: dict) -> str:
     result = subprocess.run(
         [
             hermes_bin(),
-            "--provider", "openai-codex",
-            "--model", "gpt-5.6-sol",
+            "--provider", HERMES_PROVIDER,
+            "--model", HERMES_MODEL,
             "--reasoning", "high",
             "--toolsets", "search",
             "--usage-file", str(usage_path),
             "--oneshot", prompt_for(task),
         ],
         cwd=str(ROOT),
+        env=hermes_environment(),
         text=True,
         capture_output=True,
         timeout=timeout_seconds,
@@ -180,12 +210,12 @@ def main() -> int:
                 {
                     "status": "completed",
                     "result": output,
-                    "provider": "openai-codex",
-                    "model": "gpt-5.6-sol",
+                    "provider": HERMES_PROVIDER,
+                    "model": HERMES_MODEL,
                     "profile": "research_readonly",
                 },
             )
-            log(f"COMPLETED {job_id}")
+            log(f"COMPLETED {job_id} provider={HERMES_PROVIDER} model={HERMES_MODEL}")
         except Exception as exc:
             error = redact(str(exc))[-4000:]
             try:
@@ -195,8 +225,8 @@ def main() -> int:
                     {
                         "status": "failed",
                         "error": error,
-                        "provider": "openai-codex",
-                        "model": "gpt-5.6-sol",
+                        "provider": HERMES_PROVIDER,
+                        "model": HERMES_MODEL,
                         "profile": "research_readonly",
                     },
                 )
