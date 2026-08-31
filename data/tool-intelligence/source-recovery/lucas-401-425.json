@@ -1,0 +1,43 @@
+{
+  "creator": "@lucaswebq",
+  "research_batch": {"start": 401, "end": 425},
+  "source_profile": "https://www.tiktok.com/@lucaswebq",
+  "records": [
+    {
+      "part": 406,
+      "video_id": "7547796045997931798",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7547796045997931798",
+      "caption_hint": "Powerful Websites You Should Know (Part 406) Tag a friend who loves cooking and recipes! Comment CHEF and I’ll send you the link | #recipe #mealprep #foodtok #cooking",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7547796045997931798",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7547796045997931798 to Part 406. The caption does not identify the recipe website, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:33:51Z"
+    },
+    {
+      "part": 416,
+      "video_id": "7551118476619054366",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7551118476619054366",
+      "caption_hint": "Powerful Websites You Should Know (Part 416) Tag someone who’s been learning to code with AI | #webdesign #webdeveloper #coding #aitools #lucaswebq",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7551118476619054366",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7551118476619054366 to Part 416. The generic AI coding caption does not prove a website identity, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:33:51Z"
+    },
+    {
+      "part": 417,
+      "video_id": "7551485049825185046",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7551485049825185046",
+      "caption_hint": "Powerful Websites You Should Know (Part 417) A free fitness website with bodyweight workouts, strength training, cardio exercises, and full programs for all fitness levels. Tag a friend who wants to workout from home! | #workout #fitness #gym #health",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7551485049825185046",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7551485049825185046 to Part 417. Public search confirms only the described fitness function, not the exact domain shown, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:33:51Z"
+    },
+    {
+      "part": 422,
+      "video_id": "7553339052670323990",
+      "lucas_source_url": "https://www.tiktok.com/@lucaswebq/video/7553339052670323990",
+      "caption_hint": "Powerful Websites You Should Know (Part 422) Free 4K live wallpapers for PC, animated, moving, and interactive wallpapers in every style including anime, gaming, cyberpunk, cars, nature, minimalist, and more. Perfect for Windows users using Wallpaper Engine or any live wallpaper app. | #wallpaper #wallpaperengine #techtok #pcgaming #pcsetup",
+      "archive_evidence_url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40lucaswebq%2Fvideo%2F7553339052670323990",
+      "evidence_summary": "TikTok's public oEmbed response identifies author lucaswebq and binds video 7553339052670323990 to Part 422. Multiple public sites match the generic wallpaper description, but none proves the domain shown in Lucas's post, so website identity remains blank.",
+      "checked_at": "2026-08-31T17:33:51Z"
+    }
+  ]
+}
