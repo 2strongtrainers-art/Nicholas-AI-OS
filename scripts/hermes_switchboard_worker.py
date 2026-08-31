@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -22,6 +23,7 @@ DEPLOY_ENV = CONFIG_DIR / "deployment.env"
 WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
 LOCK = HOME / ".hermes-switchboard-worker.lock"
 LOG = HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log"
+WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.0"
 
 
 def log(message: str) -> None:
@@ -60,7 +62,16 @@ def worker_key() -> str:
 
 def request_json(url: str, key: str, payload=None, retries: int = 3):
     data = json.dumps(payload or {}).encode("utf-8") if payload is not None else None
-    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+    # Cloudflare may reject Python's default urllib fingerprint before a request
+    # reaches the Worker. Send an explicit service identity and standard JSON
+    # headers so this background client follows the same accepted path as curl.
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "User-Agent": WORKER_USER_AGENT,
+        "Cache-Control": "no-cache",
+    }
     last_error = None
     for attempt in range(retries):
         try:
@@ -68,6 +79,12 @@ def request_json(url: str, key: str, payload=None, retries: int = 3):
             with urllib.request.urlopen(req, timeout=30) as response:
                 raw = response.read().decode("utf-8")
                 return json.loads(raw) if raw else {}
+        except urllib.error.HTTPError as exc:
+            # Never include response bodies here; an upstream error page is not
+            # needed for recovery and could contain request metadata.
+            last_error = RuntimeError(f"HTTP {exc.code} {exc.reason}")
+            if attempt + 1 < retries:
+                time.sleep(2 ** attempt)
         except Exception as exc:
             last_error = exc
             if attempt + 1 < retries:
