@@ -1,9 +1,9 @@
 {
-  "run_id": 32648628088,
+  "run_id": 33402387658,
   "run_attempt": 1,
-  "commit_sha": "796f40e2c12ce1e76f5bf2a2ee9de29e1d5fdb02",
-  "artifact_name": "openmontage-chat-delivery-32648628088",
+  "commit_sha": "0d1cb1d17acb0ad6c24e8053d27b7451a06b9749",
+  "artifact_name": "openmontage-chat-delivery-33402387658",
   "files": [
-    "TriValley-Comeback-Fast-Reel-2026-08-23.mp4"
+    "final.mp4"
   ]
 }
