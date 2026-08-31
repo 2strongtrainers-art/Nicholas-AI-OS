@@ -1,0 +1,45 @@
+name: Enable Codex Chrome Plugin v2
+
+on:
+  push:
+    paths:
+      - ".github/workflows/enable-codex-chrome-plugin-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  enable:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - name: Inspect add syntax and enable Chrome plugin
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== add help ==='
+          codex plugin add --help 2>&1 | head -180 || true
+          echo '=== before ==='
+          codex plugin list 2>&1 | grep -E '^chrome@openai-bundled|chrome@' | head -10 || true
+          echo '=== add ==='
+          if codex plugin add chrome@openai-bundled; then
+            echo 'CODEX_CHROME_PLUGIN_ADD=PASS'
+          else
+            rc=$?
+            echo "CODEX_CHROME_PLUGIN_ADD_EXIT=$rc"
+          fi
+          echo '=== after ==='
+          codex plugin list 2>&1 | grep -E '^chrome@openai-bundled|chrome@' | head -10 || true
+          python3 - <<'PY'
+          import subprocess,sys
+          p=subprocess.run(['codex','plugin','list'],text=True,capture_output=True)
+          text=(p.stdout or '')+'\n'+(p.stderr or '')
+          line=next((x for x in text.splitlines() if x.startswith('chrome@openai-bundled')), '')
+          print('CHROME_PLUGIN_LINE=' + line)
+          if 'installed, enabled' in line:
+              print('CODEX_CHROME_PLUGIN_ENABLED=PASS')
+          else:
+              print('CODEX_CHROME_PLUGIN_ENABLED=FAIL')
+              sys.exit(2)
+          PY
