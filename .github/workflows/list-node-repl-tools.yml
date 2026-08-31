@@ -1,0 +1,64 @@
+name: List Trusted Node REPL Tools
+
+on:
+  push:
+    paths:
+      - ".github/workflows/list-node-repl-tools.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  list:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 4
+    steps:
+      - name: Connect to Node REPL MCP and list tool schemas
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,subprocess,sys,time,tomllib,select
+          from pathlib import Path
+
+          cfg=tomllib.loads((Path.home()/'.codex/config.toml').read_text())
+          srv=cfg['mcp_servers']['node_repl']
+          env=os.environ.copy(); env.update({str(k):str(v) for k,v in srv.get('env',{}).items()})
+          p=subprocess.Popen([srv['command'],*srv.get('args',[])],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1,env=env)
+
+          def send(obj):
+              p.stdin.write(json.dumps(obj,separators=(',',':'))+'\n'); p.stdin.flush()
+          def recv_id(target,timeout=15):
+              end=time.time()+timeout
+              while time.time()<end:
+                  r,_,_=select.select([p.stdout],[],[],max(0,end-time.time()))
+                  if not r: break
+                  line=p.stdout.readline()
+                  if not line: break
+                  try: o=json.loads(line)
+                  except Exception: continue
+                  if o.get('id')==target: return o
+              return None
+
+          send({'jsonrpc':'2.0','id':1,'method':'initialize','params':{'protocolVersion':'2025-06-18','capabilities':{},'clientInfo':{'name':'nicholas-ai-direct','version':'1.0'}}})
+          init=recv_id(1)
+          if not init:
+              print('MCP_INITIALIZE=FAIL'); p.kill(); sys.exit(2)
+          print('MCP_INITIALIZE=PASS')
+          result=init.get('result') or {}
+          print('MCP_SERVER=' + json.dumps(result.get('serverInfo') or {},separators=(',',':')))
+          send({'jsonrpc':'2.0','method':'notifications/initialized','params':{}})
+          send({'jsonrpc':'2.0','id':2,'method':'tools/list','params':{}})
+          tools=recv_id(2)
+          if not tools:
+              print('MCP_TOOLS_LIST=FAIL'); p.kill(); sys.exit(3)
+          rows=(tools.get('result') or {}).get('tools') or []
+          print('MCP_TOOLS_LIST=PASS')
+          print('MCP_TOOL_COUNT=' + str(len(rows)))
+          for t in rows:
+              safe={'name':t.get('name'),'description':t.get('description'),'inputSchema':t.get('inputSchema')}
+              print('MCP_TOOL=' + json.dumps(safe,separators=(',',':'))[:10000])
+          try: p.terminate(); p.wait(timeout=2)
+          except Exception: p.kill()
+          PY
