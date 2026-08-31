@@ -2,7 +2,8 @@
 """Poll the Nicholas AI Switchboard for one allowlisted Hermes job and return its result.
 
 No arbitrary shell is exposed. The task is always executed with Hermes in a fixed
-read-only one-shot profile and the worker-only bearer key stays in macOS Keychain.
+read-only one-shot profile and the worker-only bearer key stays in a local file
+with owner-only permissions outside the repository.
 """
 
 import json
@@ -11,17 +12,16 @@ import re
 import subprocess
 import sys
 import time
-import urllib.error
 import urllib.request
 from pathlib import Path
 
 HOME = Path.home()
 ROOT = HOME / "Nicholas-AI-OS"
-DEPLOY_ENV = HOME / ".config" / "nicholas-ai-switchboard" / "deployment.env"
+CONFIG_DIR = HOME / ".config" / "nicholas-ai-switchboard"
+DEPLOY_ENV = CONFIG_DIR / "deployment.env"
+WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
 LOCK = HOME / ".hermes-switchboard-worker.lock"
 LOG = HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log"
-KEYCHAIN_SERVICE = "nicholas-ai-switchboard"
-KEYCHAIN_ACCOUNT = "hermes-worker"
 
 
 def log(message: str) -> None:
@@ -47,15 +47,14 @@ def switchboard_url() -> str:
 
 
 def worker_key() -> str:
-    result = subprocess.run(
-        ["/usr/bin/security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-a", KEYCHAIN_ACCOUNT, "-w"],
-        text=True,
-        capture_output=True,
-        timeout=10,
-    )
-    key = result.stdout.strip() if result.returncode == 0 else ""
+    if not WORKER_KEY_FILE.exists():
+        raise RuntimeError("Hermes worker key file is missing")
+    mode = WORKER_KEY_FILE.stat().st_mode & 0o777
+    if mode & 0o077:
+        raise RuntimeError("Hermes worker key file permissions are too broad")
+    key = WORKER_KEY_FILE.read_text(encoding="utf-8").strip()
     if not key:
-        raise RuntimeError("Hermes worker key is missing from Keychain")
+        raise RuntimeError("Hermes worker key file is empty")
     return key
 
 

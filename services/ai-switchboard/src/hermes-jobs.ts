@@ -71,8 +71,8 @@ async function save(env: HermesJobsEnv, job: HermesJob): Promise<void> {
   await env.HERMES_JOBS.put(`${PREFIX}${job.id}`, JSON.stringify(job), { expirationTtl: RETENTION_SECONDS });
 }
 
-async function createJob(request: Request, env: HermesJobsEnv): Promise<Response> {
-  if (!authorized(request, env.SWITCHBOARD_API_KEY)) return json({ ok: false, error: "Unauthorized" }, 401);
+async function createJob(request: Request, env: HermesJobsEnv, secret?: string): Promise<Response> {
+  if (!authorized(request, secret)) return json({ ok: false, error: "Unauthorized" }, 401);
   let body: Record<string, unknown>;
   try {
     body = await request.json() as Record<string, unknown>;
@@ -96,8 +96,8 @@ async function createJob(request: Request, env: HermesJobsEnv): Promise<Response
   return json({ ok: true, job: publicJob(job) }, 202);
 }
 
-async function getJob(request: Request, env: HermesJobsEnv, id: string): Promise<Response> {
-  if (!authorized(request, env.SWITCHBOARD_API_KEY)) return json({ ok: false, error: "Unauthorized" }, 401);
+async function getJob(request: Request, env: HermesJobsEnv, id: string, secret?: string): Promise<Response> {
+  if (!authorized(request, secret)) return json({ ok: false, error: "Unauthorized" }, 401);
   const job = await load(env, id);
   if (!job) return json({ ok: false, error: "Hermes job not found" }, 404);
   return json({ ok: true, job: publicJob(job) });
@@ -157,13 +157,15 @@ export async function routeHermesJobs(request: Request, env: HermesJobsEnv): Pro
   if (!url.pathname.startsWith("/hermes/")) return null;
   if (!env.HERMES_JOBS) return json({ ok: false, error: "Hermes job store is not configured" }, 503);
 
-  if (request.method === "POST" && url.pathname === "/hermes/jobs") return createJob(request, env);
+  if (request.method === "POST" && url.pathname === "/hermes/jobs") return createJob(request, env, env.SWITCHBOARD_API_KEY);
+  if (request.method === "POST" && url.pathname === "/hermes/internal/jobs") return createJob(request, env, env.HERMES_WORKER_KEY);
   if (request.method === "POST" && url.pathname === "/hermes/internal/claim") return claimJob(request, env);
 
   const publicMatch = url.pathname.match(/^\/hermes\/jobs\/([A-Za-z0-9._-]+)$/);
-  if (request.method === "GET" && publicMatch) return getJob(request, env, publicMatch[1]);
+  if (request.method === "GET" && publicMatch) return getJob(request, env, publicMatch[1], env.SWITCHBOARD_API_KEY);
 
   const internalMatch = url.pathname.match(/^\/hermes\/internal\/jobs\/([A-Za-z0-9._-]+)$/);
+  if (request.method === "GET" && internalMatch) return getJob(request, env, internalMatch[1], env.HERMES_WORKER_KEY);
   if (request.method === "POST" && internalMatch) return updateJob(request, env, internalMatch[1]);
 
   return json({ ok: false, error: "Hermes endpoint not found" }, 404);
