@@ -19,15 +19,17 @@ jobs:
           set -euo pipefail
           mkdir -p "$GITHUB_WORKSPACE/status"
           python3 - "$GITHUB_WORKSPACE/status/nicks-assistant-chrome-update.json" <<'PY'
-          import json,os,re,subprocess,sys
+          import json,os,re,subprocess,sys,tomllib
           from pathlib import Path
 
           out=Path(sys.argv[1])
           instructions=Path(os.environ['GITHUB_WORKSPACE'])/'services/ai-switchboard/GPT_INSTRUCTIONS.md'
+          model='openai/gpt-oss-120b:free'
           result={
             'probe':'update existing Nicks Assistant GPT via supported Chrome harness',
-            'model':'openrouter/free',
+            'model':model,
             'max_output_tokens':4096,
+            'apps_disabled_for_run':True,
             'schema_url':'https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0',
             'bearer_rotated':False,
             'pass':False
@@ -54,17 +56,31 @@ jobs:
 
           cfg=[
             '-c','model_provider="openrouter-temp"',
-            '-c','model="openrouter/free"',
-            '-c','model_reasoning_effort="low"',
+            '-c',f'model="{model}"',
+            '-c','model_reasoning_effort="medium"',
+            '-c','model_context_window=131072',
             '-c','model_max_output_tokens=4096',
             '-c','service_tier="auto"',
             '-c','disable_response_storage=true',
+            '-c','features.apps=false',
             '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
             '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
             '-c','model_providers.openrouter-temp.env_key="OPENROUTER_API_KEY"',
             '-c','model_providers.openrouter-temp.wire_api="responses"',
             '-c','model_providers.openrouter-temp.requires_openai_auth=false',
           ]
+          try:
+              ccfg=tomllib.loads((Path.home()/'.codex/config.toml').read_text())
+              names=sorted((ccfg.get('mcp_servers') or {}).keys())
+          except Exception:
+              names=[]
+          disabled=[]
+          for name in names:
+              if name!='node_repl' and re.fullmatch(r'[A-Za-z0-9_.-]+',str(name)):
+                  cfg += ['-c',f'mcp_servers.{name}.enabled=false']
+                  disabled.append(name)
+          result['unrelated_mcp_servers_disabled_count']=len(disabled)
+
           prompt=r'''You are completing one narrowly authorized browser task for Nicholas-AI-OS. You MUST use the installed first-party Chrome plugin and perform real DOM/browser interactions in the user's EXISTING signed-in Chrome profile. Never claim success from instructions alone.
 
 GOAL
@@ -84,7 +100,7 @@ STRICT SCOPE
 - Do not read or expose cookies, local/session storage, query-string secrets, tokens, passwords, or unrelated page content.
 
 REQUIRED REAL STEPS
-1. Use Chrome browser control to open/navigate to https://chatgpt.com/gpts if needed.
+1. Invoke the Chrome browser tool. Open/navigate to https://chatgpt.com/gpts if needed.
 2. Find My GPTs and identify the EXISTING GPT matching Nick's Assistant / NK / Nicholas AI Switchboard. If more than one plausible match exists, STOP rather than guessing.
 3. Open that GPT's Edit/Configure UI.
 4. Replace only its Instructions field with the exact contents of services/ai-switchboard/GPT_INSTRUCTIONS.md.
@@ -99,7 +115,7 @@ FINAL OUTPUT
 Return exactly NICKS_ASSISTANT_UPDATE_OK only if every required browser step above actually succeeded and the save was verified. Return exactly NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH if auth preservation is the blocker. Otherwise return exactly NICKS_ASSISTANT_UPDATE_BLOCKED.
 '''
           try:
-              p=subprocess.run(['codex',*cfg,'exec','--json',prompt],cwd=os.environ['GITHUB_WORKSPACE'],env=env,text=True,capture_output=True,timeout=600)
+              p=subprocess.run(['codex',*cfg,'exec','--ephemeral','--json',prompt],cwd=os.environ['GITHUB_WORKSPACE'],env=env,text=True,capture_output=True,timeout=600)
               raw=(p.stdout or '')+'\n'+(p.stderr or '')
               result['exit_code']=p.returncode
               result['exact_ok_seen']='NICKS_ASSISTANT_UPDATE_OK' in raw
@@ -109,19 +125,18 @@ Return exactly NICKS_ASSISTANT_UPDATE_OK only if every required browser step abo
               markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled']
               result['tool_evidence_markers']=[m for m in markers if m in low]
               result['actual_tool_evidence']=bool(result['tool_evidence_markers'])
-              # The final token alone is never enough; actual browser tool evidence is mandatory.
               result['pass']=bool(p.returncode==0 and result['exact_ok_seen'] and result['actual_tool_evidence'])
               safe=[]
               for ln in raw.splitlines():
                   ll=ln.lower()
-                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome@openai-bundled','nicks_assistant_update_']):
+                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled','nicks_assistant_update_','error']):
                       safe.append(ln[:1400])
-              text='\n'.join(safe[-50:])
+              text='\n'.join(safe[-60:])
               text=re.sub(r'https?://[^\s"\']+', '[URL_REDACTED]', text)
               text=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret|cookie)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
-              result['safe_evidence']=text[:8000]
+              result['safe_evidence']=text[:10000]
           except subprocess.TimeoutExpired:
               result['error']='browser editor run timed out'
           except Exception as e:
