@@ -1,0 +1,37 @@
+{
+  "probe": "inspect NK GPT through claimed user Chrome tab",
+  "model": "openrouter/free",
+  "pass": true,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "```\n{\"state\":\"USER_TAB_NK_DETAIL_OK\",\"matchCount\":3,\"nkCount\":1,\"url\":\"https://chatgpt.com/g/g-6a8f2b9dee108191ac6f6706ed0596e0-nk\",\"controls\":[],\"headings\":[\"Chat history\",\"Pinned\",\"Projects\",\"Chats\"]}\n```\n\nThe user's NK GPT detail page loaded at `https://chatgpt.com/g/g-6a8f2b9dee108191ac6f6706ed0596e0-nk`. No controls matched the expected button/link roles (`Edit GPT`, `Edit`, `Configure`, etc.) \u2014 they may be rendered as different roles (e.g., `menuitem`, SVG icons, or dynamic React components). The visible headings are `Chat history`, `Pinned`, `Projects`, `Chats`."
+  ],
+  "state": "USER_TAB_NK_DETAIL_OK",
+  "match_count": 3,
+  "nk_count": 1,
+  "open_tab_count": null,
+  "visible_paths": [],
+  "url_path": "/g/g-6a8f2b9dee108191ac6f6706ed0596e0-nk",
+  "controls": [],
+  "headings": [
+    "Chat history",
+    "Pinned",
+    "Projects",
+    "Chats"
+  ]
+}
