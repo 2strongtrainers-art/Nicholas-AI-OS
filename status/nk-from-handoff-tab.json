@@ -1,0 +1,31 @@
+{
+  "probe": "inspect NK GPT from preserved My GPTs handoff tab",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "```json\n{\"state\":\"HANDOFF_TAB_AMBIGUOUS\",\"matchCount\":0,\"paths\":[]}\n```\n\nNo tabs matching `/gpts/mine` were found \u2014 the tabs list returned empty. The handoff tab may not be open yet, or it navigated away from that path."
+  ],
+  "state": "HANDOFF_TAB_AMBIGUOUS",
+  "match_count": 0,
+  "nk_count": null,
+  "visible_paths": [],
+  "url_path": "",
+  "controls": [],
+  "headings": []
+}
