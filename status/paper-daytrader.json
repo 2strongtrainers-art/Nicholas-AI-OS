@@ -1,18 +1,31 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-01T19:45:53.428322+00:00",
+  "checked_at": "2026-09-01T20:00:20.416427+00:00",
   "component": "Paper Day Trader Feed",
-  "equity": 100277.337199,
-  "events": [],
-  "latest_data_at": "2026-09-01T19:44:00+00:00",
+  "equity": 100378.608042,
+  "events": [
+    {
+      "entry": 323.11459779052734,
+      "exit": 325.140015,
+      "paper_only": true,
+      "pnl": 101.27,
+      "quantity": 50,
+      "reason": "SESSION_END",
+      "side": "long",
+      "symbol": "AAPL",
+      "timestamp": "2026-09-01T19:59:00+00:00",
+      "type": "EXIT"
+    }
+  ],
+  "latest_data_at": "2026-09-01T19:59:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 1,
+  "open_positions": 0,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": 370.979188,
-  "session_complete": false,
+  "realized_pnl": 472.250031,
+  "session_complete": true,
   "session_id": "2026-09-01",
   "state": "running",
   "symbols_received": [
