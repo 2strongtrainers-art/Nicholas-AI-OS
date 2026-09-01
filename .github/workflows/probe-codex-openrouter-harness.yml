@@ -1,0 +1,84 @@
+name: Probe Codex OpenRouter Harness
+
+on:
+  push:
+    paths:
+      - ".github/workflows/probe-codex-openrouter-harness.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Run Codex through temporary OpenRouter provider
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 - "$GITHUB_WORKSPACE/status/codex-openrouter-harness.json" <<'PY'
+          import json,os,re,subprocess,sys
+          from pathlib import Path
+
+          out=Path(sys.argv[1])
+          result={"probe":"codex openrouter exact-token no-tools","model":"qwen/qwen3.8-2.4t-a95b"}
+          auth=Path.home()/'.local/share/opencode/auth.json'
+          if not auth.exists():
+              result['error']='openrouter credential source missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          try:data=json.loads(auth.read_text())
+          except Exception:
+              result['error']='openrouter credential source parse failed'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          entry=data.get('openrouter') if isinstance(data,dict) else None
+          key=entry.get('key') if isinstance(entry,dict) else None
+          if not isinstance(key,str) or not key.strip():
+              result['error']='openrouter credential missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+
+          env=os.environ.copy(); env['OPENROUTER_API_KEY']=key.strip()
+          cmd=[
+            'codex',
+            '-c','model_provider="openrouter-temp"',
+            '-c','model="qwen/qwen3.8-2.4t-a95b"',
+            '-c','model_reasoning_effort="low"',
+            '-c','disable_response_storage=true',
+            '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
+            '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
+            '-c','model_providers.openrouter-temp.env_key="OPENROUTER_API_KEY"',
+            '-c','model_providers.openrouter-temp.wire_api="responses"',
+            '-c','model_providers.openrouter-temp.requires_openai_auth=false',
+            'exec','--json','Return exactly CODEX_OPENROUTER_OK. Do not use tools.'
+          ]
+          try:
+              p=subprocess.run(cmd,cwd=os.environ.get('GITHUB_WORKSPACE') or str(Path.home()),env=env,text=True,capture_output=True,timeout=150)
+              text=(p.stdout or '')+'\n'+(p.stderr or '')
+              result['exit_code']=p.returncode
+              result['exact_token_seen']='CODEX_OPENROUTER_OK' in text
+              tail=text[-3500:]
+              tail=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',tail)
+              tail=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',tail)
+              tail=re.sub(r'(?i)((?:api[_-]?key|token|password|secret)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',tail)
+              result['diagnostic_tail']=tail
+          except subprocess.TimeoutExpired:
+              result['error']='codex openrouter timed out'
+          except Exception as e:
+              result['error']=type(e).__name__
+          out.write_text(json.dumps(result,indent=2)+'\n')
+          PY
+
+      - name: Commit probe result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/codex-openrouter-harness.json
+          git commit -m 'Record Codex OpenRouter harness probe' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
