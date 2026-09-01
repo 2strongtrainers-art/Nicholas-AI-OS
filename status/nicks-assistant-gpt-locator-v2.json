@@ -1,0 +1,15 @@
+{
+  "probe": "locate existing Nick Assistant GPT in trusted Chrome v2",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "chrome_plugin_enabled": true,
+  "exit_code": 0,
+  "node_repl_js_calls": 2,
+  "node_repl_js_completed": 0,
+  "node_repl_js_evidence": true,
+  "state": "BROWSER_NOT_READY",
+  "url_path": "",
+  "candidates": [],
+  "candidate_count": 0
+}
