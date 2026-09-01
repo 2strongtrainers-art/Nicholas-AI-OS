@@ -1,0 +1,42 @@
+name: Monitor Chrome Probe Run
+
+on:
+  push:
+    paths:
+      - ".github/workflows/monitor-chrome-probe-run.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Record Chrome probe workflow state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          gh api "repos/$REPO/actions/workflows/probe-codex-openrouter-chrome-readonly.yml/runs?per_page=5" \
+            --jq '{workflow:"probe-codex-openrouter-chrome-readonly.yml",runs:[.workflow_runs[]|{id,status,conclusion,event,head_sha,created_at,updated_at,run_attempt}]}' \
+            > status/chrome-probe-runs.json
+          cat status/chrome-probe-runs.json
+      - name: Commit monitor result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/chrome-probe-runs.json
+          git commit -m 'Record Chrome probe workflow state' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
