@@ -1,0 +1,30 @@
+{
+  "probe": "strict browser ensureReady launch",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "failed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "tool_texts": [
+    "agent.browsers.ensureReady is not a function"
+  ],
+  "agent_messages": [
+    "agent.browsers.ensureReady is not a function"
+  ],
+  "authoritative_tool_result": null,
+  "ready_state": null,
+  "state": "NO_AUTHORITATIVE_RESULT"
+}
