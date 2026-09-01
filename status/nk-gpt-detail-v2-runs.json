@@ -1,0 +1,1 @@
+{"runs":[{"conclusion":"success","created_at":"2026-09-01T01:18:35Z","event":"push","head_sha":"83ae8269adc0db7e6a411a710b10c8cfb1386b50","id":33458226183,"run_attempt":1,"status":"completed","updated_at":"2026-09-01T01:19:13Z"}],"workflow":"probe-nk-gpt-detail-v2.yml"}
