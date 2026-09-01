@@ -32,3 +32,5 @@ jobs:
             git pull --rebase origin main
           done
           exit 1
+
+# retrigger trusted Chrome readiness after editor timeout
