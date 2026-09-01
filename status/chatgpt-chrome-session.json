@@ -1,0 +1,8 @@
+{
+  "chrome_running_before": false,
+  "chrome_running_after": true,
+  "chrome_extensions_directory_present": true,
+  "openai_native_messaging_host_present": true,
+  "gpts_page_open_requested": true,
+  "secrets_read": false
+}
