@@ -1,0 +1,28 @@
+{
+  "probe": "Nick Assistant GPT locator v3 current Chrome API",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "failed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "[{'type': 'text', 'text': 'Wall time: 1.1933 seconds\\nOutput:'}, {'type': 'text', 'text': 'chrome.tabs.open is not a function'}]"
+  ],
+  "state": "NO_AUTHORITATIVE_RESULT",
+  "url_path": "",
+  "candidates": [],
+  "candidate_count": 0
+}
