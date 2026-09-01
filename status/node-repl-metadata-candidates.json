@@ -1,0 +1,29 @@
+{
+  "probe": "harmless_js_only",
+  "results": [
+    {
+      "candidate": "params_meta_object",
+      "stage": "tools/call",
+      "isError": false,
+      "text": "META_PROBE_OK"
+    },
+    {
+      "candidate": "params_meta_json_string",
+      "stage": "tools/call",
+      "isError": false,
+      "text": "META_PROBE_OK"
+    },
+    {
+      "candidate": "params_meta_direct_fields",
+      "stage": "tools/call",
+      "isError": false,
+      "text": "META_PROBE_OK"
+    },
+    {
+      "candidate": "params_camel_object",
+      "stage": "tools/call",
+      "isError": false,
+      "text": "META_PROBE_OK"
+    }
+  ]
+}
