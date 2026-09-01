@@ -1,0 +1,60 @@
+name: Ensure ChatGPT Chrome Session
+
+on:
+  push:
+    paths:
+      - ".github/workflows/ensure-chatgpt-chrome-session.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ensure:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Launch existing Chrome profile to GPTs page
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          BEFORE=0
+          pgrep -x "Google Chrome" >/dev/null 2>&1 && BEFORE=1
+          open -a "Google Chrome" "https://chatgpt.com/gpts"
+          sleep 8
+          AFTER=0
+          pgrep -x "Google Chrome" >/dev/null 2>&1 && AFTER=1
+          EXT=0
+          test -d "$HOME/Library/Application Support/Google/Chrome/Default/Extensions" && EXT=1
+          HOST=0
+          test -f "$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.openai.codexextension.json" && HOST=1
+          python3 - "$BEFORE" "$AFTER" "$EXT" "$HOST" <<'PY'
+          import json,sys
+          before,after,ext,host=map(int,sys.argv[1:])
+          data={
+            "chrome_running_before":bool(before),
+            "chrome_running_after":bool(after),
+            "chrome_extensions_directory_present":bool(ext),
+            "openai_native_messaging_host_present":bool(host),
+            "gpts_page_open_requested":True,
+            "secrets_read":False
+          }
+          open('status/chatgpt-chrome-session.json','w').write(json.dumps(data,indent=2)+'\n')
+          PY
+
+      - name: Commit non-secret Chrome state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/chatgpt-chrome-session.json
+          git commit -m 'Record ChatGPT Chrome session state' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
