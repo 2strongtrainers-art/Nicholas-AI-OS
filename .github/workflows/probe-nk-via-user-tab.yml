@@ -1,0 +1,43 @@
+name: Probe NK Via User Tab
+
+on:
+  push:
+    paths:
+      - '.github/workflows/probe-nk-via-user-tab.yml'
+      - 'scripts/probe_nk_via_user_tab.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - name: Open My GPTs in user Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          open -a "Google Chrome" "https://chatgpt.com/gpts/mine"
+          sleep 5
+      - name: Claim user tab and inspect NK
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 "$GITHUB_WORKSPACE/scripts/probe_nk_via_user_tab.py"
+      - name: Commit user-tab inspection status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nk-via-user-tab.json
+          git commit -m 'Record NK user-tab inspection' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
