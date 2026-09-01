@@ -30,6 +30,14 @@ jobs:
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/tool-routing.ts"
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/atlas.ts"
 
+      - name: Visible TypeScript check
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/services/ai-switchboard"
+          npm install --no-package-lock --no-audit --no-fund
+          npm run typecheck
+
       - name: Prepare checkout-root deploy wrapper without changing secrets
         shell: bash
         run: |
@@ -106,7 +114,6 @@ jobs:
           assert {"AI Tools", "Design & Creative", "Education & Learning", "Gaming"}.issubset(sources), sources
           print("DIGITAL_ATLAS=PASS")
           print("ATLAS_RESOURCE_COUNT=1800")
-          print("ATLAS_URL=" + str(sys.argv[1]))
           PY
 
           curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" \
@@ -164,7 +171,7 @@ jobs:
           PY
 
           git config user.name "github-actions[bot]"
-          git config user.email "4189828+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add status/ai-switchboard-deployment.json
           git commit -m "AI switchboard deployment: verified" || exit 0
           git pull --rebase origin main
