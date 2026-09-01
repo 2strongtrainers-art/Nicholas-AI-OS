@@ -26,7 +26,7 @@ jobs:
           from pathlib import Path
 
           out=Path(sys.argv[1])
-          model='openai/gpt-oss-120b:free'
+          model='openrouter/free'
           result={"probe":"codex openrouter chrome read-only","model":model,"max_output_tokens":2048,"apps_disabled_for_probe":True,"expected":"CHROME_HARNESS_OK"}
           pl=subprocess.run(['codex','plugin','list'],text=True,capture_output=True)
           pltext=(pl.stdout or '')+'\n'+(pl.stderr or '')
@@ -48,8 +48,8 @@ jobs:
           cfg=[
             '-c','model_provider="openrouter-temp"',
             '-c',f'model="{model}"',
-            '-c','model_reasoning_effort="low"',
-            '-c','model_context_window=131072',
+            '-c','model_reasoning_effort="medium"',
+            '-c','model_context_window=200000',
             '-c','model_max_output_tokens=2048',
             '-c','service_tier="auto"',
             '-c','disable_response_storage=true',
@@ -61,8 +61,6 @@ jobs:
             '-c','model_providers.openrouter-temp.requires_openai_auth=false',
           ]
 
-          # Disable unrelated user MCP servers only for this invocation. Keep the trusted
-          # Node REPL browser service enabled. No persistent config is modified.
           try:
               ccfg=tomllib.loads((Path.home()/'.codex/config.toml').read_text())
               names=sorted((ccfg.get('mcp_servers') or {}).keys())
@@ -75,14 +73,14 @@ jobs:
                   disabled.append(name)
           result['unrelated_mcp_servers_disabled_count']=len(disabled)
 
-          prompt='''You MUST use the installed first-party Chrome browser tool now. This is a READ-ONLY tool-use verification, not a reasoning question. Invoke the Chrome/browser tool and list current tabs only. Do not navigate, click, type, submit, or modify anything. Do not read page body content. Inspect only safe tab metadata sufficient to determine whether a tab origin is https://chatgpt.com. If and only if the browser tool actually succeeds and at least one current tab is on chatgpt.com, return exactly CHROME_HARNESS_OK. If the browser tool actually succeeds but no chatgpt.com tab exists, return exactly CHROME_HARNESS_NO_CHATGPT. If the browser tool cannot be invoked, return exactly CHROME_HARNESS_BLOCKED. You are not allowed to answer before attempting the browser tool. Never reveal query strings, cookies, tokens, storage, passwords, or unrelated personal data.'''
+          prompt='''MANDATORY TOOL CALL: Before producing any answer, you must invoke the installed first-party Chrome/browser tool. This is a READ-ONLY verification. Use the browser tool to enumerate current tabs only. Do not navigate, click, type, submit, or modify anything. Do not inspect page body content. Inspect only safe tab metadata sufficient to determine whether any tab origin is https://chatgpt.com. After and only after a real browser tool call returns: if a chatgpt.com tab exists, return exactly CHROME_HARNESS_OK; if the tool worked but no chatgpt.com tab exists, return exactly CHROME_HARNESS_NO_CHATGPT; if the browser tool call itself fails, return exactly CHROME_HARNESS_BLOCKED. Never reveal query strings, cookies, tokens, storage, passwords, or unrelated personal data. A response without first attempting the browser tool is invalid.'''
           try:
               p=subprocess.run(['codex',*cfg,'exec','--ephemeral','--json',prompt],cwd=os.environ.get('GITHUB_WORKSPACE') or str(Path.home()),env=env,text=True,capture_output=True,timeout=240)
               raw=(p.stdout or '')+'\n'+(p.stderr or '')
               result['exit_code']=p.returncode
               result['exact_ok_seen']='CHROME_HARNESS_OK' in raw
               low=raw.lower()
-              markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled']
+              markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled','mcp_tool_call']
               seen=[m for m in markers if m in low]
               result['tool_evidence_markers']=seen
               result['actual_tool_evidence']=bool(seen)
@@ -90,14 +88,14 @@ jobs:
               safe=[]
               for ln in raw.splitlines():
                   ll=ln.lower()
-                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled','chrome_harness_','error']):
+                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled','mcp_tool_call','chrome_harness_','error']):
                       safe.append(ln[:1400])
-              text='\n'.join(safe[-40:])
+              text='\n'.join(safe[-50:])
               text=re.sub(r'https?://[^\s"\']+', '[URL_REDACTED]', text)
               text=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret|cookie)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
-              result['safe_evidence']=text[:7000]
+              result['safe_evidence']=text[:8000]
           except subprocess.TimeoutExpired:
               result['error']='codex chrome probe timed out'
           except Exception as e:
