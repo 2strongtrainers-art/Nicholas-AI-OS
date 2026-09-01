@@ -1,0 +1,39 @@
+name: Monitor Nick Assistant Locator
+
+on:
+  workflow_run:
+    workflows: ["Probe Nick Assistant GPT Locator"]
+    types: [completed]
+  push:
+    paths:
+      - '.github/workflows/monitor-nick-assistant-locator.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Record locator workflow state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/probe-nicks-assistant-gpt-locator.yml/runs?per_page=5" \
+            --jq '{workflow:"probe-nicks-assistant-gpt-locator.yml",runs:[.workflow_runs[]|{id,status,conclusion,event,head_sha,created_at,updated_at,run_attempt}]}' \
+            > status/nicks-assistant-locator-runs.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nicks-assistant-locator-runs.json
+          git commit -m 'Record Nick Assistant locator workflow state' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
