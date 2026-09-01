@@ -1,0 +1,28 @@
+{
+  "probe": "strict node_repl liveness",
+  "model": "openrouter/free",
+  "pass": true,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "tool_texts": [
+    "NODE_REPL_OK"
+  ],
+  "agent_messages": [
+    "NODE_REPL_OK"
+  ],
+  "state": "NODE_REPL_OK"
+}
