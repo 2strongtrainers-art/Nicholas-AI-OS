@@ -87,6 +87,10 @@ function sourceForBaseIndex(index: number): string {
   return "Education & Learning";
 }
 
+function assertCount(actual: number, expected: number, label: string): void {
+  if (actual !== expected) throw new Error(`${label} count mismatch: expected ${expected}, got ${actual}`);
+}
+
 function makeTool(
   id: string,
   name: string,
@@ -128,9 +132,8 @@ async function loadAtlas(): Promise<AtlasTool[]> {
     for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
     const body = new Blob([bytes.buffer as ArrayBuffer]).stream().pipeThrough(new DecompressionStream("gzip"));
     const compact = JSON.parse(await new Response(body).text()) as CompactRegistry;
-    if (!Array.isArray(compact.tools) || compact.tools.length !== 1414) {
-      throw new Error(`Atlas base count mismatch: ${compact.tools?.length || 0}`);
-    }
+    if (!Array.isArray(compact.tools)) throw new Error("Atlas base catalog is invalid");
+    assertCount(compact.tools.length, 1414, "Atlas base");
 
     const tools: AtlasTool[] = [];
     compact.tools.forEach((record, index) => {
@@ -151,7 +154,7 @@ async function loadAtlas(): Promise<AtlasTool[]> {
       );
       if (tool) tools.push(tool);
     });
-    if (tools.length !== 1412) throw new Error(`Atlas filtered base count mismatch: ${tools.length}`);
+    assertCount(tools.length, 1412, "Atlas filtered base");
 
     for (const supplement of GAMING) {
       for (const record of supplement.records || []) {
@@ -169,7 +172,7 @@ async function loadAtlas(): Promise<AtlasTool[]> {
         if (tool) tools.push(tool);
       }
     }
-    if (tools.length !== 1800) throw new Error(`Atlas total count mismatch: ${tools.length}`);
+    assertCount(tools.length, 1800, "Atlas total");
     return tools;
   })();
   return atlasPromise;
