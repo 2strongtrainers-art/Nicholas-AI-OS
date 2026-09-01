@@ -24,9 +24,9 @@ jobs:
 
           out=Path(sys.argv[1])
           instructions=Path(os.environ['GITHUB_WORKSPACE'])/'services/ai-switchboard/GPT_INSTRUCTIONS.md'
-          model='openai/gpt-oss-120b:free'
+          model='openrouter/free'
           result={
-            'probe':'update existing Nicks Assistant GPT via supported Chrome harness',
+            'probe':'update existing Nicks Assistant GPT via trusted Chrome harness',
             'model':model,
             'max_output_tokens':4096,
             'apps_disabled_for_run':True,
@@ -44,6 +44,12 @@ jobs:
           if not result['chrome_plugin_enabled']:
               result['error']='chrome plugin not enabled'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
 
+          browser_clients=sorted(Path.home().glob('.codex/plugins/cache/openai-bundled/chrome/*/scripts/browser-client.mjs'))
+          if not browser_clients:
+              result['error']='browser-client.mjs missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          browser_client=browser_clients[-1]
+          result['browser_client_present']=True
+
           auth=Path.home()/'.local/share/opencode/auth.json'
           try:data=json.loads(auth.read_text())
           except Exception:
@@ -58,7 +64,7 @@ jobs:
             '-c','model_provider="openrouter-temp"',
             '-c',f'model="{model}"',
             '-c','model_reasoning_effort="medium"',
-            '-c','model_context_window=131072',
+            '-c','model_context_window=200000',
             '-c','model_max_output_tokens=4096',
             '-c','service_tier="auto"',
             '-c','disable_response_storage=true',
@@ -81,39 +87,50 @@ jobs:
                   disabled.append(name)
           result['unrelated_mcp_servers_disabled_count']=len(disabled)
 
-          prompt=r'''You are completing one narrowly authorized browser task for Nicholas-AI-OS. You MUST use the installed first-party Chrome plugin and perform real DOM/browser interactions in the user's EXISTING signed-in Chrome profile. Never claim success from instructions alone.
+          setup_js=(
+            'const { setupBrowserRuntime } = await import('+json.dumps(str(browser_client))+');'
+            ' globalThis.__nicholasAgent = await setupBrowserRuntime();'
+            ' globalThis.__nicholasChrome = await globalThis.__nicholasAgent.browsers.get("chrome");'
+            ' nodeRepl.write(await globalThis.__nicholasChrome.documentation());'
+          )
+          prompt=f'''You are completing one narrowly authorized browser task for Nicholas-AI-OS. Browser access is ONLY through MCP server `node_repl`, tool `js`. Do not call list_mcp_resources and do not guess servers named browser or chrome.
+
+FIRST REQUIRED TOOL CALL
+Call node_repl/js with this exact JavaScript as `code`:
+{setup_js}
+Use title `Initialize trusted Chrome control` and timeout_ms 45000. The returned text is the authoritative Chrome interaction documentation. Follow it for every later browser interaction, also through node_repl/js.
 
 GOAL
-Update the existing custom GPT named Nick's Assistant / NK / Nicholas AI Switchboard to the repository's current v1.2 Switchboard configuration.
+Update the EXISTING custom GPT named Nick's Assistant / NK / Nicholas AI Switchboard to the repository's current v1.2 Switchboard configuration.
 
 AUTHORITATIVE LOCAL INPUT
-Read the complete file services/ai-switchboard/GPT_INSTRUCTIONS.md from the current repository. Use its text EXACTLY as the GPT Instructions field content.
+Read the complete local file services/ai-switchboard/GPT_INSTRUCTIONS.md and use its text EXACTLY as the GPT Instructions field content.
 Schema URL: https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0
 
 STRICT SCOPE
-- Existing GPT only. Do NOT create a duplicate GPT.
-- Do NOT rename it, change its icon, conversation starters, visibility, sharing, ownership, or unrelated settings.
+- Existing GPT only. Do NOT create a duplicate.
+- Do NOT rename it or change icon, conversation starters, visibility, sharing, ownership, or unrelated settings.
 - Use Actions, not Apps.
-- Preserve the EXISTING Action authentication exactly. Do NOT reveal, copy, inspect, rotate, delete, replace, or re-enter any API key/Bearer secret.
-- If refreshing/importing the schema would clear/reset authentication, STOP before saving and return NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH.
-- If a login/re-authentication, CAPTCHA, macOS security prompt, destructive confirmation, or ambiguous account/GPT selection appears, STOP and return NICKS_ASSISTANT_UPDATE_BLOCKED.
-- Do not read or expose cookies, local/session storage, query-string secrets, tokens, passwords, or unrelated page content.
+- Preserve the EXISTING Action authentication exactly. Do NOT reveal, copy, inspect, rotate, delete, replace, or re-enter any API key/Bearer value.
+- If schema refresh/import would clear/reset authentication, STOP before saving and return NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH.
+- If login/re-authentication, CAPTCHA, macOS security prompt, destructive confirmation, or ambiguous GPT/account selection appears, STOP and return NICKS_ASSISTANT_UPDATE_BLOCKED.
+- Never inspect or expose cookies, local/session storage, query-string secrets, tokens, passwords, or unrelated content.
 
-REQUIRED REAL STEPS
-1. Invoke the Chrome browser tool. Open/navigate to https://chatgpt.com/gpts if needed.
-2. Find My GPTs and identify the EXISTING GPT matching Nick's Assistant / NK / Nicholas AI Switchboard. If more than one plausible match exists, STOP rather than guessing.
-3. Open that GPT's Edit/Configure UI.
-4. Replace only its Instructions field with the exact contents of services/ai-switchboard/GPT_INSTRUCTIONS.md.
-5. Ensure the GPT uses Actions rather than Apps. Do not change unrelated capabilities.
-6. Open the existing Nicholas AI Switchboard Action configuration and refresh/import the OpenAPI schema from https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0 while preserving existing authentication.
+REQUIRED REAL BROWSER STEPS
+1. Through the initialized Chrome object, open/navigate to https://chatgpt.com/gpts if needed.
+2. Find My GPTs and identify exactly one EXISTING GPT matching Nick's Assistant / NK / Nicholas AI Switchboard. Stop if ambiguous.
+3. Open its Edit/Configure UI.
+4. Replace only the Instructions field with the exact local file contents.
+5. Ensure the GPT uses Actions rather than Apps without changing unrelated capabilities.
+6. Open the existing Nicholas AI Switchboard Action and refresh/import the OpenAPI schema URL while preserving existing authentication.
 7. Verify the UI exposes all six operation IDs: switchboardHealth, switchboardModels, switchboardAsk, routeNicholasTool, createHermesJob, getHermesJob.
 8. Verify authentication remains configured without revealing its value.
-9. Click Update/Save exactly once to persist these scoped changes.
-10. Re-read the editor state after save and verify the existing GPT remains the same GPT and the six operations remain present.
+9. Click Update/Save exactly once.
+10. Re-read the editor state after save and verify the same GPT remains selected and all six operations remain present.
 
 FINAL OUTPUT
-Return exactly NICKS_ASSISTANT_UPDATE_OK only if every required browser step above actually succeeded and the save was verified. Return exactly NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH if auth preservation is the blocker. Otherwise return exactly NICKS_ASSISTANT_UPDATE_BLOCKED.
-'''
+Return exactly NICKS_ASSISTANT_UPDATE_OK only after every real browser step and post-save verification succeeds. Return exactly NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH for the auth-preservation blocker. Otherwise return exactly NICKS_ASSISTANT_UPDATE_BLOCKED. Do not claim success without actual node_repl/js browser tool calls.'''
+
           try:
               p=subprocess.run(['codex',*cfg,'exec','--ephemeral','--json',prompt],cwd=os.environ['GITHUB_WORKSPACE'],env=env,text=True,capture_output=True,timeout=600)
               raw=(p.stdout or '')+'\n'+(p.stderr or '')
@@ -121,22 +138,20 @@ Return exactly NICKS_ASSISTANT_UPDATE_OK only if every required browser step abo
               result['exact_ok_seen']='NICKS_ASSISTANT_UPDATE_OK' in raw
               result['blocked_auth_seen']='NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH' in raw
               result['blocked_seen']='NICKS_ASSISTANT_UPDATE_BLOCKED' in raw and not result['exact_ok_seen']
-              low=raw.lower()
-              markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled']
-              result['tool_evidence_markers']=[m for m in markers if m in low]
-              result['actual_tool_evidence']=bool(result['tool_evidence_markers'])
-              result['pass']=bool(p.returncode==0 and result['exact_ok_seen'] and result['actual_tool_evidence'])
+              node_repl_js=bool(re.search(r'"server"\s*:\s*"node_repl"[^\n]{0,800}"tool"\s*:\s*"js"',raw,re.I))
+              result['node_repl_js_evidence']=node_repl_js
+              result['pass']=bool(p.returncode==0 and result['exact_ok_seen'] and node_repl_js)
               safe=[]
               for ln in raw.splitlines():
                   ll=ln.lower()
-                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled','nicks_assistant_update_','error']):
-                      safe.append(ln[:1400])
-              text='\n'.join(safe[-60:])
+                  if ('"server":"node_repl"' in ll and '"tool":"js"' in ll) or 'nicks_assistant_update_' in ll or 'error' in ll:
+                      safe.append(ln[:1800])
+              text='\n'.join(safe[-70:]).replace(str(Path.home()),'$HOME')
               text=re.sub(r'https?://[^\s"\']+', '[URL_REDACTED]', text)
               text=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret|cookie)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
-              result['safe_evidence']=text[:10000]
+              result['safe_evidence']=text[:12000]
           except subprocess.TimeoutExpired:
               result['error']='browser editor run timed out'
           except Exception as e:
