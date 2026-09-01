@@ -1,0 +1,14 @@
+{
+  "probe": "update existing Nicks Assistant GPT via trusted Chrome harness",
+  "model": "openrouter/free",
+  "max_output_tokens": 4096,
+  "apps_disabled_for_run": true,
+  "schema_url": "https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0",
+  "bearer_rotated": false,
+  "pass": false,
+  "secrets_read": false,
+  "chrome_plugin_enabled": true,
+  "browser_client_present": true,
+  "unrelated_mcp_servers_disabled_count": 2,
+  "error": "browser editor run timed out"
+}
