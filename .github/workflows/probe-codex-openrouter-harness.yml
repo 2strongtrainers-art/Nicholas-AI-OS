@@ -26,7 +26,7 @@ jobs:
           from pathlib import Path
 
           out=Path(sys.argv[1])
-          result={"probe":"codex openrouter exact-token no-tools","model":"qwen/qwen3.8-2.4t-a95b"}
+          result={"probe":"codex openrouter exact-token no-tools","model":"openrouter/free","max_output_tokens":1024}
           auth=Path.home()/'.local/share/opencode/auth.json'
           if not auth.exists():
               result['error']='openrouter credential source missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
@@ -42,8 +42,10 @@ jobs:
           cmd=[
             'codex',
             '-c','model_provider="openrouter-temp"',
-            '-c','model="qwen/qwen3.8-2.4t-a95b"',
+            '-c','model="openrouter/free"',
             '-c','model_reasoning_effort="low"',
+            '-c','model_max_output_tokens=1024',
+            '-c','service_tier="auto"',
             '-c','disable_response_storage=true',
             '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
             '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
