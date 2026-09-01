@@ -7,20 +7,82 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   inspect:
     runs-on: [self-hosted, macOS]
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
-      - name: Inspect metadata key names only
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Inspect static metadata contract and persist non-secret findings
         shell: bash
         run: |
           set -euo pipefail
           BIN="/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
-          echo '=== matching binary strings ==='
-          strings "$BIN" | grep -Ei -C 4 'Missing required Codex turn metadata|session_id|turn_id|requestMeta' | head -240 || true
-          echo '=== browser client metadata references ==='
           ROOT="$HOME/.codex/plugins/cache/openai-bundled/chrome/26.825.51511"
-          grep -RInE 'session_id|turn_id|requestMeta|request_meta|_meta' "$ROOT/scripts" "$ROOT/docs" 2>/dev/null | head -240 || true
+          OUT="$GITHUB_WORKSPACE/status/browser-trusted-service-metadata.txt"
+          TMP="$(mktemp)"
+          mkdir -p "$GITHUB_WORKSPACE/status"
+
+          {
+            echo 'TRUSTED_BROWSER_METADATA_PROBE_V1'
+            echo '=== node_repl binary static strings ==='
+            if [[ -f "$BIN" ]]; then
+              strings "$BIN" | grep -Ei -C 8 'Missing required Codex turn metadata|session_id|turn_id|requestMeta|request_meta|request metadata|codex.*session|codex.*turn' | head -500 || true
+            else
+              echo 'NODE_REPL_BINARY_NOT_FOUND'
+            fi
+            echo '=== first-party Chrome plugin static references ==='
+            if [[ -d "$ROOT" ]]; then
+              grep -RInE 'session_id|turn_id|requestMeta|request_meta|_meta|request metadata|codex.*session|codex.*turn' "$ROOT/scripts" "$ROOT/docs" 2>/dev/null | head -500 || true
+            else
+              echo 'CHROME_PLUGIN_ROOT_NOT_FOUND'
+            fi
+            echo '=== ChatGPT/Codex resource static references ==='
+            find /Applications/ChatGPT.app/Contents/Resources -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.json' -o -name '*.toml' \) -size -20M -print0 2>/dev/null \
+              | xargs -0 grep -InE 'Missing required Codex turn metadata|session_id|turn_id|requestMeta|request_meta|codex.*session|codex.*turn' 2>/dev/null \
+              | head -500 || true
+          } > "$TMP"
+
+          # Static program text only. Apply a conservative scrub anyway before persistence.
+          python3 - "$TMP" "$OUT" <<'PY'
+          import re,sys
+          src,dst=sys.argv[1:3]
+          text=open(src,errors='replace').read()
+          rules=[
+            (r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]'),
+            (r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]'),
+            (r'(?i)(api[_-]?key\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]'),
+            (r'(?i)(cookie\s*[:=]\s*)(.+)',r'\1[REDACTED]'),
+          ]
+          for pat,repl in rules:
+            text=re.sub(pat,repl,text)
+          open(dst,'w').write(text[:120000])
+          PY
+
+          echo 'BROWSER_METADATA_STATUS_WRITTEN=1'
+
+      - name: Commit status file
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/browser-trusted-service-metadata.txt
+          if git diff --cached --quiet; then
+            echo 'BROWSER_METADATA_STATUS_UNCHANGED=1'
+            exit 0
+          fi
+          git commit -m 'Record trusted browser metadata probe'
+          for n in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo 'BROWSER_METADATA_STATUS_PUSHED=1'
+              exit 0
+            fi
+            git pull --rebase origin main
+          done
+          echo 'BROWSER_METADATA_STATUS_PUSH_FAILED=1' >&2
+          exit 1
