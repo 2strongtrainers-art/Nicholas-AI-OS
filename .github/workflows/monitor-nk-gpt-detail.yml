@@ -1,0 +1,39 @@
+name: Monitor NK GPT Detail
+
+on:
+  workflow_run:
+    workflows: ["Probe NK GPT Detail"]
+    types: [completed]
+  push:
+    paths:
+      - '.github/workflows/monitor-nk-gpt-detail.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Record NK detail workflow state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/probe-nk-gpt-detail.yml/runs?per_page=5" \
+            --jq '{workflow:"probe-nk-gpt-detail.yml",runs:[.workflow_runs[]|{id,status,conclusion,event,head_sha,created_at,updated_at,run_attempt}]}' \
+            > status/nk-gpt-detail-runs.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nk-gpt-detail-runs.json
+          git commit -m 'Record NK GPT detail workflow state' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
