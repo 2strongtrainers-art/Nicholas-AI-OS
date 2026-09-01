@@ -1,0 +1,28 @@
+{
+  "probe": "strict current browser get chrome API",
+  "model": "openrouter/free",
+  "pass": true,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "tool_texts": [
+    "BROWSER_GET_OK"
+  ],
+  "agent_messages": [
+    "BROWSER_GET_OK"
+  ],
+  "state": "BROWSER_GET_OK"
+}
