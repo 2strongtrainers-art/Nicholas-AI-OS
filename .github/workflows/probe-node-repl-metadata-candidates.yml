@@ -1,0 +1,97 @@
+name: Probe Node REPL Metadata Candidates
+
+on:
+  push:
+    paths:
+      - ".github/workflows/probe-node-repl-metadata-candidates.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Probe harmless metadata shapes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 - "$GITHUB_WORKSPACE/status/node-repl-metadata-candidates.json" <<'PY'
+          import json,os,select,subprocess,sys,time,tomllib,uuid
+          from pathlib import Path
+
+          out_path=sys.argv[1]
+          cfg=tomllib.loads((Path.home()/'.codex/config.toml').read_text())
+          srv=cfg['mcp_servers']['node_repl']
+
+          sid=str(uuid.uuid4()); tid=str(uuid.uuid4())
+          payload={'session_id':sid,'turn_id':tid}
+          candidates=[
+            ('params_meta_object', {'_meta':{'x-codex-turn-metadata':payload}}),
+            ('params_meta_json_string', {'_meta':{'x-codex-turn-metadata':json.dumps(payload,separators=(',',':'))}}),
+            ('params_meta_direct_fields', {'_meta':payload}),
+            ('params_camel_object', {'_meta':{'x-codex-turn-metadata':{'sessionId':sid,'turnId':tid}}}),
+          ]
+
+          def one(extra):
+            env=os.environ.copy(); env.update({str(k):str(v) for k,v in srv.get('env',{}).items()})
+            p=subprocess.Popen([srv['command'],*srv.get('args',[])],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1,env=env)
+            next_id=1
+            def send(obj): p.stdin.write(json.dumps(obj,separators=(',',':'))+'\n'); p.stdin.flush()
+            def recv(target,timeout=25):
+              end=time.time()+timeout
+              while time.time()<end:
+                r,_,_=select.select([p.stdout],[],[],max(0,end-time.time()))
+                if not r: break
+                line=p.stdout.readline()
+                if not line: break
+                try:o=json.loads(line)
+                except Exception: continue
+                if o.get('id')==target:return o
+              return {'error':{'message':'timeout'}}
+            def req(method,params):
+              nonlocal next_id
+              i=next_id;next_id+=1;send({'jsonrpc':'2.0','id':i,'method':method,'params':params});return recv(i)
+            try:
+              init=req('initialize',{'protocolVersion':'2025-06-18','capabilities':{},'clientInfo':{'name':'nicholas-metadata-probe','version':'1.0'}})
+              if 'error' in init:return {'stage':'initialize','error':str(init['error'])[:1500]}
+              send({'jsonrpc':'2.0','method':'notifications/initialized','params':{}})
+              params={'name':'js','arguments':{'code':'nodeRepl.write("META_PROBE_OK")','title':'Metadata format probe','timeout_ms':5000}}
+              params.update(extra)
+              res=req('tools/call',params)
+              if 'error' in res:return {'stage':'tools/call','rpc_error':str(res['error'])[:2000]}
+              result=res.get('result') or {}
+              texts=[str(c.get('text') or '') for c in result.get('content') or [] if isinstance(c,dict) and c.get('type')=='text']
+              return {'stage':'tools/call','isError':bool(result.get('isError')),'text':'\n'.join(texts)[:2500]}
+            finally:
+              try:p.terminate();p.wait(timeout=2)
+              except Exception:
+                try:p.kill()
+                except Exception:pass
+
+          results=[]
+          for name,extra in candidates:
+            r=one(extra)
+            # Never persist generated IDs themselves; only shape/result.
+            results.append({'candidate':name,**r})
+          Path(out_path).write_text(json.dumps({'probe':'harmless_js_only','results':results},indent=2)+'\n')
+          PY
+
+      - name: Commit probe result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/node-repl-metadata-candidates.json
+          git commit -m 'Record trusted browser metadata candidate results' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
