@@ -1,0 +1,28 @@
+{
+  "probe": "strict browser client setup",
+  "model": "openrouter/free",
+  "pass": true,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "tool_texts": [
+    "BROWSER_SETUP_OK"
+  ],
+  "agent_messages": [
+    "BROWSER_SETUP_OK"
+  ],
+  "state": "BROWSER_SETUP_OK"
+}
