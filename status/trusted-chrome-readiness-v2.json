@@ -1,0 +1,13 @@
+{
+  "probe": "strict trusted Chrome readiness v2",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "chrome_plugin_enabled": true,
+  "exit_code": 0,
+  "node_repl_js_calls": 2,
+  "node_repl_js_completed": 0,
+  "authoritative_tool_result": null,
+  "tool_errors": [],
+  "state": "NO_AUTHORITATIVE_RESULT"
+}
