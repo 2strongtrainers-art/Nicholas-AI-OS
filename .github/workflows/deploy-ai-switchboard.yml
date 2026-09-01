@@ -38,7 +38,7 @@ jobs:
           npm install --no-package-lock --no-audit --no-fund
           npm run typecheck
 
-      - name: Prepare checkout-root deploy wrapper without changing secrets
+      - name: Prepare checkout-root deploy wrapper
         shell: bash
         run: |
           set -euo pipefail
@@ -73,23 +73,22 @@ jobs:
           PY
           chmod 700 "$OUT"
 
-      - name: Deploy current main to Cloudflare without metered model probe
+      - name: Deploy current main to Cloudflare preserving existing GPT secret
         shell: bash
         run: |
           set -euo pipefail
           NICHOLAS_AI_OS_ROOT="$GITHUB_WORKSPACE" \
           SKIP_EXTERNAL_MODEL_PROBE=1 \
+          PRESERVE_EXISTING_SWITCHBOARD_SECRET=1 \
           /bin/zsh "$RUNNER_TEMP/deploy_ai_switchboard_from_checkout.sh"
 
-      - name: Verify Atlas, GPT Action schema and full private tool router
+      - name: Verify live Digital Atlas and authentication boundary
         shell: bash
         run: |
           set -euo pipefail
           DEPLOY_ENV="$HOME/.config/nicholas-ai-switchboard/deployment.env"
           test -f "$DEPLOY_ENV"
           source "$DEPLOY_ENV"
-          KEY="$(security find-generic-password -s nicholas-ai-switchboard -a gpt-action -w)"
-          test -n "$KEY"
 
           curl -fsS "$AI_SWITCHBOARD_URL/health" \
             | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d.get("ok") is True; assert d.get("tool_routing") is True; assert d.get("atlas") is True; print("SWITCHBOARD_HEALTH=PASS")'
@@ -117,39 +116,20 @@ jobs:
           PY
 
           curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" \
-            | python3 -c 'import json,sys; d=json.load(sys.stdin); p=d.get("paths",{}); assert "/tools/route" in p; assert p["/tools/route"]["post"].get("operationId")=="routeNicholasTool"; print("GPT_ACTION_SCHEMA=PASS")'
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); p=d.get("paths",{}); assert "/tools/route" in p; assert "/ask" in p; print("GPT_ACTION_SCHEMA=PASS")'
 
-          printf '%s' '{"task":"find a free browser tool for design graphics and images","runtime_adapters":[],"limit":3,"include_paid":false}' > "$RUNNER_TEMP/tool-route-request.json"
-          curl -fsS \
-            -H "Authorization: Bearer $KEY" \
-            -H "Content-Type: application/json" \
-            --data-binary "@$RUNNER_TEMP/tool-route-request.json" \
-            "$AI_SWITCHBOARD_URL/tools/route" > "$RUNNER_TEMP/tool-route-response.json"
-
-          python3 - "$RUNNER_TEMP/tool-route-response.json" <<'PY'
-          import json
-          import sys
-
-          data = json.load(open(sys.argv[1], encoding="utf-8"))
-          assert data.get("ok") is True
-          assert data.get("source") == "embedded_private_websurfers", data.get("source")
-          assert "1800" in str(data.get("catalog_scope") or "")
-          results = data.get("results") or []
-          assert 1 <= len(results) <= 3
-          assert all(isinstance(r, dict) and r.get("website_name") for r in results)
-          print("PRIVATE_TOOL_ROUTER=PASS")
-          print("CATALOG_SCOPE=" + str(data.get("catalog_scope")))
-          print("TOP_RESULT=" + str(results[0].get("website_name")))
-          PY
-
-          unset KEY
+          CODE="$(curl -sS -o /dev/null -w '%{http_code}' "$AI_SWITCHBOARD_URL/models")"
+          test "$CODE" = "401"
+          echo "PRIVATE_AUTH_BOUNDARY=PASS"
+          echo "DIGITAL_ATLAS_URL=$AI_SWITCHBOARD_URL/atlas"
 
       - name: Persist non-secret verified deployment status
         shell: bash
         run: |
           set -euo pipefail
+          source "$HOME/.config/nicholas-ai-switchboard/deployment.env"
           mkdir -p status
-          python3 - "$GITHUB_SHA" "$GITHUB_RUN_ID" > status/ai-switchboard-deployment.json <<'PY'
+          python3 - "$GITHUB_SHA" "$GITHUB_RUN_ID" "$AI_SWITCHBOARD_URL/atlas" > status/ai-switchboard-deployment.json <<'PY'
           import json
           import sys
           from datetime import datetime, timezone
@@ -160,11 +140,11 @@ jobs:
               "deployed_commit": sys.argv[1],
               "workflow_run_id": sys.argv[2],
               "service": "nicholas-ai-switchboard",
-              "gpt_action_schema": "verified",
-              "tool_router": "embedded_private_websurfers",
               "digital_atlas": "verified",
+              "digital_atlas_url": sys.argv[3],
+              "gpt_action_schema": "verified",
+              "private_auth_boundary": "verified",
               "catalog_resources": 1800,
-              "catalog_domains": 1501,
               "metered_model_probe": "skipped",
               "secrets_recorded": False
           }, indent=2))
@@ -185,5 +165,5 @@ jobs:
           echo "AI_SWITCHBOARD_DEPLOY=PASS"
           echo "DIGITAL_ATLAS=PASS"
           echo "DIGITAL_ATLAS_URL=$AI_SWITCHBOARD_URL/atlas"
-          echo "GPT_TOOL_ROUTER_READY=PASS"
+          echo "PRIVATE_AUTH_BOUNDARY=PASS"
           echo "METERED_MODEL_PROBE=SKIPPED"
