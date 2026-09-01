@@ -1,0 +1,37 @@
+name: Probe Chrome Documentation Tabs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/probe-chrome-documentation-tabs.yml'
+      - 'scripts/probe_chrome_documentation_tabs.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v5
+      - name: Inspect Chrome tab navigation documentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 "$GITHUB_WORKSPACE/scripts/probe_chrome_documentation_tabs.py"
+      - name: Commit documentation status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/chrome-documentation-tabs.json
+          git commit -m 'Record Chrome tab navigation documentation' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
