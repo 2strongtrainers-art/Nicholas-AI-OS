@@ -12,7 +12,7 @@ permissions:
 jobs:
   ensure:
     runs-on: [self-hosted, macOS]
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v5
 
@@ -45,14 +45,18 @@ jobs:
           open('status/chatgpt-chrome-session.json','w').write(json.dumps(data,indent=2)+'\n')
           PY
 
-      - name: Commit non-secret Chrome state
+      - name: Probe trusted Chrome bridge after launch
+        shell: bash
+        run: python3 scripts/probe_codex_chrome_readonly.py
+
+      - name: Commit non-secret Chrome state and probe
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add status/chatgpt-chrome-session.json
-          git commit -m 'Record ChatGPT Chrome session state' || exit 0
+          git add status/chatgpt-chrome-session.json status/codex-openrouter-chrome-readonly.json
+          git commit -m 'Record post-launch ChatGPT Chrome probe' || exit 0
           for n in 1 2 3; do
             git push origin HEAD:main && exit 0
             git pull --rebase origin main
