@@ -1,0 +1,103 @@
+name: Probe Codex OpenRouter Chrome Readonly
+
+on:
+  push:
+    paths:
+      - ".github/workflows/probe-codex-openrouter-chrome-readonly.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Verify actual Chrome tool use through supported Codex harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 - "$GITHUB_WORKSPACE/status/codex-openrouter-chrome-readonly.json" <<'PY'
+          import json,os,re,subprocess,sys
+          from pathlib import Path
+
+          out=Path(sys.argv[1])
+          result={"probe":"codex openrouter chrome read-only","model":"qwen/qwen3.8-2.4t-a95b","expected":"CHROME_HARNESS_OK"}
+          # Confirm the first-party Chrome plugin is still enabled.
+          pl=subprocess.run(['codex','plugin','list'],text=True,capture_output=True)
+          pltext=(pl.stdout or '')+'\n'+(pl.stderr or '')
+          line=next((x for x in pltext.splitlines() if x.startswith('chrome@openai-bundled')), '')
+          result['chrome_plugin_enabled']='installed, enabled' in line
+          if not result['chrome_plugin_enabled']:
+              result['error']='chrome plugin not enabled'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+
+          auth=Path.home()/'.local/share/opencode/auth.json'
+          try:data=json.loads(auth.read_text())
+          except Exception:
+              result['error']='openrouter credential source unavailable'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          entry=data.get('openrouter') if isinstance(data,dict) else None
+          key=entry.get('key') if isinstance(entry,dict) else None
+          if not isinstance(key,str) or not key.strip():
+              result['error']='openrouter credential missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          env=os.environ.copy(); env['OPENROUTER_API_KEY']=key.strip()
+
+          cfg=[
+            '-c','model_provider="openrouter-temp"',
+            '-c','model="qwen/qwen3.8-2.4t-a95b"',
+            '-c','model_reasoning_effort="low"',
+            '-c','disable_response_storage=true',
+            '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
+            '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
+            '-c','model_providers.openrouter-temp.env_key="OPENROUTER_API_KEY"',
+            '-c','model_providers.openrouter-temp.wire_api="responses"',
+            '-c','model_providers.openrouter-temp.requires_openai_auth=false',
+          ]
+          prompt='''Use the installed first-party Chrome plugin to perform a READ-ONLY verification of the existing Chrome session. You MUST actually invoke the Chrome/browser tool path. Do not navigate, click, type, submit, or modify anything. List current tabs only. If and only if the browser tool succeeds and at least one current tab is on chatgpt.com, return exactly CHROME_HARNESS_OK. If the browser tool succeeds but there is no chatgpt.com tab, return exactly CHROME_HARNESS_NO_CHATGPT. If browser control cannot be invoked, return exactly CHROME_HARNESS_BLOCKED. Do not reveal page content, query strings, cookies, tokens, or personal data.'''
+          try:
+              p=subprocess.run(['codex',*cfg,'exec','--json',prompt],cwd=os.environ.get('GITHUB_WORKSPACE') or str(Path.home()),env=env,text=True,capture_output=True,timeout=210)
+              raw=(p.stdout or '')+'\n'+(p.stderr or '')
+              result['exit_code']=p.returncode
+              result['exact_ok_seen']='CHROME_HARNESS_OK' in raw
+              low=raw.lower()
+              # Require independent evidence of an actual browser/Node REPL tool event.
+              markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled']
+              seen=[m for m in markers if m in low]
+              result['tool_evidence_markers']=seen
+              result['actual_tool_evidence']=bool(seen)
+              result['pass']=bool(p.returncode==0 and result['exact_ok_seen'] and result['actual_tool_evidence'])
+              # Persist only redacted event-type lines / a small tail, never browser content.
+              safe=[]
+              for ln in raw.splitlines():
+                  ll=ln.lower()
+                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome@openai-bundled','chrome_harness_']):
+                      safe.append(ln[:1200])
+              text='\n'.join(safe[-30:])
+              text=re.sub(r'https?://[^\s"\']+', '[URL_REDACTED]', text)
+              text=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',text)
+              text=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',text)
+              text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
+              result['safe_evidence']=text[:5000]
+          except subprocess.TimeoutExpired:
+              result['error']='codex chrome probe timed out'
+          except Exception as e:
+              result['error']=type(e).__name__
+          out.write_text(json.dumps(result,indent=2)+'\n')
+          PY
+
+      - name: Commit read-only result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/codex-openrouter-chrome-readonly.json
+          git commit -m 'Record read-only Codex Chrome harness probe' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
