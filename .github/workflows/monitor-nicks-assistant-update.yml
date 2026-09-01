@@ -1,0 +1,45 @@
+name: Monitor Nick Assistant Update
+
+on:
+  push:
+    paths:
+      - ".github/workflows/monitor-nicks-assistant-update.yml"
+  workflow_run:
+    workflows: ["Update Nick's Assistant via Chrome"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Record update workflow state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p status
+          gh api "repos/$REPO/actions/workflows/update-nicks-assistant-via-chrome.yml/runs?per_page=5" \
+            --jq '{workflow:"update-nicks-assistant-via-chrome.yml",runs:[.workflow_runs[]|{id,status,conclusion,event,head_sha,created_at,updated_at,run_attempt}]}' \
+            > status/nicks-assistant-update-runs.json
+          cat status/nicks-assistant-update-runs.json
+      - name: Commit monitor result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nicks-assistant-update-runs.json
+          git commit -m 'Record Nick Assistant update workflow state' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
