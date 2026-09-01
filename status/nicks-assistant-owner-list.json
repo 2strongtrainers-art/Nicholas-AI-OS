@@ -1,0 +1,43 @@
+{
+  "probe": "locate Nick Assistant via visible My GPTs owner list",
+  "model": "openrouter/free",
+  "pass": true,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "{\"state\":\"OWNER_LIST_OK\",\"clicked\":true,\"sourceRole\":\"button\",\"url\":\"https://chatgpt.com/gpts/mine\",\"candidates\":[{\"name\":\"NK\",\"role\":\"text\",\"href\":null}],\"headingTexts\":[\"Chat history\",\"Pinned\",\"Projects\",\"Chats\",\"My GPTs\"]}"
+  ],
+  "state": "OWNER_LIST_OK",
+  "clicked": true,
+  "click_source_role": "button",
+  "url_path": "/gpts/mine",
+  "candidates": [
+    {
+      "name": "NK",
+      "role": "text",
+      "href_path": null
+    }
+  ],
+  "candidate_count": 1,
+  "heading_texts": [
+    "Chat history",
+    "Pinned",
+    "Projects",
+    "Chats",
+    "My GPTs"
+  ]
+}
