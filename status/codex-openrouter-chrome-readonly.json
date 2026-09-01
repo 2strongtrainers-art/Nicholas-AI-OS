@@ -1,0 +1,12 @@
+{
+  "probe": "codex openrouter chrome read-only",
+  "model": "qwen/qwen3.8-2.4t-a95b",
+  "expected": "CHROME_HARNESS_OK",
+  "chrome_plugin_enabled": true,
+  "exit_code": 1,
+  "exact_ok_seen": false,
+  "tool_evidence_markers": [],
+  "actual_tool_evidence": false,
+  "pass": false,
+  "safe_evidence": ""
+}
