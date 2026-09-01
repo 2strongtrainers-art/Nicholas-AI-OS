@@ -1,0 +1,21 @@
+{
+  "probe": "My GPTs link target",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false
+    },
+    {
+      "event": "item.completed",
+      "status": "failed",
+      "has_result": true
+    }
+  ],
+  "items": [],
+  "state": "NO_AUTHORITATIVE_RESULT"
+}
