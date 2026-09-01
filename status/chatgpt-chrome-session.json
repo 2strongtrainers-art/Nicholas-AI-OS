@@ -1,5 +1,5 @@
 {
-  "chrome_running_before": false,
+  "chrome_running_before": true,
   "chrome_running_after": true,
   "chrome_extensions_directory_present": true,
   "openai_native_messaging_host_present": true,
