@@ -26,8 +26,7 @@ jobs:
           from pathlib import Path
 
           out=Path(sys.argv[1])
-          result={"probe":"codex openrouter chrome read-only","model":"qwen/qwen3.8-2.4t-a95b","expected":"CHROME_HARNESS_OK"}
-          # Confirm the first-party Chrome plugin is still enabled.
+          result={"probe":"codex openrouter chrome read-only","model":"openrouter/free","max_output_tokens":2048,"expected":"CHROME_HARNESS_OK"}
           pl=subprocess.run(['codex','plugin','list'],text=True,capture_output=True)
           pltext=(pl.stdout or '')+'\n'+(pl.stderr or '')
           line=next((x for x in pltext.splitlines() if x.startswith('chrome@openai-bundled')), '')
@@ -47,8 +46,10 @@ jobs:
 
           cfg=[
             '-c','model_provider="openrouter-temp"',
-            '-c','model="qwen/qwen3.8-2.4t-a95b"',
+            '-c','model="openrouter/free"',
             '-c','model_reasoning_effort="low"',
+            '-c','model_max_output_tokens=2048',
+            '-c','service_tier="auto"',
             '-c','disable_response_storage=true',
             '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
             '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
@@ -63,13 +64,11 @@ jobs:
               result['exit_code']=p.returncode
               result['exact_ok_seen']='CHROME_HARNESS_OK' in raw
               low=raw.lower()
-              # Require independent evidence of an actual browser/Node REPL tool event.
               markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled']
               seen=[m for m in markers if m in low]
               result['tool_evidence_markers']=seen
               result['actual_tool_evidence']=bool(seen)
               result['pass']=bool(p.returncode==0 and result['exact_ok_seen'] and result['actual_tool_evidence'])
-              # Persist only redacted event-type lines / a small tail, never browser content.
               safe=[]
               for ln in raw.splitlines():
                   ll=ln.lower()
