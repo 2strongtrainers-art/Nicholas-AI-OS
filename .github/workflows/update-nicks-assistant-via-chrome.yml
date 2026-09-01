@@ -1,0 +1,144 @@
+name: Update Nick's Assistant via Chrome
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Update existing GPT through first-party Chrome control
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 - "$GITHUB_WORKSPACE/status/nicks-assistant-chrome-update.json" <<'PY'
+          import json,os,re,subprocess,sys
+          from pathlib import Path
+
+          out=Path(sys.argv[1])
+          instructions=Path(os.environ['GITHUB_WORKSPACE'])/'services/ai-switchboard/GPT_INSTRUCTIONS.md'
+          result={
+            'probe':'update existing Nicks Assistant GPT via supported Chrome harness',
+            'model':'openrouter/free',
+            'max_output_tokens':4096,
+            'schema_url':'https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0',
+            'bearer_rotated':False,
+            'pass':False
+          }
+          if not instructions.exists() or not instructions.read_text().strip():
+              result['error']='GPT instructions file missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+
+          pl=subprocess.run(['codex','plugin','list'],text=True,capture_output=True)
+          pltext=(pl.stdout or '')+'\n'+(pl.stderr or '')
+          line=next((x for x in pltext.splitlines() if x.startswith('chrome@openai-bundled')), '')
+          result['chrome_plugin_enabled']='installed, enabled' in line
+          if not result['chrome_plugin_enabled']:
+              result['error']='chrome plugin not enabled'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+
+          auth=Path.home()/'.local/share/opencode/auth.json'
+          try:data=json.loads(auth.read_text())
+          except Exception:
+              result['error']='openrouter credential source unavailable'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          entry=data.get('openrouter') if isinstance(data,dict) else None
+          key=entry.get('key') if isinstance(entry,dict) else None
+          if not isinstance(key,str) or not key.strip():
+              result['error']='openrouter credential missing'; out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          env=os.environ.copy(); env['OPENROUTER_API_KEY']=key.strip()
+
+          cfg=[
+            '-c','model_provider="openrouter-temp"',
+            '-c','model="openrouter/free"',
+            '-c','model_reasoning_effort="low"',
+            '-c','model_max_output_tokens=4096',
+            '-c','service_tier="auto"',
+            '-c','disable_response_storage=true',
+            '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
+            '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
+            '-c','model_providers.openrouter-temp.env_key="OPENROUTER_API_KEY"',
+            '-c','model_providers.openrouter-temp.wire_api="responses"',
+            '-c','model_providers.openrouter-temp.requires_openai_auth=false',
+          ]
+          prompt=r'''You are completing one narrowly authorized browser task for Nicholas-AI-OS. You MUST use the installed first-party Chrome plugin and perform real DOM/browser interactions in the user's EXISTING signed-in Chrome profile. Never claim success from instructions alone.
+
+GOAL
+Update the existing custom GPT named Nick's Assistant / NK / Nicholas AI Switchboard to the repository's current v1.2 Switchboard configuration.
+
+AUTHORITATIVE LOCAL INPUT
+Read the complete file services/ai-switchboard/GPT_INSTRUCTIONS.md from the current repository. Use its text EXACTLY as the GPT Instructions field content.
+Schema URL: https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0
+
+STRICT SCOPE
+- Existing GPT only. Do NOT create a duplicate GPT.
+- Do NOT rename it, change its icon, conversation starters, visibility, sharing, ownership, or unrelated settings.
+- Use Actions, not Apps.
+- Preserve the EXISTING Action authentication exactly. Do NOT reveal, copy, inspect, rotate, delete, replace, or re-enter any API key/Bearer secret.
+- If refreshing/importing the schema would clear/reset authentication, STOP before saving and return NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH.
+- If a login/re-authentication, CAPTCHA, macOS security prompt, destructive confirmation, or ambiguous account/GPT selection appears, STOP and return NICKS_ASSISTANT_UPDATE_BLOCKED.
+- Do not read or expose cookies, local/session storage, query-string secrets, tokens, passwords, or unrelated page content.
+
+REQUIRED REAL STEPS
+1. Use Chrome browser control to open/navigate to https://chatgpt.com/gpts if needed.
+2. Find My GPTs and identify the EXISTING GPT matching Nick's Assistant / NK / Nicholas AI Switchboard. If more than one plausible match exists, STOP rather than guessing.
+3. Open that GPT's Edit/Configure UI.
+4. Replace only its Instructions field with the exact contents of services/ai-switchboard/GPT_INSTRUCTIONS.md.
+5. Ensure the GPT uses Actions rather than Apps. Do not change unrelated capabilities.
+6. Open the existing Nicholas AI Switchboard Action configuration and refresh/import the OpenAPI schema from https://nicholas-ai-switchboard.2strongtrainers.workers.dev/openapi.json?v=1.2.0 while preserving existing authentication.
+7. Verify the UI exposes all six operation IDs: switchboardHealth, switchboardModels, switchboardAsk, routeNicholasTool, createHermesJob, getHermesJob.
+8. Verify authentication remains configured without revealing its value.
+9. Click Update/Save exactly once to persist these scoped changes.
+10. Re-read the editor state after save and verify the existing GPT remains the same GPT and the six operations remain present.
+
+FINAL OUTPUT
+Return exactly NICKS_ASSISTANT_UPDATE_OK only if every required browser step above actually succeeded and the save was verified. Return exactly NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH if auth preservation is the blocker. Otherwise return exactly NICKS_ASSISTANT_UPDATE_BLOCKED.
+'''
+          try:
+              p=subprocess.run(['codex',*cfg,'exec','--json',prompt],cwd=os.environ['GITHUB_WORKSPACE'],env=env,text=True,capture_output=True,timeout=600)
+              raw=(p.stdout or '')+'\n'+(p.stderr or '')
+              result['exit_code']=p.returncode
+              result['exact_ok_seen']='NICKS_ASSISTANT_UPDATE_OK' in raw
+              result['blocked_auth_seen']='NICKS_ASSISTANT_UPDATE_BLOCKED_AUTH' in raw
+              result['blocked_seen']='NICKS_ASSISTANT_UPDATE_BLOCKED' in raw and not result['exact_ok_seen']
+              low=raw.lower()
+              markers=['node_repl','mcp__node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled']
+              result['tool_evidence_markers']=[m for m in markers if m in low]
+              result['actual_tool_evidence']=bool(result['tool_evidence_markers'])
+              # The final token alone is never enough; actual browser tool evidence is mandatory.
+              result['pass']=bool(p.returncode==0 and result['exact_ok_seen'] and result['actual_tool_evidence'])
+              safe=[]
+              for ln in raw.splitlines():
+                  ll=ln.lower()
+                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome@openai-bundled','nicks_assistant_update_']):
+                      safe.append(ln[:1400])
+              text='\n'.join(safe[-50:])
+              text=re.sub(r'https?://[^\s"\']+', '[URL_REDACTED]', text)
+              text=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',text)
+              text=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',text)
+              text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret|cookie)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
+              result['safe_evidence']=text[:8000]
+          except subprocess.TimeoutExpired:
+              result['error']='browser editor run timed out'
+          except Exception as e:
+              result['error']=type(e).__name__
+          out.write_text(json.dumps(result,indent=2)+'\n')
+          PY
+
+      - name: Commit redacted update status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nicks-assistant-chrome-update.json
+          git commit -m 'Record Nick Assistant Chrome update result' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
