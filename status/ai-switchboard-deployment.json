@@ -1,0 +1,14 @@
+{
+  "status": "verified",
+  "verified_at": "2026-09-01T20:25:04.141613+00:00",
+  "deployed_commit": "9ead03bb944b1ab7e00f8b649111d0ec5fd8960f",
+  "workflow_run_id": "33555103546",
+  "service": "nicholas-ai-switchboard",
+  "digital_atlas": "verified",
+  "digital_atlas_url": "https://nicholas-ai-switchboard.2strongtrainers.workers.dev/atlas",
+  "gpt_action_schema": "verified",
+  "private_auth_boundary": "verified",
+  "catalog_resources": 1800,
+  "metered_model_probe": "skipped",
+  "secrets_recorded": false
+}
