@@ -1,6 +1,9 @@
 name: Monitor Chrome Probe Run
 
 on:
+  workflow_run:
+    workflows: ["Probe Codex OpenRouter Chrome Readonly"]
+    types: [completed]
   push:
     paths:
       - ".github/workflows/monitor-chrome-probe-run.yml"
