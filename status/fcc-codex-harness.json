@@ -1,0 +1,8 @@
+{
+  "probe": "fcc-codex exact-token no-tools",
+  "fcc_codex_present": true,
+  "server_started_by_probe": true,
+  "exit_code": 1,
+  "exact_token_seen": false,
+  "diagnostic_tail": "\nFree Claude Code proxy is not reachable at http://127.0.0.1:8082: [Errno 61] Connection refused\nStart it in another terminal with: fcc-server\n"
+}
