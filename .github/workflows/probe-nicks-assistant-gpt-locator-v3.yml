@@ -1,0 +1,37 @@
+name: Probe Nick Assistant GPT Locator V3
+
+on:
+  push:
+    paths:
+      - '.github/workflows/probe-nicks-assistant-gpt-locator-v3.yml'
+      - 'scripts/probe_nicks_assistant_gpt_locator_v3.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - name: Locate existing GPT via current Chrome API
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 "$GITHUB_WORKSPACE/scripts/probe_nicks_assistant_gpt_locator_v3.py"
+      - name: Commit locator v3 status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nicks-assistant-gpt-locator-v3.json
+          git commit -m 'Record Nick Assistant GPT locator v3 result' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
