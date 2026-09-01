@@ -1,0 +1,37 @@
+name: Probe Nick Assistant Owner List
+
+on:
+  push:
+    paths:
+      - '.github/workflows/probe-nicks-assistant-owner-list.yml'
+      - 'scripts/probe_nicks_assistant_owner_list.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - name: Locate Nick Assistant through My GPTs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 "$GITHUB_WORKSPACE/scripts/probe_nicks_assistant_owner_list.py"
+      - name: Commit owner-list locator status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/nicks-assistant-owner-list.json
+          git commit -m 'Record Nick Assistant owner-list result' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
