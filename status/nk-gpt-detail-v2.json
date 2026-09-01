@@ -1,0 +1,30 @@
+{
+  "probe": "inspect NK GPT via proven My GPTs navigation",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "`{\"state\":\"NK_NAV_BLOCKED\",\"myClicked\":false,\"nkCount\":0,\"url\":\"https://chatgpt.com/gpts\"}`"
+  ],
+  "state": "NK_NAV_BLOCKED",
+  "my_gpts_clicked": false,
+  "nk_count": 0,
+  "url_path": "/gpts",
+  "controls": [],
+  "headings": []
+}
