@@ -1,0 +1,78 @@
+name: Probe FCC Codex Harness
+
+on:
+  push:
+    paths:
+      - ".github/workflows/probe-fcc-codex-harness.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Run exact-token Codex harness probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 - "$GITHUB_WORKSPACE/status/fcc-codex-harness.json" <<'PY'
+          import json,os,re,subprocess,sys,time
+          from pathlib import Path
+
+          out=Path(sys.argv[1])
+          result={"probe":"fcc-codex exact-token no-tools","fcc_codex_present":False,"server_started_by_probe":False}
+          if subprocess.run(['bash','-lc','command -v fcc-codex >/dev/null 2>&1']).returncode!=0:
+              result['error']='fcc-codex missing'
+              out.write_text(json.dumps(result,indent=2)+'\n'); raise SystemExit(0)
+          result['fcc_codex_present']=True
+
+          # Try the existing local proxy first. If it is not running, start the already-installed
+          # FCC server locally without exposing or printing any provider credentials.
+          server_proc=None
+          if subprocess.run(['bash','-lc','pgrep -f "[f]cc-server" >/dev/null 2>&1']).returncode!=0:
+              try:
+                  server_proc=subprocess.Popen(['fcc-server'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
+                  result['server_started_by_probe']=True
+                  time.sleep(3)
+              except Exception as e:
+                  result['server_start_error']=type(e).__name__
+
+          env=os.environ.copy()
+          prompt='Return exactly FCC_CODEX_OK. Do not use tools.'
+          try:
+              p=subprocess.run(['fcc-codex','exec','--json',prompt],cwd=os.environ.get('GITHUB_WORKSPACE') or str(Path.home()),env=env,text=True,capture_output=True,timeout=120)
+              text=(p.stdout or '')+'\n'+(p.stderr or '')
+              result['exit_code']=p.returncode
+              result['exact_token_seen']='FCC_CODEX_OK' in text
+              # Persist only a tiny aggressively scrubbed diagnostic tail.
+              tail=text[-2500:]
+              tail=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',tail)
+              tail=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',tail)
+              tail=re.sub(r'(?i)((?:api[_-]?key|token|password|secret)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',tail)
+              result['diagnostic_tail']=tail
+          except subprocess.TimeoutExpired:
+              result['error']='fcc-codex timed out'
+          except Exception as e:
+              result['error']=type(e).__name__
+          out.write_text(json.dumps(result,indent=2)+'\n')
+          PY
+
+      - name: Commit probe result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/fcc-codex-harness.json
+          git commit -m 'Record FCC Codex harness probe' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
