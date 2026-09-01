@@ -1,4 +1,5 @@
 import { routeTools, type ToolRoutingEnv } from "./tool-routing";
+import { handleAtlas } from "./atlas";
 
 interface Env extends ToolRoutingEnv {
   OPENROUTER_API_KEY: string;
@@ -322,7 +323,7 @@ export default {
     const url = new URL(request.url);
 
     if (request.method === "GET" && url.pathname === "/health") {
-      return json({ ok: true, service: "nicholas-ai-switchboard", version: "1.1.0", tool_routing: true });
+      return json({ ok: true, service: "nicholas-ai-switchboard", version: "1.1.0", tool_routing: true, atlas: true });
     }
 
     if (request.method === "GET" && url.pathname === "/openapi.json") {
@@ -331,10 +332,13 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/privacy") {
       return new Response(
-        "Nicholas AI Switchboard is a private routing service. Prompts explicitly routed to Ox, Qwen, or Auto are sent to OpenRouter and the selected third-party model provider. Tool routing is task-scoped: the service returns only a small ranked set and does not expose the underlying paid membership catalog. Do not send secrets, credentials, private client records, financial records, or other sensitive data unless you have intentionally approved that disclosure. The switchboard itself does not intentionally persist prompts, routing tasks, or model responses.",
+        "Nicholas AI Switchboard is a private routing service. Prompts explicitly routed to Ox, Qwen, or Auto are sent to OpenRouter and the selected third-party model provider. Tool routing is task-scoped: the service returns only a small ranked set and does not expose the underlying paid membership catalog through the authenticated routing API. The separately published Digital Atlas contains only the website-directory fields intentionally made public by the site owner. Do not send secrets, credentials, private client records, financial records, or other sensitive data unless you have intentionally approved that disclosure. The switchboard itself does not intentionally persist prompts, routing tasks, or model responses.",
         { headers: { "content-type": "text/plain; charset=utf-8" } },
       );
     }
+
+    const atlas = await handleAtlas(request);
+    if (atlas) return atlas;
 
     if (!isAuthorized(request, env)) {
       return new Response("Unauthorized", {
