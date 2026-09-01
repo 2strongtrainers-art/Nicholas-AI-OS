@@ -1,0 +1,37 @@
+name: Probe Node REPL Liveness Strict
+
+on:
+  push:
+    paths:
+      - '.github/workflows/probe-node-repl-liveness-strict.yml'
+      - 'scripts/probe_node_repl_liveness_strict.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v5
+      - name: Probe node repl liveness
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/status"
+          python3 "$GITHUB_WORKSPACE/scripts/probe_node_repl_liveness_strict.py"
+      - name: Commit liveness status
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/node-repl-liveness-strict.json
+          git commit -m 'Record strict node repl liveness result' || exit 0
+          for n in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
