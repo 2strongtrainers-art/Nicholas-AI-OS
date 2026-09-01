@@ -1,0 +1,29 @@
+{
+  "probe": "inspect exact NK GPT detail page read-only",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "```\n{\"state\":\"NK_AMBIGUOUS\",\"nkCount\":0}\n```\n\nNo element with exact text \"NK\" was found on `/gpts/mine`. The GPT may have a different exact name, or the page didn't fully render within the timeout."
+  ],
+  "state": "NK_AMBIGUOUS",
+  "nk_count": 0,
+  "url_path": "",
+  "controls": [],
+  "headings": []
+}
