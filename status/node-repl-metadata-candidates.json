@@ -1,29 +1,29 @@
 {
-  "probe": "harmless_js_only",
+  "probe": "request_meta_shape_only_no_ids",
   "results": [
     {
       "candidate": "params_meta_object",
       "stage": "tools/call",
       "isError": false,
-      "text": "META_PROBE_OK"
+      "shape": "{\"metaKeys\":[\"x-codex-turn-metadata\"],\"headerType\":\"object\",\"headerParsedKeys\":[\"session_id\",\"turn_id\"],\"headerParseOk\":true,\"hasDirectSession\":false,\"hasDirectTurn\":false}"
     },
     {
       "candidate": "params_meta_json_string",
       "stage": "tools/call",
       "isError": false,
-      "text": "META_PROBE_OK"
+      "shape": "{\"metaKeys\":[\"x-codex-turn-metadata\"],\"headerType\":\"string\",\"headerParsedKeys\":[\"session_id\",\"turn_id\"],\"headerParseOk\":true,\"hasDirectSession\":false,\"hasDirectTurn\":false}"
     },
     {
       "candidate": "params_meta_direct_fields",
       "stage": "tools/call",
       "isError": false,
-      "text": "META_PROBE_OK"
+      "shape": "{\"metaKeys\":[\"session_id\",\"turn_id\"],\"headerType\":\"undefined\",\"headerParsedKeys\":[],\"headerParseOk\":false,\"hasDirectSession\":true,\"hasDirectTurn\":true}"
     },
     {
       "candidate": "params_camel_object",
       "stage": "tools/call",
       "isError": false,
-      "text": "META_PROBE_OK"
+      "shape": "{\"metaKeys\":[\"x-codex-turn-metadata\"],\"headerType\":\"object\",\"headerParsedKeys\":[\"sessionId\",\"turnId\"],\"headerParseOk\":true,\"hasDirectSession\":false,\"hasDirectTurn\":false}"
     }
   ]
 }
