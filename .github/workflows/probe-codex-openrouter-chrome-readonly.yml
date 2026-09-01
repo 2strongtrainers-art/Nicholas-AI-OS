@@ -22,11 +22,12 @@ jobs:
           set -euo pipefail
           mkdir -p "$GITHUB_WORKSPACE/status"
           python3 - "$GITHUB_WORKSPACE/status/codex-openrouter-chrome-readonly.json" <<'PY'
-          import json,os,re,subprocess,sys
+          import json,os,re,subprocess,sys,tomllib
           from pathlib import Path
 
           out=Path(sys.argv[1])
-          result={"probe":"codex openrouter chrome read-only","model":"openrouter/free","max_output_tokens":2048,"expected":"CHROME_HARNESS_OK"}
+          model='openai/gpt-oss-120b:free'
+          result={"probe":"codex openrouter chrome read-only","model":model,"max_output_tokens":2048,"apps_disabled_for_probe":True,"expected":"CHROME_HARNESS_OK"}
           pl=subprocess.run(['codex','plugin','list'],text=True,capture_output=True)
           pltext=(pl.stdout or '')+'\n'+(pl.stderr or '')
           line=next((x for x in pltext.splitlines() if x.startswith('chrome@openai-bundled')), '')
@@ -46,20 +47,37 @@ jobs:
 
           cfg=[
             '-c','model_provider="openrouter-temp"',
-            '-c','model="openrouter/free"',
+            '-c',f'model="{model}"',
             '-c','model_reasoning_effort="low"',
+            '-c','model_context_window=131072',
             '-c','model_max_output_tokens=2048',
             '-c','service_tier="auto"',
             '-c','disable_response_storage=true',
+            '-c','features.apps=false',
             '-c','model_providers.openrouter-temp.name="OpenRouter Temporary"',
             '-c','model_providers.openrouter-temp.base_url="https://openrouter.ai/api/v1"',
             '-c','model_providers.openrouter-temp.env_key="OPENROUTER_API_KEY"',
             '-c','model_providers.openrouter-temp.wire_api="responses"',
             '-c','model_providers.openrouter-temp.requires_openai_auth=false',
           ]
-          prompt='''Use the installed first-party Chrome plugin to perform a READ-ONLY verification of the existing Chrome session. You MUST actually invoke the Chrome/browser tool path. Do not navigate, click, type, submit, or modify anything. List current tabs only. If and only if the browser tool succeeds and at least one current tab is on chatgpt.com, return exactly CHROME_HARNESS_OK. If the browser tool succeeds but there is no chatgpt.com tab, return exactly CHROME_HARNESS_NO_CHATGPT. If browser control cannot be invoked, return exactly CHROME_HARNESS_BLOCKED. Do not reveal page content, query strings, cookies, tokens, or personal data.'''
+
+          # Disable unrelated user MCP servers only for this invocation. Keep the trusted
+          # Node REPL browser service enabled. No persistent config is modified.
           try:
-              p=subprocess.run(['codex',*cfg,'exec','--json',prompt],cwd=os.environ.get('GITHUB_WORKSPACE') or str(Path.home()),env=env,text=True,capture_output=True,timeout=210)
+              ccfg=tomllib.loads((Path.home()/'.codex/config.toml').read_text())
+              names=sorted((ccfg.get('mcp_servers') or {}).keys())
+          except Exception:
+              names=[]
+          disabled=[]
+          for name in names:
+              if name!='node_repl' and re.fullmatch(r'[A-Za-z0-9_.-]+',str(name)):
+                  cfg += ['-c',f'mcp_servers.{name}.enabled=false']
+                  disabled.append(name)
+          result['unrelated_mcp_servers_disabled_count']=len(disabled)
+
+          prompt='''You MUST use the installed first-party Chrome browser tool now. This is a READ-ONLY tool-use verification, not a reasoning question. Invoke the Chrome/browser tool and list current tabs only. Do not navigate, click, type, submit, or modify anything. Do not read page body content. Inspect only safe tab metadata sufficient to determine whether a tab origin is https://chatgpt.com. If and only if the browser tool actually succeeds and at least one current tab is on chatgpt.com, return exactly CHROME_HARNESS_OK. If the browser tool actually succeeds but no chatgpt.com tab exists, return exactly CHROME_HARNESS_NO_CHATGPT. If the browser tool cannot be invoked, return exactly CHROME_HARNESS_BLOCKED. You are not allowed to answer before attempting the browser tool. Never reveal query strings, cookies, tokens, storage, passwords, or unrelated personal data.'''
+          try:
+              p=subprocess.run(['codex',*cfg,'exec','--ephemeral','--json',prompt],cwd=os.environ.get('GITHUB_WORKSPACE') or str(Path.home()),env=env,text=True,capture_output=True,timeout=240)
               raw=(p.stdout or '')+'\n'+(p.stderr or '')
               result['exit_code']=p.returncode
               result['exact_ok_seen']='CHROME_HARNESS_OK' in raw
@@ -72,14 +90,14 @@ jobs:
               safe=[]
               for ln in raw.splitlines():
                   ll=ln.lower()
-                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome@openai-bundled','chrome_harness_']):
-                      safe.append(ln[:1200])
-              text='\n'.join(safe[-30:])
+                  if any(m in ll for m in ['node_repl','browser-client.mjs','chrome.tabs','chrome@openai-bundled','chrome_harness_','error']):
+                      safe.append(ln[:1400])
+              text='\n'.join(safe[-40:])
               text=re.sub(r'https?://[^\s"\']+', '[URL_REDACTED]', text)
               text=re.sub(r'(?i)(authorization\s*[:=]\s*)([^\s"\']+)',r'\1[REDACTED]',text)
               text=re.sub(r'(?i)(bearer\s+)[A-Za-z0-9._~+\-/=]+',r'\1[REDACTED]',text)
-              text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
-              result['safe_evidence']=text[:5000]
+              text=re.sub(r'(?i)((?:api[_-]?key|token|password|secret|cookie)\s*[:=]\s*["\']?)([^\s,"\']+)',r'\1[REDACTED]',text)
+              result['safe_evidence']=text[:7000]
           except subprocess.TimeoutExpired:
               result['error']='codex chrome probe timed out'
           except Exception as e:
