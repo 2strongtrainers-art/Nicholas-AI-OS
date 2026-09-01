@@ -1,0 +1,30 @@
+{
+  "probe": "Nick Assistant GPT locator v4 documented Chrome API",
+  "model": "openrouter/free",
+  "pass": false,
+  "gpt_action_secret_read": false,
+  "exit_code": 0,
+  "call_trace": [
+    {
+      "event": "item.started",
+      "status": "in_progress",
+      "has_result": false,
+      "has_error": false
+    },
+    {
+      "event": "item.completed",
+      "status": "completed",
+      "has_result": true,
+      "has_error": false
+    }
+  ],
+  "agent_messages": [
+    "{\"state\":\"LOCATOR_OK\",\"url\":\"https://chatgpt.com/gpts\",\"loginCount\":0,\"myGptsCount\":2,\"candidates\":[]}"
+  ],
+  "state": "LOCATOR_OK",
+  "login_count": 0,
+  "my_gpts_count": 2,
+  "url_path": "/gpts",
+  "candidates": [],
+  "candidate_count": 0
+}
