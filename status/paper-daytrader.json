@@ -4,43 +4,43 @@
     {
       "asset_class": "stock",
       "average_down": false,
-      "entry": 709.1418,
+      "entry": 462.2524356628418,
       "execution": "paper",
-      "opening_range_high": 707.54,
-      "opening_range_low": 705.58,
-      "relative_volume": 1.424,
-      "score": 65.9,
+      "opening_range_high": 461.75,
+      "opening_range_low": 455.82,
+      "relative_volume": 2.094,
+      "score": 83.99,
       "side": "long",
-      "stop": 707.0499877929688,
-      "symbol": "QQQ",
-      "target": 712.8024713623047,
-      "timestamp": "2026-09-02T14:22:00+00:00",
-      "vwap": 706.6799
+      "stop": 460.2675018310547,
+      "symbol": "AMD",
+      "target": 465.72606986846915,
+      "timestamp": "2026-09-02T14:34:00+00:00",
+      "vwap": 457.4305
     }
   ],
-  "checked_at": "2026-09-02T14:23:53.619223+00:00",
+  "checked_at": "2026-09-02T14:35:11.212189+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100131.362428,
   "events": [
     {
-      "entry": 709.1418,
-      "opened_at": "2026-09-02T14:22:00+00:00",
+      "entry": 462.2524356628418,
+      "opened_at": "2026-09-02T14:34:00+00:00",
       "paper_only": true,
-      "quantity": 119,
-      "risk_dollars": 248.92565263671747,
-      "score": 65.9,
+      "quantity": 126,
+      "risk_dollars": 250.1016628051732,
+      "score": 83.99,
       "side": "long",
-      "stop": 707.0499877929688,
-      "symbol": "QQQ",
-      "target": 712.8024713623047,
-      "timestamp": "2026-09-02T14:22:00+00:00",
+      "stop": 460.2675018310547,
+      "symbol": "AMD",
+      "target": 465.72606986846915,
+      "timestamp": "2026-09-02T14:34:00+00:00",
       "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-09-02T14:22:00+00:00",
+  "latest_data_at": "2026-09-02T14:34:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 2,
+  "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": -247.245614,
@@ -63,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 3
+  "trades_today": 4
 }
