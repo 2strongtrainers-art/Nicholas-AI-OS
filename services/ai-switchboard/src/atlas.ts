@@ -1,4 +1,5 @@
 import { ATLAS_HTML } from "./atlas-ui";
+import { withAtlasDiscovery } from "./atlas-discovery";
 import shard01 from "./catalog/websurfers-01.txt";
 import shard02 from "./catalog/websurfers-02.txt";
 import shard03 from "./catalog/websurfers-03.txt";
@@ -203,7 +204,7 @@ export async function handleAtlas(request: Request): Promise<Response | null> {
   const url = new URL(request.url);
   if (request.method !== "GET") return null;
   if (url.pathname === "/atlas" || url.pathname === "/atlas/") {
-    return new Response(ATLAS_HTML, {
+    return new Response(withAtlasDiscovery(ATLAS_HTML), {
       headers: {
         "content-type": "text/html; charset=utf-8",
         "cache-control": "public, max-age=60",
