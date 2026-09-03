@@ -30,6 +30,7 @@ jobs:
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/tool-routing.ts"
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/atlas.ts"
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/atlas-ui.ts"
+          test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/atlas-discovery.ts"
 
       - name: Visible TypeScript check
         shell: bash
@@ -96,7 +97,10 @@ jobs:
 
           curl -fsS "$AI_SWITCHBOARD_URL/atlas" > "$RUNNER_TEMP/atlas.html"
           grep -q "Nick’s Digital Atlas" "$RUNNER_TEMP/atlas.html"
-          grep -q "Atlas 3.0" "$RUNNER_TEMP/atlas.html"
+          grep -q "Atlas 3.1" "$RUNNER_TEMP/atlas.html"
+          grep -q "Pick a mood. No search required." "$RUNNER_TEMP/atlas.html"
+          grep -q "Surprise me" "$RUNNER_TEMP/atlas.html"
+          grep -q "Kill 5 minutes" "$RUNNER_TEMP/atlas.html"
           grep -q "Find my route" "$RUNNER_TEMP/atlas.html"
           grep -q 'enterkeyhint="search"' "$RUNNER_TEMP/atlas.html"
           grep -q "Why Atlas recommends it" "$RUNNER_TEMP/atlas.html"
@@ -115,6 +119,7 @@ jobs:
           PY
           node --check "$RUNNER_TEMP/atlas-client.js"
           echo "ATLAS_MOBILE_SEARCH_UI=PASS"
+          echo "ATLAS_DISCOVERY_UI=PASS"
           echo "ATLAS_CLIENT_JS_SYNTAX=PASS"
 
           curl -fsS "$AI_SWITCHBOARD_URL/atlas/catalog" > "$RUNNER_TEMP/atlas-catalog.json"
@@ -161,8 +166,9 @@ jobs:
               "workflow_run_id": sys.argv[2],
               "service": "nicholas-ai-switchboard",
               "digital_atlas": "verified",
-              "digital_atlas_ui": "3.0",
+              "digital_atlas_ui": "3.1",
               "atlas_mobile_search": "verified",
+              "atlas_discovery_mode": "verified",
               "digital_atlas_url": sys.argv[3],
               "gpt_action_schema": "verified",
               "private_auth_boundary": "verified",
@@ -186,8 +192,9 @@ jobs:
           source "$HOME/.config/nicholas-ai-switchboard/deployment.env"
           echo "AI_SWITCHBOARD_DEPLOY=PASS"
           echo "DIGITAL_ATLAS=PASS"
-          echo "DIGITAL_ATLAS_UI=3.0"
+          echo "DIGITAL_ATLAS_UI=3.1"
           echo "ATLAS_MOBILE_SEARCH=PASS"
+          echo "ATLAS_DISCOVERY_MODE=PASS"
           echo "DIGITAL_ATLAS_URL=$AI_SWITCHBOARD_URL/atlas"
           echo "PRIVATE_AUTH_BOUNDARY=PASS"
           echo "METERED_MODEL_PROBE=SKIPPED"
