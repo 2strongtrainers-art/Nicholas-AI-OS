@@ -29,6 +29,7 @@ jobs:
           test -f "$GITHUB_WORKSPACE/scripts/deploy_ai_switchboard.sh"
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/tool-routing.ts"
           test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/atlas.ts"
+          test -f "$GITHUB_WORKSPACE/services/ai-switchboard/src/atlas-ui.ts"
 
       - name: Visible TypeScript check
         shell: bash
@@ -95,7 +96,26 @@ jobs:
 
           curl -fsS "$AI_SWITCHBOARD_URL/atlas" > "$RUNNER_TEMP/atlas.html"
           grep -q "Nick’s Digital Atlas" "$RUNNER_TEMP/atlas.html"
+          grep -q "Atlas 3.0" "$RUNNER_TEMP/atlas.html"
+          grep -q "Find my route" "$RUNNER_TEMP/atlas.html"
+          grep -q 'enterkeyhint="search"' "$RUNNER_TEMP/atlas.html"
+          grep -q "Why Atlas recommends it" "$RUNNER_TEMP/atlas.html"
           grep -q "Open website" "$RUNNER_TEMP/atlas.html"
+
+          python3 - "$RUNNER_TEMP/atlas.html" "$RUNNER_TEMP/atlas-client.js" <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          html = Path(sys.argv[1]).read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S | re.I)
+          if not scripts:
+              raise SystemExit("no Atlas client script found")
+          Path(sys.argv[2]).write_text("\n".join(scripts), encoding="utf-8")
+          PY
+          node --check "$RUNNER_TEMP/atlas-client.js"
+          echo "ATLAS_MOBILE_SEARCH_UI=PASS"
+          echo "ATLAS_CLIENT_JS_SYNTAX=PASS"
 
           curl -fsS "$AI_SWITCHBOARD_URL/atlas/catalog" > "$RUNNER_TEMP/atlas-catalog.json"
           python3 - "$RUNNER_TEMP/atlas-catalog.json" <<'PY'
@@ -141,6 +161,8 @@ jobs:
               "workflow_run_id": sys.argv[2],
               "service": "nicholas-ai-switchboard",
               "digital_atlas": "verified",
+              "digital_atlas_ui": "3.0",
+              "atlas_mobile_search": "verified",
               "digital_atlas_url": sys.argv[3],
               "gpt_action_schema": "verified",
               "private_auth_boundary": "verified",
@@ -164,6 +186,8 @@ jobs:
           source "$HOME/.config/nicholas-ai-switchboard/deployment.env"
           echo "AI_SWITCHBOARD_DEPLOY=PASS"
           echo "DIGITAL_ATLAS=PASS"
+          echo "DIGITAL_ATLAS_UI=3.0"
+          echo "ATLAS_MOBILE_SEARCH=PASS"
           echo "DIGITAL_ATLAS_URL=$AI_SWITCHBOARD_URL/atlas"
           echo "PRIVATE_AUTH_BOUNDARY=PASS"
           echo "METERED_MODEL_PROBE=SKIPPED"
