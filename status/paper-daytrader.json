@@ -1,28 +1,11 @@
 {
   "broker_order_capability": false,
-  "candidates": [
-    {
-      "asset_class": "stock",
-      "average_down": false,
-      "entry": 319.5560711181641,
-      "execution": "paper",
-      "opening_range_high": 328.93,
-      "opening_range_low": 324.28,
-      "relative_volume": 1.268,
-      "score": 73.12,
-      "side": "short",
-      "stop": 325.44249725341797,
-      "symbol": "AAPL",
-      "target": 309.2548253814698,
-      "timestamp": "2026-09-04T15:33:00+00:00",
-      "vwap": 322.1157
-    }
-  ],
-  "checked_at": "2026-09-04T15:34:21.660711+00:00",
+  "candidates": [],
+  "checked_at": "2026-09-04T16:05:06.964738+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99900.240523,
   "events": [],
-  "latest_data_at": "2026-09-04T15:33:00+00:00",
+  "latest_data_at": "2026-09-04T16:04:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 3,
