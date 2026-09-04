@@ -1,27 +1,62 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-09-04T15:00:20.166272+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 500.6598577636719,
+      "execution": "paper",
+      "opening_range_high": 511.0,
+      "opening_range_low": 504.0,
+      "relative_volume": 2.47,
+      "score": 92.27,
+      "side": "short",
+      "stop": 505.75,
+      "symbol": "MSFT",
+      "target": 491.75210885009767,
+      "timestamp": "2026-09-04T15:02:00+00:00",
+      "vwap": 504.4261
+    },
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 317.876414440918,
+      "execution": "paper",
+      "opening_range_high": 328.93,
+      "opening_range_low": 324.28,
+      "relative_volume": 1.453,
+      "score": 84.07,
+      "side": "short",
+      "stop": 325.44249725341797,
+      "symbol": "AAPL",
+      "target": 304.63576951904304,
+      "timestamp": "2026-09-04T15:02:00+00:00",
+      "vwap": 322.7981
+    }
+  ],
+  "checked_at": "2026-09-04T15:03:33.092847+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99900.240523,
   "events": [
     {
-      "entry": 322.92539223632815,
-      "exit": 318.520458,
+      "entry": 500.6598577636719,
+      "opened_at": "2026-09-04T15:02:00+00:00",
       "paper_only": true,
-      "pnl": 436.09,
-      "quantity": 99,
-      "reason": "TARGET",
+      "quantity": 49,
+      "risk_dollars": 249.41696958007788,
+      "score": 92.27,
       "side": "short",
-      "symbol": "AAPL",
-      "timestamp": "2026-09-04T14:59:00+00:00",
-      "type": "EXIT"
+      "stop": 505.75,
+      "symbol": "MSFT",
+      "target": 491.75210885009767,
+      "timestamp": "2026-09-04T15:02:00+00:00",
+      "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-09-04T14:59:00+00:00",
+  "latest_data_at": "2026-09-04T15:02:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 2,
+  "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 187.969429,
@@ -44,5 +79,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 4
+  "trades_today": 5
 }
