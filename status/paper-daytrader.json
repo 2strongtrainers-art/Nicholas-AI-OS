@@ -1,17 +1,30 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-04T14:32:17.740759+00:00",
+  "checked_at": "2026-09-04T15:00:20.166272+00:00",
   "component": "Paper Day Trader Feed",
-  "equity": 99712.271094,
-  "events": [],
-  "latest_data_at": "2026-09-04T14:31:00+00:00",
+  "equity": 99900.240523,
+  "events": [
+    {
+      "entry": 322.92539223632815,
+      "exit": 318.520458,
+      "paper_only": true,
+      "pnl": 436.09,
+      "quantity": 99,
+      "reason": "TARGET",
+      "side": "short",
+      "symbol": "AAPL",
+      "timestamp": "2026-09-04T14:59:00+00:00",
+      "type": "EXIT"
+    }
+  ],
+  "latest_data_at": "2026-09-04T14:59:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 3,
+  "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": 0.0,
+  "realized_pnl": 187.969429,
   "session_complete": false,
   "session_id": "2026-09-04",
   "state": "running",
@@ -31,5 +44,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 3
+  "trades_today": 4
 }
