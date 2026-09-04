@@ -1,0 +1,72 @@
+name: Atlas AI Council
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/run_atlas_ai_council.py"
+      - ".github/workflows/atlas-ai-council.yml"
+  workflow_dispatch:
+    inputs:
+      focus:
+        description: "Optional Atlas council focus"
+        required: false
+        default: "Improve Atlas discovery, workflows, repeat usage, trust, and monetization without adding clutter"
+
+jobs:
+  council:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 35
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Verify council prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          test -s "$HOME/.config/nicholas-ai-switchboard/hermes-worker.key"
+          test "$(stat -f '%Lp' "$HOME/.config/nicholas-ai-switchboard/hermes-worker.key")" = "600"
+          security find-generic-password -s nicholas-ai-switchboard -a gpt-action -w >/dev/null
+          test -f scripts/run_atlas_ai_council.py
+          echo "ATLAS_AI_COUNCIL_PREREQS=PASS"
+
+      - name: Run Hermes Ox Qwen council
+        shell: bash
+        env:
+          ATLAS_COUNCIL_FOCUS: ${{ github.event.inputs.focus || 'Improve Atlas discovery, workflows, repeat usage, trust, and monetization without adding clutter' }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/atlas-ai-council"
+          python3 scripts/run_atlas_ai_council.py \
+            --focus "$ATLAS_COUNCIL_FOCUS" \
+            --output "$RUNNER_TEMP/atlas-ai-council/atlas-ai-council.json" \
+            --markdown "$RUNNER_TEMP/atlas-ai-council/codex-handoff.md" \
+            --timeout 1200
+
+      - name: Validate council packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/atlas-ai-council/atlas-ai-council.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p.get('hermes',{}).get('status') == 'completed', p.get('hermes')
+          assert p.get('ox',{}).get('ok') is True, p.get('ox')
+          assert p.get('qwen',{}).get('ok') is True, p.get('qwen')
+          assert p.get('models',{}).get('ox'), p.get('models')
+          assert p.get('models',{}).get('qwen'), p.get('models')
+          print('ATLAS_AI_COUNCIL_PACKET=PASS')
+          print('OX=' + str(p['models']['ox']))
+          print('QWEN=' + str(p['models']['qwen']))
+          PY
+
+      - name: Upload Codex handoff and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-ai-council
+          path: ${{ runner.temp }}/atlas-ai-council/
+          if-no-files-found: warn
+          retention-days: 30
