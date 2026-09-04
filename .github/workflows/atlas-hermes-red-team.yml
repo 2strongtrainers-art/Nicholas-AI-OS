@@ -1,0 +1,52 @@
+name: Atlas Hermes Red Team
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/run_atlas_hermes_red_team.py"
+      - ".github/workflows/atlas-hermes-red-team.yml"
+  workflow_dispatch:
+    inputs:
+      focus:
+        description: "Optional Atlas red-team focus"
+        required: false
+        default: "Full Atlas discovery, workflows, trust, mobile, retention, and monetization red-team"
+
+jobs:
+  red-team:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 25
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Verify local Hermes control plane
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "$HOME/.config/nicholas-ai-switchboard/deployment.env"
+          test -s "$HOME/.config/nicholas-ai-switchboard/hermes-worker.key"
+          test "$(stat -f '%Lp' "$HOME/.config/nicholas-ai-switchboard/hermes-worker.key")" = "600"
+          test -f scripts/run_atlas_hermes_red_team.py
+          echo "ATLAS_HERMES_PREREQS=PASS"
+
+      - name: Run read-only Atlas Hermes red team
+        shell: bash
+        env:
+          ATLAS_RED_TEAM_FOCUS: ${{ github.event.inputs.focus || 'Full Atlas discovery, workflows, trust, mobile, retention, and monetization red-team' }}
+        run: |
+          set -euo pipefail
+          python3 scripts/run_atlas_hermes_red_team.py \
+            --focus "$ATLAS_RED_TEAM_FOCUS" \
+            --output "$RUNNER_TEMP/atlas-hermes-red-team.json" \
+            --timeout 1200
+
+      - name: Upload Hermes red-team report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-hermes-red-team
+          path: ${{ runner.temp }}/atlas-hermes-red-team.json
+          if-no-files-found: warn
+          retention-days: 30
