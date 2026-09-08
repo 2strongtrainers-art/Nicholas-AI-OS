@@ -1,7 +1,7 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-08T03:29:33.848056+00:00",
+  "checked_at": "2026-09-08T04:00:31.924405+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 100098.81748,
   "events": [],
@@ -12,8 +12,8 @@
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
-  "session_complete": true,
-  "session_id": "2026-09-07",
+  "session_complete": false,
+  "session_id": "2026-09-08",
   "state": "running",
   "symbols_received": [
     "SPY",
