@@ -1,27 +1,46 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-09-08T14:56:47.695019+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 500.0934068847656,
+      "execution": "paper",
+      "opening_range_high": 496.7699,
+      "opening_range_low": 487.955,
+      "relative_volume": 2.993,
+      "score": 96.93,
+      "side": "long",
+      "stop": 494.56616973876953,
+      "symbol": "AMD",
+      "target": 509.7660718902588,
+      "timestamp": "2026-09-08T14:56:00+00:00",
+      "vwap": 494.0966
+    }
+  ],
+  "checked_at": "2026-09-08T14:57:50.782151+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99600.102971,
   "events": [
     {
-      "entry": 766.4665490722656,
-      "exit": 767.740021,
+      "entry": 500.0934068847656,
+      "opened_at": "2026-09-08T14:56:00+00:00",
       "paper_only": true,
-      "pnl": -249.6,
-      "quantity": 196,
-      "reason": "STOP",
-      "side": "short",
-      "symbol": "SPY",
-      "timestamp": "2026-09-08T14:55:00+00:00",
-      "type": "EXIT"
+      "quantity": 45,
+      "risk_dollars": 248.7256715698237,
+      "score": 96.93,
+      "side": "long",
+      "stop": 494.56616973876953,
+      "symbol": "AMD",
+      "target": 509.7660718902588,
+      "timestamp": "2026-09-08T14:56:00+00:00",
+      "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-09-08T14:55:00+00:00",
+  "latest_data_at": "2026-09-08T14:56:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 2,
+  "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": -498.714509,
@@ -44,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 4
+  "trades_today": 5
 }
