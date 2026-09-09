@@ -1,36 +1,11 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-09T14:30:05.534603+00:00",
+  "checked_at": "2026-09-09T15:00:52.623347+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99438.470036,
-  "events": [
-    {
-      "entry": 224.4401036102295,
-      "exit": 224.965076,
-      "paper_only": true,
-      "pnl": -250.94,
-      "quantity": 478,
-      "reason": "STOP",
-      "side": "short",
-      "symbol": "NVDA",
-      "timestamp": "2026-09-09T14:29:00+00:00",
-      "type": "EXIT"
-    },
-    {
-      "entry": 490.5418866455078,
-      "exit": 491.920013,
-      "paper_only": true,
-      "pnl": -249.44,
-      "quantity": 181,
-      "reason": "STOP",
-      "side": "short",
-      "symbol": "MSFT",
-      "timestamp": "2026-09-09T14:29:00+00:00",
-      "type": "EXIT"
-    }
-  ],
-  "latest_data_at": "2026-09-09T14:29:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-09-09T14:59:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 1,
