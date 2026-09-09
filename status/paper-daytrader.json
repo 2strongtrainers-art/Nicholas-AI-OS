@@ -1,27 +1,46 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-09-09T14:22:51.592437+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 718.2486014648438,
+      "execution": "paper",
+      "opening_range_high": 717.54,
+      "opening_range_low": 715.49,
+      "relative_volume": 1.33,
+      "score": 59.28,
+      "side": "long",
+      "stop": 717.0274810791016,
+      "symbol": "QQQ",
+      "target": 720.3855621398926,
+      "timestamp": "2026-09-09T14:28:00+00:00",
+      "vwap": 717.315
+    }
+  ],
+  "checked_at": "2026-09-09T14:29:02.088103+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99938.848,
   "events": [
     {
-      "entry": 718.9237853027344,
-      "exit": 717.027481,
+      "entry": 718.2486014648438,
+      "opened_at": "2026-09-09T14:28:00+00:00",
       "paper_only": true,
-      "pnl": -250.31,
-      "quantity": 132,
-      "reason": "STOP",
+      "quantity": 204,
+      "risk_dollars": 249.10855869141096,
+      "score": 59.28,
       "side": "long",
+      "stop": 717.0274810791016,
       "symbol": "QQQ",
-      "timestamp": "2026-09-09T14:21:00+00:00",
-      "type": "EXIT"
+      "target": 720.3855621398926,
+      "timestamp": "2026-09-09T14:28:00+00:00",
+      "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-09-09T14:21:00+00:00",
+  "latest_data_at": "2026-09-09T14:28:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 2,
+  "open_positions": 3,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": -500.450125,
@@ -44,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 4
+  "trades_today": 5
 }
