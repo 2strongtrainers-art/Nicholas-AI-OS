@@ -1,7 +1,7 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-10T03:14:02.205504+00:00",
+  "checked_at": "2026-09-10T04:17:11.438073+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99189.361477,
   "events": [],
@@ -11,9 +11,9 @@
   "open_positions": 0,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": -1249.936648,
-  "session_complete": true,
-  "session_id": "2026-09-09",
+  "realized_pnl": 0.0,
+  "session_complete": false,
+  "session_id": "2026-09-10",
   "state": "running",
   "symbols_received": [
     "SPY",
@@ -31,5 +31,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 5
+  "trades_today": 0
 }
