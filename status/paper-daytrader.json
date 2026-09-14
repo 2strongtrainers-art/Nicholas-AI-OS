@@ -1,11 +1,11 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-14T11:52:26.325124+00:00",
+  "checked_at": "2026-09-14T15:46:49.455276+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99189.361477,
   "events": [],
-  "latest_data_at": "2026-09-11T19:59:00+00:00",
+  "latest_data_at": "2026-09-14T15:45:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 0,
