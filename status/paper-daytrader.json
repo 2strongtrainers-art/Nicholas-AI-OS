@@ -1,24 +1,11 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-14T17:59:43.098116+00:00",
+  "checked_at": "2026-09-14T18:30:45.241907+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98941.552259,
-  "events": [
-    {
-      "entry": 335.0119963256836,
-      "exit": 333.957489,
-      "paper_only": true,
-      "pnl": -247.81,
-      "quantity": 235,
-      "reason": "STOP",
-      "side": "long",
-      "symbol": "AAPL",
-      "timestamp": "2026-09-14T17:58:00+00:00",
-      "type": "EXIT"
-    }
-  ],
-  "latest_data_at": "2026-09-14T17:58:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-09-14T18:29:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 2,
