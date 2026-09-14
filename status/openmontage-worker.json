@@ -1,7 +1,7 @@
 {
   "component": "Mac OpenMontage Worker",
   "state": "healthy",
-  "checked_at": "2026-09-14T03:08:14.749593+00:00",
+  "checked_at": "2026-09-14T03:23:44.115605+00:00",
   "host": "MacBookPro",
   "worker": "openmontage_worker_resilient.py",
   "worker_version": 3,
