@@ -1,16 +1,76 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-09-15T15:17:32.748358+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 704.9390010864258,
+      "execution": "paper",
+      "opening_range_high": 709.23,
+      "opening_range_low": 707.56,
+      "relative_volume": 1.399,
+      "score": 67.77,
+      "side": "short",
+      "stop": 707.9774932861328,
+      "symbol": "QQQ",
+      "target": 699.6216397369386,
+      "timestamp": "2026-09-15T15:33:00+00:00",
+      "vwap": 707.0444
+    },
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 756.8786232910156,
+      "execution": "paper",
+      "opening_range_high": 760.34,
+      "opening_range_low": 758.73,
+      "relative_volume": 1.275,
+      "score": 61.4,
+      "side": "short",
+      "stop": 759.1324920654297,
+      "symbol": "SPY",
+      "target": 752.934352935791,
+      "timestamp": "2026-09-15T15:33:00+00:00",
+      "vwap": 758.1049
+    }
+  ],
+  "checked_at": "2026-09-15T15:34:33.081872+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98939.385296,
-  "events": [],
-  "latest_data_at": "2026-09-15T15:16:00+00:00",
+  "events": [
+    {
+      "entry": 704.9390010864258,
+      "opened_at": "2026-09-15T15:33:00+00:00",
+      "paper_only": true,
+      "quantity": 81,
+      "risk_dollars": 246.11786817626535,
+      "score": 67.77,
+      "side": "short",
+      "stop": 707.9774932861328,
+      "symbol": "QQQ",
+      "target": 699.6216397369386,
+      "timestamp": "2026-09-15T15:33:00+00:00",
+      "type": "ENTRY"
+    },
+    {
+      "entry": 756.8786232910156,
+      "opened_at": "2026-09-15T15:33:00+00:00",
+      "paper_only": true,
+      "quantity": 109,
+      "risk_dollars": 245.67169641113242,
+      "score": 61.4,
+      "side": "short",
+      "stop": 759.1324920654297,
+      "symbol": "SPY",
+      "target": 752.934352935791,
+      "timestamp": "2026-09-15T15:33:00+00:00",
+      "type": "ENTRY"
+    }
+  ],
+  "latest_data_at": "2026-09-15T15:33:00+00:00",
   "live_execution_enabled": false,
-  "market_data_errors": {
-    "AMD": "<urlopen error _ssl.c:1064: The handshake operation timed out>"
-  },
-  "open_positions": 0,
+  "market_data_errors": {},
+  "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
@@ -22,7 +82,8 @@
     "QQQ",
     "NVDA",
     "AAPL",
-    "MSFT"
+    "MSFT",
+    "AMD"
   ],
   "symbols_requested": [
     "SPY",
@@ -32,5 +93,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 0
+  "trades_today": 2
 }
