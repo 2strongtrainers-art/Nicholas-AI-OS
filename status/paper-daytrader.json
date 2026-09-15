@@ -1,24 +1,11 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-15T17:29:57.665856+00:00",
+  "checked_at": "2026-09-15T18:22:08.312506+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99371.955141,
-  "events": [
-    {
-      "entry": 212.33752888183594,
-      "exit": 211.367641,
-      "paper_only": true,
-      "pnl": 432.57,
-      "quantity": 446,
-      "reason": "TARGET",
-      "side": "short",
-      "symbol": "NVDA",
-      "timestamp": "2026-09-15T17:28:00+00:00",
-      "type": "EXIT"
-    }
-  ],
-  "latest_data_at": "2026-09-15T17:28:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-09-15T18:21:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 2,
