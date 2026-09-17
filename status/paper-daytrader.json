@@ -1,14 +1,46 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-09-17T15:54:49.063394+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 336.0422011047363,
+      "execution": "paper",
+      "opening_range_high": 335.58,
+      "opening_range_low": 331.3501,
+      "relative_volume": 2.908,
+      "score": 85.8,
+      "side": "long",
+      "stop": 334.5225143432617,
+      "symbol": "AAPL",
+      "target": 338.70165293731685,
+      "timestamp": "2026-09-17T16:22:00+00:00",
+      "vwap": 333.1614
+    }
+  ],
+  "checked_at": "2026-09-17T16:23:13.173216+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99345.57146,
-  "events": [],
-  "latest_data_at": "2026-09-17T15:53:00+00:00",
+  "events": [
+    {
+      "entry": 336.0422011047363,
+      "opened_at": "2026-09-17T16:22:00+00:00",
+      "paper_only": true,
+      "quantity": 163,
+      "risk_dollars": 247.7089421203579,
+      "score": 85.8,
+      "side": "long",
+      "stop": 334.5225143432617,
+      "symbol": "AAPL",
+      "target": 338.70165293731685,
+      "timestamp": "2026-09-17T16:22:00+00:00",
+      "type": "ENTRY"
+    }
+  ],
+  "latest_data_at": "2026-09-17T16:22:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 1,
+  "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
@@ -31,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 1
+  "trades_today": 2
 }
