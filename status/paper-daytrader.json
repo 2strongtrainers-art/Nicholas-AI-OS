@@ -1,14 +1,76 @@
 {
   "broker_order_capability": false,
-  "candidates": [],
-  "checked_at": "2026-09-18T13:31:20.753543+00:00",
+  "candidates": [
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 220.50509073486327,
+      "execution": "paper",
+      "opening_range_high": 220.07,
+      "opening_range_low": 218.04,
+      "relative_volume": 1.633,
+      "score": 72.92,
+      "side": "long",
+      "stop": 219.56250381469727,
+      "symbol": "NVDA",
+      "target": 222.15461784515378,
+      "timestamp": "2026-09-18T14:11:00+00:00",
+      "vwap": 218.994
+    },
+    {
+      "asset_class": "stock",
+      "average_down": false,
+      "entry": 334.3631066772461,
+      "execution": "paper",
+      "opening_range_high": 338.49,
+      "opening_range_low": 335.39,
+      "relative_volume": 1.456,
+      "score": 71.71,
+      "side": "short",
+      "stop": 336.1650085449219,
+      "symbol": "AAPL",
+      "target": 331.20977840881346,
+      "timestamp": "2026-09-18T14:11:00+00:00",
+      "vwap": 336.7388
+    }
+  ],
+  "checked_at": "2026-09-18T13:55:57.958731+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 99662.016262,
-  "events": [],
-  "latest_data_at": "2026-09-18T13:30:00+00:00",
+  "events": [
+    {
+      "entry": 220.50509073486327,
+      "opened_at": "2026-09-18T14:11:00+00:00",
+      "paper_only": true,
+      "quantity": 264,
+      "risk_dollars": 248.84294692382605,
+      "score": 72.92,
+      "side": "long",
+      "stop": 219.56250381469727,
+      "symbol": "NVDA",
+      "target": 222.15461784515378,
+      "timestamp": "2026-09-18T14:11:00+00:00",
+      "type": "ENTRY"
+    },
+    {
+      "entry": 334.3631066772461,
+      "opened_at": "2026-09-18T14:11:00+00:00",
+      "paper_only": true,
+      "quantity": 138,
+      "risk_dollars": 248.66245773925777,
+      "score": 71.71,
+      "side": "short",
+      "stop": 336.1650085449219,
+      "symbol": "AAPL",
+      "target": 331.20977840881346,
+      "timestamp": "2026-09-18T14:11:00+00:00",
+      "type": "ENTRY"
+    }
+  ],
+  "latest_data_at": "2026-09-18T14:11:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 0,
+  "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
@@ -31,5 +93,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 0
+  "trades_today": 2
 }
