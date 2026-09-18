@@ -1,47 +1,10 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-18T20:29:03.855065+00:00",
+  "checked_at": "2026-09-18T22:52:01.845455+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98872.372875,
-  "events": [
-    {
-      "entry": 717.2265211181641,
-      "exit": 718.722504,
-      "paper_only": true,
-      "pnl": -248.33,
-      "quantity": 166,
-      "reason": "STOP",
-      "side": "short",
-      "symbol": "QQQ",
-      "timestamp": "2026-09-18T19:59:00+00:00",
-      "type": "EXIT"
-    },
-    {
-      "entry": 334.3631066772461,
-      "exit": 335.589996,
-      "paper_only": true,
-      "pnl": -169.31,
-      "quantity": 138,
-      "reason": "SESSION_END",
-      "side": "short",
-      "symbol": "AAPL",
-      "timestamp": "2026-09-18T19:59:00+00:00",
-      "type": "EXIT"
-    },
-    {
-      "entry": 492.61645333862305,
-      "exit": 493.459991,
-      "paper_only": true,
-      "pnl": -123.16,
-      "quantity": 146,
-      "reason": "SESSION_END",
-      "side": "short",
-      "symbol": "MSFT",
-      "timestamp": "2026-09-18T19:59:00+00:00",
-      "type": "EXIT"
-    }
-  ],
+  "events": [],
   "latest_data_at": "2026-09-18T19:59:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
