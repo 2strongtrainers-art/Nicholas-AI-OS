@@ -1,7 +1,7 @@
 {
   "component": "Mac OpenMontage Worker",
   "state": "degraded",
-  "checked_at": "2026-09-19T15:50:43.881897+00:00",
+  "checked_at": "2026-09-19T17:51:46.982066+00:00",
   "host": "Nicks-MacBook-Pro.local",
   "worker": "openmontage_worker_resilient.py",
   "worker_version": 3,
