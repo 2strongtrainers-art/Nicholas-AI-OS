@@ -4,43 +4,43 @@
     {
       "asset_class": "stock",
       "average_down": false,
-      "entry": 497.454474798584,
+      "entry": 773.3183278564453,
       "execution": "paper",
-      "opening_range_high": 508.5,
-      "opening_range_low": 497.88,
-      "relative_volume": 1.369,
-      "score": 63.18,
+      "opening_range_high": 775.14,
+      "opening_range_low": 773.89,
+      "relative_volume": 1.265,
+      "score": 57.13,
       "side": "short",
-      "stop": 500.5350036621094,
-      "symbol": "MSFT",
-      "target": 492.06354928741456,
-      "timestamp": "2026-09-22T14:56:00+00:00",
-      "vwap": 499.8003
+      "stop": 774.2025146484375,
+      "symbol": "SPY",
+      "target": 771.771000970459,
+      "timestamp": "2026-09-22T15:00:00+00:00",
+      "vwap": 774.054
     }
   ],
-  "checked_at": "2026-09-22T13:07:00.932663+00:00",
+  "checked_at": "2026-09-22T13:11:08.959134+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98872.372875,
   "events": [
     {
-      "entry": 497.454474798584,
-      "opened_at": "2026-09-22T14:56:00+00:00",
+      "entry": 773.3183278564453,
+      "opened_at": "2026-09-22T15:00:00+00:00",
       "paper_only": true,
-      "quantity": 80,
-      "risk_dollars": 246.442309082031,
-      "score": 63.18,
+      "quantity": 279,
+      "risk_dollars": 246.68811496582168,
+      "score": 57.13,
       "side": "short",
-      "stop": 500.5350036621094,
-      "symbol": "MSFT",
-      "target": 492.06354928741456,
-      "timestamp": "2026-09-22T14:56:00+00:00",
+      "stop": 774.2025146484375,
+      "symbol": "SPY",
+      "target": 771.771000970459,
+      "timestamp": "2026-09-22T15:00:00+00:00",
       "type": "ENTRY"
     }
   ],
-  "latest_data_at": "2026-09-22T14:56:00+00:00",
+  "latest_data_at": "2026-09-22T15:00:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
-  "open_positions": 1,
+  "open_positions": 2,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
   "realized_pnl": 0.0,
@@ -63,5 +63,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 1
+  "trades_today": 2
 }
