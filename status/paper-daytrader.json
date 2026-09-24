@@ -1,47 +1,10 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-24T21:28:10.809764+00:00",
+  "checked_at": "2026-09-24T22:29:52.665788+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98278.228273,
-  "events": [
-    {
-      "entry": 767.9235735351563,
-      "exit": 767.23999,
-      "paper_only": true,
-      "pnl": -51.95,
-      "quantity": 76,
-      "reason": "SESSION_END",
-      "side": "long",
-      "symbol": "SPY",
-      "timestamp": "2026-09-24T19:59:00+00:00",
-      "type": "EXIT"
-    },
-    {
-      "entry": 740.0480044189453,
-      "exit": 741.059998,
-      "paper_only": true,
-      "pnl": 73.88,
-      "quantity": 73,
-      "reason": "SESSION_END",
-      "side": "long",
-      "symbol": "QQQ",
-      "timestamp": "2026-09-24T19:59:00+00:00",
-      "type": "EXIT"
-    },
-    {
-      "entry": 223.70972628479004,
-      "exit": 224.539993,
-      "paper_only": true,
-      "pnl": 200.09,
-      "quantity": 241,
-      "reason": "SESSION_END",
-      "side": "long",
-      "symbol": "NVDA",
-      "timestamp": "2026-09-24T19:59:00+00:00",
-      "type": "EXIT"
-    }
-  ],
+  "events": [],
   "latest_data_at": "2026-09-24T19:59:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
