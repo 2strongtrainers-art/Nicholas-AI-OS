@@ -1,24 +1,11 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-24T13:19:49.036093+00:00",
+  "checked_at": "2026-09-24T15:08:37.865807+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98301.867875,
-  "events": [
-    {
-      "entry": 765.6781294189453,
-      "exit": 764.699997,
-      "paper_only": true,
-      "pnl": -246.49,
-      "quantity": 252,
-      "reason": "STOP",
-      "side": "long",
-      "symbol": "SPY",
-      "timestamp": "2026-09-24T15:03:00+00:00",
-      "type": "EXIT"
-    }
-  ],
-  "latest_data_at": "2026-09-24T15:03:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-09-24T15:07:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 0,
