@@ -1,17 +1,30 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-24T15:08:37.865807+00:00",
+  "checked_at": "2026-09-24T15:11:19.290090+00:00",
   "component": "Paper Day Trader Feed",
-  "equity": 98301.867875,
-  "events": [],
-  "latest_data_at": "2026-09-24T15:07:00+00:00",
+  "equity": 98056.210758,
+  "events": [
+    {
+      "entry": 763.2123172363281,
+      "exit": 763.979996,
+      "paper_only": true,
+      "pnl": -245.66,
+      "quantity": 320,
+      "reason": "STOP",
+      "side": "short",
+      "symbol": "SPY",
+      "timestamp": "2026-09-24T15:47:00+00:00",
+      "type": "EXIT"
+    }
+  ],
+  "latest_data_at": "2026-09-24T15:47:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 0,
   "paper_only": true,
   "provider": "yahoo_chart_fallback",
-  "realized_pnl": -492.516264,
+  "realized_pnl": -738.173381,
   "session_complete": false,
   "session_id": "2026-09-24",
   "state": "running",
@@ -31,5 +44,5 @@
     "MSFT",
     "AMD"
   ],
-  "trades_today": 2
+  "trades_today": 3
 }
