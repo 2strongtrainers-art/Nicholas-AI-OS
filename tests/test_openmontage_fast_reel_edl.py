@@ -27,7 +27,36 @@ class FastReelEdlTests(unittest.TestCase):
         self.assertEqual(len(clips), 2)
         self.assertEqual(clips[0]["start_seconds"], 0.0)
         self.assertIsNone(clips[0]["duration_seconds"])
+        self.assertEqual(clips[0]["focus_x"], 0.5)
+        self.assertEqual(clips[0]["focus_y"], 0.5)
         self.assertEqual(clips[1]["duration_seconds"], 5.5)
+
+    def test_preserves_and_bounds_subject_focus(self):
+        clips = edl.normalize_clip_specs(
+            {
+                "clips": [
+                    {"media": "left.mp4", "focus_x": 0.18, "focus_y": 0.63},
+                    {"media": "bounded.mp4", "focus_x": 1.4, "focus_y": -0.2},
+                ]
+            }
+        )
+        self.assertEqual(clips[0]["focus_x"], 0.18)
+        self.assertEqual(clips[0]["focus_y"], 0.63)
+        self.assertEqual(clips[1]["focus_x"], 1.0)
+        self.assertEqual(clips[1]["focus_y"], 0.0)
+
+    def test_crop_filter_uses_focus_metadata(self):
+        filt = edl._crop_filter(2, 0.75, 0.25)
+        self.assertIn("[2:v]scale=1080:1920", filt)
+        self.assertIn("(iw-1080)*0.750000", filt)
+        self.assertIn("(ih-1920)*0.250000", filt)
+        self.assertIn("fps=24", filt)
+
+    def test_rejects_non_numeric_focus(self):
+        with self.assertRaisesRegex(RuntimeError, "focus_x must be numeric"):
+            edl.normalize_clip_specs(
+                {"clips": [{"media": "clip.mp4", "focus_x": "not-a-number"}]}
+            )
 
     def test_rejects_non_positive_trim(self):
         with self.assertRaises(RuntimeError):
