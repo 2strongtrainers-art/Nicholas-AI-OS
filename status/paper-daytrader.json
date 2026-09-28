@@ -1,24 +1,11 @@
 {
   "broker_order_capability": false,
   "candidates": [],
-  "checked_at": "2026-09-28T17:18:59.170756+00:00",
+  "checked_at": "2026-09-28T18:05:36.009160+00:00",
   "component": "Paper Day Trader Feed",
   "equity": 98035.075089,
-  "events": [
-    {
-      "entry": 735.6629576049805,
-      "exit": 738.592514,
-      "paper_only": true,
-      "pnl": -243.15,
-      "quantity": 83,
-      "reason": "STOP",
-      "side": "short",
-      "symbol": "QQQ",
-      "timestamp": "2026-09-28T17:17:00+00:00",
-      "type": "EXIT"
-    }
-  ],
-  "latest_data_at": "2026-09-28T17:17:00+00:00",
+  "events": [],
+  "latest_data_at": "2026-09-28T18:04:00+00:00",
   "live_execution_enabled": false,
   "market_data_errors": {},
   "open_positions": 2,
