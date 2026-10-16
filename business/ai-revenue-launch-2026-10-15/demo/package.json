@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "gsap": "3.14.2",
+    "hyperframes": "0.8.162"
+  },
+  "private": true,
+  "scripts": {
+    "check": "hyperframes check --json",
+    "render": "hyperframes render --fps 30 --quality looks --output sample.mp4"
+  }
+}
