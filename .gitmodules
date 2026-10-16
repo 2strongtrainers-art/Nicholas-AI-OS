@@ -1,0 +1,27 @@
+[submodule "third_party/ai-tools-2026-10-15/sources/AutoHedge"]
+	path = third_party/ai-tools-2026-10-15/sources/AutoHedge
+	url = https://github.com/The-Swarm-Corporation/AutoHedge.git
+[submodule "third_party/ai-tools-2026-10-15/sources/Vibe-Trading"]
+	path = third_party/ai-tools-2026-10-15/sources/Vibe-Trading
+	url = https://github.com/HKUDS/Vibe-Trading.git
+[submodule "third_party/ai-tools-2026-10-15/sources/FinceptTerminal"]
+	path = third_party/ai-tools-2026-10-15/sources/FinceptTerminal
+	url = https://github.com/Fincept-Corporation/FinceptTerminal.git
+[submodule "third_party/ai-tools-2026-10-15/sources/LibreChat"]
+	path = third_party/ai-tools-2026-10-15/sources/LibreChat
+	url = https://github.com/LibreChat-AI/LibreChat.git
+[submodule "third_party/ai-tools-2026-10-15/sources/Open-Generative-AI"]
+	path = third_party/ai-tools-2026-10-15/sources/Open-Generative-AI
+	url = https://github.com/Anil-matcha/Open-Generative-AI.git
+[submodule "third_party/ai-tools-2026-10-15/sources/Open-LLM-VTuber"]
+	path = third_party/ai-tools-2026-10-15/sources/Open-LLM-VTuber
+	url = https://github.com/Open-LLM-VTuber/Open-LLM-VTuber.git
+[submodule "third_party/ai-tools-2026-10-15/sources/agentic-inbox"]
+	path = third_party/ai-tools-2026-10-15/sources/agentic-inbox
+	url = https://github.com/cloudflare/agentic-inbox.git
+[submodule "third_party/ai-tools-2026-10-15/sources/camofox-browser"]
+	path = third_party/ai-tools-2026-10-15/sources/camofox-browser
+	url = https://github.com/jo-inc/camofox-browser.git
+[submodule "third_party/ai-tools-2026-10-15/sources/hyperframes"]
+	path = third_party/ai-tools-2026-10-15/sources/hyperframes
+	url = https://github.com/heygen-com/hyperframes.git
