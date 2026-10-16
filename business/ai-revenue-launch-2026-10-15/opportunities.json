@@ -1,0 +1,81 @@
+{
+  "currency": "USD",
+  "note": "All prices, costs, hours and sales targets are planning hypotheses; no customers or results invented.",
+  "paths": [
+    {
+      "name": "Content studio",
+      "offer": "Four branded motion clips/month for trainers and local businesses.",
+      "price": 597,
+      "direct": 30,
+      "hours": 2,
+      "acquisitionHours": 1,
+      "setupHours": 4,
+      "billing": "monthly package",
+      "repos": "Hyperframes; Open-Generative-AI optional",
+      "requirements": "One reusable motion template. Preserve the existing OpenMontage/Fast Reel path for supplied-footage edits. Generative imagery, voice and stock are excluded.",
+      "gate": "Show this sample to ten warm business contacts, seek five conversations and one $297 paid two-clip pilot. Continue only if the pilot is usable and takes <=2 hours including one revision.",
+      "evidence": "Strong skills fit, demonstrated sample; no paid customer validation.",
+      "rank": 1
+    },
+    {
+      "name": "Premium coaching workflow",
+      "offer": "The existing $497 online-coaching offer with structured check-ins and visual progress reports.",
+      "price": 497,
+      "direct": 10,
+      "hours": 2,
+      "acquisitionHours": 1,
+      "setupHours": 6,
+      "billing": "monthly coaching client",
+      "repos": "LibreChat optional; Hyperframes optional",
+      "requirements": "Preserve existing Notion/Airtable records. No live client data is imported. LibreChat later needs a host, MongoDB/services and approved model configuration. Hours must include communication and review; no automatic program changes.",
+      "gate": "Have five opt-in prospect conversations. Seek one suitable enrollment at the existing price and time a fictional check-in/report dry run to <=30 minutes. Measure total support time in month one.",
+      "evidence": "Very strong business fit; incremental conversion/retention unmeasured.",
+      "rank": 2
+    },
+    {
+      "name": "Inbox setup service",
+      "offer": "One-domain email drafting workflow, access setup and handoff training for a compatible business.",
+      "price": 750,
+      "direct": 25,
+      "hours": 6,
+      "acquisitionHours": 2,
+      "setupHours": 10,
+      "billing": "one-time setup project",
+      "repos": "Agentic Inbox",
+      "requirements": "Requires domain-owner access, Cloudflare Access, Email Routing/Service, R2, Durable Objects and Workers AI. Shared Access members can access all mailboxes by design. No deployment, Gmail migration or live sending verified. Provider/domain costs are separately quoted.",
+      "gate": "Interview three compatible domain owners; continue after one paid setup request and a non-production inbound/authentication/draft-review test.",
+      "evidence": "Build/typecheck passed; willingness to pay and live deployment unverified.",
+      "rank": 3
+    },
+    {
+      "name": "Private AI workspace",
+      "offer": "One team workspace answering questions about approved business documents, plus training.",
+      "price": 995,
+      "direct": 25,
+      "hours": 8,
+      "acquisitionHours": 2,
+      "setupHours": 12,
+      "billing": "one-time setup project",
+      "repos": "LibreChat; VTuber optional; Camofox optional",
+      "requirements": "Requires maintained host, database/services and approved provider/data policy. Camofox browser integration remains unresolved. An avatar adds ASR/TTS/model setup without proving customer value. Hardware and inference billed separately.",
+      "gate": "Interview three owners about one costly repeated task; continue after one paid request and ten representative synthetic-document queries pass with citations/access checks.",
+      "evidence": "Setup-service hypothesis; support load and hardware needs unresolved.",
+      "rank": 4
+    },
+    {
+      "name": "Paper-research journal",
+      "offer": "A research journal, fee/slippage worksheet and paper-trade review template for record-keeping.",
+      "price": 199,
+      "direct": 5,
+      "hours": 2,
+      "acquisitionHours": 1,
+      "setupHours": 8,
+      "billing": "one-time template/setup sale",
+      "repos": "Vibe-Trading; AutoHedge optional; Fincept excluded commercially pending license clearance",
+      "requirements": "Use synthetic/public records only. Fincept has custom commercial/internal-use license terms. No profitable strategy is validated. Sell bookkeeping utility, not signals, personalized recommendations or returns. No live trading.",
+      "gate": "Show a synthetic example to three journal users. Continue only after one paid request, reproducible fee calculations and applicable license/marketing review.",
+      "evidence": "Weakest revenue evidence; no demand or trading edge validated.",
+      "rank": 5
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>TriValley.fit · Stronger starts here</title>
+    <script src="node_modules/gsap/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: Brand;
+        src: url("assets/DejaVuSans-Bold.ttf");
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #071b22;
+        color: #f4f8ed;
+        font-family: Brand, sans-serif;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        background: #071b22;
+      }
+      .stage {
+        position: absolute;
+        inset: 0;
+      }
+      .rail {
+        position: absolute;
+        left: 82px;
+        top: 98px;
+        width: 8px;
+        height: 110px;
+        background: #d8ff52;
+      }
+      .brand {
+        position: absolute;
+        left: 116px;
+        top: 110px;
+        font-size: 42px;
+        letter-spacing: -2px;
+      }
+      .top {
+        position: absolute;
+        top: 264px;
+        left: 82px;
+        font-size: 24px;
+        letter-spacing: 5px;
+        color: #d8ff52;
+      }
+      .hero {
+        position: absolute;
+        left: 76px;
+        top: 386px;
+        width: 920px;
+      }
+      .line {
+        font-size: 122px;
+        line-height: 1.09;
+        letter-spacing: -8px;
+        margin: 0;
+      }
+      .lime {
+        color: #d8ff52;
+      }
+      .rule {
+        position: absolute;
+        left: 82px;
+        top: 960px;
+        width: 910px;
+        height: 3px;
+        background: #54726e;
+      }
+      .support {
+        position: absolute;
+        left: 82px;
+        top: 1020px;
+        font-size: 38px;
+        line-height: 1.6;
+        max-width: 900px;
+      }
+      .cta {
+        position: absolute;
+        left: 82px;
+        top: 1320px;
+        width: 910px;
+        padding: 36px 28px;
+        background: #d8ff52;
+        color: #071b22;
+        font-size: 35px;
+        border-radius: 12px;
+      }
+      .footer {
+        position: absolute;
+        left: 82px;
+        top: 1642px;
+        font-size: 24px;
+        letter-spacing: 2px;
+        color: #d0ded6;
+      }
+      .number {
+        position: absolute;
+        right: 82px;
+        top: 110px;
+        font-size: 24px;
+        color: #d8ff52;
+      }
+      .bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 18px;
+        width: 1080px;
+        background: #d8ff52;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-width="1080"
+      data-height="1920"
+      data-duration="8"
+    >
+      <section class="stage" id="brand-card">
+        <div class="rail"></div>
+        <div class="brand">TriValley.fit</div>
+        <div class="number">01 / START</div>
+        <div class="top">YOUR NEXT CHAPTER</div>
+        <div class="hero">
+          <p class="line" id="l1">STRONGER</p>
+          <p class="line" id="l2">STARTS</p>
+          <p class="line lime" id="l3">HERE.</p>
+        </div>
+        <div class="rule"></div>
+        <div class="support">
+          <div>Personal training.</div>
+          <div>Online coaching.</div>
+          <div>One clear plan.</div>
+        </div>
+        <div class="cta">BOOK YOUR ASSESSMENT →</div>
+        <div class="footer">TRIVALLEY.FIT · CONCEPT SAMPLE</div>
+        <div class="bar"></div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo(
+        ".rail",
+        { scaleY: 0 },
+        { scaleY: 1, duration: 0.6, ease: "power3.out" },
+        0,
+      );
+      tl.fromTo(
+        ".brand",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        0.1,
+      );
+      tl.fromTo(
+        ".top",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        0.25,
+      );
+      ["#l1", "#l2", "#l3"].forEach((s, i) =>
+        tl.fromTo(
+          s,
+          { opacity: 0, y: 100 },
+          { opacity: 1, y: 0, duration: 0.85, ease: "power3.out" },
+          0.4 + i * 0.23,
+        ),
+      );
+      tl.fromTo(".rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7 }, 1.2);
+      tl.fromTo(
+        ".support",
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7 },
+        1.6,
+      );
+      tl.fromTo(
+        ".cta",
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
+        3.6,
+      );
+      tl.fromTo(".footer", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 4.1);
+      tl.fromTo(
+        ".bar",
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: 8, ease: "none" },
+        0,
+      );
+      window.__timelines = window.__timelines || {};
+      window.__timelines.main = tl;
+    </script>
+  </body>
+</html>
