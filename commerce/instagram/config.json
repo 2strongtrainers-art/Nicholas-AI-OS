@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "brand": "TriValley.fit",
+  "live_execution_enabled": false,
+  "offer": {
+    "name": "The Four-Week Training Consistency Planner",
+    "price_cents": 1900,
+    "price_basis": "Unvalidated starting hypothesis; no demand or sales claimed",
+    "status": "draft",
+    "product_url": null,
+    "delivery_asset": null,
+    "delivery_status": "Private product draft prepared; not uploaded or sold"
+  },
+  "policy": {
+    "minimum_sales": 10,
+    "minimum_net_margin": 0.3,
+    "maximum_data_age_hours": 48,
+    "maximum_evidence_age_hours": 168,
+    "new_paid_services_budget_cents": 0,
+    "advertising_budget_cents": 0
+  }
+}
