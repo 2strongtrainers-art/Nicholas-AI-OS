@@ -1,0 +1,40 @@
+name: Instagram commerce checks
+
+on:
+  pull_request:
+    paths:
+      - 'commerce/instagram/**'
+      - '.github/workflows/instagram-commerce-ci.yml'
+      - 'AGENTS.md'
+  push:
+    branches: [main]
+    paths:
+      - 'commerce/instagram/**'
+      - '.github/workflows/instagram-commerce-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate readiness and economics guards
+        run: python -m unittest discover -s commerce/instagram/tests -v
+      - name: Build draft queue and readiness report
+        run: |
+          mkdir -p /tmp/commerce-report
+          python commerce/instagram/control.py report --output /tmp/commerce-report/readiness.json
+          python commerce/instagram/control.py queue --output /tmp/commerce-report/draft-queue.json
+      - name: Save non-sensitive reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-commerce-readiness
+          path: /tmp/commerce-report/
+          retention-days: 14

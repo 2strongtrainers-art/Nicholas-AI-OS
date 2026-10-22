@@ -1,0 +1,6 @@
+{
+  "instagram_connection": {"passed": false, "checked_at": null, "reference": null},
+  "product_review": {"passed": false, "checked_at": null, "reference": null},
+  "checkout_test": {"passed": false, "checked_at": null, "reference": null},
+  "delivery_test": {"passed": false, "checked_at": null, "reference": null}
+}

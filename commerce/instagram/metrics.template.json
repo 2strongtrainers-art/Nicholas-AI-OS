@@ -1,0 +1,16 @@
+{
+  "currency": "USD",
+  "costs_complete": false,
+  "period_start": null,
+  "period_end": null,
+  "as_of": null,
+  "settled_sales": 0,
+  "gross_revenue_cents": 0,
+  "refunds_cents": 0,
+  "processing_fees_cents": 0,
+  "advertising_cents": 0,
+  "software_cents": 0,
+  "fulfillment_cents": 0,
+  "labor_cents": 0,
+  "other_costs_cents": 0
+}
