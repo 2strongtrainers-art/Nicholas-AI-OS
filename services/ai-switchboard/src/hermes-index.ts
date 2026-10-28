@@ -24,7 +24,7 @@ function hermesPaths() {
     "/hermes/jobs": {
       post: {
         operationId: "createHermesJob",
-        summary: "Queue a read-only Hermes research/reasoning job on Nicholas's Mac worker.",
+        summary: "Queue a Hermes job on Nicholas's Mac worker (research_readonly by default, or maintenance for scoped repairs).",
         requestBody: {
           required: true,
           content: {
@@ -35,6 +35,12 @@ function hermesPaths() {
                 properties: {
                   task: { type: "string", maxLength: 12000 },
                   timeout_seconds: { type: "integer", minimum: 60, maximum: 1200, default: 900 },
+                  profile: {
+                    type: "string",
+                    enum: ["research_readonly", "maintenance"],
+                    default: "research_readonly",
+                    description: "maintenance allows repository edits, tests, and deploys of the bridge/switchboard services only; never credentials or other accounts.",
+                  },
                 },
               },
             },
@@ -47,11 +53,24 @@ function hermesPaths() {
           "503": { description: "Hermes job store unavailable" },
         },
       },
+      get: {
+        operationId: "listHermesJobs",
+        summary: "List recent Hermes jobs with id, status, profile, and timing (no result bodies; fetch one job for its result and log).",
+        parameters: [
+          { name: "status", in: "query", schema: { type: "string", enum: ["queued", "running", "completed", "failed"] } },
+          { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 100, default: 20 } },
+        ],
+        responses: {
+          "200": { description: "Recent Hermes jobs" },
+          "401": { description: "Unauthorized" },
+          "503": { description: "Hermes job store unavailable" },
+        },
+      },
     },
     "/hermes/jobs/{job_id}": {
       get: {
         operationId: "getHermesJob",
-        summary: "Read the status and final result of a Hermes job.",
+        summary: "Read the status, final result, error, and worker log lines of a Hermes job.",
         parameters: [
           {
             name: "job_id",

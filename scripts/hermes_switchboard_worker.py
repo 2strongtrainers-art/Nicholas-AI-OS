@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Poll the Nicholas AI Switchboard for one allowlisted Hermes job and return its result.
 
-No arbitrary shell is exposed. The task is always executed with Hermes in a fixed
-read-only one-shot profile and worker credentials stay in owner-only local files
-outside the repository.
+Two profiles exist. Research jobs run a fixed read-only one-shot profile.
+Maintenance jobs run a scoped repair profile: repository files, tests, and
+wrangler deploys for the two switchboard/bridge services only — never
+credentials, Keychain data, or anything outside the repository. Worker
+credentials stay in owner-only local files outside the repository.
 """
 
 import json
@@ -24,7 +26,7 @@ WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
 OPENCODE_AUTH_FILE = HOME / ".local" / "share" / "opencode" / "auth.json"
 LOCK = HOME / ".hermes-switchboard-worker.lock"
 LOG = HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log"
-WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.2"
+WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.3"
 
 # Codex OAuth can hit a ChatGPT/Codex usage ceiling independently of the rest of
 # Nicholas-AI-OS. Keep Hermes available through the already-configured
@@ -132,7 +134,33 @@ def hermes_bin() -> str:
     raise RuntimeError("Hermes executable not found")
 
 
-def prompt_for(task: str) -> str:
+def prompt_for(task: str, profile: str = "research_readonly") -> str:
+    if profile == "maintenance":
+        return f"""You are Nicholas Operator/Hermes running an authenticated one-shot maintenance job from Nicholas-AI-OS.
+
+MAINTENANCE PROFILE — SCOPED REPAIR ONLY
+- Work only inside the Nicholas-AI-OS repository directory.
+- Allowed: read files, edit files, run the repository's own tests and verify
+  scripts, run git status/diff/add/commit/push inside the repository, and run
+  wrangler deploy for exactly these two services from their service
+  directories: nicholas-ai-os (ElevenLabs bridge) and nicholas-ai-switchboard.
+- Diagnose first: reproduce the failure, name the root cause, then fix it.
+- After a fix, run the relevant test or verification command and report the
+  command plus its outcome (pass/fail with the key lines).
+- Forbidden: reading or changing credentials, tokens, API keys, .env files,
+  Keychain data, ~/.config, ~/.ssh, or anything outside the repository;
+  sending messages, publishing content, scheduling tasks, making purchases,
+  modifying accounts, or changing unrelated services.
+- If the task requires a capability outside this profile, explain the blocked
+  action instead of attempting it.
+
+USER TASK
+{task}
+
+Return the useful result directly: what was diagnosed, what changed, what was
+tested, and what still needs a human. Distinguish verified facts from
+uncertainty."""
+
     return f"""You are Nicholas Operator/Hermes running an authenticated one-shot job from Nicholas-AI-OS.
 
 SAFETY PROFILE — READ ONLY
@@ -150,22 +178,53 @@ USER TASK
 Return the useful result directly. Distinguish verified facts from uncertainty."""
 
 
+FORBIDDEN_MAINTENANCE_FRAGMENTS = (
+    "keychain",
+    ".config/nicholas-ai-switchboard",
+    "hermes-worker.key",
+    "deployment.env",
+    ".ssh",
+    "auth.json",
+    ".env",
+)
+
+
+def maintenance_task_allowed(task: str):
+    """Return a refusal reason, or None when a maintenance task is allowed."""
+    lowered = task.lower()
+    for fragment in FORBIDDEN_MAINTENANCE_FRAGMENTS:
+        if fragment in lowered:
+            return f"Maintenance tasks may not touch {fragment}; that area is outside the repair profile."
+    return None
+
+
 def execute(job: dict) -> str:
     job_id = str(job["id"])
     task = str(job["task"]).strip()
+    profile = str(job.get("profile") or "research_readonly")
+    if profile not in ("research_readonly", "maintenance"):
+        profile = "research_readonly"
+    if profile == "maintenance":
+        refusal = maintenance_task_allowed(task)
+        if refusal:
+            raise RuntimeError(refusal)
     timeout_seconds = max(60, min(int(job.get("timeout_seconds") or 900), 1200))
     usage_path = HOME / ".hermes" / f"{re.sub(r'[^A-Za-z0-9._-]+', '-', job_id)[:120]}-usage.json"
     usage_path.parent.mkdir(parents=True, exist_ok=True)
+    command = [
+        hermes_bin(),
+        "--provider", HERMES_PROVIDER,
+        "--model", HERMES_MODEL,
+        "--reasoning", "high",
+        "--usage-file", str(usage_path),
+        "--oneshot", prompt_for(task, profile),
+    ]
+    if profile == "research_readonly":
+        # Research jobs keep the search-only toolset; maintenance jobs use the
+        # runner's default toolsets so they can edit, test, and deploy.
+        command[5:5] = ["--toolsets", "search"]
     result = subprocess.run(
-        [
-            hermes_bin(),
-            "--provider", HERMES_PROVIDER,
-            "--model", HERMES_MODEL,
-            "--reasoning", "high",
-            "--toolsets", "search",
-            "--usage-file", str(usage_path),
-            "--oneshot", prompt_for(task),
-        ],
+        command,
         cwd=str(ROOT),
         env=hermes_environment(),
         text=True,
@@ -224,6 +283,14 @@ def acquire_lock() -> bool:
     return False
 
 
+def post_log(url: str, key: str, job_id: str, lines: list) -> None:
+    """Best-effort progress log; never fails the job for a logging failure."""
+    try:
+        request_json(f"{url}/hermes/internal/jobs/{job_id}", key, {"log": lines})
+    except Exception as exc:
+        log(f"LOG POST FAILED {job_id}: {redact(str(exc))}")
+
+
 def main() -> int:
     if not acquire_lock():
         return 0
@@ -238,7 +305,9 @@ def main() -> int:
         job_id = str(job.get("id") or "")
         if not job_id:
             raise RuntimeError("Claimed Hermes job has no id")
-        log(f"CLAIMED {job_id}")
+        profile = str(job.get("profile") or "research_readonly")
+        log(f"CLAIMED {job_id} profile={profile}")
+        post_log(url, key, job_id, [f"Worker claimed job; profile={profile}"])
         try:
             output = execute(job)
             request_json(
@@ -249,10 +318,11 @@ def main() -> int:
                     "result": output,
                     "provider": HERMES_PROVIDER,
                     "model": HERMES_MODEL,
-                    "profile": "research_readonly",
+                    "profile": profile,
+                    "log": [f"Completed with profile={profile}"],
                 },
             )
-            log(f"COMPLETED {job_id} provider={HERMES_PROVIDER} model={HERMES_MODEL}")
+            log(f"COMPLETED {job_id} provider={HERMES_PROVIDER} model={HERMES_MODEL} profile={profile}")
         except Exception as exc:
             error = redact(str(exc))[-4000:]
             try:
@@ -264,7 +334,8 @@ def main() -> int:
                         "error": error,
                         "provider": HERMES_PROVIDER,
                         "model": HERMES_MODEL,
-                        "profile": "research_readonly",
+                        "profile": profile,
+                        "log": [f"Failed: {error[:200]}"],
                     },
                 )
             finally:

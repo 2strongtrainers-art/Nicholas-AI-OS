@@ -1,8 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpHandler } from "agents/mcp/server";
 import { z } from "zod";
+import { handleOAuth, isOAuthAccessToken, type OAuthEnv } from "./oauth";
 
-interface Env {
+interface Env extends OAuthEnv {
   ELEVENLABS_API_KEY: string;
   BRIDGE_TOKEN: string;
 }
@@ -102,7 +103,7 @@ async function resolveVoiceId(env: Env, voiceId?: string, voiceName?: string) {
 function createServer(env: Env) {
   const server = new McpServer({
     name: "Nicholas ElevenLabs Creative Bridge",
-    version: "0.1.0",
+    version: "0.2.0",
   });
 
   server.registerTool(
@@ -171,6 +172,74 @@ function createServer(env: Env) {
     },
     async ({ generation_id }) =>
       safe(() => elevenFetch(env, `/v1/flows/text-to-speech/${encodeURIComponent(generation_id)}`)),
+  );
+
+  // The old Replit bridge sometimes returned local container paths such as
+  // /home/runner/... that no client can open. This tool only ever returns a
+  // public https URL (or a clear error when ElevenLabs has not produced one).
+  server.registerTool(
+    "get_speech_audio",
+    {
+      description:
+        "Resolve a speech generation to a downloadable audio URL. Returns only a public https URL, never a local filesystem path.",
+      inputSchema: { generation_id: z.string().min(1) },
+    },
+    async ({ generation_id }) =>
+      safe(async () => {
+        const data = (await elevenFetch(
+          env,
+          `/v1/flows/text-to-speech/${encodeURIComponent(generation_id)}`,
+        )) as unknown;
+        const found: string[] = [];
+        const walk = (value: unknown): void => {
+          if (typeof value === "string") {
+            if (value.startsWith("https://")) found.push(value);
+            return;
+          }
+          if (Array.isArray(value)) value.forEach(walk);
+          else if (value && typeof value === "object") Object.values(value).forEach(walk);
+        };
+        walk(data);
+        const audioUrl = found.find((candidate) => /\.(mp3|wav|ogg|m4a|flac)(\?|$)/i.test(candidate));
+        if (!audioUrl) {
+          throw new Error(
+            "No downloadable audio URL is available yet for this generation. Poll get_speech until it completes, and never use a local filesystem path.",
+          );
+        }
+        return { generation_id, status: "ready", audio_url: audioUrl };
+      }),
+  );
+
+  // Short preview first: the video workflow requires the owner to approve a
+  // preview like this before full narration is generated.
+  server.registerTool(
+    "preview_speech",
+    {
+      description:
+        "Generate a short voice preview (first ~280 characters) so the owner can approve the voice before full narration is generated.",
+      inputSchema: {
+        text: z.string().min(1),
+        voice_id: z.string().optional(),
+        voice_name: z.string().optional(),
+        model_id: z
+          .enum(["eleven_v3", "eleven_multilingual_v2", "eleven_flash_v2_5"])
+          .default("eleven_v3"),
+      },
+    },
+    async ({ text, voice_id, voice_name, model_id }) =>
+      safe(async () => {
+        const voice = await resolveVoiceId(env, voice_id, voice_name);
+        const preview = text.slice(0, 280);
+        const created = (await elevenFetch(env, "/v1/flows/text-to-speech", {
+          method: "POST",
+          body: JSON.stringify({ model_id, text: preview, voice }),
+        })) as { generation_id?: string; id?: string };
+        return {
+          preview_text: preview,
+          generation_id: created.generation_id || created.id,
+          note: "Use get_speech_audio with this generation_id for the preview audio. Generate the full narration only after the owner approves this preview.",
+        };
+      }),
   );
 
   server.registerTool(
@@ -321,13 +390,18 @@ function createServer(env: Env) {
 }
 
 function isAuthorized(request: Request, env: Env) {
-  if (!env.BRIDGE_TOKEN) return false;
-  return request.headers.get("authorization") === `Bearer ${env.BRIDGE_TOKEN}`;
+  if (env.BRIDGE_TOKEN && request.headers.get("authorization") === `Bearer ${env.BRIDGE_TOKEN}`) {
+    return true;
+  }
+  return false;
 }
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    const oauth = await handleOAuth(request, env, url.origin);
+    if (oauth) return oauth;
 
     if (url.pathname === "/health") {
       return Response.json({ ok: true, service: "nicholas-elevenlabs-bridge", replit_required: false });
@@ -335,7 +409,10 @@ export default {
 
     if (url.pathname !== "/mcp") return new Response("Not Found", { status: 404 });
 
-    if (!isAuthorized(request, env)) {
+    const authorized =
+      isAuthorized(request, env) ||
+      (await isOAuthAccessToken(env, request.headers.get("authorization")));
+    if (!authorized) {
       return new Response("Unauthorized", {
         status: 401,
         headers: { "WWW-Authenticate": "Bearer" },
