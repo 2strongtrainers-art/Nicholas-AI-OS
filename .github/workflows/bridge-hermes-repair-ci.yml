@@ -1,0 +1,48 @@
+name: Bridge and Hermes regression checks
+on:
+  pull_request:
+    paths:
+      - 'services/elevenlabs-cloudflare-bridge/**'
+      - 'services/ai-switchboard/**'
+      - 'scripts/*hermes*'
+      - 'scripts/deploy_ai_switchboard.sh'
+      - 'scripts/deploy_switchboard_preserving_kv.sh'
+      - 'tests/test_hermes_repair.py'
+      - 'wrangler.jsonc'
+      - '.github/workflows/bridge-hermes-repair-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bridge OAuth tests in Workers runtime
+        working-directory: services/elevenlabs-cloudflare-bridge
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+          npm run typecheck
+          npx wrangler deploy --dry-run
+      - name: Hermes queue validation
+        working-directory: services/ai-switchboard
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+          npm run typecheck
+          npx wrangler deploy --dry-run
+      - name: Runner and deployment regression tests
+        run: |
+          python -m unittest tests/test_hermes_repair.py -v
+          for script in scripts/prepare_hermes_deploy.sh scripts/deploy_switchboard_preserving_kv.sh scripts/deploy_ai_switchboard.sh scripts/deploy_hermes_http_endpoint.sh; do bash -n "$script"; done
+          git diff --check

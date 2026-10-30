@@ -6,6 +6,8 @@ export interface HermesJobsEnv {
 
 type HermesStatus = "queued" | "running" | "completed" | "failed";
 
+type HermesProfile = "research_readonly";
+
 type HermesJob = {
   id: string;
   status: HermesStatus;
@@ -20,6 +22,7 @@ type HermesJob = {
   provider?: string;
   model?: string;
   profile?: string;
+  log?: string[];
 };
 
 const PREFIX = "hermes:job:";
@@ -58,8 +61,37 @@ function publicJob(job: HermesJob) {
     error: job.status === "failed" ? job.error || "Hermes job failed" : null,
     provider: job.provider || null,
     model: job.model || null,
-    profile: job.profile || null,
+    profile: job.profile || "research_readonly",
+    log: job.log || [],
   };
+}
+
+// List responses stay light: status and timing, no result/error bodies.
+// Fetch a single job for its result, error, or log lines.
+function publicSummary(job: HermesJob) {
+  return {
+    id: job.id,
+    status: job.status,
+    profile: job.profile || "research_readonly",
+    created_at: job.created_at,
+    started_at: job.started_at || null,
+    completed_at: job.completed_at || null,
+    failed_at: job.failed_at || null,
+  };
+}
+
+function parseProfile(value: unknown): HermesProfile | null {
+  return value === undefined || value === "research_readonly" ? "research_readonly" : null;
+}
+
+function appendLog(job: HermesJob, lines: unknown): void {
+  if (!Array.isArray(lines)) return;
+  const clean = lines
+    .filter((line): line is string => typeof line === "string")
+    .map((line) => redact(line).slice(0, 500))
+    .slice(0, 20);
+  if (!clean.length) return;
+  job.log = [...(job.log || []), ...clean].slice(-100);
 }
 
 async function load(env: HermesJobsEnv, id: string): Promise<HermesJob | null> {
@@ -77,9 +109,12 @@ async function createJob(request: Request, env: HermesJobsEnv, secret?: string):
   let body: Record<string, unknown>;
   try {
     body = await request.json() as Record<string, unknown>;
+    if (!body || typeof body !== "object" || Array.isArray(body)) throw new Error();
   } catch {
     return json({ ok: false, error: "Request body must be valid JSON" }, 400);
   }
+  const profile = parseProfile(body.profile);
+  if (!profile) return json({ ok: false, error: "Only research_readonly is supported; maintenance requires an isolated runner" }, 400);
   const task = typeof body.task === "string" ? body.task.trim() : "";
   if (!task) return json({ ok: false, error: "task is required" }, 400);
   if (task.length > MAX_TASK_CHARS) return json({ ok: false, error: `task exceeds ${MAX_TASK_CHARS} characters` }, 413);
@@ -92,9 +127,29 @@ async function createJob(request: Request, env: HermesJobsEnv, secret?: string):
     task,
     timeout_seconds,
     created_at: new Date().toISOString(),
+    profile,
+    log: [],
   };
   await save(env, job);
   return json({ ok: true, job: publicJob(job) }, 202);
+}
+
+async function listJobs(request: Request, env: HermesJobsEnv, secret?: string): Promise<Response> {
+  if (!authorized(request, secret)) return json({ ok: false, error: "Unauthorized" }, 401);
+  if (!env.HERMES_JOBS) return json({ ok: false, error: "Hermes job store is not configured" }, 503);
+  const url = new URL(request.url);
+  const statusFilter = url.searchParams.get("status") || "";
+  const limit = Math.max(1, Math.min(Number(url.searchParams.get("limit") || 20) || 20, 100));
+  const listed = await env.HERMES_JOBS.list({ prefix: PREFIX, limit: 250 });
+  const jobs: HermesJob[] = [];
+  for (const key of listed.keys) {
+    const job = await env.HERMES_JOBS.get(key.name, "json") as HermesJob | null;
+    if (!job) continue;
+    if (statusFilter && job.status !== statusFilter) continue;
+    jobs.push(job);
+  }
+  jobs.sort((a, b) => b.created_at.localeCompare(a.created_at));
+  return json({ ok: true, jobs: jobs.slice(0, limit).map(publicSummary) });
 }
 
 async function getJob(request: Request, env: HermesJobsEnv, id: string, secret?: string): Promise<Response> {
@@ -129,6 +184,13 @@ async function claimJob(request: Request, env: HermesJobsEnv): Promise<Response>
       await save(env, job);
       continue;
     }
+    if (job.status === "queued" && !parseProfile(job.profile)) {
+      job.status = "failed";
+      job.failed_at = new Date(nowMs).toISOString();
+      job.error = "Unsupported execution profile; maintenance requires an isolated runner.";
+      await save(env, job);
+      continue;
+    }
     if (job.status === "queued") candidates.push(job);
   }
   candidates.sort((a, b) => a.created_at.localeCompare(b.created_at));
@@ -137,7 +199,7 @@ async function claimJob(request: Request, env: HermesJobsEnv): Promise<Response>
   job.status = "running";
   job.started_at = new Date().toISOString();
   await save(env, job);
-  return json({ ok: true, job: { id: job.id, task: job.task, timeout_seconds: job.timeout_seconds, created_at: job.created_at, started_at: job.started_at } });
+  return json({ ok: true, job: { id: job.id, task: job.task, timeout_seconds: job.timeout_seconds, created_at: job.created_at, started_at: job.started_at, profile: job.profile || "research_readonly" } });
 }
 
 async function updateJob(request: Request, env: HermesJobsEnv, id: string): Promise<Response> {
@@ -148,14 +210,22 @@ async function updateJob(request: Request, env: HermesJobsEnv, id: string): Prom
   let body: Record<string, unknown>;
   try {
     body = await request.json() as Record<string, unknown>;
+    if (!body || typeof body !== "object" || Array.isArray(body)) throw new Error();
   } catch {
     return json({ ok: false, error: "Request body must be valid JSON" }, 400);
+  }
+  // Log-only update: the worker reports progress without changing status.
+  if (body.status === undefined) {
+    appendLog(job, body.log);
+    await save(env, job);
+    return json({ ok: true, job: publicJob(job) });
   }
   const status = body.status;
   if (status !== "completed" && status !== "failed") return json({ ok: false, error: "status must be completed or failed" }, 400);
   job.provider = typeof body.provider === "string" ? body.provider.slice(0, 80) : job.provider;
   job.model = typeof body.model === "string" ? body.model.slice(0, 120) : job.model;
-  job.profile = typeof body.profile === "string" ? body.profile.slice(0, 120) : job.profile;
+  // Execution profile is immutable after creation; result metadata cannot upgrade it.
+  appendLog(job, body.log);
   if (status === "completed") {
     job.status = "completed";
     job.completed_at = new Date().toISOString();
@@ -177,6 +247,7 @@ export async function routeHermesJobs(request: Request, env: HermesJobsEnv): Pro
   if (!env.HERMES_JOBS) return json({ ok: false, error: "Hermes job store is not configured" }, 503);
 
   if (request.method === "POST" && url.pathname === "/hermes/jobs") return createJob(request, env, env.SWITCHBOARD_API_KEY);
+  if (request.method === "GET" && url.pathname === "/hermes/jobs") return listJobs(request, env, env.SWITCHBOARD_API_KEY);
   if (request.method === "POST" && url.pathname === "/hermes/internal/jobs") return createJob(request, env, env.HERMES_WORKER_KEY);
   if (request.method === "POST" && url.pathname === "/hermes/internal/claim") return claimJob(request, env);
 
