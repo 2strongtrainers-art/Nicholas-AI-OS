@@ -24,7 +24,7 @@ function hermesPaths() {
     "/hermes/jobs": {
       post: {
         operationId: "createHermesJob",
-        summary: "Queue a Hermes job on Nicholas's Mac worker (research_readonly by default, or maintenance for scoped repairs).",
+        summary: "Queue a Hermes job on Nicholas's Mac worker (research_readonly only).",
         requestBody: {
           required: true,
           content: {
@@ -37,9 +37,9 @@ function hermesPaths() {
                   timeout_seconds: { type: "integer", minimum: 60, maximum: 1200, default: 900 },
                   profile: {
                     type: "string",
-                    enum: ["research_readonly", "maintenance"],
+                    enum: ["research_readonly"],
                     default: "research_readonly",
-                    description: "maintenance allows repository edits, tests, and deploys of the bridge/switchboard services only; never credentials or other accounts.",
+                    description: "Only search tools are enabled. Maintenance is unavailable until an isolated runner exists.",
                   },
                 },
               },
@@ -106,7 +106,7 @@ export default {
     if (request.method === "GET" && url.pathname === "/health") {
       const response = await base.fetch(request, env);
       const body = await response.json() as Record<string, unknown>;
-      return json({ ...body, version: "1.2.0", hermes_jobs: Boolean(env.HERMES_JOBS) });
+      return json({ ...body, version: "1.2.0", hermes_jobs: Boolean(env.HERMES_JOBS), hermes_worker_key_configured: Boolean(env.HERMES_WORKER_KEY), hermes_execution_status: "requires_completed_job_evidence" });
     }
 
     const hermes = await routeHermesJobs(request, env);

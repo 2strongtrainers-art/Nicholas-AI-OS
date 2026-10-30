@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """Poll the Nicholas AI Switchboard for one allowlisted Hermes job and return its result.
 
-Two profiles exist. Research jobs run a fixed read-only one-shot profile.
-Maintenance jobs run a scoped repair profile: repository files, tests, and
-wrangler deploys for the two switchboard/bridge services only — never
-credentials, Keychain data, or anything outside the repository. Worker
-credentials stay in owner-only local files outside the repository.
+Only the research_readonly profile is enabled. Maintenance needs an actual
+isolated runner; prompt instructions and substring filters are not a sandbox.
+Worker credentials stay in owner-only local files outside the repository.
 """
 
 import json
@@ -135,31 +133,8 @@ def hermes_bin() -> str:
 
 
 def prompt_for(task: str, profile: str = "research_readonly") -> str:
-    if profile == "maintenance":
-        return f"""You are Nicholas Operator/Hermes running an authenticated one-shot maintenance job from Nicholas-AI-OS.
-
-MAINTENANCE PROFILE — SCOPED REPAIR ONLY
-- Work only inside the Nicholas-AI-OS repository directory.
-- Allowed: read files, edit files, run the repository's own tests and verify
-  scripts, run git status/diff/add/commit/push inside the repository, and run
-  wrangler deploy for exactly these two services from their service
-  directories: nicholas-ai-os (ElevenLabs bridge) and nicholas-ai-switchboard.
-- Diagnose first: reproduce the failure, name the root cause, then fix it.
-- After a fix, run the relevant test or verification command and report the
-  command plus its outcome (pass/fail with the key lines).
-- Forbidden: reading or changing credentials, tokens, API keys, .env files,
-  Keychain data, ~/.config, ~/.ssh, or anything outside the repository;
-  sending messages, publishing content, scheduling tasks, making purchases,
-  modifying accounts, or changing unrelated services.
-- If the task requires a capability outside this profile, explain the blocked
-  action instead of attempting it.
-
-USER TASK
-{task}
-
-Return the useful result directly: what was diagnosed, what changed, what was
-tested, and what still needs a human. Distinguish verified facts from
-uncertainty."""
+    if profile != "research_readonly":
+        raise RuntimeError("Only research_readonly jobs are supported; maintenance requires an isolated runner")
 
     return f"""You are Nicholas Operator/Hermes running an authenticated one-shot job from Nicholas-AI-OS.
 
@@ -178,36 +153,12 @@ USER TASK
 Return the useful result directly. Distinguish verified facts from uncertainty."""
 
 
-FORBIDDEN_MAINTENANCE_FRAGMENTS = (
-    "keychain",
-    ".config/nicholas-ai-switchboard",
-    "hermes-worker.key",
-    "deployment.env",
-    ".ssh",
-    "auth.json",
-    ".env",
-)
-
-
-def maintenance_task_allowed(task: str):
-    """Return a refusal reason, or None when a maintenance task is allowed."""
-    lowered = task.lower()
-    for fragment in FORBIDDEN_MAINTENANCE_FRAGMENTS:
-        if fragment in lowered:
-            return f"Maintenance tasks may not touch {fragment}; that area is outside the repair profile."
-    return None
-
-
 def execute(job: dict) -> str:
     job_id = str(job["id"])
     task = str(job["task"]).strip()
     profile = str(job.get("profile") or "research_readonly")
-    if profile not in ("research_readonly", "maintenance"):
-        profile = "research_readonly"
-    if profile == "maintenance":
-        refusal = maintenance_task_allowed(task)
-        if refusal:
-            raise RuntimeError(refusal)
+    if profile != "research_readonly":
+        raise RuntimeError("Only research_readonly jobs are supported; maintenance requires an isolated runner")
     timeout_seconds = max(60, min(int(job.get("timeout_seconds") or 900), 1200))
     usage_path = HOME / ".hermes" / f"{re.sub(r'[^A-Za-z0-9._-]+', '-', job_id)[:120]}-usage.json"
     usage_path.parent.mkdir(parents=True, exist_ok=True)
@@ -219,10 +170,7 @@ def execute(job: dict) -> str:
         "--usage-file", str(usage_path),
         "--oneshot", prompt_for(task, profile),
     ]
-    if profile == "research_readonly":
-        # Research jobs keep the search-only toolset; maintenance jobs use the
-        # runner's default toolsets so they can edit, test, and deploy.
-        command[5:5] = ["--toolsets", "search"]
+    command[5:5] = ["--toolsets", "search"]
     result = subprocess.run(
         command,
         cwd=str(ROOT),

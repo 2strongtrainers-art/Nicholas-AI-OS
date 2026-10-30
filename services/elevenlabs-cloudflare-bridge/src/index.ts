@@ -1,7 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpHandler } from "agents/mcp/server";
 import { z } from "zod";
-import { handleOAuth, isOAuthAccessToken, type OAuthEnv } from "./oauth";
+import { handleOAuth, isOAuthAccessToken, oauthEnabled, type OAuthEnv } from "./oauth";
+
+export { OAuthGrantStore } from "./oauth-grants";
 
 interface Env extends OAuthEnv {
   ELEVENLABS_API_KEY: string;
@@ -117,7 +119,7 @@ function createServer(env: Env) {
         ok: true,
         provider: "Cloudflare Workers",
         elevenlabs_key_configured: Boolean(env.ELEVENLABS_API_KEY),
-        replit_required: false,
+        replit_required: false, oauth_configured: oauthEnabled(env), grant_storage_bound: Boolean(env.OAUTH_GRANTS),
       }),
   );
 
@@ -404,18 +406,18 @@ export default {
     if (oauth) return oauth;
 
     if (url.pathname === "/health") {
-      return Response.json({ ok: true, service: "nicholas-elevenlabs-bridge", replit_required: false });
+      return Response.json({ ok: true, service: "nicholas-elevenlabs-bridge", replit_required: false, oauth_configured: oauthEnabled(env), grant_storage_bound: Boolean(env.OAUTH_GRANTS) });
     }
 
     if (url.pathname !== "/mcp") return new Response("Not Found", { status: 404 });
 
     const authorized =
       isAuthorized(request, env) ||
-      (await isOAuthAccessToken(env, request.headers.get("authorization")));
+      (await isOAuthAccessToken(env, request.headers.get("authorization"), url.origin));
     if (!authorized) {
       return new Response("Unauthorized", {
         status: 401,
-        headers: { "WWW-Authenticate": "Bearer" },
+        headers: { "WWW-Authenticate": `Bearer resource_metadata="${url.origin}/.well-known/oauth-protected-resource/mcp", scope="elevenlabs"` },
       });
     }
 

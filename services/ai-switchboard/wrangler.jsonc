@@ -3,13 +3,8 @@
   "name": "nicholas-ai-switchboard",
   "main": "src/hermes-index.ts",
   "compatibility_date": "2026-08-26",
-  "compatibility_flags": ["nodejs_compat"],
-  // Hermes jobs need a KV store. Create it once, then replace the placeholder:
-  //   wrangler kv namespace create HERMES_JOBS
-  // Until the id is real, /health reports hermes_jobs: false and job routes
-  // return 503. Never commit a production namespace id you do not own.
-  "kv_namespaces": [
-    { "binding": "HERMES_JOBS", "id": "REPLACE_WITH_WRANGLER_KV_ID" }
+  "compatibility_flags": [
+    "nodejs_compat"
   ],
   "vars": {
     "OX_MODEL": "z-ai/glm-5.3",

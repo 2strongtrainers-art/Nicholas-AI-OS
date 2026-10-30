@@ -3,5 +3,23 @@
   "name": "nicholas-ai-os",
   "main": "src/index.ts",
   "compatibility_date": "2026-08-16",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "OAUTH_GRANTS",
+        "class_name": "OAuthGrantStore"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "oauth-grants-v1",
+      "new_sqlite_classes": [
+        "OAuthGrantStore"
+      ]
+    }
+  ]
 }

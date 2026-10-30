@@ -39,6 +39,9 @@ if ! npx wrangler whoami >"$TMP_DIR/whoami.log" 2>&1; then
   exit 42
 fi
 
+bash "$ROOT/scripts/prepare_hermes_deploy.sh" "$TMP_DIR/wrangler-hermes.json"
+DEPLOY_CONFIG="$TMP_DIR/wrangler-hermes.json"
+
 # Reuse the OpenRouter credential already configured in OpenCode. The key is
 # read locally and piped directly into Wrangler; it is never echoed or written
 # to Nicholas-AI-OS.
@@ -75,7 +78,7 @@ fi
 
 # Create the Worker once so Wrangler has a deployment target before secret
 # binding. Missing secrets are safe here: authenticated routes remain closed.
-INITIAL_DEPLOY="$(npx wrangler deploy 2>&1)" || {
+INITIAL_DEPLOY="$(npx wrangler deploy --config "$DEPLOY_CONFIG" 2>&1)" || {
   printf '%s\n' "$INITIAL_DEPLOY" | sed -E 's/(token|key|secret|authorization)[^[:space:]]*/\1=[REDACTED]/Ig' >&2
   exit 44
 }
@@ -100,14 +103,14 @@ PY
   fi
 fi
 
-printf '%s' "$OPENROUTER_KEY" | npx wrangler secret put OPENROUTER_API_KEY >"$TMP_DIR/secret-openrouter.log" 2>&1
+printf '%s' "$OPENROUTER_KEY" | npx wrangler secret put OPENROUTER_API_KEY --config "$DEPLOY_CONFIG" >"$TMP_DIR/secret-openrouter.log" 2>&1
 if [[ "$PRESERVE_EXISTING_SWITCHBOARD_SECRET" == "1" ]]; then
   echo "SWITCHBOARD_API_KEY_PRESERVED=1"
 else
-  printf '%s' "$SWITCHBOARD_KEY" | npx wrangler secret put SWITCHBOARD_API_KEY >"$TMP_DIR/secret-switchboard.log" 2>&1
+  printf '%s' "$SWITCHBOARD_KEY" | npx wrangler secret put SWITCHBOARD_API_KEY --config "$DEPLOY_CONFIG" >"$TMP_DIR/secret-switchboard.log" 2>&1
 fi
 
-FINAL_DEPLOY="$(npx wrangler deploy 2>&1)" || {
+FINAL_DEPLOY="$(npx wrangler deploy --config "$DEPLOY_CONFIG" 2>&1)" || {
   printf '%s\n' "$FINAL_DEPLOY" | sed -E 's/(token|key|secret|authorization)[^[:space:]]*/\1=[REDACTED]/Ig' >&2
   exit 45
 }

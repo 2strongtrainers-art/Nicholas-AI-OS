@@ -11,6 +11,8 @@ on:
       - "scripts/deploy_ai_switchboard.sh"
       - "scripts/hermes_switchboard_worker.py"
       - "scripts/install_hermes_switchboard_worker.sh"
+      - "scripts/prepare_hermes_deploy.sh"
+      - "scripts/resolve_hermes_kv.py"
   workflow_dispatch:
 
 permissions:
@@ -57,46 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "$GITHUB_WORKSPACE/services/ai-switchboard"
-          npx wrangler kv namespace list > "$RUNNER_TEMP/kv-list.json"
-          KV_ID="$(python3 - "$RUNNER_TEMP/kv-list.json" <<'PY'
-          import json, sys
-          rows = json.load(open(sys.argv[1], encoding='utf-8'))
-          for row in rows if isinstance(rows, list) else []:
-              title = str(row.get('title') or '')
-              if title.endswith('-HERMES_JOBS') or title == 'HERMES_JOBS' or 'HERMES_JOBS' in title:
-                  print(row.get('id') or '')
-                  break
-          PY
-          )"
-          if [[ -z "$KV_ID" ]]; then
-            npx wrangler kv namespace create HERMES_JOBS > "$RUNNER_TEMP/kv-create.log" 2>&1
-            npx wrangler kv namespace list > "$RUNNER_TEMP/kv-list-after.json"
-            KV_ID="$(python3 - "$RUNNER_TEMP/kv-list-after.json" <<'PY'
-          import json, sys
-          rows = json.load(open(sys.argv[1], encoding='utf-8'))
-          for row in rows if isinstance(rows, list) else []:
-              title = str(row.get('title') or '')
-              if title.endswith('-HERMES_JOBS') or title == 'HERMES_JOBS' or 'HERMES_JOBS' in title:
-                  print(row.get('id') or '')
-                  break
-          PY
-            )"
-          fi
-          test -n "$KV_ID"
-
-          python3 - "$GITHUB_WORKSPACE/services/ai-switchboard/wrangler.jsonc" "$RUNNER_TEMP/wrangler-hermes.json" "$KV_ID" <<'PY'
-          import json, sys
-          from pathlib import Path
-          src, out, kv_id = sys.argv[1:]
-          data = json.load(open(src, encoding='utf-8'))
-          main = data.get('main')
-          if isinstance(main, str) and main and not Path(main).is_absolute():
-              data['main'] = str((Path(src).parent / main).resolve())
-          data['kv_namespaces'] = [{'binding': 'HERMES_JOBS', 'id': kv_id}]
-          with open(out, 'w', encoding='utf-8') as f:
-              json.dump(data, f, indent=2)
-              f.write('\n')
-          PY
+          bash "$GITHUB_WORKSPACE/scripts/prepare_hermes_deploy.sh" "$RUNNER_TEMP/wrangler-hermes.json"
           echo "config=$RUNNER_TEMP/wrangler-hermes.json" >> "$GITHUB_OUTPUT"
 
       - name: Configure worker-only bearer and deploy Hermes binding

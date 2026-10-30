@@ -6,7 +6,7 @@ export interface HermesJobsEnv {
 
 type HermesStatus = "queued" | "running" | "completed" | "failed";
 
-type HermesProfile = "research_readonly" | "maintenance";
+type HermesProfile = "research_readonly";
 
 type HermesJob = {
   id: string;
@@ -80,8 +80,8 @@ function publicSummary(job: HermesJob) {
   };
 }
 
-function parseProfile(value: unknown): HermesProfile {
-  return value === "maintenance" ? "maintenance" : "research_readonly";
+function parseProfile(value: unknown): HermesProfile | null {
+  return value === undefined || value === "research_readonly" ? "research_readonly" : null;
 }
 
 function appendLog(job: HermesJob, lines: unknown): void {
@@ -109,9 +109,12 @@ async function createJob(request: Request, env: HermesJobsEnv, secret?: string):
   let body: Record<string, unknown>;
   try {
     body = await request.json() as Record<string, unknown>;
+    if (!body || typeof body !== "object" || Array.isArray(body)) throw new Error();
   } catch {
     return json({ ok: false, error: "Request body must be valid JSON" }, 400);
   }
+  const profile = parseProfile(body.profile);
+  if (!profile) return json({ ok: false, error: "Only research_readonly is supported; maintenance requires an isolated runner" }, 400);
   const task = typeof body.task === "string" ? body.task.trim() : "";
   if (!task) return json({ ok: false, error: "task is required" }, 400);
   if (task.length > MAX_TASK_CHARS) return json({ ok: false, error: `task exceeds ${MAX_TASK_CHARS} characters` }, 413);
@@ -124,7 +127,7 @@ async function createJob(request: Request, env: HermesJobsEnv, secret?: string):
     task,
     timeout_seconds,
     created_at: new Date().toISOString(),
-    profile: parseProfile(body.profile),
+    profile,
     log: [],
   };
   await save(env, job);
@@ -181,6 +184,13 @@ async function claimJob(request: Request, env: HermesJobsEnv): Promise<Response>
       await save(env, job);
       continue;
     }
+    if (job.status === "queued" && !parseProfile(job.profile)) {
+      job.status = "failed";
+      job.failed_at = new Date(nowMs).toISOString();
+      job.error = "Unsupported execution profile; maintenance requires an isolated runner.";
+      await save(env, job);
+      continue;
+    }
     if (job.status === "queued") candidates.push(job);
   }
   candidates.sort((a, b) => a.created_at.localeCompare(b.created_at));
@@ -200,6 +210,7 @@ async function updateJob(request: Request, env: HermesJobsEnv, id: string): Prom
   let body: Record<string, unknown>;
   try {
     body = await request.json() as Record<string, unknown>;
+    if (!body || typeof body !== "object" || Array.isArray(body)) throw new Error();
   } catch {
     return json({ ok: false, error: "Request body must be valid JSON" }, 400);
   }
@@ -213,7 +224,7 @@ async function updateJob(request: Request, env: HermesJobsEnv, id: string): Prom
   if (status !== "completed" && status !== "failed") return json({ ok: false, error: "status must be completed or failed" }, 400);
   job.provider = typeof body.provider === "string" ? body.provider.slice(0, 80) : job.provider;
   job.model = typeof body.model === "string" ? body.model.slice(0, 120) : job.model;
-  job.profile = typeof body.profile === "string" ? body.profile.slice(0, 120) : job.profile;
+  // Execution profile is immutable after creation; result metadata cannot upgrade it.
   appendLog(job, body.log);
   if (status === "completed") {
     job.status = "completed";

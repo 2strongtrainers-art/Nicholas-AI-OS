@@ -7,6 +7,8 @@ on:
       - ".github/workflows/deploy-ai-switchboard.yml"
       - "services/ai-switchboard/src/**"
       - "hermes/tool_registry/websurfers/**"
+      - "scripts/prepare_hermes_deploy.sh"
+      - "scripts/resolve_hermes_kv.py"
   workflow_dispatch:
 
 permissions:

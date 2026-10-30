@@ -27,59 +27,8 @@ npm run typecheck >"$TMP_DIR/typecheck.log" 2>&1
 npx wrangler deploy --dry-run >"$TMP_DIR/dry-run.log" 2>&1
 npx wrangler whoami >"$TMP_DIR/whoami.log" 2>&1 || fail "Wrangler is not authenticated on this Mac." 10
 
-# Resolve or create one persistent KV namespace without storing its ID in Git.
-npx wrangler kv namespace list >"$TMP_DIR/kv-list.txt" 2>&1
-KV_ID="$(python3 - "$TMP_DIR/kv-list.txt" <<'PY'
-import json, re, sys
-text=open(sys.argv[1], encoding='utf-8', errors='replace').read()
-try:
-    rows=json.loads(text)
-except Exception:
-    rows=[]
-if isinstance(rows, list):
-    for row in rows:
-        title=str(row.get('title') or '') if isinstance(row, dict) else ''
-        if 'HERMES_JOBS' in title:
-            print(row.get('id') or '')
-            raise SystemExit
-for m in re.finditer(r'\{[^{}]*"id"\s*:\s*"([a-f0-9]+)"[^{}]*"title"\s*:\s*"([^"]*HERMES_JOBS[^"]*)"[^{}]*\}', text, re.I|re.S):
-    print(m.group(1)); raise SystemExit
-print('')
-PY
-)"
-if [[ -z "$KV_ID" ]]; then
-  npx wrangler kv namespace create HERMES_JOBS >"$TMP_DIR/kv-create.log" 2>&1
-  npx wrangler kv namespace list >"$TMP_DIR/kv-list-after.txt" 2>&1
-  KV_ID="$(python3 - "$TMP_DIR/kv-list-after.txt" <<'PY'
-import json, re, sys
-text=open(sys.argv[1], encoding='utf-8', errors='replace').read()
-try: rows=json.loads(text)
-except Exception: rows=[]
-if isinstance(rows, list):
-    for row in rows:
-        title=str(row.get('title') or '') if isinstance(row, dict) else ''
-        if 'HERMES_JOBS' in title:
-            print(row.get('id') or ''); raise SystemExit
-for m in re.finditer(r'\{[^{}]*"id"\s*:\s*"([a-f0-9]+)"[^{}]*"title"\s*:\s*"([^"]*HERMES_JOBS[^"]*)"[^{}]*\}', text, re.I|re.S):
-    print(m.group(1)); raise SystemExit
-print('')
-PY
-  )"
-fi
-[[ -n "$KV_ID" ]] || fail "Could not resolve HERMES_JOBS KV namespace." 11
-
-python3 - "$SERVICE_DIR/wrangler.jsonc" "$TMP_DIR/wrangler-hermes.json" "$KV_ID" <<'PY'
-import json, sys
-from pathlib import Path
-src,out,kv_id=sys.argv[1:]
-data=json.load(open(src, encoding='utf-8'))
-main=data.get('main')
-if isinstance(main, str) and main and not Path(main).is_absolute():
-    data['main']=str((Path(src).parent / main).resolve())
-data['kv_namespaces']=[{'binding':'HERMES_JOBS','id':kv_id}]
-with open(out,'w',encoding='utf-8') as f:
-    json.dump(data,f,indent=2); f.write('\n')
-PY
+# Preserve the account namespace on every deployment.
+bash "$ROOT/scripts/prepare_hermes_deploy.sh" "$TMP_DIR/wrangler-hermes.json"
 
 # Worker-only credential: local owner-only file, never Git/Keychain/stdout.
 mkdir -p "$CONFIG_DIR"
