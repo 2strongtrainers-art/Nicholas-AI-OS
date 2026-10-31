@@ -1,0 +1,50 @@
+{
+  "workflow_id": "default-video",
+  "request": "Render the public ARGUS Evidence Before Alarm caption-only execution proof. Distinct from the polished local master; no narration, paid APIs or invented incident imagery.",
+  "created_at": "2026-10-31T23:59:00Z",
+  "output_filename": "ARGUS_Evidence_Before_Alarm_Cloud_Proof.mp4",
+  "source_brief": "https://github.com/2strongtrainers-art/Nicholas-AI-OS/blob/main/docs/argus-2026-10-31-panel-and-watch.md",
+  "proof_mode": true,
+  "scenes": [
+    {
+      "headline": "Evidence before alarm",
+      "body": "Nicholas Kaplan | Independent, AI-assisted research\n31 October 2026",
+      "seconds": 6
+    },
+    {
+      "headline": "A claim worth testing",
+      "body": "Do more headlines reflect more events?\nThe reviewed sample cannot establish a worldwide 48-hour surge.",
+      "seconds": 8
+    },
+    {
+      "headline": "Make the reasoning visible",
+      "body": "Find the original source.\nSeparate event time from publication time.\nCheck direct relevance.",
+      "seconds": 8
+    },
+    {
+      "headline": "Three published lenses",
+      "body": "Schelling: commitments (historical).\nAumann: cooperation.\nMyerson: incentives.\nFrameworks only; no participation or endorsement.",
+      "seconds": 9
+    },
+    {
+      "headline": "WHEN verified, THEN act",
+      "body": "A confirmed route restriction prompts a route-specific review.\nA claim of an inevitable wider war needs different evidence.",
+      "seconds": 8
+    },
+    {
+      "headline": "Look for restoration too",
+      "body": "Reopened routes, restored services and agreements that hold can change the assessment.",
+      "seconds": 7
+    },
+    {
+      "headline": "Monitoring configured",
+      "body": "Hourly scheduled polling; material changes and corrections only.\nNot real-time emergency coverage.",
+      "seconds": 7
+    },
+    {
+      "headline": "Evidence invites correction",
+      "body": "Inspect the linked public brief and sources.\nOriginal source. Occurrence date. Relevance.",
+      "seconds": 7
+    }
+  ]
+}
