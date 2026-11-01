@@ -1,6 +1,6 @@
 # ARGUS PRIME — Game Theory Lenses & WHEN–THEN Watch
 
-**Nicholas Kaplan | Independent, AI-assisted research | Public edition v1.0**
+**Nicholas Kaplan | Independent, AI-assisted research | Public edition v1.1**
 
 This dated public brief was authorized for GitHub publication. It is a research product, not an official agency assessment. Facts are attributed to their sources; strategic interpretations are analytical inferences.
 
@@ -130,7 +130,11 @@ This GitHub document is a **dated snapshot**, not a live feed. Future public upd
 
 ## Public video
 
-The companion film is caption-led, uses original instrumental music, and summarizes method and decision rules. No scholar is impersonated. A basic GitHub cloud render is queued as an execution proof; it is distinct from the polished local master. The job is [jobs/argus-evidence-before-alarm-2026-10-31.json](../jobs/argus-evidence-before-alarm-2026-10-31.json). No audience reaction or credibility score is guaranteed.
+The completed companion film is **72 seconds**, caption-led, and uses original instrumental music to explain method and decision rules. No scholar is impersonated. The local master is 1080×1920 H.264, 24 fps, with stereo 48 kHz AAC; full-file decoding and audio checks passed. SHA-256: `b3b3e0b7de2582ac00a084bfe3b34d3d0af99dbf3f2117b681b425f6397218da`. The master is delivered privately for review.
+
+The separate [GitHub cloud execution proof](https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/41254701754) completed successfully: 60.021 seconds, 1080×1920, media QA passed. It is a basic proof with silent audio, distinct from the music-backed master. Its workflow artifact has a 14-day retention period. The source job is [jobs/argus-evidence-before-alarm-2026-10-31.json](../jobs/argus-evidence-before-alarm-2026-10-31.json).
+
+The separate repository-wide validation run flagged five pre-existing Hermes control records missing `output_filename`; the new ARGUS job was not among those failures. No unrelated queue records were changed. No audience reaction or credibility score is guaranteed.
 
 ## Review record
 
