@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "trivalley-digital-delivery",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-04",
+  "vars": {
+    "PAYMENT_LINK_ID": "plink_1UYDGYKm01p7HORcJGt3qR1z",
+    "EXPECTED_AMOUNT": "3900",
+    "EXPECTED_CURRENCY": "usd",
+    "REQUIRE_LIVE": "true",
+    "BUYER_FILENAME": "TriValley_Four_Week_Dumbbell_Strength_Starter_v2_1_Buyer_Package.zip"
+  }
+}
