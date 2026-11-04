@@ -51,7 +51,7 @@ if not any((item.get("name") == name) for item in data):
 PY
 fi
 
-npx wrangler r2 object put "$BUCKET/$OBJECT_KEY" --file "$TMP_ZIP" >/dev/null
+npx wrangler r2 object put "$BUCKET/$OBJECT_KEY" --file "$TMP_ZIP" --remote >/dev/null
 npx wrangler deploy --config "$CONFIG" | tee "$DEPLOY_LOG"
 WORKER_URL="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev' "$DEPLOY_LOG" | tail -1 || true)"
 [[ -n "$WORKER_URL" ]] || fail "wrangler did not report a workers.dev URL"
