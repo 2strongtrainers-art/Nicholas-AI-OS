@@ -1,5 +1,9 @@
 # Hermes queue deployment and verification
 
+For an alternate Mac/Linux recovery host, see
+[`docs/HERMES_PORTABLE_RECOVERY.md`](../../docs/HERMES_PORTABLE_RECOVERY.md).
+The portable path does not require the self-hosted Mac Actions runner.
+
 Run `npm run deploy` from this directory or use the existing deployment scripts/workflows. These entry points resolve the account's existing HERMES_JOBS namespace and inject the binding into a temporary configuration. They create the namespace only when none exists, reject ambiguous matches, and preserve other KV bindings. The base configuration contains no invented namespace ID. Direct `wrangler deploy` bypasses this preparation and must not be used for production.
 
 Only research_readonly jobs are accepted. The runner explicitly enables the search toolset. Maintenance remains disabled until an isolated execution environment enforces filesystem, command, network, and credential boundaries. Prompt instructions do not provide those boundaries. Update both the service and the installed runner; old queued maintenance jobs are failed instead of executed.

@@ -9,6 +9,7 @@ Worker credentials stay in owner-only local files outside the repository.
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -17,13 +18,14 @@ import urllib.request
 from pathlib import Path
 
 HOME = Path.home()
-ROOT = HOME / "Nicholas-AI-OS"
-CONFIG_DIR = HOME / ".config" / "nicholas-ai-switchboard"
+ROOT = Path(os.environ.get("NICHOLAS_AI_OS_ROOT") or HOME / "Nicholas-AI-OS").expanduser().resolve()
+CONFIG_DIR = Path(os.environ.get("NICHOLAS_HERMES_CONFIG_DIR") or HOME / ".config" / "nicholas-ai-switchboard").expanduser().resolve()
 DEPLOY_ENV = CONFIG_DIR / "deployment.env"
 WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
 OPENCODE_AUTH_FILE = HOME / ".local" / "share" / "opencode" / "auth.json"
 LOCK = HOME / ".hermes-switchboard-worker.lock"
-LOG = HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log"
+LOG = (HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log" if sys.platform == "darwin"
+       else HOME / ".local" / "state" / "nicholas-ai" / "hermes-worker.log")
 WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.3"
 
 # Codex OAuth can hit a ChatGPT/Codex usage ceiling independently of the rest of
@@ -104,7 +106,10 @@ def request_json(url: str, key: str, payload=None, retries: int = 3):
         "Cache-Control": "no-cache",
     }
     last_error = None
-    for attempt in range(retries):
+    # A lost POST response may already have claimed/updated a job. Retrying a
+    # claim can consume a second job; only reads are safe to retry blindly.
+    attempts = max(1, retries) if payload is None else 1
+    for attempt in range(attempts):
         try:
             req = urllib.request.Request(url, data=data, headers=headers, method="POST" if payload is not None else "GET")
             with urllib.request.urlopen(req, timeout=30) as response:
@@ -112,24 +117,39 @@ def request_json(url: str, key: str, payload=None, retries: int = 3):
                 return json.loads(raw) if raw else {}
         except urllib.error.HTTPError as exc:
             last_error = RuntimeError(f"HTTP {exc.code} {exc.reason}")
-            if attempt + 1 < retries:
+            if 400 <= exc.code < 500 and exc.code != 429:
+                break
+            if attempt + 1 < attempts:
                 time.sleep(2 ** attempt)
         except Exception as exc:
             last_error = exc
-            if attempt + 1 < retries:
+            if attempt + 1 < attempts:
                 time.sleep(2 ** attempt)
     raise RuntimeError(f"Switchboard request failed: {last_error}")
 
 
 def hermes_bin() -> str:
+    # Virtual environments and managed Linux hosts commonly install outside
+    # the three historical Mac locations. Never invoke a non-executable file.
+    found = shutil.which("hermes")
+    if found:
+        return found
     for candidate in (
         HOME / ".local" / "bin" / "hermes",
         Path("/usr/local/bin/hermes"),
         Path("/opt/homebrew/bin/hermes"),
     ):
-        if candidate.exists():
+        if candidate.is_file() and os.access(candidate, os.X_OK):
             return str(candidate)
     raise RuntimeError("Hermes executable not found")
+
+
+def preflight() -> None:
+    """Reject a broken host before it claims and fails somebody's queued job."""
+    if not ROOT.is_dir() or not (ROOT / "AGENTS.md").is_file():
+        raise RuntimeError("Repository checkout is missing; set NICHOLAS_AI_OS_ROOT")
+    hermes_bin()
+    hermes_environment()
 
 
 def prompt_for(task: str, profile: str = "research_readonly") -> str:
@@ -246,6 +266,7 @@ def main() -> int:
     try:
         url = switchboard_url()
         key = worker_key()
+        preflight()
         claimed = request_json(f"{url}/hermes/internal/claim", key, {})
         job = claimed.get("job") if isinstance(claimed, dict) else None
         if not job:
