@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Run from services/ai-switchboard; writes a resolved config without printing credentials.
+# Resolve from this script, so recovery hosts can invoke it from any directory.
 set -euo pipefail
 set +x
 umask 077
 output="${1:?Output config path required}"
-repo_root="$(cd ../.. && pwd)"
+if [[ "$output" != /* ]]; then output="$PWD/$output"; fi
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root/services/ai-switchboard"
 namespace_tmp="$(mktemp -d)"
 trap 'rm -rf "$namespace_tmp"' EXIT
 npx wrangler kv namespace list > "$namespace_tmp/namespaces.json"
