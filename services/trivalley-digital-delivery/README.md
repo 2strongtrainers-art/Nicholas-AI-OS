@@ -4,36 +4,45 @@ A separate Cloudflare Worker that protects the Four Week Dumbbell Strength Start
 
 ## Security boundary
 
-The browser never receives a Stripe secret or the underlying Wix Media Manager URL from source code.
+The browser never receives a Stripe secret or the underlying source file URL.
 
-A download is streamed only when Stripe reports that the supplied Checkout Session:
+A download is streamed from a **private Cloudflare R2 bucket** only when Stripe reports that the supplied Checkout Session:
 
 - is paid;
 - belongs to Payment Link `plink_1UYDGYKm01p7HORcJGt3qR1z`;
 - totals exactly USD 39.00;
 - was created in live mode.
 
-Every mismatch fails closed with HTTP 403. The response is not cached.
+Every mismatch fails closed with HTTP 403. Download responses are not cached.
 
 ## Required owner-only configuration
 
 The deployment script intentionally refuses to run until these files exist on the already-authorized self-hosted Mac:
 
 - `~/.config/trivalley-digital-delivery/stripe-restricted.key`
-- `~/.config/trivalley-digital-delivery/buyer-file.url`
+- `~/.config/trivalley-digital-delivery/buyer-package-source.url`
 
 The Stripe key must be a live **restricted key** with only the read permission required to retrieve Checkout Sessions. Never use a full live secret key for this worker.
 
-The buyer file URL is kept out of source so buyers cannot recover it from GitHub or page source.
+The package source URL is used **once at deploy time** to seed the private R2 object. It is not stored in Worker configuration, source code, or browser output.
 
-Both files are pushed to Cloudflare with `wrangler secret put`; their values are never committed or printed.
+The Stripe restricted key is pushed to Cloudflare using `wrangler secret put`; its value is never committed or printed.
 
 ## Deployment
 
-`scripts/deploy_trivalley_digital_delivery.sh` runs deterministic tests first, provisions both Cloudflare secrets, deploys the separate worker, and verifies `/health`.
+`scripts/deploy_trivalley_digital_delivery.sh`:
 
-After the worker is verified, point the TriValley.fit post-purchase button at:
+1. runs deterministic tests;
+2. provisions the Stripe restricted key as a Worker secret;
+3. creates the private R2 bucket when needed;
+4. downloads the approved buyer ZIP to a temporary owner-only file and uploads it to R2;
+5. deploys the separate worker;
+6. verifies `/health`.
 
-`<worker-url>/download?session_id={CHECKOUT_SESSION_ID}`
+After production verification, point the TriValley.fit post-purchase button at:
+
+`<worker-url>/download?session_id=<CHECKOUT_SESSION_ID>`
+
+Then remove the old public Wix Media Manager ZIP so only the private R2 copy remains.
 
 Keep the Stripe Payment Link success redirect on TriValley.fit so the branded onboarding page remains the customer-facing surface.
