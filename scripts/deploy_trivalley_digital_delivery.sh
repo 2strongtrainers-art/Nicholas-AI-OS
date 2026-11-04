@@ -42,10 +42,10 @@ unset BUYER_SOURCE_URL
 
 if ! npx wrangler r2 bucket create "$BUCKET" >/dev/null 2>&1; then
   BUCKET_LIST="$(npx wrangler r2 bucket list --json)"
-  printf '%s' "$BUCKET_LIST" | python3 - "$BUCKET" <<'PY'
-import json, sys
+  BUCKET_LIST="$BUCKET_LIST" python3 - "$BUCKET" <<'PY'
+import json, os, sys
 name = sys.argv[1]
-data = json.load(sys.stdin)
+data = json.loads(os.environ["BUCKET_LIST"])
 if not any((item.get("name") == name) for item in data):
     raise SystemExit("R2 bucket creation failed and bucket does not exist")
 PY
