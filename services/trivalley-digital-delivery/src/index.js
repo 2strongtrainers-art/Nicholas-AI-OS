@@ -43,16 +43,15 @@ async function retrieveSession(sessionId, env) {
     },
   );
 
-  if (!response.ok) {
-    return null;
-  }
+  if (!response.ok) return null;
   return response.json();
 }
 
 function configured(env) {
   return Boolean(
     env.STRIPE_RESTRICTED_KEY &&
-      env.BUYER_FILE_URL &&
+      env.DOWNLOADS &&
+      env.BUYER_OBJECT_KEY &&
       env.PAYMENT_LINK_ID &&
       env.EXPECTED_AMOUNT &&
       env.EXPECTED_CURRENCY,
@@ -74,11 +73,8 @@ async function secureDownload(url, env) {
     return json({ ok: false, error: "access_denied" }, 403);
   }
 
-  const source = await fetch(env.BUYER_FILE_URL, {
-    method: "GET",
-    headers: { "Cache-Control": "no-cache" },
-  });
-  if (!source.ok || !source.body) {
+  const object = await env.DOWNLOADS.get(env.BUYER_OBJECT_KEY);
+  if (!object || !object.body) {
     return json({ ok: false, error: "file_unavailable" }, 502);
   }
 
@@ -93,7 +89,7 @@ async function secureDownload(url, env) {
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("Referrer-Policy", "no-referrer");
   headers.set("Content-Security-Policy", "default-src 'none'");
-  return new Response(source.body, { status: 200, headers });
+  return new Response(object.body, { status: 200, headers });
 }
 
 export default {
