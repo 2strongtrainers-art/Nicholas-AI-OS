@@ -242,7 +242,7 @@
       const saved = JSON.parse(await file.text());
       if (currentAsset !== asset || !ready()) return;
       if (saved?.version !== 1 || saved.asset?.name !== asset.name ||
-          saved.asset?.size_bytes !== asset.size ||
+          saved.asset?.size_bytes !== asset.size_bytes ||
           !Number.isFinite(saved.asset?.duration_seconds) ||
           Math.abs(saved.asset.duration_seconds - video.duration) > 0.05) {
         throw new Error("These notes belong to a different video or file format.");

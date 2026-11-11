@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "pipeline": {
+    "eligible_contacts": 12,
+    "contacted": 8,
+    "positive_replies": 2,
+    "booked_calls": 2,
+    "paid_customers": 1
+  },
+  "metrics": {
+    "currency": "USD",
+    "period_start": "2026-11-12T00:00:00-08:00",
+    "period_end": "2026-11-22T00:00:00-08:00",
+    "as_of": "2026-11-22T12:00:00-08:00",
+    "settled_sales": 1,
+    "gross_revenue_cents": 29700,
+    "costs_complete": true,
+    "refunds_cents": 0,
+    "processing_fees_cents": 950,
+    "advertising_cents": 0,
+    "software_cents": 0,
+    "fulfillment_cents": 0,
+    "labor_cents": 0,
+    "other_costs_cents": 0
+  },
+  "verified_avoided_expense_cents": null,
+  "estimated_pipeline_value_cents": 50000
+}

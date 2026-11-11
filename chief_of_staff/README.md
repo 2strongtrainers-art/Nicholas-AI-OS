@@ -10,6 +10,7 @@ TriValley.fit's operating workflow for owner briefings, plan-based decisions, an
 | “Use Council on this decision.” | Operator, customer and downside perspectives, plus a reversible test. |
 | “Prepare a guest guide” or “Turn this recording into a content package.” | A sourced guide or a cut list, title and thumbnail concepts, and channel-specific drafts. |
 | “Review these timestamped notes.” | A proposed edit handoff for the correct version of a cut. |
+| “Run my revenue pilot.” | Verify one offer, identify eligible warm inquiries, prepare drafts, and report attributed cash separately from leads. |
 | “Audit this workflow across these recent runs.” | Numbered changes with before/after copy and regression examples. |
 
 ## Live operation
@@ -28,6 +29,14 @@ The local engine is for normalized snapshots supplied by a trusted reader. It ru
 The engine accepts a run ID, an explicit observation time, source coverage states, and source-verified records. Gmail thread IDs, Calendar event IDs, Slack message IDs, and GitHub PR or issue IDs provide identity. Use the latest source revision for `version`. Include only actionable records and confirmed upcoming Calendar events. For blocking Calendar events, place the start in `due_at` and the end in `end_at`. Leave the end unset for informational events. The report gives UTC timestamps and applies Pacific calendar-day boundaries.
 
 Keep live snapshots and the state database in a private directory outside the checkout. The default database is at `~/.local/state/trivalley/chief-of-staff.sqlite`. Set `--state` for a dedicated local test. Identical retries replay their saved result. Changes and deadline escalations can resurface an item. Runs and shown-item history expire after 30 days of subsequent operation. The local engine needs no credentials or network access.
+
+## Revenue pilot
+
+Use the [revenue workflow](../.agents/skills/trivalley-chief-of-staff/references/revenue.md) with an existing offer and the owner's authorized lead sources. The Friday review can score an active pilot. For a local check, provide aggregate counts and a complete, verified direct-cost snapshot. The example is synthetic.
+
+    python3 -m chief_of_staff.revenue chief_of_staff/revenue.example.json --as-of 2026-11-22T12:00:00-08:00
+
+The scorecard uses the existing commerce economics routine. Count one person once per pipeline stage, and count paid orders in the payment records. Cash contribution includes direct cash costs and refunds. Verified avoided expenses and estimated pipeline value have separate fields. Keep snapshots outside the repository.
 
 ## Timestamped review
 
