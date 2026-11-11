@@ -68,6 +68,7 @@ Do **not** default video work to Replit.
 For narration, default to the `conversational_nick` delivery profile: speech should sound like Nicholas explaining something naturally to one person, not reading the on-screen cards or a written report verbatim.
 
 ## Domain routing
+- Owner briefing, plan-based decisions, producer work, and skill feedback -> [TriValley Chief of Staff](chief_of_staff/README.md).
 - Capability/tool discovery -> search `data/tool-intelligence/canonical-tools.json` with `scripts/search_tool_intelligence.py`; only confirmed mappings are routable, and `Unknown` API/MCP/CLI values must remain unknown.
 - Personal finance / balances / spending / debts / holdings -> Finances.
 - Live market data / options / pricing -> Alpaca.

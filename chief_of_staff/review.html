@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; media-src blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>TriValley Video Review</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Inter", "Segoe UI", sans-serif; background: #10151a; color: #f5f3ee; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1136px; margin: auto; padding: clamp(20px, 4vw, 48px); }
+    header { margin-bottom: 28px; }
+    h1 { margin: 0 0 9px; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(37px, 6vw, 64px); font-weight: 400; line-height: 1; }
+    h2 { margin: 0 0 16px; font-size: 18px; }
+    p { margin: 0; line-height: 1.5; }
+    .muted { color: #b8c1c8; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 18px; }
+    .panel { min-width: 0; background: #181f26; border: 1px solid #36424c; border-radius: 14px; padding: 16px; }
+    .player { overflow: hidden; border-radius: 9px; margin: 15px 0; background: #090c10; }
+    video { width: 100%; display: block; max-height: 62vh; aspect-ratio: 16 / 9; }
+    .file { overflow-wrap: anywhere; font-size: 14px; }
+    label { display: block; font-size: 14px; font-weight: 650; margin-bottom: 7px; }
+    input, textarea, button { font: inherit; }
+    textarea { width: 100%; min-height: 94px; padding: 11px; resize: vertical; border: 1px solid #53616c; border-radius: 8px; background: #10151a; color: inherit; }
+    button { min-height: 44px; border: 1px solid #52606c; padding: 8px 12px; background: #232d36; color: inherit; border-radius: 8px; cursor: pointer; }
+    button.primary { background: #e7bc7a; border-color: #e7bc7a; color: #1a1510; font-weight: 700; }
+    button:disabled, textarea:disabled { cursor: default; opacity: .55; }
+    button:focus-visible, textarea:focus-visible { outline: 3px solid #f9dba7; outline-offset: 3px; }
+    button:not(:disabled):hover { border-color: #e7bc7a; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+    .meta { min-height: 1.5em; margin-top: 11px; font-size: 14px; color: #efc88f; }
+    .notes { list-style: none; padding: 0; margin: 18px 0 0; }
+    .notes li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 9px; align-items: start; padding: 10px 0; border-top: 1px solid #36424c; }
+    .notes p { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .time { color: #f3ce99; font-variant-numeric: tabular-nums; }
+    .footer { margin-top: 14px; font-size: 13px; }
+    #copy-area { margin-top: 12px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>TriValley Video Review</h1>
+    <p class="muted">Open a cut, leave notes at specific moments, and export them for your editor.</p>
+  </header>
+  <div class="layout">
+    <section class="panel" aria-labelledby="video-heading">
+      <h2 id="video-heading">Video</h2>
+      <button type="button" id="choose-video">Open local video</button>
+      <input type="file" id="video-file" accept="video/*,.mp4,.mov,.m4v,.webm,.mkv" hidden>
+      <div class="player"><video id="video" controls playsinline preload="metadata" aria-label="Review video"></video></div>
+      <p class="file muted" id="asset">No video selected.</p>
+    </section>
+    <section class="panel" aria-labelledby="notes-heading">
+      <h2 id="notes-heading">Timestamped notes</h2>
+      <form id="note-form">
+        <label for="note">Edit note</label>
+        <textarea id="note" maxlength="1000" placeholder="Describe what should change." disabled required></textarea>
+        <div class="actions">
+          <button class="primary" id="add" type="submit" disabled>Add at playhead</button>
+          <button type="button" id="import" disabled>Import notes</button>
+          <input type="file" id="notes-file" accept=".json,application/json" hidden>
+        </div>
+      </form>
+      <p id="status" class="meta" role="status"></p>
+      <ul class="notes" id="notes" aria-label="Saved notes"></ul>
+      <div class="actions">
+        <button type="button" id="export" disabled>Download JSON</button>
+        <button type="button" id="copy" disabled>Copy for editor</button>
+      </div>
+      <div id="copy-area" hidden>
+        <label for="plain-notes">Editor notes</label>
+        <textarea id="plain-notes" readonly></textarea>
+      </div>
+    </section>
+  </div>
+  <p class="footer muted">The video stays on this device. Download your notes before closing the page.</p>
+</main>
+<script>
+  "use strict";
+  const get = id => document.getElementById(id);
+  const video = get("video");
+  const videoFile = get("video-file");
+  const notesFile = get("notes-file");
+  const noteText = get("note");
+  const list = get("notes");
+  const MAX_NOTES = 200;
+  const MAX_FILE_BYTES = 512 * 1024;
+  let asset = null;
+  let objectUrl = null;
+  let notes = [];
+  let unsaved = false;
+
+  function message(text) {
+    get("status").textContent = text;
+  }
+
+  function timestamp(seconds) {
+    const millis = Math.round(seconds * 1000);
+    const h = Math.floor(millis / 3600000);
+    const m = Math.floor(millis / 60000) % 60;
+    const s = Math.floor(millis / 1000) % 60;
+    return [h, m, s].map(part => String(part).padStart(2, "0")).join(":") +
+      "." + String(millis % 1000).padStart(3, "0");
+  }
+
+  function ready() {
+    return asset !== null && Number.isFinite(video.duration) && video.duration > 0 && video.error === null;
+  }
+
+  function render() {
+    const canReview = ready();
+    get("add").disabled = !canReview || notes.length >= MAX_NOTES;
+    noteText.disabled = !canReview;
+    get("import").disabled = !canReview;
+    get("export").disabled = !canReview || !notes.length;
+    get("copy").disabled = !canReview || !notes.length;
+    get("copy-area").hidden = true;
+    list.replaceChildren();
+    notes.sort((a, b) => a.seconds - b.seconds);
+    for (const note of notes) {
+      const item = document.createElement("li");
+      const jump = document.createElement("button");
+      const label = timestamp(note.seconds);
+      jump.className = "time";
+      jump.type = "button";
+      jump.textContent = label;
+      jump.setAttribute("aria-label", "Jump to " + label);
+      jump.addEventListener("click", () => { video.currentTime = Math.min(note.seconds, video.duration); });
+      const content = document.createElement("p");
+      content.textContent = note.text;
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "Delete";
+      remove.setAttribute("aria-label", "Delete note at " + label);
+      remove.addEventListener("click", () => {
+        notes = notes.filter(entry => entry !== note);
+        unsaved = true;
+        render();
+        message("Note removed.");
+        noteText.focus();
+      });
+      item.append(jump, content, remove);
+      list.append(item);
+    }
+  }
+
+  get("choose-video").addEventListener("click", () => videoFile.click());
+  get("import").addEventListener("click", () => notesFile.click());
+
+  videoFile.addEventListener("change", () => {
+    const file = videoFile.files[0];
+    videoFile.value = "";
+    if (!file) return;
+    if ((unsaved || noteText.value.trim()) && !confirm("Replace this video and discard the unsaved notes?")) return;
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+    asset = {name: file.name, size_bytes: file.size};
+    notes = [];
+    unsaved = false;
+    noteText.value = "";
+    objectUrl = URL.createObjectURL(file);
+    video.src = objectUrl;
+    video.load();
+    get("asset").textContent = file.name;
+    render();
+    message("Loading video…");
+  });
+
+  video.addEventListener("loadedmetadata", () => {
+    if (ready()) {
+      get("asset").textContent = asset.name + " · " + timestamp(video.duration);
+      message("Video ready.");
+    } else {
+      message("This file does not have a reviewable video duration.");
+    }
+    render();
+  });
+  video.addEventListener("error", () => {
+    message("This browser could not play the file. Try a standard H.264 MP4.");
+    render();
+  });
+
+  get("note-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const value = noteText.value.trim();
+    if (!ready() || !value || notes.length >= MAX_NOTES) return;
+    const seconds = Math.round(Math.min(video.duration, video.currentTime) * 1000) / 1000;
+    notes.push({seconds, text: value});
+    unsaved = true;
+    noteText.value = "";
+    render();
+    message("Added note at " + timestamp(seconds) + ".");
+    noteText.focus();
+  });
+
+  function exportData() {
+    return {
+      version: 1,
+      asset: {...asset, duration_seconds: Math.round(video.duration * 1000) / 1000},
+      notes: notes.map(note => ({...note}))
+    };
+  }
+
+  get("export").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(exportData(), null, 2) + "\n"], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "trivalley-review-notes.json";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    unsaved = false;
+    message("Review notes exported as JSON.");
+  });
+
+  get("copy").addEventListener("click", async () => {
+    const output = ["Video: " + asset.name, "", ...notes.map(note => timestamp(note.seconds) + "  " + note.text)].join("\n");
+    try {
+      await navigator.clipboard.writeText(output);
+      message("Review notes copied.");
+    } catch {
+      get("plain-notes").value = output;
+      get("copy-area").hidden = false;
+      get("plain-notes").focus();
+      get("plain-notes").select();
+      message("Select and copy the editor notes below.");
+    }
+  });
+
+  notesFile.addEventListener("change", async () => {
+    const file = notesFile.files[0];
+    notesFile.value = "";
+    if (!file || !ready()) return;
+    const currentAsset = asset;
+    try {
+      if (file.size > MAX_FILE_BYTES) throw new Error("The notes file exceeds 512 KB.");
+      const saved = JSON.parse(await file.text());
+      if (currentAsset !== asset || !ready()) return;
+      if (saved?.version !== 1 || saved.asset?.name !== asset.name ||
+          saved.asset?.size_bytes !== asset.size ||
+          !Number.isFinite(saved.asset?.duration_seconds) ||
+          Math.abs(saved.asset.duration_seconds - video.duration) > 0.05) {
+        throw new Error("These notes belong to a different video or file format.");
+      }
+      if (!Array.isArray(saved.notes) || saved.notes.length > MAX_NOTES ||
+          saved.notes.some(entry => !Number.isFinite(entry?.seconds) || entry.seconds < 0 ||
+            entry.seconds > video.duration + 0.001 || typeof entry.text !== "string" ||
+            !entry.text.trim() || entry.text.length > 1000)) {
+        throw new Error("The notes file contains invalid entries.");
+      }
+      if ((unsaved || notes.length || noteText.value.trim()) &&
+          !confirm("Replace the current notes with the imported set?")) return;
+      notes = saved.notes.map(entry => ({seconds: entry.seconds, text: entry.text.trim()}));
+      unsaved = false;
+      noteText.value = "";
+      render();
+      message("Imported " + notes.length + " note(s).");
+    } catch (error) {
+      message(error instanceof SyntaxError ? "This is not a valid JSON notes file." : error.message);
+    }
+  });
+
+  window.addEventListener("beforeunload", event => {
+    if (unsaved || noteText.value.trim()) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
+</script>
+</body>
+</html>
