@@ -1,0 +1,10 @@
+# Weekly business review and opportunity scan
+
+Use Pacific dates and the last seven complete days, with the preceding seven complete days as a comparison only when both have equivalent coverage. Report privately in ChatGPT. Keep the report short enough to act on.
+
+- Use the connected Stripe live business account for verified payment aggregates. Scope the query to the requested business, window and reporting currency. Distinguish payments, refunds, and payout timing. If a connector only returns a sample or truncates pagination, report partial coverage and omit implied totals. If product-level attribution cannot be verified, label an account-wide total accordingly. Keep buyer details out of the report.
+- Use Wix or PostHog for site/funnel metrics only where the correct property and date range are verified. Use GitHub for changes that shipped or are awaiting a decision. Cite the exact evidence. An open pull request is pending. A successful merge alone does not establish a website deployment.
+- Identify up to two content opportunities from current public sources. Define a search topic and an identical seven-day window for X signals and YouTube coverage. Record the verified sample of relevant public posts and distinct channels, with URLs and dates. State search scope and access gaps. Report unavailable coverage or low confidence when data is sparse. Search results are a sample and cannot establish platform-wide totals. Link the originating creator and propose an original TriValley angle, hook and low-effort test.
+- If a revenue pilot is active, add the stages and verified cash contribution described in [Revenue pilot](revenue.md). Leave pipeline value and avoided cash expenses separately labeled.
+- Give one recommendation for the coming week and any decision the owner must make. Show source coverage separately. Use existing coaching dashboards and niche market or payment monitors as source references only when relevant. Avoid duplicating their routine reports.
+- Keep the run read-only. Use public research without posting, paid data purchases, scraping restricted services, or sending private inputs to new providers.
