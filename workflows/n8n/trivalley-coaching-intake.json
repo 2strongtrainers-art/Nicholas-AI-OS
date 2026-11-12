@@ -1,0 +1,239 @@
+{
+  "name": "TriValley Wix Coaching Intake | Review",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "trivalley-coaching-intake",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Receive staging inquiry",
+      "id": "0068f00b-3fa8-4635-a735-886c004038d9",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $input.first().json.body;\nconst reply = (httpStatus, body) => [{ json: { httpStatus, body } }];\n\nif (!payload || typeof payload !== \"object\" || Array.isArray(payload)) {\n  return reply(400, { status: \"invalid-intake\", field: \"body\" });\n}\nconst allowedFields = new Set([\"id\", \"service\", \"contactPermission\"]);\nif (Object.keys(payload).some(key => !allowedFields.has(key))) {\n  return reply(400, { status: \"invalid-intake\", field: \"unexpected-field\" });\n}\nconst { id, service, contactPermission } = payload;\nif (typeof id !== \"string\" || !/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(id)) {\n  return reply(400, { status: \"invalid-intake\", field: \"id\" });\n}\nif (service !== \"coaching\") {\n  return reply(400, { status: \"invalid-intake\", field: \"service\" });\n}\n\nconst inquiryId = id.toLowerCase();\nif (contactPermission !== true) {\n  return reply(200, { id: inquiryId, status: \"hold-for-consent\" });\n}\nreturn reply(200, {\n  id: inquiryId,\n  status: \"draft-for-review\",\n  draft: {\n    subject: \"Your TriValley.fit coaching application\",\n    body: \"Hi there, thanks for applying for TriValley.fit coaching. What would you most like to accomplish in the next four weeks, and what time of day works best for a short intro call? — Nick, TriValley.fit\"\n  }\n});"
+      },
+      "name": "Validate and draft",
+      "id": "6403f00a-931e-4daa-ae5b-8e4fda8de187",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ca1ce105-a5b2-44a8-90da-83d23708a032",
+              "leftValue": "={{ $json.httpStatus }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Queue valid decision",
+      "id": "b2443f24-0010-40e2-ad05-0a413e206746",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "inquiry_id",
+              "keyValue": "={{ $json.body.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "inquiry_id": "={{ $json.body.id }}",
+            "route": "={{ $json.body.status }}",
+            "subject": "={{ $json.body.draft?.subject ?? '' }}",
+            "draft": "={{ $json.body.draft?.body ?? '' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "inquiry_id",
+              "displayName": "inquiry_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "draft",
+              "displayName": "draft",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Save decision for review",
+      "id": "1a2ad2c9-4c42-4975-a34e-cc387272fafb",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ (({ id, status, field }) => ({ id, status, field }))($(\"Validate and draft\").first().json.body) }}",
+        "options": {
+          "responseCode": "={{ $(\"Validate and draft\").first().json.httpStatus }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Return review result",
+      "id": "4b2d4183-6e84-4cc2-91fb-5587cd4108be",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        960,
+        80
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Receive staging inquiry": {
+      "main": [
+        [
+          {
+            "node": "Validate and draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and draft": {
+      "main": [
+        [
+          {
+            "node": "Queue valid decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Queue valid decision": {
+      "main": [
+        [
+          {
+            "node": "Save decision for review",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return review result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save decision for review": {
+      "main": [
+        [
+          {
+            "node": "Return review result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "none",
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "nodeGroups": [],
+  "tags": []
+}
