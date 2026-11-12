@@ -4,6 +4,7 @@ import AxeBuilder from "@axe-core/playwright";
 const heroId = "#tv-coaching-hero";
 const shopPath = "/fitness-guides";
 const assessmentPath = "/service-page/start-here-elite-assessment";
+const qaQuery = "?utm_source=trivalley_qa";
 const guides = [
   {
     name: "Four-Week Dumbbell Strength Starter",
@@ -23,7 +24,7 @@ const guides = [
 ];
 
 async function openHome(page) {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.goto("/" + qaQuery, { waitUntil: "load" });
   const hero = page.locator(heroId);
   await expect(hero.getByRole("heading", { level: 1 })).toHaveText(
     "Personal training in the Tri-Valley. Online coaching.",
@@ -32,7 +33,7 @@ async function openHome(page) {
 }
 
 async function openProduct(page, guide) {
-  await page.goto(`/product-page/${guide.slug}`, { waitUntil: "load" });
+  await page.goto(`/product-page/${guide.slug}${qaQuery}`, { waitUntil: "load" });
   await expect(page.getByRole("heading", { name: guide.name, exact: true })).toBeVisible();
 }
 
@@ -67,6 +68,8 @@ test("coaching homepage renders, fits the viewport, and passes scoped accessibil
     (document.querySelector("#tv-coaching-hero").compareDocumentPosition(el) &
       Node.DOCUMENT_POSITION_FOLLOWING) !== 0
   ))).toBe(true);
+  await expect(hero.getByRole("link", { name: "Explore online coaching", exact: true }))
+    .toHaveCSS("text-decoration-line", "underline");
   const accessibility = await new AxeBuilder({ page }).include(heroId)
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
   expect(accessibility.violations.map(({ id, nodes }) => ({
@@ -135,8 +138,20 @@ test("the Dumbbell guide can enter a temporary cart and reach the checkout contr
   const cartWithItems = page.getByRole("button", { name: /^Cart with [1-9]\d* items?$/i }).filter({ visible: true });
   await activateWixControl(page.getByRole("button", { name: "Add to Cart", exact: true }),
     checkout.or(viewCart).or(cartWithItems).first());
-  if (!(await checkout.or(viewCart).first().isVisible())) await cartWithItems.first().click();
-  if (!(await checkout.first().isVisible()) && await viewCart.first().isVisible()) await viewCart.first().click();
+  if (!(await checkout.first().isVisible())) {
+    if (await viewCart.first().isVisible()) {
+      await viewCart.first().click();
+    } else {
+      // The header count can update before the drawer exposes its checkout link.
+      // Follow Wix's cart URL in this session instead of clicking through the drawer.
+      const href = await cartWithItems.first().getAttribute("href");
+      expect(href, "A populated cart should expose its canonical URL").toBeTruthy();
+      const cartUrl = new URL(href, page.url());
+      expect(cartUrl.origin).toBe(new URL(page.url()).origin);
+      expect(cartUrl.pathname).toBe("/cart-page");
+      await page.goto(cartUrl.href, { waitUntil: "load" });
+    }
+  }
   await expect(checkout.first()).toBeEnabled();
   if (await checkoutLink.first().isVisible()) {
     const validPath = await checkoutLink.first().evaluate(el => {
