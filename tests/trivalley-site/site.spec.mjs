@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { errors, expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const heroId = "#tv-coaching-hero";
@@ -32,8 +32,20 @@ async function openHome(page) {
 }
 
 async function openProduct(page, guide) {
-  await page.goto(`/product-page/${guide.slug}`, { waitUntil: "domcontentloaded" });
+  await page.goto(`/product-page/${guide.slug}`, { waitUntil: "load" });
   await expect(page.getByRole("heading", { name: guide.name, exact: true })).toBeVisible();
+}
+
+async function activateWixControl(control, outcome) {
+  await control.click();
+  try {
+    await outcome.waitFor({ state: "visible", timeout: 6_000 });
+  } catch (error) {
+    if (!(error instanceof errors.TimeoutError)) throw error;
+    // Wix can render these buttons before their interactive handlers are ready.
+    if (!(await outcome.isVisible())) await control.click();
+    await expect(outcome).toBeVisible();
+  }
 }
 
 test("coaching homepage renders, fits the viewport, and passes scoped accessibility checks", async ({ page }) => {
@@ -68,9 +80,10 @@ test("assessment link reaches the $297 service and booking entry", async ({ page
   await expect(page).toHaveURL(url => url.pathname === assessmentPath);
   await expect(page.getByRole("heading", { name: "Start Here: Elite Assessment", exact: true })).toBeVisible();
   await expect(page.getByText("$297", { exact: true }).first()).toBeVisible();
-  await page.getByRole("link", { name: "Book Now", exact: true }).first().click();
+  await page.waitForLoadState("load");
+  const calendar = page.getByRole("heading", { name: "Select a Date and Time", exact: true });
+  await activateWixControl(page.getByRole("link", { name: "Book Now", exact: true }).first(), calendar);
   await expect(page).toHaveURL(url => url.pathname === "/booking-calendar/start-here-elite-assessment");
-  await expect(page.getByRole("heading", { name: "Select a Date and Time", exact: true })).toBeVisible();
 });
 
 test("online coaching links to live Stripe enrollment at $497 per month", async ({ page }) => {
@@ -113,14 +126,17 @@ for (const guide of guides) {
 test("the Dumbbell guide can enter a temporary cart and reach the checkout control", async ({ page }) => {
   test.skip(process.env.TRIVALLEY_READ_ONLY === "1", "Scheduled checks leave carts empty");
   await openProduct(page, guides[0]);
-  await page.getByRole("button", { name: "Add to Cart", exact: true }).click();
+  await expect(page.getByRole("link", { name: /Preview a Sample for Four-Week Dumbbell/ })).toBeVisible();
   const viewCart = page.getByRole("button", { name: /^(view|go to) cart$/i })
     .or(page.getByRole("link", { name: /^(view|go to) cart$/i })).filter({ visible: true });
   const checkoutLink = page.getByRole("link", { name: "Checkout", exact: true }).filter({ visible: true });
   const checkoutButton = page.getByRole("button", { name: /^(secure )?checkout$/i }).filter({ visible: true });
   const checkout = checkoutLink.or(checkoutButton);
-  await expect(checkout.or(viewCart).first()).toBeVisible();
-  if (!(await checkout.first().isVisible())) await viewCart.first().click();
+  const cartWithItems = page.getByRole("button", { name: /^Cart with [1-9]\d* items?$/i }).filter({ visible: true });
+  await activateWixControl(page.getByRole("button", { name: "Add to Cart", exact: true }),
+    checkout.or(viewCart).or(cartWithItems).first());
+  if (!(await checkout.or(viewCart).first().isVisible())) await cartWithItems.first().click();
+  if (!(await checkout.first().isVisible()) && await viewCart.first().isVisible()) await viewCart.first().click();
   await expect(checkout.first()).toBeEnabled();
   if (await checkoutLink.first().isVisible()) {
     const validPath = await checkoutLink.first().evaluate(el => {

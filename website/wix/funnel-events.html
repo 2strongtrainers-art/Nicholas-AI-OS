@@ -21,7 +21,12 @@
     if (new URLSearchParams(window.location.search).get("utm_source") === "trivalley_qa") return;
     const link = event.target.closest("a[href]");
     if (!link) return;
-    const to = new URL(link.href, siteOrigin);
+    let to;
+    try {
+      to = new URL(link.href, siteOrigin);
+    } catch {
+      return;
+    }
     const page = window.location.pathname.replace(/\/$/, "") || "/";
     const slug = page.split("/")[2];
     const item = page.startsWith("/product-page/") && guideSlugs.has(slug) ? slug : undefined;

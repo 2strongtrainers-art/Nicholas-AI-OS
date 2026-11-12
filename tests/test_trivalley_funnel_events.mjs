@@ -43,6 +43,7 @@ test("known homepage links emit intent once without copying hrefs or URL paramet
   b.click(origin + "/coaching", { hero: true });
   b.click(origin + "/fitness-guides");
   b.click("https://other.example/fitness-guides", { hero: true });
+  b.click("https://[", { hero: true });
   b.click(origin + "/coaching", { hero: true }, false);
   assert.deepEqual(b.events.map(item => item.funnel_action), ["assessment_click", "guides_click", "online_coaching_click"]);
   assert.ok(b.events.every(item => Object.keys(item).length === 2 && item.event === "tvf_website_funnel"));
