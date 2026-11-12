@@ -6,7 +6,7 @@ Use the matching Wix custom-embed revision when applying a change. Retain the pr
 
 ## Verify the public journey
 
-From `tests/trivalley-site`, run `npm ci`, `npx playwright install --with-deps --only-shell chromium webkit`, then `npm test`. The suite covers the homepage fit and scoped WCAG rules, the assessment calendar, the coaching enrollment link, the guide collection and the three sample images. The cart test stops at the checkout control. Use `TRIVALLEY_READ_ONLY=1` for repeated live checks that leave carts empty. WebKit uses an iPhone 14 profile. A physical iPhone Safari check remains separate.
+From `tests/trivalley-site`, run `npm ci`, `npx playwright install --with-deps --only-shell chromium webkit`, then `npm test`. The suite covers the homepage fit and scoped WCAG rules, the assessment calendar, the coaching enrollment link, the guide collection and the three sample images. The cart test stops at the checkout control. Test entry URLs carry a QA campaign tag. Use `TRIVALLEY_READ_ONLY=1` for repeated live checks that leave carts empty. WebKit uses an iPhone 14 profile. A physical iPhone Safari check remains separate.
 
 ## Measure the funnel
 
