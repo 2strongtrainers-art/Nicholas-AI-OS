@@ -9,6 +9,7 @@ from pathlib import Path
 import sys
 
 from commerce.instagram.control import economics, instant, integer, load
+from chief_of_staff.website_funnel import summarize as summarize_website
 
 
 PILOT_POLICY = {
@@ -47,7 +48,7 @@ def scorecard(snapshot: dict, now: datetime) -> dict:
     if estimated is not None:
         estimated = integer(estimated, "estimated_pipeline_value_cents")
 
-    return {
+    result = {
         "currency": cash["currency"],
         "period_start": cash["period_start"],
         "period_end": cash["period_end"],
@@ -69,6 +70,9 @@ def scorecard(snapshot: dict, now: datetime) -> dict:
         "estimated_pipeline_value_cents": estimated,
         "next_review": cash["recommendation"],
     }
+    if "website" in snapshot:
+        result["website"] = summarize_website(snapshot["website"], now)
+    return result
 
 
 def main() -> int:

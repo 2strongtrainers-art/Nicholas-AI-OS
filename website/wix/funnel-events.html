@@ -1,0 +1,49 @@
+<script>
+(() => {
+  if (window.__tvfFunnelEvents) return;
+  window.__tvfFunnelEvents = true;
+
+  const assessment = "/service-page/start-here-elite-assessment";
+  const guideSlugs = new Set([
+    "four-week-dumbbell-strength-starter",
+    "trx-suspension-strength",
+    "shoulder-rehab-companion",
+  ]);
+  const actions = new Map([
+    [assessment, "assessment_click"],
+    ["/fitness-guides", "guides_click"],
+    ["/coaching", "online_coaching_click"],
+  ]);
+  const siteOrigin = window.location.origin;
+
+  function trackClick(event) {
+    if (!event.isTrusted || !(event.target instanceof Element)) return;
+    if (new URLSearchParams(window.location.search).get("utm_source") === "trivalley_qa") return;
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+    const to = new URL(link.href, siteOrigin);
+    const page = window.location.pathname.replace(/\/$/, "") || "/";
+    const slug = page.split("/")[2];
+    const item = page.startsWith("/product-page/") && guideSlugs.has(slug) ? slug : undefined;
+    let action;
+
+    if (to.origin === siteOrigin && link.closest("#tv-coaching-hero")) {
+      action = actions.get(to.pathname);
+    } else if (link.id === "tv-guide-sample-link" && item && to.hostname === "static.wixstatic.com") {
+      action = "guide_preview_open";
+    } else if (to.origin === siteOrigin && to.pathname === "/checkout") {
+      action = "wix_checkout_entry";
+    } else if (page === "/coaching" && to.protocol === "https:" && to.hostname === "buy.stripe.com") {
+      action = "stripe_checkout_entry";
+    }
+    if (!action) return;
+
+    const measurement = { event: "tvf_website_funnel", funnel_action: action };
+    if (item) measurement.guide_slug = item;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(measurement);
+  }
+
+  document.addEventListener("click", trackClick, { capture: true });
+})();
+</script>
