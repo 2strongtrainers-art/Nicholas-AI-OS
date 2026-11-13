@@ -15,7 +15,7 @@ function hermesPaths() {
     "/hermes/jobs": {
       post: {
         operationId: "createHermesJob",
-        summary: "Queue a Hermes job on Nicholas's Mac worker (research_readonly only).",
+        summary: "Queue a research_readonly job for the authorized Hermes runner.",
         requestBody: {
           required: true,
           content: {
@@ -89,7 +89,7 @@ export default {
       const body = await response.json() as Record<string, any>;
       body.info = body.info || {};
       body.info.version = "1.2.0";
-      body.info.description = `${body.info.description || "Nicholas AI Switchboard"} Hermes jobs use a persistent authenticated queue and a read-only Mac execution profile.`;
+      body.info.description = `${body.info.description || "Nicholas AI Switchboard"} Hermes jobs use an authenticated queue and a read-only execution profile.`;
       body.paths = { ...(body.paths || {}), ...hermesPaths() };
       return json(body);
     }

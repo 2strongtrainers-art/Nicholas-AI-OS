@@ -16,6 +16,7 @@ RELEASE_MODEL_ALIASES = frozenset({"ox", "qwen", "auto", "free", "qwen-flash"})
 REQUIRED_SECRETS = {"SWITCHBOARD_API_KEY", "OPENROUTER_API_KEY"}
 INHERITED_TYPES = {"plain_text", "json", "secret_text", "secret_key", "kv_namespace"}
 VERSION_ID = re.compile(r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}")
+NAMESPACE_ID = re.compile(r"[0-9a-f]{32}")
 
 
 def wrangler(*args, output_path=None):
@@ -55,6 +56,17 @@ def binding_manifest(rows):
     ) for name, item in rows.items()}
 
 
+def restore_hermes_binding(existing, namespace_id):
+    if not namespace_id:
+        return existing
+    if not NAMESPACE_ID.fullmatch(namespace_id):
+        raise ValueError("Provide the verified production Hermes KV namespace ID.")
+    current = existing.get("HERMES_JOBS")
+    if current and (current["type"], current.get("namespace_id")) != ("kv_namespace", namespace_id):
+        raise ValueError("HERMES_JOBS already points to a different binding. Review the active Worker before moving it.")
+    return existing | {"HERMES_JOBS": {"name": "HERMES_JOBS", "type": "kv_namespace", "namespace_id": namespace_id}}
+
+
 def deployment_config(config, existing):
     config = dict(config, main=str(SERVICE / config["main"]))
     # Existing values take precedence. Supply repo defaults only for missing model pins.
@@ -63,7 +75,7 @@ def deployment_config(config, existing):
     for name, binding in existing.items():
         if binding["type"] == "kv_namespace":
             namespace_id = binding.get("namespace_id", "")
-            if not isinstance(namespace_id, str) or not re.fullmatch(r"[0-9a-f]{32}", namespace_id):
+            if not isinstance(namespace_id, str) or not NAMESPACE_ID.fullmatch(namespace_id):
                 raise ValueError("The active Worker has an invalid KV namespace identifier.")
             namespaces.append({"binding": name, "id": namespace_id})
     config["kv_namespaces"] = namespaces
@@ -115,7 +127,8 @@ def verify_live(has_hermes_queue):
             properties = ask["requestBody"]["content"]["application/json"]["schema"]["properties"]
             if (
                 health_status == schema_status == 200
-                and health.get("ok") is True and health.get("atlas") is True
+                and health.get("ok") is True and health.get("service") == "nicholas-ai-switchboard"
+                and health.get("atlas") is True
                 and health.get("tool_routing") is True and health.get("hermes_jobs") is has_hermes_queue
                 and ask.get("operationId") == "switchboardAsk"
                 and properties["max_tokens"]["default"] == RELEASE_MAX_TOKENS
@@ -149,20 +162,27 @@ def main():
     sha = os.environ.get("GITHUB_SHA", "")
     if not re.fullmatch(r"[0-9a-f]{40}", sha):
         raise ValueError("A valid GitHub commit is required.")
+    namespace_id = os.environ.get("HERMES_JOBS_NAMESPACE_ID", "").strip()
+    if namespace_id and not NAMESPACE_ID.fullmatch(namespace_id):
+        raise ValueError("Provide the verified production Hermes KV namespace ID.")
     account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
     if not re.fullmatch(r"[0-9a-f]{32}", account) or not os.environ.get("CLOUDFLARE_API_TOKEN"):
         raise RuntimeError("Configure the account ID and Worker-scoped API token in the switchboard-production environment.")
 
+    config = json.loads((SERVICE / "wrangler.jsonc").read_text())
+    if config.get("name") != "nicholas-ai-switchboard":
+        raise ValueError("Expected the nicholas-ai-switchboard Wrangler configuration.")
     deployed_id, current_id = active_version()
     current = get_version(current_id)
     existing = bindings(current)
+    expected = restore_hermes_binding(existing, namespace_id)
 
     candidate = current_id
-    if (current.get("annotations") or {}).get("workers/tag") != sha:
+    if (current.get("annotations") or {}).get("workers/tag") != sha or binding_manifest(expected) != binding_manifest(existing):
         latest = json.loads(wrangler("versions", "list", "--json"))[-1]
         if latest["id"] != current_id and (latest.get("annotations") or {}).get("workers/tag") != sha:
             raise RuntimeError("There is a newer staged Cloudflare version. Review it before uploading another version.")
-        config = deployment_config(json.loads((SERVICE / "wrangler.jsonc").read_text()), existing)
+        config = deployment_config(config, expected)
         if latest["id"] != current_id:
             candidate = latest["id"]
         else:
@@ -177,14 +197,14 @@ def main():
                 entries = [json.loads(line) for line in output_path.read_text().splitlines()]
                 (upload,) = [entry for entry in entries if entry.get("type") == "version-upload"]
                 candidate = upload["version_id"]
-        check_bindings(existing, bindings(get_version(candidate)), config["vars"])
+        check_bindings(expected, bindings(get_version(candidate)), config["vars"])
         if active_version() != (deployed_id, current_id):
             raise RuntimeError("The active deployment changed during upload. Review before moving traffic.")
 
     try:
         if candidate != current_id:
             wrangler("versions", "deploy", f"{candidate}@100%", "--yes")
-        verify_live(existing.get("HERMES_JOBS", {}).get("type") == "kv_namespace")
+        verify_live(expected.get("HERMES_JOBS", {}).get("type") == "kv_namespace")
     except (RuntimeError, subprocess.TimeoutExpired):
         if candidate != current_id:
             restore_previous_if_active(candidate, current_id)

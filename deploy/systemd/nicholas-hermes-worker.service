@@ -1,0 +1,26 @@
+[Unit]
+Description=Nicholas AI Switchboard Hermes research worker
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=nicholas-hermes
+Group=nicholas-hermes
+StateDirectory=nicholas-hermes
+StateDirectoryMode=0700
+WorkingDirectory=/opt/nicholas-ai-os
+Environment=HERMES_HOME=/var/lib/nicholas-hermes/.hermes
+Environment=PATH=/opt/hermes-agent/.venv/bin:/usr/bin:/bin
+Environment=NICHOLAS_AI_OS_ROOT=/opt/nicholas-ai-os
+Environment=NICHOLAS_HERMES_CONFIG_DIR=/etc/nicholas-hermes
+Environment=NICHOLAS_HERMES_PROVIDER=openrouter
+Environment=NICHOLAS_HERMES_MODEL=openrouter/free
+ExecCondition=/usr/bin/python3 /opt/nicholas-ai-os/scripts/hermes_doctor.py
+ExecStart=/usr/bin/python3 /opt/nicholas-ai-os/scripts/hermes_switchboard_worker.py
+TimeoutStartSec=23min
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict

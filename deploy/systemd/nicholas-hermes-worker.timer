@@ -1,0 +1,11 @@
+[Unit]
+Description=Poll the Nicholas AI Switchboard for Hermes research jobs
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=2min
+AccuracySec=5s
+Unit=nicholas-hermes-worker.service
+
+[Install]
+WantedBy=timers.target

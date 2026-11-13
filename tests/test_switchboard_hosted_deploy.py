@@ -124,11 +124,22 @@ class HostedDeploymentTests(unittest.TestCase):
             "operationId": "switchboardAsk",
             "requestBody": {"content": {"application/json": {"schema": {"properties": properties}}}},
         }
-        health = json.dumps({"ok": True, "atlas": True, "tool_routing": True, "hermes_jobs": False})
+        health = json.dumps({"ok": True, "service": "nicholas-ai-switchboard", "atlas": True,
+                             "tool_routing": True, "hermes_jobs": False})
         schema = json.dumps({"paths": {"/ask": {"post": ask}}})
         with patch.object(deploy, "public_get", side_effect=[(200, health), (200, schema), (401, "")]) as get:
             deploy.verify_live(False)
         self.assertEqual(get.call_args_list, [call("/health"), call("/openapi.json"), call("/models")])
+
+    def test_restores_only_the_explicit_hermes_namespace(self):
+        queue = CURRENT_BINDINGS[-1]
+        existing = deploy.bindings(version(CURRENT, CURRENT_BINDINGS[:-1]))
+        restored = deploy.restore_hermes_binding(existing, queue["namespace_id"])
+        self.assertEqual(restored, {**existing, "HERMES_JOBS": queue})
+        self.assertEqual(deploy.restore_hermes_binding(restored, queue["namespace_id"]), restored)
+        for invalid in ("x" * 32, "d" * 32):
+            with self.assertRaises(ValueError):
+                deploy.restore_hermes_binding(restored, invalid)
 
     def test_staged_candidate_that_changes_the_spending_guard_cannot_deploy(self):
         changed = [row for row in STAGED_BINDINGS if row["name"] != "ALLOW_PAID_AI"]
