@@ -1,0 +1,307 @@
+{
+  "name": "TriValley.fit | Reel Render Status",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b9a10998-e997-452a-9eec-bb3ee754e70b",
+      "name": "Check completed renders",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 30 9,15 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "1be118e0-7cbf-47a1-a205-5518fa43755c",
+      "name": "Weekdays at 9:30 am and 3:30 pm Pacific",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/2strongtrainers-art/Nicholas-AI-OS/actions/workflows/render-trivalley-reel.yml/runs",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "branch",
+              "value": "main"
+            },
+            {
+              "name": "event",
+              "value": "workflow_dispatch"
+            },
+            {
+              "name": "per_page",
+              "value": "50"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2026-03-10"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "931fa48a-c8c9-4718-8de1-b580a02ff062",
+      "name": "Read render runs from GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        100
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "jsCode": "const runs = $input.first().json.workflow_runs;\nif (!Array.isArray(runs)) throw new Error('GitHub did not return a workflow run list.');\n\nconst repository = 'https://github.com/2strongtrainers-art/Nicholas-AI-OS';\nconst privateEpisode = /^(?:elite-assessment-pilot|show-me-one-rep-\\d{4}-\\d{2}-\\d{2})$/;\nconst conclusions = new Set(['success', 'failure', 'cancelled', 'timed_out', 'action_required',\n  'skipped', 'stale', 'neutral', 'startup_failure']);\nconst receipts = new Map();\n\nfor (const run of runs) {\n  if (run.workflow_id !== 416944064 || run.path !== '.github/workflows/render-trivalley-reel.yml' ||\n      run.event !== 'workflow_dispatch' || run.head_branch !== 'main' ||\n      run.status !== 'completed' || !conclusions.has(run.conclusion)) continue;\n  if (!Number.isSafeInteger(run.id) || run.id < 1 ||\n      !Number.isSafeInteger(run.run_attempt) || run.run_attempt < 1) continue;\n  const title = /^TriValley Reel \\| ([a-z0-9-]+) \\| (private|synthetic)$/.exec(run.display_title);\n  if (!title) continue;\n  const [, episode, source] = title;\n  if (source === 'synthetic' ? episode !== 'reel-smoke-test' : !privateEpisode.test(episode)) continue;\n\n  const version = run.id + '-' + run.run_attempt;\n  let receipt = '';\n  if (run.conclusion === 'success') {\n    receipt = source === 'synthetic'\n      ? 'GitHub artifact reel-smoke-test-' + version\n      : 'reels/review/' + episode + '/' + version + '/' + episode + '.mp4';\n  }\n  receipts.set(version, { json: {\n    episode_id: episode, media_source: source, render_status: run.conclusion,\n    run_url: repository + '/actions/runs/' + run.id + '/attempts/' + run.run_attempt,\n    receipt, run_version: version,\n  } });\n}\n\nreturn [...receipts.values()];"
+      },
+      "id": "58d084cb-cd2d-42db-a347-88298054e525",
+      "name": "Prepare one receipt per completed attempt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        510,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "rowNotExists",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "run_version",
+              "keyValue": "={{ $json.run_version }}"
+            }
+          ]
+        }
+      },
+      "id": "b34e7280-0338-466f-b118-841e6032348e",
+      "name": "Skip attempts already recorded",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        760,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "run_version",
+              "keyValue": "={{ $json.run_version }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "episode_id": "={{ $json.episode_id }}",
+            "media_source": "={{ $json.media_source }}",
+            "render_status": "={{ $json.render_status }}",
+            "run_url": "={{ $json.run_url }}",
+            "receipt": "={{ $json.receipt }}",
+            "run_version": "={{ $json.run_version }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "episode_id",
+              "displayName": "episode_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "media_source",
+              "displayName": "media_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "render_status",
+              "displayName": "render_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_url",
+              "displayName": "run_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "receipt",
+              "displayName": "receipt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_version",
+              "displayName": "run_version",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "options": {}
+        },
+        "options": {}
+      },
+      "id": "4fe2f214-320a-43d8-99a1-97c2738ccf85",
+      "name": "Save the render receipt",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1010,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Reel render receipts\nThe GitHub workflow records each completed render attempt. Synthetic runs attach a test artifact. Coaching renders save to private storage. The review queue owns footage and editorial decisions.",
+        "height": 210,
+        "width": 460
+      },
+      "id": "bfe77a8b-f611-4ccb-96a9-521a53cda5d1",
+      "name": "About this workflow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -290
+      ]
+    }
+  ],
+  "connections": {
+    "Check completed renders": {
+      "main": [
+        [
+          {
+            "node": "Read render runs from GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekdays at 9:30 am and 3:30 pm Pacific": {
+      "main": [
+        [
+          {
+            "node": "Read render runs from GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read render runs from GitHub": {
+      "main": [
+        [
+          {
+            "node": "Prepare one receipt per completed attempt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare one receipt per completed attempt": {
+      "main": [
+        [
+          {
+            "node": "Skip attempts already recorded",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip attempts already recorded": {
+      "main": [
+        [
+          {
+            "node": "Save the render receipt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Los_Angeles",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "none"
+  },
+  "pinData": {},
+  "tags": []
+}

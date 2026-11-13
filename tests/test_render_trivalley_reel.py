@@ -86,6 +86,45 @@ assert.equal(workflow.active, false);
 """
         subprocess.run(["node", "-e", script, str(path)], check=True, timeout=15)
 
+    def test_render_receipts_only_record_recognized_completed_attempts(self):
+        path = ROOT / "workflows/n8n/trivalley-reel-render-status.json"
+        script = r"""
+const assert = require('node:assert/strict');
+const workflow = JSON.parse(require('node:fs').readFileSync(process.argv[1], 'utf8'));
+const receiptNode = workflow.nodes.find(x => x.type === 'n8n-nodes-base.code');
+const prepare = new Function('$input', receiptNode.parameters.jsCode);
+const run = workflow_runs => prepare({first: () => ({json: {workflow_runs}})});
+const synthetic = {
+    workflow_id: 416944064, path: '.github/workflows/render-trivalley-reel.yml',
+    event: 'workflow_dispatch', head_branch: 'main', status: 'completed',
+    conclusion: 'success', id: 43377502814, run_attempt: 1,
+    display_title: 'TriValley Reel | reel-smoke-test | synthetic',
+};
+const privateTitle = 'TriValley Reel | elite-assessment-pilot | private';
+const failed = {...synthetic, id: 43377502815, display_title: privateTitle, conclusion: 'failure'};
+const recovered = {...failed, run_attempt: 2, conclusion: 'success'};
+const rows = run([
+    synthetic, failed, recovered, synthetic,
+    {...synthetic, workflow_id: 1}, {...synthetic, head_branch: 'review'},
+    {...synthetic, status: 'in_progress', conclusion: null},
+    {...synthetic, display_title: 'TriValley Reel | coach-name | private'},
+    {...synthetic, display_title: 'TriValley Reel | elite-assessment-pilot | synthetic'},
+]).map(item => item.json);
+assert.equal(rows.length, 3);
+assert.equal(rows[0].run_version, '43377502814-1');
+assert.equal(rows[0].receipt, 'GitHub artifact reel-smoke-test-43377502814-1');
+assert.match(rows[0].run_url, /\/actions\/runs\/43377502814\/attempts\/1$/);
+assert.equal(rows[1].render_status, 'failure');
+assert.equal(rows[1].receipt, '');
+assert.equal(rows[2].receipt, 'reels/review/elite-assessment-pilot/43377502815-2/elite-assessment-pilot.mp4');
+assert.deepEqual(run([]), []);
+assert.throws(() => run(undefined), /workflow run list/);
+assert.ok(workflow.nodes.filter(x => x.type === 'n8n-nodes-base.dataTable')
+    .every(x => x.parameters.filters.conditions[0].keyName === 'run_version'));
+assert.equal(workflow.active, false);
+"""
+        subprocess.run(["node", "-e", script, str(path)], check=True, timeout=15)
+
 
 if __name__ == "__main__":
     unittest.main()
