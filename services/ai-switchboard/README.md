@@ -21,6 +21,16 @@ Tool selection:
 - `POST /ask` — authenticated external-model request.
 - `POST /tools/route` — authenticated task-scoped tool selection, maximum five results and no list/dump mode.
 
+## Model review workflow
+
+1. Collect and verify evidence once using connected tools and GitHub checks. Use native ChatGPT (`/openai` in NK) for routine review.
+2. For an external second opinion on public evidence, choose `free` for OpenRouter's free router or `qwen-flash` for Qwen3.7 Flash. The Flash route caps provider rates at $0.10 input and $0.30 output per million tokens with no per-request fee. Free-model availability and quotas depend on OpenRouter.
+3. Use `ox`, `qwen`, or `auto` for an explicit paid-capable request. The configured Ox and Qwen routes use their pinned IDs directly. For `/debate`, send each model the same brief in sequence. To block every model alias except `free` across deployments, set the Worker secret `ALLOW_PAID_AI` to `false` or declare that value in the Wrangler deployment configuration.
+4. Allow 1,500 output tokens by default. Specify `max_tokens` for deeper reviews. On a 402 with a lower affordable allowance, the Worker tries once at that allowance. If OpenRouter identifies an oversized request without giving a count, it tries once at 750. Other credit, rate, and transport failures return directly.
+5. Compare the actual `response_model`, `cost_usd`, `attempts`, and `truncated` fields. A missing cost is unknown. For a blocked call, use `limit_source`, `retry_after`, and any rate limit reset to choose the next action. Check [OpenRouter Credits](https://openrouter.ai/settings/credits) and [API Keys](https://openrouter.ai/settings/keys) before adding funds.
+
+Atlas AI Council runs on demand. Its GitHub Action keeps each review in the evidence packet with the response model, cost, and completion status. It flags an incomplete council after saving the available results.
+
 ## Tool-routing behavior
 
 The Worker loads the historical compact AI/Design/Education catalog, filters two unnamed URL-only Design rows, appends the canonical Gaming supplement, and ranks **1,800 valid resources across 1,501 domains**.
@@ -49,12 +59,15 @@ The Worker has no endpoint that enumerates or dumps the paid membership database
 
 ```bash
 cd services/ai-switchboard
-npm install
+npm ci
 npm run typecheck
+npm test
 npm run deploy
 ```
 
 Then verify `/health`, `/openapi.json`, authenticated `/models`, and authenticated `/tools/route`.
+
+The test suite runs the Worker with mocked OpenRouter responses. The production OpenAPI schema should list `free` and `qwen-flash` and advertise the 1,500-token default. Refresh NK's imported schema and instructions to expose the new commands there.
 
 A normal embedded route should report `source: embedded_private_websurfers` and `catalog_scope: full 1800-resource private catalog; task-scoped top results only`.
 

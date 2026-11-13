@@ -2,8 +2,7 @@
 """Run a read-only Atlas AI council: Hermes research -> Ox strategy + Qwen technical critique -> Codex handoff.
 
 This runner uses the existing Nicholas AI Switchboard and local owner-only credentials.
-It does not edit Atlas, deploy code, spend money, or expose credentials. Its output is
-an evidence packet that Codex can use for implementation after review.
+It requests two metered model reviews and saves an evidence packet for review.
 """
 
 from __future__ import annotations
@@ -83,7 +82,7 @@ def hermes_worker_key() -> str:
     return key
 
 
-def request_json(url: str, key: str | None = None, payload=None, timeout: int = 60):
+def request_json(url: str, key: str | None = None, payload=None, timeout: int = 60, *, allow_http_error=False):
     data = None if payload is None else json.dumps(payload).encode("utf-8")
     headers = {
         "Accept": "application/json",
@@ -110,6 +109,13 @@ def request_json(url: str, key: str | None = None, payload=None, timeout: int = 
             body = exc.read().decode("utf-8", "replace")
         except Exception:
             pass
+        if allow_http_error:
+            try:
+                error = json.loads(body)
+                if isinstance(error, dict) and error.get("ok") is False:
+                    return error
+            except ValueError:
+                pass
         raise RuntimeError(f"HTTP {exc.code}: {redact(body)[:500]}") from exc
 
 
@@ -190,20 +196,34 @@ HARD_QUESTIONS = """Answer the same ten hard questions independently:
 
 
 def ask_model(url: str, key: str, model: str, system: str, prompt: str, max_tokens: int = 7000) -> dict:
-    payload = request_json(
-        f"{url}/ask",
-        key,
-        {
-            "model": model,
-            "system": system,
-            "prompt": prompt,
-            "max_tokens": max_tokens,
-        },
-        180,
-    )
-    if not isinstance(payload, dict) or payload.get("ok") is not True:
-        raise RuntimeError(f"{model} switchboard call failed: {redact(str(payload))[:800]}")
+    try:
+        payload = request_json(
+            f"{url}/ask",
+            key,
+            {
+                "model": model,
+                "system": system,
+                "prompt": prompt,
+                "max_tokens": max_tokens,
+            },
+            180,
+            allow_http_error=True,
+        )
+    except (RuntimeError, OSError, ValueError) as error:
+        return {"ok": False, "error": redact(str(error))[:800]}
+    if not isinstance(payload, dict) or not isinstance(payload.get("ok"), bool):
+        return {"ok": False, "error": "Switchboard returned an invalid review response"}
     return payload
+
+
+def review_status(review: dict) -> str:
+    if review.get("skipped") is True:
+        return "skipped"
+    if review.get("ok") is not True:
+        return "failed"
+    if review.get("truncated") is True or review.get("finish_reason") == "length":
+        return "partial"
+    return "completed"
 
 
 def build_shared_brief(live_report: dict, hermes: dict, focus: str) -> str:
@@ -240,14 +260,19 @@ def make_markdown(packet: dict) -> str:
         "",
         f"Generated: {packet.get('generated_at')}",
         f"Production: {ATLAS_URL}",
-        f"Ox resolved model: {models.get('ox')}",
-        f"Qwen resolved model: {models.get('qwen')}",
+        f"Council status: {packet.get('status')}",
         "",
         "Council roles: Hermes = public research/red team; Ox = product architect; Qwen = technical systems critic; Codex = implementation + production certification.",
     ]
     lines.append(section("Hermes research", str(packet.get("hermes", {}).get("result") or packet.get("hermes", {}).get("error") or "No Hermes result")))
-    lines.append(section("Ox product strategy", str(packet.get("ox", {}).get("text") or "No Ox result")))
-    lines.append(section("Qwen technical critique", str(packet.get("qwen", {}).get("text") or "No Qwen result")))
+    for alias, title in [("ox", "Ox product strategy"), ("qwen", "Qwen technical critique")]:
+        review = packet[alias]
+        cost = review.get("cost_usd")
+        cost_label = f"${cost:.6f}" if isinstance(cost, (int, float)) else "unknown"
+        lines.append(section(title, "\n\n".join([
+            f"Status: {review_status(review)} · Configured: {models.get(alias)} · Responded: {review.get('response_model') or 'unknown'} · Cost: {cost_label}",
+            review.get("text") or review.get("error") or "No review result",
+        ])))
     lines.append(
         section(
             "Codex implementation rule",
@@ -290,18 +315,25 @@ def main() -> int:
         "You are the Atlas council product architect and skeptical strategist. Focus on product architecture, user psychology, discovery, retention, trust, differentiation, and ethical monetization. Challenge unnecessary complexity. Do not write code.",
         brief,
     )
-    print(f"COUNCIL_OX=PASS resolved_model={ox.get('resolved_model')}")
+    print(f"COUNCIL_OX={review_status(ox).upper()}")
 
-    qwen = ask_model(
-        url,
-        ask_key,
-        "qwen",
-        "You are the Atlas council technical systems analyst and search-engine red team. Focus on intent parsing, ranking, data structure, metadata quality, false positives, test design, performance, mobile failure modes, observability, and implementation risk. Challenge weak assumptions. Do not edit code.",
-        brief,
-    )
-    print(f"COUNCIL_QWEN=PASS resolved_model={qwen.get('resolved_model')}")
+    if ox.get("limit_source") in {
+        "openrouter_key_limit", "openrouter_workspace_budget", "openrouter_guardrail_budget", "openrouter_in_flight_budget",
+    } or ox.get("error_code") == "paid_ai_disabled":
+        qwen = {"ok": False, "skipped": True, "error": "Both reviews share the blocked Switchboard budget."}
+    else:
+        qwen = ask_model(
+            url,
+            ask_key,
+            "qwen",
+            "You are the Atlas council technical systems analyst and search-engine red team. Focus on intent parsing, ranking, data structure, metadata quality, false positives, test design, performance, mobile failure modes, observability, and implementation risk. Challenge weak assumptions. Do not edit code.",
+            brief,
+        )
+    print(f"COUNCIL_QWEN={review_status(qwen).upper()}")
 
+    completed = all(review_status(review) == "completed" for review in [ox, qwen])
     packet = {
+        "status": "completed" if completed else "incomplete",
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "atlas_url": ATLAS_URL,
         "focus": args.focus,
@@ -325,8 +357,8 @@ def main() -> int:
     md.write_text(make_markdown(packet), encoding="utf-8")
     print(f"COUNCIL_JSON={out}")
     print(f"COUNCIL_CODEX_HANDOFF={md}")
-    print("ATLAS_AI_COUNCIL=PASS")
-    return 0
+    print("ATLAS_AI_COUNCIL=PASS" if completed else "ATLAS_AI_COUNCIL=INCOMPLETE")
+    return 0 if completed else 1
 
 
 if __name__ == "__main__":

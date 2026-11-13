@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "latest",
+    "esbuild": "0.28.2",
     "typescript": "latest",
     "wrangler": "latest"
   }

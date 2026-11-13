@@ -1,11 +1,6 @@
 name: Atlas AI Council
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/run_atlas_ai_council.py"
-      - ".github/workflows/atlas-ai-council.yml"
   workflow_dispatch:
     inputs:
       focus:
@@ -53,8 +48,7 @@ jobs:
           import json,sys
           p=json.load(open(sys.argv[1]))
           assert p.get('hermes',{}).get('status') == 'completed', p.get('hermes')
-          assert p.get('ox',{}).get('ok') is True, p.get('ox')
-          assert p.get('qwen',{}).get('ok') is True, p.get('qwen')
+          assert p.get('status') == 'completed', 'Council is incomplete. See the uploaded evidence packet.'
           assert p.get('models',{}).get('ox'), p.get('models')
           assert p.get('models',{}).get('qwen'), p.get('models')
           print('ATLAS_AI_COUNCIL_PACKET=PASS')
