@@ -1,4 +1,5 @@
 name: Render TriValley.fit Reel
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('TriValley Reel | {0} | {1}', inputs.episode_id, inputs.media_source) || 'TriValley Reel checks' }}
 
 on:
   pull_request:
@@ -7,12 +8,18 @@ on:
       - 'scripts/render_trivalley_reel.py'
       - 'tests/test_render_trivalley_reel.py'
       - 'workflows/n8n/trivalley-reel-review.json'
+      - 'workflows/n8n/trivalley-reel-render-status.json'
   workflow_dispatch:
     inputs:
       episode_id:
-        description: Episode ID of a staged private source folder
+        description: Public episode slug only, or reel-smoke-test for synthetic media
         type: string
         required: true
+      media_source:
+        description: Choose staged private media or a generated test pattern
+        type: choice
+        options: [private, synthetic]
+        default: private
 
 permissions:
   contents: read
@@ -36,7 +43,7 @@ jobs:
         run: /usr/bin/python3 -m unittest discover -s tests -p test_render_trivalley_reel.py -v
 
   render:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.media_source == 'private'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: trivalley-reel-media
@@ -55,6 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           [[ "$EPISODE_ID" =~ ^[a-z0-9][a-z0-9-]{2,62}$ ]]
+          [[ "$EPISODE_ID" != reel-smoke-test ]]
           [[ "$MEDIA_BUCKET" =~ ^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ ]]
           [[ "$MEDIA_ENDPOINT" =~ ^https://[a-z0-9]+\.r2\.cloudflarestorage\.com$ ]]
           test -n "$AWS_ACCESS_KEY_ID"
@@ -74,9 +82,52 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          prefix="s3://$MEDIA_BUCKET/reels/review/$EPISODE_ID/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          aws --endpoint-url "$MEDIA_ENDPOINT" s3 cp \
-            "$RUNNER_TEMP/reel-review/$EPISODE_ID.mp4" "$prefix/$EPISODE_ID.mp4" --only-show-errors
-          aws --endpoint-url "$MEDIA_ENDPOINT" s3 cp \
-            "$RUNNER_TEMP/reel-review/$EPISODE_ID.manifest.json" "$prefix/$EPISODE_ID.manifest.json" --only-show-errors
-          printf 'Verified review file saved for %s.\n' "$EPISODE_ID" >> "$GITHUB_STEP_SUMMARY"
+          prefix="reels/review/$EPISODE_ID/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          for file in "$EPISODE_ID.mp4" "$EPISODE_ID.manifest.json"; do
+            source="$RUNNER_TEMP/reel-review/$file"
+            aws --endpoint-url "$MEDIA_ENDPOINT" s3 cp "$source" \
+              "s3://$MEDIA_BUCKET/$prefix/$file" --only-show-errors
+            remote_bytes="$(aws --endpoint-url "$MEDIA_ENDPOINT" s3api head-object \
+              --bucket "$MEDIA_BUCKET" --key "$prefix/$file" --query ContentLength --output text)"
+            [[ "$remote_bytes" == "$(stat -c %s "$source")" ]]
+          done
+          printf 'Verified review files saved under %s.\n' "$prefix" >> "$GITHUB_STEP_SUMMARY"
+
+  synthetic:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.media_source == 'synthetic'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      EPISODE_ID: ${{ inputs.episode_id }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-open-sans python3-pil
+      - name: Generate and render a disposable test pattern
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$EPISODE_ID" == reel-smoke-test ]]
+          inbox="$RUNNER_TEMP/reel-smoke-inbox"
+          mkdir -p "$inbox"
+          ffmpeg -nostdin -v error -f lavfi -i testsrc2=size=432x768:rate=30 \
+            -t 4 -c:v libx264 -threads 2 "$inbox/pattern.mp4"
+          ffmpeg -nostdin -v error -f lavfi -i sine=frequency=440:duration=1.6 "$inbox/tone.wav"
+          cat > "$inbox/reel.json" <<'JSON'
+          {"episode_id":"reel-smoke-test","segments":[
+            {"clip":"pattern.mp4","seconds":2.5,"caption":"Synthetic render test"},
+            {"clip":"pattern.mp4","start":1,"seconds":2.5,"caption":"Second shot and audio test","narration":"tone.wav"}
+          ],"end_card":{"seconds":3,"headline":"RENDER TEST","detail":"SYNTHETIC TEST PATTERN","cta":"TRIVALLEY.FIT"}}
+          JSON
+          /usr/bin/python3 scripts/render_trivalley_reel.py "$inbox" "$RUNNER_TEMP/reel-smoke-output"
+      - name: Attach the disposable render and verification manifest
+        uses: actions/upload-artifact@v6
+        with:
+          name: reel-smoke-test-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/reel-smoke-output/reel-smoke-test.mp4
+            ${{ runner.temp }}/reel-smoke-output/reel-smoke-test.manifest.json
+          if-no-files-found: error
+          retention-days: 7
