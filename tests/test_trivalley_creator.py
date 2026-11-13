@@ -97,6 +97,16 @@ class LessonRenderTests(unittest.TestCase):
     def test_caption_commands_cannot_change_ass_layout(self):
         self.assertEqual(renderer.ass_text("{\\pos(1,1)}Hello"), "pos(1,1)Hello")
 
+    def test_single_word_sentence_does_not_reveal_next_shot_dialogue(self):
+        job = dict(self.job, words=[
+            {"text": "together.", "start": 4, "end": 4.56},
+            {"text": "I'm", "start": 5.48, "end": 5.64},
+            {"text": "Nick.", "start": 5.84, "end": 6.24}])
+        _, _, cues = renderer.caption_files(job, self.folder)
+        self.assertEqual(cues[0]["text"], "together.")
+        self.assertEqual(cues[1]["text"], "I'm Nick.")
+        self.assertEqual(cues[1]["start"], 5.48)
+
     def test_malformed_transcript_fails_before_render(self):
         self.job["transcript"] = "timing.json"
         for bad_words in (None, ["word"], [{"text": None}]):
