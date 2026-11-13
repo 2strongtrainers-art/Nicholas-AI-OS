@@ -1,5 +1,7 @@
 # Muse: Make Nick’s Avatar and Fitness Videos
 
+For reusable creator briefs, capped capability preflight, the continuous-narration lesson renderer, localization and deployment receipts, use the [TriValley content production system](ELEVENLABS_CONTENT_SYSTEM.md). Keep the approved identity and private asset routing below.
+
 Updated November 13, 2026. Owner-requested handoff for Muse and the TriValley Chief of Staff.
 
 ## Start here

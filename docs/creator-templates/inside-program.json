@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "audience": "Replace with the intended viewer",
+  "takeaway": "Replace with one supported conclusion",
+  "cta": "Replace with one next action",
+  "sources": [
+    {
+      "reference": "Resolve the current authorized source privately",
+      "reviewed": false
+    }
+  ],
+  "claims_reviewed": false,
+  "max_variations": 3,
+  "max_estimated_credits": 0,
+  "generation_plan": [],
+  "status": "draft_requires_current_sources_and_estimates",
+  "template": "inside-program",
+  "topic": "Replace with a current owned product walkthrough and page references",
+  "languages": [
+    "en",
+    "es"
+  ],
+  "delivery": "Coach Nick",
+  "visual_roles": [
+    "presenter",
+    "actual product pages",
+    "exact annotations",
+    "action"
+  ]
+}
