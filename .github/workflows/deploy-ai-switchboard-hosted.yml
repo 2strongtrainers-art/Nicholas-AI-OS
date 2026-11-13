@@ -34,16 +34,18 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund
           npm run typecheck
           npm test
-      - name: Check for a competing Mac deployment
+      - name: Check for competing Switchboard deployments
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for state in queued in_progress waiting pending requested; do
-            count="$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/workflows/deploy-ai-switchboard.yml/runs" -f status="$state" --jq '.total_count')"
-            if [[ "$count" != 0 ]]; then
-              echo "::error::A Mac deployment is $state. Resolve it before deploying from GitHub."
-              exit 1
-            fi
+          for workflow in deploy-ai-switchboard.yml deploy-hermes-http-endpoint.yml recover-mac-ai-switchboard.yml; do
+            for state in queued in_progress waiting pending requested; do
+              count="$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/workflows/$workflow/runs" -f status="$state" --jq '.total_count')"
+              if [[ "$count" != 0 ]]; then
+                echo "::error::$workflow has $state runs. Resolve them before deploying from GitHub."
+                exit 1
+              fi
+            done
           done
       - name: Deploy with existing Cloudflare bindings
         env:

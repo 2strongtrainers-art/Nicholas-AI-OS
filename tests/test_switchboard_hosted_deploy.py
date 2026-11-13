@@ -1,8 +1,9 @@
 import json
 import os
+import subprocess
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 from scripts import deploy_switchboard_hosted as deploy
 
@@ -37,9 +38,9 @@ class HostedDeploymentTests(unittest.TestCase):
                     deploy.main()
                 provider.assert_not_called()
 
-    def test_uploads_verified_bindings_then_moves_traffic(self):
-        for fail_verification in [False, True]:
-            with self.subTest(fail_verification=fail_verification):
+    def test_uploads_verified_bindings_and_recovers_a_failed_promotion(self):
+        for failure in (None, "verification", "before promotion", "after promotion"):
+            with self.subTest(failure=failure):
                 live = CURRENT
                 changes = []
 
@@ -60,28 +61,74 @@ class HostedDeploymentTests(unittest.TestCase):
                         self.assertIn("--keep-vars", args)
                         output_path.write_text(json.dumps({"type": "version-upload", "version_id": CANDIDATE}) + "\n")
                     elif args[:2] == ("versions", "deploy"):
+                        changes.append(args[:2])
+                        if args[2] == f"{CANDIDATE}@100%" and failure == "before promotion":
+                            raise RuntimeError("Promotion rejected")
                         live = args[2].split("@")[0]
+                        if live == CANDIDATE and failure == "after promotion":
+                            raise subprocess.TimeoutExpired("wrangler versions deploy", 150)
+                        return ""
                     else:
                         self.fail(f"Unexpected command {args[:2]}")
                     changes.append(args[:2])
 
-                outcome = RuntimeError("Live verification failed") if fail_verification else None
+                outcome = RuntimeError("Live verification failed") if failure == "verification" else None
                 with (
                     patch.dict(os.environ, ENV, clear=True),
                     patch.object(deploy, "wrangler", side_effect=wrangler),
                     patch.object(deploy, "verify_live", side_effect=outcome) as smoke,
                 ):
-                    if fail_verification:
+                    if failure == "verification":
                         with self.assertRaisesRegex(RuntimeError, "Live verification failed"):
+                            deploy.main()
+                    elif failure == "before promotion":
+                        with self.assertRaisesRegex(RuntimeError, "Promotion rejected"):
+                            deploy.main()
+                    elif failure == "after promotion":
+                        with self.assertRaises(subprocess.TimeoutExpired):
                             deploy.main()
                     else:
                         deploy.main()
-                smoke.assert_called_once_with(True)
+                if failure in {"before promotion", "after promotion"}:
+                    smoke.assert_not_called()
+                else:
+                    smoke.assert_called_once_with(True)
                 expected = [("versions", "upload"), ("versions", "deploy")]
-                if fail_verification:
+                if failure in {"verification", "after promotion"}:
                     expected.append(("versions", "deploy"))
                 self.assertEqual(changes, expected)
-                self.assertEqual(live, CURRENT if fail_verification else CANDIDATE)
+                self.assertEqual(live, CURRENT if failure else CANDIDATE)
+
+    def test_rollback_leaves_a_different_active_version_in_place(self):
+        with (
+            patch.object(deploy, "active_version", return_value=("another-deployment", "other-version")),
+            patch.object(deploy, "wrangler") as provider,
+        ):
+            deploy.restore_previous_if_active(CANDIDATE, CURRENT)
+        provider.assert_not_called()
+
+    def test_rollback_requires_cloudflare_to_confirm_previous_version(self):
+        with (
+            patch.object(deploy, "active_version", return_value=("deployment", CANDIDATE)),
+            patch.object(deploy, "wrangler", side_effect=RuntimeError("Rollback failed")),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "Could not verify rollback"):
+                deploy.restore_previous_if_active(CANDIDATE, CURRENT)
+
+    def test_live_verification_checks_schema_and_auth_without_inference(self):
+        properties = {
+            "model": {"enum": ["ox", "qwen", "auto", "free", "qwen-flash"]},
+            "max_tokens": {"default": 1500},
+        }
+        ask = {
+            "operationId": "switchboardAsk",
+            "requestBody": {"content": {"application/json": {"schema": {"properties": properties}}}},
+        }
+        health = json.dumps({"ok": True, "atlas": True, "tool_routing": True, "hermes_jobs": False})
+        schema = json.dumps({"paths": {"/ask": {"post": ask}}})
+        with patch.object(deploy, "public_get", side_effect=[(200, health), (200, schema), (401, "")]) as get:
+            deploy.verify_live(False)
+        self.assertEqual(get.call_args_list, [call("/health"), call("/openapi.json"), call("/models")])
 
     def test_staged_candidate_that_changes_the_spending_guard_cannot_deploy(self):
         changed = [row for row in STAGED_BINDINGS if row["name"] != "ALLOW_PAID_AI"]

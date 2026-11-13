@@ -7,8 +7,6 @@ import re
 import subprocess
 import tempfile
 import time
-import urllib.error
-import urllib.request
 from pathlib import Path
 
 SERVICE = Path(__file__).resolve().parents[1] / "services" / "ai-switchboard"
@@ -94,33 +92,53 @@ def active_version():
     return deployment["id"], versions[0]["version_id"]
 
 
+def public_get(path):
+    response = subprocess.run(
+        ["curl", "--disable", "--silent", "--show-error", "--max-time", "10",
+         "--write-out", "\n%{http_code}", ORIGIN + path],
+        check=True, capture_output=True, text=True, timeout=12,
+    )
+    body, _, status = response.stdout.rpartition("\n")
+    return int(status), body
+
+
 def verify_live(has_hermes_queue):
     for attempt in range(5):
         try:
-            with urllib.request.urlopen(ORIGIN + "/health", timeout=10) as response:
-                health = json.load(response)
-            with urllib.request.urlopen(ORIGIN + "/openapi.json", timeout=10) as response:
-                schema = json.load(response)
+            health_status, health_body = public_get("/health")
+            schema_status, schema_body = public_get("/openapi.json")
+            health = json.loads(health_body)
+            schema = json.loads(schema_body)
             ask = schema["paths"]["/ask"]["post"]
             properties = ask["requestBody"]["content"]["application/json"]["schema"]["properties"]
             if (
-                health.get("ok") is True and health.get("atlas") is True
+                health_status == schema_status == 200
+                and health.get("ok") is True and health.get("atlas") is True
                 and health.get("tool_routing") is True and health.get("hermes_jobs") is has_hermes_queue
                 and ask.get("operationId") == "switchboardAsk"
                 and properties["max_tokens"]["default"] == 1500
                 and set(properties["model"]["enum"]) == {"ox", "qwen", "auto", "free", "qwen-flash"}
+                and public_get("/models")[0] == 401
             ):
-                try:
-                    with urllib.request.urlopen(ORIGIN + "/models", timeout=10):
-                        pass
-                except urllib.error.HTTPError as error:
-                    if error.code == 401:
-                        return
-        except (OSError, KeyError, TypeError, ValueError):
+                return
+        except (OSError, AttributeError, KeyError, TypeError, ValueError, subprocess.SubprocessError):
             pass
         if attempt < 4:
             time.sleep(3)
     raise RuntimeError("Live verification failed. Inspect the deployment before making further changes.")
+
+
+def restore_previous_if_active(candidate, previous):
+    if active_version()[1] != candidate:
+        return
+    try:
+        wrangler("versions", "deploy", f"{previous}@100%", "--yes")
+    except (RuntimeError, subprocess.TimeoutExpired):
+        # Cloudflare can move traffic before Wrangler reports an error.
+        pass
+    if active_version()[1] != previous:
+        raise RuntimeError("Could not verify rollback. Review Cloudflare deployment history before retrying.")
+    print(f"SWITCHBOARD_DEPLOY_ROLLED_BACK version={previous}")
 
 
 def main():
@@ -160,14 +178,14 @@ def main():
         check_bindings(existing, bindings(get_version(candidate)), config["vars"])
         if active_version() != (deployed_id, current_id):
             raise RuntimeError("The active deployment changed during upload. Review before moving traffic.")
-        wrangler("versions", "deploy", f"{candidate}@100%", "--yes")
 
     try:
+        if candidate != current_id:
+            wrangler("versions", "deploy", f"{candidate}@100%", "--yes")
         verify_live(existing.get("HERMES_JOBS", {}).get("type") == "kv_namespace")
-    except RuntimeError:
-        if candidate != current_id and active_version()[1] == candidate:
-            wrangler("versions", "deploy", f"{current_id}@100%", "--yes")
-            print(f"SWITCHBOARD_DEPLOY_ROLLED_BACK version={current_id}")
+    except (RuntimeError, subprocess.TimeoutExpired):
+        if candidate != current_id:
+            restore_previous_if_active(candidate, current_id)
         raise
     if active_version()[1] != candidate:
         raise RuntimeError("Cloudflare does not show the verified version at 100% traffic.")
