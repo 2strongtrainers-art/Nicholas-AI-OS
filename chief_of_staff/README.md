@@ -44,6 +44,12 @@ Download [review.html](review.html) and open it in a local browser. Choose the c
 
 The review page works with media on the current device. It exports notes for an edit pass. The existing [OpenMontage routing](../docs/openmontage-bridge-modes.md) applies when the user supplies authorized footage and requests an actual render.
 
+## Avatar and fitness video production
+
+When Nick asks the Chief or Muse to make a video, start with [the Muse handoff](../docs/MUSE_VIDEO_HANDOFF.md), [avatar production runbook](../docs/AVATAR_VIDEO_WORKFLOW.md), and [fitness playbook](../docs/FITNESS_VIDEO_PLAYBOOK.md). Reuse the approved portrait and August Nick voice within the recorded authorization. Resolve private media and the completed reference production from the owner’s private production packet.
+
+Track brief, source readiness, production, final-file QA and the playable Watch link separately. The November 13 reference established a successful tool-enabled production; a repository update alone does not establish a connected Muse runtime or a future scheduled delivery. Keep existing briefing and monitoring schedules.
+
 ## Episode and creator references
 
 - [Matt Wolfe interviews Peter Yang, November 11, 2026](https://www.youtube.com/watch?v=pvl3z_GyU2Y)
