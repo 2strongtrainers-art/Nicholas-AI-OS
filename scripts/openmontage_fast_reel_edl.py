@@ -6,6 +6,11 @@ normalizes those source clips into one vertical H.264 timeline with FFmpeg, then
 hands the assembled media to the existing Remotion Fast Reel renderer. This
 keeps normal social edits fast and auditable without invoking the autonomous
 full-production pipeline.
+
+Per-clip ``focus_x`` / ``focus_y`` metadata is preserved and applied during the
+vertical crop. This makes the existing Video Wizard-inspired face-focus layer
+materially affect the rendered Reel instead of silently falling back to a
+center crop for every clip.
 """
 
 from __future__ import annotations
@@ -26,6 +31,12 @@ def _float(value: Any, field: str, default: float | None = None) -> float | None
         return float(value)
     except (TypeError, ValueError) as exc:
         raise RuntimeError(f"Fast Reel clip {field} must be numeric") from exc
+
+
+def _focus(value: Any, field: str, default: float = 0.5) -> float:
+    parsed = _float(value, field, default)
+    assert parsed is not None
+    return round(max(0.0, min(1.0, float(parsed))), 6)
 
 
 def normalize_clip_specs(config: dict) -> list[dict]:
@@ -69,6 +80,8 @@ def normalize_clip_specs(config: dict) -> list[dict]:
                 "source": source,
                 "start_seconds": round(start, 3),
                 "duration_seconds": round(duration, 3) if duration is not None else None,
+                "focus_x": _focus(item.get("focus_x"), "focus_x"),
+                "focus_y": _focus(item.get("focus_y"), "focus_y"),
             }
         )
     return normalized
@@ -83,6 +96,16 @@ def _resolve_source(worker, raw: str) -> str:
     if source.suffix.lower() not in VIDEO_EXTENSIONS:
         raise RuntimeError(f"Fast Reel EDL source must be a video file: {source.name}")
     return str(source)
+
+
+def _crop_filter(index: int, focus_x: float, focus_y: float) -> str:
+    """Build one subject-aware 1080x1920 crop while retaining deterministic output."""
+    return (
+        f"[{index}:v]scale=1080:1920:force_original_aspect_ratio=increase,"
+        f"crop=1080:1920:x='max(0,min(iw-1080,(iw-1080)*{focus_x:.6f}))':"
+        f"y='max(0,min(ih-1920,(ih-1920)*{focus_y:.6f}))',"
+        "fps=24,setsar=1,setpts=PTS-STARTPTS,format=yuv420p"
+    )
 
 
 def build_edl_video(worker, job: dict, job_id: str, project_id: str, timeout_seconds: int) -> Path | None:
@@ -112,12 +135,9 @@ def build_edl_video(worker, job: dict, job_id: str, project_id: str, timeout_sec
 
     filters = []
     video_labels = []
-    for index in range(len(resolved_specs)):
+    for index, spec in enumerate(resolved_specs):
         label = f"v{index}"
-        filters.append(
-            f"[{index}:v]scale=1080:1920:force_original_aspect_ratio=increase,"
-            f"crop=1080:1920,fps=24,setsar=1,setpts=PTS-STARTPTS,format=yuv420p[{label}]"
-        )
+        filters.append(_crop_filter(index, float(spec["focus_x"]), float(spec["focus_y"])) + f"[{label}]")
         video_labels.append(f"[{label}]")
     filters.append("".join(video_labels) + f"concat=n={len(video_labels)}:v=1:a=0[concatv]")
     # If selected clips are shorter than the requested Reel, hold the last frame
@@ -174,6 +194,10 @@ def build_edl_video(worker, job: dict, job_id: str, project_id: str, timeout_sec
     job["fast_reel_edl"] = {
         "clip_count": len(specs),
         "source_names": [Path(spec["source"]).name for spec in specs],
+        "focus_points": [
+            {"focus_x": spec["focus_x"], "focus_y": spec["focus_y"]}
+            for spec in specs
+        ],
         "target_duration_seconds": target_duration,
         "assembled": True,
         "video_only": True,
