@@ -1,42 +1,62 @@
 import assert from "node:assert/strict";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
+import { Miniflare, convertV4MiniflareOptions, Response } from "miniflare";
 
-const { outputFiles } = await build({
-  entryPoints: [new URL("../src/hermes-index.ts", import.meta.url).pathname],
-  bundle: true,
-  write: false,
-  format: "esm",
-  loader: { ".txt": "text" },
-});
-const { default: worker } = await import(`data:text/javascript;base64,${Buffer.from(outputFiles[0].text).toString("base64")}`);
+const origin = "http://switchboard.example";
+const bindings = {
+  SWITCHBOARD_API_KEY: "fake-switchboard-key",
+  OPENROUTER_API_KEY: "fake-openrouter-key",
+  OX_MODEL: "z-ai/glm-5.3",
+  QWEN_MODEL: "qwen/qwen3.8-2.4t-a95b",
+};
 const calls = [];
 const replies = [];
-const upstream = test.mock.method(globalThis, "fetch", async (url, options) => {
-  calls.push({ url, ...JSON.parse(options.body) });
-  assert.equal(url, "https://openrouter.ai/api/v1/chat/completions");
-  assert.equal(options.headers.get("authorization"), "Bearer fake-openrouter-key");
+async function mockOpenRouter(request) {
+  const body = await request.json();
+  calls.push({ url: request.url, ...body });
+  assert.equal(request.url, "https://openrouter.ai/api/v1/chat/completions");
+  assert.equal(request.headers.get("authorization"), "Bearer fake-openrouter-key");
   assert.ok(replies.length, "unexpected upstream request");
   const reply = replies.shift();
   if (reply instanceof Error) throw reply;
   return reply;
-});
-after(() => upstream.mock.restore());
+}
 
-function ask(body, vars = {}, authorized = true, signal) {
+let worker;
+let paidDisabledWorker;
+before(async () => {
+  const config = JSON.parse(await readFile(new URL("../wrangler.jsonc", import.meta.url), "utf8"));
+  const { outputFiles } = await build({
+    entryPoints: [fileURLToPath(new URL(`../${config.main}`, import.meta.url))],
+    bundle: true, write: false, format: "esm", loader: { ".txt": "text" },
+  });
+  const options = {
+    name: "switchboard-test",
+    modules: true,
+    script: outputFiles[0].text,
+    compatibilityDate: config.compatibility_date,
+    compatibilityFlags: config.compatibility_flags,
+    outboundService: mockOpenRouter,
+    bindings,
+  };
+  worker = new Miniflare(convertV4MiniflareOptions({ workers: [options] }));
+  paidDisabledWorker = new Miniflare(convertV4MiniflareOptions({ workers: [
+    { ...options, bindings: { ...bindings, ALLOW_PAID_AI: "false" } },
+  ] }));
+});
+after(async () => {
+  await Promise.all([worker?.dispose(), paidDisabledWorker?.dispose()]);
+});
+
+function ask(body, paidDisabled = false, authorized = true) {
   calls.length = 0;
-  const request = new Request("https://switchboard.example/ask", {
+  return (paidDisabled ? paidDisabledWorker : worker).dispatchFetch(`${origin}/ask`, {
     method: "POST",
     headers: authorized ? { authorization: "Bearer fake-switchboard-key" } : {},
     body: JSON.stringify(body),
-    signal,
-  });
-  return worker.fetch(request, {
-    SWITCHBOARD_API_KEY: "fake-switchboard-key",
-    OPENROUTER_API_KEY: "fake-openrouter-key",
-    OX_MODEL: "z-ai/glm-5.3",
-    QWEN_MODEL: "qwen/qwen3.8-2.4t-a95b",
-    ...vars,
   });
 }
 
@@ -49,7 +69,7 @@ function rejection(status, source, { reason, message = "Upstream internal detail
 }
 
 test("production schema advertises a 1,500-token default and all aliases", async () => {
-  const response = await worker.fetch(new Request("https://switchboard.example/openapi.json"), {});
+  const response = await worker.dispatchFetch(`${origin}/openapi.json`);
   const schema = await response.json();
   const askSchema = schema.paths["/ask"].post.requestBody.content["application/json"].schema;
   assert.equal(askSchema.properties.max_tokens.default, 1500);
@@ -80,7 +100,7 @@ test("configured Ox, Qwen and Auto make one completion call and report provider 
 
 test("free works with paid routing disabled and Flash applies a provider price ceiling", async () => {
   replies.push(completion("provider/actual-free-model", "stop", "Evidence", { cost: 0 }));
-  const free = await ask({ model: "free", prompt: "Public evidence" }, { ALLOW_PAID_AI: "false" });
+  const free = await ask({ model: "free", prompt: "Public evidence" }, true);
   assert.equal(free.status, 200);
   assert.equal(calls[0].model, "openrouter/free");
   assert.equal((await free.json()).cost_usd, 0);
@@ -92,9 +112,9 @@ test("free works with paid routing disabled and Flash applies a provider price c
 });
 
 test("authorization, paid kill switch and invalid inputs stop before provider traffic", async () => {
-  assert.equal((await ask({ prompt: "Review" }, {}, false)).status, 401);
+  assert.equal((await ask({ prompt: "Review" }, false, false)).status, 401);
   for (const model of [undefined, "ox", "qwen", "qwen-flash", "auto"]) {
-    const response = await ask({ model, prompt: "Review" }, { ALLOW_PAID_AI: false });
+    const response = await ask({ model, prompt: "Review" }, true);
     assert.equal(response.status, 403);
     assert.equal((await response.json()).error_code, "paid_ai_disabled");
     assert.equal(calls.length, 0);
@@ -180,5 +200,13 @@ test("ambiguous failures are not retried and missing usage or identity stays unk
   const empty = await ask({ model: "qwen", prompt: "Review" });
   assert.equal(empty.status, 502);
   assert.equal((await empty.json()).truncated, true);
+  assert.equal(calls.length, 1);
+});
+
+test("provider redirects cannot send a prompt or credential to another origin", async () => {
+  replies.push(new Response(null, { status: 307, headers: { Location: "https://other.example/redirect" } }));
+  const response = await ask({ model: "qwen", prompt: "Public evidence" });
+  assert.equal(response.status, 502);
+  assert.equal((await response.json()).upstream_status, 307);
   assert.equal(calls.length, 1);
 });

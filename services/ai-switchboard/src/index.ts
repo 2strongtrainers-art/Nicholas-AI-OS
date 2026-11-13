@@ -95,6 +95,7 @@ async function getModels(env: SwitchboardEnv, force = false): Promise<OpenRouter
   if (!force && modelCache && now - modelCache.at < MODEL_CACHE_MS) return modelCache.models;
 
   const response = await fetch(`${OPENROUTER_API}/models`, {
+    redirect: "manual",
     signal: AbortSignal.timeout(8000),
     headers: env.OPENROUTER_API_KEY
       ? { Authorization: `Bearer ${env.OPENROUTER_API_KEY}` }
@@ -250,7 +251,7 @@ async function ask(request: Request, env: SwitchboardEnv): Promise<Response> {
     const response = await fetch(`${OPENROUTER_API}/chat/completions`, {
       method: "POST",
       headers: openRouterHeaders(env),
-      redirect: "error",
+      redirect: "manual",
       signal,
       body: JSON.stringify({
         model: resolvedModel,
