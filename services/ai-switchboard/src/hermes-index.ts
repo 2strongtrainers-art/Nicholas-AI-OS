@@ -1,16 +1,7 @@
-import base from "./index";
+import base, { type SwitchboardEnv } from "./index";
 import { routeHermesJobs, type HermesJobsEnv } from "./hermes-jobs";
-import type { ToolRoutingEnv } from "./tool-routing";
 
-interface Env extends ToolRoutingEnv, HermesJobsEnv {
-  OPENROUTER_API_KEY: string;
-  SWITCHBOARD_API_KEY: string;
-  HERMES_WORKER_KEY?: string;
-  OX_MODEL?: string;
-  QWEN_MODEL?: string;
-  OPENROUTER_SITE_URL?: string;
-  OPENROUTER_APP_NAME?: string;
-}
+type Env = SwitchboardEnv & HermesJobsEnv;
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data, null, 2), {
