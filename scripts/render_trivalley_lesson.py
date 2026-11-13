@@ -165,7 +165,7 @@ def caption_files(job, output):
             groups.append(current)
             current = []
         current.append(word)
-        if re.search(r"[.!?]$", word["text"]) and len(current) >= 2:
+        if re.search(r"[.!?]$", word["text"]):
             groups.append(current)
             current = []
     if current:
