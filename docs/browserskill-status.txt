@@ -1,0 +1,1 @@
+Integration branch prepared. Installation workflow targets the self-hosted macOS runner.
