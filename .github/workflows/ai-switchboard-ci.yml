@@ -11,6 +11,9 @@ on:
       - "tests/test_atlas_ai_council.py"
       - ".github/workflows/ai-switchboard-ci.yml"
       - ".github/workflows/deploy-ai-switchboard.yml"
+      - ".github/workflows/deploy-ai-switchboard-hosted.yml"
+      - "scripts/deploy_switchboard_hosted.py"
+      - "tests/test_switchboard_hosted_deploy.py"
   push:
     branches:
       - "feat/ai-switchboard-chatgpt-opencode"
@@ -58,6 +61,9 @@ jobs:
 
       - name: Test Atlas council evidence handling
         run: python3 -m unittest discover -s tests -p test_atlas_ai_council.py
+
+      - name: Test hosted deployment safeguards
+        run: python3 -m unittest discover -s tests -p test_switchboard_hosted_deploy.py
 
       - name: Validate Wrangler build
         working-directory: services/ai-switchboard
