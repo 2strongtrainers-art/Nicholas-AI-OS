@@ -29,7 +29,7 @@ Tool selection:
 4. Allow 1,500 output tokens by default. Specify `max_tokens` for deeper reviews. On a 402 with a lower affordable allowance, the Worker tries once at that allowance. If OpenRouter identifies an oversized request without giving a count, it tries once at 750. Other credit, rate, and transport failures return directly.
 5. Compare the actual `response_model`, `cost_usd`, `attempts`, and `truncated` fields. A missing cost is unknown. For a blocked call, use `limit_source`, `retry_after`, and any rate limit reset to choose the next action. Check [OpenRouter Credits](https://openrouter.ai/settings/credits) and [API Keys](https://openrouter.ai/settings/keys) before adding funds.
 
-Atlas AI Council runs on demand. Its GitHub Action keeps each review in the evidence packet with the response model, cost, and completion status. It flags an incomplete council after saving the available results.
+Atlas AI Council runs on demand and requires explicit approval for metered reviews. Each reviewer gets the same bounded evidence brief, requests up to 1,500 output tokens, and is asked for up to three findings. Its GitHub Action keeps each review in the evidence packet with the response model, cost, and completion status. It flags an incomplete council after saving the available results.
 
 ## Tool-routing behavior
 
@@ -68,6 +68,8 @@ npm run deploy
 Then verify `/health`, `/openapi.json`, authenticated `/models`, and authenticated `/tools/route`.
 
 The test suite runs the Worker with mocked OpenRouter responses. The production OpenAPI schema should list `free` and `qwen-flash` and advertise the 1,500-token default. Refresh NK's imported schema and instructions to expose the new commands there.
+
+The existing **Free AI 8 Health** schedule also records the public Switchboard contract. The check uses unauthenticated GET requests and separates a pending release from unexpected schema or authentication failures. Its Hermes queue indicator does not verify that a runner can complete a job.
 
 ### Deploy from GitHub without the Mac
 

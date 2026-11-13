@@ -11,6 +11,8 @@ from pathlib import Path
 
 SERVICE = Path(__file__).resolve().parents[1] / "services" / "ai-switchboard"
 ORIGIN = "https://nicholas-ai-switchboard.2strongtrainers.workers.dev"
+RELEASE_MAX_TOKENS = 1500
+RELEASE_MODEL_ALIASES = frozenset({"ox", "qwen", "auto", "free", "qwen-flash"})
 REQUIRED_SECRETS = {"SWITCHBOARD_API_KEY", "OPENROUTER_API_KEY"}
 INHERITED_TYPES = {"plain_text", "json", "secret_text", "secret_key", "kv_namespace"}
 VERSION_ID = re.compile(r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}")
@@ -116,8 +118,8 @@ def verify_live(has_hermes_queue):
                 and health.get("ok") is True and health.get("atlas") is True
                 and health.get("tool_routing") is True and health.get("hermes_jobs") is has_hermes_queue
                 and ask.get("operationId") == "switchboardAsk"
-                and properties["max_tokens"]["default"] == 1500
-                and set(properties["model"]["enum"]) == {"ox", "qwen", "auto", "free", "qwen-flash"}
+                and properties["max_tokens"]["default"] == RELEASE_MAX_TOKENS
+                and set(properties["model"]["enum"]) == RELEASE_MODEL_ALIASES
                 and public_get("/models")[0] == 401
             ):
                 return
