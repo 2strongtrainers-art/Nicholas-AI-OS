@@ -54,15 +54,21 @@ jobs:
 
               # The historical OpenMontage queue also contains maintenance/control
               # records that use type=openmontage_video but are not render jobs.
-              # Apply the render-job schema only when render-specific markers exist.
+              # An explicit non-render execution_mode takes precedence over stale
+              # render_mode_resolved/project metadata left by the legacy worker.
+              execution_mode = data.get("execution_mode")
+              is_control_job = (
+                  bool(execution_mode)
+                  and execution_mode not in openmontage_modes
+              )
               is_openmontage_render_job = (
                   data.get("type") == "openmontage_video"
+                  and not is_control_job
                   and (
                       data.get("render_mode") in openmontage_modes
                       or data.get("render_mode_resolved") in openmontage_modes
                       or "fast_reel" in data
                       or "output_filename" in data
-                      or "project_id" in data
                   )
               )
               if not is_openmontage_render_job:

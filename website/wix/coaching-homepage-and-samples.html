@@ -1,0 +1,261 @@
+<style id="tv-home-and-samples-styles">
+#tv-coaching-hero {
+  box-sizing: border-box;
+  width: min(1120px, calc(100% - 40px));
+  margin: 28px auto 34px;
+  border: 1px solid #463722;
+  border-radius: 20px;
+  background: #121314;
+  color: #f8f5ee;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 54px);
+  padding: clamp(24px, 4vw, 50px);
+}
+#tv-coaching-hero * { box-sizing: border-box; }
+#tv-coaching-hero .coach-name {
+  margin: 0 0 16px;
+  color: #ebc681;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+#tv-coaching-hero h1 {
+  max-width: 570px;
+  margin: 0;
+  font-size: clamp(38px, 4.25vw, 63px);
+  line-height: 1.05;
+  letter-spacing: -.043em;
+  font-weight: 760;
+}
+#tv-coaching-hero h1 span {
+  display: block;
+  margin-top: 4px;
+  color: #ebc681;
+}
+#tv-coaching-hero .coach-lead {
+  max-width: 510px;
+  margin: 22px 0 24px;
+  font-size: clamp(16px, 1.45vw, 19px);
+  line-height: 1.56;
+  color: #ded9d0;
+}
+#tv-coaching-hero .coach-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+#tv-coaching-hero .coach-action {
+  min-height: 46px;
+  padding: 11px 17px;
+  border: 1px solid #8f794f;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f8f5ee;
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 710;
+  text-align: center;
+  text-decoration: none;
+}
+#tv-coaching-hero .coach-action.primary {
+  border-color: #e4bb73;
+  background: #e4bb73;
+  color: #18130e;
+}
+#tv-coaching-hero .coach-action:hover { background: #2a251d; }
+#tv-coaching-hero .coach-action.primary:hover { background: #f2ce90; }
+#tv-coaching-hero .coach-options {
+  max-width: 490px;
+  margin: 14px 0 0;
+  color: #cfc7bb;
+  font-size: 14px;
+  line-height: 1.55;
+}
+#tv-coaching-hero .coach-options a {
+  color: #ebc681;
+  text-decoration: underline;
+  text-underline-offset: .19em;
+}
+#tv-coaching-hero a:focus-visible,
+#tv-guide-sample-link:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+#tv-coaching-hero figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #55452f;
+  border-radius: 13px;
+  background: #222325;
+}
+#tv-coaching-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1.05;
+  object-fit: cover;
+  object-position: 50% 31%;
+}
+[data-hook="product-prices-wrapper"].tv-price-and-sample {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px 14px;
+}
+.tv-price-and-sample > [data-hook="product-price"] {
+  flex: 0 1 auto;
+  width: auto !important;
+  min-width: 0;
+}
+#tv-guide-sample-link {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 0;
+  color: #f0cb80;
+  font: 700 15px/1.25 Inter, system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: .22em;
+  white-space: nowrap;
+}
+#tv-guide-sample-link:hover { color: #fff1cf; }
+@media (max-width: 1000px) {
+  #tv-coaching-hero {
+    /* The Wix desktop layout can stay wider than the viewport. */
+    width: min(calc(100% - 24px), calc(100vw - 40px));
+    margin-inline: 12px auto;
+  }
+}
+@media (max-width: 760px) {
+  #tv-coaching-hero {
+    margin-block: 14px 24px;
+    padding: 22px;
+    border-radius: 15px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 21px;
+  }
+  #tv-coaching-hero h1 { font-size: clamp(32px, 8.2vw, 46px); }
+  #tv-coaching-hero .coach-name { margin-bottom: 12px; }
+  #tv-coaching-hero .coach-lead { margin: 16px 0 18px; }
+  #tv-coaching-hero .coach-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 9px; }
+  #tv-coaching-hero img { aspect-ratio: 4 / 3; object-position: 50% 28%; }
+}
+</style>
+<script>
+(() => {
+  const key = "__tvCoachingHomeAndSamples";
+  if (window[key]) return;
+
+  const heroId = "tv-coaching-hero";
+  const sampleId = "tv-guide-sample-link";
+  const titleBefore = "Elite Personal Training in the Tri-Valley — Built Around Your Body, Your Goals, Your Schedule.";
+  const media = "https://static.wixstatic.com/media/";
+  const photo = media + "856ae2_07c184401cb044e185526479a3bc7258~mv2_d_1311_2048_s_2.jpg";
+  const samples = new Map([
+    ["/product-page/four-week-dumbbell-strength-starter", {
+      title: "Four-Week Dumbbell Strength Starter",
+      image: "856ae2_261459a134c24fe694fd685e340ba15d~mv2.jpg"
+    }],
+    ["/product-page/trx-suspension-strength", {
+      title: "TRX Suspension Strength",
+      image: "856ae2_685f304c4adc4c2a9c267e64c3c1b5a0~mv2.jpg"
+    }],
+    ["/product-page/shoulder-rehab-companion", {
+      title: "Shoulder Rehab Companion",
+      image: "856ae2_b0eef5c2db3e49a491e5b8fdbffcf71a~mv2.jpg"
+    }]
+  ]);
+
+  function photoSize(width, height) {
+    return photo + "/v1/fit/w_" + width + ",h_" + height + ",q_82/file.jpg";
+  }
+
+  function createHero() {
+    const section = document.createElement("section");
+    section.id = heroId;
+    section.setAttribute("aria-labelledby", "tv-coaching-hero-title");
+    section.innerHTML = `
+      <div>
+        <p class="coach-name">Nick Kaplan · NASM CPT &amp; CES</p>
+        <h1 id="tv-coaching-hero-title">Personal training in the Tri-Valley. <span>Online coaching.</span></h1>
+        <p class="coach-lead">Build strength with a plan that fits your goals and schedule. Train one-on-one in San Ramon or work with Nick online.</p>
+        <div class="coach-actions">
+          <a class="coach-action primary" href="/service-page/start-here-elite-assessment">Start with an Assessment</a>
+          <a class="coach-action" href="/fitness-guides">Shop Fitness Guides</a>
+        </div>
+        <p class="coach-options">The local assessment is 60 minutes and costs $297. <a href="/coaching">Explore online coaching</a> for direct enrollment.</p>
+      </div>
+      <figure>
+        <img src="${photoSize(720, 1125)}"
+             srcset="${photoSize(420, 657)} 420w, ${photoSize(720, 1125)} 720w, ${photoSize(1040, 1625)} 1040w"
+             sizes="(max-width: 760px) calc(100vw - 86px), 450px"
+             width="1311" height="2048" loading="eager" fetchpriority="high"
+             alt="A coach holds boxing mitts as two athletes train in a gym.">
+      </figure>`;
+    return section;
+  }
+
+  function updateHero(onHome) {
+    const existing = document.getElementById(heroId);
+    if (!onHome) {
+      existing?.remove();
+      return;
+    }
+    const native = document.querySelector("#PAGES_CONTAINER > #SITE_PAGES");
+    if (!native) return;
+    if (!existing) native.before(createHero());
+    const detailsTitle = native.querySelector("#WRchTxt4 h2");
+    if (detailsTitle?.textContent.trim() === titleBefore) detailsTitle.textContent = "How coaching works";
+  }
+
+  function updateSample(spec) {
+    const existing = document.getElementById(sampleId);
+    const product = spec && document.querySelector('[data-hook="product-page"]');
+    const title = product?.querySelector('[data-hook="product-title"]');
+    const price = title?.textContent.trim() === spec?.title
+      ? product?.querySelector('[data-hook="product-prices-wrapper"]')
+      : null;
+    const href = spec && media + spec.image;
+    if (existing && existing.parentElement === price && existing.href === href) return;
+    if (existing) {
+      existing.parentElement?.classList.remove("tv-price-and-sample");
+      existing.remove();
+    }
+    if (!price) return;
+    const link = document.createElement("a");
+    link.id = sampleId;
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Preview a Sample";
+    link.setAttribute("aria-label", "Preview a Sample for " + spec.title + " (opens in a new tab)");
+    price.classList.add("tv-price-and-sample");
+    price.appendChild(link);
+  }
+
+  function sync() {
+    const path = location.pathname.replace(/\/+$/, "") || "/";
+    updateHero(path === "/" || path === "/home");
+    updateSample(samples.get(path));
+  }
+
+  let pending = false;
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      sync();
+    });
+  }
+  window[key] = true;
+  new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener("popstate", schedule);
+  schedule();
+})();
+</script>

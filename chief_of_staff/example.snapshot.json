@@ -1,0 +1,37 @@
+{
+  "run_id": "synthetic-2026-11-12-am",
+  "as_of": "2026-11-12T03:00:00-08:00",
+  "coverage": {
+    "gmail": "ok",
+    "calendar": "ok",
+    "github": "ok",
+    "slack": "unavailable"
+  },
+  "items": [
+    {
+      "source": "gmail",
+      "id": "example-thread",
+      "version": "example-message-2",
+      "direction": "owner_action",
+      "title": "Example buyer needs a reply about a training assessment",
+      "next_step": "Draft two time options for owner review.",
+      "url": "https://mail.google.com/mail/u/0/#all/example-thread",
+      "observed_at": "2026-11-11T16:00:00-08:00",
+      "due_at": "2026-11-12T12:00:00-08:00",
+      "priority": "high"
+    },
+    {
+      "source": "calendar",
+      "id": "example-event",
+      "version": "example-event-v1",
+      "direction": "calendar",
+      "title": "Example coaching session",
+      "next_step": "Review the session notes before the appointment.",
+      "url": "https://calendar.google.com/calendar/event?eid=example",
+      "observed_at": "2026-11-11T08:30:00-08:00",
+      "due_at": "2026-11-12T04:45:00-08:00",
+      "end_at": "2026-11-12T05:45:00-08:00",
+      "priority": "normal"
+    }
+  ]
+}

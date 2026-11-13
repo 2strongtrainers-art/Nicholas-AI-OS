@@ -1,25 +1,18 @@
 name: Deploy Hermes HTTP Endpoint
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/deploy-hermes-http-endpoint.yml"
-      - "services/ai-switchboard/src/hermes-index.ts"
-      - "services/ai-switchboard/src/hermes-jobs.ts"
-      - "services/ai-switchboard/wrangler.jsonc"
-      - "scripts/deploy_ai_switchboard.sh"
-      - "scripts/hermes_switchboard_worker.py"
-      - "scripts/install_hermes_switchboard_worker.sh"
-      - "scripts/prepare_hermes_deploy.sh"
-      - "scripts/resolve_hermes_kv.py"
   workflow_dispatch:
+
+concurrency:
+  group: switchboard-production-deploy
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
   deploy-and-test:
+    if: github.ref == 'refs/heads/main'
     runs-on: [self-hosted, macOS]
     timeout-minutes: 30
     steps:

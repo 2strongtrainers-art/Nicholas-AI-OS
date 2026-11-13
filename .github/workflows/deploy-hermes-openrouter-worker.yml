@@ -1,16 +1,18 @@
 name: Deploy Repaired Hermes Worker
 
 on:
-  push:
-    paths:
-      - ".github/workflows/deploy-hermes-openrouter-worker.yml"
   workflow_dispatch:
+
+concurrency:
+  group: switchboard-production-deploy
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
   deploy-and-verify:
+    if: github.ref == 'refs/heads/main'
     runs-on: [self-hosted, macOS]
     timeout-minutes: 15
     steps:

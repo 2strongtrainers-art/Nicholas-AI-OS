@@ -1,16 +1,7 @@
-import base from "./index";
+import base, { type SwitchboardEnv } from "./index";
 import { routeHermesJobs, type HermesJobsEnv } from "./hermes-jobs";
-import type { ToolRoutingEnv } from "./tool-routing";
 
-interface Env extends ToolRoutingEnv, HermesJobsEnv {
-  OPENROUTER_API_KEY: string;
-  SWITCHBOARD_API_KEY: string;
-  HERMES_WORKER_KEY?: string;
-  OX_MODEL?: string;
-  QWEN_MODEL?: string;
-  OPENROUTER_SITE_URL?: string;
-  OPENROUTER_APP_NAME?: string;
-}
+type Env = SwitchboardEnv & HermesJobsEnv;
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data, null, 2), {
@@ -24,7 +15,7 @@ function hermesPaths() {
     "/hermes/jobs": {
       post: {
         operationId: "createHermesJob",
-        summary: "Queue a Hermes job on Nicholas's Mac worker (research_readonly only).",
+        summary: "Queue a research_readonly job for the authorized Hermes runner.",
         requestBody: {
           required: true,
           content: {
@@ -98,7 +89,7 @@ export default {
       const body = await response.json() as Record<string, any>;
       body.info = body.info || {};
       body.info.version = "1.2.0";
-      body.info.description = `${body.info.description || "Nicholas AI Switchboard"} Hermes jobs use a persistent authenticated queue and a read-only Mac execution profile.`;
+      body.info.description = `${body.info.description || "Nicholas AI Switchboard"} Hermes jobs use an authenticated queue and a read-only execution profile.`;
       body.paths = { ...(body.paths || {}), ...hermesPaths() };
       return json(body);
     }

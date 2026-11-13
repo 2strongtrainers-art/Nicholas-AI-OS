@@ -7,7 +7,17 @@ on:
       - "scripts/install_ai_switcher.sh"
       - "scripts/deploy_ai_switchboard.sh"
       - "scripts/install_agent_stack.sh"
+      - "scripts/run_atlas_ai_council.py"
+      - "tests/test_atlas_ai_council.py"
+      - ".github/workflows/atlas-ai-council.yml"
       - ".github/workflows/ai-switchboard-ci.yml"
+      - ".github/workflows/deploy-ai-switchboard.yml"
+      - ".github/workflows/deploy-ai-switchboard-hosted.yml"
+      - "scripts/deploy_switchboard_hosted.py"
+      - "tests/test_switchboard_hosted_deploy.py"
+      - "scripts/check_switchboard_readiness.py"
+      - "tests/test_switchboard_readiness.py"
+      - ".github/workflows/free-ai-8-health.yml"
   push:
     branches:
       - "feat/ai-switchboard-chatgpt-opencode"
@@ -17,7 +27,13 @@ on:
       - "scripts/install_ai_switcher.sh"
       - "scripts/deploy_ai_switchboard.sh"
       - "scripts/install_agent_stack.sh"
+      - "scripts/run_atlas_ai_council.py"
+      - "tests/test_atlas_ai_council.py"
       - ".github/workflows/ai-switchboard-ci.yml"
+      - ".github/workflows/deploy-ai-switchboard.yml"
+
+permissions:
+  contents: read
 
 jobs:
   validate:
@@ -37,11 +53,24 @@ jobs:
 
       - name: Install worker dependencies
         working-directory: services/ai-switchboard
-        run: npm install
+        run: npm ci --no-audit --no-fund
 
       - name: Typecheck worker
         working-directory: services/ai-switchboard
         run: npm run typecheck
+
+      - name: Test Switchboard and Hermes without provider calls
+        working-directory: services/ai-switchboard
+        run: npm test
+
+      - name: Test Atlas council evidence handling
+        run: python3 -m unittest discover -s tests -p test_atlas_ai_council.py
+
+      - name: Test hosted deployment safeguards
+        run: python3 -m unittest discover -s tests -p test_switchboard_hosted_deploy.py
+
+      - name: Test public Switchboard readiness reporting
+        run: python3 -m unittest discover -s tests -p test_switchboard_readiness.py
 
       - name: Validate Wrangler build
         working-directory: services/ai-switchboard

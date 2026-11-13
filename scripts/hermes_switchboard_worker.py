@@ -23,9 +23,9 @@ CONFIG_DIR = Path(os.environ.get("NICHOLAS_HERMES_CONFIG_DIR") or HOME / ".confi
 DEPLOY_ENV = CONFIG_DIR / "deployment.env"
 WORKER_KEY_FILE = CONFIG_DIR / "hermes-worker.key"
 OPENCODE_AUTH_FILE = HOME / ".local" / "share" / "opencode" / "auth.json"
-LOCK = HOME / ".hermes-switchboard-worker.lock"
 LOG = (HOME / "Library" / "Logs" / "HermesSwitchboardWorker.log" if sys.platform == "darwin"
        else HOME / ".local" / "state" / "nicholas-ai" / "hermes-worker.log")
+LOCK = HOME / ".hermes-switchboard-worker.lock" if sys.platform == "darwin" else LOG.parent / "hermes-worker.lock"
 WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.3"
 
 # Codex OAuth can hit a ChatGPT/Codex usage ceiling independently of the rest of
@@ -35,6 +35,15 @@ WORKER_USER_AGENT = "Nicholas-AI-Hermes-Worker/1.3"
 HERMES_PROVIDER = os.environ.get("NICHOLAS_HERMES_PROVIDER", "openrouter").strip() or "openrouter"
 HERMES_MODEL = os.environ.get("NICHOLAS_HERMES_MODEL", "openrouter/free").strip() or "openrouter/free"
 HERMES_MAX_TOKENS = os.environ.get("NICHOLAS_HERMES_MAX_TOKENS", "4096").strip() or "4096"
+SWITCHBOARD_ORIGIN = "https://nicholas-ai-switchboard.2strongtrainers.workers.dev"
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+HTTP = urllib.request.build_opener(NoRedirect())
 
 
 def log(message: str) -> None:
@@ -54,9 +63,9 @@ def switchboard_url() -> str:
     for raw in DEPLOY_ENV.read_text(encoding="utf-8").splitlines():
         if raw.startswith("AI_SWITCHBOARD_URL="):
             value = raw.split("=", 1)[1].strip().replace("\\:", ":").replace("\\/", "/")
-            if value.startswith("https://"):
-                return value.rstrip("/")
-    raise RuntimeError("AI_SWITCHBOARD_URL is missing")
+            if value.rstrip("/") == SWITCHBOARD_ORIGIN:
+                return SWITCHBOARD_ORIGIN
+    raise RuntimeError("AI_SWITCHBOARD_URL must use the production Nicholas AI Switchboard origin")
 
 
 def worker_key() -> str:
@@ -89,11 +98,29 @@ def openrouter_key() -> str:
 
 
 def hermes_environment() -> dict:
-    env = os.environ.copy()
+    switchboard_secrets = {"HERMES_WORKER_KEY", "SWITCHBOARD_API_KEY", "CLOUDFLARE_API_TOKEN"}
+    env = {name: value for name, value in os.environ.items() if name not in switchboard_secrets}
     if HERMES_PROVIDER == "openrouter":
         env["OPENROUTER_API_KEY"] = openrouter_key()
         env["HERMES_MAX_TOKENS"] = HERMES_MAX_TOKENS
     return env
+
+
+def worker_has_access(url: str, key: str) -> None:
+    """The API authenticates before returning 404 for this ID, which it never issues."""
+    req = urllib.request.Request(
+        url + "/hermes/internal/jobs/hermes-readiness-probe",
+        headers={"Authorization": f"Bearer {key}", "User-Agent": WORKER_USER_AGENT, "Cache-Control": "no-cache"},
+    )
+    try:
+        with HTTP.open(req, timeout=10):
+            raise RuntimeError("Unexpected readiness response from Switchboard")
+    except urllib.error.HTTPError as exc:
+        with exc:
+            body = json.loads(exc.read(2048)) if exc.code == 404 else None
+            if isinstance(body, dict) and body.get("error") == "Hermes job not found":
+                return
+        raise RuntimeError(f"Switchboard worker authorization check returned HTTP {exc.code}") from None
 
 
 def request_json(url: str, key: str, payload=None, retries: int = 3):
@@ -112,7 +139,7 @@ def request_json(url: str, key: str, payload=None, retries: int = 3):
     for attempt in range(attempts):
         try:
             req = urllib.request.Request(url, data=data, headers=headers, method="POST" if payload is not None else "GET")
-            with urllib.request.urlopen(req, timeout=30) as response:
+            with HTTP.open(req, timeout=30) as response:
                 raw = response.read().decode("utf-8")
                 return json.loads(raw) if raw else {}
         except urllib.error.HTTPError as exc:
@@ -180,33 +207,41 @@ def execute(job: dict) -> str:
     if profile != "research_readonly":
         raise RuntimeError("Only research_readonly jobs are supported; maintenance requires an isolated runner")
     timeout_seconds = max(60, min(int(job.get("timeout_seconds") or 900), 1200))
-    usage_path = HOME / ".hermes" / f"{re.sub(r'[^A-Za-z0-9._-]+', '-', job_id)[:120]}-usage.json"
+    env = hermes_environment()
+    hermes_home = Path(env.get("HERMES_HOME") or HOME / ".hermes").expanduser()
+    usage_path = hermes_home / f"{re.sub(r'[^A-Za-z0-9._-]+', '-', job_id)[:120]}-usage.json"
     usage_path.parent.mkdir(parents=True, exist_ok=True)
     command = [
         hermes_bin(),
         "--provider", HERMES_PROVIDER,
         "--model", HERMES_MODEL,
+        "--toolsets", "search",
         "--reasoning", "high",
         "--usage-file", str(usage_path),
         "--oneshot", prompt_for(task, profile),
     ]
-    command[5:5] = ["--toolsets", "search"]
-    result = subprocess.run(
-        command,
-        cwd=str(ROOT),
-        env=hermes_environment(),
-        text=True,
-        capture_output=True,
-        timeout=timeout_seconds,
-    )
+    try:
+        result = subprocess.run(
+            command,
+            cwd=str(ROOT),
+            env=env,
+            text=True,
+            capture_output=True,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired:
+        raise RuntimeError("Hermes exceeded the job timeout.") from None
     output = (result.stdout or "").strip()
     stderr = (result.stderr or "").strip()
     combined = "\n".join(x for x in (output, stderr) if x).strip()
     lower = combined.lower()
     if result.returncode != 0:
-        raise RuntimeError(redact(combined or f"Hermes exited {result.returncode}")[-4000:])
+        raise RuntimeError(f"Hermes CLI exited with status {result.returncode}; check the host's provider configuration.")
     if not output or ("api call failed after" in lower and len(output.splitlines()) <= 3):
-        raise RuntimeError(redact(combined or "Hermes returned no usable output")[-4000:])
+        raise RuntimeError("Hermes returned no usable output; check the host's model and search configuration.")
+    provider_key = env.get("OPENROUTER_API_KEY")
+    if provider_key:
+        output = output.replace(provider_key, "[REDACTED]")
     return redact(output)[:50000]
 
 
@@ -224,6 +259,7 @@ def pid_is_alive(pid: int) -> bool:
 
 def acquire_lock() -> bool:
     """Acquire the single-worker lock, recovering a stale PID file safely."""
+    LOCK.parent.mkdir(parents=True, exist_ok=True)
     for attempt in range(2):
         try:
             fd = os.open(str(LOCK), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
@@ -275,23 +311,10 @@ def main() -> int:
         if not job_id:
             raise RuntimeError("Claimed Hermes job has no id")
         profile = str(job.get("profile") or "research_readonly")
-        log(f"CLAIMED {job_id} profile={profile}")
-        post_log(url, key, job_id, [f"Worker claimed job; profile={profile}"])
+        log(f"CLAIMED {job_id} host={sys.platform} profile={profile}")
+        post_log(url, key, job_id, [f"Worker claimed job; host={sys.platform}; profile={profile}"])
         try:
             output = execute(job)
-            request_json(
-                f"{url}/hermes/internal/jobs/{job_id}",
-                key,
-                {
-                    "status": "completed",
-                    "result": output,
-                    "provider": HERMES_PROVIDER,
-                    "model": HERMES_MODEL,
-                    "profile": profile,
-                    "log": [f"Completed with profile={profile}"],
-                },
-            )
-            log(f"COMPLETED {job_id} provider={HERMES_PROVIDER} model={HERMES_MODEL} profile={profile}")
         except Exception as exc:
             error = redact(str(exc))[-4000:]
             try:
@@ -309,6 +332,20 @@ def main() -> int:
                 )
             finally:
                 log(f"FAILED {job_id}: {error}")
+            return 0
+        request_json(
+            f"{url}/hermes/internal/jobs/{job_id}",
+            key,
+            {
+                "status": "completed",
+                "result": output,
+                "provider": HERMES_PROVIDER,
+                "model": HERMES_MODEL,
+                "profile": profile,
+                "log": [f"Completed on {sys.platform} with profile={profile}"],
+            },
+        )
+        log(f"COMPLETED {job_id} host={sys.platform} provider={HERMES_PROVIDER} model={HERMES_MODEL} profile={profile}")
         return 0
     except Exception as exc:
         log(f"WORKER ERROR: {redact(str(exc))}")

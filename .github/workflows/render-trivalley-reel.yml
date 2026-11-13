@@ -1,0 +1,133 @@
+name: Render TriValley.fit Reel
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('TriValley Reel | {0} | {1}', inputs.episode_id, inputs.media_source) || 'TriValley Reel checks' }}
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/render-trivalley-reel.yml'
+      - 'scripts/render_trivalley_reel.py'
+      - 'tests/test_render_trivalley_reel.py'
+      - 'workflows/n8n/trivalley-reel-review.json'
+      - 'workflows/n8n/trivalley-reel-render-status.json'
+  workflow_dispatch:
+    inputs:
+      episode_id:
+        description: Public episode slug only, or reel-smoke-test for synthetic media
+        type: string
+        required: true
+      media_source:
+        description: Choose staged private media or a generated test pattern
+        type: choice
+        options: [private, synthetic]
+        default: private
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trivalley-reel-${{ github.event_name }}-${{ inputs.episode_id || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-open-sans python3-pil
+      - name: Test the render and review workflow
+        run: /usr/bin/python3 -m unittest discover -s tests -p test_render_trivalley_reel.py -v
+
+  render:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.media_source == 'private'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: trivalley-reel-media
+    env:
+      EPISODE_ID: ${{ inputs.episode_id }}
+      MEDIA_BUCKET: ${{ vars.REEL_MEDIA_BUCKET }}
+      MEDIA_ENDPOINT: ${{ vars.REEL_MEDIA_ENDPOINT }}
+      AWS_DEFAULT_REGION: auto
+      AWS_ACCESS_KEY_ID: ${{ secrets.REEL_MEDIA_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.REEL_MEDIA_SECRET_ACCESS_KEY }}
+      AWS_EC2_METADATA_DISABLED: 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fetch the episode from private storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$EPISODE_ID" =~ ^[a-z0-9][a-z0-9-]{2,62}$ ]]
+          [[ "$EPISODE_ID" != reel-smoke-test ]]
+          [[ "$MEDIA_BUCKET" =~ ^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ ]]
+          [[ "$MEDIA_ENDPOINT" =~ ^https://[a-z0-9]+\.r2\.cloudflarestorage\.com$ ]]
+          test -n "$AWS_ACCESS_KEY_ID"
+          test -n "$AWS_SECRET_ACCESS_KEY"
+          mkdir -p "$RUNNER_TEMP/reel-inbox"
+          aws --endpoint-url "$MEDIA_ENDPOINT" s3 sync \
+            "s3://$MEDIA_BUCKET/reels/inbox/$EPISODE_ID/" "$RUNNER_TEMP/reel-inbox/" --only-show-errors
+          EPISODE_ID="$EPISODE_ID" python3 -c \
+            'import json, os, pathlib, sys; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"reel-inbox/reel.json"; sys.exit(0 if json.loads(p.read_text())["episode_id"] == os.environ["EPISODE_ID"] else "Episode ID mismatch")'
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-open-sans python3-pil
+      - name: Render and verify the MP4
+        run: /usr/bin/python3 scripts/render_trivalley_reel.py "$RUNNER_TEMP/reel-inbox" "$RUNNER_TEMP/reel-review"
+      - name: Save the verified video and manifest to private storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          prefix="reels/review/$EPISODE_ID/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          for file in "$EPISODE_ID.mp4" "$EPISODE_ID.manifest.json"; do
+            source="$RUNNER_TEMP/reel-review/$file"
+            aws --endpoint-url "$MEDIA_ENDPOINT" s3 cp "$source" \
+              "s3://$MEDIA_BUCKET/$prefix/$file" --only-show-errors
+            remote_bytes="$(aws --endpoint-url "$MEDIA_ENDPOINT" s3api head-object \
+              --bucket "$MEDIA_BUCKET" --key "$prefix/$file" --query ContentLength --output text)"
+            [[ "$remote_bytes" == "$(stat -c %s "$source")" ]]
+          done
+          printf 'Verified review files saved under %s.\n' "$prefix" >> "$GITHUB_STEP_SUMMARY"
+
+  synthetic:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.media_source == 'synthetic'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      EPISODE_ID: ${{ inputs.episode_id }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-open-sans python3-pil
+      - name: Generate and render a disposable test pattern
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$EPISODE_ID" == reel-smoke-test ]]
+          inbox="$RUNNER_TEMP/reel-smoke-inbox"
+          mkdir -p "$inbox"
+          ffmpeg -nostdin -v error -f lavfi -i testsrc2=size=432x768:rate=30 \
+            -t 4 -c:v libx264 -threads 2 "$inbox/pattern.mp4"
+          ffmpeg -nostdin -v error -f lavfi -i sine=frequency=440:duration=1.6 "$inbox/tone.wav"
+          cat > "$inbox/reel.json" <<'JSON'
+          {"episode_id":"reel-smoke-test","segments":[
+            {"clip":"pattern.mp4","seconds":2.5,"caption":"Synthetic render test"},
+            {"clip":"pattern.mp4","start":1,"seconds":2.5,"caption":"Second shot and audio test","narration":"tone.wav"}
+          ],"end_card":{"seconds":3,"headline":"RENDER TEST","detail":"SYNTHETIC TEST PATTERN","cta":"TRIVALLEY.FIT"}}
+          JSON
+          /usr/bin/python3 scripts/render_trivalley_reel.py "$inbox" "$RUNNER_TEMP/reel-smoke-output"
+      - name: Attach the disposable render and verification manifest
+        uses: actions/upload-artifact@v6
+        with:
+          name: reel-smoke-test-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/reel-smoke-output/reel-smoke-test.mp4
+            ${{ runner.temp }}/reel-smoke-output/reel-smoke-test.manifest.json
+          if-no-files-found: error
+          retention-days: 7

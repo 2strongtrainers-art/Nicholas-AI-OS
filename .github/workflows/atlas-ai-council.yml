@@ -1,20 +1,21 @@
 name: Atlas AI Council
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/run_atlas_ai_council.py"
-      - ".github/workflows/atlas-ai-council.yml"
   workflow_dispatch:
     inputs:
       focus:
         description: "Optional Atlas council focus"
         required: false
-        default: "Improve Atlas discovery, workflows, repeat usage, trust, and monetization without adding clutter"
+        default: "Find the highest-impact friction in a first-time Atlas search"
+      allow_paid_ai:
+        description: "Approve metered Ox and Qwen reviews for this run"
+        type: boolean
+        required: true
+        default: false
 
 jobs:
   council:
+    if: ${{ inputs.allow_paid_ai }}
     runs-on: [self-hosted, macOS]
     timeout-minutes: 35
     steps:
@@ -35,7 +36,8 @@ jobs:
       - name: Run Hermes Ox Qwen council
         shell: bash
         env:
-          ATLAS_COUNCIL_FOCUS: ${{ github.event.inputs.focus || 'Improve Atlas discovery, workflows, repeat usage, trust, and monetization without adding clutter' }}
+          ALLOW_PAID_AI: ${{ inputs.allow_paid_ai && 'true' || 'false' }}
+          ATLAS_COUNCIL_FOCUS: ${{ inputs.focus }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/atlas-ai-council"
@@ -53,8 +55,7 @@ jobs:
           import json,sys
           p=json.load(open(sys.argv[1]))
           assert p.get('hermes',{}).get('status') == 'completed', p.get('hermes')
-          assert p.get('ox',{}).get('ok') is True, p.get('ox')
-          assert p.get('qwen',{}).get('ok') is True, p.get('qwen')
+          assert p.get('status') == 'completed', 'Council is incomplete. See the uploaded evidence packet.'
           assert p.get('models',{}).get('ox'), p.get('models')
           assert p.get('models',{}).get('qwen'), p.get('models')
           print('ATLAS_AI_COUNCIL_PACKET=PASS')

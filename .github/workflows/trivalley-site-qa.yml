@@ -1,0 +1,75 @@
+name: TriValley website QA
+
+on:
+  pull_request:
+    paths:
+      - "website/wix/**"
+      - "workflows/n8n/**"
+      - "chief_of_staff/revenue.py"
+      - "chief_of_staff/website_funnel.py"
+      - "tests/trivalley-site/**"
+      - "tests/test_trivalley_*.mjs"
+      - "tests/test_chief_of_staff_website_funnel.py"
+      - ".github/workflows/trivalley-site-qa.yml"
+  push:
+    branches: [main]
+    paths:
+      - "website/wix/**"
+      - "workflows/n8n/**"
+      - "chief_of_staff/revenue.py"
+      - "chief_of_staff/website_funnel.py"
+      - "tests/trivalley-site/**"
+      - "tests/test_trivalley_*.mjs"
+      - "tests/test_chief_of_staff_website_funnel.py"
+      - ".github/workflows/trivalley-site-qa.yml"
+  schedule:
+    - cron: "41 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trivalley-site-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - name: Check the intake and browser event contracts
+        run: node --experimental-vm-modules --test tests/test_trivalley_intake.mjs tests/test_trivalley_funnel_events.mjs
+      - name: Check the scorecard
+        run: python3 -B -m unittest discover -s tests -p 'test_chief_of_staff*.py' -v
+
+  public-site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: chromium
+            browser: chromium
+          - project: iphone-webkit
+            browser: webkit
+    defaults:
+      run:
+        working-directory: tests/trivalley-site
+    env:
+      TRIVALLEY_READ_ONLY: ${{ github.event_name == 'schedule' && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: tests/trivalley-site/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps --only-shell ${{ matrix.browser }}
+      - run: npm test -- --project=${{ matrix.project }}

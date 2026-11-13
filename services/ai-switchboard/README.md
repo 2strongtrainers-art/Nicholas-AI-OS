@@ -21,6 +21,16 @@ Tool selection:
 - `POST /ask` — authenticated external-model request.
 - `POST /tools/route` — authenticated task-scoped tool selection, maximum five results and no list/dump mode.
 
+## Model review workflow
+
+1. Collect and verify evidence once using connected tools and GitHub checks. Use native ChatGPT (`/openai` in NK) for routine review.
+2. For an external second opinion on public evidence, choose `free` for OpenRouter's free router or `qwen-flash` for Qwen3.7 Flash. The Flash route caps provider rates at $0.10 input and $0.30 output per million tokens with no per-request fee. Free-model availability and quotas depend on OpenRouter.
+3. Use `ox`, `qwen`, or `auto` for an explicit paid-capable request. The configured Ox and Qwen routes use their pinned IDs directly. For `/debate`, send each model the same brief in sequence. To block every model alias except `free` across deployments, set the Worker secret `ALLOW_PAID_AI` to `false` or declare that value in the Wrangler deployment configuration.
+4. Allow 1,500 output tokens by default. Specify `max_tokens` for deeper reviews. On a 402 with a lower affordable allowance, the Worker tries once at that allowance. If OpenRouter identifies an oversized request without giving a count, it tries once at 750. Other credit, rate, and transport failures return directly.
+5. Compare the actual `response_model`, `cost_usd`, `attempts`, and `truncated` fields. A missing cost is unknown. For a blocked call, use `limit_source`, `retry_after`, and any rate limit reset to choose the next action. Check [OpenRouter Credits](https://openrouter.ai/settings/credits) and [API Keys](https://openrouter.ai/settings/keys) before adding funds.
+
+Atlas AI Council runs on demand and requires explicit approval for metered reviews. Each reviewer gets the same bounded evidence brief, requests up to 1,500 output tokens, and is asked for up to three findings. Its GitHub Action keeps each review in the evidence packet with the response model, cost, and completion status. It flags an incomplete council after saving the available results.
+
 ## Tool-routing behavior
 
 The Worker loads the historical compact AI/Design/Education catalog, filters two unnamed URL-only Design rows, appends the canonical Gaming supplement, and ranks **1,800 valid resources across 1,501 domains**.
@@ -49,12 +59,23 @@ The Worker has no endpoint that enumerates or dumps the paid membership database
 
 ```bash
 cd services/ai-switchboard
-npm install
+npm ci
 npm run typecheck
+npm test
 npm run deploy
 ```
 
 Then verify `/health`, `/openapi.json`, authenticated `/models`, and authenticated `/tools/route`.
+
+The test suite runs the Worker with mocked OpenRouter responses. The production OpenAPI schema should list `free` and `qwen-flash` and advertise the 1,500-token default. Refresh NK's imported schema and instructions to expose the new commands there.
+
+The existing **Free AI 8 Health** schedule also records the public Switchboard contract. The check uses unauthenticated GET requests and separates a pending release from unexpected schema or authentication failures. Its Hermes queue indicator does not verify that a runner can complete a job.
+
+### Deploy from GitHub without the Mac
+
+The **Deploy AI Switchboard on GitHub** workflow runs on demand from `main`. In the repo's `switchboard-production` GitHub environment, allow deployments from `main`, set the `CLOUDFLARE_ACCOUNT_ID` variable, and store a `CLOUDFLARE_API_TOKEN` secret with Editor access scoped to the existing `nicholas-ai-switchboard` Worker. The owner authorizes this connection once.
+
+Resolve any queued or running Mac workflow that can deploy the Worker before starting the GitHub-hosted workflow. This includes **Deploy AI Switchboard From Main**, **Deploy Hermes HTTP Endpoint**, and **Recover Mac AI Switchboard**. The hosted workflow tests the checked-out commit, inherits existing secrets and variables, copies the active KV bindings to the staged version, checks its binding manifest, then promotes the version. It verifies the live schema and bearer boundary without a model call. If promotion reports an error or verification fails, it checks which version is serving traffic and restores the previous one when the candidate is still active. A missing Hermes queue or runner requires its own recovery. See [Cloudflare Worker token scopes](https://developers.cloudflare.com/workers/authorization/workers/) and [GitHub environments](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
 
 A normal embedded route should report `source: embedded_private_websurfers` and `catalog_scope: full 1800-resource private catalog; task-scoped top results only`.
 

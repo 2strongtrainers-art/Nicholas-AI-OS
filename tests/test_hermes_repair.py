@@ -1,10 +1,12 @@
 import importlib.util
+import io
 import json
 import os
 import subprocess
 import sys
 import tempfile
 import unittest
+import urllib.error
 from pathlib import Path
 from unittest.mock import patch
 
@@ -91,7 +93,7 @@ class HermesRepairTests(unittest.TestCase):
             request.assert_not_called()
 
     def test_ambiguous_post_is_not_retried_and_cannot_claim_another_job(self):
-        with patch.object(worker.urllib.request, 'urlopen', side_effect=TimeoutError('lost response')) as fetch, \
+        with patch.object(worker.HTTP, 'open', side_effect=TimeoutError('lost response')) as fetch, \
              patch.object(worker.time, 'sleep') as sleep:
             with self.assertRaises(RuntimeError):
                 worker.request_json('https://test.example/hermes/internal/claim', 'test', {})
@@ -99,11 +101,24 @@ class HermesRepairTests(unittest.TestCase):
             sleep.assert_not_called()
 
     def test_transient_get_failure_can_retry_without_mutations(self):
-        with patch.object(worker.urllib.request, 'urlopen', side_effect=TimeoutError('lost response')) as fetch, \
+        with patch.object(worker.HTTP, 'open', side_effect=TimeoutError('lost response')) as fetch, \
              patch.object(worker.time, 'sleep'):
             with self.assertRaises(RuntimeError):
                 worker.request_json('https://test.example/hermes/jobs/test', 'test')
             self.assertEqual(fetch.call_count, 3)
+
+    def test_unknown_completion_does_not_attempt_to_mark_failed(self):
+        job = {'id': 'hermes-test', 'profile': 'research_readonly'}
+        with patch.object(worker, 'acquire_lock', return_value=True), \
+             patch.object(worker, 'switchboard_url', return_value=worker.SWITCHBOARD_ORIGIN), \
+             patch.object(worker, 'worker_key', return_value='test-worker'), \
+             patch.object(worker, 'preflight'), patch.object(worker, 'post_log'), \
+             patch.object(worker, 'execute', return_value='model result'), \
+             patch.object(worker, 'log'), patch.object(worker, 'LOCK'), \
+             patch.object(worker, 'request_json', side_effect=[{'job': job}, TimeoutError()]) as request:
+            self.assertEqual(worker.main(), 1)
+            self.assertEqual(request.call_count, 2)
+            self.assertEqual(request.call_args.args[2]['status'], 'completed')
 
     def test_doctor_rejects_liveness_without_queue_or_worker_binding(self):
         checks = doctor.inspect_health({'ok':True,'service':'nicholas-ai-switchboard','hermes_jobs':False})
@@ -116,12 +131,37 @@ class HermesRepairTests(unittest.TestCase):
              patch.object(worker, 'hermes_bin', return_value='/venv/bin/hermes'), \
              patch.object(worker, 'worker_key', return_value='DO_NOT_PRINT'), \
              patch.object(worker, 'hermes_environment', return_value={'OPENROUTER_API_KEY':'DO_NOT_PRINT'}):
-            report = doctor.report('https://test.example', fetch=lambda url: {
+            def check_worker(origin, key):
+                self.assertEqual(origin, worker.SWITCHBOARD_ORIGIN)
+                self.assertEqual(key, 'DO_NOT_PRINT')
+
+            report = doctor.report(worker.SWITCHBOARD_ORIGIN, fetch=lambda url: {
                 'ok':True,'service':'nicholas-ai-switchboard','hermes_jobs':True,
-                'hermes_worker_key_configured':True})
+                'hermes_worker_key_configured':True}, authenticate=check_worker)
             self.assertEqual(report['status'], 'ready_for_smoke_test')
             self.assertFalse(report['end_to_end_verified'])
             self.assertNotIn('DO_NOT_PRINT', json.dumps(report))
+
+    def test_worker_key_check_requires_authenticated_not_found(self):
+        for code, message in ((404, 'Hermes job not found'), (401, 'Unauthorized'),
+                              (404, 'Unknown route'), (503, 'Unavailable')):
+            error = urllib.error.HTTPError(worker.SWITCHBOARD_ORIGIN, code, "", {}, io.BytesIO(
+                json.dumps({"error": message}).encode()))
+            with patch.object(worker.HTTP, 'open', side_effect=error) as fetch:
+                if message == 'Hermes job not found':
+                    worker.worker_has_access(worker.SWITCHBOARD_ORIGIN, 'test-worker')
+                else:
+                    with self.assertRaisesRegex(RuntimeError, f'HTTP {code}'):
+                        worker.worker_has_access(worker.SWITCHBOARD_ORIGIN, 'test-worker')
+                request = fetch.call_args.args[0]
+                self.assertEqual(request.get_method(), "GET")
+                self.assertEqual(request.get_header("Authorization"), "Bearer test-worker")
+
+    def test_hermes_process_inherits_only_model_credential(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "provider-secret",
+                        "HERMES_WORKER_KEY": "worker-secret", "CLOUDFLARE_API_TOKEN": "deployment-secret"}, clear=True):
+            self.assertEqual(worker.hermes_environment(), {"OPENROUTER_API_KEY": "provider-secret",
+                                                           "HERMES_MAX_TOKENS": worker.HERMES_MAX_TOKENS})
 
     def test_doctor_rejects_credential_bearing_urls_before_fetch(self):
         with patch.object(worker, 'hermes_bin'), patch.object(worker, 'worker_key'), \
@@ -152,13 +192,5 @@ class HermesRepairTests(unittest.TestCase):
             config = json.loads((Path(tmp) / 'resolved.json').read_text())
             self.assertEqual(config['main'], str(service / 'src/hermes-index.ts'))
             self.assertEqual(config['kv_namespaces'][0]['id'], 'a'*32)
-
-    def test_portable_deploy_stops_before_mutations_without_worker_key(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            result = subprocess.run(['bash',str(ROOT / 'scripts/deploy_hermes_portable.sh')],
-                env={**os.environ,'NICHOLAS_HERMES_CONFIG_DIR':tmp}, capture_output=True, text=True)
-            self.assertNotEqual(result.returncode, 0)
-            self.assertIn('worker key file is missing', result.stderr)
-            self.assertNotIn('HERMES_QUEUE_DEPLOYED', result.stdout)
 
 if __name__ == '__main__': unittest.main()

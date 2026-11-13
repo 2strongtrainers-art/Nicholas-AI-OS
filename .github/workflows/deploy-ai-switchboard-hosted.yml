@@ -1,0 +1,60 @@
+name: Deploy AI Switchboard on GitHub
+
+on:
+  workflow_dispatch:
+    inputs:
+      hermes_namespace_id:
+        description: Existing production KV namespace ID, verified in Cloudflare (optional)
+        type: string
+        required: false
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: switchboard-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: switchboard-production
+    defaults:
+      run:
+        working-directory: services/ai-switchboard
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Install and verify the exact source
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run typecheck
+          npm test
+      - name: Check for competing Switchboard deployments
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for workflow in deploy-ai-switchboard.yml deploy-hermes-http-endpoint.yml recover-mac-ai-switchboard.yml deploy-hermes-openrouter-worker.yml; do
+            # A queued manual run may be waiting on this same concurrency
+            # group. Only a run already executing can move production traffic.
+            count="$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/workflows/$workflow/runs" -f status=in_progress --jq '.total_count')"
+            if [[ "$count" != 0 ]]; then
+              echo "::error::$workflow is already running. Let it finish before deploying from GitHub."
+              exit 1
+            fi
+          done
+      - name: Deploy with existing Cloudflare bindings
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          HERMES_JOBS_NAMESPACE_ID: ${{ inputs.hermes_namespace_id }}
+        run: python3 ../../scripts/deploy_switchboard_hosted.py

@@ -1,6 +1,6 @@
 # Nicholas AI OS
 
-Private operating repository for Nicholas's reusable ChatGPT workflows, automation code, routing rules, QA checks, and job definitions.
+Public repository for Nicholas's reusable ChatGPT workflows, automation code, routing rules, QA checks, and job definitions.
 
 ## Purpose
 
@@ -9,7 +9,7 @@ ChatGPT acts as the orchestrator. This repository stores the durable, versioned 
 ## Core principles
 
 - Use the lowest-cost capable tool first.
-- Keep secrets out of source control.
+- Keep secrets, private client data, and owner-only work in their authorized services.
 - Prefer deterministic, testable workflows for repeated tasks.
 - Verify outputs before delivery.
 - Improve reusable workflows after real-world runs.
@@ -26,4 +26,4 @@ ChatGPT acts as the orchestrator. This repository stores the durable, versioned 
 - GitHub Actions automation
 - Lessons / workflow improvement notes
 
-This repository is private and intended to become the durable execution layer behind Nicholas's ChatGPT workflows.
+GitHub holds the versioned execution and QA code. Connected services hold private inputs and owner reports.

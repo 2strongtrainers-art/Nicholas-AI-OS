@@ -1,0 +1,110 @@
+{
+  "name": "TriValley.fit | Show Me One Rep",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "df745119-e512-4963-a165-ed428a4e9d09",
+      "name": "Queue the Elite Assessment pilot",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 0 9 * * 1" }] }
+      },
+      "id": "dca4a5a6-6b08-42fd-b341-9d98d0983573",
+      "name": "Monday at 9 am Pacific",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const bookingUrl = 'https://www.trivalley.fit/booking-calendar/start-here-elite-assessment';\nconst firstMonday = Date.UTC(2026, 10, 16);\nconst weekMs = 7 * 86400000;\nconst stamp = $input.first().json.timestamp;\nconst weeks = [\n  { headline: 'What do your feet do when you squat?', cue: 'Show the cue you use to help the lifter find a stable foot position.', shot_list: 'Film one bodyweight squat from a three-quarter front angle. Show your cue and repeat the rep from the same angle.', caption: 'A rep gives me something to coach. Here’s one thing I look at before adding weight.' },\n  { headline: 'Can you find your hip hinge?', cue: 'Show how you teach someone to move their hips back before reaching for a weight.', shot_list: 'Film one side-view hip hinge, your coaching cue, and the next rep from the same position.', caption: 'Here’s how I introduce the hip hinge when I’m coaching someone new.' },\n  { headline: 'How steady is your split squat?', cue: 'Demonstrate the stance or support you’d choose for the person in front of you.', shot_list: 'Film the first split squat, the stance or support adjustment, and the next rep.', caption: 'The setup can change how the rep feels. Here’s what I look for first.' },\n  { headline: 'What changes during a loaded carry?', cue: 'Show what you watch in the first few steps, then give one cue for the next pass.', shot_list: 'Film the first few steps from the front, your cue, and a second pass from the same angle.', caption: 'The first few steps tell me where to start coaching a carry.' },\n  { headline: 'Where do you start after time away?', cue: 'Explain how you pick a first set based on training history and current ability.', shot_list: 'Speak to camera for the hook, demonstrate the first set, and show how you would write the next session.', caption: 'Your first week back should fit where you are today. Here’s how I decide where to start.' },\n  { headline: 'What changes when you slow the rep down?', cue: 'Show how a slower rep helps you see what needs attention in one exercise you regularly coach.', shot_list: 'Film a normal rep and a slower rep from the same angle. Explain the one thing you noticed.', caption: 'Watch the same movement at two speeds. I’ll show you what I’m looking for.' }\n];\nlet episode;\nif (stamp) {\n  const date = new Date(stamp);\n  if (!Number.isFinite(date.valueOf())) throw new Error('Schedule timestamp is invalid.');\n  const pacific = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit' });\n  const parts = Object.fromEntries(pacific.formatToParts(date).map(({ type, value }) => [type, value]));\n  const day = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));\n  const week = Math.floor((day - firstMonday) / weekMs);\n  if (week < 0 || week >= weeks.length) return [];\n  const monday = new Date(firstMonday + week * weekMs).toISOString().slice(0, 10);\n  episode = { episode_id: 'show-me-one-rep-' + monday, ...weeks[week] };\n} else {\n  episode = {\n    episode_id: 'elite-assessment-pilot',\n    headline: 'Show me one rep.',\n    cue: 'Demonstrate one cue you use during the first squat you assess.',\n    shot_list: 'Film a 5–7 second opener to camera. Film an 8–12 second side shot showing a squat, one coaching cue and the next rep. Close on the 60-minute Elite Assessment and $297 price.',\n    caption: 'What happens in your first hour with me? We look at how you move, talk through your training history and schedule, and build your first plan. Book your $297 Elite Assessment at the link in bio. — Nick Kaplan, TriValley.fit'\n  };\n}\nif (stamp) episode.caption += ' Want a starting point for your own training? Book your Elite Assessment through the link in bio.';\nreturn [{ json: { ...episode, booking_url: bookingUrl, asset_status: 'awaiting_footage', review_status: 'draft' } }];"
+      },
+      "id": "2be1a307-7a1e-45ee-a506-4e2aba2e3e06",
+      "name": "Prepare the coaching episode",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 100]
+    },
+    {
+      "parameters": {
+        "operation": "rowNotExists",
+        "dataTableId": { "__rl": true, "mode": "list", "value": "" },
+        "filters": { "conditions": [{ "keyName": "episode_id", "keyValue": "={{ $json.episode_id }}" }] }
+      },
+      "id": "95e7a9ad-69cd-4806-a0ef-c921ef842870",
+      "name": "Keep existing drafts and edits",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [480, 100]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": { "__rl": true, "mode": "list", "value": "" },
+        "filters": { "conditions": [{ "keyName": "episode_id", "keyValue": "={{ $json.episode_id }}" }] },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "episode_id": "={{ $json.episode_id }}",
+            "headline": "={{ $json.headline }}",
+            "cue": "={{ $json.cue }}",
+            "shot_list": "={{ $json.shot_list }}",
+            "caption": "={{ $json.caption }}",
+            "asset_status": "={{ $json.asset_status }}",
+            "review_status": "={{ $json.review_status }}",
+            "booking_url": "={{ $json.booking_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "episode_id", "displayName": "episode_id", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "headline", "displayName": "headline", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "cue", "displayName": "cue", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "shot_list", "displayName": "shot_list", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "caption", "displayName": "caption", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "asset_status", "displayName": "asset_status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "review_status", "displayName": "review_status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "booking_url", "displayName": "booking_url", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false }
+          ],
+          "options": {}
+        },
+        "options": {}
+      },
+      "id": "2edec491-1979-48b7-af95-064c0a6784f0",
+      "name": "Save to the private Reel review table",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [730, 100]
+    },
+    {
+      "parameters": {
+        "content": "## Show Me One Rep\nA six-week run of private episode drafts. Mondays at 9 a.m. Pacific. The manual trigger prepares the Elite Assessment pilot. Review the shot list, coach cue, and copy in the TriValley Reel Review data table.",
+        "height": 230,
+        "width": 510
+      },
+      "id": "4a7878cc-31d7-4679-96c6-4c4906a7754c",
+      "name": "About this workflow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [0, -290]
+    }
+  ],
+  "connections": {
+    "Queue the Elite Assessment pilot": { "main": [[{ "node": "Prepare the coaching episode", "type": "main", "index": 0 }]] },
+    "Monday at 9 am Pacific": { "main": [[{ "node": "Prepare the coaching episode", "type": "main", "index": 0 }]] },
+    "Prepare the coaching episode": { "main": [[{ "node": "Keep existing drafts and edits", "type": "main", "index": 0 }]] },
+    "Keep existing drafts and edits": { "main": [[{ "node": "Save to the private Reel review table", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Los_Angeles",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "pinData": {},
+  "tags": []
+}

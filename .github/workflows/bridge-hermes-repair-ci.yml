@@ -7,6 +7,7 @@ on:
       - 'scripts/*hermes*'
       - 'scripts/deploy_ai_switchboard.sh'
       - 'scripts/deploy_switchboard_preserving_kv.sh'
+      - 'deploy/systemd/nicholas-hermes-worker.*'
       - 'tests/test_hermes_repair.py'
       - 'wrangler.jsonc'
       - '.github/workflows/bridge-hermes-repair-ci.yml'

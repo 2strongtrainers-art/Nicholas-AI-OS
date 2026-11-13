@@ -1,0 +1,4 @@
+interface:
+  display_name: "TriValley Chief of Staff"
+  short_description: "Briefings, strategy, and content workflows"
+  default_prompt: "Use $trivalley-chief-of-staff to run my Chief briefing."

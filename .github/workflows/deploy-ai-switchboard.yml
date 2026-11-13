@@ -1,21 +1,18 @@
 name: Deploy AI Switchboard From Main
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/deploy-ai-switchboard.yml"
-      - "services/ai-switchboard/src/**"
-      - "hermes/tool_registry/websurfers/**"
-      - "scripts/prepare_hermes_deploy.sh"
-      - "scripts/resolve_hermes_kv.py"
   workflow_dispatch:
+
+concurrency:
+  group: switchboard-production-deploy
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: [self-hosted, macOS]
     timeout-minutes: 25
     steps:
@@ -142,8 +139,22 @@ jobs:
           print("ATLAS_RESOURCE_COUNT=1800")
           PY
 
-          curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" \
-            | python3 -c 'import json,sys; d=json.load(sys.stdin); p=d.get("paths",{}); assert "/tools/route" in p; assert "/ask" in p; print("GPT_ACTION_SCHEMA=PASS")'
+          curl -fsS "$AI_SWITCHBOARD_URL/openapi.json" > "$RUNNER_TEMP/switchboard-openapi.json"
+          python3 - "$RUNNER_TEMP/switchboard-openapi.json" <<'PY'
+          import json
+          import sys
+
+          with open(sys.argv[1], encoding="utf-8") as source:
+              paths = json.load(source)["paths"]
+          assert paths["/tools/route"]["post"]["operationId"] == "routeNicholasTool"
+          ask = paths["/ask"]["post"]
+          assert ask["operationId"] == "switchboardAsk"
+          properties = ask["requestBody"]["content"]["application/json"]["schema"]["properties"]
+          assert properties["max_tokens"]["default"] == 1500
+          assert set(properties["model"]["enum"]) == {"ox", "qwen", "auto", "free", "qwen-flash"}
+          print("GPT_ACTION_SCHEMA=PASS")
+          print("MODEL_ROUTING_SCHEMA=PASS")
+          PY
 
           CODE="$(curl -sS -o /dev/null -w '%{http_code}' "$AI_SWITCHBOARD_URL/models")"
           test "$CODE" = "401"
@@ -173,6 +184,7 @@ jobs:
               "atlas_discovery_mode": "verified",
               "digital_atlas_url": sys.argv[3],
               "gpt_action_schema": "verified",
+              "model_routing_schema": "verified",
               "private_auth_boundary": "verified",
               "catalog_resources": 1800,
               "metered_model_probe": "skipped",

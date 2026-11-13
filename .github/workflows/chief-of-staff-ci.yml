@@ -1,0 +1,28 @@
+name: Chief of Staff CI
+
+on:
+  pull_request:
+    paths:
+      - 'chief_of_staff/**'
+      - 'tests/test_chief_of_staff*.py'
+      - 'commerce/instagram/control.py'
+      - 'tests/test_chief_of_staff_review.mjs'
+      - '.agents/skills/trivalley-chief-of-staff/**'
+      - '.github/workflows/chief-of-staff-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Test briefing and revenue scorecards
+        run: python -m unittest discover -s tests -p 'test_chief_of_staff*.py' -v
+      - name: Test video review notes
+        run: node tests/test_chief_of_staff_review.mjs

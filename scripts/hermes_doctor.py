@@ -2,7 +2,6 @@
 """Read-only readiness checks. Never creates jobs, deploys, or prints credentials."""
 import argparse
 import json
-import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -20,7 +19,7 @@ def inspect_health(health):
     }
 
 
-def report(url=None, fetch=None):
+def report(url=None, fetch=None, authenticate=None):
     checks, errors = {}, {}
     for name, operation in (
         ("repository_checkout", lambda: (worker.ROOT / "AGENTS.md").is_file()),
@@ -43,12 +42,21 @@ def report(url=None, fetch=None):
         if fetch is None:
             def fetch(target):
                 request = urllib.request.Request(target, headers={"User-Agent": worker.WORKER_USER_AGENT})
-                with urllib.request.urlopen(request, timeout=10) as response:
+                with worker.HTTP.open(request, timeout=10) as response:
                     return json.loads(response.read(16384))
         checks.update(inspect_health(fetch(endpoint.rstrip("/") + "/health")))
     except Exception as exc:
         checks["remote_health"] = False
         errors["remote_health"] = type(exc).__name__
+    checks["worker_key_matches"] = False
+    if (checks.get("remote_health") and checks.get("queue_bound") and checks["worker_credential_file"]
+            and endpoint.rstrip("/") == worker.SWITCHBOARD_ORIGIN):
+        try:
+            (authenticate or worker.worker_has_access)(worker.SWITCHBOARD_ORIGIN, worker.worker_key())
+            checks["worker_key_matches"] = True
+            checks["worker_key_bound"] = True
+        except Exception as exc:
+            errors["worker_key_matches"] = type(exc).__name__
     ready = all(checks.values())
     return {
         "status": "ready_for_smoke_test" if ready else "blocked",
