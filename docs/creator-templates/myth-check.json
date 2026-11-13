@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "audience": "Replace with the intended viewer",
+  "takeaway": "Replace with one supported conclusion",
+  "cta": "Replace with one next action",
+  "sources": [
+    {
+      "reference": "Resolve the current authorized source privately",
+      "reviewed": false
+    }
+  ],
+  "claims_reviewed": false,
+  "max_variations": 3,
+  "max_estimated_credits": 0,
+  "generation_plan": [],
+  "status": "draft_requires_current_sources_and_estimates",
+  "template": "myth-check",
+  "topic": "Replace with a specific claim and reviewed counterevidence",
+  "languages": [
+    "en"
+  ],
+  "delivery": "Explainer Nick",
+  "visual_roles": [
+    "question",
+    "source evidence",
+    "qualification",
+    "takeaway"
+  ]
+}
