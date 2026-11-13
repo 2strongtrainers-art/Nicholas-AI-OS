@@ -1,0 +1,82 @@
+name: Render TriValley.fit Reel
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/render-trivalley-reel.yml'
+      - 'scripts/render_trivalley_reel.py'
+      - 'tests/test_render_trivalley_reel.py'
+      - 'workflows/n8n/trivalley-reel-review.json'
+  workflow_dispatch:
+    inputs:
+      episode_id:
+        description: Episode ID of a staged private source folder
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trivalley-reel-${{ github.event_name }}-${{ inputs.episode_id || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-open-sans python3-pil
+      - name: Test the render and review workflow
+        run: /usr/bin/python3 -m unittest discover -s tests -p test_render_trivalley_reel.py -v
+
+  render:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: trivalley-reel-media
+    env:
+      EPISODE_ID: ${{ inputs.episode_id }}
+      MEDIA_BUCKET: ${{ vars.REEL_MEDIA_BUCKET }}
+      MEDIA_ENDPOINT: ${{ vars.REEL_MEDIA_ENDPOINT }}
+      AWS_DEFAULT_REGION: auto
+      AWS_ACCESS_KEY_ID: ${{ secrets.REEL_MEDIA_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.REEL_MEDIA_SECRET_ACCESS_KEY }}
+      AWS_EC2_METADATA_DISABLED: 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fetch the episode from private storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$EPISODE_ID" =~ ^[a-z0-9][a-z0-9-]{2,62}$ ]]
+          [[ "$MEDIA_BUCKET" =~ ^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ ]]
+          [[ "$MEDIA_ENDPOINT" =~ ^https://[a-z0-9]+\.r2\.cloudflarestorage\.com$ ]]
+          test -n "$AWS_ACCESS_KEY_ID"
+          test -n "$AWS_SECRET_ACCESS_KEY"
+          mkdir -p "$RUNNER_TEMP/reel-inbox"
+          aws --endpoint-url "$MEDIA_ENDPOINT" s3 sync \
+            "s3://$MEDIA_BUCKET/reels/inbox/$EPISODE_ID/" "$RUNNER_TEMP/reel-inbox/" --only-show-errors
+          EPISODE_ID="$EPISODE_ID" python3 -c \
+            'import json, os, pathlib, sys; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"reel-inbox/reel.json"; sys.exit(0 if json.loads(p.read_text())["episode_id"] == os.environ["EPISODE_ID"] else "Episode ID mismatch")'
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-open-sans python3-pil
+      - name: Render and verify the MP4
+        run: /usr/bin/python3 scripts/render_trivalley_reel.py "$RUNNER_TEMP/reel-inbox" "$RUNNER_TEMP/reel-review"
+      - name: Save the verified video and manifest to private storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          prefix="s3://$MEDIA_BUCKET/reels/review/$EPISODE_ID/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          aws --endpoint-url "$MEDIA_ENDPOINT" s3 cp \
+            "$RUNNER_TEMP/reel-review/$EPISODE_ID.mp4" "$prefix/$EPISODE_ID.mp4" --only-show-errors
+          aws --endpoint-url "$MEDIA_ENDPOINT" s3 cp \
+            "$RUNNER_TEMP/reel-review/$EPISODE_ID.manifest.json" "$prefix/$EPISODE_ID.manifest.json" --only-show-errors
+          printf 'Verified review file saved for %s.\n' "$EPISODE_ID" >> "$GITHUB_STEP_SUMMARY"
