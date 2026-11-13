@@ -195,6 +195,8 @@ If suitable permission or authentic evidence is absent, use a neutral demonstrat
 
 ## Muse handoff
 
+For a voice-and-avatar-only request, follow the [Phil handoff boundary](MUSE_VIDEO_HANDOFF.md#voice-and-avatar-handoff-to-phil). Return the verified source package and build prompt to Nick; Phil owns the edit, captions, graphics, final render and final QA. Preserve a user-supplied exact script, record any factual concern separately, and use the completed audio's verified word timings. A package prepared for Muse is **intake prepared** until the authenticated recipient confirms receipt. Do not render or publish beyond the scope assigned in the current request.
+
 Muse should receive this workflow, the completed production brief, the current brand guidance, and access to approved assets through the private runtime configuration. The reusable repository should contain the process, scene schemas, source-ledger structure, rendering instructions, and public-safe examples. Private asset references belong in the existing private configuration.
 
 The Chief of Staff can track the work with five concrete states: **brief ready, evidence checked, assets ready, export reviewed, delivered or published**. Record what was produced and the verification result at each state. A planned video, a generated voice clip, or a set of slides is not the same deliverable as a finished playable video.

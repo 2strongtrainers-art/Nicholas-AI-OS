@@ -10,6 +10,7 @@ The previous bridge depended on a paid Replit deployment. This version is design
 
 - `bridge_status`
 - `find_voices`
+- `speech_to_text` — private audio bytes to transcript and word timestamps
 - `create_speech` / `get_speech` / `get_speech_audio`
 - `preview_speech` — short voice preview; the owner approves this before full narration
 - `create_image` / `get_image`
@@ -34,6 +35,37 @@ Required Worker secrets:
 The public `/health` route contains no secrets. Its `oauth_configured` and `grant_storage_bound` fields report configuration presence, not a completed login or successful ElevenLabs request. The `/mcp` route requires `Authorization: Bearer <BRIDGE_TOKEN>` or a valid OAuth access token issued by this bridge. Audio tools only ever return public `https://` URLs — never local filesystem paths.
 
 ## Connecting ChatGPT (persistent OAuth connection)
+
+### Transcription migration
+
+`speech_to_text` accepts private audio bytes using `name`, `mime_type`, and raw
+`content_base64` (10 MiB maximum decoded), plus optional `model_id`,
+`language_code`, and `diarize`. It calls the ElevenLabs REST
+[`POST /v1/speech-to-text`](https://elevenlabs.io/docs/api-reference/speech-to-text/convert)
+endpoint with word timestamps and returns the provider's text and word timing
+unchanged. REST model names are `scribe_v1` and `scribe_v2`; the default is
+`scribe_v2`. These differ from Creative Flow model names.
+
+This tool consumes ElevenLabs transcription credits when called. The Worker must
+have `ALLOW_PAID_AI=true` explicitly configured. Missing, empty, false, or invalid
+values reject the call without contacting ElevenLabs; enable it only for
+authorized paid transcription work.
+It has a 60-second request deadline and does not retry failed requests
+automatically. Provider error bodies are not returned or logged. Audio and
+transcripts are not written to GitHub or a Worker filesystem; ElevenLabs account
+retention settings still apply.
+
+The retired Replit tool's `input_file_path` and output-directory parameters are
+not supported by this remote Worker. Transfer the actual authorized bytes; a
+path on the caller's computer is not a remote upload. This tool does not fetch
+media URLs. Refresh the connector's tool catalog after deployment.
+
+A source change does not update an installed ChatGPT connector. The old
+`eleven-labs-bridge.replit.app/api/mcp` connection must be replaced with the
+Cloudflare `/mcp` connection below, or the official ElevenLabs Creative
+transcription connector can be used. Verify authenticated `tools/list` includes
+`speech_to_text` and run one authorized transcription after the deployment and
+connection change. A healthy `/health` response alone is not an end-to-end test.
 
 ChatGPT custom connectors use OAuth authorization-code flow with PKCE. This bridge uses signed tokens plus a SQLite Durable Object for each authorization grant:
 

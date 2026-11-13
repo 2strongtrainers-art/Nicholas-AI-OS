@@ -93,6 +93,18 @@ Review the text before full speech generation. Reuse an already approved voice a
 
 The approved narration is the timing master.
 
+### Transcription route and finished-audio validation
+
+Prefer the connected official ElevenLabs Creative tool `creative_transcribe_audio` when it is available. A legacy tool pointing to the retired Replit bridge is not a fallback. The observed retired-host connection failed with an app-not-live HTTP 404; retrying that endpoint cannot validate the audio. More generally, a transport failure does not establish whether an upstream provider accepted a job. Inspect available run evidence before retrying a potentially metered request.
+
+Transcribe the finished narration as audio evidence. Upload or resolve the actual completed audio through the tool's supported private asset mechanism and request word timestamps using the currently advertised speech-recognition model. Do not send a local filesystem path to a remote service as if it were an upload. If transcribing a TTS generation node returns pronunciation notation, the submitted script, or malformed number boundaries, upload the completed audio as a separate asset and run independent recognition without supplying the expected script. Reuse that completed transcription rather than repeatedly buying it.
+
+Keep the recognized spoken words and their raw times. Separately map natural spoken number/currency expansions back to the exact approved script for caption production. Preserve both views and record the mapping method; do not claim normalized script tokens are the provider's verbatim output. Check ordered nonnegative times, end-before-start errors, missing words, and timing beyond the decoded audio duration. Record actual decoded duration separately from container padding. A nonempty transcript without word timing is a failed timing deliverable.
+
+The optional Cloudflare `speech_to_text` route uses the REST Scribe model identifiers documented in its [migration instructions](../services/elevenlabs-cloudflare-bridge/README.md#transcription-migration), which differ from Creative Flow model identifiers. It must be deployed, authenticated, explicitly enabled under the cost policy, present in `tools/list`, and tested with an authorized audio upload before being reported operational.
+
+### Narration sequence
+
 1. Resolve August Nick through the current voice catalog.
 2. Generate the approved script once through the authorized speech route. Keep the exact submitted text and the completed audio.
 3. Inspect pronunciation of names, numbers, dates, abbreviations, and technical terms. Use expressive delivery instructions only where the selected model supports them.

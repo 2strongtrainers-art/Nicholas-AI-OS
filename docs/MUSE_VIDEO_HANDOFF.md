@@ -14,6 +14,16 @@ Nick asked that the workflow behind the completed **NVDA: Follow the Filings** v
 
 This is a repeatable production handoff. A repository document does not itself connect Muse to ElevenLabs or run a video job. At execution time, inspect the tools actually available to that agent.
 
+## Voice-and-avatar handoff to Phil
+
+When Nick requests source assets and assigns the edit to Phil in Muse, the producer's deliverable is the private asset package. Phil owns editing, captions, graphics, the final render and final QA. The producer checks the supplied audio and avatar, records actual duration and measured synchronization, and stops before assembling a final video. The full-production sequence below applies only to the operator assigned the edit.
+
+Use the connected official ElevenLabs Creative transcription tool for this production route. The retired Replit bridge must not be treated as a working transcription connection. Follow the [finished-audio timing procedure](AVATAR_VIDEO_WORKFLOW.md#transcription-route-and-finished-audio-validation). The separate [Cloudflare bridge migration](../services/elevenlabs-cloudflare-bridge/README.md#transcription-migration) requires deployment and authenticated verification before use; source code or a healthy public health endpoint does not establish a working connector.
+
+The private handoff should contain the original narration, exact script, word-timing JSON/CSV, exact opening excerpt, matching avatar clip, optional separate music stem, models, technical measurements, source notes and material issues. Preserve natural speech timing. Mute the avatar's duplicate audio when Phil places it over the continuous original narration.
+
+Attach the actual package to the authorized Muse conversation, or use a verified private transfer route the receiver can access. An owner-only Library link or a repository document is not proof of receiver access. Record these distinct states: **assets ready**, **intake prepared**, **received by Muse**, and **export reviewed**. Mark receipt only after the receiver acknowledges the package checksum, filenames, durations and assigned scope. If the receiving conversation or connector is unavailable, return the files and a ready-to-paste build prompt to Nick, state that receipt is pending, and identify the missing destination. Never invent a receiver, public upload location or delivery acknowledgment.
+
 ## The identity to use
 
 Use Nick’s existing **approved portrait**, **August Nick** voice, and the approved **gold Celtic Trinity knot**. Find these through the private owner asset registry or authorized Library retrieval. Do not approximate the face, create a new voice clone, or substitute a generic triangular logo.

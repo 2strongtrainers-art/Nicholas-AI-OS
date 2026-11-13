@@ -2,12 +2,14 @@ import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpHandler } from "agents/mcp/server";
 import { z } from "zod";
 import { handleOAuth, isOAuthAccessToken, oauthEnabled, type OAuthEnv } from "./oauth";
+import { transcribeAudio, transcriptionInputSchema } from "./transcription";
 
 export { OAuthGrantStore } from "./oauth-grants";
 
 interface Env extends OAuthEnv {
   ELEVENLABS_API_KEY: string;
   BRIDGE_TOKEN: string;
+  ALLOW_PAID_AI?: string;
 }
 
 const ELEVEN_API = "https://api.elevenlabs.io";
@@ -139,6 +141,17 @@ function createServer(env: Env) {
           `/v2/voices?page_size=${page_size}&search=${encodeURIComponent(search)}&include_total_count=false`,
         ),
       ),
+  );
+
+  server.registerTool(
+    "speech_to_text",
+    {
+      description:
+        "Transcribe uploaded audio bytes with ElevenLabs Scribe and return text plus word timestamps. This may consume credits. Does not read local paths or fetch media URLs. Use only when transcription is requested.",
+      inputSchema: transcriptionInputSchema,
+      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+    },
+    async (args) => safe(() => transcribeAudio(env, args)),
   );
 
   server.registerTool(
