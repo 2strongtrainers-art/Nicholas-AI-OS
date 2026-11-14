@@ -10,6 +10,7 @@ TriValley.fit's operating workflow for owner briefings, plan-based decisions, an
 | “Use Council on this decision.” | Operator, customer and downside perspectives, plus a reversible test. |
 | “Prepare a guest guide” or “Turn this recording into a content package.” | A sourced guide or a cut list, title and thumbnail concepts, and channel-specific drafts. |
 | “Review these timestamped notes.” | A proposed edit handoff for the correct version of a cut. |
+| “Make a carousel”, “Upgrade my social graphic”, or “Grade this post's aesthetics” | Run the [premium carousel visual standard](../.agents/skills/trivalley-chief-of-staff/references/carousel-standard.md): research-led storyboard, varied portraits, 4:5 slides, mobile QA, captions and source ledger. |
 | “Run my revenue pilot.” | Verify one offer, identify eligible warm inquiries, prepare drafts, and report attributed cash separately from leads. |
 | “Audit this workflow across these recent runs.” | Numbered changes with before/after copy and regression examples. |
 
