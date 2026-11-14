@@ -1,5 +1,5 @@
 # ARGUS PRIME: isolated offline parser image. This image must run with --network none.
-FROM python:3.12-slim-bookworm
+FROM python:3.12-slim-trixie
 
 # Official C2PA release artifact and GitHub-published SHA256, verified 2026-11-14.
 ARG C2PATOOL_VERSION=0.29.0
