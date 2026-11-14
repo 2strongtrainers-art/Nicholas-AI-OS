@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "owner_approved": "2026-11-14",
+  "reference": ".agents/skills/trivalley-chief-of-staff/references/carousel-standard.md",
+  "use_for": [
+    "TriValley.fit social posts",
+    "TriValley Consultants carousels",
+    "ARGUS PRIME evidence explainers"
+  ],
+  "default_canvas": {
+    "width": 1080,
+    "height": 1350,
+    "aspect": "4:5",
+    "format": "png"
+  },
+  "default_slide_count": {
+    "min": 6,
+    "max": 8,
+    "adaptive": true
+  },
+  "visual_tokens": {
+    "palette": {
+      "navy": "#071424",
+      "gold": "#EFBF6A",
+      "ivory": "#F9F6EE",
+      "muted": "#A5B7C8",
+      "risk_red": "#F08079",
+      "evidence_teal": "#65D8C6"
+    },
+    "typography": "Bold clean high-contrast editorial, check downsample to 360x450",
+    "brandmark": "Celtic Trinity knot when approved"
+  },
+  "portrait_policy": {
+    "use_authorized_user_reference": true,
+    "varied_expressions": [
+      "confident",
+      "explaining",
+      "thoughtful",
+      "smiling"
+    ],
+    "use_selectively": true,
+    "never_repeat_identical_on_every_slide": true,
+    "public_git_source_images": false
+  },
+  "editorial_sequence": [
+    "specific hook",
+    "fact chronology",
+    "primary evidence",
+    "true-scale data",
+    "alternative explanations",
+    "separate topic A",
+    "separate topic B",
+    "evidence ladder and next watch"
+  ],
+  "deliverables": [
+    "ordered numbered PNGs",
+    "contact sheet",
+    "caption under 2200 characters",
+    "source ledger",
+    "QA notes"
+  ],
+  "verification_gates": [
+    "source and date verified",
+    "market session and timestamps differentiated",
+    "claims and allegations flagged",
+    "causal links not invented",
+    "mobile readability passed",
+    "no overlapping portrait or clipped text",
+    "illustrations clearly not forensic evidence",
+    "no public private image assets",
+    "no unapproved posting"
+  ]
+}

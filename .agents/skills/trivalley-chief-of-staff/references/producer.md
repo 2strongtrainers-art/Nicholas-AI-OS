@@ -6,6 +6,10 @@ Use the guest or topic, intended audience, format, and publication goal. Make a 
 
 Use an authorized recording or transcript for repurposing. Produce a cut list with exact time references, a spoken script or intro, three title and thumbnail concepts, and the newsletter or social drafts requested. Preserve the speaker's meaning and mark uncertain transcript lines. Source or credit third-party work and keep the owner's review of titles, visual claims, and external copy.
 
+## Owner-approved premium posts and carousels
+
+For social-media carousel production or quality audits, apply [Premium carousel and visual storytelling standard](carousel-standard.md) first, including the owner portrait-variation policy, claim ledger, source/date checks, correct 4:5 exports, mobile-downscale QC, and ready-to-publish source/caption package. Do not paste a repeated face into every slide; vary layout and use a portrait only where it improves storytelling. This rule applies to Nick Style 3 fitness posts as well as ARGUS and business research, with the proper separate brands.
+
 ## Trend scout
 
 Use the method in [Weekly review](weekly.md). If X or YouTube sampling fails, show the evidence you did observe and avoid a gap claim. Supply a testable angle and source credit. Broad search index counts do not measure demand.
