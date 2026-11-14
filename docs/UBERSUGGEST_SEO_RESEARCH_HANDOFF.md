@@ -1,6 +1,6 @@
 # Ubersuggest SEO Research — ChatGPT, Muse and TriValley.fit Handoff
 
-**Status (November 14, 2026): connection instructions prepared; OAuth NOT verified; no live Ubersuggest data or direct Muse receipt claimed.**
+**Status (November 14, 2026): Official Ubersuggest connector OAuth VERIFIED in a regular ChatGPT conversation. `auth_status` returned authenticated=true, tier=free; `user_limits` returned three daily reports remaining (0/3 used), one project slot available (0/1 used), and ten monthly keyword metrics updates remaining (0/10 used). `validate_site` confirmed `trivalley.fit` is a valid domain; `list_projects` returned no projects. No keyword/competitor report has been run, no Ubersuggest project created, and no Phil/Muse receipt established. ChatGPT Work usage exhaustion is separate from this functioning connector.**
 **Owner:** TriValley.fit | **Data scope:** public business-site SEO and approved Ubersuggest account/project data.
 
 ## Objective
@@ -24,6 +24,8 @@ https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-ch
 Vendor marketing pages and MCP docs currently describe different tool counts; discover the tools actually exposed by the connected account instead of promising a hard count.
 
 ## First connection verification (do not skip)
+
+**Verified read-only checks (2026-11-14):** successful authenticated account status, limits, public-site validation and empty projects list from this ChatGPT runtime. **Open:** keyword research sample, SEO metrics and independent Muse/Phil tool access. Respect the user's exhausted Work allocation; this connector currently works without Work.
 
 1. Confirm the intended Ubersuggest account and approved TriValley.fit project, if one exists. Do not recreate duplicates.
 2. Have the actual client enumerate its **live** tools. Try `auth_status` and `user_limits` if present. These vendor tools report account sign-in/tier and plan quotas; handle errors as errors.
@@ -58,8 +60,8 @@ Avoid unnecessary provider calls. Ubersuggest says MCP calls share the plan's ex
 
 ## Acceptance test
 
-- [ ] The correct ChatGPT app or MCP client reports tools loaded and the account is authenticated.
-- [ ] `auth_status` + `user_limits` produce real responses (or an explicitly documented equivalent).
+- [x] The ChatGPT Ubersuggest tool is callable, the account is authenticated and its free-tier limits were read successfully on November 14, 2026.
+- [x] `auth_status` + `user_limits` returned real account data. `validate_site` confirmed trivalley.fit. No daily report quota was consumed.
 - [ ] One read-only TriValley.fit keyword/site query succeeds with actual data and documented units/time/location.
 - [ ] A source-backed content evidence card is stored in the private handoff.
 - [ ] Phil independently acknowledges the exact task/version and returns one deliverable/QA receipt.
