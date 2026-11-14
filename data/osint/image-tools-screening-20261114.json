@@ -1,0 +1,137 @@
+{
+  "source": "Five user-supplied screenshots from Nov 13, 2026; entries 1-26",
+  "scope": "Screenshot names only, not confirmed installable repositories",
+  "distinct_tools": 25,
+  "entries": [
+    {
+      "screenshot_number": 1,
+      "name": "ExifTool",
+      "decision": "integrated_adapter"
+    },
+    {
+      "screenshot_number": 2,
+      "name": "FotoForensics",
+      "decision": "external_upload_held"
+    },
+    {
+      "screenshot_number": 3,
+      "name": "Metapicz",
+      "decision": "external_review"
+    },
+    {
+      "screenshot_number": 4,
+      "name": "CameraTrace",
+      "decision": "identity_unverified"
+    },
+    {
+      "screenshot_number": 5,
+      "name": "Exif Remover",
+      "decision": "external_review"
+    },
+    {
+      "screenshot_number": 6,
+      "name": "Image Forensics Analyzer",
+      "decision": "identity_unverified"
+    },
+    {
+      "screenshot_number": 7,
+      "name": "Forensically",
+      "decision": "browser_only"
+    },
+    {
+      "screenshot_number": 8,
+      "name": "Kwai EXIF Scanner",
+      "decision": "identity_unverified"
+    },
+    {
+      "screenshot_number": 9,
+      "name": "EXIF View Online",
+      "decision": "identity_unverified"
+    },
+    {
+      "screenshot_number": 10,
+      "name": "Imago Forensics",
+      "decision": "identity_unverified"
+    },
+    {
+      "screenshot_number": 11,
+      "name": "Metadata2Go",
+      "decision": "external_review"
+    },
+    {
+      "screenshot_number": 12,
+      "name": "Photo Investigator",
+      "decision": "mobile_app_only"
+    },
+    {
+      "screenshot_number": 13,
+      "name": "MAT2",
+      "decision": "archived_hold"
+    },
+    {
+      "screenshot_number": 14,
+      "name": "Exiv2",
+      "decision": "optional_pilot"
+    },
+    {
+      "screenshot_number": 15,
+      "name": "Hunchly Inspector",
+      "decision": "commercial_external"
+    },
+    {
+      "screenshot_number": 16,
+      "name": "PimEyes",
+      "decision": "face_search_excluded"
+    },
+    {
+      "screenshot_number": 17,
+      "name": "Yandex Images",
+      "decision": "external_manual_only"
+    },
+    {
+      "screenshot_number": 18,
+      "name": "Google Lens",
+      "decision": "external_manual_only"
+    },
+    {
+      "screenshot_number": 19,
+      "name": "TinEye",
+      "decision": "external_manual_only"
+    },
+    {
+      "screenshot_number": 20,
+      "name": "facecheck.id",
+      "decision": "face_search_excluded"
+    },
+    {
+      "screenshot_number": 21,
+      "name": "Bing Visual Search",
+      "decision": "external_manual_only"
+    },
+    {
+      "screenshot_number": 22,
+      "name": "Baidu Image Search",
+      "decision": "external_manual_only"
+    },
+    {
+      "screenshot_number": 23,
+      "name": "Social Catfish Image Search",
+      "decision": "commercial_external"
+    },
+    {
+      "screenshot_number": 24,
+      "name": "Berify",
+      "decision": "commercial_external"
+    },
+    {
+      "screenshot_number": 25,
+      "name": "Karma Decay",
+      "decision": "needs_identity_license_verification"
+    },
+    {
+      "screenshot_number": 26,
+      "name": "Facecheck.id",
+      "decision": "duplicate_of_20_face_search_excluded"
+    }
+  ]
+}
