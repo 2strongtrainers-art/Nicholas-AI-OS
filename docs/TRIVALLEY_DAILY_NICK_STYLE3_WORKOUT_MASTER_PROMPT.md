@@ -130,6 +130,19 @@ Do not diagnose, provide individual rehab, guarantee results or invent scientifi
 
 Source of truth: private owner-approved asset **TriValley_Nick_Kaplan_Default_Portrait.png**, cited in the existing TriValley Video Production Handbook. Use the actual image in the authorized workspace rather than a text description if available.
 
+### Owner-supplied VIDEO REFERENCE — November 13, 2026
+The owner supplied **trivalley-trex-glp1-review(1).mp4** in the ChatGPT conversation as the production and likeness-style reference. A direct inspection of its 47.2167-second 512 × 910, 30-fps portrait export showed:
+- AI-avatar close-ups with the face corresponding visually to the approved portrait, with an on-screen “AI avatar” disclosure.
+- A restrained dark navy / black background, warm gold headline emphasis, large bright white typography, occasional contrasting metric-color highlights and minimal borders.
+- Alternation of presenter shots and high-contrast single-point typographic/statistical screens, factual/source footnotes and a distinct CTA panel.
+- Frame-level reference images and timing are for creative analysis only; do not treat this medical/GLP-1 video as an exercise-form reference, an approved fitness treatment claim or proof of authentic workout footage.
+
+**Definitive identity reference remains the original higher-resolution approved portrait file above**, not a compressed avatar frame, unrelated stock photo, or a newly invented face. First resolve the approved image in private owner assets. When the source video is retrievable in an authorized private workspace, use it as a motion-graphics / voice / on-camera brand reference; never upload the owner's supplied video or portrait into this public GitHub repository.
+
+### Exact translation into DAILY WORKOUT CARDS
+Retain the reference video's dark-gold-white editorial hierarchy, high-contrast short phrases, premium pacing and truthful AI-disclosure discipline. Adapt these to a static gym-instruction layout: **large, accurately generated Nick performing the exercise occupies the upper area, followed immediately by four concise full-width coaching-tip rows (SETUP / DO THIS / AVOID / SCALE)**. Maintain generous text sizes and actual exercise form visibility. Do not put film-like decorative headlines, cramped microtext or invented clinical claims ahead of movement usability. A future short demonstration video may use the approved August Nick narration and avatar introduction where connected and authorized; final video-production QA remains distinct from static workout-card QA.
+
+
 Visual appearance: preserve a recognizable Nick face, short groomed dark hair, trimmed beard, natural athletic physique and sensible black TriValley.fit athletic clothing. Do not fabricate a changed facial identity, wildly alter proportions, or silently swap to a generic stock person. The approved portrait is a head/upper-body reference; reference-based extrapolation to complete athletic poses MUST be labeled AI-assisted illustration, not authentic documentary photography.
 
 For EACH exercise, depict Nick with the real equipment required. Show complete hands, feet, body angles and equipment anchor points. A side or three-quarter camera angle is preferable whenever it demonstrates technique better than a frontal view.
