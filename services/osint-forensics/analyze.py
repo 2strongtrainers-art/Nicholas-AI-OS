@@ -131,7 +131,7 @@ def inspect_c2pa(path: Path) -> dict:
 def analyze_file(path: Path, *, include_sensitive: bool = False) -> dict:
     path = path.absolute()
     digest, count = validated_sha256(path)
-    return {
+    report = {
         "schema": "argus-image-osint-v1",
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "handling": "owner_private_only",
@@ -149,6 +149,10 @@ def analyze_file(path: Path, *, include_sensitive: bool = False) -> dict:
             "Network isolation is enforced by the operator's container invocation, not Python.",
         ],
     }
+    after_digest, after_bytes = validated_sha256(path)
+    if (after_digest, after_bytes) != (digest, count):
+        raise RuntimeError("Evidence changed during analysis; refusing to produce a report")
+    return report
 
 
 def write_private_report(report: dict, destination: Path) -> None:

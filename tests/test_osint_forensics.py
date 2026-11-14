@@ -69,6 +69,15 @@ class ImageTriageTests(unittest.TestCase):
         self.assertNotIn("GPS:GPSLatitude", default["metadata"])
         self.assertEqual(allowed["metadata"]["GPS:GPSLatitude"], 37.5)
 
+    def test_mutated_original_fails_closed(self):
+        def alter_original(*args):
+            self.path.write_bytes(b"changed while parsing")
+            return {"status": "ok", "metadata": {}}
+        with mock.patch.object(triage, "inspect_exif", side_effect=alter_original), \
+             mock.patch.object(triage, "inspect_c2pa", return_value={"status": "ok"}):
+            with self.assertRaisesRegex(RuntimeError, "Evidence changed"):
+                triage.analyze_file(self.path)
+
     def test_absent_tools_report_unavailable_not_success(self):
         with mock.patch.object(triage.shutil, "which", return_value=None):
             result = triage.analyze_file(self.path)

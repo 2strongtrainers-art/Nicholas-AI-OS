@@ -39,7 +39,7 @@ jobs:
         run: |
           set -eu
           mkdir -p "$RUNNER_TEMP/osint-ci/evidence" "$RUNNER_TEMP/osint-ci/reports"
-          printf 'ARGUS synthetic only\n' > "$RUNNER_TEMP/osint-ci/evidence/synthetic.bin"
+          printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/zv8AAAAASUVORK5CYII=' | base64 -d > "$RUNNER_TEMP/osint-ci/evidence/synthetic.png"
           docker run --rm --network none --read-only --cap-drop ALL \
             --security-opt no-new-privileges --pids-limit 64 --memory 256m \
             --tmpfs /tmp:rw,nosuid,nodev,size=32m \
@@ -47,5 +47,5 @@ jobs:
             --mount type=bind,src="$RUNNER_TEMP/osint-ci/evidence",dst=/evidence,readonly \
             --mount type=bind,src="$RUNNER_TEMP/osint-ci/reports",dst=/reports \
             argus-osint:ci python /opt/argus/analyze.py \
-            --input /evidence/synthetic.bin --output /reports/synthetic.json
-          python -c 'import json,os; d=json.load(open(os.environ["RUNNER_TEMP"]+"/osint-ci/reports/synthetic.json")); assert len(d["source_sha256"])==64; assert not d["sensitive_metadata_included"]; assert set(d["tools"])=={"exiftool","c2patool"}'
+            --input /evidence/synthetic.png --output /reports/synthetic.json
+          python -c 'import json,os,hashlib,pathlib; root=pathlib.Path(os.environ["RUNNER_TEMP"])/"osint-ci"; d=json.loads((root/"reports/synthetic.json").read_text()); assert d["source_sha256"]==hashlib.sha256((root/"evidence/synthetic.png").read_bytes()).hexdigest(); assert not d["sensitive_metadata_included"]; assert d["tools"]["exiftool"]["status"]=="ok"; assert "c2patool" in d["tools"]'
