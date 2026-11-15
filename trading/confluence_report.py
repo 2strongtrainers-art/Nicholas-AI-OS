@@ -130,7 +130,8 @@ def analyze_symbol(item: dict[str, Any], session_id: str) -> dict[str, Any]:
     prev_avg = sum(b['volume'] for b in recent) / len(recent)
     rel_volume = (latest['volume'] / prev_avg) if prev_avg > 0 else None
     first_local = bars[0]['timestamp'].astimezone(ET)
-    opening_complete = (first_local.hour, first_local.minute) == (9, 30) and len(bars) >= 16
+    opening_contiguous = len(bars) >= 16 and all((v['timestamp'] - u['timestamp']).total_seconds() == 60 for u, v in zip(bars[:15], bars[1:16]))
+    opening_complete = (first_local.hour, first_local.minute) == (9, 30) and opening_contiguous
     first_15 = bars[:15]
     or_high = max(b['high'] for b in first_15) if opening_complete else None
     or_low = min(b['low'] for b in first_15) if opening_complete else None
@@ -142,13 +143,15 @@ def analyze_symbol(item: dict[str, Any], session_id: str) -> dict[str, Any]:
                'ema9_below_ema21': fast < slow,
                'below_opening_range': opening_complete and latest['close'] < or_low,
                'volume_expansion': bullish['volume_expansion']}
-    if sum(bullish.values()) >= 3 and strength >= 50:
+    gaps = sum((b['timestamp'] - a['timestamp']).total_seconds() > 90 for a,b in zip(bars,bars[1:]))
+    if gaps:
+        alignment = 'unverified_missing_minute_bars'
+    elif sum(bullish.values()) >= 3 and strength >= 50:
         alignment = 'bullish_context'
     elif sum(bearish.values()) >= 3 and strength <= 50:
         alignment = 'bearish_context'
     else:
         alignment = 'mixed_or_insufficient'
-    gaps = sum((b['timestamp'] - a['timestamp']).total_seconds() > 90 for a,b in zip(bars,bars[1:]))
     return {
         'symbol': symbol.strip().upper(),
         'last_bar_utc': latest['timestamp'].isoformat(),
