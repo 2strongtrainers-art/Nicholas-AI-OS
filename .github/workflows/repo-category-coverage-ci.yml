@@ -1,0 +1,34 @@
+name: Uploaded repo category inventory and n8n read-only handoff QA
+
+on:
+  pull_request:
+    paths:
+      - ".gitmodules"
+      - "data/repo-portfolio/**"
+      - "docs/REPOSITORY_UPLOAD_CATEGORY_DEPLOYMENT_HANDOFF_20261114.md"
+      - ".agents/skills/trivalley-chief-of-staff/SKILL.md"
+      - "workflows/n8n/repo-category-acquisition-readonly.json"
+      - "tests/test_uploaded_repo_category_coverage.py"
+      - ".github/workflows/repo-category-coverage-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Check verified immutable source pins and passive n8n workflow
+        run: python -m unittest discover -s tests -p 'test_uploaded_repo_category_coverage.py' -v
+      - name: Print safe scope
+        run: |
+          echo "No submodule checkout, live n8n call, third-party execution, secret access, Docker deployment, trade or billable action."

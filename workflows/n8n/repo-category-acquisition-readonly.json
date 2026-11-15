@@ -1,0 +1,94 @@
+{
+  "name": "ARGUS & Market Repo Category Audit (manual, read-only, owner review)",
+  "nodes": [
+    {
+      "id": "2b76f347-2e52-45a1-bff6-e6cf10f8de05",
+      "name": "Owner starts a read-only check",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "52db3507-78d1-43b2-9bb1-7618a8b3dd1a",
+      "name": "Read public verified category registry",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -100,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://raw.githubusercontent.com/2strongtrainers-art/Nicholas-AI-OS/main/data/repo-portfolio/uploaded-screenshot-category-coverage-20261114.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "14084631-1700-4bc4-89ba-2634f2a56363",
+      "name": "Classify acquisition versus deployment",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Only public inventory, read-only. Do not infer live deployment from a repo pin.\nconst payload = $input.first()?.json || {};\nconst manifest = payload.body || payload;\nif (!Array.isArray(manifest.categories) || !Array.isArray(manifest.osint_pinned_sources)) {\n  return [{ json: { status: 'blocked_source_unavailable', valid: false, source: 'public GitHub category manifest' } }];\n}\nconst expected = manifest.osint_pinned_sources.length;\nconst cases = manifest.categories.map(c => ({\n  category: c.id, source_count: Number(c.repo_count || 0),\n  source_covered: Number(c.repo_count || 0) >= 1,\n  runtime_status: c.execution || 'unverified',\n  remaining_validation: 'Actual tool/container n8n/Chief end-to-end execution receipt required'\n}));\nreturn [{\n json: {\n  status: 'sources_indexed_not_deployed',\n  checked_at: new Date().toISOString(),\n  verified_screenshot_sets: manifest.original_uploaded_screenshots.map(x => ({count: x.count, files: x.filenames})),\n  pinned_osint_refs: expected,\n  categories: cases,\n  prohibited_auto_actions: ['trade','publish','face identification','secrets','private image upload'],\n  owner_action: 'Chief reviews real CI/provider endpoints; this read-only n8n manual check is not a deployment'\n }\n}];"
+      }
+    }
+  ],
+  "connections": {
+    "Owner starts a read-only check": {
+      "main": [
+        [
+          {
+            "node": "Read public verified category registry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read public verified category registry": {
+      "main": [
+        [
+          {
+            "node": "Classify acquisition versus deployment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "tags": [],
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "notes": "Manually import into the existing authenticated n8n Cloud workspace only with owner approval; has no webhook, no schedule, no provider secrets or dataTable writes. Public GitHub GET, summarize source pins; never label this as live integration without execution receipt."
+}

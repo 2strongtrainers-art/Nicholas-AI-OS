@@ -16,6 +16,7 @@ Run the requested workflows in dependency order. For example, build the current 
 | Instagram/social carousel, visual post, thumbnail quality, Nick portrait consistency, or image-to-research packaging | [Premium carousel standard](references/carousel-standard.md) and [Producer](references/producer.md) |
 | Revenue pilot, warm lead reactivation, or cash results | [Revenue pilot](references/revenue.md) |
 | Improve a repeated workflow from feedback | [Skill editor](references/skill-editor.md) |
+| Uploaded GitHub repository screenshots, acquisition coverage, n8n or mass-deployment audit | [Repository category and deployment handoff](../../../docs/REPOSITORY_UPLOAD_CATEGORY_DEPLOYMENT_HANDOFF_20261114.md); [category registry](../../../data/repo-portfolio/uploaded-screenshot-category-coverage-20261114.json); [n8n exports](../../../workflows/n8n/README.md) |
 
 For owner-requested social design, default to the owner-approved [premium carousel standard](references/carousel-standard.md) before generation and QA; do not treat the Nov 14 example as perpetually current.
 
