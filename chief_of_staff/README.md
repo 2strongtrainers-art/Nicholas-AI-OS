@@ -14,6 +14,12 @@ TriValley.fit's operating workflow for owner briefings, plan-based decisions, an
 | “Run my revenue pilot.” | Verify one offer, identify eligible warm inquiries, prepare drafts, and report attributed cash separately from leads. |
 | “Audit this workflow across these recent runs.” | Numbered changes with before/after copy and regression examples. |
 
+## Market Desk — owner-directed research handoff
+
+The Chief of Staff may use [the market-desk runbook](../docs/MARKET_DESK_OPEN_SOURCE_INTEGRATION.md), [quality gate and optional paper replay](../trading/market_desk_pipeline.py), and the read-only [GitHub research workflow](../.github/workflows/market-desk-research.yml) when the owner asks about markets, intraday confluences or backtests. Treat the current vendor data as dated evidence, not an instruction to trade. The only automatically scheduled repo job checks publicly safe quality metadata after the US stock close, and skips if authorized GitHub Alpaca credentials are unavailable. No new ChatGPT schedule or paid services are required.
+
+For the council: operator perspective (reproducibility, permissions, cost), downside perspective (IEX incompleteness, gaps, spread uncertainty, lookahead, survivorship and licensing), and trader/owner perspective (specific timestamped levels, repeatable hypotheses and clear limitations). Fincept and Vibe are optional sandboxes, not current live engines. LEAN requires an independent deployment and realistic dataset. Do not call any of them operational unless an actual runtime test supports it. Keep the separate scheduled Chief briefing read-only, and coordinate with Muse only through a verified authorized handoff.
+
 ## Live operation
 
 Open Scheduled in ChatGPT to manage the Chief, weekly business and content review, and monthly Advisor tasks. The scheduled prompts are the connected-app execution path. The Chief compares the latest result available to its runner. The owner can replay a brief manually or give follow-up instructions using its item numbers. Private source links and the owner plan belong in ChatGPT and the original connected services. This repository carries workflow code and synthetic data.
