@@ -98,6 +98,15 @@ def research_pipeline(snapshot: dict[str, Any], *, historical: bool = False,
                 blockers.append("not_approved_alpaca_source")
             if item.get("spread_estimated") is not False:
                 blockers.append("spread_unverified")
+            else:
+                quote_time = item.get("quote_timestamp")
+                if not quote_time:
+                    blockers.append("spread_quote_timestamp_missing")
+                else:
+                    quote_utc = parse_aware(quote_time, "quote_timestamp")
+                    last_utc = parse_aware(row["last_bar_utc"], "last_bar_utc")
+                    if abs((quote_utc - last_utc).total_seconds()) > 180:
+                        blockers.append("spread_quote_stale")
             row.update({"bars_checked": len(bars), "boundary_bars_excluded": dropped[symbol],
                         "quality_gate": "PASS_PAPER_REVIEW" if not blockers else "RESEARCH_ONLY_BLOCKED",
                         "paper_blockers": blockers})
