@@ -39,6 +39,11 @@ export function decideMode(env, contact) {
 export function classifyInbound(value) {
   const text = value.trim();
   if (/^(stop|unsubscribe|do not text|don't text|no more texts|opt out)\b/i.test(text)) return 'opt_out';
+  // Avoid sending routine personally identifying details to a model at all.
+  if (/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(text) ||
+      /(?:\+?1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}/.test(text) ||
+      /\b\d{1,5}\s+(?:[a-z]+\s+){0,3}(?:street|st|avenue|ave|boulevard|blvd|road|rd|drive|dr|lane|ln)\b/i.test(text) ||
+      /\b(?:date of birth|dob|birthday)\b/i.test(text)) return 'sensitive';
   if (
     /\b(?:verification|security|confirmation|one.time|2fa|otp|passcode|password|pin code|login code|reset code)\b/i.test(text) ||
     /\b(?:bank|credit card|account number|routing number|social security|ssn|passport|driver'?s license|wire transfer|venmo|zelle|payment|invoice|billing|debt|loan|tax|investment)\b/i.test(text) ||
@@ -53,6 +58,8 @@ export function safeReply(candidate) {
   const text = candidate.trim().replace(/\s+/g, ' ');
   if (!text || text.length > MAX_REPLY_CHARS ||
       /(?:https?:\/\/|www\.|@[\w.-]+\.[a-z]{2,})/i.test(text) ||
+      /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(text) ||
+      /(?:\+?1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}/.test(text) ||
       /\b(?:password|passcode|otp|verification code|bank account|credit card|guaranteed|i booked|i charged|i paid|i transferred|i will send money)\b/i.test(text)) return null;
   return text.replace(/^((?:Nick'?s )?AI assistant:\s*)+/i, '');
 }

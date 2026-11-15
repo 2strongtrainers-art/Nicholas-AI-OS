@@ -43,6 +43,8 @@ test('opt-out and high-sensitivity topics escalate', () => {
   assert.equal(classifyInbound('STOP'), 'opt_out');
   for (const s of ['My bank needs a wire transfer', 'Here is my verification code', 'I need a doctor', 'My lawyer called', 'I love you', 'There is an emergency'])
     assert.equal(classifyInbound(s), 'sensitive');
+  for (const s of ['Email me at test@example.com', 'My address is 125 Oak Street', 'Please call 415-555-1212', 'Today is my birthday'])
+    assert.equal(classifyInbound(s), 'sensitive');
   assert.equal(classifyInbound('What time is lunch tomorrow?'), null);
 });
 test('outbound validation rejects links and risky claims', () => {
@@ -50,6 +52,7 @@ test('outbound validation rejects links and risky claims', () => {
   assert.equal(safeReply('AI assistant: Hello'), 'Hello');
   assert.equal(safeReply('Try https://example.com'), null);
   assert.equal(safeReply('I booked the flight'), null);
+  assert.equal(safeReply('Please call 415-555-1212'), null);
   assert.equal(safeReply('x'.repeat(321)), null);
 });
 test('bounded retention and daily AI calls', () => {
