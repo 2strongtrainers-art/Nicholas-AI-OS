@@ -1,0 +1,192 @@
+{
+  "schema": "argus-osint-screening-v1",
+  "as_of": "2026-11-14",
+  "source": "Five user-uploaded Instagram screenshots #2–#6",
+  "distinct_products": 25,
+  "execution_status": "research_only_no_new_runtime_adapters",
+  "entries": [
+    {
+      "screenshot_index": 1,
+      "name": "ExifTool",
+      "status": "verified_open_source",
+      "source": "https://github.com/exiftool/exiftool",
+      "note": "metadata_reader"
+    },
+    {
+      "screenshot_index": 2,
+      "name": "FotoForensics",
+      "status": "external_hosted",
+      "source": "https://fotoforensics.com/",
+      "note": "no_private_uploads"
+    },
+    {
+      "screenshot_index": 3,
+      "name": "Metapicz",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 4,
+      "name": "CameraTrace",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 5,
+      "name": "Exif Remover",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 6,
+      "name": "Image Forensics Analyzer",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 7,
+      "name": "Forensically",
+      "status": "local_browser_tool",
+      "source": "https://29a.ch/photo-forensics/",
+      "note": "no_verified_official_code_repo"
+    },
+    {
+      "screenshot_index": 8,
+      "name": "Kwai EXIF Scanner",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 9,
+      "name": "EXIF View Online",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 10,
+      "name": "Imago Forensics",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 11,
+      "name": "Metadata2Go",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 12,
+      "name": "Photo Investigator",
+      "status": "identity_or_license_unverified",
+      "source": null,
+      "note": "screenshot_label_only"
+    },
+    {
+      "screenshot_index": 13,
+      "name": "MAT2",
+      "status": "verified_open_source",
+      "source": "https://github.com/jvoisin/mat2",
+      "note": "sanitize_derivatives_only"
+    },
+    {
+      "screenshot_index": 14,
+      "name": "Exiv2",
+      "status": "verified_open_source",
+      "source": "https://github.com/Exiv2/exiv2",
+      "note": "independent_parser_pilot"
+    },
+    {
+      "screenshot_index": 15,
+      "name": "Hunchly Inspector",
+      "status": "commercial_external",
+      "source": null,
+      "note": "vendor_terms_required"
+    },
+    {
+      "screenshot_index": 16,
+      "name": "PimEyes",
+      "status": "face_search_excluded",
+      "source": null,
+      "note": "no_autonomous_identification"
+    },
+    {
+      "screenshot_index": 17,
+      "name": "Yandex Images",
+      "status": "external_reverse_image",
+      "source": "https://yandex.com/images/",
+      "note": "manual_or_approved_api"
+    },
+    {
+      "screenshot_index": 18,
+      "name": "Google Lens",
+      "status": "external_reverse_image",
+      "source": "https://lens.google.com/",
+      "note": "manual_or_approved_api"
+    },
+    {
+      "screenshot_index": 19,
+      "name": "TinEye",
+      "status": "external_reverse_image",
+      "source": "https://tineye.com/",
+      "note": "manual_or_approved_api"
+    },
+    {
+      "screenshot_index": 20,
+      "name": "facecheck.id",
+      "status": "face_search_excluded",
+      "source": null,
+      "note": "no_autonomous_identification"
+    },
+    {
+      "screenshot_index": 21,
+      "name": "Bing Visual Search",
+      "status": "external_reverse_image",
+      "source": "https://www.bing.com/visualsearch",
+      "note": "manual_or_approved_api"
+    },
+    {
+      "screenshot_index": 22,
+      "name": "Baidu Image Search",
+      "status": "external_reverse_image",
+      "source": "https://image.baidu.com/",
+      "note": "manual_or_approved_api"
+    },
+    {
+      "screenshot_index": 23,
+      "name": "Social Catfish Image Search",
+      "status": "commercial_external",
+      "source": null,
+      "note": "vendor_terms_required"
+    },
+    {
+      "screenshot_index": 24,
+      "name": "Berify",
+      "status": "commercial_external",
+      "source": null,
+      "note": "vendor_terms_required"
+    },
+    {
+      "screenshot_index": 25,
+      "name": "Karma Decay",
+      "status": "external_reverse_image",
+      "source": "https://karmadecay.com/",
+      "note": "manual_availability_check"
+    },
+    {
+      "screenshot_index": 26,
+      "name": "Facecheck.id",
+      "status": "face_search_excluded",
+      "source": null,
+      "note": "duplicate_of_20",
+      "duplicate_of": 20
+    }
+  ]
+}
