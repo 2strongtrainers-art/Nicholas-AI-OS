@@ -3,12 +3,12 @@
 This worker produces owner-private SHA-256, a selected ExifTool report,
 and a C2PA manifest observation. It does not upload evidence, perform reverse
 image searches, assert an image is authentic, or connect automatically to
-ARGUS PRIME. It is not deployed to production.
+ARGUS PRIME. The parser source is merged; the private Cloudflare Container deployment is separate and must be authenticated and verified before any live claim.
 
 ## Build (from repo root)
 
 ```sh
-docker build --pull -f services/osint-forensics/Dockerfile -t argus-osint:phase1 .
+docker build --pull -f services/osint-forensics/Dockerfile -t argus-osint:phase1 services/osint-forensics
 ```
 
 The Docker build obtains ExifTool from Debian and downloads the official
@@ -66,3 +66,14 @@ python -m unittest discover -s tests -p 'test_osint_forensics.py' -v
 The new GitHub Actions CI uses synthetic files only. It must never receive
 private user evidence or access secrets. Production is pending end-to-end
 private-worker and ARGUS report-handoff validation.
+
+
+## Cloudflare Containers (private, Mac-off deployment)
+
+See [the private deployment and security runbook](CLOUDFLARE_DEPLOYMENT.md).
+The separate Worker accepts only authenticated binary uploads; it starts a Linux
+Container with outbound Internet disabled, processes temporary evidence, and
+returns no-store JSON. It does not deploy automatically with the Switchboard.
+A separate GitHub Actions workflow is available for the final authenticated
+rollout once Cloudflare account access, paid Containers entitlement, scoped
+secrets and the exact URL have been verified. No real evidence is used in CI.

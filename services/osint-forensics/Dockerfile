@@ -16,8 +16,10 @@ RUN set -eux; \
     test -n "$executable"; \
     install -m 0755 "$executable" /usr/local/bin/c2patool; \
     rm -rf /tmp/c2pa /tmp/c2patool.tar.gz
-COPY services/osint-forensics/analyze.py /opt/argus/analyze.py
+COPY analyze.py /opt/argus/analyze.py
+COPY http_server.py /opt/argus/http_server.py
 ENV PYTHONDONTWRITEBYTECODE=1 HOME=/tmp
 WORKDIR /opt/argus
 USER 65532:65532
-CMD ["python", "/opt/argus/analyze.py", "--help"]
+EXPOSE 8080
+CMD ["python", "/opt/argus/http_server.py"]

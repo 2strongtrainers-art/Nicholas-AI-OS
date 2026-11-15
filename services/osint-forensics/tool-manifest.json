@@ -1,6 +1,6 @@
 {
   "schema": "argus-osint-tool-manifest-v1",
-  "implementation": "phase1_draft_no_production_deployment",
+  "implementation": "code_merged_cloudflare_gateway_proposed_live_deployment_unverified",
   "privacy": "owner_private_evidence_only",
   "tools": [
     {
@@ -48,5 +48,13 @@
     "automatic_external_uploads",
     "networked_archivebox",
     "image_authenticity_verdicts"
-  ]
+  ],
+  "runtime": {
+    "target_platform": "Cloudflare Containers",
+    "worker_name": "argus-prime-forensics",
+    "authorization": "dedicated ARGUS_FORENSICS_API_KEY",
+    "public_egress": "enableInternet:false",
+    "raw_evidence_persistence": false,
+    "deploy_status": "pending_connected_account_authentication"
+  }
 }

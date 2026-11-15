@@ -132,8 +132,11 @@ image_osint:
   skill: .agents/skills/argus-image-osint/SKILL.md
   worker_source: services/osint-forensics
   tool_manifest: services/osint-forensics/tool-manifest.json
-  deployment_status: review_only_not_deployed
+  deployment_status: parser_code_merged_private_cloudflare_deployment_pending
   evidence_storage: owner_private_external_only
   image_processing: network_denied_sandbox_only
   archivebox: disabled_until_verified_egress_controls
   automated_face_identification: disabled
+
+# A separate Cloudflare Container Worker must be authenticated and live-tested.
+# The code registry does NOT establish any active ARGUS PRIME execution adapter.

@@ -24,7 +24,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Synthetic unit tests only
-        run: python -m unittest discover -s tests -p 'test_osint_forensics.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_osint_forensics.py' -v
+          python -m unittest discover -s tests -p 'test_osint_http.py' -v
 
   docker-offline:
     runs-on: ubuntu-latest
@@ -32,9 +34,12 @@ jobs:
       - uses: actions/checkout@v5
       - name: Build isolated image and verify binaries
         run: |
-          docker build --pull -f services/osint-forensics/Dockerfile -t argus-osint:ci .
+          docker build --pull -f services/osint-forensics/Dockerfile -t argus-osint:ci services/osint-forensics
           docker run --rm --network none --read-only --cap-drop ALL argus-osint:ci exiftool -ver
           docker run --rm --network none --read-only --cap-drop ALL argus-osint:ci c2patool --version
+      - name: Offline HTTP server synthetic smoke test
+        run: |
+          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 64 --memory 256m --tmpfs /tmp:rw,nosuid,nodev,size=32m argus-osint:ci python /opt/argus/http_server.py --self-test
       - name: Offline synthetic evidence smoke test (no secrets)
         run: |
           set -eu
@@ -49,3 +54,17 @@ jobs:
             argus-osint:ci python /opt/argus/analyze.py \
             --input /evidence/synthetic.png --output /reports/synthetic.json
           python -c 'import json,os,hashlib,pathlib; root=pathlib.Path(os.environ["RUNNER_TEMP"])/"osint-ci"; d=json.loads((root/"reports/synthetic.json").read_text()); assert d["source_sha256"]==hashlib.sha256((root/"evidence/synthetic.png").read_bytes()).hexdigest(); assert not d["sensitive_metadata_included"]; assert d["tools"]["exiftool"]["status"]=="ok"; assert "c2patool" in d["tools"]'
+
+  gateway-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Parse the isolated Worker and deployment configuration
+        run: |
+          node --check services/osint-forensics/edge/index.js
+          python -m json.tool services/osint-forensics/wrangler.jsonc > /dev/null
+      - name: Wrangler configuration dry run (no secret, no deploy)
+        run: npx --yes wrangler@4.141.0 deploy --dry-run --config services/osint-forensics/wrangler.jsonc
