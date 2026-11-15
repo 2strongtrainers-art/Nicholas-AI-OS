@@ -1,5 +1,34 @@
 # ARGUS PRIME private Cloudflare forensic container
 
+## Preferred for mobile: official one-click importer
+
+Use this instead of manually typing project names, root paths or Wrangler
+commands on the Cloudflare dashboard:
+
+**[Deploy ARGUS PRIME Forensics on Cloudflare](https://deploy.workers.cloudflare.com/?url=https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/main/services/osint-forensics)**
+
+Cloudflare recognizes the public `services/osint-forensics` GitHub directory
+as a standalone Worker and imports that directory alone into a **new** GitHub
+repository for the new Cloudflare Worker. The local package manifest sets the
+project name `argus-prime-forensics` and deploy script `wrangler deploy`;
+no retyping of those values should be required. This does not connect or
+reconfigure the production `nicholas-ai-os` or `nicholas-ai-switchboard`.
+
+The owner must confirm the new GitHub repository and Cloudflare account inside
+the official UI; the AI does not have access to Safari sign-in. If Cloudflare
+shows a Workers Paid/Containers subscription prompt, review and approve the
+charge separately. Forensic processing is disabled until a separate 32+
+character `ARGUS_FORENSICS_API_KEY` encrypted secret has been configured.
+Verify the live service with a synthetic file before uploading sensitive
+media. Cloudflare Deploy to Cloudflare may not provision Containers on every
+account automatically; if a build or entitlement error appears, preserve
+the specific error and use the main deployment runbook below.
+
+Official basis:
+https://developers.cloudflare.com/workers/platform/deploy-buttons/
+https://developers.cloudflare.com/containers/guides/deploy/
+
+
 This deployment creates a **separate** Cloudflare Worker named argus-prime-forensics.
 It does not modify nicholas-ai-switchboard or nicholas-ai-os.
 The Worker is NOT live until its actual deployed URL and authenticated smoke

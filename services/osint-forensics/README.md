@@ -1,5 +1,33 @@
 # ARGUS PRIME — Phase 1 offline image triage
 
+## One-click Cloudflare deployment (no manual project fields)
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/main/services/osint-forensics)
+
+Or open the official deploy page directly:
+https://deploy.workers.cloudflare.com/?url=https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/main/services/osint-forensics
+
+Cloudflare's Deploy to Cloudflare flow imports **only this fully self-contained
+subdirectory**, creates a **new separate GitHub repository**, and prepopulates
+the Worker name and deploy command from `wrangler.jsonc` and `package.json`.
+It does **not** alter the current `nicholas-ai-os` or `nicholas-ai-switchboard`
+Workers. The source of truth remains the original Nicholas-AI-OS repo; future
+changes in the newly created repository do not automatically flow back.
+
+**Owner action required:** review the new project's name `argus-prime-forensics`,
+approve Cloudflare/GitHub account access and any paid Workers/Containers charges.
+Cloudflare Containers requires a paid account. The service starts disabled and
+does not process evidence until the owner separately configures the encrypted
+32+ character `ARGUS_FORENSICS_API_KEY` secret in the *new Worker*.
+Never paste passwords/tokens into the public repository or chat.
+
+Once launched: check public `GET /health` for `enabled:true`, reject unauthenticated
+`POST /analyze` (401), and verify an authenticated synthetic PNG round-trip.
+Do not submit private evidence before these checks pass. A GitHub import or
+build is **not** proof of a successful forensic runtime/ARGUS integration.
+See [the private deployment runbook](CLOUDFLARE_DEPLOYMENT.md).
+
+
 This worker produces owner-private SHA-256, a selected ExifTool report,
 and a C2PA manifest observation. It does not upload evidence, perform reverse
 image searches, assert an image is authentic, or connect automatically to

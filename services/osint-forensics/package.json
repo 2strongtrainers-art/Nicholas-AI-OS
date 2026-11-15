@@ -1,0 +1,12 @@
+{
+  "name": "argus-prime-forensics",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Isolated ARGUS PRIME evidence triage: authenticated Cloudflare Worker plus network-denied forensic container",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.141.0"
+  }
+}
