@@ -14,6 +14,8 @@ Nick asked that the workflow behind the completed **NVDA: Follow the Filings** v
 
 This is a repeatable production handoff. A repository document does not itself connect Muse to ElevenLabs or run a video job. At execution time, inspect the tools actually available to that agent.
 
+For SEO-informed fitness topics or website-content pitches, first consult [Ubersuggest SEO Research & Muse Handoff](UBERSUGGEST_SEO_RESEARCH_HANDOFF.md). Use actual authenticated search data when available; do not equate a vendor MCP guide or shared research file with an active Phil connection, and do not incur new research/generation credits without current authorization.
+
 ## Voice-and-avatar handoff to Phil
 
 When Nick requests source assets and assigns the edit to Phil in Muse, the producer's deliverable is the private asset package. Phil owns editing, captions, graphics, the final render and final QA. The producer checks the supplied audio and avatar, records actual duration and measured synchronization, and stops before assembling a final video. The full-production sequence below applies only to the operator assigned the edit.

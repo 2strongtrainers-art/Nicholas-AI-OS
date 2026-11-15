@@ -91,6 +91,7 @@ The daytrade and risk policy files are the sole authoritative execution safeguar
 - Human-readable knowledge / SOPs -> Notion.
 - Structured operations registry -> Airtable when structure adds value.
 - Websites -> Wix.
+- SEO keyword demand, search visibility, competitors and content opportunities -> authenticated Ubersuggest when available, following [the verified connection and Muse handoff](docs/UBERSUGGEST_SEO_RESEARCH_HANDOFF.md); its presence in a directory or vendor docs is not evidence of an active connector. Otherwise use available public research without inventing search metrics.
 - Payments / products / payment links -> Stripe.
 - Product analytics -> PostHog.
 - Design -> Canva or native image generation.
