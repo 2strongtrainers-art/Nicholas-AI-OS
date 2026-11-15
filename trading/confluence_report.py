@@ -82,12 +82,14 @@ def validate_bars(item: dict[str, Any], session_id: str) -> list[dict[str, Any]]
         local = stamp.astimezone(ET)
         if local.date().isoformat() != session_id or local.weekday() >= 5:
             raise ConfluenceError('Bars must belong to the one declared US equity session')
-        if not ((9, 30) <= (local.hour, local.minute) <= (16, 0)):
+        if not ((9, 30) <= (local.hour, local.minute) < (16, 0)):
             raise ConfluenceError('Out-of-session bar rejected')
         if previous is not None and stamp <= previous:
             raise ConfluenceError('Bars must be strictly time-ordered and unique')
-        if previous is not None and (stamp - previous).total_seconds() < 30:
-            raise ConfluenceError('Expected minute bars, not sub-minute or duplicated feed')
+        if stamp.second or stamp.microsecond:
+            raise ConfluenceError('Expected minute-aligned bar timestamps')
+        if previous is not None and (stamp - previous).total_seconds() % 60 != 0:
+            raise ConfluenceError('Expected integer-minute intervals')
         previous = stamp
         nums = {field: finite(raw.get(field), f'bar[{idx}].{field}', allow_zero=(field == 'volume'))
                 for field in ('open', 'high', 'low', 'close', 'volume')}
@@ -143,7 +145,8 @@ def analyze_symbol(item: dict[str, Any], session_id: str) -> dict[str, Any]:
                'ema9_below_ema21': fast < slow,
                'below_opening_range': opening_complete and latest['close'] < or_low,
                'volume_expansion': bullish['volume_expansion']}
-    gaps = sum((b['timestamp'] - a['timestamp']).total_seconds() > 90 for a,b in zip(bars,bars[1:]))
+    missing_minutes = sum(max(0, int((b['timestamp'] - a['timestamp']).total_seconds() / 60) - 1) for a,b in zip(bars,bars[1:]))
+    gaps = sum((b['timestamp'] - a['timestamp']).total_seconds() > 60 for a,b in zip(bars,bars[1:]))
     if gaps:
         alignment = 'unverified_missing_minute_bars'
     elif sum(bullish.values()) >= 3 and strength >= 50:
@@ -170,6 +173,7 @@ def analyze_symbol(item: dict[str, Any], session_id: str) -> dict[str, Any]:
         'bullish_factors': bullish,
         'bearish_factors': bearish,
         'missing_minute_bar_gaps': gaps,
+        'missing_minutes': missing_minutes,
         'spread_bps': finite(item['spread_bps'], 'spread_bps', allow_zero=True) if 'spread_bps' in item else None,
         'spread_estimated': item.get('spread_estimated'),
     }
