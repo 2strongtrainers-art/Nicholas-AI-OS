@@ -1,0 +1,32 @@
+name: Market Desk Read-Only Tests
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/market-desk-readonly.yml'
+      - 'trading/confluence_report.py'
+      - 'trading/openbb_history.py'
+      - 'tests/test_confluence_report.py'
+      - 'tests/test_openbb_history.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  research-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and run 10 no-network research tests
+        run: |
+          python -m compileall -q trading/confluence_report.py trading/openbb_history.py tests/test_confluence_report.py tests/test_openbb_history.py
+          python -m unittest discover -s tests -p 'test_confluence_report.py' -v
+          python -m unittest discover -s tests -p 'test_openbb_history.py' -v
