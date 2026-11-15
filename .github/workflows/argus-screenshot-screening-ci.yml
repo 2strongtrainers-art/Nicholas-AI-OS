@@ -1,0 +1,21 @@
+name: ARGUS screenshot open-source research QA
+on:
+  pull_request:
+    paths:
+      - 'data/osint/screenshot-tool-screening-20261114.json'
+      - '.agents/skills/argus-source-verification/**'
+      - 'docs/osint/screenshot-osint-repository-review.md'
+      - 'tests/test_argus_screenshot_screening.py'
+      - '.github/workflows/argus-screenshot-screening-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  screening:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -p test_argus_screenshot_screening.py -v
