@@ -77,7 +77,8 @@ def _yahoo_symbol(symbol: str) -> dict[str, Any]:
     return {"symbol": symbol, "bars": bars, "spread_bps": 5.0, "spread_estimated": True}
 
 
-def _alpaca_symbol(symbol: str, now_utc: datetime, api_key: str, api_secret: str) -> dict[str, Any]:
+def _alpaca_symbol(symbol: str, now_utc: datetime, api_key: str, api_secret: str,
+                   *, include_current_quotes: bool = True) -> dict[str, Any]:
     now_et = now_utc.astimezone(ET)
     open_et = datetime.combine(now_et.date(), time(9, 30), ET)
     params = urllib.parse.urlencode({
@@ -107,9 +108,11 @@ def _alpaca_symbol(symbol: str, now_utc: datetime, api_key: str, api_secret: str
     ]
     if not bars:
         raise MarketDataError(f"Alpaca returned no bars for {symbol}")
-    quote = _request_json(
-        f"https://data.alpaca.markets/v2/stocks/{urllib.parse.quote(symbol)}/quotes/latest?feed=iex", headers
-    ).get("quote") or {}
+    quote = {}
+    if include_current_quotes:
+        quote = _request_json(
+            f"https://data.alpaca.markets/v2/stocks/{urllib.parse.quote(symbol)}/quotes/latest?feed=iex", headers
+        ).get("quote") or {}
     bid, ask = float(quote.get("bp") or 0), float(quote.get("ap") or 0)
     if bid > 0 and ask >= bid:
         mid = (bid + ask) / 2.0
@@ -121,7 +124,8 @@ def _alpaca_symbol(symbol: str, now_utc: datetime, api_key: str, api_secret: str
             "quote_timestamp": quote.get("t") if not estimated else None}
 
 
-def build_snapshot(symbols: list[str] | tuple[str, ...] | None = None, now: datetime | None = None) -> dict[str, Any]:
+def build_snapshot(symbols: list[str] | tuple[str, ...] | None = None, now: datetime | None = None,
+                   *, include_current_quotes: bool = True) -> dict[str, Any]:
     now_utc = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     now_et = now_utc.astimezone(ET)
     if now_et.weekday() >= 5:
@@ -137,7 +141,11 @@ def build_snapshot(symbols: list[str] | tuple[str, ...] | None = None, now: date
     errors: dict[str, str] = {}
     for symbol in selected:
         try:
-            item = _alpaca_symbol(symbol, now_utc, key, secret) if provider == "alpaca_iex" else _yahoo_symbol(symbol)
+            if provider == "alpaca_iex":
+                item = _alpaca_symbol(symbol, now_utc, key, secret,
+                                      include_current_quotes=include_current_quotes)
+            else:
+                item = _yahoo_symbol(symbol)
             payloads.append(item)
         except Exception as exc:
             errors[symbol] = str(exc)

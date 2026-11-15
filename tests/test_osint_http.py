@@ -1,4 +1,5 @@
-"""HTTP edge-to-parser synthetic tests: no private evidence or external network."""
+"""HTTP adapter and live-verification contract tests on synthetic data."""
+import hashlib
 import http.client
 from http.server import ThreadingHTTPServer
 import importlib.util
@@ -11,6 +12,8 @@ from unittest import mock
 
 BASE = pathlib.Path(__file__).resolve().parents[1] / "services/osint-forensics"
 sys.path.insert(0, str(BASE))
+import verify_cloudflare
+
 spec = importlib.util.spec_from_file_location("argus_http", BASE / "http_server.py")
 service = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(service)
@@ -67,6 +70,45 @@ class TestPrivateAdapter(unittest.TestCase):
             status, result = self.make_request()
         self.assertEqual(status, 422)
         self.assertNotIn("secret", json.dumps(result))
+
+
+class TestWorkerVerification(unittest.TestCase):
+    url = "https://argus.example"
+
+    def test_disabled_worker_sends_no_upload(self):
+        with mock.patch.object(verify_cloudflare, "request_json", return_value=(
+            200, {"service": "argus-prime-forensics", "enabled": False}
+        )) as request:
+            with self.assertRaisesRegex(verify_cloudflare.VerificationError, "enabled=false"):
+                verify_cloudflare.verify_worker(self.url, "t" * 32)
+        self.assertEqual(request.call_count, 1)
+
+    def test_receipt_requires_correct_hash_and_exiftool_output(self):
+        fixture = service.TEST_PNG
+        digest = hashlib.sha256(fixture).hexdigest()
+        report = {"schema": "argus-image-osint-v1", "source_sha256": digest,
+                  "source_bytes": len(fixture), "sensitive_metadata_included": False,
+                  "tools": {"exiftool": {"status": "ok", "metadata": {
+                      "File:FileType": "PNG", "File:MIMEType": "image/png",
+                      "PNG:ImageWidth": 1, "PNG:ImageHeight": 1}}}}
+        for analysis, should_pass in ((report, True), ({**report, "source_sha256": "incorrect"}, False)):
+            with self.subTest(should_pass=should_pass), mock.patch.object(
+                verify_cloudflare, "request_json", side_effect=[
+                    (200, {"service": "argus-prime-forensics", "enabled": True}),
+                    (401, {"error": "unauthorized"}),
+                    (200, analysis),
+                ]
+            ) as request:
+                if should_pass:
+                    result = verify_cloudflare.verify_worker(self.url, "t" * 32)
+                    self.assertEqual(result["source_sha256"], digest)
+                    self.assertEqual(result["authenticated_http"], 200)
+                    self.assertEqual(result["exiftool"]["FileType"], "PNG")
+                    self.assertNotIn("key", request.call_args_list[1].kwargs)
+                    self.assertEqual(request.call_args.kwargs["image"], fixture)
+                else:
+                    with self.assertRaisesRegex(verify_cloudflare.VerificationError, "integrity"):
+                        verify_cloudflare.verify_worker(self.url, "t" * 32)
 
 
 if __name__ == "__main__":

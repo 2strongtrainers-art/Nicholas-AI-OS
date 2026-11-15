@@ -2,6 +2,10 @@ name: Nicholas Market Desk — Read-Only Session Validation
 
 on:
   workflow_dispatch:
+    inputs:
+      session:
+        description: Completed U.S. session to verify (YYYY-MM-DD, optional)
+        type: string
   schedule:
     # 22:15 UTC is after the US regular session in both PST and PDT.
     - cron: '15 22 * * 1-5'
@@ -21,6 +25,8 @@ concurrency:
 
 jobs:
   validate-market-feed:
+    if: github.ref == 'refs/heads/main'
+    environment: market-desk-research
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
@@ -35,6 +41,12 @@ jobs:
         env:
           APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
           APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+          MARKET_DESK_VERIFY_SESSION: ${{ inputs.session }}
           ALLOW_PAID_AI: 'false'
           ALLOW_OUTBOUND_SEND: 'false'
-        run: python -m scripts.run_market_desk_report
+        run: |
+          if [ -n "$MARKET_DESK_VERIFY_SESSION" ]; then
+            python -m scripts.run_market_desk_report --session "$MARKET_DESK_VERIFY_SESSION"
+          else
+            python -m scripts.run_market_desk_report
+          fi

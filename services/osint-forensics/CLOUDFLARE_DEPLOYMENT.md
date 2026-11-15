@@ -34,6 +34,12 @@ It does not modify nicholas-ai-switchboard or nicholas-ai-os.
 The Worker is NOT live until its actual deployed URL and authenticated smoke
 tests have been verified. Deployment requires Workers Paid with Containers.
 
+## Verify an existing deployment
+
+For an existing Cloudflare GitHub Builds deployment, run **Deploy ARGUS Private Forensics** on `main` with **Test the existing Worker** selected. The verification uses the Worker URL and the dedicated `ARGUS_FORENSICS_API_KEY` from the `osint-forensics-production` GitHub environment. The same key must be configured as an encrypted Worker secret. Set `ARGUS_FORENSICS_URL` in the environment if the Worker uses a different hostname.
+
+The Actions summary records a `401` response before authorization, a `200` for the authorized synthetic PNG, its SHA-256, and the expected ExifTool file type and dimensions. Share that run URL with the Chief after verification succeeds.
+
 ## Privacy architecture
 
 The public-facing Cloudflare Worker requires Bearer authentication with an

@@ -109,7 +109,9 @@ python -m trading.market_desk_pipeline /private/snapshot.json --historical --pap
 
 Hosted workflow: https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/workflows/market-desk-research.yml
 
-GitHub Secrets required separately: APCA_API_KEY_ID and APCA_API_SECRET_KEY. If missing, the workflow must emit SKIPPED_NO_ALPACA_DATA_CREDENTIALS and not pretend it fetched data. Never paste tokens into GitHub source, comments or chat. A working ChatGPT Alpaca connector is not proof those secrets exist in GitHub.
+Save `APCA_API_KEY_ID` and `APCA_API_SECRET_KEY` as encrypted secrets in the `market-desk-research` GitHub environment. Use dedicated credentials authorized for IEX data. If either secret is missing, the workflow reports `SKIPPED_NO_ALPACA_DATA_CREDENTIALS`.
+
+For initial acceptance, run **Nicholas Market Desk — Read-Only Session Validation** on `main` and enter the date of a completed U.S. session in `session` (`YYYY-MM-DD`). This run uses historical IEX bars and fails if it cannot validate any of them. The job summary records coverage and `orders_sent=0`.
 
 Do not treat passing synthetic CI as proof of production data ingestion, QuantConnect LEAN backtest, Fincept runtime or Vibe-Trading agent deployment. Verify each transition independently before claiming it.
 
