@@ -117,7 +117,8 @@ def _alpaca_symbol(symbol: str, now_utc: datetime, api_key: str, api_secret: str
         estimated = False
     else:
         spread_bps, estimated = 5.0, True
-    return {"symbol": symbol, "bars": bars, "spread_bps": spread_bps, "spread_estimated": estimated}
+    return {"symbol": symbol, "bars": bars, "spread_bps": spread_bps, "spread_estimated": estimated,
+            "quote_timestamp": quote.get("t") if not estimated else None}
 
 
 def build_snapshot(symbols: list[str] | tuple[str, ...] | None = None, now: datetime | None = None) -> dict[str, Any]:
