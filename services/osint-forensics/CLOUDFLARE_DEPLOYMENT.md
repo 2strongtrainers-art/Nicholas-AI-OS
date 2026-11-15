@@ -27,6 +27,55 @@ or owner identifiers; explicit X-Argus-Sensitive: 1 requires authorized scope.
 Cloudflare ingress and account/platform telemetry retention policies must still
 be assessed before using confidential cases.
 
+## Alternative: Cloudflare-native GitHub Builds (no GitHub deployment token)
+
+This is the lowest-friction path when the owner is signed in to Cloudflare
+directly in Safari, cannot use ChatGPT Work, and has **not** installed TinyFish.
+It relies on **Cloudflare's authenticated Dashboard**, not on sharing browser
+cookies or API credentials with the model. It still requires an owner action
+within that signed-in Dashboard: external account permissions cannot be
+inferred from a Safari session in ChatGPT.
+
+1. In the official Cloudflare Dashboard, open **Workers & Pages** →
+   **Create application** → **GitHub**. Connect the already-authorized
+   GitHub account if needed and choose
+   `2strongtrainers-art/Nicholas-AI-OS`.
+2. Create a **new** Worker named exactly `argus-prime-forensics`.
+   Do not reconnect, rename, or overwrite `nicholas-ai-switchboard`
+   or `nicholas-ai-os`. The Worker name must match the config.
+3. Use production branch `main`, project root
+   `services/osint-forensics`, and deploy command
+   `npx --yes wrangler@4.141.0 deploy`. The configuration at that root
+   is `wrangler.jsonc`; Dockerfile and HTTP adapter are in that folder.
+   Build only changes to this forensic folder, not unrelated services.
+4. Ensure the Cloudflare account already has **Workers Paid with Containers**
+   before saving/deploying. Containers incur usage charges and may not
+   work on Workers Free. Cloudflare-native GitHub Builds generates and
+   manages its own deployment token **inside Cloudflare**, avoiding
+   GitHub Actions `CLOUDFLARE_API_TOKEN` setup.
+5. Initially, `GET /health` should identify the Worker with
+   `enabled:false`; the upload endpoint must return a disabled response.
+   In the **new** Worker's settings, create one encrypted Secret named
+   `ARGUS_FORENSICS_API_KEY` with a unique 32+ character random value.
+   Keep it in the owner's private password manager; never paste it in
+   GitHub, ChatGPT, logs or the public repo.
+6. Test actual `GET /health` (enabled:true), unauthorized
+   `POST /analyze` (401), and authenticated synthetic PNG (200 with
+   correct SHA-256, ExifTool status ok). Until these tests pass, mark
+   the service **not verified live**. This route deploys the Worker;
+   it does **not** automatically configure ARGUS PRIME to call it.
+
+Official instructions:
+https://developers.cloudflare.com/workers/ci-cd/builds/
+https://developers.cloudflare.com/workers/ci-cd/builds/configuration/
+https://developers.cloudflare.com/containers/get-started/
+https://developers.cloudflare.com/workers/platform/pricing/
+
+This alternative is distinct from the GitHub Actions secret-based workflow
+below. Do **not** attempt to evade Cloudflare account authentication or
+reuse unrelated production secrets. Choose one controlled deployment route
+and verify it before any real evidence processing.
+
 ## Cloudflare connection prerequisite
 
 The previously saved browser profile named TriValley Cloudflare Admin does
