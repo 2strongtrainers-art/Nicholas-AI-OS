@@ -18,7 +18,7 @@ def snapshot(count=35, *, provider="alpaca_iex", estimated=False, complete=False
             "provider": provider, "session_id": "2026-11-13",
             "session_complete": complete, "fetched_at": "2026-11-13T16:30:00-05:00",
             "symbols": [{"symbol": "SPY", "bars": bars, "spread_bps": 3.5,
-                         "spread_estimated": estimated}]}
+                         "spread_estimated": estimated, "quote_timestamp": bars[-1]["timestamp"]}]}
 
 
 class PipelineTests(unittest.TestCase):
@@ -57,6 +57,15 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("not_approved_alpaca_source", rep["symbols"][0]["paper_blockers"])
         rep = research_pipeline(snapshot(estimated=True), historical=True)
         self.assertIn("spread_unverified", rep["symbols"][0]["paper_blockers"])
+
+    def test_spread_quote_must_be_recent(self):
+        snap = snapshot()
+        snap["symbols"][0]["quote_timestamp"] = "2026-11-13T09:30:00-05:00"
+        rep = research_pipeline(snap, historical=True)
+        self.assertIn("spread_quote_stale", rep["symbols"][0]["paper_blockers"])
+        snap["symbols"][0].pop("quote_timestamp")
+        rep = research_pipeline(snap, historical=True)
+        self.assertIn("spread_quote_timestamp_missing", rep["symbols"][0]["paper_blockers"])
 
     def test_incomplete_full_session_blocked(self):
         rep = research_pipeline(snapshot(389, complete=True), historical=True)
