@@ -37,7 +37,7 @@ def _request_json(url: str, headers: dict[str, str] | None = None, timeout: int 
 
 def _in_regular_session(ts: int) -> bool:
     dt = datetime.fromtimestamp(ts, tz=timezone.utc).astimezone(ET)
-    return dt.weekday() < 5 and time(9, 30) <= dt.time() <= time(16, 0)
+    return dt.weekday() < 5 and time(9, 30) <= dt.time() < time(16, 0)
 
 
 def _yahoo_symbol(symbol: str) -> dict[str, Any]:
@@ -103,6 +103,7 @@ def _alpaca_symbol(symbol: str, now_utc: datetime, api_key: str, api_secret: str
         }
         for row in bars_raw
         if float(row.get("v", 0)) > 0
+        and _in_regular_session(int(datetime.fromisoformat(str(row["t"]).replace("Z", "+00:00")).timestamp()))
     ]
     if not bars:
         raise MarketDataError(f"Alpaca returned no bars for {symbol}")
