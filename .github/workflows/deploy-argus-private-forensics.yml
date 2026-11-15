@@ -2,6 +2,11 @@ name: Deploy ARGUS Private Forensics
 
 on:
   workflow_dispatch:
+    inputs:
+      verify_existing:
+        description: Test the existing Worker without deploying or updating its secret
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -17,23 +22,28 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[deploy-argus]')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[deploy-argus]'))
     environment: osint-forensics-production
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_API_TOKEN: ${{ !inputs.verify_existing && secrets.CLOUDFLARE_API_TOKEN || '' }}
       ARGUS_FORENSICS_API_KEY: ${{ secrets.ARGUS_FORENSICS_API_KEY }}
-      ARGUS_FORENSICS_URL: ${{ vars.ARGUS_FORENSICS_URL }}
+      ARGUS_FORENSICS_URL: ${{ vars.ARGUS_FORENSICS_URL || (inputs.verify_existing && 'https://argus-prime-forensics.2strongtrainers.workers.dev') || '' }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v5
+        if: ${{ !inputs.verify_existing }}
         with:
           node-version: "22"
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Confirm deployment configuration before any spend
+        if: ${{ !inputs.verify_existing }}
         shell: bash
         run: |
           set -eu
@@ -41,10 +51,12 @@ jobs:
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "Cloudflare deployment token missing"; exit 1; }
           test "$(printf %s "$ARGUS_FORENSICS_API_KEY" | wc -c)" -ge 32 || { echo "Independent forensic secret missing"; exit 1; }
       - name: Unit tests, synthetic data only
+        if: ${{ !inputs.verify_existing }}
         run: |
           python -m unittest discover -s tests -p 'test_osint_forensics.py' -v
           python -m unittest discover -s tests -p 'test_osint_http.py' -v
       - name: Build and check the network-disabled container
+        if: ${{ !inputs.verify_existing }}
         run: |
           docker build --pull -f services/osint-forensics/Dockerfile -t argus-osint:private-ci services/osint-forensics
           docker run --rm --network none --read-only --cap-drop ALL \
@@ -52,9 +64,10 @@ jobs:
             --tmpfs /tmp:rw,nosuid,nodev,size=32m \
             argus-osint:private-ci python /opt/argus/http_server.py --self-test
       - name: Deploy separate Cloudflare Container Worker
+        if: ${{ !inputs.verify_existing }}
         shell: bash
         run: |
-          set -eu
+          set -euo pipefail
           npx --yes wrangler@4.141.0 deploy --config services/osint-forensics/wrangler.jsonc | tee /tmp/argus-deploy.log
           if [ -z "$ARGUS_FORENSICS_URL" ]; then
             url=$(grep -Eo 'https://[A-Za-z0-9.-]+[.]workers[.]dev' /tmp/argus-deploy.log | tail -n 1 || true)
@@ -64,6 +77,7 @@ jobs:
             echo "ARGUS_FORENSICS_URL=$url" >> "$GITHUB_ENV"
           fi
       - name: Provision the Worker secret without logging it
+        if: ${{ !inputs.verify_existing }}
         shell: bash
         run: |
           set -eu
@@ -71,25 +85,4 @@ jobs:
             npx --yes wrangler@4.141.0 secret put ARGUS_FORENSICS_API_KEY \
             --config services/osint-forensics/wrangler.jsonc >/dev/null
       - name: Verify live authentication and synthetic evidence
-        shell: bash
-        run: |
-          set -eu
-          curl -fsS --max-time 20 "$ARGUS_FORENSICS_URL/health" -o /tmp/argus-health.json
-          python -c 'import json; d=json.load(open("/tmp/argus-health.json")); assert d["service"]=="argus-prime-forensics" and d["enabled"] is True'
-          status=$(curl -sS --max-time 20 -o /dev/null -w '%{http_code}' -X POST \
-            -H 'Content-Type: image/png' "$ARGUS_FORENSICS_URL/analyze")
-          test "$status" = 401 || { echo "Unauthenticated upload returned $status rather than 401"; exit 1; }
-          printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/zv8AAAAASUVORK5CYII=' | base64 -d > /tmp/argus-synthetic.png
-          response=""
-          for attempt in 1 2 3 4 5 6; do
-            if curl -fsS --max-time 90 -X POST \
-              -H "Authorization: Bearer $ARGUS_FORENSICS_API_KEY" \
-              -H 'Content-Type: image/png' --data-binary @/tmp/argus-synthetic.png \
-              "$ARGUS_FORENSICS_URL/analyze" -o /tmp/argus-synthetic-report.json; then
-              response=ok; break
-            fi
-            sleep 15
-          done
-          test "$response" = ok || { echo "Container failed live authenticated smoke"; exit 1; }
-          python -c 'import json,hashlib; b=open("/tmp/argus-synthetic.png","rb").read(); d=json.load(open("/tmp/argus-synthetic-report.json")); assert d["source_sha256"]==hashlib.sha256(b).hexdigest(); assert d["sensitive_metadata_included"] is False; assert d["tools"]["exiftool"]["status"]=="ok"'
-          echo "ARGUS private Cloudflare endpoint passed authenticated synthetic smoke."
+        run: python services/osint-forensics/verify_cloudflare.py

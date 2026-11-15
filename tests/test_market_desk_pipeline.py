@@ -1,7 +1,9 @@
 import copy
 import unittest
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
+from unittest.mock import patch
 
+from scripts import run_market_desk_report as hosted_report
 from trading.confluence_report import ConfluenceError
 from trading.market_desk_pipeline import research_pipeline
 
@@ -28,6 +30,29 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(rep["orders_sent"], 0)
         self.assertEqual(rep["symbols"][0]["quality_gate"], "PASS_PAPER_REVIEW")
         self.assertEqual(rep["replay"]["status"], "NOT_REQUESTED")
+
+    def test_hosted_manual_validation_uses_the_completed_session(self):
+        session = date(2026, 11, 13)
+        weekend = datetime(2026, 11, 15, 18, tzinfo=timezone.utc)
+        with patch.dict("os.environ", {"APCA_API_KEY_ID": "fixture", "APCA_API_SECRET_KEY": "fixture"}), \
+             patch.object(hosted_report, "datetime", wraps=datetime) as clock, \
+             patch.object(hosted_report, "build_snapshot", return_value=snapshot()) as feed:
+            clock.now.return_value = weekend
+            self.assertEqual(hosted_report.run_report()["status"], "SKIPPED_NOT_AFTER_MARKET_CLOSE")
+            feed.assert_not_called()
+            receipt = hosted_report.run_report(session)
+        self.assertEqual(receipt["session"], session.isoformat())
+        self.assertEqual(receipt["status"], "RESEARCH_ONLY")
+        self.assertEqual(receipt["orders_sent"], 0)
+        self.assertEqual(feed.call_args.kwargs["now"].date(), session)
+        self.assertFalse(feed.call_args.kwargs["include_current_quotes"])
+
+    def test_whitespace_alpaca_credentials_do_not_use_the_fallback_feed(self):
+        with patch.dict("os.environ", {"APCA_API_KEY_ID": " ", "APCA_API_SECRET_KEY": "fixture"}), \
+             patch.object(hosted_report, "build_snapshot") as feed:
+            receipt = hosted_report.run_report(date(2026, 11, 13))
+        self.assertEqual(receipt["status"], "SKIPPED_NO_ALPACA_DATA_CREDENTIALS")
+        feed.assert_not_called()
 
     def test_missing_minutes_block_paper(self):
         snap = snapshot()

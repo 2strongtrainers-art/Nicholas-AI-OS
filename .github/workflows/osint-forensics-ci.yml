@@ -44,7 +44,7 @@ jobs:
         run: |
           set -eu
           mkdir -p "$RUNNER_TEMP/osint-ci/evidence" "$RUNNER_TEMP/osint-ci/reports"
-          printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/zv8AAAAASUVORK5CYII=' | base64 -d > "$RUNNER_TEMP/osint-ci/evidence/synthetic.png"
+          PYTHONPATH=services/osint-forensics python -c 'from http_server import TEST_PNG; import sys; sys.stdout.buffer.write(TEST_PNG)' > "$RUNNER_TEMP/osint-ci/evidence/synthetic.png"
           docker run --rm --network none --read-only --cap-drop ALL \
             --security-opt no-new-privileges --pids-limit 64 --memory 256m \
             --tmpfs /tmp:rw,nosuid,nodev,size=32m \

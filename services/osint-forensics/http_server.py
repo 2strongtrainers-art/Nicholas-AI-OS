@@ -23,7 +23,7 @@ MIME_EXT = {
     "image/tiff": ".tif", "image/heic": ".heic", "image/avif": ".avif",
     "video/mp4": ".mp4",
 }
-TEST_PNG = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/zv8AAAAASUVORK5CYII=")
+TEST_PNG = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGN4kCAJAAN9AVrRV63LAAAAAElFTkSuQmCC")
 
 
 class Handler(BaseHTTPRequestHandler):
