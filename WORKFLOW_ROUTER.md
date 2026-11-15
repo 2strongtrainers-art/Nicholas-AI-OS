@@ -67,6 +67,19 @@ Do **not** default video work to Replit.
 
 For narration, default to the `conversational_nick` delivery profile: speech should sound like Nicholas explaining something naturally to one person, not reading the on-screen cards or a written report verbatim.
 
+## Market research and day-trading research routing (paper only)
+
+For owner market analysis, VWAP/EMA/RSI, chart proof, confluence verification or a day-trading experiment, use [the canonical Market Desk integration](docs/MARKET_DESK_OPEN_SOURCE_INTEGRATION.md). Respect the stages:
+
+1. **Observe:** Alpaca connector or the repo's read-only Alpaca IEX market_feed. Attach source, bar timestamps, interval, completeness and non-consolidated IEX warning.
+2. **Validate:** trading.market_desk_pipeline + trading.confluence_report; a missing minute, stale snapshot, questionable spread or 16:00 boundary anomaly must be recorded, not transformed into a clean trading setup.
+3. **Investigate:** OpenBB V5 Cboe is optional source research; Vibe-Trading may propose hypotheses in a separate no-key sandbox; FinceptTerminal is a reference-only separate UI subject to AGPL review.
+4. **Test:** QuantConnect LEAN (optional, externally provisioned historical data, Docker and eligible account) for independent out-of-sample backtests, then the existing deterministic PAPER engine for illustrative simulations.
+5. **Review:** Chief of Staff / Muse consume dated, source-backed findings and explicit unknowns; no automatic live brokerage authorization, paid market data, outbound publishing, or fabricated returns.
+6. **Deliver:** GitHub Actions market-desk-research publishes public-safe *quality metadata only*, requiring separately configured GitHub Alpaca credentials. No raw market bars or secrets in the repository. A ChatGPT Alpaca connection does not give GitHub secrets.
+
+The daytrade and risk policy files are the sole authoritative execution safeguards. Keep real-order paths absent. Do not automatically run LEAN, Fincept, Vibe agents or paid providers merely because Git submodules are pinned. Passing synthetic CI is not real-data replay.
+
 ## Domain routing
 - Owner briefing, plan-based decisions, producer work, and skill feedback -> [TriValley Chief of Staff](chief_of_staff/README.md).
 - Capability/tool discovery -> search `data/tool-intelligence/canonical-tools.json` with `scripts/search_tool_intelligence.py`; only confirmed mappings are routable, and `Unknown` API/MCP/CLI values must remain unknown.

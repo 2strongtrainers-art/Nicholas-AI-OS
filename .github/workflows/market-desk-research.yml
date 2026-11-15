@@ -1,0 +1,40 @@
+name: Nicholas Market Desk — Read-Only Session Validation
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 22:15 UTC is after the US regular session in both PST and PDT.
+    - cron: '15 22 * * 1-5'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/market-desk-research.yml'
+      - 'scripts/run_market_desk_report.py'
+      - 'trading/market_desk_pipeline.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nicholas-market-desk-readonly
+  cancel-in-progress: false
+
+jobs:
+  validate-market-feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: false
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Read-only Alpaca IEX coverage check, never orders
+        env:
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+          ALLOW_PAID_AI: 'false'
+          ALLOW_OUTBOUND_SEND: 'false'
+        run: python -m scripts.run_market_desk_report
