@@ -1,0 +1,52 @@
+{
+  "schema": "argus-osint-tool-manifest-v1",
+  "implementation": "phase1_draft_no_production_deployment",
+  "privacy": "owner_private_evidence_only",
+  "tools": [
+    {
+      "id": "exiftool",
+      "source": "https://github.com/exiftool/exiftool",
+      "purpose": "metadata extraction",
+      "adapter": "implemented_in_container",
+      "version": "Debian packaged; pin exact package for production",
+      "license": "Perl Artistic or GPL; verify distribution obligations"
+    },
+    {
+      "id": "c2patool",
+      "source": "https://github.com/contentauth/c2patool",
+      "purpose": "signed media provenance inspection",
+      "adapter": "implemented_in_container",
+      "version": "0.29.0",
+      "artifact_sha256": "af5494722fc8c3f239980f36ceb3acf496d1481850d356a4bb34777b33b08043",
+      "license": "MIT OR Apache-2.0"
+    },
+    {
+      "id": "archivebox",
+      "source": "https://github.com/ArchiveBox/ArchiveBox",
+      "purpose": "source preservation",
+      "adapter": "disabled_pending_network_egress_and_storage_review",
+      "candidate_version": "0.9.77",
+      "license": "MIT"
+    },
+    {
+      "id": "sherloq",
+      "source": "https://github.com/GuidoBartoli/sherloq",
+      "purpose": "forensic image examination",
+      "adapter": "research_pilot_only",
+      "license": "GPL-3.0"
+    },
+    {
+      "id": "exiv2",
+      "source": "https://github.com/Exiv2/exiv2",
+      "purpose": "independent EXIF comparison",
+      "adapter": "optional_second_stage",
+      "license": "GPLv2+/commercial licensing varies; review"
+    }
+  ],
+  "disabled_capabilities": [
+    "facial_identity_search",
+    "automatic_external_uploads",
+    "networked_archivebox",
+    "image_authenticity_verdicts"
+  ]
+}

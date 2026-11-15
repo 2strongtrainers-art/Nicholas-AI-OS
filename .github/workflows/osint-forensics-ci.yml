@@ -1,0 +1,51 @@
+name: ARGUS image OSINT — synthetic safety CI
+
+on:
+  pull_request:
+    paths:
+      - 'services/osint-forensics/**'
+      - 'tests/test_osint_forensics.py'
+      - '.agents/skills/argus-image-osint/**'
+      - 'docs/osint/**'
+      - 'data/osint/**'
+      - '.github/workflows/osint-forensics-ci.yml'
+      - 'capabilities.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Synthetic unit tests only
+        run: python -m unittest discover -s tests -p 'test_osint_forensics.py' -v
+
+  docker-offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build isolated image and verify binaries
+        run: |
+          docker build --pull -f services/osint-forensics/Dockerfile -t argus-osint:ci .
+          docker run --rm --network none --read-only --cap-drop ALL argus-osint:ci exiftool -ver
+          docker run --rm --network none --read-only --cap-drop ALL argus-osint:ci c2patool --version
+      - name: Offline synthetic evidence smoke test (no secrets)
+        run: |
+          set -eu
+          mkdir -p "$RUNNER_TEMP/osint-ci/evidence" "$RUNNER_TEMP/osint-ci/reports"
+          printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/zv8AAAAASUVORK5CYII=' | base64 -d > "$RUNNER_TEMP/osint-ci/evidence/synthetic.png"
+          docker run --rm --network none --read-only --cap-drop ALL \
+            --security-opt no-new-privileges --pids-limit 64 --memory 256m \
+            --tmpfs /tmp:rw,nosuid,nodev,size=32m \
+            --user "$(id -u):$(id -g)" \
+            --mount type=bind,src="$RUNNER_TEMP/osint-ci/evidence",dst=/evidence,readonly \
+            --mount type=bind,src="$RUNNER_TEMP/osint-ci/reports",dst=/reports \
+            argus-osint:ci python /opt/argus/analyze.py \
+            --input /evidence/synthetic.png --output /reports/synthetic.json
+          python -c 'import json,os,hashlib,pathlib; root=pathlib.Path(os.environ["RUNNER_TEMP"])/"osint-ci"; d=json.loads((root/"reports/synthetic.json").read_text()); assert d["source_sha256"]==hashlib.sha256((root/"evidence/synthetic.png").read_bytes()).hexdigest(); assert not d["sensitive_metadata_included"]; assert d["tools"]["exiftool"]["status"]=="ok"; assert "c2patool" in d["tools"]'

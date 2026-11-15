@@ -119,10 +119,21 @@ video:
     - github_attempted_and_required_capability_unavailable
 
 security:
-  repository_visibility: private
+  repository_visibility: public
   secrets_location: github_actions_secrets
   never_commit:
     - ELEVENLABS_API_KEY
     - PEXELS_API_KEY
     - GITHUB_TOKEN
     - STRIPE_SECRET_KEY
+
+# Code repository is public; original evidence and owner-only reports must stay external.
+image_osint:
+  skill: .agents/skills/argus-image-osint/SKILL.md
+  worker_source: services/osint-forensics
+  tool_manifest: services/osint-forensics/tool-manifest.json
+  deployment_status: review_only_not_deployed
+  evidence_storage: owner_private_external_only
+  image_processing: network_denied_sandbox_only
+  archivebox: disabled_until_verified_egress_controls
+  automated_face_identification: disabled
