@@ -1,6 +1,6 @@
 # Nicholas AI OS — open-source market desk integration
 
-**Reviewed November 14, 2026 (Pacific). Status: draft, paper-only, not deployed.**
+**Reviewed November 14, 2026 (Pacific). Paper-only, read-only. Verify current GitHub PR/main merge and hosted workflow status before describing deployment as active.**
 
 ## Verified upstream sources and acquisition
 
@@ -75,7 +75,7 @@ Alpaca's connected read-only tool supplied 1,157 IEX one-minute observations for
 - QQQ 378 bars (including one at 16:00 ET), 13 missing regular-session minutes.
 - MSFT 389 bars, one missing minute.
 
-The source was the **ChatGPT Alpaca connector**, NOT a GitHub Actions key. The real data confirmed coverage and boundaries but did NOT run the repo's Python code against that connector result. Missing-minute or estimated-spread symbols are excluded from paper review, not treated as clean live quotes.
+The source was the **ChatGPT Alpaca connector**, NOT a GitHub Actions key. The real data confirmed coverage and boundaries but did NOT run the repo's Python code against that connector result. Missing-minute, estimated-spread, missing-quote-timestamp or stale-spread-quote symbols are excluded from paper review, not treated as clean live quotes.
 
 ### New connected code
 
@@ -112,3 +112,5 @@ Hosted workflow: https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/w
 GitHub Secrets required separately: APCA_API_KEY_ID and APCA_API_SECRET_KEY. If missing, the workflow must emit SKIPPED_NO_ALPACA_DATA_CREDENTIALS and not pretend it fetched data. Never paste tokens into GitHub source, comments or chat. A working ChatGPT Alpaca connector is not proof those secrets exist in GitHub.
 
 Do not treat passing synthetic CI as proof of production data ingestion, QuantConnect LEAN backtest, Fincept runtime or Vibe-Trading agent deployment. Verify each transition independently before claiming it.
+
+The paper-review quote gate also requires an actual IEX quote timestamp within 180 seconds of the most recent regular-session bar. This is a conservative eligibility check, not an assurance of executable consolidated liquidity. For a post-close study, numbers and context remain available even if quote quality is blocked. The market_feed adapter carries the quote timestamp when the IEX endpoint provides it.
