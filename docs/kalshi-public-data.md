@@ -88,3 +88,7 @@ Next work, in order:
 - [Fixed-point representation](https://docs.kalshi.com/getting_started/fixed_point_migration)
 - [Authenticated WebSocket setup](https://docs.kalshi.com/getting_started/quick_start_websockets)
 - [CF Benchmarks feed and averaging semantics](https://docs.kalshi.com/websockets/cfbenchmarks-value)
+
+## November 14, 2026 revalidation gate
+
+This is an **optional, manually invoked public market-data reader**. It does not connect to Hermes or n8n, submit trades, retrieve account information, authorize any broker action, or schedule itself. This PR must pass a fresh pull-request test against the current Nicholas-AI-OS main before merging; prior October tests alone do not establish compatibility with all later updates. Treat returned values as time-limited observations, not actionable trade signals. Verify current official Kalshi data and terms separately before live manual use.
