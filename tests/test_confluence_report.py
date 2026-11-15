@@ -57,6 +57,14 @@ class ConfluenceReportTests(unittest.TestCase):
         with self.assertRaisesRegex(ConfluenceError, 'declared'):
             build_report(snap, historical=True)
 
+    def test_missing_minute_bar_suppresses_signal_and_opening_range(self):
+        snap = make_snapshot()
+        snap['symbols'][0]['bars'].pop(5)
+        row = build_report(snap, historical=True)['symbols'][0]
+        self.assertFalse(row['opening_range_15m']['complete'])
+        self.assertEqual(row['alignment'], 'unverified_missing_minute_bars')
+        self.assertEqual(row['missing_minute_bar_gaps'], 1)
+
     def test_rsi_flat_prices_and_ema(self):
         self.assertEqual(rsi([100.0]*30), 50.0)
         self.assertEqual(ema([100.0]*30, 21), 100.0)
