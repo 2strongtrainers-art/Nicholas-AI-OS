@@ -1,0 +1,272 @@
+{
+  "schema": "owner-uploaded-repo-category-inventory-v1",
+  "as_of": "2026-11-14",
+  "original_uploaded_screenshots": [
+    {
+      "filenames": [
+        "IMG_8179.jpeg",
+        "IMG_8180.jpeg",
+        "IMG_8181.jpeg",
+        "IMG_8182.jpeg"
+      ],
+      "count": 4,
+      "collection": "Market & trading Instagram screenshots",
+      "entries": [
+        "OpenBB-finance/OpenBB",
+        "Fincept-Corporation/FinceptTerminal",
+        "HKUDS/Vibe-Trading",
+        "QuantConnect/Lean"
+      ]
+    },
+    {
+      "filenames": [
+        "IMG_8098.jpeg",
+        "IMG_8099.jpeg",
+        "IMG_8100.jpeg",
+        "IMG_8101.jpeg",
+        "IMG_8102.jpeg"
+      ],
+      "count": 5,
+      "collection": "Image OSINT 26 entries, 25 distinct",
+      "screenshots_inventory": "data/osint/screenshot-tool-screening-20261114.json"
+    }
+  ],
+  "market_references": [
+    {
+      "id": "OpenBB",
+      "repo": "openbq-org/OpenBB",
+      "verified_role": "market data",
+      "acquisition": "pinned existing submodule",
+      "execution": "optional offline adapter only; no verified live OpenBB backfill"
+    },
+    {
+      "id": "FinceptTerminal",
+      "repo": "Fincept-Corporation/FinceptTerminal",
+      "verified_role": "market terminal",
+      "acquisition": "pinned existing submodule",
+      "execution": "reference-only; AGPL/commercial review"
+    },
+    {
+      "id": "Vibe-Trading",
+      "repo": "HKUDS/Vibe-Trading",
+      "verified_role": "agentic strategy research",
+      "acquisition": "pinned existing submodule",
+      "execution": "sandbox-reference; never enabled broker orders"
+    },
+    {
+      "id": "Lean",
+      "repo": "QuantConnect/Lean",
+      "verified_role": "backtesting",
+      "acquisition": "pinned existing submodule",
+      "execution": "reference-only; no verified LEAN backtest"
+    }
+  ],
+  "osint_pinned_sources": [
+    {
+      "slug": "ExifTool",
+      "url": "exiftool/exiftool",
+      "sha": "1da714924f67763b6a8a7013dd2aa1983a16f87b",
+      "license": "Artistic/GPL choice",
+      "category": "metadata",
+      "path": "third_party/osint-tools-2026-11-14/sources/ExifTool",
+      "source_url": "https://github.com/exiftool/exiftool",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "the isolated ARGUS Docker image includes a separately pinned runtime adapter; do not assume this gitlink controls deployed version"
+    },
+    {
+      "slug": "Exiv2",
+      "url": "Exiv2/exiv2",
+      "sha": "dc867091784010e3a4507775ed82ef36c4770b4d",
+      "license": "GPL-2.0+",
+      "category": "metadata",
+      "path": "third_party/osint-tools-2026-11-14/sources/Exiv2",
+      "source_url": "https://github.com/Exiv2/exiv2",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "C2PATool",
+      "url": "contentauth/c2patool",
+      "sha": "1a7b24296a9a39e551ec857a5c5834665e4ae5fb",
+      "license": "MIT/Apache-2.0",
+      "category": "provenance",
+      "path": "third_party/osint-tools-2026-11-14/sources/C2PATool",
+      "source_url": "https://github.com/contentauth/c2patool",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "the isolated ARGUS Docker image includes a separately pinned runtime adapter; do not assume this gitlink controls deployed version"
+    },
+    {
+      "slug": "Sherloq",
+      "url": "GuidoBartoli/sherloq",
+      "sha": "3fe95fcb56037e47e2eefbc2d3785804a31a74f5",
+      "license": "GPL-3.0",
+      "category": "provenance",
+      "path": "third_party/osint-tools-2026-11-14/sources/Sherloq",
+      "source_url": "https://github.com/GuidoBartoli/sherloq",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "MAT2",
+      "url": "jvoisin/mat2",
+      "sha": "a7eae5c830aad333ed7c8e508d2091baaa4818ea",
+      "license": "LGPL-3.0",
+      "category": "privacy",
+      "path": "third_party/osint-tools-2026-11-14/sources/MAT2",
+      "source_url": "https://github.com/jvoisin/mat2",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "ExifCleaner",
+      "url": "szTheory/exifcleaner",
+      "sha": "e3c0b7d2891871ecea23d20b879271683b86b19e",
+      "license": "MIT",
+      "category": "privacy",
+      "path": "third_party/osint-tools-2026-11-14/sources/ExifCleaner",
+      "source_url": "https://github.com/szTheory/exifcleaner",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "BellingcatAutoArchiver",
+      "url": "bellingcat/auto-archiver",
+      "sha": "0507bf21793c2d3621a31295a7e166c8bfcec3e4",
+      "license": "MIT",
+      "category": "archiving",
+      "path": "third_party/osint-tools-2026-11-14/sources/BellingcatAutoArchiver",
+      "source_url": "https://github.com/bellingcat/auto-archiver",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "ArchiveBox",
+      "url": "ArchiveBox/ArchiveBox",
+      "sha": "37831fe17c4235b1d2cc818f9e8b43e4197cb377",
+      "license": "MIT",
+      "category": "archiving",
+      "path": "third_party/osint-tools-2026-11-14/sources/ArchiveBox",
+      "source_url": "https://github.com/ArchiveBox/ArchiveBox",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "InVIDVerification",
+      "url": "AFP-Medialab/verification-plugin",
+      "sha": "a8f00e7f9664dc6b9a72646b16fb5d482726481b",
+      "license": "MIT",
+      "category": "video",
+      "path": "third_party/osint-tools-2026-11-14/sources/InVIDVerification",
+      "source_url": "https://github.com/AFP-Medialab/verification-plugin",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    },
+    {
+      "slug": "MediaInfo",
+      "url": "MediaArea/MediaInfo",
+      "sha": "447b20d44dd9d404800667f1c0015841c752d134",
+      "license": "BSD-2",
+      "category": "video",
+      "path": "third_party/osint-tools-2026-11-14/sources/MediaInfo",
+      "source_url": "https://github.com/MediaArea/MediaInfo",
+      "acquisition": "source pinned Git submodule pointer, not installed or deployed",
+      "active_runtime": "none"
+    }
+  ],
+  "categories": [
+    {
+      "id": "market_data_and_terminal",
+      "members": [
+        "OpenBB",
+        "FinceptTerminal"
+      ],
+      "repo_count": 2,
+      "execution": "mixed; no verified full integrated live terminal"
+    },
+    {
+      "id": "trading_agents_and_backtesting",
+      "members": [
+        "Vibe-Trading",
+        "Lean"
+      ],
+      "repo_count": 2,
+      "execution": "research & isolated tests only"
+    },
+    {
+      "id": "image_metadata",
+      "members": [
+        "ExifTool",
+        "Exiv2"
+      ],
+      "repo_count": 2,
+      "execution": "ExifTool present in offline tested container; Exiv2 pinned only"
+    },
+    {
+      "id": "provenance_and_tampering",
+      "members": [
+        "C2PATool",
+        "Sherloq"
+      ],
+      "repo_count": 2,
+      "execution": "C2PA adapter tested offline; Sherloq pinned only; neither provides automatic authenticity verdict"
+    },
+    {
+      "id": "privacy_scrubbing_derivatives",
+      "members": [
+        "MAT2",
+        "ExifCleaner"
+      ],
+      "repo_count": 2,
+      "execution": "not deployed; preserve original bytes; never scrub primary evidence"
+    },
+    {
+      "id": "evidence_archiving",
+      "members": [
+        "BellingcatAutoArchiver",
+        "ArchiveBox"
+      ],
+      "repo_count": 2,
+      "execution": "not deployed; external crawl requires SSRF/egress/privacy approval"
+    },
+    {
+      "id": "video_context_and_metadata",
+      "members": [
+        "InVIDVerification",
+        "MediaInfo"
+      ],
+      "repo_count": 2,
+      "execution": "not deployed; browser manual plugin and video parsing are separate pilots"
+    },
+    {
+      "id": "reverse_image_web_services",
+      "members": [
+        "Google Lens",
+        "TinEye",
+        "Yandex Images",
+        "Bing Visual Search",
+        "Baidu Image Search",
+        "Karma Decay"
+      ],
+      "repo_count": 0,
+      "execution": "external search websites, not authenticated installable code; intentional category exception"
+    },
+    {
+      "id": "facial_identity_search",
+      "members": [
+        "PimEyes",
+        "Facecheck.id"
+      ],
+      "repo_count": 0,
+      "execution": "excluded from autonomous identification; 26th screenshot repeats #20"
+    }
+  ],
+  "exceptions": [
+    "Screenshot is not proof of repo or licensing; names Metapicz, CameraTrace, Kwai EXIF Scanner, Imago Forensics not mapped to official trusted GitHub source.",
+    "MAT2 screenshot incorrectly expands its name as Multimedia Analysis Tool; verified project is Metadata Anonymisation Toolkit 2.",
+    "OpenBB screenshot lists AGPL-3.0, but current pinned upstream repository licensing needs evaluation against official version and docs; do not copy screenshot license claims.",
+    "All ten newly acquired OSINT repos are source pointers only. This is not an n8n import, a live ARGUS runtime adapter, or production deployment.",
+    "Existing 11 market/AI submodules remain untouched. Repeated/conflicting tools should not all be run at once."
+  ],
+  "n8n_status": "Known n8n Cloud workflows from November 12 are hosted outside GitHub; export JSONs in workflows/n8n are inactive. Direct n8n action connector not available in this session; no import or execution claimed.",
+  "chief_instructions": "Consult .agents/skills/trivalley-chief-of-staff/references/repo-category-coverage.md and private owner handoff. Full deployment requires authenticated operational acceptance, not merely repository acquisition."
+}
