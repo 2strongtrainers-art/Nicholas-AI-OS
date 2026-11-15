@@ -2,6 +2,11 @@ name: Deploy ARGUS Private Forensics
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'services/osint-forensics/**'
+      - '.github/workflows/deploy-argus-private-forensics.yml'
 
 permissions:
   contents: read
@@ -12,6 +17,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[deploy-argus]')
     environment: osint-forensics-production
     runs-on: ubuntu-latest
     env:
@@ -34,10 +40,6 @@ jobs:
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Cloudflare account ID missing"; exit 1; }
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "Cloudflare deployment token missing"; exit 1; }
           test "$(printf %s "$ARGUS_FORENSICS_API_KEY" | wc -c)" -ge 32 || { echo "Independent forensic secret missing"; exit 1; }
-          case "$ARGUS_FORENSICS_URL" in
-            https://*workers.dev) ;;
-            *) echo "Verified https://...workers.dev URL required"; exit 1 ;;
-          esac
       - name: Unit tests, synthetic data only
         run: |
           python -m unittest discover -s tests -p 'test_osint_forensics.py' -v
@@ -50,7 +52,17 @@ jobs:
             --tmpfs /tmp:rw,nosuid,nodev,size=32m \
             argus-osint:private-ci python /opt/argus/http_server.py --self-test
       - name: Deploy separate Cloudflare Container Worker
-        run: npx --yes wrangler@4.141.0 deploy --config services/osint-forensics/wrangler.jsonc
+        shell: bash
+        run: |
+          set -eu
+          npx --yes wrangler@4.141.0 deploy --config services/osint-forensics/wrangler.jsonc | tee /tmp/argus-deploy.log
+          if [ -z "$ARGUS_FORENSICS_URL" ]; then
+            url=$(grep -Eo 'https://[A-Za-z0-9.-]+[.]workers[.]dev' /tmp/argus-deploy.log | tail -n 1 || true)
+            if [ -z "$url" ]; then
+              echo "Worker deployed, but live URL could not be verified. Configure ARGUS_FORENSICS_URL and rerun."; exit 1
+            fi
+            echo "ARGUS_FORENSICS_URL=$url" >> "$GITHUB_ENV"
+          fi
       - name: Provision the Worker secret without logging it
         shell: bash
         run: |
