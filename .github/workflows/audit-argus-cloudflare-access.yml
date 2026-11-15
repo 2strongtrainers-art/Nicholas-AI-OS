@@ -1,0 +1,53 @@
+name: Audit ARGUS Cloudflare deployment credentials (read-only)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/audit-argus-cloudflare-access.yml
+permissions:
+  contents: read
+
+jobs:
+  existing-switchboard:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[audit-argus]')
+    runs-on: ubuntu-latest
+    environment: switchboard-production
+    timeout-minutes: 3
+    env:
+      CF_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Determine whether prior environment is usable
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "$CF_ACCOUNT_ID" ]; then echo "SWITCHBOARD_ACCOUNT_ID=yes"; else echo "SWITCHBOARD_ACCOUNT_ID=no"; fi
+          if [ -n "$CF_TOKEN" ]; then echo "SWITCHBOARD_API_TOKEN=yes"; else echo "SWITCHBOARD_API_TOKEN=no"; fi
+          if [ -n "$CF_ACCOUNT_ID" ] && [ -n "$CF_TOKEN" ]; then
+            code="$(curl -sS --connect-timeout 5 --max-time 15 -o /dev/null -w '%{http_code}' \
+              -H "Authorization: Bearer $CF_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/workers/subdomain" || true)"
+            if [ "$code" = 200 ]; then
+              echo "SWITCHBOARD_CF_READ=pass"
+            else
+              echo "SWITCHBOARD_CF_READ=not_verified"
+            fi
+          fi
+  forensic-environment:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[audit-argus]')
+    runs-on: ubuntu-latest
+    environment: osint-forensics-production
+    timeout-minutes: 3
+    env:
+      CF_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ARGUS_KEY: ${{ secrets.ARGUS_FORENSICS_API_KEY }}
+    steps:
+      - name: Check new forensic environment configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "$CF_ACCOUNT_ID" ]; then echo "ARGUS_ACCOUNT_ID=yes"; else echo "ARGUS_ACCOUNT_ID=no"; fi
+          if [ -n "$CF_TOKEN" ]; then echo "ARGUS_DEPLOY_TOKEN=yes"; else echo "ARGUS_DEPLOY_TOKEN=no"; fi
+          if [ "${#ARGUS_KEY}" -ge 32 ]; then echo "ARGUS_AUTH_KEY=yes"; else echo "ARGUS_AUTH_KEY=no"; fi
