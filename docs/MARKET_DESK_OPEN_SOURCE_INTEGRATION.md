@@ -45,11 +45,11 @@ python3 -m trading.confluence_report /tmp/nicholas-paper-snapshot.json
 
 An archive can be inspected with `--historical` but must not be described as current. IEX is not a consolidated all-exchange quote and the Yahoo fallback is not certified for trade execution. The default freshness gate rejects snapshots older than ten minutes and future timestamps. Output is an analysis report, not a broker order or investment recommendation.
 
-For *optional* daily OpenBB history after installing `openbb` in an isolated Python environment and verifying permitted providers:
+For manually invoked OpenBB V5 history, install openbb-cboe in an isolated Python virtual environment and run openbb-build. The older generic equity price router belongs to V4; V5 uses the Cboe provider namespace:
 
 ```sh
 python3 -m trading.openbb_history --symbol MSFT --limit 90
-# Optional: append --provider PROVIDER_NAME if entitled to that data
+# No third-party paid provider or broker is invoked
 ```
 
 LEAN should be initialized in a separate local Docker/CLI environment with appropriately licensed data. Do not claim LEAN backtests have run merely because the code is linked. When tested, require lookahead/survivorship checks, realistic spreads, commissions, slippage, session boundaries, out-of-sample and walk-forward periods, and drawdown analysis before comparing results with the existing paper engine.
@@ -66,3 +66,49 @@ LEAN should be initialized in a separate local Docker/CLI environment with appro
 **Before merging/deploying:** verify pinned submodule resolution, full existing CI, third-party licensing, data terms and dependency security; compare indicator outputs to a second independent reference; confirm no orders/spend and retain current paper risk limits. Mark each gate Passed/Blocked and record evidence. GitHub acceptance does not prove actual market connectivity or profitable results.
 
 **Chief handoff:** this PR and its linked review issue are meant for the next owner-directed Chief/Council assessment; they do not change the standing scheduled briefing's saved prompt.
+
+
+## November 14 validation and controlled deployment
+
+Alpaca's connected read-only tool supplied 1,157 IEX one-minute observations for the Nov 13, 2026 US trading session, requested between 09:30 and 16:00 ET:
+- SPY 390 bars, zero missing regular-session minutes.
+- QQQ 378 bars (including one at 16:00 ET), 13 missing regular-session minutes.
+- MSFT 389 bars, one missing minute.
+
+The source was the **ChatGPT Alpaca connector**, NOT a GitHub Actions key. The real data confirmed coverage and boundaries but did NOT run the repo's Python code against that connector result. Missing-minute or estimated-spread symbols are excluded from paper review, not treated as clean live quotes.
+
+### New connected code
+
+- trading/market_desk_pipeline.py: sanitizes only exact 16:00 ET boundary bars, rejects all other off-hours input, computes a source-based confluence report and applies per-symbol quality gates. Explicit --paper-replay uses the existing paper engine only on complete 390-minute sessions. It makes no orders.
+- trading/market_feed.py: its existing Alpaca and Yahoo adapters now filter to minute bars strictly between 09:30 and 16:00 ET. The new hosted research path does **not** authorize Yahoo fallback.
+- trading/openbb_history.py: optional OpenBB V5 Cboe historical endpoint, explicitly invoked and isolated. It does not install OpenBB or use keys by itself.
+- scripts/run_market_desk_report.py: hosted status checks output only ticker, provider, coverage, missing minutes and gate status. No raw OHLCV, private balances, customer data, credentials or trade signals go to the public Actions log.
+- .github/workflows/market-desk-research.yml: read-only GitHub Actions after-close weekdays at 22:15 UTC (14:15 PST or 15:15 PDT); manual dispatch too. Data source is Alpaca IEX only, requires GitHub secrets, and is intentionally skipped with no credential.
+- .github/workflows/market-desk-readonly.yml: CI covers data gating, OpenBB V5 API contract, time-boundary handling, existing paper risk checks, missing credentials and no-order static audit.
+
+### Integration boundaries
+
+1. Existing trading/market_feed.py is the primary repo data reader. ChatGPT's Alpaca connector cannot automatically share its authorization with GitHub Actions.
+2. Indicators are historical/contextual; the approximate POC is not a true volume-at-price level; estimated spreads and missing observations invalidate execution-quality evidence.
+3. HKUDS/Vibe-Trading remains a sandbox-only research hypothesis generator, without broker credentials or paid-agent activation.
+4. QuantConnect/Lean is a pinned source reference. A proper independently reproduced LEAN run requires a compatible QuantConnect tier, Docker and market data. No purchase or backtest claim is authorized by this code.
+5. FinceptTerminal stays reference-only pending AGPL/commercial rights review.
+6. Existing paper policies/risk limits remain unchanged. Only a separately requested, explicit paper-replay can simulate paper events.
+7. Chief of Staff and Muse should consume this dated QC report, not infer a real profitable strategy, live signal, delivery or authorization to spend.
+
+### Workflow validation and first use
+
+From the repository root on Python 3.12:
+
+~~~sh
+python -m unittest tests.test_confluence_report tests.test_openbb_history tests.test_market_desk_pipeline tests.test_market_feed_boundaries tests.test_daytrade_engine tests.test_paper_trading_desk -v
+python -m trading.market_desk_pipeline /private/snapshot.json --historical
+# Optional and illustrative only after full data validation:
+python -m trading.market_desk_pipeline /private/snapshot.json --historical --paper-replay
+~~~
+
+Hosted workflow: https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/workflows/market-desk-research.yml
+
+GitHub Secrets required separately: APCA_API_KEY_ID and APCA_API_SECRET_KEY. If missing, the workflow must emit SKIPPED_NO_ALPACA_DATA_CREDENTIALS and not pretend it fetched data. Never paste tokens into GitHub source, comments or chat. A working ChatGPT Alpaca connector is not proof those secrets exist in GitHub.
+
+Do not treat passing synthetic CI as proof of production data ingestion, QuantConnect LEAN backtest, Fincept runtime or Vibe-Trading agent deployment. Verify each transition independently before claiming it.
