@@ -1,13 +1,19 @@
-name: Market Desk Read-Only Tests
+name: Market Desk — Code, Integration and Paper Safety CI
 
 on:
   pull_request:
     paths:
       - '.github/workflows/market-desk-readonly.yml'
+      - '.github/workflows/market-desk-research.yml'
       - 'trading/confluence_report.py'
       - 'trading/openbb_history.py'
+      - 'trading/market_desk_pipeline.py'
+      - 'trading/market_feed.py'
+      - 'scripts/run_market_desk_report.py'
       - 'tests/test_confluence_report.py'
       - 'tests/test_openbb_history.py'
+      - 'tests/test_market_desk_pipeline.py'
+      - 'tests/test_market_feed_boundaries.py'
   workflow_dispatch:
 
 permissions:
@@ -16,17 +22,45 @@ permissions:
 jobs:
   research-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 7
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: false
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
-      - name: Compile and run 10 no-network research tests
+          python-version: '3.12'
+      - name: Compile market desk modules
         run: |
-          python -m compileall -q trading/confluence_report.py trading/openbb_history.py tests/test_confluence_report.py tests/test_openbb_history.py
-          python -m unittest discover -s tests -p 'test_confluence_report.py' -v
-          python -m unittest discover -s tests -p 'test_openbb_history.py' -v
+          python -m compileall -q trading/confluence_report.py trading/openbb_history.py trading/market_desk_pipeline.py trading/market_feed.py scripts/run_market_desk_report.py
+      - name: Isolated confluence regression
+        run: python -m unittest tests.test_confluence_report -v
+      - name: OpenBB V5 adapter regression
+        run: python -m unittest tests.test_openbb_history -v
+      - name: Integration, boundary and fail-closed regression
+        run: python -m unittest tests.test_market_desk_pipeline tests.test_market_feed_boundaries -v
+      - name: Existing paper execution and risk regressions
+        run: python -m unittest tests.test_daytrade_engine tests.test_paper_trading_desk -v
+      - name: Provider credentials absent means no unattended data fetch
+        env:
+          APCA_API_KEY_ID: ''
+          APCA_API_SECRET_KEY: ''
+        run: python -m scripts.run_market_desk_report
+      - name: Assert market desk has no live-order endpoints
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in ('trading/daytrade_policy.json', 'trading/risk_policy.json'):
+              p=json.loads(Path(path).read_text())
+              assert p['mode']=='paper_only'
+              assert p['live_execution_enabled'] is False
+              assert not p['live_broker_adapters']
+          sources=[Path(path).read_text().lower() for path in (
+              'trading/confluence_report.py','trading/market_desk_pipeline.py',
+              'trading/openbb_history.py','scripts/run_market_desk_report.py')]
+          forbidden=('submit_order(', '.submit_order(', 'tradingclient(', 'paper-api.alpaca.markets')
+          assert not any(f in text for text in sources for f in forbidden)
+          print('read-only gate verified')
+          PY
