@@ -1,0 +1,50 @@
+name: Deploy Personal Text Assistant (manual, isolated)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Enter deploy-isolated-worker (source defaults disabled)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: personal-text-assistant-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && inputs.confirmation == 'deploy-isolated-worker'
+    environment: personal-text-assistant
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: services/personal-text-assistant
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Verify Cloudflare deployment configuration
+        shell: bash
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Cloudflare deployment token missing"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Cloudflare account ID missing"; exit 1; }
+      - name: Test and dry-run independent Worker
+        run: |
+          npm install --no-audit --no-fund --ignore-scripts
+          npm run check
+          npm test
+          npm run dry-run
+      - name: Deploy independent Worker (no live replies by default)
+        run: npm run deploy
