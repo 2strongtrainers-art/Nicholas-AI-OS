@@ -25,3 +25,9 @@
 [submodule "third_party/ai-tools-2026-10-15/sources/hyperframes"]
 	path = third_party/ai-tools-2026-10-15/sources/hyperframes
 	url = https://github.com/heygen-com/hyperframes.git
+[submodule "third_party/ai-tools-2026-10-15/sources/OpenBB"]
+	path = third_party/ai-tools-2026-10-15/sources/OpenBB
+	url = https://github.com/openbq-org/OpenBB.git
+[submodule "third_party/ai-tools-2026-10-15/sources/Lean"]
+	path = third_party/ai-tools-2026-10-15/sources/Lean
+	url = https://github.com/QuantConnect/Lean.git
