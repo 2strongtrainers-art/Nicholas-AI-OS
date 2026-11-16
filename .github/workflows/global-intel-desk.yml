@@ -15,8 +15,6 @@ on:
       - "scripts/intel_desk_ingest.py"
       - "tests/test_intel_desk.py"
       - ".github/workflows/global-intel-desk.yml"
-  schedule:
-    - cron: "19 */3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -54,7 +52,7 @@ jobs:
 
   ingest-and-deploy:
     needs: offline-tests
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     environment:
