@@ -1,0 +1,51 @@
+{
+  "name": "TriValley Mesh | Sanitized Error Receiver (staging)",
+  "active": false,
+  "tags": [],
+  "nodes": [
+    {
+      "id": "7194c5a0-3711-43d7-ace4-281520000001",
+      "name": "Capture automatic workflow error",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        190,
+        280
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "7194c5a0-3711-43d7-ace4-281520000002",
+      "name": "Classify without secrets",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        280
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const x=$input.first()?.json||{},e=x.execution||{},w=x.workflow||{};\nconst message=String(e.error?.message||'').slice(0,2000);\nlet reason='EXECUTION_FAILED';\nif(/(?:\\b401\\b|unauthori[sz]ed|invalid token|authentication failed)/i.test(message))reason='AUTH_FAILED';\nelse if(/(?:\\b403\\b|\\b1010\\b|forbidden|access denied)/i.test(message))reason='ACCESS_DENIED';\nelse if(/(?:\\b429\\b|rate limit)/i.test(message))reason='RATE_LIMITED';\nelse if(/(?:\\b50[234]\\b|timeout|timed out|econnreset|network error)/i.test(message))reason='TRANSIENT_PROVIDER_FAILURE';\nconst workflow_id=/^[\\w-]{1,100}$/.test(String(w.id||''))?String(w.id):'';\nconst execution_id=/^\\d{1,18}$/.test(String(e.id||''))?String(e.id):'';\nreturn [{json:{kind:'n8n_error',status:'FAILED',workflow_id,execution_id,reason_code:reason,\n  retry_policy:['RATE_LIMITED','TRANSIENT_PROVIDER_FAILURE'].includes(reason)?'REVIEW_BOUNDED_RETRY':'MANUAL_REVIEW',\n  evidence_level:'sanitized_error_trigger',outbound_send_enabled:false}}];"
+      }
+    }
+  ],
+  "connections": {
+    "Capture automatic workflow error": {
+      "main": [
+        [
+          {
+            "node": "Classify without secrets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "none",
+    "saveManualExecutions": false
+  }
+}

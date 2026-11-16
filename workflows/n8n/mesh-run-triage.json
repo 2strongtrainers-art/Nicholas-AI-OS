@@ -1,0 +1,106 @@
+{
+  "name": "TriValley Mesh | GitHub Run Triage (manual pilot)",
+  "active": false,
+  "tags": [],
+  "nodes": [
+    {
+      "id": "7194c5a0-3711-43d7-ace4-281510000001",
+      "name": "Owner runs metadata check",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        300
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "7194c5a0-3711-43d7-ace4-281510000002",
+      "name": "Read bounded GitHub runs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        425,
+        300
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/2strongtrainers-art/Nicholas-AI-OS/actions/runs",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "branch",
+              "value": "main"
+            },
+            {
+              "name": "per_page",
+              "value": "50"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2026-03-10"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        }
+      }
+    },
+    {
+      "id": "7194c5a0-3711-43d7-ace4-281510000003",
+      "name": "Classify without promotion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const source=$input.first()?.json;\nif(!source||!Array.isArray(source.workflow_runs))throw Error('MESH_INVALID_RESPONSE');\nconst repo='2strongtrainers-art/Nicholas-AI-OS';\nconst allowed={'market-desk-research.yml':'market','render-trivalley-reel.yml':'video','deploy-argus-private-forensics.yml':'argus'};\nconst terminal=new Set(['success','failure','skipped','cancelled','timed_out','action_required','neutral','stale','startup_failure']);\nconst results=new Map();\nfor(const r of source.workflow_runs.slice(0,50)){\n  if(!r||r.head_branch!=='main'||(r.repository?.full_name&&r.repository.full_name!==repo))continue;\n  if(!['workflow_dispatch','schedule'].includes(r.event))continue;\n  if(typeof r.path!=='string'||!r.path.startsWith('.github/workflows/'))continue;\n  const file=r.path.slice('.github/workflows/'.length);\n  if(!Object.prototype.hasOwnProperty.call(allowed,file))continue;\n  if(!Number.isSafeInteger(r.id)||r.id<1||!Number.isSafeInteger(r.run_attempt)||r.run_attempt<1)continue;\n  if(!['completed','queued','in_progress','waiting','pending','requested'].includes(r.status))continue;\n  if(r.status==='completed'&&!terminal.has(r.conclusion))continue;\n  const state=r.status!=='completed'?'PENDING':r.conclusion==='success'?'UNVERIFIED':r.conclusion==='skipped'?'SKIPPED':\n    ['cancelled','action_required','neutral','stale'].includes(r.conclusion)?'BLOCKED':'FAILED';\n  const key=repo+':'+file+':'+r.id+':'+r.run_attempt;\n  results.set(key,{json:{\n    receipt_key:key,kind:allowed[file],status:state,\n    evidence_level:'github_run_metadata_only',\n    reason_code:state==='UNVERIFIED'?'ARTIFACT_QA_REQUIRED':state==='SKIPPED'?'INNER_JOB_SKIPPED':state==='PENDING'?'NOT_COMPLETED':state==='FAILED'?'JOB_FAILED':'JOB_BLOCKED',\n    run_url:'https://github.com/'+repo+'/actions/runs/'+r.id+'/attempts/'+r.run_attempt,\n    run_id:String(r.id),run_attempt:String(r.run_attempt),\n    observed_at:/^\\d{4}-\\d{2}-\\d{2}T/.test(String(r.updated_at||''))?r.updated_at:''\n  }});\n}\nreturn [...results.values()].sort((a,b)=>Number(b.json.run_id)-Number(a.json.run_id)||Number(b.json.run_attempt)-Number(a.json.run_attempt));"
+      }
+    }
+  ],
+  "connections": {
+    "Owner runs metadata check": {
+      "main": [
+        [
+          {
+            "node": "Read bounded GitHub runs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read bounded GitHub runs": {
+      "main": [
+        [
+          {
+            "node": "Classify without promotion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "none",
+    "saveManualExecutions": false,
+    "timezone": "America/Los_Angeles"
+  }
+}

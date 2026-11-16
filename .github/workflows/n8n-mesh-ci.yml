@@ -1,0 +1,30 @@
+name: n8n mesh — offline CI
+
+on:
+  pull_request:
+    paths:
+      - "workflows/n8n/mesh-*.json"
+      - "tests/test_n8n_mesh.mjs"
+      - ".github/workflows/n8n-mesh-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Test pure n8n Code nodes with synthetic data
+        run: node --test tests/test_n8n_mesh.mjs
+      - name: Deployment boundary
+        run: echo "CI validates inactive templates; no n8n import, provider call, outbound contact, secrets or production deployment."
+
