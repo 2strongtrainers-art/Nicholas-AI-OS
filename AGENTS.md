@@ -58,3 +58,7 @@ Free/ad-supported services may have different data-use terms. Do not send sensit
 
 ## Definition of done
 A change is not complete until it is testable, cost policy is respected, provider terms are respected, side effects are gated, source-of-truth ownership is clear, and important outputs can be audited.
+
+## Cross-session continuity and read-first routing
+
+For tasks involving this AI OS, read [docs/AI_SESSION_BOOTSTRAP.md](docs/AI_SESSION_BOOTSTRAP.md) after these rules and before inventing any new automation or agent. It points to the existing canonical router, repository source-of-truth, issue-based evidence, and owner-private Library operating register. Verify current provider permissions and execution receipts each session; do not mistake a saved context document for live deployment status.
