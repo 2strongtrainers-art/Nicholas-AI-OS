@@ -31,7 +31,6 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ !inputs.verify_existing && secrets.CLOUDFLARE_API_TOKEN || '' }}
       ARGUS_FORENSICS_API_KEY: ${{ secrets.ARGUS_FORENSICS_API_KEY }}
       ARGUS_FORENSICS_URL: ${{ vars.ARGUS_FORENSICS_URL || (inputs.verify_existing && 'https://argus-prime-forensics.2strongtrainers.workers.dev') || '' }}
-      ARGUS_RECEIPT_PATH: ${{ runner.temp }}/argus-verification/receipt.json
     steps:
       - uses: actions/checkout@v5
         with:
@@ -88,6 +87,7 @@ jobs:
       - name: Verify live authentication and synthetic evidence
         if: ${{ always() }}
         env:
+          ARGUS_RECEIPT_PATH: ${{ runner.temp }}/argus-verification/receipt.json
           ARGUS_PREREQUISITES_PASSED: ${{ job.status == 'success' }}
         run: python services/osint-forensics/verify_cloudflare.py
       - name: Preserve the sanitized synthetic verification receipt
