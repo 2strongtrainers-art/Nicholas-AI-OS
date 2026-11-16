@@ -48,7 +48,7 @@ class NormalizationTests(unittest.TestCase):
         def a(topic, domain, title, n):
             return {"kind": "report", "source": "GDELT", "topic": topic,
                     "publisher": domain, "title": title, "mentions": s.headline_mentions(title),
-                    "url": "https://" + domain + "/" + str(n)}
+                    "url": "https://" + domain + "/" + str(n), "observed_at": s.now_iso()}
         items = [a("Energy", "a.example", "Iran oil tanker incident", 1),
                  a("Geopolitics", "b.example", "Iran sanctions announced", 2),
                  a("Energy", "a.example", "Unrelated hurricane", 3)]
@@ -60,9 +60,32 @@ class NormalizationTests(unittest.TestCase):
 
     def test_no_connection_from_one_publisher(self):
         a = {"kind": "report", "topic": "Energy", "publisher": "same.example",
-             "mentions": ["Taiwan"], "title": "Taiwan A", "url": "https://same.example/a"}
+             "mentions": ["Taiwan"], "title": "Taiwan A", "url": "https://same.example/a", "observed_at": s.now_iso()}
         b = dict(a, topic="Geopolitics", title="Taiwan B", url="https://same.example/b")
         self.assertEqual(s.connections([a, b]), [])
+
+    def test_official_rss_preserves_identity_and_does_not_geolocate(self):
+        xml = """<item><title>Iran sanctions and oil market alert</title>
+            <link>https://www.state.gov/synthetic-test-article</link>
+            <pubDate>Mon, 16 Nov 2026 21:00:00 GMT</pubDate></item>"""
+        item = s.ET.fromstring(xml)
+        data = s.normalize_rss_item(item, "State Department", "Geopolitics")
+        self.assertEqual(data["source"], "State Department")
+        self.assertEqual(data["trust"], "Official agency publication")
+        self.assertEqual(data["position"], None)
+        self.assertEqual(data["observed_at"], "2026-11-16T21:00:00Z")
+        self.assertIn("Iran", data["mentions"])
+
+    def test_rss_rejects_injected_non_https_link(self):
+        xml = "<item><title>Test</title><link>javascript:alert(1)</link></item>"
+        self.assertIsNone(s.normalize_rss_item(s.ET.fromstring(xml), "CISA", "Security"))
+
+    def test_old_reports_are_not_connection_candidates(self):
+        x = {"kind":"report", "topic":"Geopolitics", "publisher":"a.gov",
+             "title":"Iran sanctions", "mentions":["Iran"], "url":"https://a.gov/a",
+             "observed_at":"2026-01-01T00:00:00Z"}
+        y = dict(x, topic="Economy", publisher="b.gov", url="https://b.gov/b")
+        self.assertEqual(s.connections([x,y]), [])
 
     def test_gdelt_date_fail_closed(self):
         self.assertIsNone(s.parse_gdelt_date("yesterday"))
