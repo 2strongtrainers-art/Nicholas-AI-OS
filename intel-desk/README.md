@@ -1,40 +1,32 @@
 # TriValley Global Intelligence Desk
 
-A separate, read-only intelligence dashboard for **personal research** in Nicholas-AI-OS. It uses source-indexed public metadata only. No paid API keys, brokerage credentials, image uploads, generative models or unrestricted scraping are required.
+Read-only public intelligence research app in Nicholas-AI-OS, with zero added subscriptions or paid APIs. Actual live status must be supported by a successful GitHub Actions deployment receipt.
 
-## Data sources
-- **GDELT DOC 2.0:** public media reports from four themed searches (Security, Geopolitics, Energy, Economy). An indexed headline is **not** a verified incident. Articles are linked to their original publishers; no article bodies are copied.
-- **USGS M4.5+ (past seven days):** earthquake catalog points, attributed to USGS. Parameters may be revised.
-- **Federal Reserve, Department of State, CISA, and EIA official RSS:** direct agency announcements classified under economy, geopolitics, security and energy respectively. Government announcements are primary-source statements; they are not independent factual verification.
-- **NASA EONET v3:** open natural-event GeoJSON points. Some points are event reference markers, not impact footprints. Polygons are excluded, never guessed into a point.
-- **World Monitor:** external reference dashboard. Source at https://github.com/koala73/worldmonitor (AGPL-3.0). No hosted-service API or code is copied into this original app.
-- **Liveuamap, ACLED:** external conflict research links. No unauthorized extraction, API use or redistribution.
-- **Bellingcat Online Investigation Toolkit:** research-method reference; existing Bellingcat Auto Archiver remains separately pinned in Nicholas-AI-OS. Nothing executes or crawls automatically.
+## Public data integrations
+- GDELT DOC 2.0: four 48-hour topical indexed-news searches. This source returned HTTP 429 on Nov 16, 2026; the app shows errors rather than false freshness.
+- GDELT 2.0 bulk: latest public 15-minute CAMEO-coded event file from https://data.gdeltproject.org/gdeltv2/lastupdate.txt . Coded incidents are unverified, not an observation of a confirmed attack, and are never mapped by inferred coordinates.
+- Federal Reserve, State Department, CISA, EIA: official announcements from public RSS feeds. If unavailable, the source-health panel says so.
+- USGS and NASA EONET: agency-curated earthquake and natural-event points with source URLs. Event point does not mean impact footprint.
+- World Monitor, Liveuamap, ACLED and Bellingcat: external investigative reference links, not scraped or redistributed content. World Monitor is AGPL-3.0; no World Monitor hosted API is claimed.
 
-## Analyst logic
-Connections are flagged only when a named place appears in headlines from at least two publisher domains and at least two topic streams during the 48h GDELT search. This is a **candidate to investigate**, not proof of a shared operation, economic causal mechanism, verified event location, coordinated attack or independent evidentiary corroboration.
+## Analyst method
+Cross-topic headline overlap is marked CANDIDATE_ONLY and only flagged if at least two publisher domains and two topics mention the same location in a 48-hour window. Correlation does not prove coordination or causation. The app never executes brokerage trades, uploads client evidence, makes paid API calls, or asserts classified access.
 
-Only NASA/USGS agency-supplied coordinates receive map pins. No financial trades, alert-triggered decisions, client outreach, AI charges or paid service calls are performed.
+## Free hosting and one-time owner activation
+Primary: GitHub Pages for this PUBLIC repository. Source code is committed and tested; GitHub Pages was NOT enabled in the first deployment attempt.
 
-## Hosting and ingest
-- Primary: Cloudflare Workers **Static Assets**, no Worker script, on the existing Cloudflare account. Cloudflare documents static asset requests as free and unlimited; no new subscription, AI credit or database required. Dedicated Worker name: trivalley-global-intel. Existing secrets are used only inside GitHub Actions and never published.
-- Expected address after successful hosted deployment and live verification: https://trivalley-global-intel.2strongtrainers.workers.dev/
-- The scheduled pipeline is .github/workflows/global-intel-cloudflare.yml, refreshing every 3 hours; GitHub Actions schedules may be delayed. An independent authenticated n8n Cloud connection is still required for hosted orchestration.
-- GitHub Pages is an **optional disabled fallback**: .github/workflows/global-intel-desk.yml runs offline tests automatically but publishes only via a separately requested manual dispatch after Pages is enabled in GitHub Settings. A missing Pages site is not a failed Cloudflare deployment.
-- Standard library Python script: scripts/intel_desk_ingest.py.
-- Offline acceptance: python -m unittest discover -s tests -p 'test_intel_desk.py' and node --check intel-desk/app.js.
-- At scheduled or manual run, fetch public metadata, refuse to manufacture a fresh empty snapshot when all endpoints fail, and publish static assets to the dedicated Cloudflare host.
+Owner: open https://github.com/2strongtrainers-art/Nicholas-AI-OS/settings/pages and choose Build and deployment > Source > GitHub Actions. No token or payment information needs to be shared.
 
-## n8n and Chief handoff
-workflows/n8n/global-intel-readonly-handoff.json is an **inactive manual import**. It retrieves only the deployed JSON snapshot, checks freshness/schema/source coverage, and returns one metadata-only review packet. It does not modify a current n8n Cloud workflow or claim Chief acknowledgment. Import into the approved n8n project only after inspecting active workflows, permissions, quota and dedupe under issue #170. Do not create a competing production polling schedule. Send approved evidence to the Chief only through the existing private reviewed handoff.
+Scheduled workflow: .github/workflows/global-intel-desk.yml . Every three hours, tests and fresh data ingestion run and a source-evidence JSON artifact is saved for 7 days. If Pages is not enabled in GitHub Actions mode, publication is explicitly skipped without a failing scheduled job. Once the owner enables Pages, the same job publishes automatically on the next cycle; a manual workflow dispatch can accelerate verification. GitHub Actions schedules may be delayed.
 
-## Acceptance criteria
-1. Python offline tests and JavaScript syntax check pass.
-2. Scheduled ingestion logs source health and never embeds tokens or private data.
-3. The published artifact has current UTC generated_at, real source records, and visible coverage status.
-4. Page is reachable without login, and interactive filters and map work.
-5. At least two source classes independently confirm live ingestion, otherwise classify coverage degraded.
-6. A n8n hosted execution ID and Chief acknowledgment are collected before claiming fully meshed automation.
-7. Rollback: disable the new schedule or revert this feature; existing ARGUS, Hermes, Market Desk, coaching and site remain untouched.
+EXPECTED public URL, not operational until independently verified: https://2strongtrainers-art.github.io/Nicholas-AI-OS/
 
-Data docs: https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/ ; https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php ; https://eonet.gsfc.nasa.gov/docs/v3 . Map tiles © OpenStreetMap contributors. Map client Leaflet 1.9.4 (BSD-2-Clause) delivered by CDN; if unavailable, the event wire remains usable.
+Cloudflare alternative: .github/workflows/global-intel-cloudflare.yml is MANUAL ONLY. The existing scoped Cloudflare token was available but refused permission to create the new separate Worker. The app was not published there. Keep scoped tokens separate; do not broaden ARGUS permissions or paste credentials into chat.
+
+## Validation
+- Python: python -m unittest discover -s tests -p 'test_intel_desk.py'
+- JavaScript: node --check intel-desk/app.js
+- Hosting acceptance: observed success from Pages deployment, current normalized JSON, nonempty real events, feed status reported honestly, and browser verification.
+- n8n: workflows/n8n/global-intel-readonly-handoff.json remains INACTIVE, a manual import only, and needs an authenticated hosted execution receipt; Chief has NOT acknowledged an n8n run. Canonical staff review issue: https://github.com/2strongtrainers-art/Nicholas-AI-OS/issues/170 .
+
+Data documentation: https://www.gdeltproject.org/ ; https://www.federalreserve.gov/feeds/feeds.htm ; https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php ; https://eonet.gsfc.nasa.gov/docs/v3 . Map tiles © OpenStreetMap contributors; Leaflet is BSD-2-Clause.
