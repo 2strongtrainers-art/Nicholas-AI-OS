@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d14">
+  <meta name="description" content="TriValley Global Intelligence Desk — open-source evidence monitor. Read-only, public-data, no paid API keys.">
+  <title>Global Intelligence Desk | TriValley</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand" aria-label="TriValley Intelligence">
+        <div class="brand-mark" aria-hidden="true"><span>△</span></div>
+        <div><div class="brand-name">TRIVALLEY<span> / </span>INTELLIGENCE</div><div class="brand-sub">GLOBAL OPEN-SOURCE ANALYSIS</div></div>
+      </div>
+      <div class="header-right">
+        <span class="header-pill" id="live-status"><span class="pulse"></span>CHECKING FEEDS</span>
+        <span class="header-date" id="as-of">AS OF —</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div>
+          <p class="eyebrow">PUBLIC INTELLIGENCE / READ-ONLY / ZERO API KEYS</p>
+          <h1>Connect the signals.<br><em>Question the conclusions.</em></h1>
+          <p class="intro">Monitor geopolitics, cyber, energy, the economy and natural hazards from attributable public sources. Links are leads, not evidence of coordination.</p>
+        </div>
+        <div class="hero-aside"><span class="mini-label">ANALYST PROTOCOL</span><strong>OBSERVE → CORRELATE → VERIFY</strong><p>Separate reporting from confirmed measurements. Examine independent evidence before assigning causes.</p></div>
+      </div>
+
+      <section class="metrics" aria-label="Snapshot overview">
+        <div class="metric"><div class="metric-label">INDEXED SIGNALS</div><div class="metric-value" id="metric-events">—</div><div class="metric-detail">Current snapshot</div></div>
+        <div class="metric"><div class="metric-label">GEOREFERENCED EVENTS</div><div class="metric-value" id="metric-mapped">—</div><div class="metric-detail">Agency coordinates only</div></div>
+        <div class="metric"><div class="metric-label">CONNECTION CANDIDATES</div><div class="metric-value" id="metric-links">—</div><div class="metric-detail">Not causation findings</div></div>
+        <div class="metric"><div class="metric-label">HEALTHY FEEDS</div><div class="metric-value" id="metric-health">—</div><div class="metric-detail">Verified HTTP ingestion</div></div>
+      </section>
+
+      <div id="warning" role="status" class="warning" hidden></div>
+      <section class="workspace">
+        <div class="map-card surface">
+          <div class="section-bar"><div><div class="section-kicker">GLOBAL SITUATIONAL AWARENESS</div><h2>Geolocated event map</h2></div><div class="legend"><span><i class="dot amber"></i>Earthquake</span><span><i class="dot teal"></i>NASA event</span></div></div>
+          <div id="map" role="region" aria-label="Map with agency-supplied event locations"><div class="map-loading">Loading geographic layer…</div></div>
+          <p class="map-note">Pins represent agency-reported locations, not geolocated news headlines. Some locations represent an event reference point rather than its entire impact area. Map tiles © OpenStreetMap contributors.</p>
+        </div>
+        <div class="feed-card surface">
+          <div class="section-bar"><div><div class="section-kicker">PUBLIC SIGNAL STREAM</div><h2>Event wire</h2></div><span id="feed-count" class="feed-count">—</span></div>
+          <div class="controls"><input id="search" type="search" placeholder="Search headlines, places, sources…" aria-label="Search events"><select id="window" aria-label="Time window"><option value="2">48 hours</option><option value="7" selected>7 days</option></select></div>
+          <div class="filters" role="group" aria-label="Filter events by category">
+            <button class="filter active" data-filter="All" aria-pressed="true">All</button>
+            <button class="filter" data-filter="Geopolitics" aria-pressed="false">Geopolitics</button>
+            <button class="filter" data-filter="Security" aria-pressed="false">Cyber / security</button>
+            <button class="filter" data-filter="Energy" aria-pressed="false">Energy</button>
+            <button class="filter" data-filter="Economy" aria-pressed="false">Economy</button>
+            <button class="filter" data-filter="Hazards" aria-pressed="false">Hazards</button>
+          </div>
+          <div class="feed-list" id="feed-list" aria-live="polite"><div class="placeholder">Loading verifiable source metadata…</div></div>
+        </div>
+      </section>
+      <section class="lower">
+        <div class="surface connections-card">
+          <div class="section-bar"><div><div class="section-kicker">PATTERN DISCOVERY</div><h2>Connection candidates</h2></div><span class="subtle-pill">INVESTIGATE · NOT CONFIRMED</span></div>
+          <p class="section-desc">A candidate requires headlines mentioning the same location across different coverage categories and publishers within the same 48-hour index. It does not establish a common actor, objective, or causal mechanism.</p>
+          <div id="connections-list" class="connections-list"><div class="placeholder">Analyzing headline overlap…</div></div>
+        </div>
+        <div class="surface sources-card">
+          <div class="section-bar"><div><div class="section-kicker">EVIDENCE CHAIN</div><h2>Sources and research tools</h2></div></div>
+          <div id="source-health" class="source-health"></div>
+          <div class="source-divider"></div>
+          <p class="mini-label">INVESTIGATION WORKBENCH · EXTERNAL</p>
+          <div class="external-sources">
+            <a href="https://www.worldmonitor.app/dashboard" target="_blank" rel="noopener noreferrer">World Monitor <small>Multisource situational context ↗</small></a>
+            <a href="https://liveuamap.com/" target="_blank" rel="noopener noreferrer">Liveuamap <small>Conflict mapping ↗</small></a>
+            <a href="https://acleddata.com/" target="_blank" rel="noopener noreferrer">ACLED <small>Structured political violence research ↗</small></a>
+            <a href="https://bellingcat.gitbook.io/toolkit" target="_blank" rel="noopener noreferrer">Bellingcat Toolkit <small>Verification methods ↗</small></a>
+          </div>
+          <p class="footnote">External tools are linked, not scraped or represented as connected feeds. Their data-access rules remain separate.</p>
+        </div>
+      </section>
+      <section class="method">
+        <div><p class="mini-label">METHODOLOGY</p><strong>Evidence before narrative.</strong><p>GDELT indexes reporting, not confirmed incidents. USGS and NASA provide curated physical-event metadata, subject to revision. The dashboard does not identify attackers, verify claims in linked articles, produce financial advice or place trades.</p></div>
+        <div class="method-links"><a href="./README.md" target="_blank" rel="noopener noreferrer">Documentation</a><a href="./data/events.json" target="_blank" rel="noopener noreferrer">Raw snapshot</a><a href="https://github.com/2strongtrainers-art/Nicholas-AI-OS" target="_blank" rel="noopener noreferrer">Source code</a></div>
+      </section>
+    </main>
+    <footer>TRIVALLEY INTELLIGENCE DESK <span>·</span> PUBLIC SOURCE METADATA <span>·</span> NO TRADE EXECUTION <span>·</span> NO PAID API REQUIREMENT</footer>
+  </div>
+</body>
+</html>
