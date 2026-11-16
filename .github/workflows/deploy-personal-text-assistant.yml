@@ -26,6 +26,7 @@ jobs:
         working-directory: services/personal-text-assistant
     env:
       WRANGLER_SEND_METRICS: 'false'
+      WRANGLER_WRITE_LOGS: 'false'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -38,9 +39,14 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
+          CONTROL_TOKEN: ${{ secrets.CONTROL_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CONTACTS_JSON: ${{ secrets.CONTACTS_JSON }}
         run: |
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Cloudflare deployment token missing"; exit 1; }
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Cloudflare account ID missing"; exit 1; }
+          node scripts/runtime-secrets.mjs --check
       - name: Test and dry-run independent Worker
         run: |
           npm ci --no-audit --no-fund --ignore-scripts
@@ -52,3 +58,16 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         run: npm run deploy
+      - name: Install runtime secrets on the deployed independent Worker
+        # Only reached after successful deployment. JSON goes to pinned Wrangler via stdin.
+        # Requires a token scoped to this existing Worker's immutable ID, with no creation permission.
+        # Secret updates can create/deploy configuration versions; no activation flag is changed.
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLIENT_TOKEN: ${{ secrets.CLIENT_TOKEN }}
+          CONTROL_TOKEN: ${{ secrets.CONTROL_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CONTACTS_JSON: ${{ secrets.CONTACTS_JSON }}
+        run: node scripts/runtime-secrets.mjs --install
+
