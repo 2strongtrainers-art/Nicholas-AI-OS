@@ -15,6 +15,8 @@ on:
       - "scripts/intel_desk_ingest.py"
       - "tests/test_intel_desk.py"
       - ".github/workflows/global-intel-desk.yml"
+  schedule:
+    - cron: "19 */3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,7 +25,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: global-intel-pages-deployment
+  group: global-intel-evidence-and-pages
   cancel-in-progress: false
 
 jobs:
@@ -41,20 +43,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Validate normalized source handling and analyst safeguards
+      - name: Validate evidence normalization and verification safeguards
         run: python3 -m unittest discover -s tests -p 'test_intel_desk.py' -v
-      - name: Validate browser JavaScript and JSON bootstrap
+      - name: Validate browser source and JSON bootstrap
         run: |
           node --check intel-desk/app.js
           python3 -m json.tool intel-desk/data/events.json >/dev/null
-      - name: Explicit cost and data boundary
-        run: echo "No API keys; no paid AI; no brokerage orders; no client data; no third-party site scraping."
 
-  ingest-and-deploy:
+  refresh-and-publish-if-enabled:
     needs: offline-tests
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     environment:
       name: github-pages
     steps:
@@ -65,18 +65,52 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Refresh permitted public source metadata
+      - name: Refresh permitted public sources
         run: python3 scripts/intel_desk_ingest.py --output intel-desk/data/events.json
-      - name: Check snapshot integrity and freshness
+      - name: Verify normalized snapshot and publish attribution
         run: |
           python3 -m json.tool intel-desk/data/events.json >/dev/null
           sha256sum intel-desk/data/events.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open("intel-desk/data/events.json",encoding="utf-8"))
+          assert p["schema"]=="trivalley.global-intel.v1"
+          assert len(p["events"])>0
+          print("SNAPSHOT",p["status"],"EVENTS",len(p["events"]),"CANDIDATES",len(p["connections"]))
+          for s in p["source_health"]:
+              print("SOURCE",s["name"],s["state"],s["count"],s.get("error",""))
+          PY
+      - name: Preserve snapshot as owner-downloadable evidence even if Pages is disabled
+        uses: actions/upload-artifact@v4
+        with:
+          name: intel-desk-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: intel-desk/data/events.json
+          retention-days: 7
+          if-no-files-found: error
+      - name: Detect whether GitHub Pages source is enabled
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.build_type' > "$RUNNER_TEMP/pages-mode" 2>/dev/null &&
+             grep -Fxq 'workflow' "$RUNNER_TEMP/pages-mode"; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "Pages source is GitHub Actions" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Pages not enabled in GitHub Actions mode; snapshot archived but website not published." >> "$GITHUB_STEP_SUMMARY"
+            echo "Owner action: repository Settings > Pages > Source > GitHub Actions." >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Configure GitHub Pages
+        if: steps.pages.outputs.enabled == 'true'
         uses: actions/configure-pages@v5
-      - name: Upload validated static intelligence dashboard
+      - name: Upload GitHub Pages static dashboard
+        if: steps.pages.outputs.enabled == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: intel-desk
-      - name: Publish through repository Pages (no paid deployment)
-        id: deployment
+      - name: Publish independent dashboard to GitHub Pages
+        if: steps.pages.outputs.enabled == 'true'
         uses: actions/deploy-pages@v4
