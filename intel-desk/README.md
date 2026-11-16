@@ -13,9 +13,9 @@ Read-only public intelligence research app in Nicholas-AI-OS, with zero added su
 Cross-topic headline overlap is marked CANDIDATE_ONLY and only flagged if at least two publisher domains and two topics mention the same location in a 48-hour window. Correlation does not prove coordination or causation. The app never executes brokerage trades, uploads client evidence, makes paid API calls, or asserts classified access.
 
 ## Free hosting and one-time owner activation
-Primary: GitHub Pages for this PUBLIC repository. Source code is committed and tested; GitHub Pages was NOT enabled in the first deployment attempt.
+Primary: GitHub Pages for this PUBLIC repository. GitHub Pages was disabled during the first run but on November 16, 2026 the owner supplied screenshots showing "GitHub Pages source saved" and **Build and deployment > Source > GitHub Actions**. That is configuration evidence, not yet a deployment-success receipt.
 
-Owner: open https://github.com/2strongtrainers-art/Nicholas-AI-OS/settings/pages and choose Build and deployment > Source > GitHub Actions. No token or payment information needs to be shared.
+Owner-side setting has been saved. The application still requires a new successful GitHub Actions Pages publish and independent live HTTP verification; no new cost or token needs to be shared.
 
 Scheduled workflow: .github/workflows/global-intel-desk.yml . Every three hours, tests and fresh data ingestion run and a source-evidence JSON artifact is saved for 7 days. If Pages is not enabled in GitHub Actions mode, publication is explicitly skipped without a failing scheduled job. Once the owner enables Pages, the same job publishes automatically on the next cycle; a manual workflow dispatch can accelerate verification. GitHub Actions schedules may be delayed.
 
