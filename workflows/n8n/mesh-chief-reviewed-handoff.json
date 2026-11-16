@@ -1,0 +1,79 @@
+{
+  "name": "TriValley Mesh | One reviewed Chief handoff (manual staging)",
+  "active": false,
+  "nodes": [
+    {
+      "id": "c071a3e1-4a69-46ab-bcee-5cbb91000101",
+      "name": "Owner starts one reviewed handoff",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        120,
+        280
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "c071a3e1-4a69-46ab-bcee-5cbb91000102",
+      "name": "Reviewed evidence packets",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        380,
+        280
+      ],
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"schema\": \"trivalley-chief-review-batch-v1\",\n  \"batch_id\": \"REPLACE-WITH-REVIEW-ID\",\n  \"as_of\": \"2026-11-16T00:00:00Z\",\n  \"records\": []\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "c071a3e1-4a69-46ab-bcee-5cbb91000103",
+      "name": "Create one Chief snapshot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        280
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "function normalizeBatch(p){\n  const bad=()=>{throw Error(\"MESH_INVALID_REVIEW_PACKET\");};\n  const obj=v=>v!==null&&typeof v===\"object\"&&!Array.isArray(v);\n  const keys=(v,allowed)=>obj(v)&&Object.keys(v).every(k=>allowed.includes(k));\n  const stamp=v=>typeof v===\"string\"&&/^\\d{4}-\\d\\d-\\d\\dT/.test(v)&&/(Z|[+-]\\d\\d:\\d\\d)$/.test(v)&&Number.isFinite(Date.parse(v));\n  const number=v=>typeof v===\"string\"&&/^[1-9]\\d{0,15}$/.test(v);\n  const sha=v=>typeof v===\"string\"&&/^[0-9a-f]{64}$/.test(v);\n  const commit=v=>typeof v===\"string\"&&/^[0-9a-f]{40}$/.test(v);\n  const repo=\"2strongtrainers-art/Nicholas-AI-OS\";\n  const base=\"https://github.com/\"+repo;\n  if(!keys(p,[\"schema\",\"batch_id\",\"as_of\",\"records\"])||p.schema!==\"trivalley-chief-review-batch-v1\"||\n     typeof p.batch_id!==\"string\"||!/^[-A-Za-z0-9_]{1,52}$/.test(p.batch_id)||\n     !stamp(p.as_of)||!Array.isArray(p.records)||p.records.length<1||p.records.length>6)bad();\n  const asOf=Date.parse(p.as_of);const rows=[];const seen=new Set();const statuses=[];\n  for(const packet of p.records){\n    if(!keys(packet,[\"kind\",\"handoff\",\"index_receipt\",\"market_receipt\"]))bad();\n    const kind=packet.kind;\n    if(![\"argus\",\"repo_category\",\"market_desk\"].includes(kind)||seen.has(kind))bad();\n    seen.add(kind);\n    let status,reason,id,version,url,nextStep,priority,observedAt,receiptKey,proof;\n    if(kind===\"argus\"){\n      if(!keys(packet,[\"kind\",\"handoff\"])||!obj(packet.handoff))bad();\n      const h=packet.handoff,r=h.run,ver=h.verification,art=h.reviewed_artifact;\n      if(!keys(h,['schema','status','reason','receipt_key','run','verification','reviewed_artifact','n8n_execution_id','chief_delivery','chief_snapshot','limitations'])||\n        !keys(r,['run_id','run_attempt','head_sha','run_url','status','conclusion'])||\n        (ver!==null&&!keys(ver,['status','failure_code','observed_at','evidence']))||\n        (art!==null&&!keys(art,['artifact_id','name','archive_sha256','provenance'])))bad();\n      if(h.schema!==\"argus-chief-handoff-v1\"||!obj(r)||!number(r.run_id)||\n        !Number.isSafeInteger(r.run_attempt)||r.run_attempt<1||!commit(r.head_sha)||\n        r.run_url!==base+\"/actions/runs/\"+r.run_id+\"/attempts/\"+r.run_attempt||\n        !number(h.n8n_execution_id)||h.receipt_key!==\"argus-\"+r.run_id+\"-\"+r.run_attempt||\n        ![\"VERIFIED_SYNTHETIC\",\"BLOCKED\",\"FAILED\",\"UNVERIFIED\"].includes(h.status)||\n        h.chief_delivery!==\"normalized_output_prepared; acknowledgment_not_observed\")bad();\n      status=h.status;reason=h.reason;url=r.run_url;receiptKey=h.receipt_key;\n      if(status===\"VERIFIED_SYNTHETIC\"){\n        const e=ver?.evidence,ex=e?.exiftool;\n        if(!keys(e,['fixture_id','source_bytes','source_sha256','unauthenticated_http','authenticated_http','exiftool','sensitive_metadata_included'])||\n          !keys(ex,['FileType','MIMEType','ImageWidth','ImageHeight'])||\n          reason!==\"reviewed_synthetic_receipt_matches_github\"||r.conclusion!==\"success\"||\n          ver?.status!==\"ARGUS_SYNTHETIC_PASS\"||ver.failure_code!==null||\n          !stamp(ver.observed_at)||!obj(e)||e.fixture_id!==\"argus-synthetic-png-v1\"||\n          e.source_bytes!==69||e.source_sha256!==\"5731a25f0c25c4e8b515f273b778da29ec74369400f93551a68507d5dacf77c3\"||\n          e.unauthenticated_http!==401||e.authenticated_http!==200||e.sensitive_metadata_included!==false||\n          !obj(ex)||ex.FileType!==\"PNG\"||ex.MIMEType!==\"image/png\"||ex.ImageWidth!==1||ex.ImageHeight!==1||\n          !obj(art)||!Number.isSafeInteger(art.artifact_id)||art.artifact_id<1||!sha(art.archive_sha256))bad();\n        observedAt=ver.observed_at;\n      }else{\n        const reasons=[\"worker_not_configured\",\"github_key_missing\",\"run_not_successful\",\n          \"sanitized_receipt_not_reviewed\",\"matching_artifact_unavailable\",\"github_run_source_unavailable\",\n          \"run_not_completed\",\"prerequisite_failed\",\"authenticated_analysis_failed\",\"synthetic_integrity_failed\",\n          \"unauthorized_check_failed\",\"reviewed_artifact_provenance_mismatch\",\"sanitized_receipt_invalid\",\n          \"run_receipt_conflict\",\"health_unverified\",\"worker_request_failed\",\"exiftool_unverified\"];\n        if(typeof reason!==\"string\"||!reasons.includes(reason))bad();\n        observedAt=stamp(ver?.observed_at)?ver.observed_at:p.as_of;\n      }\n      id=\"argus-verification\";version=receiptKey+\":\"+status+\":\"+reason;\n      nextStep=status===\"VERIFIED_SYNTHETIC\"?\"Chief must acknowledge this reviewed synthetic pass; real-image and unattended delivery acceptance remain separate.\":\"Resolve the exact ARGUS verification blocker; review the new artifact and repeat the manual evidence handoff.\";\n      priority=status===\"VERIFIED_SYNTHETIC\"?\"normal\":\"high\";proof=status===\"VERIFIED_SYNTHETIC\"?\"reviewed_synthetic_receipt\":\"bounded_status_only\";\n    } else if(kind===\"repo_category\"){\n      if(!keys(packet,[\"kind\",\"index_receipt\"]))bad();const r=packet.index_receipt;\n      if(!keys(r,[\"status\",\"n8n_execution_id\",\"observed_at\",\"commit_sha\",\"indexed_sources\"])||\n        r.status!==\"SOURCES_INDEXED_NOT_DEPLOYED\"||!number(r.n8n_execution_id)||!stamp(r.observed_at)||\n        !commit(r.commit_sha)||!Number.isInteger(r.indexed_sources)||r.indexed_sources<1||r.indexed_sources>50)bad();\n      status=r.status;reason=\"read_only_source_index\";observedAt=r.observed_at;id=\"repo-category-readonly\";\n      receiptKey=\"repo-category-\"+r.n8n_execution_id;\n      version=receiptKey+\":\"+r.commit_sha+\":\"+status;url=base+\"/blob/\"+r.commit_sha+\"/docs/REPOSITORY_UPLOAD_CATEGORY_DEPLOYMENT_HANDOFF_20261114.md\";\n      nextStep=\"Keep repository-category indexing manual and read-only; do not promote pinned sources to live tool status.\";\n      priority=\"normal\";proof=\"manual_indexing_execution_metadata\";\n    } else {\n      if(!keys(packet,[\"kind\",\"market_receipt\"]))bad();const r=packet.market_receipt;\n      if(!keys(r,[\"status\",\"reason\",\"run_id\",\"run_attempt\",\"commit_sha\",\"observed_at\",\"orders_sent\"])||\n        ![\"BLOCKED\",\"UNVERIFIED\"].includes(r.status)||r.reason!==\"SKIPPED_NO_ALPACA_DATA_CREDENTIALS\"||\n        !number(r.run_id)||!Number.isInteger(r.run_attempt)||r.run_attempt<1||!commit(r.commit_sha)||\n        !stamp(r.observed_at)||r.orders_sent!==0)bad();\n      status=r.status;reason=r.reason;observedAt=r.observed_at;id=\"market-desk-readonly\";\n      receiptKey=\"market-\"+r.run_id+\"-\"+r.run_attempt;version=receiptKey+\":\"+status+\":\"+reason;\n      url=base+\"/actions/runs/\"+r.run_id+\"/attempts/\"+r.run_attempt;\n      nextStep=\"Securely provision read-only market data credentials and verify real GitHub ingestion; never place orders.\";\n      priority=\"high\";proof=\"hosted_missing_data_credential_gate\";\n    }\n    if(Date.parse(observedAt)>asOf+60000)bad();\n    statuses.push({kind,status,reason,receipt_key:receiptKey,proof});\n    rows.push({source:\"github\",id,version,title:kind.replaceAll(\"_\",\" \").toUpperCase()+\" — \"+status,\n      next_step:nextStep,url,observed_at:observedAt,due_at:null,direction:\"owner_action\",priority});\n  }\n  const blocked=statuses.some(x=>[\"BLOCKED\",\"FAILED\"].includes(x.status));\n  return {schema:\"trivalley-chief-unified-handoff-v1\",status:blocked?\"BLOCKED\":\"PARTIAL_VERIFICATION\",\n    request_id:p.batch_id,records:statuses,chief_delivery:\"normalized_output_prepared; acknowledgment_not_observed\",\n    chief_snapshot:{run_id:\"mesh-\"+p.batch_id,as_of:p.as_of,coverage:{github:\"partial\"},items:rows},\n    limitations:[\"Manually supplied reviewed packets; this aggregator does not fetch artifacts or independently authenticate n8n executions.\",\n      \"No new schedule, webhook, client contact, broker order, secret, image upload or Chief acknowledgment.\",\n      \"Green CI, source pins and indexed repositories are not production acceptance.\"]};\n}\nconst input = $('Reviewed evidence packets').first().json;\nreturn [{json: normalizeBatch(input)}];"
+      }
+    }
+  ],
+  "connections": {
+    "Owner starts one reviewed handoff": {
+      "main": [
+        [
+          {
+            "node": "Reviewed evidence packets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reviewed evidence packets": {
+      "main": [
+        [
+          {
+            "node": "Create one Chief snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Los_Angeles",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "tags": []
+}

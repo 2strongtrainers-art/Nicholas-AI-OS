@@ -66,3 +66,95 @@ test('cloudflare 1010 does not retry, HTTP 503 can be reviewed for bounded retry
  assert.equal(b.retry_policy,'REVIEW_BOUNDED_RETRY');
 });
 
+
+// One reviewed, manual Chief handoff. Validation is intentionally stricter than run triage.
+const chiefHandoff = load('mesh-chief-reviewed-handoff.json');
+function reviewBatch(batch) {
+  const script = chiefHandoff.nodes.find(n=>n.name==='Create one Chief snapshot').parameters.jsCode;
+  const context = {$: name => ({first:()=>({json:batch})})};
+  return JSON.parse(JSON.stringify(vm.runInNewContext('(function(){'+script+'\n})()',context,{timeout:1500})[0].json));
+}
+const sha40='a'.repeat(40), sha64='b'.repeat(64), asOf='2026-11-16T20:00:00Z';
+const argusPass=()=>({
+ schema:'argus-chief-handoff-v1',status:'VERIFIED_SYNTHETIC',reason:'reviewed_synthetic_receipt_matches_github',
+ receipt_key:'argus-12345-2',n8n_execution_id:'55',
+ run:{run_id:'12345',run_attempt:2,head_sha:sha40,conclusion:'success',
+  run_url:'https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/12345/attempts/2'},
+ verification:{status:'ARGUS_SYNTHETIC_PASS',failure_code:null,observed_at:'2026-11-16T19:30:00Z',
+  evidence:{fixture_id:'argus-synthetic-png-v1',source_bytes:69,
+   source_sha256:'5731a25f0c25c4e8b515f273b778da29ec74369400f93551a68507d5dacf77c3',
+   unauthenticated_http:401,authenticated_http:200,
+   exiftool:{FileType:'PNG',MIMEType:'image/png',ImageWidth:1,ImageHeight:1},sensitive_metadata_included:false}},
+ reviewed_artifact:{artifact_id:456,archive_sha256:sha64},
+ chief_delivery:'normalized_output_prepared; acknowledgment_not_observed',
+});
+const batch=(records)=>({schema:'trivalley-chief-review-batch-v1',batch_id:'safe-pilot-001',as_of:asOf,records});
+test('Chief handoff is inactive, manual-only, and sends nothing',()=>{
+ assert.equal(chiefHandoff.active,false);
+ assert.deepEqual(chiefHandoff.pinData,{});
+ assert.equal(chiefHandoff.nodes.length,3);
+ assert.equal(chiefHandoff.nodes[0].type,'n8n-nodes-base.manualTrigger');
+ assert.equal(chiefHandoff.nodes.filter(n=>n.type==='n8n-nodes-base.httpRequest').length,0);
+ assert.equal(chiefHandoff.nodes.filter(n=>n.type==='n8n-nodes-base.webhook').length,0);
+ assert.ok(chiefHandoff.nodes.every(n=>n.credentials===undefined));
+});
+test('reviewed synthetic pass gets one normalized Chief item, never completed deployment',()=>{
+ const o=reviewBatch(batch([{kind:'argus',handoff:argusPass()}]));
+ assert.equal(o.status,'PARTIAL_VERIFICATION');
+ assert.equal(o.chief_snapshot.coverage.github,'partial');
+ assert.equal(o.chief_snapshot.items.length,1);
+ assert.equal(o.chief_snapshot.items[0].id,'argus-verification');
+ assert.equal(o.chief_snapshot.items[0].source,'github');
+ assert.equal(o.chief_snapshot.items[0].url,argusPass().run.run_url);
+ assert.match(o.chief_delivery,/acknowledgment_not_observed/);
+});
+test('repo category remains source-index only; market missing credential remains blocked',()=>{
+ const indexed={kind:'repo_category',index_receipt:{status:'SOURCES_INDEXED_NOT_DEPLOYED',n8n_execution_id:'46',
+  observed_at:'2026-11-16T19:00:00Z',commit_sha:sha40,indexed_sources:10}};
+ const market={kind:'market_desk',market_receipt:{status:'BLOCKED',reason:'SKIPPED_NO_ALPACA_DATA_CREDENTIALS',
+  run_id:'993',run_attempt:1,commit_sha:sha40,observed_at:'2026-11-16T19:01:00Z',orders_sent:0}};
+ const o=reviewBatch(batch([indexed,market]));
+ assert.equal(o.status,'BLOCKED');
+ assert.deepEqual(o.records.map(r=>r.status),['SOURCES_INDEXED_NOT_DEPLOYED','BLOCKED']);
+ assert.equal(o.chief_snapshot.items.length,2);
+ assert.match(o.chief_snapshot.items[0].next_step,/manual and read-only/);
+});
+test('reviewed blocked ARGUS receipt preserves failure code without promoting it',()=>{
+ const h=argusPass();
+ h.status='BLOCKED';h.reason='worker_not_configured';h.run.conclusion='failure';
+ h.verification={status:'ARGUS_VERIFICATION_BLOCKED',failure_code:'worker_not_configured',observed_at:'2026-11-16T19:30:00Z',evidence:null};
+ h.reviewed_artifact=null;
+ const o=reviewBatch(batch([{kind:'argus',handoff:h}]));
+ assert.equal(o.status,'BLOCKED');
+ assert.equal(o.records[0].reason,'worker_not_configured');
+ assert.match(o.chief_snapshot.items[0].version,/BLOCKED:worker_not_configured/);
+});
+test('invalid synthetic evidence, forged provenance and extra input fields fail closed',()=>{
+ const variants=[
+  h=>{h.verification.evidence.unauthenticated_http=200;},
+  h=>{h.verification.evidence.source_sha256='c'.repeat(64);},
+  h=>{h.run.run_url='https://example.org';},
+  h=>{h.reviewed_artifact.archive_sha256='bad';},
+  h=>{h.status='VERIFIED_OPERATIONAL';},
+  h=>{h.private_secret='sk-secret-test';},
+ ];
+ for(const modify of variants){
+  const h=argusPass();modify(h);
+  const input=batch([{kind:'argus',handoff:h}]);
+  // Unknown fields inside a reviewed upstream packet must also be rejected.
+  assert.throws(()=>reviewBatch(input),/MESH_INVALID_REVIEW_PACKET/);
+ }
+});
+test('duplicates, future evidence, no reviewed records and invented workflow reject',()=>{
+ const rec={kind:'argus',handoff:argusPass()};
+ assert.throws(()=>reviewBatch(batch([rec,rec])),/MESH_INVALID_REVIEW_PACKET/);
+ assert.throws(()=>reviewBatch(batch([])),/MESH_INVALID_REVIEW_PACKET/);
+ assert.throws(()=>reviewBatch(batch([{kind:'hermes',handoff:argusPass()}])),/MESH_INVALID_REVIEW_PACKET/);
+ const h=argusPass();h.verification.observed_at='2026-11-17T19:00:00Z';
+ assert.throws(()=>reviewBatch(batch([{kind:'argus',handoff:h}])),/MESH_INVALID_REVIEW_PACKET/);
+});
+test('identical reviewed batch generates deterministic Chief run ID and payload',()=>{
+ const b=batch([{kind:'argus',handoff:argusPass()}]);
+ assert.deepEqual(reviewBatch(b),reviewBatch(b));
+ assert.equal(reviewBatch(b).chief_snapshot.run_id,'mesh-safe-pilot-001');
+});
