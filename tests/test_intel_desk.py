@@ -65,28 +65,37 @@ class NormalizationTests(unittest.TestCase):
         self.assertEqual(s.connections([a, b]), [])
 
     def test_gdelt_bulk_labeled_as_automatic_and_not_geolocated(self):
-        row = [""] * 58
+        row = [""] * 61
         row[0] = "987654321"
         row[6] = "RUSSIA"
         row[16] = "UKRAINE"
         row[28] = "19"
         row[32] = "4"
-        row[50] = "Kyiv, Ukraine"
-        row[56] = "20261116221500"
-        row[57] = "https://example.org/report"
+        row[52] = "Kyiv, Ukraine"
+        row[59] = "20261116221500"
+        row[60] = "https://example.org/report"
         e = s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/gdeltv2/test.export.CSV.zip")
         self.assertEqual(e["source"], "GDELT event data")
         self.assertEqual(e["topic"], "Security")
         self.assertIsNone(e["position"])
         self.assertIn("Automated", e["trust"])
         self.assertEqual(e["report_count"], 4)
+        self.assertEqual(e["observed_at"], "2026-11-16T22:15:00Z")
+        self.assertEqual(e["url"], "https://example.org/report")
+        self.assertEqual(e["publisher"], "example.org")
         self.assertIn("Ukraine", e["mentions"])
 
-    def test_bulk_skips_unreliable_or_unknown_event_code(self):
+    def test_gdelt_bulk_old_58_column_fixture_rejected(self):
         row = [""] * 58
+        row[0], row[6], row[16], row[28], row[32] = "1", "A", "B", "19", "5"
+        row[56], row[57] = "20261116221500", "https://example.org/report"
+        self.assertIsNone(s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/gdeltv2/latest.zip"))
+
+    def test_bulk_skips_unreliable_or_unknown_event_code(self):
+        row = [""] * 61
         row[0], row[6], row[16] = "1", "RUSSIA", "UKRAINE"
-        row[28], row[32], row[50] = "19", "1", "Kyiv"
-        row[56], row[57] = "20261116221500", "https://example.org/a"
+        row[28], row[32], row[52] = "19", "1", "Kyiv"
+        row[59], row[60] = "20261116221500", "https://example.org/a"
         self.assertIsNone(s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/archive"))
         row[32], row[28] = "5", "02"
         self.assertIsNone(s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/archive"))
