@@ -3,6 +3,9 @@
 from __future__ import annotations
 import argparse
 import hashlib
+import csv
+import io
+import zipfile
 import json
 import re
 import sys
@@ -198,6 +201,86 @@ def normalize_rss_item(item, source, topic):
             "basis": "Source RSS headline, not independent verification of its content"}
 
 
+GDELT_LAST_UPDATE = "https://data.gdeltproject.org/gdeltv2/lastupdate.txt"
+GDELT_ARCHIVE_BASE = "https://data.gdeltproject.org/gdeltv2/"
+GDELT_CAMEO_ROOTS = {
+    "10": "Demands", "11": "Disapproval", "12": "Rejection",
+    "13": "Threats", "14": "Protests", "15": "Force posture",
+    "16": "Relations reduced", "17": "Coercion",
+    "18": "Assault reporting", "19": "Combat reporting",
+    "20": "Mass violence reporting",
+}
+
+
+def normalize_gdelt_bulk_row(fields, archive_url):
+    """GDELT event rows are algorithmically coded article claims, never verified incidents."""
+    if not isinstance(fields, (list, tuple)) or len(fields) < 58:
+        return None
+    root = fields[28].strip()
+    if root not in GDELT_CAMEO_ROOTS:
+        return None
+    try:
+        sources = int(fields[32])
+    except (ValueError, TypeError):
+        return None
+    if sources < 2:
+        return None
+    a1 = label(fields[6], 60)
+    a2 = label(fields[16], 60)
+    location = label(fields[50], 80)
+    if not a1 and not a2:
+        return None
+    time_added = fields[56]
+    try:
+        observed = datetime.strptime(time_added, "%Y%m%d%H%M%S").replace(
+            tzinfo=timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    except ValueError:
+        return None
+    source_url = safe_url(fields[57].strip())
+    url = source_url or archive_url
+    headline = "GDELT CAMEO " + root + " (" + GDELT_CAMEO_ROOTS[root] + "): "
+    headline += (a1 or "Unspecified actor") + " / " + (a2 or "Unspecified target")
+    if location:
+        headline += " — " + location
+    topic = "Security" if root in ("15", "17", "18", "19", "20") else "Geopolitics"
+    return {
+        "id": event_id("GDELT-BULK", fields[0]), "kind": "report", "source": "GDELT event data",
+        "publisher": label(urlparse(fields[57]).hostname or "GDELT", 80),
+        "topic": topic, "title": label(headline), "url": url,
+        "observed_at": observed, "mentions": headline_mentions(headline),
+        "position": None, "trust": "Automated event coding, not confirmed",
+        "basis": "GDELT CAMEO code from news articles; location not independently geolocated",
+        "report_count": sources
+    }
+
+
+def fetch_gdelt_bulk():
+    req = Request(GDELT_LAST_UPDATE, headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=18) as res:
+        last = res.read(3000).decode("ascii", errors="replace")
+    match = re.search(
+        r"https?://data[.]gdeltproject[.]org/gdeltv2/(\d{14}[.]export[.]CSV[.]zip)",
+        last,
+    )
+    if not match:
+        raise ValueError("unrecognized GDELT latest-index format")
+    url = GDELT_ARCHIVE_BASE + match.group(1)
+    req = Request(url, headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=18) as res:
+        blob = res.read(3_000_001)
+    if len(blob) > 3_000_000:
+        raise ValueError("GDELT archive exceeds bounded download")
+    with zipfile.ZipFile(io.BytesIO(blob)) as zf:
+        members = [x for x in zf.infolist() if x.filename.endswith(".CSV")]
+        if len(members) != 1 or members[0].file_size > 15_000_000:
+            raise ValueError("unrecognized GDELT archive contents")
+        data = zf.read(members[0]).decode("utf-8", errors="replace")
+    rows = csv.reader(io.StringIO(data), delimiter="\t")
+    parsed = [e for cols in rows if (e := normalize_gdelt_bulk_row(cols, url))]
+    parsed.sort(key=lambda e: -e["report_count"])
+    return parsed[:60]
+
+
 def fetch_rss(url):
     req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/xml"})
     with urlopen(req, timeout=18) as res:
@@ -265,6 +348,13 @@ def collect():
             health.append({"name": "GDELT / " + topic, "state": "error", "count": 0,
                            "error": label(str(exc), 70)})
         time.sleep(0.7)  # avoid bursts to a public service
+    try:
+        rows = fetch_gdelt_bulk()
+        items.extend(rows)
+        health.append({"name": "GDELT bulk", "state": "ok", "count": len(rows)})
+    except Exception as exc:
+        health.append({"name": "GDELT bulk", "state": "error", "count": 0,
+                       "error": label(type(exc).__name__, 70)})
     for source, (topic, url) in OFFICIAL_RSS.items():
         try:
             root = fetch_rss(url)
