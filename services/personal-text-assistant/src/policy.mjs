@@ -16,10 +16,10 @@ export function validInbound(value) {
     value.length <= MAX_INBOUND_CHARS && !/[\u0000-\u0008\u000e-\u001f]/.test(value);
 }
 export function contactsFromSecret(raw) {
+  const contacts = Object.create(null);
   try {
     const value = JSON.parse(raw || '');
-    if (!value || Array.isArray(value) || typeof value !== 'object') return {};
-    const contacts = Object.create(null);
+    if (!value || Array.isArray(value) || typeof value !== 'object') return contacts;
     for (const [id, data] of Object.entries(value)) {
       if (validContactId(id) && data && typeof data === 'object' &&
           !Array.isArray(data) && data.enabled === true && data.consent === true) {
@@ -28,7 +28,7 @@ export function contactsFromSecret(raw) {
     }
     return contacts;
   } catch {
-    return {};
+    return contacts;
   }
 }
 export function decideMode(env, contact) {
@@ -47,7 +47,7 @@ export function classifyInbound(value) {
   if (
     /\b(?:verification|security|confirmation|one.time|2fa|otp|passcode|password|pin code|login code|reset code)\b/i.test(text) ||
     /\b(?:bank|credit card|account number|routing number|social security|ssn|passport|driver'?s license|wire transfer|venmo|zelle|payment|invoice|billing|debt|loan|tax|investment)\b/i.test(text) ||
-    /\b(?:doctor|medical|diagnos|prescription|medication|symptom|hospital|painful|injur|suicid|self.harm|overdos|emergency|911|police|threat)\b/i.test(text) ||
+    /\b(?:doctor|medical|diagnos\w*|prescriptions?|medications?|symptoms?|hospital|painful|injur\w*|suicid\w*|self.harm|overdos\w*|emergency|911|police|threat)\b/i.test(text) ||
     /\b(?:lawyer|attorney|lawsuit|court|legal notice|divorce|custody|break.?up|relationship|confidential|private|secret|intimate|romantic|i love you)\b/i.test(text) ||
     /\b(?:home address|where do you live|send me your location|your exact location)\b/i.test(text)
   ) return 'sensitive';

@@ -16,6 +16,7 @@ The new Cloudflare Worker is named nk-personal-text-assistant. It is completely 
 - OPENAI_API_KEY is a project-scoped Cloudflare secret. Never embed it in Shortcuts or this public GitHub repository.
 - ALLOW_PAID_AI, ALLOW_OUTBOUND_SEND and AUTO_REPLY_ENABLED each default to false. The code never calls paid AI unless the paid gate is true and never returns send unless ALL three flags are true.
 - Max 20 AI requests per contact per UTC day; 12 seconds maximum upstream response time; duplicates and rapid message loops are suppressed.
+- STOP is stored even while paid AI is off or the contact is paused. STOP, owner pause/forget, and retention expiry cancel an in-flight reply before it can authorize a local send. These controls cannot recall a response already returned to the phone; disable its Message automation for immediate takeover.
 - Inbound authentication codes, crises, medical, money, legal, romantic, and other sensitive requests are handed off rather than auto-replied. Opt-outs permanently stop that contact's automation pending deliberate owner review.
 - Short structured model output; no tool execution, booking, payment, URLs, secrets or personal claims. Every automatic reply starts with "AI assistant:".
 - Each contact's conversation history resides in a separate SQLite Durable Object, limited to 12 messages and erased 48 hours after the last inbound/ack. Paused/opted-out markers survive. Provider request uses store:false. No raw message bodies are deliberately logged.
@@ -24,12 +25,12 @@ The new Cloudflare Worker is named nk-personal-text-assistant. It is completely 
 ## Cloudflare activation sequence — owner-only
 
 1. Review this PR and CI results. Merge only if checks pass. Deployment is manual-only from main.
-2. In the existing Cloudflare account deploy this *separate* Worker. Either run npm install and npm run deploy from services/personal-text-assistant in an authenticated development environment, or run the GitHub Action named Deploy Personal Text Assistant, entering confirmation "deploy-isolated-worker". Its GitHub environment is personal-text-assistant, and it requires CLOUDFLARE_API_TOKEN as a GitHub secret and CLOUDFLARE_ACCOUNT_ID as a GitHub variable. Do not grant broader Cloudflare permissions than are required.
+2. In the existing Cloudflare account deploy this *separate* Worker. Either run npm ci and npm run deploy from services/personal-text-assistant in an authenticated development environment, or run the GitHub Action named Deploy Personal Text Assistant, entering confirmation "deploy-isolated-worker". Its GitHub environment is personal-text-assistant, and it requires CLOUDFLARE_API_TOKEN as a GitHub secret and CLOUDFLARE_ACCOUNT_ID as a GitHub variable. An editor token restricted to other existing Workers cannot create this new Worker. Have an authorized account operator provision nk-personal-text-assistant once, then restrict its deployment token to that Worker's immutable ID. Keep the environment restricted to main. Workers product Admin is only needed by an operator creating the new Worker; no DNS, billing, Containers, KV or unrelated Worker permission is required by this workers.dev + Durable Object design. Do not broaden the existing production token to make deployment pass.
 3. In Cloudflare Workers & Pages → nk-personal-text-assistant → Settings → Variables and Secrets, add encrypted CLIENT_TOKEN, CONTROL_TOKEN, OPENAI_API_KEY and CONTACTS_JSON. For a single test contact, the CONTACTS_JSON secret value is:
    {"pilot_01":{"enabled":true,"consent":true,"auto":false}}
    No real phone number, identity or message belongs in this config. Use the same ID in Shortcuts.
 4. Test the Worker's /health endpoint. A healthy endpoint does NOT imply that AI is enabled. With the three false gates, /reply must return action=skip.
-5. To permit draft-only tests, change ALLOW_PAID_AI to "true" in wrangler.jsonc through a reviewed update, redeploy the independent Worker, and leave ALLOW_OUTBOUND_SEND, AUTO_REPLY_ENABLED and contact auto as false. Set an OpenAI project spending ceiling. Test short nonsensitive messages and ensure replies are returned as action=draft only.
+5. To permit draft-only tests, change ALLOW_PAID_AI to "true" in wrangler.jsonc through a reviewed update, redeploy the independent Worker, and leave ALLOW_OUTBOUND_SEND, AUTO_REPLY_ENABLED and contact auto as false. Review the OpenAI project's usage and billing controls: this service limits requests per contact, not total dollars. Test short nonsensitive messages and ensure replies are returned as action=draft only.
 6. Once the recipient has been informed of the AI assistant and the on-device path has been verified, review and change ALLOW_OUTBOUND_SEND and AUTO_REPLY_ENABLED to "true" and set that contact's auto:true inside the encrypted Cloudflare secret. Redeploy. No other contact becomes eligible until individually added.
 7. To turn off paid requests, set ALLOW_PAID_AI false and redeploy. To turn off sending, set AUTO_REPLY_ENABLED false and redeploy; the fastest manual kill switch is disabling the iOS Message automation.
 
@@ -81,7 +82,9 @@ Forwarding a message to a cloud AI provider takes its content outside iMessage e
 From services/personal-text-assistant:
 - npm run check
 - npm test
-- npm install --no-audit --no-fund --ignore-scripts
-- npm run dry-run
+- npm ci --no-audit --no-fund --ignore-scripts
+- WRANGLER_SEND_METRICS=false npm run dry-run
+
+Use Node 22.15 or newer. Runtime tests substitute an in-memory Durable Object base and synthetic provider responses, and cover opt-out while disabled/paused, cancellation during provider I/O, authentication, cost reservations, duplicates and acknowledgments. They make no model or message-sending requests. Wrangler's compile-only check verifies the Worker bundle and bindings; actual Cloudflare and iPhone acceptance remain separate checks.
 
 The repository's PR CI performs these checks without model requests or outbound messaging. A passing CI is not an actual iPhone send test.

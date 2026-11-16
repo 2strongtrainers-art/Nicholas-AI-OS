@@ -27,6 +27,12 @@ test('only consented, enabled contacts appear on allowlist', () => {
   const result = contactsFromSecret('{"pilot_01":{"enabled":true,"consent":true,"auto":true},"other":{"enabled":false,"consent":true,"auto":true}}');
   assert.deepEqual(Object.keys(result), ['pilot_01']);
   assert.equal(result.pilot_01.auto, true);
+  for (const raw of ['', 'garbage', 'null', '[]', 'false']) {
+    const empty = contactsFromSecret(raw);
+    assert.equal(empty.constructor, undefined);
+    assert.equal(empty.toString, undefined);
+    assert.equal(empty.__proto__, undefined);
+  }
 });
 test('paid and outbound kill switches fail closed', () => {
   const contact = { auto: true };
@@ -44,6 +50,8 @@ test('opt-out and high-sensitivity topics escalate', () => {
   for (const s of ['My bank needs a wire transfer', 'Here is my verification code', 'I need a doctor', 'My lawyer called', 'I love you', 'There is an emergency'])
     assert.equal(classifyInbound(s), 'sensitive');
   for (const s of ['Email me at test@example.com', 'My address is 125 Oak Street', 'Please call 415-555-1212', 'Today is my birthday'])
+    assert.equal(classifyInbound(s), 'sensitive');
+  for (const s of ['I am suicidal', 'I have an injury', 'An overdose happened', 'I received a diagnosis', 'These symptoms worry me'])
     assert.equal(classifyInbound(s), 'sensitive');
   assert.equal(classifyInbound('What time is lunch tomorrow?'), null);
 });

@@ -15,6 +15,8 @@ jobs:
   test-isolated-service:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      WRANGLER_SEND_METRICS: 'false'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -30,5 +32,5 @@ jobs:
       - name: Wrangler compile only - no deployment
         working-directory: services/personal-text-assistant
         run: |
-          npm install --no-audit --no-fund --ignore-scripts
+          npm ci --no-audit --no-fund --ignore-scripts
           npm run dry-run
