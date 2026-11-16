@@ -35,7 +35,7 @@ FEEDS = {
 OFFICIAL_RSS = {
     "Federal Reserve": ("Economy", "https://www.federalreserve.gov/feeds/press_all.xml"),
     "State Department": ("Geopolitics", "https://www.state.gov/rss-feed/press-releases/feed/"),
-    "CISA": ("Security", "https://www.cisa.gov/cybersecurity-advisories/all.xml"),
+    "CISA": ("Security", "https://www.cisa.gov/cybersecurity-advisories/alerts.xml"),
     "EIA": ("Energy", "https://www.eia.gov/rss/todayinenergy.xml"),
 }
 USER_AGENT = "TriValley-GlobalIntelDesk/1.0 (public read-only research)"
@@ -204,6 +204,9 @@ def normalize_rss_item(item, source, topic):
 GDELT_LAST_UPDATE = "https://data.gdeltproject.org/gdeltv2/lastupdate.txt"
 GDELT_ARCHIVE_BASE = "https://data.gdeltproject.org/gdeltv2/"
 GDELT_CAMEO_ROOTS = {
+    "01": "Public statements", "02": "Appeals", "03": "Intent statements",
+    "04": "Consultations", "05": "Diplomatic cooperation", "06": "Material cooperation",
+    "07": "Aid", "08": "Concessions", "09": "Investigations",
     "10": "Demands", "11": "Disapproval", "12": "Rejection",
     "13": "Threats", "14": "Protests", "15": "Force posture",
     "16": "Relations reduced", "17": "Coercion",
@@ -223,7 +226,7 @@ def normalize_gdelt_bulk_row(fields, archive_url):
         sources = int(fields[32])
     except (ValueError, TypeError):
         return None
-    if sources < 2:
+    if sources < 1:
         return None
     a1 = label(fields[6], 60)
     a2 = label(fields[16], 60)
@@ -248,7 +251,7 @@ def normalize_gdelt_bulk_row(fields, archive_url):
         "publisher": label(urlparse(fields[57]).hostname or "GDELT", 80),
         "topic": topic, "title": label(headline), "url": url,
         "observed_at": observed, "mentions": headline_mentions(headline),
-        "position": None, "trust": "Automated event coding, not confirmed",
+        "position": None, "trust": ("Automated SINGLE-SOURCE coding; unverified" if sources == 1 else "Automated multi-source coding; unverified"),
         "basis": "GDELT CAMEO code from news articles; location not independently geolocated",
         "report_count": sources
     }
