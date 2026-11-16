@@ -22,6 +22,7 @@ concurrency:
 jobs:
   free-static-publication:
     if: github.ref == 'refs/heads/main'
+    environment: osint-forensics-production
     runs-on: ubuntu-latest
     timeout-minutes: 13
     env:
@@ -40,14 +41,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Verify no-charge deployment path and existing scoped credentials
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Cloudflare account variable unavailable"; exit 1; }
-          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Cloudflare deployment token unavailable"; exit 1; }
-          test "$(python3 -c 'import json; print(json.load(open("intel-desk/wrangler.jsonc"))["name"])')" = "trivalley-global-intel"
-          echo "Static assets only, no Worker script, no paid AI and no extra hosting subscription"
       - name: Offline validation
         run: |
           python3 -m unittest discover -s tests -p 'test_intel_desk.py' -v
@@ -71,6 +64,14 @@ jobs:
           path: intel-desk/data/events.json
           retention-days: 3
           if-no-files-found: error
+      - name: Verify no-charge deployment path and existing scoped credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Cloudflare account variable unavailable"; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Cloudflare deployment token unavailable"; exit 1; }
+          test "$(python3 -c 'import json; print(json.load(open("intel-desk/wrangler.jsonc"))["name"])')" = "trivalley-global-intel"
+          echo "Static assets only, no Worker script, no paid AI and no extra hosting subscription"
       - name: Deploy isolated Cloudflare Worker static assets
         shell: bash
         run: |
