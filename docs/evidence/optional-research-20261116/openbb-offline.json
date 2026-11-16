@@ -1,0 +1,23 @@
+{
+  "runtime": "openbb",
+  "observed_at": "2026-11-16T16:40:49.189414+00:00",
+  "python": "3.12.14",
+  "paid_calls": 0,
+  "orders_sent": 0,
+  "hosted": false,
+  "mcp_registered_in_chatgpt": false,
+  "public_network_enabled": false,
+  "versions": {
+    "openbb-core": "2.0.1",
+    "openbb-cboe": "2.0.0"
+  },
+  "endpoint_available": true,
+  "offline_transform_verified": true,
+  "validation_scope": "installed Cboe endpoint and synthetic provider transform",
+  "public_history": "NOT_REQUESTED",
+  "status": "LOCAL_CHECKS_PASSED",
+  "private_read_attempts_blocked": 0,
+  "network_attempts_blocked": 0,
+  "process_attempts_blocked": 1,
+  "local_build_processes_allowed": 2
+}

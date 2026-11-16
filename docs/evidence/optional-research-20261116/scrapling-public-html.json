@@ -1,0 +1,15 @@
+{
+  "application": "Scrapling",
+  "version": "0.4.15",
+  "observed_at": "2026-11-16T16:37:18.460711+00:00",
+  "status": "PARSER_AND_PUBLIC_HTML_VERIFIED",
+  "css": true,
+  "xpath": true,
+  "source_url": "https://example.com/",
+  "source_sha256": "25ddf2c883e0d1958ea971d279a7e4f0fd446724ee3db7db19dadabd4a62e484",
+  "fetch_method": "Previously saved standard HTTPS GET (200); Scrapling parser only",
+  "browser_installed": false,
+  "mcp_registered": false,
+  "paid_calls": 0,
+  "hosted": false
+}

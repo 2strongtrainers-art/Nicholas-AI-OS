@@ -1,0 +1,20 @@
+{
+  "application": "OpenBB Cboe",
+  "observed_at": "2026-11-16T16:35:09.723852+00:00",
+  "openbb_core": "2.0.1",
+  "openbb_cboe": "2.0.0",
+  "source": "cboe",
+  "symbol": "MSFT",
+  "paid_calls": 0,
+  "orders_sent": 0,
+  "hosted": false,
+  "owner_state_reads": 0,
+  "endpoint_available": true,
+  "status": "BLOCKED",
+  "error_type": "OpenBBError",
+  "private_read_attempts_blocked": 0,
+  "error_code": "public_provider_dns_unavailable",
+  "blocked_hostname": "cdn.cboe.com",
+  "http_response_received": false,
+  "diagnostic_scope": "same selected Cboe provider; no alternate route or fingerprint"
+}
