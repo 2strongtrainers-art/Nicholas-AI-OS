@@ -1,0 +1,84 @@
+name: Global Intelligence Desk — validate, ingest, publish
+
+on:
+  pull_request:
+    paths:
+      - "intel-desk/**"
+      - "scripts/intel_desk_ingest.py"
+      - "tests/test_intel_desk.py"
+      - "workflows/n8n/global-intel-readonly-handoff.json"
+      - ".github/workflows/global-intel-desk.yml"
+  push:
+    branches: [main]
+    paths:
+      - "intel-desk/**"
+      - "scripts/intel_desk_ingest.py"
+      - "tests/test_intel_desk.py"
+      - ".github/workflows/global-intel-desk.yml"
+  schedule:
+    - cron: "19 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: global-intel-pages-deployment
+  cancel-in-progress: false
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate normalized source handling and analyst safeguards
+        run: python3 -m unittest discover -s tests -p 'test_intel_desk.py' -v
+      - name: Validate browser JavaScript and JSON bootstrap
+        run: |
+          node --check intel-desk/app.js
+          python3 -m json.tool intel-desk/data/events.json >/dev/null
+      - name: Explicit cost and data boundary
+        run: echo "No API keys; no paid AI; no brokerage orders; no client data; no third-party site scraping."
+
+  ingest-and-deploy:
+    needs: offline-tests
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh permitted public source metadata
+        run: python3 scripts/intel_desk_ingest.py --output intel-desk/data/events.json
+      - name: Check snapshot integrity and freshness
+        run: |
+          python3 -m json.tool intel-desk/data/events.json >/dev/null
+          sha256sum intel-desk/data/events.json
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload validated static intelligence dashboard
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: intel-desk
+      - name: Publish through repository Pages (no paid deployment)
+        id: deployment
+        uses: actions/deploy-pages@v4
