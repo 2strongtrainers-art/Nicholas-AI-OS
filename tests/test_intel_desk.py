@@ -64,6 +64,33 @@ class NormalizationTests(unittest.TestCase):
         b = dict(a, topic="Geopolitics", title="Taiwan B", url="https://same.example/b")
         self.assertEqual(s.connections([a, b]), [])
 
+    def test_gdelt_bulk_labeled_as_automatic_and_not_geolocated(self):
+        row = [""] * 58
+        row[0] = "987654321"
+        row[6] = "RUSSIA"
+        row[16] = "UKRAINE"
+        row[28] = "19"
+        row[32] = "4"
+        row[50] = "Kyiv, Ukraine"
+        row[56] = "20261116221500"
+        row[57] = "https://example.org/report"
+        e = s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/gdeltv2/test.export.CSV.zip")
+        self.assertEqual(e["source"], "GDELT event data")
+        self.assertEqual(e["topic"], "Security")
+        self.assertIsNone(e["position"])
+        self.assertIn("Automated", e["trust"])
+        self.assertEqual(e["report_count"], 4)
+        self.assertIn("Ukraine", e["mentions"])
+
+    def test_bulk_skips_unreliable_or_unknown_event_code(self):
+        row = [""] * 58
+        row[0], row[6], row[16] = "1", "RUSSIA", "UKRAINE"
+        row[28], row[32], row[50] = "19", "1", "Kyiv"
+        row[56], row[57] = "20261116221500", "https://example.org/a"
+        self.assertIsNone(s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/archive"))
+        row[32], row[28] = "5", "02"
+        self.assertIsNone(s.normalize_gdelt_bulk_row(row, "https://data.gdeltproject.org/archive"))
+
     def test_official_rss_preserves_identity_and_does_not_geolocate(self):
         xml = """<item><title>Iran sanctions and oil market alert</title>
             <link>https://www.state.gov/synthetic-test-article</link>
