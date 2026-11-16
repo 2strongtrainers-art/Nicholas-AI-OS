@@ -7,7 +7,9 @@ import json
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
+from xml.etree import ElementTree as ET
 from pathlib import Path
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
@@ -26,6 +28,12 @@ MENTIONS = ("Iran", "Ukraine", "Russia", "Taiwan", "China", "Israel",
 FEEDS = {
     "USGS": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
     "NASA EONET": "https://eonet.gsfc.nasa.gov/api/v3/events/geojson?days=7&status=open&limit=100",
+}
+OFFICIAL_RSS = {
+    "Federal Reserve": ("Economy", "https://www.federalreserve.gov/feeds/press_all.xml"),
+    "State Department": ("Geopolitics", "https://www.state.gov/rss-feed/press-releases/feed/"),
+    "CISA": ("Security", "https://www.cisa.gov/cybersecurity-advisories/all.xml"),
+    "EIA": ("Energy", "https://www.eia.gov/rss/todayinenergy.xml"),
 }
 USER_AGENT = "TriValley-GlobalIntelDesk/1.0 (public read-only research)"
 MAX_RESPONSE = 3_000_000
@@ -171,10 +179,49 @@ def fetch_json(url):
     raise RuntimeError(err or "unknown fetch error")
 
 
+def normalize_rss_item(item, source, topic):
+    title = label(item.findtext("title"))
+    url = safe_url(item.findtext("link"))
+    if not title or not url:
+        return None
+    raw_date = item.findtext("pubDate")
+    try:
+        date = parsedate_to_datetime(raw_date)
+        date = (date.replace(tzinfo=timezone.utc) if date.tzinfo is None else date)
+        observed = date.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    except (ValueError, TypeError, OverflowError, AttributeError):
+        observed = None
+    return {"id": event_id(source, url), "kind": "report", "source": source,
+            "publisher": source, "topic": topic, "title": title, "url": url,
+            "observed_at": observed, "mentions": headline_mentions(title),
+            "position": None, "trust": "Official agency publication",
+            "basis": "Source RSS headline, not independent verification of its content"}
+
+
+def fetch_rss(url):
+    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/xml"})
+    with urlopen(req, timeout=18) as res:
+        body = res.read(1_000_001)
+    if len(body) > 1_000_000 or b"<!DOCTYPE" in body[:4096].upper():
+        raise ValueError("invalid RSS size or DTD")
+    root = ET.fromstring(body)
+    if root.tag not in ("rss", "{http://www.w3.org/2005/Atom}feed"):
+        raise ValueError("not an RSS-compatible feed")
+    return root
+
+
 def connections(events):
     by_mention = {}
+    now = datetime.now(timezone.utc)
     for e in events:
         if e.get("kind") != "report":
+            continue
+        try:
+            published = datetime.fromisoformat(e["observed_at"].replace("Z", "+00:00"))
+            age = now - published
+            if age < timedelta(minutes=-2) or age > timedelta(hours=48):
+                continue
+        except (TypeError, ValueError, AttributeError, KeyError):
             continue
         for mention in e.get("mentions", []):
             by_mention.setdefault(mention, []).append(e)
@@ -218,6 +265,19 @@ def collect():
             health.append({"name": "GDELT / " + topic, "state": "error", "count": 0,
                            "error": label(str(exc), 70)})
         time.sleep(0.7)  # avoid bursts to a public service
+    for source, (topic, url) in OFFICIAL_RSS.items():
+        try:
+            root = fetch_rss(url)
+            channel = root.find("channel")
+            if channel is None:
+                raise ValueError("RSS channel absent")
+            rows = [e for a in channel.findall("item")
+                    if (e := normalize_rss_item(a, source, topic))]
+            items.extend(rows[:30])
+            health.append({"name": source, "state": "ok", "count": len(rows)})
+        except Exception as exc:
+            health.append({"name": source, "state": "error", "count": 0,
+                           "error": label(type(exc).__name__, 70)})
     for name, url in FEEDS.items():
         try:
             data = fetch_json(url)
