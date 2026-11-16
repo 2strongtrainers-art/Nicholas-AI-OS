@@ -1,0 +1,9 @@
+{
+  "schema": "trivalley.global-intel.v1",
+  "generated_at": null,
+  "status": "BOOTSTRAP_NOT_FETCHED",
+  "source_health": [],
+  "events": [],
+  "connections": [],
+  "methodology": "No live records yet. GitHub Actions ingestion must complete before this dashboard is current."
+}
