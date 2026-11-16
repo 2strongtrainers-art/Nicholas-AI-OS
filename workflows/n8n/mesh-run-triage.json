@@ -70,6 +70,142 @@
         "mode": "runOnceForAllItems",
         "jsCode": "const source=$input.first()?.json;\nif(!source||!Array.isArray(source.workflow_runs))throw Error('MESH_INVALID_RESPONSE');\nconst repo='2strongtrainers-art/Nicholas-AI-OS';\nconst allowed={'market-desk-research.yml':'market','render-trivalley-reel.yml':'video','deploy-argus-private-forensics.yml':'argus'};\nconst terminal=new Set(['success','failure','skipped','cancelled','timed_out','action_required','neutral','stale','startup_failure']);\nconst results=new Map();\nfor(const r of source.workflow_runs.slice(0,50)){\n  if(!r||r.head_branch!=='main'||(r.repository?.full_name&&r.repository.full_name!==repo))continue;\n  if(!['workflow_dispatch','schedule'].includes(r.event))continue;\n  if(typeof r.path!=='string'||!r.path.startsWith('.github/workflows/'))continue;\n  const file=r.path.slice('.github/workflows/'.length);\n  if(!Object.prototype.hasOwnProperty.call(allowed,file))continue;\n  if(!Number.isSafeInteger(r.id)||r.id<1||!Number.isSafeInteger(r.run_attempt)||r.run_attempt<1)continue;\n  if(!['completed','queued','in_progress','waiting','pending','requested'].includes(r.status))continue;\n  if(r.status==='completed'&&!terminal.has(r.conclusion))continue;\n  const state=r.status!=='completed'?'PENDING':r.conclusion==='success'?'UNVERIFIED':r.conclusion==='skipped'?'SKIPPED':\n    ['cancelled','action_required','neutral','stale'].includes(r.conclusion)?'BLOCKED':'FAILED';\n  const key=repo+':'+file+':'+r.id+':'+r.run_attempt;\n  results.set(key,{json:{\n    receipt_key:key,kind:allowed[file],status:state,\n    evidence_level:'github_run_metadata_only',\n    reason_code:state==='UNVERIFIED'?'ARTIFACT_QA_REQUIRED':state==='SKIPPED'?'INNER_JOB_SKIPPED':state==='PENDING'?'NOT_COMPLETED':state==='FAILED'?'JOB_FAILED':'JOB_BLOCKED',\n    run_url:'https://github.com/'+repo+'/actions/runs/'+r.id+'/attempts/'+r.run_attempt,\n    run_id:String(r.id),run_attempt:String(r.run_attempt),\n    observed_at:/^\\d{4}-\\d{2}-\\d{2}T/.test(String(r.updated_at||''))?r.updated_at:''\n  }});\n}\nreturn [...results.values()].sort((a,b)=>Number(b.json.run_id)-Number(a.json.run_id)||Number(b.json.run_attempt)-Number(a.json.run_attempt));"
       }
+    },
+    {
+      "id": "7194c5a0-3711-43d7-ace4-281510000004",
+      "name": "Upsert metadata receipt by key",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        925,
+        300
+      ],
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "xBXICbM5r7KDV1qv",
+          "cachedResultName": "mesh_receipts_v1"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "receipt_key",
+              "keyValue": "={{ $json.receipt_key }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "receipt_key": "={{ $json.receipt_key }}",
+            "kind": "={{ $json.kind }}",
+            "status": "={{ $json.status }}",
+            "run_url": "={{ $json.run_url }}",
+            "observed_at": "={{ $json.observed_at }}",
+            "run_id": "={{ $json.run_id }}",
+            "run_attempt": "={{ $json.run_attempt }}",
+            "evidence_level": "={{ $json.evidence_level }}",
+            "reason_code": "={{ $json.reason_code }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "receipt_key",
+              "displayName": "receipt_key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "kind",
+              "displayName": "kind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_url",
+              "displayName": "run_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "observed_at",
+              "displayName": "observed_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "run_attempt",
+              "displayName": "run_attempt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "evidence_level",
+              "displayName": "evidence_level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reason_code",
+              "displayName": "reason_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "options": {}
+        },
+        "options": {}
+      }
     }
   ],
   "connections": {
@@ -89,6 +225,17 @@
         [
           {
             "node": "Classify without promotion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify without promotion": {
+      "main": [
+        [
+          {
+            "node": "Upsert metadata receipt by key",
             "type": "main",
             "index": 0
           }
