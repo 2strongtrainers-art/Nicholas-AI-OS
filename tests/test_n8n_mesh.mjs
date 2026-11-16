@@ -179,3 +179,93 @@ test('classifier accepts actual positive GitHub run IDs and positive attempts',(
  assert.match(out[0].json.receipt_key,/43788561521:2$/);
  assert.equal(out[0].json.status,'UNVERIFIED');
 });
+
+
+// Global Intelligence Desk manual n8n handoff: metadata-only Chief report.
+const intelHandoff = load('global-intel-readonly-handoff.json');
+function reviewIntel(data, executionId='1122') {
+  const code = intelHandoff.nodes.find(n=>n.name==='Build safe evidence receipt')?.parameters?.jsCode;
+  assert.ok(code);
+  const out = vm.runInNewContext('(function(){'+code+'\n})()',{
+    $input:{first:()=>({json:data})},$execution:{id:executionId}
+  },{timeout:1500});
+  return JSON.parse(JSON.stringify(out[0].json));
+}
+const intelFixture=(override={})=>({
+ schema:'trivalley.global-intel.v1',
+ generated_at:new Date(Date.now()-2*60000).toISOString(),
+ status:'DEGRADED',
+ source_health:[
+  {name:'GDELT / Security',state:'error',count:0},
+  {name:'GDELT bulk',state:'ok',count:3},
+  {name:'Federal Reserve',state:'ok',count:20},
+  {name:'USGS',state:'ok',count:114},
+  {name:'NASA EONET',state:'ok',count:314}
+ ],
+ events:[{id:'one',kind:'report'}],connections:[],
+ ...override
+});
+test('Global Intel staging graph cannot send, poll, trade or write to n8n table',()=>{
+ assert.equal(intelHandoff.active,false);
+ assert.deepEqual(intelHandoff.pinData,{});
+ assert.deepEqual(intelHandoff.nodes.map(n=>n.type),[
+   'n8n-nodes-base.manualTrigger','n8n-nodes-base.httpRequest','n8n-nodes-base.code'
+ ]);
+ assert.equal(intelHandoff.nodes.filter(n=>n.type==='n8n-nodes-base.httpRequest')[0].parameters.method,'GET');
+ assert.equal(intelHandoff.nodes.filter(n=>n.type==='n8n-nodes-base.httpRequest')[0].parameters.url,
+   'https://2strongtrainers-art.github.io/Nicholas-AI-OS/data/events.json');
+ assert.ok(intelHandoff.nodes.every(n=>!n.credentials));
+});
+test('Degraded live intelligence is an actionable review item but not validated causality or Chief delivery',()=>{
+ const output=reviewIntel(intelFixture());
+ assert.equal(output.state,'DEGRADED_SOURCE_COVERAGE');
+ assert.equal(output.reason_code,'some_feeds_unavailable');
+ assert.equal(output.n8n_execution_id,'1122');
+ assert.equal(output.source_families.length,4);
+ assert.equal(output.chief_snapshot.items.length,1);
+ assert.equal(output.chief_snapshot.items[0].priority,'high');
+ assert.equal(output.chief_snapshot.items[0].source,'github');
+ assert.ok(output.chief_snapshot.items[0].url.startsWith('https://'));
+ assert.match(output.chief_delivery,/acknowledgment_not_observed/);
+ assert.equal(output.approval_state,'REVIEW_REQUIRED');
+ assert.equal(output.candidate_classification,'CANDIDATE_ONLY_NOT_CAUSATION');
+ assert.equal(output.outbound_actions,0);
+ assert.equal(output.money_spent_usd,0);
+});
+test('Review receipt ID stays stable on duplicate reads of the same source snapshot',()=>{
+ const d=intelFixture();
+ const a=reviewIntel(d,'111'),b=reviewIntel(d,'112');
+ assert.equal(a.receipt_key,b.receipt_key);
+ assert.equal(a.chief_snapshot.run_id,b.chief_snapshot.run_id);
+ assert.equal(a.chief_snapshot.items[0].version,b.chief_snapshot.items[0].version);
+ assert.notEqual(a.n8n_execution_id,b.n8n_execution_id);
+});
+test('Fresh complete multi-family public-source input is only READY_FOR_HUMAN_REVIEW',()=>{
+ const d=intelFixture({status:'OK'});
+ d.source_health.forEach(f=>{f.state='ok';f.count=Math.max(1,f.count)});
+ const out=reviewIntel(d);
+ assert.equal(out.state,'READY_FOR_HUMAN_REVIEW');
+ assert.equal(out.chief_snapshot.items[0].priority,'normal');
+ assert.notEqual(out.chief_delivery,'acknowledged');
+});
+test('Stale, implausibly future and single-family source coverage never promoted',()=>{
+ const stale=reviewIntel(intelFixture({generated_at:'2020-01-01T00:00:00Z'}));
+ assert.equal(stale.state,'BLOCKED_STALE');
+ const future=reviewIntel(intelFixture({generated_at:'2099-01-01T00:00:00Z'}));
+ assert.equal(future.state,'BLOCKED_STALE');
+ const one=reviewIntel(intelFixture({status:'OK',source_health:[{name:'GDELT bulk',state:'ok',count:5}]}));
+ assert.equal(one.state,'DEGRADED_SOURCE_COVERAGE');
+ assert.equal(one.reason_code,'insufficient_distinct_source_families');
+});
+test('Malformed, secret-tainted and invented source statuses fail closed',()=>{
+ const variants=[
+   {schema:'fake.schema'},
+   {status:'VERIFIED'},
+   {source_health:[{name:'USGS',state:'ok',count:-1}]},
+   {source_health:[]},
+   {connections:{malformed:true}},
+   {events:{not_an_array:true}},
+   {generated_at:'yesterday'}
+ ];
+ for(const v of variants)assert.throws(()=>reviewIntel(intelFixture(v)),/GLOBAL_INTEL_SCHEMA_INVALID/);
+});
