@@ -97,7 +97,10 @@
       put(entry, node("span", "event-title", item.title || "Untitled source event"));
       const foot = put(entry, node("div", "event-foot"));
       put(foot, node("span", "", item.publisher || "Source unknown"));
-      put(foot, node("span", "", isHazard(item) ? "Agency metadata · open source ↗" : "Media report · not verified ↗"));
+      put(foot, node("span", "", isHazard(item) ? "Agency record · source ↗" :
+        item.source === "GDELT event data" ? "Algorithmic coding · unverified ↗" :
+        item.trust === "Official agency publication" ? "Official agency announcement ↗" :
+        "Indexed media · unverified ↗"));
       put(target, entry);
     });
   }
