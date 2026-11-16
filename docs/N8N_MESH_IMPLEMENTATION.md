@@ -2,11 +2,11 @@
 
 Canonical issue: https://github.com/2strongtrainers-art/Nicholas-AI-OS/issues/170
 
-Status: **SOURCE READY FOR REVIEW; NOT IMPORTED OR ACTIVE IN N8N CLOUD.** Hermes is out of scope.
+Status: **one staged source repair; real n8n import/replay remains to be verified.** The owner's existing n8n draft ID `KonVvZYGI1NQlGEt` was previously imported with a malformed classifier and three invalid Upsert branches; a private structural backup exists in ChatGPT Library. Do not label live production accepted before n8n version/readback and serial receipt-table replay. Hermes is out of scope.
 
 ## New templates
 
-- `mesh-run-triage.json`: inactive, manual-only, read-only latest 50 GitHub Action run metadata records. All success is UNVERIFIED until an authenticated artifact/actual outcome is reviewed. Skipped, failed, pending and blocked are distinct. Stable per-run/attempt key supports deduplication, but this template DOES NOT persist any state or run external jobs.
+- `mesh-run-triage.json`: inactive manual-only GitHub metadata triage plus **one** keyed metadata receipt Upsert into existing private n8n Data Table `mesh_receipts_v1` (`xBXICbM5r7KDV1qv`). Real source success remains UNVERIFIED until an artifact is independently reviewed. The Upsert is intended to keep serial replays of the same run ID/attempt on one row. This source-side configuration is not proof that the currently saved n8n workflow was repaired or that actual rows were persisted.
 - `mesh-error-receiver.json`: inactive Error Trigger that sanitizes errors to fixed codes. It contains no send, retry, Data Table write or alert destination. n8n Error Triggers must be connected to another published workflow and tested using an actual failed execution; manual execution does not emulate it.
 
 ## Activation gates in the real owner workspace
@@ -23,3 +23,9 @@ No extra real-time schedule, autonomous model call, brokerage order, production 
 
 Official docs: https://docs.n8n.io/hosting/securing/security-audit/ and https://docs.n8n.io/workflows/executions/all-executions/ .
 
+
+## Exact n8n restoration gate (November 16)
+
+The owner has approved repairing the **existing inactive draft workflow**, not creating a parallel client-facing scheduled workflow. An authenticated n8n read of `KonVvZYGI1NQlGEt` returned version `952c3140-d45d-4c56-bc17-c2e4ce58691e`, six nodes including three malformed Upserts, and a classifier that incorrectly rejects normal run IDs (`r.id>1` instead of `r.id<1`). Private backup: `/TriValley/Work Handoffs/n8n_live_triage_config_structural_snapshot_2026-11-16.json`. It is a structural snapshot, not a byte-identical native export; download a native backup first if available.
+
+Once the reviewed JSON is on `main`, in **the same existing n8n draft** use the n8n editor menu **Import from URL** using the exact raw GitHub file, verify four nodes and only **one** classifier output, save while keeping the draft inactive, then read back the saved n8n API document and compare the classifier and table mapping. Run the manual-only workflow serially twice, verify the receipt table has one row per `receipt_key` with the same total unique count on replay, and save actual execution IDs and timestamped row evidence in Issue #170. If the import would create a new workflow instead of replacing the existing draft, STOP and reconcile; don't publish clones. Upsert is not an atomic lock across parallel workflows; this first pilot remains manual and serialized. 

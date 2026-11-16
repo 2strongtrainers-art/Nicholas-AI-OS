@@ -158,3 +158,24 @@ test('identical reviewed batch generates deterministic Chief run ID and payload'
  assert.deepEqual(reviewBatch(b),reviewBatch(b));
  assert.equal(reviewBatch(b).chief_snapshot.run_id,'mesh-safe-pilot-001');
 });
+test('mesh receipt writer is single, keyed, and manual-only', () => {
+ const writers=runs.nodes.filter(n=>n.type==='n8n-nodes-base.dataTable');
+ assert.equal(writers.length,1);
+ const w=writers[0];
+ assert.equal(w.name,'Upsert metadata receipt by key');
+ assert.equal(w.parameters.operation,'upsert');
+ assert.equal(w.parameters.dataTableId.value,'xBXICbM5r7KDV1qv');
+ assert.deepEqual(w.parameters.filters.conditions,[{keyName:'receipt_key',keyValue:'={{ $json.receipt_key }}'}]);
+ const required=['receipt_key','kind','status','run_url','observed_at','run_id','run_attempt','evidence_level','reason_code'];
+ assert.deepEqual(Object.keys(w.parameters.columns.value),required);
+ for(const field of required) assert.equal(w.parameters.columns.value[field], '={{ $json.'+field+' }}');
+ assert.deepEqual(runs.connections['Classify without promotion'].main,[[{node:w.name,type:'main',index:0}]]);
+ assert.equal(runs.active,false);
+});
+test('classifier accepts actual positive GitHub run IDs and positive attempts',()=>{
+ const rec=record({id:43788561521,run_attempt:2});
+ const out=execute(runs,'Classify without promotion',{workflow_runs:[rec]});
+ assert.equal(out.length,1);
+ assert.match(out[0].json.receipt_key,/43788561521:2$/);
+ assert.equal(out[0].json.status,'UNVERIFIED');
+});
