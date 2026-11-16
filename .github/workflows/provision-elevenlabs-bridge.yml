@@ -1,0 +1,52 @@
+name: Configure existing ElevenLabs bridge (manual, no generation)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: elevenlabs-bridge-production
+  cancel-in-progress: false
+
+jobs:
+  configure-and-verify:
+    if: github.repository == '2strongtrainers-art/Nicholas-AI-OS' && github.ref == 'refs/heads/main'
+    environment: elevenlabs-bridge-production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify provisioning safety without credentials or network
+        run: python -m unittest discover -s tests -p 'test_provision_elevenlabs_bridge.py' -v
+      # Dispatch only after this merge commit's Cloudflare Git Build has finished
+      # and deployments are quiet; secret updates may deploy configuration versions.
+      - name: Add only missing secrets and verify reads on the existing Worker
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Resolved inside Actions from the existing encrypted repository secret.
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          # Precreated encrypted secrets in elevenlabs-bridge-production.
+          BRIDGE_TOKEN: ${{ secrets.BRIDGE_TOKEN }}
+          OAUTH_SIGNING_SECRET: ${{ secrets.OAUTH_SIGNING_SECRET }}
+          CHATGPT_SETUP_CODE: ${{ secrets.CHATGPT_SETUP_CODE }}
+          ALLOW_PAID_AI: 'false'
+          ALLOW_OUTBOUND_SEND: 'false'
+          BRIDGE_RECEIPT_PATH: ${{ runner.temp }}/elevenlabs-bridge-verification/receipt.json
+        run: python scripts/provision_elevenlabs_bridge.py
+      - name: Retain sanitized verification receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: elevenlabs-bridge-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/elevenlabs-bridge-verification/receipt.json
+          if-no-files-found: warn
+          retention-days: 14
