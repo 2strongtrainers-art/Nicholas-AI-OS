@@ -40,6 +40,12 @@ For an existing Cloudflare GitHub Builds deployment, run **Deploy ARGUS Private 
 
 The Actions summary records a `401` response before authorization, a `200` for the authorized synthetic PNG, its SHA-256, and the expected ExifTool file type and dimensions. Share that run URL with the Chief after verification succeeds.
 
+Every completed verifier invocation now also saves a sanitized success, blocked,
+or failure receipt as a GitHub artifact. Use the
+[manual n8n → Chief receipt handoff](../../docs/ARGUS_VERIFICATION_HANDOFF.md)
+to preserve its exact run, attempt and commit, including an honest blocker when
+authentication is still unconfigured. A green build alone remains unverified.
+
 ## Privacy architecture
 
 The public-facing Cloudflare Worker requires Bearer authentication with an
