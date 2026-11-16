@@ -132,11 +132,18 @@ image_osint:
   skill: .agents/skills/argus-image-osint/SKILL.md
   worker_source: services/osint-forensics
   tool_manifest: services/osint-forensics/tool-manifest.json
-  deployment_status: parser_code_merged_private_cloudflare_deployment_pending
+  deployment_status: authenticated_synthetic_image_processing_verified
+  verification:
+    observed_at: "2026-11-16T15:28:36Z"
+    workflow_run: "https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/43788561521/attempts/2"
+    result: ARGUS_SYNTHETIC_PASS
+    scope: authenticated_png_exiftool_metadata_and_unauthorized_rejection
+    signed_c2pa_acceptance: not_verified
+    fresh_runtime_access_required: true
   evidence_storage: owner_private_external_only
   image_processing: network_denied_sandbox_only
   archivebox: disabled_until_verified_egress_controls
   automated_face_identification: disabled
 
-# A separate Cloudflare Container Worker must be authenticated and live-tested.
-# The code registry does NOT establish any active ARGUS PRIME execution adapter.
+# The existing Cloudflare Container Worker passed the narrow receipt above.
+# This does not register a new runtime connector or verify every forensic tool.

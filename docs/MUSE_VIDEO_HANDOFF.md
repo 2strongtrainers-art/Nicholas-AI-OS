@@ -1,5 +1,9 @@
 # Muse: Make Nick’s Avatar and Fitness Videos
 
+For repository access, acquired-source selection, and independent provider checks
+in Muse, start with [Muse repository and tool access](MUSE_REPOSITORY_TOOL_ACCESS.md).
+Its paste-ready request excludes Hermes and never transfers another session's credentials.
+
 For reusable creator briefs, capped capability preflight, the continuous-narration lesson renderer, localization and deployment receipts, use the [TriValley content production system](ELEVENLABS_CONTENT_SYSTEM.md). Keep the approved identity and private asset routing below.
 
 Updated November 13, 2026. Owner-requested handoff for Muse and the TriValley Chief of Staff.
