@@ -141,7 +141,7 @@ test('invalid synthetic evidence, forged provenance and extra input fields fail 
  for(const modify of variants){
   const h=argusPass();modify(h);
   const input=batch([{kind:'argus',handoff:h}]);
-  if('private_secret' in h) input.records[0].unknown='sk-secret-test';
+  // Unknown fields inside a reviewed upstream packet must also be rejected.
   assert.throws(()=>reviewBatch(input),/MESH_INVALID_REVIEW_PACKET/);
  }
 });
