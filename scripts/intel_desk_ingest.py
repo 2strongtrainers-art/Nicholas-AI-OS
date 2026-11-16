@@ -213,8 +213,8 @@ GDELT_CAMEO_ROOTS = {
 
 
 def normalize_gdelt_bulk_row(fields, archive_url):
-    """GDELT event rows are algorithmically coded article claims, never verified incidents."""
-    if not isinstance(fields, (list, tuple)) or len(fields) < 58:
+    """GDELT 2.0 event archive has 61 tab-separated columns; coding is not verification."""
+    if not isinstance(fields, (list, tuple)) or len(fields) < 61:
         return None
     root = fields[28].strip()
     if root not in GDELT_CAMEO_ROOTS:
@@ -227,16 +227,16 @@ def normalize_gdelt_bulk_row(fields, archive_url):
         return None
     a1 = label(fields[6], 60)
     a2 = label(fields[16], 60)
-    location = label(fields[50], 80)
+    location = label(fields[52], 80)
     if not a1 and not a2:
         return None
-    time_added = fields[56]
+    time_added = fields[59]
     try:
         observed = datetime.strptime(time_added, "%Y%m%d%H%M%S").replace(
             tzinfo=timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     except ValueError:
         return None
-    source_url = safe_url(fields[57].strip())
+    source_url = safe_url(fields[60].strip())
     url = source_url or archive_url
     headline = "GDELT CAMEO " + root + " (" + GDELT_CAMEO_ROOTS[root] + "): "
     headline += (a1 or "Unspecified actor") + " / " + (a2 or "Unspecified target")
@@ -245,7 +245,7 @@ def normalize_gdelt_bulk_row(fields, archive_url):
     topic = "Security" if root in ("15", "17", "18", "19", "20") else "Geopolitics"
     return {
         "id": event_id("GDELT-BULK", fields[0]), "kind": "report", "source": "GDELT event data",
-        "publisher": label(urlparse(fields[57]).hostname or "GDELT", 80),
+        "publisher": label(urlparse(source_url).hostname if source_url else "GDELT", 80),
         "topic": topic, "title": label(headline), "url": url,
         "observed_at": observed, "mentions": headline_mentions(headline),
         "position": None, "trust": "Automated event coding, not confirmed",
