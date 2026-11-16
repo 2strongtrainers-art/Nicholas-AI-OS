@@ -1,0 +1,81 @@
+{
+  "name": "TriValley Global Intel | Manual read-only Chief review",
+  "active": false,
+  "nodes": [
+    {
+      "id": "intel-manual-trigger",
+      "name": "Owner launches review",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        300
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "intel-retrieve-page",
+      "name": "Fetch public published snapshot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        410,
+        300
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://2strongtrainers-art.github.io/Nicholas-AI-OS/data/events.json",
+        "options": {
+          "timeout": 20000
+        }
+      }
+    },
+    {
+      "id": "intel-validate-receipt",
+      "name": "Build safe evidence receipt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const d = $input.first().json;\nif (!d || d.schema !== \"trivalley.global-intel.v1\" ||\n    !Array.isArray(d.source_health) || !Array.isArray(d.events) ||\n    !Array.isArray(d.connections)) throw new Error(\"GLOBAL_INTEL_SCHEMA_INVALID\");\nconst at = Date.parse(d.generated_at);\nconst age = Date.now() - at;\nconst validTime = Number.isFinite(at) && age >= -120000 && age < 8*60*60*1000;\nconst healthy = d.source_health.filter(s => s.state === \"ok\");\nconst families = [...new Set(healthy.map(s => String(s.name).split(\" / \")[0]))];\nconst state = !validTime ? \"BLOCKED_STALE\" :\n    families.length < 2 ? \"DEGRADED_SOURCE_COVERAGE\" :\n    d.status === \"OK\" ? \"READY_FOR_HUMAN_REVIEW\" : \"DEGRADED_SOURCE_COVERAGE\";\nreturn [{json:{\n  schema:\"trivalley-global-intel-chief-review-v1\",\n  observed_at:new Date().toISOString(),\n  source_generated_at:d.generated_at || null,\n  state,\n  source_families:families,\n  healthy_feeds:healthy.length,\n  feed_count:d.source_health.length,\n  indexed_signals:d.events.length,\n  candidate_links:d.connections.length,\n  attribution:\"public GDELT + USGS + NASA EONET metadata\",\n  evidence_url:\"https://2strongtrainers-art.github.io/Nicholas-AI-OS/data/events.json\",\n  github_source:\"https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/main/intel-desk\",\n  chief_delivery:\"NOT_SENT_MANUAL_REVIEW_REQUIRED\",\n  interpretation:\"Cross-topic place mentions are investigative leads, not proof of causation\",\n  approval_state:\"REVIEW_REQUIRED\",\n  outbound_actions:0,\n  money_spent_usd:0\n}}];"
+      }
+    }
+  ],
+  "connections": {
+    "Owner launches review": {
+      "main": [
+        [
+          {
+            "node": "Fetch public published snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch public published snapshot": {
+      "main": [
+        [
+          {
+            "node": "Build safe evidence receipt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Los_Angeles",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": false
+  },
+  "pinData": {},
+  "tags": []
+}
