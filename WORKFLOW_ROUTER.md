@@ -73,10 +73,12 @@ For owner market analysis, VWAP/EMA/RSI, chart proof, confluence verification or
 
 1. **Observe:** Alpaca connector or the repo's read-only Alpaca IEX market_feed. Attach source, bar timestamps, interval, completeness and non-consolidated IEX warning.
 2. **Validate:** trading.market_desk_pipeline + trading.confluence_report; a missing minute, stale snapshot, questionable spread or 16:00 boundary anomaly must be recorded, not transformed into a clean trading setup.
-3. **Investigate:** OpenBB V5 Cboe is optional source research; Vibe-Trading may propose hypotheses in a separate no-key sandbox; FinceptTerminal is a reference-only separate UI subject to AGPL review.
-4. **Test:** QuantConnect LEAN (optional, externally provisioned historical data, Docker and eligible account) for independent out-of-sample backtests, then the existing deterministic PAPER engine for illustrative simulations.
+3. **Investigate:** OpenBB V5 Cboe is optional source research; Vibe-Trading may propose hypotheses in a separate no-key sandbox; FinceptTerminal is a reference-only separate UI subject to review of its pinned custom dual-license terms, including its stated commercial and internal-use requirements.
+4. **Test:** QuantConnect LEAN (optional, independently provisioned historical data; a direct .NET 10 runtime or Docker/LEAN CLI, with account and tier requirements determined by the selected data or hosted service) for independent out-of-sample backtests, then the existing deterministic PAPER engine for illustrative simulations.
 5. **Review:** Chief of Staff / Muse consume dated, source-backed findings and explicit unknowns; no automatic live brokerage authorization, paid market data, outbound publishing, or fabricated returns.
 6. **Deliver:** GitHub Actions market-desk-research publishes public-safe *quality metadata only*, requiring separately configured GitHub Alpaca credentials. No raw market bars or secrets in the repository. A ChatGPT Alpaca connection does not give GitHub secrets.
+
+Pinned local setup commands, dated execution receipts and per-repository runtime/account/license requirements are in [Acquired application readiness](docs/ACQUIRED_APP_DEPLOYABILITY.md). Use those results to distinguish available source from a working local or hosted tool.
 
 The daytrade and risk policy files are the sole authoritative execution safeguards. Keep real-order paths absent. Do not automatically run LEAN, Fincept, Vibe agents or paid providers merely because Git submodules are pinned. Passing synthetic CI is not real-data replay.
 

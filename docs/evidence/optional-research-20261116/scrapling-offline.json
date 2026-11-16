@@ -1,0 +1,21 @@
+{
+  "runtime": "scrapling",
+  "observed_at": "2026-11-16T16:39:37.850824+00:00",
+  "python": "3.12.14",
+  "paid_calls": 0,
+  "orders_sent": 0,
+  "hosted": false,
+  "mcp_registered_in_chatgpt": false,
+  "public_network_enabled": false,
+  "versions": {
+    "scrapling": "0.4.15"
+  },
+  "css_verified": true,
+  "xpath_verified": true,
+  "browser_installed": false,
+  "validation_scope": "installed parser with synthetic CSS and XPath fixture",
+  "status": "LOCAL_CHECKS_PASSED",
+  "private_read_attempts_blocked": 0,
+  "network_attempts_blocked": 0,
+  "process_attempts_blocked": 0
+}

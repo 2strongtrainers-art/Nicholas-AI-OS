@@ -1,0 +1,28 @@
+{
+  "runtime": "vibe",
+  "observed_at": "2026-11-16T16:39:37.829162+00:00",
+  "python": "3.12.14",
+  "paid_calls": 0,
+  "orders_sent": 0,
+  "hosted": false,
+  "mcp_registered_in_chatgpt": false,
+  "public_network_enabled": false,
+  "versions": {
+    "vibe-trading-ai": "0.1.16"
+  },
+  "source_commit": "29aa084fb7866087c612ddd55ef5449824374e22",
+  "source_archive_sha256": "c9cbb9d56b96ca376d13846929e139c9d6e20a08d60bf3cfcb266aa8f259eaa4",
+  "mcp_tools": 81,
+  "bundled_skills": 90,
+  "quantlib_result": {
+    "ok": true,
+    "module": "risk",
+    "function": "historical_var",
+    "result": 0.04
+  },
+  "validation_scope": "in-process MCP protocol: tools/list, list_skills, pure quantlib_call",
+  "status": "LOCAL_CHECKS_PASSED",
+  "private_read_attempts_blocked": 0,
+  "network_attempts_blocked": 0,
+  "process_attempts_blocked": 0
+}
