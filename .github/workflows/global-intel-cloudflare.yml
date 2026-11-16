@@ -1,15 +1,6 @@
 name: Global Intelligence Desk — free Cloudflare static deployment
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "intel-desk/**"
-      - "scripts/intel_desk_ingest.py"
-      - "tests/test_intel_desk.py"
-      - ".github/workflows/global-intel-cloudflare.yml"
-  schedule:
-    - cron: "19 */3 * * *"
   workflow_dispatch:
 
 permissions:
