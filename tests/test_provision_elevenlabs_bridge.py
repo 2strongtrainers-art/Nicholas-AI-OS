@@ -118,6 +118,39 @@ class FakeAPI:
 
 
 class ProvisioningSecurityTests(unittest.TestCase):
+    def test_public_denial_records_status_without_body_retry_or_secret_access(self):
+        env = environment()
+        class DeniedAPI:
+            def __init__(self):
+                self.calls = []
+            def request(self, method, url, headers, body=None):
+                self.calls.append((method, url))
+                return reply({"private": env["ELEVENLABS_API_KEY"]}, status=403)
+        api = DeniedAPI()
+        receipt = module.execute(env, api)
+        self.assertEqual(receipt["error_code"], "public_configuration_check_failed")
+        self.assertEqual(receipt["public_http_status"], {"health": 403})
+        self.assertEqual(api.calls, [("GET", module.ORIGIN + "/health")])
+        self.assertEqual(receipt["secret_writes_attempted"], [])
+        self.assertEqual(receipt["secrets_added"], [])
+        self.assertNotIn(env["ELEVENLABS_API_KEY"], json.dumps(receipt))
+
+    def test_public_diagnostic_cannot_include_arbitrary_path_or_non_numeric_status(self):
+        env = environment()
+        api = FakeAPI(env)
+        receipt = module.initial_receipt(env)
+        provisioner = module.Provisioner(env, api, receipt)
+        with self.assertRaisesRegex(module.Blocked, "public_check_path_not_allowed"):
+            provisioner.public_json("/private/" + env["BRIDGE_TOKEN"])
+        self.assertEqual(api.calls, [])
+        self.assertEqual(receipt["public_http_status"], {})
+        class InvalidStatusAPI:
+            def request(self, *args):
+                return module.Reply(env["BRIDGE_TOKEN"], {})
+        result = module.execute(env, InvalidStatusAPI())
+        self.assertEqual(result["error_code"], "public_http_status_invalid")
+        self.assertNotIn(env["BRIDGE_TOKEN"], json.dumps(result))
+
     def test_missing_secrets_added_to_only_target_existing_bindings_preserved(self):
         env = environment()
         api = FakeAPI(env)

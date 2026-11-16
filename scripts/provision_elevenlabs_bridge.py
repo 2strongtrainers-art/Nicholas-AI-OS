@@ -30,6 +30,11 @@ from typing import Any, Mapping
 REPOSITORY = "2strongtrainers-art/Nicholas-AI-OS"
 WORKER = "nicholas-ai-os"
 ORIGIN = "https://nicholas-ai-os.2strongtrainers.workers.dev"
+PUBLIC_CHECKS = {
+    "/health": "health",
+    "/.well-known/oauth-authorization-server": "oauth_authorization_metadata",
+    "/.well-known/oauth-protected-resource/mcp": "oauth_resource_metadata",
+}
 GRANT_NAMESPACE = "7eddf8efe7d040fc962a13b38ac44287"
 SECRET_NAMES = (
     "ELEVENLABS_API_KEY", "BRIDGE_TOKEN", "OAUTH_SIGNING_SECRET", "CHATGPT_SETUP_CODE",
@@ -148,7 +153,7 @@ def initial_receipt(env: Mapping[str, str]) -> dict[str, Any]:
         "run_id": env.get("GITHUB_RUN_ID") if env.get("GITHUB_RUN_ID", "").isdigit() else None,
         "run_attempt": env.get("GITHUB_RUN_ATTEMPT") if env.get("GITHUB_RUN_ATTEMPT", "").isdigit() else None,
         "secret_writes_attempted": [], "secrets_added": [], "existing_secrets_preserved": [],
-        "checks": {}, "media_generations": 0, "media_uploads": 0,
+        "checks": {}, "public_http_status": {}, "media_generations": 0, "media_uploads": 0,
         "chatgpt_oauth_connection": "NOT_TESTED", "error_code": None,
     }
 
@@ -220,7 +225,15 @@ class Provisioner:
         return snapshot, secret_names
 
     def public_json(self, path: str) -> dict[str, Any]:
+        if path not in PUBLIC_CHECKS:
+            raise Blocked("public_check_path_not_allowed")
         response = self.http.request("GET", ORIGIN + path, {"Accept": "application/json"})
+        if type(response.status) is not int or not 100 <= response.status <= 599:
+            raise Blocked("public_http_status_invalid")
+        # Fixed local labels and numeric statuses diagnose the failed stage without
+        # exposing headers, provider bodies, private data or credentials. No retry
+        # or alternate request fingerprint is introduced by this observation.
+        self.receipt["public_http_status"][PUBLIC_CHECKS[path]] = response.status
         if response.status != 200:
             raise Blocked("public_configuration_check_failed")
         value = decode_json(response)
