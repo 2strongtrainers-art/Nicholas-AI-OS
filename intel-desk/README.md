@@ -5,6 +5,7 @@ A separate, read-only intelligence dashboard for **personal research** in Nichol
 ## Data sources
 - **GDELT DOC 2.0:** public media reports from four themed searches (Security, Geopolitics, Energy, Economy). An indexed headline is **not** a verified incident. Articles are linked to their original publishers; no article bodies are copied.
 - **USGS M4.5+ (past seven days):** earthquake catalog points, attributed to USGS. Parameters may be revised.
+- **Federal Reserve, Department of State, CISA, and EIA official RSS:** direct agency announcements classified under economy, geopolitics, security and energy respectively. Government announcements are primary-source statements; they are not independent factual verification.
 - **NASA EONET v3:** open natural-event GeoJSON points. Some points are event reference markers, not impact footprints. Polygons are excluded, never guessed into a point.
 - **World Monitor:** external reference dashboard. Source at https://github.com/koala73/worldmonitor (AGPL-3.0). No hosted-service API or code is copied into this original app.
 - **Liveuamap, ACLED:** external conflict research links. No unauthorized extraction, API use or redistribution.
@@ -16,13 +17,13 @@ Connections are flagged only when a named place appears in headlines from at lea
 Only NASA/USGS agency-supplied coordinates receive map pins. No financial trades, alert-triggered decisions, client outreach, AI charges or paid service calls are performed.
 
 ## Hosting and ingest
-- GitHub Actions: .github/workflows/global-intel-desk.yml.
+- Primary: Cloudflare Workers **Static Assets**, no Worker script, on the existing Cloudflare account. Cloudflare documents static asset requests as free and unlimited; no new subscription, AI credit or database required. Dedicated Worker name: trivalley-global-intel. Existing secrets are used only inside GitHub Actions and never published.
+- Expected address after successful hosted deployment and live verification: https://trivalley-global-intel.2strongtrainers.workers.dev/
+- The scheduled pipeline is .github/workflows/global-intel-cloudflare.yml, refreshing every 3 hours; GitHub Actions schedules may be delayed. An independent authenticated n8n Cloud connection is still required for hosted orchestration.
+- GitHub Pages is an **optional disabled fallback**: .github/workflows/global-intel-desk.yml runs offline tests automatically but publishes only via a separately requested manual dispatch after Pages is enabled in GitHub Settings. A missing Pages site is not a failed Cloudflare deployment.
 - Standard library Python script: scripts/intel_desk_ingest.py.
 - Offline acceptance: python -m unittest discover -s tests -p 'test_intel_desk.py' and node --check intel-desk/app.js.
-- At scheduled or manual run, fetch public metadata, refuse to manufacture a fresh empty snapshot when all endpoints fail, and publish the static artifact through GitHub Pages.
-- Production URL **only after Pages is enabled and a deployment action succeeds**: https://2strongtrainers-art.github.io/Nicholas-AI-OS/
-- Default cadence is every three hours; GitHub schedules may be delayed. Source health and generated UTC timestamp are visible.
-- GitHub Pages for this public repo uses the no-cost path, subject to GitHub limits.
+- At scheduled or manual run, fetch public metadata, refuse to manufacture a fresh empty snapshot when all endpoints fail, and publish static assets to the dedicated Cloudflare host.
 
 ## n8n and Chief handoff
 workflows/n8n/global-intel-readonly-handoff.json is an **inactive manual import**. It retrieves only the deployed JSON snapshot, checks freshness/schema/source coverage, and returns one metadata-only review packet. It does not modify a current n8n Cloud workflow or claim Chief acknowledgment. Import into the approved n8n project only after inspecting active workflows, permissions, quota and dedupe under issue #170. Do not create a competing production polling schedule. Send approved evidence to the Chief only through the existing private reviewed handoff.
