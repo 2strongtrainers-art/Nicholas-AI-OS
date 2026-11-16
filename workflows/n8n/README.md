@@ -1,5 +1,12 @@
 # Restore the Wix coaching intake queue
 
+For the separate manual GitHub verification → n8n → Chief evidence handoff, see
+[ARGUS verification handoff](../../docs/ARGUS_VERIFICATION_HANDOFF.md) and import
+[`argus-verification-handoff.json`](argus-verification-handoff.json). It reads
+public run metadata, accepts an optional authenticated-reader-reviewed sanitized
+artifact, and keeps blocked/unverified states explicit. It does not change the
+production coaching queue described below.
+
 The inactive n8n export and Wix Velo relay template come from the tested TriValley.fit flow. Import into a staging project or recovery host. The running Wix and n8n setup owns production.
 
 1. Create a private n8n data table using `coaching-draft-review-schema.csv`. Use text fields and start with no rows. Bind the table to **Save decision for review**. The upsert matches `inquiry_id`.

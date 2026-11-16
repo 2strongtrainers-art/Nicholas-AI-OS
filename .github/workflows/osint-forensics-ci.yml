@@ -5,6 +5,10 @@ on:
     paths:
       - 'services/osint-forensics/**'
       - 'tests/test_osint_forensics.py'
+      - 'tests/test_osint_http.py'
+      - 'tests/test_argus_handoff.mjs'
+      - 'workflows/n8n/argus-verification-handoff.json'
+      - '.github/workflows/deploy-argus-private-forensics.yml'
       - '.agents/skills/argus-image-osint/**'
       - 'docs/osint/**'
       - 'data/osint/**'
@@ -66,5 +70,6 @@ jobs:
         run: |
           node --check services/osint-forensics/edge/index.js
           python -m json.tool services/osint-forensics/wrangler.jsonc > /dev/null
+          node --test tests/test_argus_handoff.mjs
       - name: Wrangler configuration dry run (no secret, no deploy)
         run: npx --yes wrangler@4.141.0 deploy --dry-run --config services/osint-forensics/wrangler.jsonc

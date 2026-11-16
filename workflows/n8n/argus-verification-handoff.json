@@ -1,0 +1,173 @@
+{
+  "name": "ARGUS | Manual Verification Receipt to Chief",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4ccbf9ed-94f7-4b3b-9e13-728c05419be3",
+      "name": "Owner starts verification handoff",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"reviewed_artifact\": null\n}",
+        "options": {}
+      },
+      "id": "a24bb946-15e5-4f32-95db-5065d3a26c7a",
+      "name": "Reviewed receipt (optional)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/2strongtrainers-art/Nicholas-AI-OS/actions/workflows/deploy-argus-private-forensics.yml/runs?branch=main&per_page=50",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000,
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "b0797c31-5bf0-492c-aad0-d6e9476294e1",
+      "name": "Read ARGUS workflow runs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        0
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/2strongtrainers-art/Nicholas-AI-OS/actions/artifacts?per_page=100",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 20000,
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "b75e6935-3da5-453f-8699-283df9bb4c39",
+      "name": "Read sanitized artifact metadata",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        0
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Manual, read-only handoff. A green run or artifact name is never image evidence.\nconst repository = '2strongtrainers-art/Nicholas-AI-OS';\nconst workflowPath = '.github/workflows/deploy-argus-private-forensics.yml';\nconst workflowId = 418878767;\nconst base = 'https://github.com/' + repository;\nconst allowedFailures = new Set(['invalid_worker_origin', 'health_unverified', 'worker_not_configured',\n  'github_key_missing', 'unauthorized_check_failed', 'authenticated_analysis_failed',\n  'synthetic_integrity_failed', 'exiftool_unverified', 'exiftool_fixture_mismatch',\n  'response_too_large', 'worker_request_failed', 'prerequisite_failed', 'unexpected_verification_error']);\nconst blockedFailures = new Set(['invalid_worker_origin', 'worker_not_configured', 'github_key_missing', 'prerequisite_failed']);\nconst expectedEvidence = {\n  fixture_id: 'argus-synthetic-png-v1', source_bytes: 69,\n  source_sha256: '5731a25f0c25c4e8b515f273b778da29ec74369400f93551a68507d5dacf77c3',\n  unauthenticated_http: 401, authenticated_http: 200,\n  exiftool: { FileType: 'PNG', MIMEType: 'image/png', ImageWidth: 1, ImageHeight: 1 },\n  sensitive_metadata_included: false,\n};\nconst isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);\nconst exactKeys = (obj, keys) => isObject(obj) && Object.keys(obj).length === keys.length && keys.every(k => Object.hasOwn(obj, k));\nconst safeInteger = value => Number.isSafeInteger(value) && value > 0;\nconst validDate = value => typeof value === 'string' && /^\\d{4}-\\d\\d-\\d\\dT/.test(value) && /(?:Z|[+-]\\d\\d:\\d\\d)$/.test(value) && Number.isFinite(Date.parse(value));\nconst sameEvidence = value => exactKeys(value, Object.keys(expectedEvidence)) &&\n  Object.entries(expectedEvidence).every(([key, expected]) => key === 'exiftool'\n    ? exactKeys(value.exiftool, Object.keys(expected)) && Object.entries(expected).every(([k, v]) => value.exiftool[k] === v)\n    : value[key] === expected);\nconst now = new Date().toISOString();\nconst runPayload = $('Read ARGUS workflow runs').first().json;\nconst artifactPayload = $input.first().json;\nconst packet = $('Reviewed receipt (optional)').first().json.reviewed_artifact;\nconst executions = typeof $execution !== 'undefined' ? String($execution.id || '') : '';\nconst executionId = /^[A-Za-z0-9_-]{1,80}$/.test(executions) ? executions : null;\n\n// Require the trusted GitHub endpoint's owner, workflow, event and branch metadata.\nconst runs = Array.isArray(runPayload.workflow_runs) ? runPayload.workflow_runs.filter(run =>\n  isObject(run) && safeInteger(run.id) && safeInteger(run.run_attempt) &&\n  run.workflow_id === workflowId && run.path === workflowPath && run.head_branch === 'main' &&\n  ['workflow_dispatch', 'push'].includes(run.event) &&\n  run.repository?.full_name === repository && run.head_repository?.full_name === repository &&\n  /^[0-9a-f]{40}$/.test(run.head_sha || '') && validDate(run.created_at) && validDate(run.updated_at) &&\n  Date.parse(run.created_at) <= Date.parse(run.updated_at) && Date.parse(run.updated_at) <= Date.now() + 60000\n).sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at) || b.id - a.id) : [];\nconst run = runs[0] || null;\nlet status = 'BLOCKED';\nlet reason = 'github_run_source_unavailable';\nlet verification = null;\nlet approvedArtifact = null;\nlet runReference = null;\nlet receiptKey = 'argus-source-unavailable';\nif (run) {\n  const version = run.id + '-' + run.run_attempt;\n  const runUrl = base + '/actions/runs/' + run.id + '/attempts/' + run.run_attempt;\n  receiptKey = 'argus-' + version;\n  const conclusions = new Set(['success', 'failure', 'cancelled', 'timed_out', 'action_required', 'skipped', 'stale', 'neutral', 'startup_failure']);\n  runReference = { run_id: String(run.id), run_attempt: run.run_attempt, head_sha: run.head_sha,\n    run_url: runUrl, status: run.status === 'completed' ? 'completed' : 'not_completed',\n    conclusion: conclusions.has(run.conclusion) ? run.conclusion : null };\n  const artifactName = 'argus-verification-' + version;\n  const artifacts = Array.isArray(artifactPayload.artifacts) ? artifactPayload.artifacts : [];\n  const artifact = artifacts.find(item => isObject(item) && safeInteger(item.id) &&\n    item.name === artifactName && item.expired === false &&\n    item.workflow_run?.id === run.id && item.workflow_run?.head_sha === run.head_sha &&\n    item.workflow_run?.head_branch === 'main' && /^sha256:[0-9a-f]{64}$/.test(item.digest || ''));\n  if (run.status !== 'completed') {\n    status = 'UNVERIFIED'; reason = 'run_not_completed';\n  } else if (!conclusions.has(run.conclusion)) {\n    reason = 'run_conclusion_unrecognized';\n  } else if (packet == null) {\n    status = run.conclusion === 'success' ? 'UNVERIFIED' : 'BLOCKED';\n    reason = run.conclusion === 'success' ? 'sanitized_receipt_not_reviewed' : 'run_not_successful';\n  } else if (!artifact) {\n    reason = 'matching_artifact_unavailable';\n  } else if (!exactKeys(packet, ['artifact_id', 'archive_sha256', 'receipt']) ||\n      packet.artifact_id !== artifact.id || !/^[0-9a-f]{64}$/.test(packet.archive_sha256 || '') ||\n      'sha256:' + packet.archive_sha256 !== artifact.digest) {\n    reason = 'reviewed_artifact_provenance_mismatch';\n  } else {\n    const receipt = packet.receipt;\n    const github = receipt?.github;\n    const receiptValid = exactKeys(receipt, ['schema', 'service', 'scope', 'status', 'failure_code', 'observed_at', 'github', 'evidence']) &&\n      receipt.schema === 'argus-verification-receipt-v1' && receipt.service === 'argus-prime-forensics' &&\n      receipt.scope === 'synthetic_only' && validDate(receipt.observed_at) &&\n      Date.parse(receipt.observed_at) >= Date.parse(run.created_at) &&\n      Date.parse(receipt.observed_at) <= Date.parse(run.updated_at) + 60000 &&\n      exactKeys(github, ['repository', 'workflow_path', 'run_id', 'run_attempt', 'head_sha', 'ref', 'event', 'run_url']) &&\n      github.repository === repository && github.workflow_path === workflowPath &&\n      github.run_id === String(run.id) && github.run_attempt === run.run_attempt &&\n      github.head_sha === run.head_sha && github.ref === 'refs/heads/main' && github.event === run.event && github.run_url === runUrl;\n    if (!receiptValid) {\n      reason = 'sanitized_receipt_provenance_mismatch';\n    } else if (receipt.status === 'ARGUS_SYNTHETIC_PASS' && receipt.failure_code === null && sameEvidence(receipt.evidence)) {\n      if (run.conclusion !== 'success') {\n        reason = 'run_receipt_conflict';\n      } else {\n        status = 'VERIFIED_SYNTHETIC'; reason = 'reviewed_synthetic_receipt_matches_github';\n        verification = { status: receipt.status, failure_code: null, observed_at: receipt.observed_at, evidence: expectedEvidence };\n      }\n    } else if (['ARGUS_VERIFICATION_BLOCKED', 'ARGUS_VERIFICATION_FAILED'].includes(receipt.status) &&\n        allowedFailures.has(receipt.failure_code) && receipt.evidence === null &&\n        (receipt.status === 'ARGUS_VERIFICATION_BLOCKED') === blockedFailures.has(receipt.failure_code)) {\n      if (run.conclusion === 'success') {\n        reason = 'run_receipt_conflict';\n      } else {\n        status = receipt.status === 'ARGUS_VERIFICATION_BLOCKED' ? 'BLOCKED' : 'FAILED';\n        reason = receipt.failure_code;\n        verification = { status: receipt.status, failure_code: receipt.failure_code, observed_at: receipt.observed_at, evidence: null };\n      }\n    } else {\n      reason = 'sanitized_receipt_invalid';\n    }\n    if (verification) approvedArtifact = { artifact_id: artifact.id, name: artifactName, archive_sha256: packet.archive_sha256,\n      provenance: 'authenticated-reader-reviewed-artifact; digest-matched-to-public-GitHub-metadata' };\n  }\n}\nconst nextStep = status === 'VERIFIED_SYNTHETIC'\n  ? 'Chief reviews this exact run and the n8n execution receipt; synthetic verification alone does not prove real-image cases or delivery acknowledgment.'\n  : reason === 'worker_not_configured'\n    ? 'Configure the independent encrypted ARGUS Worker secret and matching GitHub environment secret, rerun verify-existing, then review the new artifact.'\n    : 'Review the linked GitHub run; supply its authenticated-download sanitized artifact with archive SHA-256, or fix the reported verification blocker and rerun.';\nconst item = { source: 'github', id: 'argus-verification',\n  version: receiptKey + ':' + status + ':' + reason,\n  title: 'ARGUS ' + status + ': ' + reason, next_step: nextStep,\n  url: runReference?.run_url || base + '/actions/workflows/deploy-argus-private-forensics.yml',\n  observed_at: now, due_at: null, direction: 'owner_action', priority: status === 'VERIFIED_SYNTHETIC' ? 'normal' : 'high' };\nreturn [{ json: {\n  schema: 'argus-chief-handoff-v1', status, reason, receipt_key: receiptKey,\n  run: runReference, verification, reviewed_artifact: approvedArtifact,\n  n8n_execution_id: executionId, chief_delivery: 'normalized_output_prepared; acknowledgment_not_observed',\n  chief_snapshot: { run_id: (receiptKey + '-' + (executionId || 'manual')).slice(0, 80), as_of: now, coverage: { github: run ? 'ok' : 'partial' }, items: [item] },\n  limitations: ['No secret or image uploads; public GitHub reads only.',\n    'Reviewed artifact bytes and digest come from the authenticated reader; this workflow does not download or authenticate the archive itself.',\n    'A green workflow without matching reviewed synthetic evidence is UNVERIFIED.',\n    'No scheduled activation, data-table write, client contact, trade, or Chief receipt acknowledgment.'],\n} }];\n"
+      },
+      "id": "378b8531-e110-4117-8cae-18f34f1c67d5",
+      "name": "Prepare verified evidence or explicit blocker for Chief",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Owner starts verification handoff": {
+      "main": [
+        [
+          {
+            "node": "Reviewed receipt (optional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reviewed receipt (optional)": {
+      "main": [
+        [
+          {
+            "node": "Read ARGUS workflow runs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ARGUS workflow runs": {
+      "main": [
+        [
+          {
+            "node": "Read sanitized artifact metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read sanitized artifact metadata": {
+      "main": [
+        [
+          {
+            "node": "Prepare verified evidence or explicit blocker for Chief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Los_Angeles",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "tags": []
+}
