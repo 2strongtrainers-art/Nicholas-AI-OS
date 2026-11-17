@@ -33,6 +33,18 @@ jobs:
           python3 apps/trivalley-opengym/patch_opengym.py upstream/frontend
           python3 apps/trivalley-opengym/add_daily_verse.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_v4.py upstream/frontend
+          curl --fail --location --silent --show-error --retry 2 --max-time 25 \
+            'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
+            -o upstream/frontend/public/trivalley-triquetra.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, struct
+          path = Path('upstream/frontend/public/trivalley-triquetra.png')
+          raw = path.read_bytes()
+          assert raw.startswith(b'\x89PNG\r\n\x1a\n') and len(raw) < 150000, 'Logo asset must be a small valid PNG'
+          assert struct.unpack('>II', raw[16:24]) == (72,72), 'Expected 72px reviewed triquetra'
+          print('Brand source SHA-256:', hashlib.sha256(raw).hexdigest())
+          PY
           cp apps/trivalley-opengym/branding/icon-192.png upstream/frontend/public/icon-192.png
           cp apps/trivalley-opengym/branding/icon-512.png upstream/frontend/public/icon-512.png
       - name: Test deterministic exercise discovery and validated backup recovery
