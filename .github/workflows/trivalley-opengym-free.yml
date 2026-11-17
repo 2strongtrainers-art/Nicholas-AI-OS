@@ -36,6 +36,9 @@ jobs:
       - name: Install locked dependencies
         working-directory: upstream/frontend
         run: npm ci --no-audit --no-fund
+      - name: Install OpenGym coach test dependencies without starting its backend
+        working-directory: upstream/api
+        run: npm ci --no-audit --no-fund
       - name: Run OpenGym training tests
         working-directory: upstream/frontend
         run: npm test
