@@ -62,6 +62,15 @@ class GateTests(unittest.TestCase):
             self.assertEqual(path.stat().st_mode & 0o777, 0o600)
             self.assertEqual(json.loads(path.read_text())["status"], "STRUCTURAL_PASS_REVIEW_REQUIRED")
 
+    def test_receipt_and_snapshot_must_not_alias(self):
+        with tempfile.TemporaryDirectory() as folder:
+            case = Path(folder) / "case.json"
+            out = Path(folder) / "output.json"
+            case.write_text(json.dumps(self.doc))
+            result = gate.main([str(case), "--receipt", str(out), "--chief-snapshot", str(out)])
+            self.assertEqual(result, 2)
+            self.assertFalse(out.exists())
+
     def test_input_is_never_an_output(self):
         with tempfile.TemporaryDirectory() as folder:
             case = Path(folder) / "case.json"

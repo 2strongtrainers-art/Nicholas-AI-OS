@@ -150,6 +150,11 @@ def validate_graph(doc):
             else:
                 families.add(source_by_id[sid]["publisher_family"].casefold().strip())
         aa, bb = event_by_id[a], event_by_id[b]
+        # Link citations must be attributable to one of the events at its endpoints.
+        # Valid URLs and shared topics alone cannot justify importing unrelated sources.
+        endpoint_sources = set(aa.get("source_ids", [])) | set(bb.get("source_ids", []))
+        if not set(ids).issubset(endpoint_sources):
+            problems.append(key + ": relationship sources are not cited by endpoint events")
         shared = set(aa.get("tags", [])) & set(bb.get("tags", []))
         if kind in ("Shared subject", "Temporal sequence") and not shared:
             problems.append(key + ": no shared controlled context tags; unrelated-event link blocked")

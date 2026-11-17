@@ -38,9 +38,10 @@ The validator rejects:
 2. Missing provenance, HTTP URLs, invalid dates and future events.
 3. Temporal links backwards in time.
 4. Shared-subject/temporal edges without a shared specific controlled tag.
-5. "Causes" or any other unapproved relationship type.
-6. Documented interaction without reviewed status and 2 publisher families.
-7. Promotion of an untested Hypothesis to established fact.
+5. Relationship citations not present among the explicit sources of either endpoint.
+6. "Causes" or any other unapproved relationship type.
+7. Documented interaction without reviewed status and 2 publisher families.
+8. Promotion of an untested Hypothesis to established fact.
 
 A shared tag is **only a basic semantic guard**, not proof of a real relationship.
 Two publishers might also repeat the same unverified original claim; source
