@@ -109,14 +109,15 @@ def main(argv=None):
     p.add_argument("--receipt", type=Path, required=True, help="private status receipt JSON")
     p.add_argument("--chief-snapshot", type=Path, required=True, help="private normalized Chief snapshot JSON")
     args = p.parse_args(argv)
-    if args.receipt.resolve() == args.input.resolve() or args.chief_snapshot.resolve() == args.input.resolve():
-        print("BLOCKED: input cannot be an output path", file=sys.stderr)
+    if len({args.input.resolve(), args.receipt.resolve(), args.chief_snapshot.resolve()}) != 3:
+        print("BLOCKED: input, receipt, and Chief snapshot paths must be distinct", file=sys.stderr)
         return 2
     try:
         doc = read_case(args.input)
         receipt, snapshot = make_outputs(doc, as_of=datetime.now(timezone.utc))
-        private_write(args.receipt, receipt)
+        # A fresh receipt is the final success marker; write the Chief snapshot first.
         private_write(args.chief_snapshot, snapshot)
+        private_write(args.receipt, receipt)
     except (OSError, ValueError, GraphIntegrityError, json.JSONDecodeError) as error:
         print("BLOCKED: " + type(error).__name__, file=sys.stderr)
         return 1
