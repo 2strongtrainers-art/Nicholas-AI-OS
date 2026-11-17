@@ -149,7 +149,7 @@ export class CoachingService {
   authorizedCoachClient(actor,clientId) {
     const {a}=this.requireCoach(actor);
     clientId=text(clientId,160,'Client ID');
-    const allowed=[...this.store.assignments.values()].some(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.clientId===clientId);
+    const allowed=[...this.store.assignments.values()].some(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.clientId===clientId&&x.status==='active');
     if(!allowed) error(404,'NOT_FOUND','Client not found');
     const member=exists(this.store.members.get(clientId));
     if(member.role!=='client'||member.orgId!==a.orgId) error(404,'NOT_FOUND','Client not found');
@@ -232,10 +232,37 @@ export class CoachingService {
       checkinsSubmitted:checkins.length,checkinsAwaitingReview:checkins.filter(x=>x.reviewStatus==='pending').length
     };
   }
+  reviewCheckin(actor,checkinId,input) {
+    const {a}=this.requireCoach(actor);
+    fields(input,['reviewNote']);
+    const reviewNote=input.reviewNote==null?'':(typeof input.reviewNote==='string' && input.reviewNote.length<=500
+      ? input.reviewNote : error(422,'VALIDATION','Review note too long'));
+    const record=[...this.store.checkins.values()].map(x=>x.record)
+      .find(x=>x.id===uuid(checkinId,'Check-in ID') && x.orgId===a.orgId && x.coachId===a.sub);
+    if(!record) error(404,'NOT_FOUND','Check-in not found');
+    this.authorizedCoachClient(actor,record.clientId);
+    if(record.reviewStatus==='reviewed') {
+      if(record.reviewNote!==reviewNote)error(409,'REVIEW_CONFLICT','Review has already been finalized');
+      return {record:clone(record),reused:true};
+    }
+    record.reviewStatus='reviewed';
+    record.reviewedAt=this.now();
+    record.reviewNote=reviewNote;
+    return {record:clone(record),reused:false};
+  }
+  revokeAssignment(actor,id) {
+    const {a}=this.requireCoach(actor);
+    const assignment=this.store.assignments.get(uuid(id,'Assignment ID'));
+    if(!assignment || assignment.orgId!==a.orgId || assignment.coachId!==a.sub)
+      error(404,'NOT_FOUND','Assignment not found');
+    assignment.status='revoked';
+    assignment.revokedAt=assignment.revokedAt || this.now();
+    return clone(assignment);
+  }
   coachCheckins(actor,clientId) {
     this.authorizedCoachClient(actor,clientId);
     const a=sanitizedActor(actor);
-    return [...this.store.checkins.values()].map(v=>v.record).filter(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.clientId===clientId).map(clone);
+    return [...this.store.checkins.values()].map(v=>v.record).filter(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.clientId===clientId).map(v=>clone(v));
   }
   clientExport(actor) {
     const {a}=this.requireClient(actor);
