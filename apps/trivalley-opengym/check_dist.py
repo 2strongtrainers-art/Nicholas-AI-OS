@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Validate and cache the patched upstream OpenGym static release."""
 import json
+import hashlib
 import sys
 from pathlib import Path
 
 dist = Path(sys.argv[1]).resolve()
-required = ["index.html", "manifest.json", "sw.js", "icon-192.png", "icon-512.png", "trivalley-exercise.svg"]
+required = ["index.html", "manifest.json", "icon-192.png", "icon-512.png", "trivalley-exercise.svg"]
 missing = [p for p in required if not (dist / p).is_file()]
 if missing:
     raise SystemExit("Missing required built files: " + ", ".join(missing))
@@ -27,43 +28,70 @@ if "TRIVALLEY.FIT" not in bundle or "Modified source" not in bundle:
 if "cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset" in bundle:
     raise SystemExit("Exercise image CDN must not be in the no-media build")
 
-# Precache the actual hashed bundle for standalone/offline use; no paid workers.
-precache = ["./", "./index.html", "./manifest.json", "./icon-192.png",
-            "./icon-512.png", "./trivalley-exercise.svg"] + ["./" + x for x in assets]
+# Wix reserves /sw.js for its own tiny worker. Register and ship a unique /tv-sw.js.
+# Cache the critical app shell strictly; noncritical translations/coach-demo chunks are best-effort.
+if "tv-sw.js" not in bundle:
+    raise SystemExit("Main React bundle does not register the unique tv-sw.js worker")
+entry_js = [x for x in assets if x.startswith("assets/index-") and x.endswith(".js")]
+entry_css = [x for x in assets if x.startswith("assets/index-") and x.endswith(".css")]
+if len(entry_js) != 1 or len(entry_css) != 1:
+    raise SystemExit("Expected one Vite entrypoint JS and CSS, found " + repr((entry_js, entry_css)))
+core = ["./", "./index.html", "./manifest.json", "./icon-192.png",
+        "./icon-512.png", "./trivalley-exercise.svg",
+        "./" + entry_js[0], "./" + entry_css[0]]
+extras = ["./" + x for x in assets if x not in entry_js + entry_css]
+fingerprint = hashlib.sha256(("|".join(assets) + bundle[:500]).encode()).hexdigest()[:12]
 worker = """
-const CACHE = 'trivalley-open-gym-v1';
-const ASSETS = %s;
+const CACHE = 'trivalley-open-gym-v2-%s';
+const CORE = %s;
+const EXTRAS = %s;
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await cache.addAll(CORE);
+    await Promise.allSettled(EXTRAS.map(file => cache.add(file)));
+    await self.skipWaiting();
+  })());
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(
-    keys.filter(k => k.startsWith('trivalley-open-gym-') && k !== CACHE).map(k => caches.delete(k))
-  )).then(() => self.clients.claim()));
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k.startsWith('trivalley-open-gym-') && k !== CACHE).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     if (event.request.mode === 'navigate') {
-      try { return await fetch(event.request); }
-      catch { return await cache.match('./index.html') || Response.error(); }
+      try {
+        const response = await fetch(event.request);
+        if (response.ok) await cache.put('./index.html', response.clone());
+        return response;
+      } catch {
+        return await cache.match('./index.html') || await cache.match('./') || Response.error();
+      }
     }
     const cached = await cache.match(event.request);
     if (cached) return cached;
-    const response = await fetch(event.request);
-    if (response.ok) cache.put(event.request, response.clone());
-    return response;
+    try {
+      const response = await fetch(event.request);
+      if (response.ok) await cache.put(event.request, response.clone());
+      return response;
+    } catch {
+      return Response.error();
+    }
   })());
 });
-""" % json.dumps(precache, separators=(",", ":"))
-(dist / "sw.js").write_text(worker)
+""" % (fingerprint, json.dumps(core, separators=(",", ":")), json.dumps(extras, separators=(",", ":")))
+(dist / "tv-sw.js").write_text(worker)
 
 print(json.dumps({
     "status":"BUILD_OK",
     "app":"TriValley-branded actual alexpcosta/opengym",
-    "mode":"VITE_DEMO=1 / browser-local",
-    "appFiles": len(assets) + len(required),
+    "mode":"VITE_DEMO=1 + VITE_TRIVALLEY_FREE=1 / real browser-local",
+    "appFiles": len(assets) + len(required) + 1,
     "sizeBytes": built_bytes,
     "media":"original generic SVG only; no third-party exercise GIFs",
     "source":"https://github.com/alexpcosta/opengym"
