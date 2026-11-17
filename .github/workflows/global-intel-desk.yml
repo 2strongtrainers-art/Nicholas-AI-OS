@@ -139,7 +139,13 @@ jobs:
         if: steps.pages.outputs.enabled == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
+          name: pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: intel-desk
+      - name: Allow new artifact metadata to become available
+        if: steps.pages.outputs.enabled == 'true'
+        run: sleep 15
       - name: Publish independent dashboard to GitHub Pages
         if: steps.pages.outputs.enabled == 'true'
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: pages-${{ github.run_id }}-${{ github.run_attempt }}
