@@ -38,6 +38,7 @@ The validator rejects:
 2. Missing provenance, HTTP URLs, invalid dates and future events.
 3. Temporal links backwards in time.
 4. Shared-subject/temporal edges without a shared specific controlled tag.
+5. Relationship citations not present among the explicit sources of either endpoint.
 5. "Causes" or any other unapproved relationship type.
 6. Documented interaction without reviewed status and 2 publisher families.
 7. Promotion of an untested Hypothesis to established fact.
