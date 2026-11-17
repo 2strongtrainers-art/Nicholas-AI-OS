@@ -227,6 +227,27 @@ replace_exact("src/views/Home.jsx",
 # Allow pinch zoom on iPhone, and avoid the Wix-reserved "sw.js" filename.
 html = front / "index.html"
 html.write_text(html.read_text().replace("viewport-fit=cover,user-scalable=no", "viewport-fit=cover"))
+# A branded static fallback stays visible if a browser blocks JavaScript or a bundle fails.
+# React replaces #root on success, so the fallback does not interfere with the app.
+page = html.read_text()
+if page.count('<div id="root"></div>') != 1:
+    raise RuntimeError("Unexpected React root; cannot install startup fallback")
+page = page.replace("</head>", """<style>
+html,body{background:#0c0e12;color:#e7f2ed}
+.tv-splash{min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:13px;padding:30px;text-align:center;font:500 16px/1.6 system-ui,-apple-system,sans-serif}
+.tv-splash strong{font-size:31px;letter-spacing:-.03em}
+.tv-splash span{color:#b5c6bb}
+.tv-splash a{color:#86efac}
+</style></head>""", 1)
+page = page.replace('<div id="root"></div>', """<div id="root">
+<div class="tv-splash" id="tv-splash" role="status">
+<strong>TriValley FIT</strong><span>Loading your training dashboard…</span>
+<small>If this screen stays here, <a href="./?reload=1">reload the app</a>.</small>
+</div></div>
+<noscript>JavaScript must be enabled to use TriValley FIT.</noscript>""", 1)
+html.write_text(page)
+
 old_sw = front / "public/sw.js"
 if old_sw.exists():
     old_sw.unlink()
