@@ -1,10 +1,12 @@
 // Offline-to-online coaching sync contract, synthetic/test-only until backend approval.
 // This module stores no credentials. A host app must inject an authorized API sender
 // and transactionally durable per-account storage; do not reuse the free guest store.
-import {randomUUID} from 'node:crypto';
-
-const byteSize = x => Buffer.byteLength(JSON.stringify(x),'utf8');
-export function createOfflineWorkoutQueue({read,write,send,createId=randomUUID,maxEvents=100}) {
+const secureUuid = () => {
+  if(!globalThis.crypto?.randomUUID) throw new Error('Secure browser UUID generation unavailable');
+  return globalThis.crypto.randomUUID();
+};
+const byteSize = x => new TextEncoder().encode(JSON.stringify(x)).length;
+export function createOfflineWorkoutQueue({read,write,send,createId=secureUuid,maxEvents=100}) {
   if (![read,write,send].every(x=>typeof x==='function')) throw new Error('Queue requires storage and authorized sender');
   let serialized=Promise.resolve();
   const execute=fn=>{
