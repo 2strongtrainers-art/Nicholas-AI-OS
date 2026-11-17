@@ -5,7 +5,9 @@ on:
     paths:
       - "intel-desk/**"
       - "scripts/intel_desk_ingest.py"
+      - "scripts/intel_desk_corrob.py"
       - "tests/test_intel_desk.py"
+      - "tests/test_intel_desk_corrob.py"
       - "workflows/n8n/global-intel-readonly-handoff.json"
       - ".github/workflows/global-intel-desk.yml"
   push:
@@ -13,7 +15,9 @@ on:
     paths:
       - "intel-desk/**"
       - "scripts/intel_desk_ingest.py"
+      - "scripts/intel_desk_corrob.py"
       - "tests/test_intel_desk.py"
+      - "tests/test_intel_desk_corrob.py"
       - ".github/workflows/global-intel-desk.yml"
   schedule:
     - cron: "19 */3 * * *"
@@ -44,7 +48,9 @@ jobs:
         with:
           node-version: "22"
       - name: Validate evidence normalization and verification safeguards
-        run: python3 -m unittest discover -s tests -p 'test_intel_desk.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_intel_desk.py' -v
+          python3 -m unittest discover -s tests -p 'test_intel_desk_corrob.py' -v
       - name: Validate browser source and JSON bootstrap
         run: |
           node --check intel-desk/app.js
@@ -67,10 +73,13 @@ jobs:
           python-version: "3.12"
       - name: Refresh permitted public sources
         run: python3 scripts/intel_desk_ingest.py --output intel-desk/data/events.json
+      - name: Prepare conservative cross-publisher review leads and Chief receipt
+        run: python3 scripts/intel_desk_corrob.py --input intel-desk/data/events.json --receipt intel-desk/data/review-receipt.json --output intel-desk/data/corroboration.json
       - name: Verify normalized snapshot and publish attribution
         run: |
           python3 -m json.tool intel-desk/data/events.json >/dev/null
           python3 -m json.tool intel-desk/data/review-receipt.json >/dev/null
+          python3 -m json.tool intel-desk/data/corroboration.json >/dev/null
           sha256sum intel-desk/data/events.json intel-desk/data/review-receipt.json
           python3 - <<'PY'
           import json
@@ -84,6 +93,14 @@ jobs:
           assert r["source_feed_total"]==len(p["source_health"])
           assert r["paid_provider_calls"]==0 and r["outbound_actions"]==0
           assert r["chief_delivery"]=="normalized_output_prepared; acknowledgment_not_observed"
+          c=json.load(open("intel-desk/data/corroboration.json",encoding="utf-8"))
+          assert c["schema"]=="trivalley.global-intel-corroboration.v1"
+          assert c["receipt_key"]==r["receipt_key"] and c["generated_at"]==p["generated_at"]
+          assert r["corroboration"]["cross_publisher_leads"]==len(c["cross_publisher_leads"])
+          assert r["corroboration"]["claim_level"]=="LEAD_ONLY_UNVERIFIED"
+          assert c["paid_provider_calls"]==0 and c["outbound_actions"]==0
+          assert c["approval_state"]=="REVIEW_REQUIRED"
+          print("CORROBORATION",c["receipt_key"],"LEADS",len(c["cross_publisher_leads"]),"OFFICIAL",len(c["official_publication_leads"]),"QA",c["counts"]["excluded_by_reason"])
           print("REVIEW_RECEIPT",r["receipt_key"],r["state"],"FAMILIES",r["source_family_count"],"NO_CHIEF_ACK",True)
           print("SNAPSHOT",p["status"],"EVENTS",len(p["events"]),"CANDIDATES",len(p["connections"]))
           for s in p["source_health"]:
@@ -96,6 +113,7 @@ jobs:
           path: |
             intel-desk/data/events.json
             intel-desk/data/review-receipt.json
+            intel-desk/data/corroboration.json
           retention-days: 7
           if-no-files-found: error
       - name: Detect whether GitHub Pages source is enabled
