@@ -35,8 +35,8 @@ jobs:
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
           if (release.version !== '4.0.0' ||
-              release.sourceCommit !== 'f9a408b6db7e3f8bcc3949adedff1c0e1e45f7ce' ||
-              release.mainScript !== 'assets/index-Ddf6euh3.js' ||
+              release.sourceCommit !== '69cfb5c71898afc62662a1b0df6c44a861f84994' ||
+              release.mainScript !== 'assets/index-CqSO4SY_.js' ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
@@ -45,7 +45,7 @@ jobs:
       - name: Verify live Wix v4 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-Ddf6euh3.js'
+          TV_EXPECTED_JS: 'index-CqSO4SY_.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
