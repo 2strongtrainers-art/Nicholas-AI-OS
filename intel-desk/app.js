@@ -174,6 +174,50 @@
       });
     });
   }
+  function renderCorroboration(assessment, source) {
+    const list = $("corroboration-list");
+    const official = $("primary-review-list");
+    list.replaceChildren();
+    official.replaceChildren();
+    const current = assessment && assessment.schema === "trivalley.global-intel-corroboration.v1" &&
+      assessment.generated_at === source.generated_at && assessment.approval_state === "REVIEW_REQUIRED";
+    if (!current) {
+      $("corroboration-status").textContent = "Review data missing or does not match the current snapshot. No cross-publisher verification claimed.";
+      put(list, node("div", "placeholder", "No current corroboration receipt available."));
+      return;
+    }
+    const candidates = Array.isArray(assessment.cross_publisher_leads) ? assessment.cross_publisher_leads : [];
+    const primary = Array.isArray(assessment.official_publication_leads) ? assessment.official_publication_leads : [];
+    const counts = assessment.counts || {};
+    $("corroboration-status").textContent = candidates.length + " cross-publisher review leads · " +
+      primary.length + " official publication leads · " +
+      (counts.eligible_report_headlines || 0) + " eligible headlines · " +
+      "not independently fact-checked";
+    if (!candidates.length) {
+      put(list, node("div", "placeholder", "No cross-publisher pairs met the strict checks. This is not an all-clear and does not rule out serious events."));
+    }
+    candidates.slice(0, 6).forEach(function (candidate) {
+      const card = put(list, node("article", "connection"));
+      const heading = put(card, node("div", "connection-head"));
+      put(heading, node("strong", "", candidate.place_mention + " · " + candidate.action_tag));
+      put(heading, node("span", "", "LEAD · NOT VERIFIED"));
+      put(card, node("small", "", candidate.topic + " · independent publisher families: " +
+        (candidate.publisher_families || []).join(" / ") + " · editorial syndication unresolved"));
+      const sources = put(card, node("div", "connection-evidence"));
+      (candidate.evidence || []).slice(0, 2).forEach(function (e) {
+        const u = safeLink(e.url);
+        if (!u) return;
+        const a = put(sources, node("a", "", e.publisher + " — " + e.title + " ↗"));
+        a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer";
+      });
+    });
+    primary.slice(0, 5).forEach(function (e) {
+      const u = safeLink(e.url);
+      if (!u) return;
+      const a = put(official, node("a", "", e.publisher + " — " + e.title + " ↗"));
+      a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer";
+    });
+  }
   function redraw() {
     if (!state.dataset) return;
     const all = Array.isArray(state.dataset.events) ? state.dataset.events : [];
@@ -199,6 +243,13 @@
       }).length);
       statusView(data);
       redraw();
+      try {
+        const corroborationResponse = await fetch("./data/corroboration.json", { cache: "no-store" });
+        if (!corroborationResponse.ok) throw Error("review_data_unavailable");
+        renderCorroboration(await corroborationResponse.json(), data);
+      } catch (_) {
+        renderCorroboration(null, data);
+      }
     } catch (err) {
       $("live-status").classList.add("failed");
       $("live-status").lastChild.textContent = "FEED UNAVAILABLE";
@@ -207,6 +258,9 @@
       $("feed-list").replaceChildren(node("div", "placeholder", "No records loaded. No demonstration events substituted."));
       $("connections-list").replaceChildren(node("div", "placeholder", "No analysis without source data."));
       $("source-health").replaceChildren(node("p", "footnote", "Feed health unavailable."));
+      $("corroboration-status").textContent = "No validated current source evidence.";
+      $("corroboration-list").replaceChildren(node("div", "placeholder", "Review queue unavailable."));
+      $("primary-review-list").replaceChildren();
     }
   }
   document.querySelectorAll(".filter").forEach(function (button) {
