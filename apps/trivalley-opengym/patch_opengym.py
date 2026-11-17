@@ -5,12 +5,14 @@ The upstream React app, its state engine and its AGPL-3.0-or-later licensing are
 This patch creates an original, local-only, no-API, no-paid-service PWA.
 """
 import json
+import os
 import sys
 from pathlib import Path
 
 front = Path(sys.argv[1]).resolve()
 assert (front / "src/App.jsx").exists(), "Run with path to upstream/frontend"
-source_url = "https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/feat/trivalley-opengym-free-20261116/apps/trivalley-opengym"
+source_ref = os.environ.get("GITHUB_SHA", "feat/trivalley-opengym-free-20261116")
+source_url = f"https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/{source_ref}/apps/trivalley-opengym"
 upstream_url = "https://github.com/alexpcosta/opengym"
 
 def replace_exact(rel, old, new):
