@@ -1,0 +1,41 @@
+name: TriValley openGym — live Wix browser acceptance
+on:
+  push:
+    branches:
+      - feat/trivalley-opengym-free-20261116
+    paths:
+      - 'apps/trivalley-opengym/browser_smoke.mjs'
+      - '.github/workflows/trivalley-opengym-live.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-browser:
+    name: Test the actual Wix-hosted app in mobile Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install free browser QA driver
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-live"
+          npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
+          cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
+      - name: Verify Wix release, plan, set logging, history and offline restart
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+          TV_EXPECTED_JS: 'index-C-WLJ2mA.js'
+        run: node "$RUNNER_TEMP/trivalley-live/smoke.mjs" unused "$RUNNER_TEMP/trivalley-live/live.png"
+      - name: Upload live mobile screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-opengym-live-mobile-qa
+          path: ${{ runner.temp }}/trivalley-live/live.png
+          retention-days: 7
+          if-no-files-found: ignore
