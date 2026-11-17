@@ -1,0 +1,43 @@
+name: TriValley M2 — security contract and synthetic coaching QA
+on:
+  push:
+    branches:
+      - feat/trivalley-m2-coaching-20261117
+    paths:
+      - 'apps/trivalley-coaching-m2/**'
+      - '.github/workflows/trivalley-coaching-m2.yml'
+  pull_request:
+    paths:
+      - 'apps/trivalley-coaching-m2/**'
+      - '.github/workflows/trivalley-coaching-m2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-coaching:
+    name: Verify M2 coach/client authorization, sync and test-only API
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run deterministic M2 contract and security tests
+        working-directory: apps/trivalley-coaching-m2
+        env:
+          NODE_ENV: test
+          ALLOW_PAID_AI: 'false'
+          ALLOW_OUTBOUND_SEND: 'false'
+        run: node --test test/*.test.mjs
+      - name: Verify no deployable server or credentials were introduced
+        shell: bash
+        run: |
+          test ! -f apps/trivalley-coaching-m2/.env
+          test ! -f apps/trivalley-coaching-m2/src/start.mjs
+          test ! -f apps/trivalley-coaching-m2/src/server.mjs
+          test -f apps/trivalley-coaching-m2/SECURITY_GATES.md
+          grep -q 'Not production-ready' apps/trivalley-coaching-m2/SECURITY_GATES.md
+          echo "M2_SYNTHETIC_ONLY_PASS"
