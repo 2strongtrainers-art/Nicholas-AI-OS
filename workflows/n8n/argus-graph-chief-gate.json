@@ -72,7 +72,8 @@
     "timezone": "America/Los_Angeles",
     "saveDataSuccessExecution": "all",
     "saveDataErrorExecution": "all",
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "availableInMCP": false
   },
   "pinData": {},
   "tags": []
