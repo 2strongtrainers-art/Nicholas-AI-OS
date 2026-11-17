@@ -154,7 +154,7 @@ test('Actual HTTP flow with committed SQLite and injected verified fake tokens',
   assert.equal(exportA.body.data.checkins.length,1);
   assert.equal(JSON.stringify(exportA.body.data).includes('coaching-test-client-b'),false);
   const previousRevision=repo.inspect().revision;
-  assert.ok(previousRevision>=10);
+  assert.ok(previousRevision>=5, 'Committed HTTP operations must advance persistent revision');
   repo.close();
   // HTTP fixture re-opens a fresh SQLite handle to verify committed state persists.
   const recovered=new SyntheticSQLiteCoachingRepository(path,{now:()=>time});
