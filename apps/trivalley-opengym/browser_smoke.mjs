@@ -233,7 +233,14 @@ try {
     await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:4000});
     await page.click('[data-testid="tv-library-filters"]');
     await page.click('[data-testid="tv-filters-done"]');
-    await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:4000});
+    const afterDone = await page.evaluate(() => ({
+      panelVisible: !!document.querySelector('[data-testid="tv-filter-overlay"]'),
+      filterExpanded: document.querySelector('[data-testid="tv-library-filters"]')?.getAttribute('aria-expanded'),
+      focus: document.activeElement?.getAttribute('data-testid') || document.activeElement?.tagName,
+      overlayText: document.querySelector('[data-testid="tv-filter-overlay"]')?.textContent?.slice(0, 110),
+    }));
+    console.log(JSON.stringify({filterDoneProbe: afterDone}));
+    await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:5000});
     const dimensions = await page.evaluate(() => ({
       width: document.documentElement.scrollWidth, viewport: innerWidth,
       visibleCards: document.querySelectorAll('[data-testid="tv-exercise-card"]').length
