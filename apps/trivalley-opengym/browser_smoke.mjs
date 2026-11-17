@@ -57,6 +57,43 @@ try {
   const workout=await page.evaluate(()=>document.body.innerText);
   if(!workout.includes('Push Day'))throw new Error('Push Day not accessible in workout chooser');
 
+  // Real workout acceptance: start a planned routine, mark a set, finish early, and confirm saved history.
+  const selected=await page.evaluate(() => {
+    const item=[...document.querySelectorAll('.item')].find(el=>el.textContent.includes('Push Day'));
+    if(!item)return false;item.click();return true;
+  });
+  if(!selected)throw new Error('Cannot select Push Day from workout chooser');
+  await page.waitForFunction(()=>document.body.innerText.includes('Quick check-in'),{timeout:10000});
+  const skipped=await page.evaluate(() => {
+    const b=[...document.querySelectorAll('button')].find(el=>el.textContent.includes('Start without weighing in'));
+    if(!b)return false;b.click();return true;
+  });
+  if(!skipped)throw new Error('Cannot skip optional bodyweight check-in');
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').active?.entries?.length>=1,{timeout:10000});
+  const setChecked=await page.evaluate(() => {
+    const box=document.querySelector('.setrow [role="checkbox"]');
+    if(!box)return false;box.click();return true;
+  });
+  if(!setChecked)throw new Error('Cannot find exercise set checkbox');
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').active?.entries?.[0]?.sets?.[0]?.done===true,{timeout:10000});
+  await page.evaluate(() => document.querySelector('button[aria-label="Finish"]')?.click());
+  await page.waitForFunction(()=>document.body.innerText.includes('Finish early?'),{timeout:10000});
+  const confirmed=await page.evaluate(() => {
+    const b=[...document.querySelectorAll('button')].find(el=>el.textContent.trim()==='Finish workout');
+    if(!b)return false;b.click();return true;
+  });
+  if(!confirmed)throw new Error('Cannot confirm finishing workout');
+  await page.waitForFunction(() => {
+    const s=JSON.parse(localStorage.getItem('gym_state_v1')||'{}');
+    return !s.active && s.workouts?.length===1 && s.workouts[0].entries?.some(e=>e.sets.some(x=>x.done));
+  },{timeout:10000});
+  await page.evaluate(() => {
+    const b=[...document.querySelectorAll('button')].find(el=>el.textContent.trim()==='Nice!');
+    b?.click();
+  });
+  const recorded=await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')||'{}').workouts?.length);
+  if(recorded!==1)throw new Error('Workout not recorded after finish');
+
   await page.evaluate(()=>{location.hash='#/settings'});
   await page.waitForFunction(()=>document.querySelector('h1')?.textContent?.includes('Settings'),{timeout:12000});
   const settings=await page.evaluate(()=>document.body.innerText);
@@ -79,7 +116,7 @@ try {
   if(offline.saved!==3)throw new Error('Offline reload lost workout plan');
 
   if(findings.length)throw new Error('Browser runtime errors: '+findings.slice(0,8).join(' | '));
-  console.log(JSON.stringify({status:'BROWSER_SMOKE_PASS',initialTitle:initial.title,initialUnit:initial.unit,plans:3,workoutChooser:true,settingsNoDemo:true,worker,offline,chrome,screenshot},null,2));
+  console.log(JSON.stringify({status:'BROWSER_SMOKE_PASS',initialTitle:initial.title,initialUnit:initial.unit,plans:3,workoutChooser:true,loggedSets:1,finishedWorkouts:1,settingsNoDemo:true,worker,offline,chrome,screenshot},null,2));
 } finally {
   if(browser)await browser.close();
   await new Promise(resolve=>server.close(resolve));
