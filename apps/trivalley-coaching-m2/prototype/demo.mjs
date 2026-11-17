@@ -49,7 +49,7 @@ function active(){return svc.activeAssignments(client)}
 function chosen(){return active().at(-1)}
 function progress(){return svc.clientProgress(client,client.sub)}
 function header(){
-  return '<header><img src="./triquetra.png" alt="" width="44" height="44">'+
+  return '<header><img src="../trivalley-triquetra.png" alt="" width="44" height="44">'+
     '<div><div class="eyebrow">TRIVALLEY.FIT / COACHING SYSTEM</div>'+
     '<h1>Training Command Center</h1><div class="sub">Milestone 2 · Interactive sample experience</div></div></header>'+
     '<div class="notice" role="status"><strong>DEMONSTRATION ONLY.</strong> These are invented sample records.'+
