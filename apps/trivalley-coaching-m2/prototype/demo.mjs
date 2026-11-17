@@ -79,7 +79,7 @@ function coachView(){
       choices.map(x=>'<option value="'+x.id+'">'+safe(x.name)+'</option>').join('')+'</select>'+
       '<div class="grid"><div><label for="new-sets">Sets</label><input id="new-sets" name="sets" type="number" min="1" max="12" value="3" required></div>'+
       '<div><label for="new-reps">Reps</label><input id="new-reps" name="reps" type="number" min="1" max="60" value="10" required></div></div>'+
-      '<button type="submit" class="btn primary" style="margin-top:14px;width:100%">Publish and assign to sample client</button></form>'+
+      '<button type="submit" class="btn primary full-submit">Publish and assign to sample client</button></form>'+
     '</div></div>'+
     '<div class="card"><div class="row"><h2>Client progress</h2><span class="pill">Read-only history</span></div>'+
       '<div class="grid">'+count('Completed sessions',p.totalWorkouts)+count('Performed sets',p.totalLoggedSets)+'</div>'+
