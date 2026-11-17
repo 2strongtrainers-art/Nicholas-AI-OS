@@ -74,7 +74,7 @@
       (i%5===1 ? "Save this for your next session." :
       (i%5===2 ? "Share this with someone planning their training week." :
       (i%5===3 ? "Tell me what move you want covered next." :
-      "Find the coaching options at TriValley.fit."));
+      "Find the coaching options at TriValley.fit.")));
     const caption=idea.hook+" "+idea.takeaway+" "+cta+" "+
       idea.tags.slice(0,5).map(function(t){return "#"+t;}).join(" ");
     return {id:"DAY"+String(i+1).padStart(2,"0"),day:i+1,week:week,date:iso(d),
