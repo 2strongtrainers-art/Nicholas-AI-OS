@@ -165,13 +165,25 @@ class NormalizationTests(unittest.TestCase):
         self.assertEqual(first["outbound_actions"], 0)
         self.assertEqual(first["paid_provider_calls"], 0)
 
+    def test_defense_and_energy_fallbacks_are_labeled_as_actual_agencies(self):
+        item = s.ET.fromstring("""<item><title>Test supply chain announcement</title>
+            <link>https://www.energy.gov/articles/example</link>
+            <pubDate>Mon, 16 Nov 2026 23:10:00 GMT</pubDate></item>""")
+        doe = s.normalize_rss_item(item, "Department of Energy", "Energy")
+        self.assertEqual(doe["publisher"], "Department of Energy")
+        self.assertEqual(doe["trust"], "Official agency publication")
+        self.assertNotEqual(doe["source"], "EIA")
+        defense = s.normalize_rss_item(item, "Defense Department", "Geopolitics")
+        self.assertEqual(defense["trust"], "Official agency publication")
+
     def test_zero_spend_and_no_duplicate_gdelt_doc_queries(self):
         self.assertEqual(len(s.NEWS_RSS), 4)
         self.assertTrue(all(url.startswith("https://") for topic, url in s.NEWS_RSS.values()))
         self.assertIn("BBC Energy Watch", s.RELEVANT_HEADLINES)
         self.assertIn("NPR Technology", s.RELEVANT_HEADLINES)
         self.assertEqual(len(s.OFFICIAL_RSS), 3)
-        self.assertIn("State Travel Advisories", s.OFFICIAL_RSS)
+        self.assertIn("Defense Department", s.OFFICIAL_RSS)
+        self.assertIn("https://www.energy.gov/rss/energygov/2193718", s.EIA_RSS_ALTERNATES)
 
     def test_gdelt_date_fail_closed(self):
         self.assertIsNone(s.parse_gdelt_date("yesterday"))

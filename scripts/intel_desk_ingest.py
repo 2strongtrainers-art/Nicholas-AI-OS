@@ -36,7 +36,12 @@ RELEVANT_HEADLINES = {
         r"\b(oil|gas|crude|energy|electricity|fuel|diesel|renewable|nuclear|power|opec|lng|pipeline)\b", re.I),
 }
 CISA_KEV_URL = "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json"
-EIA_RSS_ALTERNATES = ("https://www.eia.gov/about/new/WNtest3.php",)
+# Retain EIA's official release feeds; a Department of Energy news fallback is
+# a DIFFERENT agency and must be labelled as such, not called EIA statistics.
+EIA_RSS_ALTERNATES = (
+    "https://www.eia.gov/rss/press_rss.xml",
+    "https://www.energy.gov/rss/energygov/2193718",
+)
 MENTIONS = ("Iran", "Ukraine", "Russia", "Taiwan", "China", "Israel",
             "Lebanon", "Syria", "India", "Pakistan", "Venezuela",
             "North Korea", "Red Sea", "Strait of Hormuz", "United States")
@@ -46,7 +51,7 @@ FEEDS = {
 }
 OFFICIAL_RSS = {
     "Federal Reserve": ("Economy", "https://www.federalreserve.gov/feeds/press_all.xml"),
-    "State Travel Advisories": ("Geopolitics", "https://travel.state.gov/_res/rss/TAs.xml"),
+    "Defense Department": ("Geopolitics", "https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?max=10&ContentType=1&Site=945"),
     "EIA": ("Energy", "https://www.eia.gov/rss/todayinenergy.xml"),
 }
 USER_AGENT = "TriValley-GlobalIntelDesk/1.0 (public read-only research)"
@@ -205,7 +210,8 @@ def normalize_rss_item(item, source, topic):
         observed = date.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     except (ValueError, TypeError, OverflowError, AttributeError):
         observed = None
-    official = source in ("Federal Reserve", "State Department", "State Travel Advisories", "EIA")
+    official = source in ("Federal Reserve", "State Department", "State Travel Advisories",
+                          "Defense Department", "EIA", "Department of Energy")
     publisher = "BBC" if source.startswith("BBC ") else "NPR" if source.startswith("NPR ") else source
     return {"id": event_id(publisher, url), "kind": "report", "source": source,
             "publisher": publisher, "topic": topic, "title": title, "url": url,
@@ -405,29 +411,44 @@ def collect():
                        "state": "error", "count": 0,
                        "error": label(type(exc).__name__, 70)})
     for source, (topic, url) in OFFICIAL_RSS.items():
-        fallback_error = ""
+        last_error = "no usable RSS items"
+        parsed = []
+        used = ""
+        actual_source = source
         try:
-            urls = [url] + (list(EIA_RSS_ALTERNATES) if source == "EIA" else [])
-            root = None
-            used = ""
-            for candidate in urls:
+            candidates = [url] + (list(EIA_RSS_ALTERNATES) if source == "EIA" else [])
+            for candidate in candidates:
                 try:
                     root = fetch_rss(candidate)
-                    used = candidate
+                    channel = root.find("channel")
+                    if channel is None:
+                        last_error = "RSS channel absent"
+                        continue
+                    real_source = ("Department of Energy" if
+                                   candidate.startswith("https://www.energy.gov/") else source)
+                    rows = [e for a in channel.findall("item")
+                            if (e := normalize_rss_item(a, real_source, topic))]
+                    if not rows:
+                        last_error = "valid RSS but no usable item links"
+                        continue
+                    parsed, used, actual_source = rows, candidate, real_source
                     break
                 except Exception as exc:
-                    fallback_error = label(str(exc), 70)
-            if root is None:
-                raise ValueError("all official RSS endpoints unavailable: " + fallback_error)
-            channel = root.find("channel")
-            if channel is None:
-                raise ValueError("RSS channel absent")
-            rows = [e for a in channel.findall("item")
-                    if (e := normalize_rss_item(a, source, topic))]
-            items.extend(rows[:30])
-            health.append({"name": source, "family": source,
-                           "state": "ok", "count": len(rows),
-                           "fallback_used": used != url})
+                    last_error = label(str(exc), 70)
+            if not parsed:
+                state = "empty" if "usable" in last_error else "error"
+                health.append({"name": source, "family": source, "state": state,
+                               "count": 0, "error": last_error})
+                continue
+            items.extend(parsed[:30])
+            label_name = (actual_source + " (EIA fallback)"
+                          if actual_source != source else source)
+            health.append({"name": label_name, "family": actual_source,
+                           "state": "ok", "count": len(parsed),
+                           "fallback_used": used != url,
+                           "note": ("Energy policy news; not EIA statistics"
+                                    if actual_source == "Department of Energy" else
+                                    "Official agency RSS headlines")})
         except Exception as exc:
             health.append({"name": source, "family": source,
                            "state": "error", "count": 0,
