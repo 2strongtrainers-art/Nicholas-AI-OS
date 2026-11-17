@@ -35,6 +35,51 @@ jobs:
       - name: Verify SQLite tenancy and replay constraints without cloud services
         working-directory: apps/trivalley-coaching-m2
         run: python3 -m unittest discover -s test -p 'test_*.py' -v
+      - name: Package synthetic-only coaching preview for browser testing
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/m2-preview-public/m2-preview"
+          cp apps/trivalley-coaching-m2/prototype/index.html "$RUNNER_TEMP/m2-preview-public/m2-preview/index.html"
+          cp apps/trivalley-coaching-m2/prototype/demo.css "$RUNNER_TEMP/m2-preview-public/m2-preview/demo.css"
+          cp apps/trivalley-coaching-m2/prototype/demo.mjs "$RUNNER_TEMP/m2-preview-public/m2-preview/demo.mjs"
+          cp apps/trivalley-coaching-m2/src/domain.mjs "$RUNNER_TEMP/m2-preview-public/m2-preview/domain.mjs"
+          cp apps/trivalley-coaching-m2/src/offline-queue.mjs "$RUNNER_TEMP/m2-preview-public/m2-preview/offline-queue.mjs"
+          curl --fail --location --silent --show-error --retry 2 --max-time 25 \
+            'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/trivalley-triquetra.png' \
+            -o "$RUNNER_TEMP/m2-preview-public/m2-preview/triquetra.png"
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+          import os
+          root=Path(os.environ['RUNNER_TEMP'])/'m2-preview-public'/'m2-preview'
+          logo=(root/'triquetra.png').read_bytes()
+          assert logo.startswith(b'\x89PNG\r\n\x1a\n') and len(logo)<150000
+          assert struct.unpack('>II',logo[16:24])==(72,72)
+          assert len(list(root.iterdir()))==6, "Unexpected prototype contents"
+          print("M2_PREVIEW_CONTENTS_PASS")
+          PY
+      - name: Test coach/client preview in isolated mobile Chromium browser
+        run: |
+          mkdir -p "$RUNNER_TEMP/m2-preview-driver"
+          npm install --prefix "$RUNNER_TEMP/m2-preview-driver" --no-audit --no-fund puppeteer-core@24
+          cp apps/trivalley-coaching-m2/test/preview-browser.mjs "$RUNNER_TEMP/m2-preview-driver/preview-browser.mjs"
+          node "$RUNNER_TEMP/m2-preview-driver/preview-browser.mjs" \
+            "$RUNNER_TEMP/m2-preview-public" "$RUNNER_TEMP/m2-preview-driver/m2-coaching-preview.png"
+      - name: Upload synthetic preview screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-m2-preview-browser-qa
+          path: ${{ runner.temp }}/m2-preview-driver/m2-coaching-preview.png
+          retention-days: 14
+          if-no-files-found: ignore
+      - name: Upload synthetic-only static coaching preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-m2-static-preview
+          path: ${{ runner.temp }}/m2-preview-public/
+          retention-days: 14
+          if-no-files-found: error
       - name: Verify no deployable server or credentials were introduced
         shell: bash
         run: |
