@@ -89,7 +89,7 @@
 .tv-filter-sheet .tv-advanced-heading {font-size:13px;}
 .tv-filter-sheet .tv-advanced-chips {padding-bottom:8px;}
 .tv-filter-sheet .tv-filter-chip{min-height:44px;}
-.tv-filter-sheet .tv-done-filters {width:100%;min-height:48px;border:0;border-radius:12px;
+.tv-filter-sheet .tv-done-filters {position:sticky;bottom:0;z-index:4;box-shadow:0 -10px 22px #181d1a; width:100%;min-height:48px;border:0;border-radius:12px;
   background:#70da77;color:#102316;font-weight:800;font-size:15px;margin-top:15px;cursor:pointer;}
 .tv-library button:focus-visible,.tv-home-verse-card button:focus-visible,.tv-today-hero button:focus-visible,
 .tv-v4-topbar button:focus-visible,.tv-v4-topbar a:focus-visible {outline:3px solid #b7ffb9!important;outline-offset:2px;}
