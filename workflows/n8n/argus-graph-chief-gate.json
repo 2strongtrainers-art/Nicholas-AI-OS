@@ -1,0 +1,79 @@
+{
+  "name": "TriValley ARGUS Graph | Manual evidence gate to Chief (STAGING)",
+  "active": false,
+  "nodes": [
+    {
+      "id": "bed2eb99-0a1d-4ad3-9f51-1c73817c0001",
+      "name": "Owner starts private graph review",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        120,
+        260
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "bed2eb99-0a1d-4ad3-9f51-1c73817c0002",
+      "name": "Synthetic graph packet — replace inside private workspace",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        260
+      ],
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"graph\": {\n    \"schema\": \"argus.event-graph.v1\",\n    \"cutoff\": \"2026-11-17T10:15:00-08:00\",\n    \"visibility\": \"synthetic-public\",\n    \"sources\": [\n      {\n        \"id\": \"source-1\",\n        \"title\": \"Fictional harbor record\",\n        \"publisher\": \"Fictional Maritime Board\",\n        \"publisher_family\": \"Fictional Maritime Board\",\n        \"url\": \"https://example.org/record-one\"\n      },\n      {\n        \"id\": \"source-2\",\n        \"title\": \"Fictional review\",\n        \"publisher\": \"Fictional Civic Paper\",\n        \"publisher_family\": \"Fictional Civic Paper\",\n        \"url\": \"https://example.org/record-two\"\n      }\n    ],\n    \"events\": [\n      {\n        \"id\": \"evt-a\",\n        \"occurred_on\": \"2026-11-01\",\n        \"precision\": \"day\",\n        \"title\": \"Synthetic port alert\",\n        \"summary\": \"Fictional alert for testing the graph.\",\n        \"review_status\": \"source-indexed-unreviewed\",\n        \"source_ids\": [\n          \"source-1\"\n        ],\n        \"tags\": [\n          \"fictional-maritime\"\n        ]\n      },\n      {\n        \"id\": \"evt-b\",\n        \"occurred_on\": \"2026-11-02\",\n        \"precision\": \"day\",\n        \"title\": \"Synthetic harbor follow-up\",\n        \"summary\": \"Fictional follow-up for testing chronology.\",\n        \"review_status\": \"source-indexed-unreviewed\",\n        \"source_ids\": [\n          \"source-2\"\n        ],\n        \"tags\": [\n          \"fictional-maritime\"\n        ]\n      },\n      {\n        \"id\": \"evt-c\",\n        \"occurred_on\": \"2026-11-03\",\n        \"precision\": \"day\",\n        \"title\": \"Unrelated fictional event\",\n        \"summary\": \"No documented relationship to harbor alerts.\",\n        \"review_status\": \"source-indexed-unreviewed\",\n        \"source_ids\": [\n          \"source-2\"\n        ],\n        \"tags\": [\n          \"fictional-other\"\n        ]\n      }\n    ],\n    \"relationships\": [\n      {\n        \"id\": \"link-1\",\n        \"source_event_id\": \"evt-a\",\n        \"target_event_id\": \"evt-b\",\n        \"type\": \"Temporal sequence\",\n        \"assertion\": \"Illustrative chronology only: no causal connection is asserted.\",\n        \"source_ids\": [\n          \"source-1\",\n          \"source-2\"\n        ],\n        \"review_status\": \"candidate\",\n        \"confidence\": \"unassessed\"\n      }\n    ]\n  }\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "bed2eb99-0a1d-4ad3-9f51-1c73817c0003",
+      "name": "Validate typed graph and create sanitized Chief packet",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        260
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "/* ARGUS event-graph gate — n8n Code node; no network calls, secrets, or writes.\n * Manually triggered owner-private case only. A structurally valid graph is NOT\n * independently verified geopolitical intelligence or evidence of causation.\n */\n(function () {\n  \"use strict\";\n  const fail = () => { throw new Error(\"ARGUS_GRAPH_VALIDATION_BLOCKED\"); };\n  const obj = v => v !== null && typeof v === \"object\" && !Array.isArray(v);\n  const str = v => typeof v === \"string\" && v.trim().length > 0;\n  const stamp = v => str(v) && /^\\d{4}-\\d\\d-\\d\\dT/.test(v) &&\n    /(Z|[+-]\\d\\d:\\d\\d)$/.test(v) && Number.isFinite(Date.parse(v));\n  const day = v => {\n    if (typeof v !== \"string\" || !/^\\d{4}-\\d\\d-\\d\\d$/.test(v)) return null;\n    const ms = Date.parse(v + \"T00:00:00Z\");\n    return Number.isFinite(ms) && new Date(ms).toISOString().slice(0, 10) === v ? ms : null;\n  };\n  const urlOK = v => {\n    if (!str(v)) return false;\n    try { const u = new URL(v); return u.protocol === \"https:\" && !!u.hostname && !u.username && !u.password; }\n    catch (_) { return false; }\n  };\n  const packet = $input.first().json;\n  if (!obj(packet) || !obj(packet.graph)) fail();\n  const g = packet.graph;\n  if (g.schema !== \"argus.event-graph.v1\" ||\n    !stamp(g.cutoff) || ![\"owner-private\", \"synthetic-public\"].includes(g.visibility) ||\n    !Array.isArray(g.sources) || !Array.isArray(g.events) ||\n    !Array.isArray(g.relationships)) fail();\n  if (g.events.length < 1 || g.events.length > 10000 ||\n    g.sources.length < 1 || g.sources.length > 10000 ||\n    g.relationships.length > 50000) fail();\n  const cutoff = day(g.cutoff.slice(0, 10));\n  if (cutoff === null) fail();\n  const sources = new Map(), events = new Map();\n  for (const s of g.sources) {\n    if (!obj(s) || !str(s.id) || sources.has(s.id) || !str(s.title) ||\n      !str(s.publisher_family) || !urlOK(s.url)) fail();\n    sources.set(s.id, s);\n  }\n  for (const e of g.events) {\n    if (!obj(e) || !str(e.id) || events.has(e.id) || !str(e.title) ||\n      !str(e.summary) || !str(e.review_status) ||\n      ![\"day\", \"range\", \"uncertain\"].includes(e.precision) ||\n      !Array.isArray(e.tags) || e.tags.some(t => !str(t)) ||\n      !Array.isArray(e.source_ids) || !e.source_ids.length ||\n      new Set(e.source_ids).size !== e.source_ids.length ||\n      e.source_ids.some(sid => !sources.has(sid)) ||\n      day(e.occurred_on) === null || day(e.occurred_on) > cutoff) fail();\n    if (e.occurred_to !== undefined && (day(e.occurred_to) === null ||\n      day(e.occurred_to) < day(e.occurred_on))) fail();\n    events.set(e.id, e);\n  }\n  const relationTypes = new Set([\"Shared subject\", \"Temporal sequence\", \"Documented interaction\", \"Hypothesis\"]);\n  const reviews = new Set([\"candidate\", \"reviewed\", \"rejected\"]);\n  const levels = new Set([\"unassessed\", \"low\", \"moderate\", \"high\"]);\n  const ids = new Set(), pairs = new Set();\n  for (const r of g.relationships) {\n    if (!obj(r) || !str(r.id) || ids.has(r.id) ||\n      !str(r.source_event_id) || !str(r.target_event_id) ||\n      !events.has(r.source_event_id) || !events.has(r.target_event_id) ||\n      r.source_event_id === r.target_event_id ||\n      !relationTypes.has(r.type) || !reviews.has(r.review_status) ||\n      !levels.has(r.confidence) || !str(r.assertion) || r.assertion.length < 15 ||\n      !Array.isArray(r.source_ids) || !r.source_ids.length ||\n      r.source_ids.some(s => !sources.has(s))) fail();\n    ids.add(r.id);\n    const pair = [r.source_event_id, r.target_event_id, r.type].join(\"|\");\n    if (pairs.has(pair)) fail();\n    pairs.add(pair);\n    const a = events.get(r.source_event_id), b = events.get(r.target_event_id);\n    const context = a.tags.filter(t => b.tags.includes(t));\n    const endpointSources = new Set([...a.source_ids, ...b.source_ids]);\n    if (r.source_ids.some(s => !endpointSources.has(s))) fail();\n    if ([\"Shared subject\", \"Temporal sequence\"].includes(r.type) && !context.length) fail();\n    if (r.type === \"Temporal sequence\" && day(a.occurred_on) > day(b.occurred_on)) fail();\n    const families = new Set(r.source_ids.map(s => sources.get(s).publisher_family.trim().toLowerCase()));\n    if (r.review_status === \"reviewed\" && families.size < 2) fail();\n    if (r.type === \"Documented interaction\" && (r.review_status !== \"reviewed\" || families.size < 2)) fail();\n    if (r.type === \"Hypothesis\" && r.review_status !== \"candidate\") fail();\n  }\n  const executionId = (typeof $execution !== \"undefined\" && str(String($execution.id || \"\"))) ?\n    String($execution.id) : \"simulation\";\n  const isLiveReceipt = /^[1-9]\\d{0,15}$/.test(executionId);\n  const asOf = new Date().toISOString();\n  const metrics = {\n    events: g.events.length, sources: g.sources.length, event_links: g.relationships.length,\n    evidence_edges: g.events.reduce((n, e) => n + e.source_ids.length, 0),\n    candidate_links: g.relationships.filter(r => r.review_status === \"candidate\").length,\n    reviewed_links: g.relationships.filter(r => r.review_status === \"reviewed\").length\n  };\n  const deliver = \"normalized_output_prepared; acknowledgment_not_observed\";\n  const status = \"STRUCTURAL_PASS_REVIEW_REQUIRED\";\n  const version = [\"argusgraph-v1\", g.cutoff.slice(0, 10), metrics.events, metrics.sources,\n    metrics.event_links, executionId].join(\"-\");\n  const snapshot = {\n    run_id: \"argusgraph-\" + executionId,\n    as_of: asOf,\n    coverage: { github: \"partial\" },\n    items: [{\n      source: \"github\",\n      id: \"argus-graph-human-review\",\n      version,\n      title: \"ARGUS structural graph passed; independent analyst review required\",\n      next_step: \"Check claims and candidate event links; independently verify this n8n execution before Chief acceptance.\",\n      url: \"https://github.com/2strongtrainers-art/Nicholas-AI-OS/blob/main/docs/ARGUS_EVENT_GRAPH_V1.md\",\n      observed_at: asOf,\n      due_at: null,\n      direction: \"owner_action\",\n      priority: \"high\"\n    }]\n  };\n  return [{ json: {\n    schema: \"trivalley.argus-graph-chief-handoff.v1\", status,\n    review_status: \"HUMAN_REVIEW_REQUIRED\", evidence_class: \"SOURCE_INDEXED_UNVERIFIED\",\n    observed_at: asOf, graph_cutoff: g.cutoff, metrics,\n    n8n_execution_id: isLiveReceipt ? executionId : null,\n    receipt_state: isLiveReceipt ? \"LIVE_EXECUTION_ID_OBSERVED\" : \"SIMULATED_NO_EXECUTION_ID\",\n    chief_delivery: deliver, chief_snapshot: snapshot,\n    limitations: [\n      \"This gate checks structural consistency only, not evidence truth or actor attribution.\",\n      \"No reviewed link is automatically causal.\",\n      \"No Chief acknowledgment, message, external action or publication was performed.\"\n    ]\n  }}];\n})();\n"
+      }
+    }
+  ],
+  "connections": {
+    "Owner starts private graph review": {
+      "main": [
+        [
+          {
+            "node": "Synthetic graph packet — replace inside private workspace",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Synthetic graph packet — replace inside private workspace": {
+      "main": [
+        [
+          {
+            "node": "Validate typed graph and create sanitized Chief packet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Los_Angeles",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "tags": []
+}
