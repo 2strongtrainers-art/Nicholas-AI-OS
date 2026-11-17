@@ -206,7 +206,8 @@ test('HTTP adapter requires a verifier, denies missing/invalid bearer and forged
   r=await call('/v1/coach/clients/client-b/progress','synthetic-coach-token');
   assert.equal(r.status,200);
   r=await call('/v1/coach/clients/client-a/progress','synthetic-client-b-token');
-  assert.equal(r.status,403);
+  // Do not reveal whether another client's record exists; 404 is intentional.
+  assert.equal(r.status,404);
   r=await call('/v1/me/export','synthetic-client-a-token');
   assert.equal(r.status,200);
   assert.equal(r.data.data.ownerId,'client-a');
