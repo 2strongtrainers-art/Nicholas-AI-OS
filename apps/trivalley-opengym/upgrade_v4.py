@@ -246,20 +246,20 @@ text = text[:start] + sheet + text[finish:]
 # A fixed dialog inside OpenGym's animated route container is positioned relative
 # to that transformed ancestor; on the hosted phone viewport, taps hit links
 # behind the sheet after the browser scrolls. Portal it to document.body.
-portal_import = "import {createPortal} from 'react-dom'\\n"
-if "import {useEffect, useRef, useState} from 'react'\\n" not in text:
+portal_import = "import {createPortal} from 'react-dom'\n"
+if "import {useEffect, useRef, useState} from 'react'\n" not in text:
     raise RuntimeError("Expected generated React imports for modal portal")
 text = text.replace(
-    "import {useEffect, useRef, useState} from 'react'\\n",
-    "import {useEffect, useRef, useState} from 'react'\\n" + portal_import,
+    "import {useEffect, useRef, useState} from 'react'\n",
+    "import {useEffect, useRef, useState} from 'react'\n" + portal_import,
     1
 )
 open_modal = '    {filtersOpen && <div className="tv-filter-overlay"'
-close_modal = '    </div>}\\n\\n    <div className="tv-exercise-list"'
+close_modal = '    </div>}\n\n    <div className="tv-exercise-list"'
 if text.count(open_modal) != 1 or text.count(close_modal) != 1:
     raise RuntimeError("Refuse unanchored filter portal transformation")
 text = text.replace(open_modal, '    {filtersOpen && createPortal(<div className="tv-filter-overlay"', 1)
-text = text.replace(close_modal, '    </div>, document.body)}\\n\\n    <div className="tv-exercise-list"', 1)
+text = text.replace(close_modal, '    </div>, document.body)}\n\n    <div className="tv-exercise-list"', 1)
 lib.write_text(text)
 
 # 5. Upgrade backup export/import without ever sending the JSON off-device.
