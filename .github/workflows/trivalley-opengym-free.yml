@@ -69,14 +69,17 @@ jobs:
       - name: Install free local browser test driver
         run: |
           mkdir -p "$RUNNER_TEMP/trivalley-browser"
-          npm install --prefix "$RUNNER_TEMP/trivalley-browser" --no-audit --no-fund puppeteer-core@24
+          npm install --prefix "$RUNNER_TEMP/trivalley-browser" --no-audit --no-fund puppeteer-core@24 axe-core@4.10.3
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-browser/smoke.mjs"
+          cp apps/trivalley-opengym/a11y_smoke.mjs "$RUNNER_TEMP/trivalley-browser/a11y.mjs"
       - name: Test actual mobile Chromium UI, saved plan and offline reload
         env:
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
         run: node "$RUNNER_TEMP/trivalley-browser/smoke.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/mobile.png"
+      - name: Audit automated WCAG mobile accessibility across training routes
+        run: node "$RUNNER_TEMP/trivalley-browser/a11y.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist"
       - name: Upload mobile browser QA screenshot
         if: always()
         uses: actions/upload-artifact@v4
