@@ -2,7 +2,7 @@
 
 **Not production-ready. No real member data, no live server, and no automatic access to main Wix accounts.**
 
-This branch builds a synthetic, deterministic data-contract and authorization proof. No cloud database, login flow, production API deployment, invitations, messages, billing actions, or client records were created.
+This branch builds a synthetic, deterministic data-contract and authorization proof. The standalone Wix PKCE login adapter exists only as tested staging source; it has not been activated in the public app. A dedicated public OAuth client was provisioned on the owner's existing main business Wix site, but no secure coaching API or durable cloud database has been deployed. No real member login, invitations, messages, billing actions, or client records have been migrated.
 
 ## Verified foundation required to move into production
 1. **Identity** — Select one Wix Headless member identity that actually applies to the training host, with official OAuth login, correct callback/redirect allowlist, server-side member-token verification, expiry, refresh and logout. The paid main site and free training site are distinct Wix sites. Do not assume users can reuse sessions automatically.
@@ -12,6 +12,23 @@ This branch builds a synthetic, deterministic data-contract and authorization pr
 5. **Privacy** — Document consent, retention, export/deletion workflow, provider data-processing terms, encryption, audit logging, incident response, and data handling for exercise feedback. A web form must not claim individualized rehabilitation clearance or upload client medical histories without a separate approved process.
 6. **Operations** — Add server API tests, 401/403/404 object-isolation probes, backup recovery, failure alerts, rate limiting and independent hosted acceptance receipt. Make the rollout reversible.
 7. **Commercial** — Read verified Wix pricing plans and owner-approved memberships; do not use a client-supplied paid flag or make checkout changes in the training app.
+
+## Verified staging evidence — November 17, 2026
+- Main business Wix site owns the Members Area. The separate free static Headless training app is not itself a member portal.
+- A dedicated OAuth client exists on the main Wix site, client ID `82db080c-df7a-4995-9e72-d9fe9babd503`, allowed callback `https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/index.html`. Client IDs are public; NEVER commit its client secret or tokens.
+- `src/wix-login-browser.mjs` implements documented PKCE verifier/challenge/state, Wix-managed login redirect, OAuth code exchange and approved-member lookup; browser login is NOT mounted in the free app.
+- `src/wix-verify.mjs` intentionally refuses to start without provider-verified exact-site token binding and protected role membership lookup. The Wix Get My Member response alone does NOT prove a tenant/site relationship.
+- `src/domain.mjs`, `src/offline-queue.mjs` and `src/http.mjs` implement deterministic synthetic domain/auth routing with explicit object-level denial. `db/001_coaching_core.sql` is a schema ONLY, not a deployed database.
+- `prototype/` is a no-network, in-memory demonstration with invented clients. Its isolated mobile Chromium test covers assignment, simulated offline workout sync, check-in review, data export, and 320–430px layouts. GitHub Actions emits a reviewed preview ZIP and screenshots, but there is no public coaching endpoint.
+- Hosting limitation: Wix's current static uploader flattened nested preview archives AND explicit relative file bundle paths into the site root. Both attempts were immediately rolled back to the verified 40-file guest PWA, with root index/script/worker readback. **Do not attempt another nested upload with this tool.** Use the standalone HTML preview artifact or a separately approved hosting workflow; never risk replacing the free workout app.
+
+## Owner review required before production
+1. Confirm approved data handling and consent for workout and check-in information, retention/erase policy, security ownership, and incident response.
+2. Verify server-side Wix token-to-site binding for the existing main business site's OAuth client; authorize only explicitly provisioned coach/client records in durable storage.
+3. Deploy a transactional, private database and protected API. Run real denial tests for foreign site, client, coach, revoked accounts, bad token, stale roles, replay conflicts, audit/backup restoration, and 401/403/404.
+4. Connect actual client screens and member login **after** backend gates are passed, using test-only identities and not modifying existing Wix/Stripe checkout.
+5. Only then migrate opted-in real clients; never collect medical records in the open synthetic demo.
+6. Run physical iPhone Safari/VoiceOver tests and an independently observed coach→client→offline workout→sync→coach receipt.
 
 ## What this prototype actually does
 - Versioned published program records and coach-to-client assignments.
