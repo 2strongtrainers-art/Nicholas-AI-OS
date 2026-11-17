@@ -50,6 +50,7 @@ export class InMemoryCoachingStore {
     this.ephemeralForTests = true;
     this.members = new Map();
     this.programs = new Map();
+    this.exerciseCatalog = new Set();
     this.assignments = new Map();
     this.workouts = new Map();
     this.checkins = new Map();
@@ -57,6 +58,9 @@ export class InMemoryCoachingStore {
     this.audit = [];
   }
   // Synthetic fixture setup only. No public API allows profile or role provisioning.
+  seedExercise(exerciseId) {
+    this.exerciseCatalog.add(text(exerciseId,100,'Exercise ID'));
+  }
   seedMember({id,orgId,role,displayName}) {
     if(!['coach','client'].includes(role)) throw new Error('invalid fixture role');
     if(!id || !orgId) throw new Error('fixture requires identity and organization');
@@ -114,6 +118,10 @@ export class CoachingService {
         coachCue:entry.coachCue==null?'':text(entry.coachCue,240,'Coach cue')
       };
     });
+    if(!this.store.exerciseCatalog || !exercises.every(x=>this.store.exerciseCatalog.has(x.exerciseId)))
+      error(422,'UNKNOWN_EXERCISE','Program contains an unverified exercise ID');
+    if(new Set(exercises.map(x=>x.exerciseId)).size!==exercises.length)
+      error(422,'DUPLICATE_EXERCISE','Program exercise IDs must be unique for this MVP');
     const id=this.createId();
     const record={id,orgId:a.orgId,coachId:a.sub,title,description,exercises,version:1,status:'draft',createdAt:this.now(),publishedAt:null};
     this.store.programs.set(id,record);
@@ -178,12 +186,18 @@ export class CoachingService {
     const durationMinutes=integer(input.durationMinutes,1,360,'Duration');
     if(!Array.isArray(input.sets)||!input.sets.length||input.sets.length>250)error(422,'VALIDATION','Expected 1-250 performed sets');
     const allowed=new Set(program.exercises.map(ex=>ex.exerciseId));
+    const maxSets=new Map(program.exercises.map(ex=>[ex.exerciseId,ex.sets+2]));
+    const indexUsed=new Set();
     const sets=input.sets.map(set=>{
       fields(set,['exerciseId','setIndex','reps','weight','unit','rir']);
       const exerciseId=text(set.exerciseId,100,'Exercise ID');
       if(!allowed.has(exerciseId))error(422,'VALIDATION','Exercise is not assigned');
+      const setIndex=integer(set.setIndex,1,maxSets.get(exerciseId),'Set index');
+      const uniqueKey=exerciseId+':'+setIndex;
+      if(indexUsed.has(uniqueKey))error(422,'DUPLICATE_SET','Duplicate performed set index');
+      indexUsed.add(uniqueKey);
       return {
-        exerciseId,setIndex:integer(set.setIndex,1,30,'Set index'),
+        exerciseId,setIndex,
         reps:integer(set.reps,0,120,'Reps'),
         weight:number(set.weight,0,1500,'Weight'),
         unit:['kg','lb'].includes(set.unit)?set.unit:error(422,'VALIDATION','Invalid weight unit'),
@@ -210,7 +224,7 @@ export class CoachingService {
     fields(input,['checkinId','assignmentId','weekOf','completionRating','comment','requestReview']);
     const checkinId=uuid(input.checkinId,'Check-in ID');
     const assignment=exists(this.store.assignments.get(uuid(input.assignmentId)),'Assignment not found');
-    if(assignment.orgId!==a.orgId||assignment.clientId!==a.sub)error(404,'NOT_FOUND','Assignment not found');
+    if(assignment.orgId!==a.orgId||assignment.clientId!==a.sub||assignment.status!=='active')error(404,'NOT_FOUND','Assignment not found');
     if(!isDay(input.weekOf))error(422,'VALIDATION','Invalid weekOf day');
     const completionRating=integer(input.completionRating,1,5,'Training satisfaction');
     const comment=input.comment==null?'':(typeof input.comment==='string'&&input.comment.length<=500?input.comment:error(422,'VALIDATION','Comment too long'));
