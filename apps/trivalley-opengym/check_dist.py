@@ -25,8 +25,8 @@ built_bytes = sum(p.stat().st_size for p in dist.rglob("*") if p.is_file())
 if built_bytes > 20 * 1024 * 1024:
     raise SystemExit("Wix Headless 20 MiB static file limit exceeded")
 bundle = " ".join(p.read_text(errors="ignore") for p in (dist / "assets").rglob("*.js"))
-if "TRIVALLEY.FIT" not in bundle or "Modified source" not in bundle:
-    raise SystemExit("Modified original-source attribution not bundled")
+if "TRIVALLEY.FIT" not in bundle or "Source · AGPL" not in bundle or "openGym" not in bundle:
+    raise SystemExit("Visible AGPL source and upstream credit missing from app bundle")
 if "cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset" in bundle:
     raise SystemExit("Exercise image CDN must not be in the no-media build")
 
