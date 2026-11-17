@@ -247,6 +247,33 @@ try {
 
   }
 
+  if (expectV4) {
+    // A responsive browser smoke is not a substitute for physical iOS VoiceOver QA.
+    const responsive = [];
+    for (const width of [320, 375, 390, 430]) {
+      await page.setViewport({width, height:844, deviceScaleFactor:2, isMobile:true, hasTouch:true});
+      await page.evaluate(() => {location.hash = '#/library'});
+      await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-exercise-card"]'), {timeout:6000});
+      const library = await page.evaluate(() => ({
+        viewport:innerWidth, document:document.documentElement.scrollWidth,
+        card:document.querySelector('[data-testid="tv-exercise-card"]')?.getBoundingClientRect().width
+      }));
+      await page.evaluate(() => {location.hash = '#/home'});
+      await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-today-hero"]'), {timeout:6000});
+      const home = await page.evaluate(() => ({
+        viewport:innerWidth, document:document.documentElement.scrollWidth,
+        button:document.querySelector('[data-testid="tv-start-primary"]')?.getBoundingClientRect().toJSON()
+      }));
+      if (library.document > library.viewport + 2 || home.document > home.viewport + 2 ||
+        (width >= 375 && home.button.bottom > 844)) {
+        throw new Error('Responsive v4 failure: ' + JSON.stringify({width,library,home}));
+      }
+      responsive.push({width,homeVisible:home.button.bottom <= 844,libraryNoOverflow:true});
+    }
+    console.log(JSON.stringify({status:'RESPONSIVE_V4_PASS',responsive}));
+    await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+  }
+
   await page.waitForFunction(async () => { const r=await navigator.serviceWorker?.getRegistration(); return r?.active?.scriptURL?.endsWith('/tv-sw.js') },{timeout:25000});
   const worker = await page.evaluate(async () => {
     if (!('serviceWorker' in navigator)) return {supported:false};
