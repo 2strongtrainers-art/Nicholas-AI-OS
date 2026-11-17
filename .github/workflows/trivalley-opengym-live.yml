@@ -26,10 +26,26 @@ jobs:
           mkdir -p "$RUNNER_TEMP/trivalley-live"
           npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
+      - name: Verify exact published TriValley v4 source and compiled asset
+        run: |
+          curl --fail --location --silent --show-error --max-time 25 \
+            'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
+            -o "$RUNNER_TEMP/trivalley-live/tv-release.json"
+          node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
+          const fs = require('node:fs');
+          const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (release.version !== '4.0.0' ||
+              release.sourceCommit !== '3847809bceed13571c030e665be031e954d78a29' ||
+              release.mainScript !== 'assets/index-B7Wjz7ai.js' ||
+              release.storage !== 'browser-local; no client cloud sync') {
+            throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
+          }
+          console.log(JSON.stringify({status:'WIX_RELEASE_IDENTITY_PASS',commit:release.sourceCommit,script:release.mainScript}));
+          NODE
       - name: Verify live Wix v4 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-DDmAXsWu.js'
+          TV_EXPECTED_JS: 'index-B7Wjz7ai.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
@@ -39,6 +55,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: trivalley-opengym-live-mobile-qa
-          path: ${{ runner.temp }}/trivalley-live/live.png
+          path: |
+            ${{ runner.temp }}/trivalley-live/live.png
+            ${{ runner.temp }}/trivalley-live/live-library.png
           retention-days: 7
           if-no-files-found: ignore
