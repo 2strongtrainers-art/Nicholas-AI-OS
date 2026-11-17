@@ -31,6 +31,7 @@ jobs:
       - name: Apply TriValley original-visuals and data-safety patch
         run: |
           python3 apps/trivalley-opengym/patch_opengym.py upstream/frontend
+          python3 apps/trivalley-opengym/add_daily_verse.py upstream/frontend
           cp apps/trivalley-opengym/branding/icon-192.png upstream/frontend/public/icon-192.png
           cp apps/trivalley-opengym/branding/icon-512.png upstream/frontend/public/icon-512.png
       - name: Install locked dependencies
