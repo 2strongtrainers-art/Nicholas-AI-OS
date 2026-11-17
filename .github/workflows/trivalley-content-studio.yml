@@ -1,0 +1,87 @@
+name: TriValley.fit Content Studio — zero-spend drafts
+
+on:
+  pull_request:
+    paths:
+      - 'intel-desk/content-studio/**'
+      - 'tests/test_content_studio.mjs'
+      - '.github/workflows/trivalley-content-studio.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'intel-desk/content-studio/**'
+      - 'tests/test_content_studio.mjs'
+      - '.github/workflows/trivalley-content-studio.yml'
+  schedule:
+    - cron: '15 16 * * *'
+  workflow_dispatch:
+    inputs:
+      draft_date:
+        description: 'Optional Pacific editorial date (YYYY-MM-DD); blank means today'
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trivalley-content-studio-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ALLOW_PAID_AI: 'false'
+      ALLOW_OUTBOUND_SEND: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate all seven functions and policy guards
+        run: |
+          node --check intel-desk/content-studio/data.js
+          node --check intel-desk/content-studio/app.js
+          node --check intel-desk/content-studio/build-daily.mjs
+          node --test tests/test_content_studio.mjs
+
+  prepare-draft:
+    needs: offline-quality
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ALLOW_PAID_AI: 'false'
+      ALLOW_OUTBOUND_SEND: 'false'
+      DRAFT_DATE: ${{ inputs.draft_date }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate public-safe content draft artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          node intel-desk/content-studio/build-daily.mjs "$DRAFT_DATE" "$RUNNER_TEMP/content-draft"
+          node - "$RUNNER_TEMP/content-draft/receipt.json" <<'NODE'
+          const fs=require('node:fs');
+          const r=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
+          if(r.publication_performed!==false||r.paid_provider_calls!==0||r.outbound_actions!==0)process.exit(1);
+          console.log('CONTENT_RECEIPT',r.receipt_key,r.state,'NO_SEND',true);
+          NODE
+      - name: Save draft, Markdown and receipt without social publication
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-content-draft-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/content-draft/
+          if-no-files-found: error
+          retention-days: 14
