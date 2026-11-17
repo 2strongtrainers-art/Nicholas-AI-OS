@@ -234,6 +234,21 @@ try {
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:4000});
     await page.click('[data-testid="tv-library-filters"]');
+    const pointer = await page.$eval('[data-testid="tv-filters-done"]', el => {
+      const r = el.getBoundingClientRect();
+      const x = Math.max(0, Math.min(innerWidth - 1, r.left + r.width / 2));
+      const y = Math.max(0, Math.min(innerHeight - 1, r.top + r.height / 2));
+      const hit = document.elementFromPoint(x, y);
+      return {
+        visible: r.top >= 0 && r.bottom <= innerHeight + 1,
+        hitDone: hit === el || el.contains(hit),
+        x, y, r: {top:r.top,bottom:r.bottom,width:r.width,height:r.height},
+        hitTag:hit?.tagName, hitClass:hit?.getAttribute?.('class'),
+        scroll:window.scrollY
+      };
+    });
+    console.log(JSON.stringify({filterTapTarget:pointer}));
+    if (!pointer.visible || !pointer.hitDone) throw new Error('Apply filters must be visible and receive pointer taps: ' + JSON.stringify(pointer));
     await page.click('[data-testid="tv-filters-done"]');
     const afterDone = await page.evaluate(() => ({
       panelVisible: !!document.querySelector('[data-testid="tv-filter-overlay"]'),
