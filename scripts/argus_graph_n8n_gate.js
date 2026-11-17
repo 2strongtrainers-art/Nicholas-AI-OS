@@ -14,10 +14,18 @@
     const ms = Date.parse(v + "T00:00:00Z");
     return Number.isFinite(ms) && new Date(ms).toISOString().slice(0, 10) === v ? ms : null;
   };
+  // n8n Cloud Code task runners do not necessarily expose global URL.
+  // Strict ASCII HTTPS source-link validation without built-ins or network.
   const urlOK = v => {
-    if (!str(v)) return false;
-    try { const u = new URL(v); return u.protocol === "https:" && !!u.hostname && !u.username && !u.password; }
-    catch (_) { return false; }
+    if (!str(v) || v.length > 2048 || /[\s\\\u0000-\u001f\u007f]/.test(v)) return false;
+    const match = /^https:\/\/([^/?#]+)(?:[/?#]|$)/i.exec(v);
+    if (!match) return false;
+    const host = match[1];
+    if (host.length > 253 || host.includes("@") || host.includes(":")) return false;
+    const labels = host.split(".");
+    return labels.length >= 2 &&
+      labels.every(x => /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/.test(x)) &&
+      /[A-Za-z]/.test(labels[labels.length - 1]);
   };
   const packet = $input.first().json;
   if (!obj(packet) || !obj(packet.graph)) fail();
