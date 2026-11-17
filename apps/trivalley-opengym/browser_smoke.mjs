@@ -7,7 +7,10 @@ import puppeteer from 'puppeteer-core';
 const root = path.resolve(process.argv[2] || 'upstream/frontend/dist');
 const screenshot = process.argv[3] || '/tmp/trivalley-browser.png';
 const types = { '.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json' };
-const server = http.createServer((req,res) => {
+let server;
+let url = process.env.TV_LIVE_URL ? process.env.TV_LIVE_URL.replace(/\/?$/, '/') : '';
+if (!url) {
+server = http.createServer((req,res) => {
   const pathname = new URL(req.url, 'http://localhost').pathname;
   const relative = decodeURIComponent(pathname).replace(/^\/+/, '') || 'index.html';
   const filepath = path.resolve(root, relative);
@@ -18,7 +21,8 @@ const server = http.createServer((req,res) => {
   fs.createReadStream(filepath).pipe(res);
 });
 await new Promise(resolve => server.listen(0,'127.0.0.1',resolve));
-const url = 'http://127.0.0.1:' + server.address().port + '/';
+url = 'http://127.0.0.1:' + server.address().port + '/';
+}
 const chrome = [process.env.CHROME_PATH,'/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(p => p && fs.existsSync(p));
 if (!chrome) throw new Error('No Chrome/Chromium executable available for actual-browser QA');
 let browser;
@@ -30,6 +34,10 @@ try {
   page.on('pageerror',e => findings.push('PAGEERROR: '+e.message));
   page.on('console',m => {if(m.type()==='error') findings.push('CONSOLE: '+m.text())});
   const response = await page.goto(url,{waitUntil:'networkidle0',timeout:25000});
+  if (process.env.TV_EXPECTED_JS) {
+    const script = await page.evaluate(() => [...document.scripts].find(s => s.src.includes('/assets/index-'))?.src || '');
+    if (!script.includes(process.env.TV_EXPECTED_JS)) throw new Error('Live host is not serving the expected release: ' + script);
+  }
   if (response.status() !== 200) throw new Error('App HTTP '+response.status());
   await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:18000});
   const initial = await page.evaluate(() => ({title:document.title, text:document.body.innerText.slice(0,1800), unit:JSON.parse(localStorage.getItem('gym_state_v1')||'{}').unit}));
@@ -101,6 +109,7 @@ try {
   if(settings.includes('Reset demo data'))throw new Error('Destructive demo reset remains exposed');
   if(settings.includes('Meet the Coach'))throw new Error('Simulated AI coach remains visible');
 
+  await page.waitForFunction(async () => { const r=await navigator.serviceWorker?.getRegistration(); return r?.active?.scriptURL?.endsWith('/tv-sw.js') },{timeout:25000});
   const worker = await page.evaluate(async () => {
     if (!('serviceWorker' in navigator)) return {supported:false};
     const ready=await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(new Error('SW not ready')),15000))]);
@@ -119,5 +128,5 @@ try {
   console.log(JSON.stringify({status:'BROWSER_SMOKE_PASS',initialTitle:initial.title,initialUnit:initial.unit,plans:3,workoutChooser:true,loggedSets:1,finishedWorkouts:1,settingsNoDemo:true,worker,offline,chrome,screenshot},null,2));
 } finally {
   if(browser)await browser.close();
-  await new Promise(resolve=>server.close(resolve));
+  if (server) await new Promise(resolve=>server.close(resolve));
 }
