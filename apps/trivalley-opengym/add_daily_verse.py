@@ -25,7 +25,7 @@ replace_once("src/App.jsx",
     '<div className="tv-topbar"><span>TRIVALLEY.FIT TRAINING</span>',
     '<div className="tv-topbar"><span>TRIVALLEY.FIT TRAINING</span>'
     '<button type="button" data-testid="tv-daily-verse-trigger" className="tv-verse-trigger"'
-    ' onClick={() => window.dispatchEvent(new Event("tv:verse-open"))}>Daily Bible verse</button></span>')
+    ' onClick={() => window.dispatchEvent(new Event("tv:verse-open"))}>Daily Bible verse</button>')
 replace_once("src/App.jsx",
     "      <Toast />",
     "      <Toast />\n      <DailyVerse active={!!(ready && authed)} />")
