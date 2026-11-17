@@ -205,7 +205,7 @@ def normalize_rss_item(item, source, topic):
         observed = date.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     except (ValueError, TypeError, OverflowError, AttributeError):
         observed = None
-    official = source in ("Federal Reserve", "State Travel Advisories", "EIA")
+    official = source in ("Federal Reserve", "State Department", "State Travel Advisories", "EIA")
     publisher = "BBC" if source.startswith("BBC ") else "NPR" if source.startswith("NPR ") else source
     return {"id": event_id(publisher, url), "kind": "report", "source": source,
             "publisher": publisher, "topic": topic, "title": title, "url": url,
