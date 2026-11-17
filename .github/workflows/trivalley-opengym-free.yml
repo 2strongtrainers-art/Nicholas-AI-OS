@@ -66,7 +66,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: trivalley-opengym-mobile-smoke
-          path: ${{ runner.temp }}/trivalley-browser/mobile.png
+          path: |
+            ${{ runner.temp }}/trivalley-browser/mobile.png
+            ${{ runner.temp }}/trivalley-browser/mobile-library.png
           retention-days: 7
           if-no-files-found: ignore
       - name: Upload public-app deployment bundle for Wix
