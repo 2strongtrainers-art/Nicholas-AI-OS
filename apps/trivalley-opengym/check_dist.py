@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 dist = Path(sys.argv[1]).resolve()
-required = ["index.html", "manifest.json", "icon-192.png", "icon-512.png", "trivalley-exercise.svg"]
+required = ["index.html", "manifest.json", "icon-192.png", "icon-512.png", "trivalley-exercise.svg", "trivalley-triquetra.png"]
 missing = [p for p in required if not (dist / p).is_file()]
 if missing:
     raise SystemExit("Missing required built files: " + ", ".join(missing))
@@ -58,7 +58,7 @@ release = {
 }
 (dist / "tv-release.json").write_text(json.dumps(release, indent=2) + "\n")
 core = ["./", "./index.html", "./tv-release.json", "./manifest.json", "./icon-192.png",
-        "./icon-512.png", "./trivalley-exercise.svg",
+        "./icon-512.png", "./trivalley-exercise.svg", "./trivalley-triquetra.png",
         "./" + entry_js[0], "./" + entry_css[0]]
 extras = ["./" + x for x in assets if x not in entry_js + entry_css]
 fingerprint = hashlib.sha256(("|".join(assets) + bundle[:500]).encode()).hexdigest()[:12]
