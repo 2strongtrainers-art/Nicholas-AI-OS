@@ -33,11 +33,11 @@ try {
   if (response.status() !== 200) throw new Error('App HTTP '+response.status());
   await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:18000});
   const initial = await page.evaluate(() => ({title:document.title, text:document.body.innerText.slice(0,1800), unit:JSON.parse(localStorage.getItem('gym_state_v1')||'{}').unit}));
-  if (!initial.text.includes('Welcome')) throw new Error('First-use welcome missing: '+initial.text.slice(0,450));
+  await page.screenshot({path:screenshot,fullPage:true});
+  if (!initial.text.includes('Ready to train?')) throw new Error('First-use onboarding missing: '+initial.text.slice(0,450));
   if (!initial.text.includes('Start a workout now')) throw new Error('No immediate workout action in onboarding');
   if (initial.text.includes('Let the Coach build it')) throw new Error('Fake AI Coach visible');
-  if (initial.unit !== 'lb') throw new Error('US-first weight unit default missing');
-  await page.screenshot({path:screenshot,fullPage:true});
+  if (initial.unit && initial.unit !== 'lb') throw new Error('US-first weight unit default missing');
 
   const clicked = await page.evaluate(() => {
     const button=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Load starter plan'));
@@ -46,7 +46,7 @@ try {
   if(!clicked)throw new Error('Starter plan button missing');
   await page.waitForFunction(() => {
     const s=JSON.parse(localStorage.getItem('gym_state_v1')||'{}');
-    return Array.isArray(s.routines) && s.routines.length===3 && Object.keys(s.week||{}).length>=3;
+    return Array.isArray(s.routines) && s.routines.length===3 && Object.keys(s.week||{}).length>=3 && s.unit==='lb';
   },{timeout:10000});
   await page.reload({waitUntil:'networkidle0',timeout:20000});
   await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:15000});
