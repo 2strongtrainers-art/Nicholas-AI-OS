@@ -146,3 +146,20 @@
   border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;
 }
 .hm-wrap:focus-visible {outline:3px solid var(--acc);outline-offset:3px;}
+
+/* Free Wix hosting places a platform banner in the bottom viewport. Shift the
+   existing navigation above it ONLY when opened in a browser on that host.
+   Fullscreen installed PWAs and custom domains retain normal bottom navigation. */
+:root[data-tv-free-hosted="1"] #tabbar {
+  bottom: calc(76px + env(safe-area-inset-bottom));
+  border: 1px solid var(--tv-line);
+  border-radius: 16px;
+  width: min(calc(100% - 16px), 620px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  box-shadow: 0 12px 28px rgba(0,0,0,.54);
+}
+:root[data-tv-free-hosted="1"] #app {
+  padding-bottom: calc(174px + env(safe-area-inset-bottom));
+}
