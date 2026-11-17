@@ -62,6 +62,8 @@ export function coachingHttpHandler({service,verifyIdentity,allowedOrigins=[]}) 
       if(pathname==='/v1/me/assignments'&&isGet)return respond(res,200,{items:service.activeAssignments(serviceActor)},headers);
       if(pathname==='/v1/me/progress'&&isGet)return respond(res,200,{progress:service.clientProgress(serviceActor,serviceActor.sub)},headers);
       if(pathname==='/v1/me/export'&&isGet)return respond(res,200,{data:service.clientExport(serviceActor)},headers);
+      if(pathname==='/v1/me/deletion-requests'&&isGet)return respond(res,200,{requests:service.ownDeletionRequests(serviceActor)},headers);
+      if(pathname==='/v1/me/deletion-requests'&&!isGet)return respond(res,202,service.requestDataDeletion(serviceActor,body),headers);
       if(pathname==='/v1/me/workouts'&&!isGet)return respond(res,201,service.logWorkout(serviceActor,body),headers);
       if(pathname==='/v1/me/checkins'&&!isGet)return respond(res,201,service.submitCheckin(serviceActor,body),headers);
       if(pathname==='/v1/coach/programs'&&!isGet)return respond(res,201,{program:service.createProgram(serviceActor,body)},headers);
