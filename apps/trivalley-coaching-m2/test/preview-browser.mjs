@@ -28,7 +28,9 @@ const browser=await puppeteer.launch({executablePath:chrome,headless:true,args:[
 try{
   const page=await browser.newPage();
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
-  page.on('pageerror',e=>errors.push(e.message));
+  page.on('pageerror',e=>errors.push('PAGEERROR: '+e.message));
+  page.on('console',m=>{if(m.type()==='error')errors.push('CONSOLE: '+m.text())});
+  page.on('requestfailed',r=>errors.push('FAILED_REQUEST: '+r.url()+' '+r.failure()?.errorText));
   page.on('request',r=>{
     requests.push(r.url());
     if(new URL(r.url()).origin!==new URL(target).origin)errors.push('External request: '+r.url());
@@ -36,7 +38,9 @@ try{
   const res=await page.goto(target,{waitUntil:'networkidle0',timeout:20000});
   if(res.status()!==200)throw new Error('Preview failed to load');
   await page.waitForSelector('[role="tablist"]');
-  const first=await page.evaluate(()=>document.body.innerText);
+  let first=await page.evaluate(()=>document.body.innerText);
+  console.log(JSON.stringify({status:'M2_PREVIEW_INITIAL_RENDER',
+    length:first.length,text:first.slice(0,900),errors:errors.slice(0,10)}));
   if(!first.includes('DEMONSTRATION ONLY')||!first.includes('Synthetic')||!first.includes('Coach demo'))
     throw new Error('Unambiguous synthetic-only user consent messaging missing');
   const hasOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
