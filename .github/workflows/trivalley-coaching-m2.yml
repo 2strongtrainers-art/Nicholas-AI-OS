@@ -82,6 +82,13 @@ jobs:
           path: ${{ runner.temp }}/m2-preview-public/
           retention-days: 14
           if-no-files-found: error
+      - name: One-time Wix anonymous OAuth + PKCE redirect provider smoke
+        if: "${{ github.event_name == 'push' && contains(github.event.head_commit.message, 'test(oauth): provider smoke') }}"
+        working-directory: apps/trivalley-coaching-m2
+        env:
+          ALLOW_PAID_AI: 'false'
+          ALLOW_OUTBOUND_SEND: 'false'
+        run: node test/wix-provider-anonymous-smoke.mjs
       - name: Verify no deployable server or credentials were introduced
         shell: bash
         run: |
