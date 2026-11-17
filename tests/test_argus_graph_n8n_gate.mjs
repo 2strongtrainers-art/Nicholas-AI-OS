@@ -18,6 +18,7 @@ function blocked(graph) { assert.throws(() => run(graph), /ARGUS_GRAPH_VALIDATIO
 
 test("stage contains no live credentials or external service actions", () => {
   assert.equal(workflow.active, false);
+  assert.equal(workflow.settings.availableInMCP, false, 'owner-private staging cannot be discoverable via n8n MCP');
   assert.equal(workflow.nodes.length, 3);
   assert.deepEqual(workflow.nodes.map(n => n.type),
     ["n8n-nodes-base.manualTrigger","n8n-nodes-base.set","n8n-nodes-base.code"]);
