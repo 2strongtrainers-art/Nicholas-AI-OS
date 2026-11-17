@@ -49,33 +49,49 @@ replace_exact(
     "export const imgSrc = () => './trivalley-exercise.svg'\nexport const gifSrc = () => './trivalley-exercise.svg'"
 )
 
-(front / "src/components/Media.jsx").write_text("""import Icon from './Icon.jsx'
+(front / "src/components/Media.jsx").write_text("""import { useStore } from '../store/useStore.js'
+import Icon from './Icon.jsx'
 
-// Original infographic-style training card. Third-party GIFs are intentionally excluded.
+// Original informational movement card; no DAREBEE images or unlicensed GIFs.
+// The illustration is a generic body-position cue, not an exact exercise demonstration.
 function BodyCue() {
   return (
-    <svg viewBox="0 0 180 158" role="img" aria-label="Generic body positioning illustration">
-      <circle cx="89" cy="24" r="15" fill="none" stroke="currentColor" strokeWidth="5" />
-      <path d="M89 40 L89 97 M89 55 L51 80 L31 60 M89 55 L126 80 L148 60 M89 97 L57 138 M89 97 L123 138"
-            fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M22 54 L34 64 L40 54 M138 53 L148 64 L160 53" fill="none" stroke="#93b8ff"
-            strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M35 151 H147" stroke="currentColor" opacity=".23" strokeWidth="2" />
-      <circle cx="89" cy="57" r="8" fill="#86efac" opacity=".85" />
+    <svg viewBox="0 0 160 160" role="img" aria-label="Generic body positioning illustration">
+      <circle cx="80" cy="23" r="13" fill="none" stroke="currentColor" strokeWidth="5" />
+      <path d="M80 39 L80 96 M80 51 L47 73 L30 59 M80 51 L113 73 L130 59 M80 96 L52 135 M80 96 L108 135"
+        fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M28 148 H132" stroke="currentColor" opacity=".25" strokeWidth="2" />
+      <circle cx="80" cy="59" r="8" fill="#86efac" opacity=".85" />
     </svg>
   )
 }
-export default function Media({ ex, id, compact }) {
+export default function Media({ ex, id, compact, minimizable }) {
+  const gifSize = useStore(s => s.S.gifSize)
+  const update = useStore(s => s.update)
   if (!ex) return null
+  const mini = minimizable && gifSize === 'mini'
+  const steps = Array.isArray(ex.st) ? ex.st.filter(Boolean).slice(0, compact ? 1 : 2) : []
+  const toggle = e => {
+    e.stopPropagation()
+    update(s => { s.gifSize = mini ? 'full' : 'mini' })
+  }
   return (
-    <div id={id} className={'exmedia tv-exercise-media' + (compact ? ' compact' : '')}>
-      <BodyCue />
-      <div className="tv-ex-info">
-        <span className="tv-overline">TRIVALLEY.FIT · MOVEMENT CARD</span>
-        <strong>{ex.n}</strong>
-        <span>{ex.bp || 'Full body'}{ex.eq ? ' · ' + ex.eq : ''}</span>
-        <small>Use controlled form and an appropriate load. Ask your coach for a personalized demonstration.</small>
-      </div>
+    <div id={id} className={'exmedia tv-exercise-media' + (compact ? ' compact' : '') + (mini ? ' mini' : '')}>
+      {mini ? (
+        <div className="tv-mini-row"><strong>{ex.n}</strong><button type="button" className="tv-cue-toggle" onClick={toggle}>Show cues</button></div>
+      ) : (
+        <>
+          <BodyCue />
+          <div className="tv-ex-info">
+            <span className="tv-overline">TRIVALLEY.FIT · FORM REFERENCE</span>
+            <strong>{ex.n}</strong>
+            <span className="tv-meta">{ex.tg || ex.bp || 'General fitness'}{ex.eq ? ' · ' + ex.eq : ''}</span>
+            {steps.length > 0 && <ol className="tv-steps">{steps.map((step, i) => <li key={i}>{step}</li>)}</ol>}
+            {steps.length === 0 && <small>Move through a controlled range of motion. Ask your coach for a personalized demonstration.</small>}
+            {minimizable && <button type="button" className="tv-cue-toggle" onClick={toggle}>Hide cues</button>}
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -138,5 +154,97 @@ for filename in ("icon-180.png", "icon-512.png"):
     path = front / "public" / filename
     if path.exists():
         path.unlink()
+
+
+# Production free edition: real training data, no fabricated coach, and accessible mobile UX.
+replace_exact("src/store/useStore.js",
+    "  unit: 'kg', restSec: 90, sound: true,",
+    "  unit: 'lb', restSec: 90, sound: true,")
+replace_exact("src/lib/coach.js",
+    "  mobile ? false : demo ? true : !!(config?.coach?.enabled && user)",
+    "  import.meta.env.VITE_TRIVALLEY_FREE === '1' ? false : mobile ? false : demo ? true : !!(config?.coach?.enabled && user)")
+replace_exact("src/main.jsx",
+    "if (!MOBILE && 'serviceWorker' in navigator && location.protocol === 'https:') {\n  navigator.serviceWorker.register('sw.js').catch(() => {})\n}",
+    "if (!MOBILE && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === '127.0.0.1' || location.hostname === 'localhost')) {\n  navigator.serviceWorker.register('./tv-sw.js', { scope: './', updateViaCache: 'none' }).catch(err => console.warn('Offline install unavailable:', err))\n}")
+
+# A previous prototype may have left data in another key; never clear storage on upgrade.
+# The free edition must not offer a fake AI coach or a destructive "reset demo" action.
+replace_exact("src/views/Settings.jsx",
+    "<Section title={MOBILE ? t('Your data') : DEMO ? t('Demo') : t('Account')}>",
+    "<Section title={MOBILE || DEMO ? t('Your data') : t('Account')}>")
+replace_exact("src/views/Settings.jsx",
+    """      </> : DEMO ? <>
+        <Row icon="sparkles" iconTint="var(--acc)" title={t('You’re in the demo')} subtitle={t('Example data, stored only in this browser — change anything you like.')} />
+        <Row icon="reset" iconTint="var(--blue)" title={t('Reset demo data')} accessory="chevron"
+          onClick={() => confirmSheet({ title: t('Reset demo data?'), message: t('Puts the example plan, workouts and weigh-ins back the way they started.'), confirmText: t('Reset'), onConfirm: () => { resetDemo(); nav('/home'); toast(t('Demo data reset')) } })} />
+        <Row icon="rocket" iconTint="var(--indigo)" title={t('Self-host openGym')} subtitle={t('Passkey sign-in, sync across your devices, your own data.')} accessory="chevron"
+          onClick={() => window.open(REPO, '_blank', 'noopener')} />
+      </> : user ? <>""",
+    """      </> : DEMO ? <>
+        <Row icon="lock" iconTint="var(--acc)" title="Local workout storage" subtitle="Your actual workouts stay on this device. No account or cloud sync." />
+        <Row icon="upload" iconTint="var(--blue)" title="Export your backup" subtitle="Save a copy before switching phones or clearing Safari data." accessory="chevron" onClick={doExport} />
+        <Row icon="info" iconTint="var(--indigo)" title="No simulated AI coaching" subtitle="Training plans and progression work without a paid AI service." />
+      </> : user ? <>""")
+replace_exact("src/views/Settings.jsx",
+    "    const name = 'opengym-backup-' + todayISO() + '.json'",
+    "    const name = 'trivalley-fit-backup-' + todayISO() + '.json'")
+replace_exact("src/views/Settings.jsx",
+    "    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href)",
+    "    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove() }, 2000)")
+settings = front / "src/views/Settings.jsx"
+settings.write_text(settings.read_text().replace("to install openGym as a full-screen app.", "to install TriValley FIT as a full-screen app.").replace("openGym · {t('free & open source (AGPL v3)')}", "TriValley FIT · {t('free & open source (AGPL v3)')}"))
+
+replace_exact("src/views/Home.jsx",
+    """    {!S.routines.length && !S.active && (
+      <div className="card">
+        <div className="row" style={{ gap: 10, marginBottom: 6 }}>
+          <span className="lrow-i"><Icon name="sparkles" /></span>
+          <div className="big" style={{ fontSize: 22 }}>{t('Welcome!')}</div>
+        </div>
+        <div className="muted small" style={{ marginBottom: 12 }}>{t('Set up your weekly routine to get going — or load a ready-made Push / Pull / Legs plan.')}</div>
+        {coachOn && <>
+          <Button variant="primary" icon="sparkles" onClick={() => nav(hasConsent(S) ? '/coach/intake' : '/coach')}>{t('Let the Coach build it')}</Button>
+          <div style={{ height: 8 }} />
+        </>}
+        <Button variant={coachOn ? 'plain' : 'primary'} icon="sparkles" onClick={loadStarterPlan}>{t('Load starter plan (PPL)')}</Button>
+        <div style={{ height: 8 }} /><Button onClick={() => nav('/plan')}>{t('Build my own plan')}</Button>
+      </div>
+    )}""",
+    """    {!S.routines.length && !S.active && (
+      <div className="card tv-onboarding" role="region" aria-label="Get started">
+        <div className="tv-eyebrow">YOUR TRAINING STARTS HERE</div>
+        <h2 style={{ margin: '8px 0 7px' }}>Ready to train?</h2>
+        <p className="muted small" style={{ marginBottom: 16 }}>Start a workout immediately, or set up a three-day Push / Pull / Legs schedule. No account required.</p>
+        <Button variant="primary" icon="play" onClick={() => startFlow(null)}>Start a workout now</Button>
+        <div style={{ height: 10 }} />
+        <Button icon="sparkles" onClick={loadStarterPlan}>Load starter plan (PPL)</Button>
+        <div style={{ height: 10 }} />
+        <Button onClick={() => nav('/plan')}>Build my own plan</Button>
+        <p className="tv-privacy-note">Your sessions stay on this device. Export a backup in Settings before changing phones.</p>
+      </div>
+    )}""")
+
+# Allow pinch zoom on iPhone, and avoid the Wix-reserved "sw.js" filename.
+html = front / "index.html"
+html.write_text(html.read_text().replace("viewport-fit=cover,user-scalable=no", "viewport-fit=cover"))
+old_sw = front / "public/sw.js"
+if old_sw.exists():
+    old_sw.unlink()
+
+css = front / "src/index.css"
+css.open("a").write("""
+.tv-onboarding {border:1px solid rgba(134,239,172,.4);background:linear-gradient(150deg,rgba(19,42,34,.85),rgba(20,26,37,.92))}
+.tv-eyebrow {font-size:11px;letter-spacing:.13em;font-weight:800;color:#86efac}
+.tv-privacy-note {font-size:12px;line-height:1.5;color:#b5c6bb;margin:15px 0 0}
+.tv-exercise-media {align-items:flex-start;min-height:150px}
+.tv-exercise-media svg {flex:0 0 27%;width:27%;max-height:130px}
+.tv-ex-info {gap:6px}
+.tv-ex-info .tv-meta {font-size:12px;color:#b7d9c5}
+.tv-steps {padding-left:18px;margin:4px 0 5px;display:grid;gap:5px;font-size:12px;line-height:1.45;color:#dce6e2}
+.tv-cue-toggle {border:1px solid rgba(134,239,172,.35);background:transparent;color:#a6f3c1;padding:7px 12px;border-radius:9px;font-size:12px;min-height:36px;cursor:pointer}
+.tv-exercise-media.mini {min-height:50px;padding:10px 13px}
+.tv-mini-row {display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;font-size:14px}
+@media(max-width:390px){.tv-exercise-media svg{flex-basis:24%;width:24%}.tv-steps{font-size:11px}}
+""")
 
 print("TriValley original-source modifications applied; real OpenGym logic retained.")
