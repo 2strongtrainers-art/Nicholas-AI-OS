@@ -31,8 +31,11 @@ try {
   browser = await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
   const page = await browser.newPage();
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+  let intentionalOffline = false;
   page.on('pageerror',e => findings.push('PAGEERROR: '+e.message));
-  page.on('console',m => {if(m.type()==='error') findings.push('CONSOLE: '+m.text())});
+  page.on('console',m => {
+    if(m.type()==='error' && !(intentionalOffline && m.text().includes('ERR_INTERNET_DISCONNECTED'))) findings.push('CONSOLE: '+m.text());
+  });
   const response = await page.goto(url,{waitUntil:'networkidle0',timeout:25000});
   if (process.env.TV_EXPECTED_JS) {
     const script = await page.evaluate(() => [...document.scripts].find(s => s.src.includes('/assets/index-'))?.src || '');
@@ -118,6 +121,7 @@ try {
   if(!worker.script?.endsWith('/tv-sw.js'))throw new Error('Incorrect service worker: '+JSON.stringify(worker));
 
   await page.goto(url,{waitUntil:'networkidle0',timeout:20000});
+  intentionalOffline = true;
   await page.setOfflineMode(true);
   await page.reload({waitUntil:'domcontentloaded',timeout:20000});
   await page.waitForFunction(()=>document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:15000});
