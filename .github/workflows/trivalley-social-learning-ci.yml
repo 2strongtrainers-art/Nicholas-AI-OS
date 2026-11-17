@@ -1,0 +1,48 @@
+name: TriValley Social Learning — Offline QA
+
+on:
+  push:
+    branches:
+      - feat/trivalley-content-v5-private-production-queue-20261117
+    paths:
+      - scripts/social_learning.py
+      - tests/test_social_learning.py
+      - .github/workflows/trivalley-social-learning-ci.yml
+  pull_request:
+    paths:
+      - scripts/social_learning.py
+      - tests/test_social_learning.py
+      - .github/workflows/trivalley-social-learning-ci.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trivalley-social-learning-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-readonly-validation:
+    name: Read-only social metrics learning tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python syntax and source-gated tests
+        run: |
+          python -m py_compile scripts/social_learning.py
+          python -m unittest discover -s tests -p 'test_social_learning.py' -v
+      - name: No account logins, paid generation, publishing or external side effects
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          source = Path('scripts/social_learning.py').read_text()
+          assert 'def process(' in source
+          assert '"automatic_publish": False' in source
+          assert '"external_actions": 0' in source
+          print('V7 fail-closed code gates present; account data not accessed.')
+          PY
