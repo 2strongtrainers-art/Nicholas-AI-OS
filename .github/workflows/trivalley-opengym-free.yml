@@ -46,9 +46,25 @@ jobs:
         working-directory: upstream/frontend
         env:
           VITE_DEMO: '1'
+          VITE_TRIVALLEY_FREE: '1'
         run: npm run build
       - name: Verify self-contained assets and build offline cache
         run: python3 apps/trivalley-opengym/check_dist.py upstream/frontend/dist
+      - name: Install free local browser test driver
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-browser"
+          npm install --prefix "$RUNNER_TEMP/trivalley-browser" --no-audit --no-fund puppeteer-core@24
+          cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-browser/smoke.mjs"
+      - name: Test actual mobile Chromium UI, saved plan and offline reload
+        run: node "$RUNNER_TEMP/trivalley-browser/smoke.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/mobile.png"
+      - name: Upload mobile browser QA screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-opengym-mobile-smoke
+          path: ${{ runner.temp }}/trivalley-browser/mobile.png
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Upload public-app deployment bundle for Wix
         uses: actions/upload-artifact@v4
         with:
