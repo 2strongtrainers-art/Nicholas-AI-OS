@@ -70,12 +70,21 @@ jobs:
       - name: Verify normalized snapshot and publish attribution
         run: |
           python3 -m json.tool intel-desk/data/events.json >/dev/null
-          sha256sum intel-desk/data/events.json
+          python3 -m json.tool intel-desk/data/review-receipt.json >/dev/null
+          sha256sum intel-desk/data/events.json intel-desk/data/review-receipt.json
           python3 - <<'PY'
           import json
           p=json.load(open("intel-desk/data/events.json",encoding="utf-8"))
           assert p["schema"]=="trivalley.global-intel.v1"
           assert len(p["events"])>0
+          assert len(p["source_health"])==11
+          r=json.load(open("intel-desk/data/review-receipt.json",encoding="utf-8"))
+          assert r["schema"]=="trivalley.global-intel-review.v1"
+          assert r["source_generated_at"]==p["generated_at"]
+          assert r["source_feed_total"]==len(p["source_health"])
+          assert r["paid_provider_calls"]==0 and r["outbound_actions"]==0
+          assert r["chief_delivery"]=="normalized_output_prepared; acknowledgment_not_observed"
+          print("REVIEW_RECEIPT",r["receipt_key"],r["state"],"FAMILIES",r["source_family_count"],"NO_CHIEF_ACK",True)
           print("SNAPSHOT",p["status"],"EVENTS",len(p["events"]),"CANDIDATES",len(p["connections"]))
           for s in p["source_health"]:
               print("SOURCE",s["name"],s["state"],s["count"],s.get("error",""))
@@ -84,7 +93,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: intel-desk-evidence-${{ github.run_id }}-${{ github.run_attempt }}
-          path: intel-desk/data/events.json
+          path: |
+            intel-desk/data/events.json
+            intel-desk/data/review-receipt.json
           retention-days: 7
           if-no-files-found: error
       - name: Detect whether GitHub Pages source is enabled
