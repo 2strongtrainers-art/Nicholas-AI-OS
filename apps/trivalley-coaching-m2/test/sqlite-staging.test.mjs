@@ -119,7 +119,7 @@ test('Actual HTTP flow with committed SQLite and injected verified fake tokens',
   const server=createServer(handler);
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const url='http://127.0.0.1:'+server.address().port;
-  t.after(async()=>{await new Promise(resolve=>server.close(resolve));repo.close()});
+  t.after(async()=>{await new Promise(resolve=>server.close(resolve))});
   async function request(path,token,body){
     const res=await fetch(url+path,{method:body?'POST':'GET',
       headers:{...(token?{Authorization:'Bearer '+token}:{}),
@@ -148,7 +148,7 @@ test('Actual HTTP flow with committed SQLite and injected verified fake tokens',
   const coachProgress=await request('/v1/coach/clients/'+clientA.sub+'/progress','synthetic-coach-bearer');
   assert.equal(coachProgress.body.progress.totalLoggedSets,1);
   const denied=await request('/v1/coach/clients/'+clientB.sub+'/progress','synthetic-other-bearer');
-  assert.equal(denied.status,403);
+  assert.equal(denied.status,404); // Privacy-preserving non-enumeration of foreign clients.
   const exportA=await request('/v1/me/export','synthetic-client-a-bearer');
   assert.equal(exportA.body.data.workouts.length,1);
   assert.equal(exportA.body.data.checkins.length,1);
