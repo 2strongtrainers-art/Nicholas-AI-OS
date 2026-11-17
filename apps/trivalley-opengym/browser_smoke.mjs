@@ -29,6 +29,7 @@ let browser;
 const findings = [];
 const libraryV3 = process.env.TV_EXPECT_LIBRARY_V3 === '1';
 const expectCompactVerse = process.env.TV_EXPECT_COMPACT_VERSE === '1';
+const expectV4 = process.env.TV_EXPECT_V4 === '1';
 try {
   browser = await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
   const page = await browser.newPage();
@@ -44,8 +45,22 @@ try {
     if (!script.includes(process.env.TV_EXPECTED_JS)) throw new Error('Live host is not serving the expected release: ' + script);
   }
   if (response.status() !== 200) throw new Error('App HTTP '+response.status());
-  await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:18000});
+  await page.waitForFunction(() => (document.querySelector('h1')?.textContent?.includes('TriValley FIT') || document.querySelector('h1')?.textContent?.includes('Today')),{timeout:18000});
   const initial = await page.evaluate(() => ({title:document.title, text:document.body.innerText.slice(0,1800), unit:JSON.parse(localStorage.getItem('gym_state_v1')||'{}').unit}));
+  if (expectV4) {
+    await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-today-hero"]'), {timeout:10000});
+    const hero = await page.evaluate(() => {
+      const btn = document.querySelector('[data-testid="tv-start-primary"]');
+      const root = document.querySelector('[data-testid="tv-today-hero"]');
+      return {text:btn?.textContent || '', rect: btn?.getBoundingClientRect().toJSON(),
+        screenHeight: innerHeight, sideways: document.documentElement.scrollWidth > innerWidth + 2,
+        sourceVisible: !!document.querySelector('.tv-v4-topbar a[aria-label*="corresponding source"]')};
+    });
+    if (!hero.text.includes('Start a workout now') || hero.rect.bottom > hero.screenHeight
+      || hero.sideways || !hero.sourceVisible) {
+      throw new Error('v4 Home hero, viewport reflow, or source link failed: ' + JSON.stringify(hero));
+    }
+  }
   await page.screenshot({path:screenshot,fullPage:true});
   if (!initial.text.includes('Ready to train?')) throw new Error('First-use onboarding missing: '+initial.text.slice(0,450));
   if (!initial.text.includes('Start a workout now')) throw new Error('No immediate workout action in onboarding');
@@ -56,10 +71,11 @@ try {
   await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:12000});
   if (expectCompactVerse) {
     const banner = await page.$eval('[data-testid="tv-daily-verse"]', node => ({
-      isBanner: node.classList.contains('tv-verse-banner'),
+      isBanner: node.classList.contains('tv-verse-banner') || node.classList.contains('tv-home-verse-card'),
+      inline: getComputedStyle(node).position !== 'fixed',
       hasFullModal: !!document.querySelector('[aria-modal="true"]')
     }));
-    if (!banner.isBanner || banner.hasFullModal) throw new Error('Daily verse blocks first-run workout dashboard');
+    if (!banner.isBanner || banner.hasFullModal || (expectV4 && !banner.inline)) throw new Error('Daily verse blocks first-run workout dashboard');
   }
   const verseBefore = await page.evaluate(() => ({
     reference: document.querySelector('.tv-verse-ref')?.textContent,
@@ -72,7 +88,7 @@ try {
   await page.click('[data-testid="tv-verse-dismiss"]');
   await page.waitForFunction(() => !document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
   await page.reload({waitUntil:'networkidle0', timeout:20000});
-  await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'), {timeout:12000});
+  await page.waitForFunction(() => (document.querySelector('h1')?.textContent?.includes('TriValley FIT') || document.querySelector('h1')?.textContent?.includes('Today')), {timeout:12000});
   if (await page.$('[data-testid="tv-daily-verse"]')) throw new Error('Verse repeats after dismissal on same local day');
   await page.click('[data-testid="tv-daily-verse-trigger"]');
   await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
@@ -93,7 +109,7 @@ try {
     return Array.isArray(s.routines) && s.routines.length===3 && Object.keys(s.week||{}).length>=3 && s.unit==='lb';
   },{timeout:10000});
   await page.reload({waitUntil:'networkidle0',timeout:20000});
-  await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:15000});
+  await page.waitForFunction(() => (document.querySelector('h1')?.textContent?.includes('TriValley FIT') || document.querySelector('h1')?.textContent?.includes('Today')),{timeout:15000});
   const persisted=await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length);
   if(persisted!==3)throw new Error('Starter plan was not persisted after reload');
   await page.evaluate(()=>{location.hash='#/workout'});
@@ -157,17 +173,23 @@ try {
     document.querySelector('[data-testid="tv-verse-settings"] [role="switch"]')?.click();
   });
   await page.waitForFunction(() => localStorage.getItem('tv_daily_verse_enabled_v1') === 'true', {timeout:4000});
-  await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
-  await page.click('[data-testid="tv-verse-dismiss"]');
+  if (expectV4) {
+    await page.evaluate(() => { location.hash = '#/home' });
+    await page.waitForFunction(() => !!document.querySelector('.tv-home-verse-card'), {timeout:5000});
+    await page.click('[data-testid="tv-verse-dismiss"]');
+  } else {
+    await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
+    await page.click('[data-testid="tv-verse-dismiss"]');
+  }
 
   if(!settings.includes('Local workout storage'))throw new Error('Settings incorrectly presents this as a demo');
   if(settings.includes('Reset demo data'))throw new Error('Destructive demo reset remains exposed');
   if(settings.includes('Meet the Coach'))throw new Error('Simulated AI coach remains visible');
 
   await page.evaluate(() => { location.hash = '#/library' });
-  await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('Exercises'), {timeout:12000});
+  await page.waitForFunction(() => (document.querySelector('h1')?.textContent?.includes('Exercises') || document.querySelector('h1')?.textContent?.includes('Exercise Library')), {timeout:12000});
   const catalogue = await page.evaluate(() => document.body.innerText);
-  if (!catalogue.includes(libraryV3 ? 'guided exercise references' : 'step-by-step form notes')) throw new Error('Exercise library guidance label missing for the expected release');
+  if (!catalogue.includes(expectV4 ? 'guided movement notes' : libraryV3 ? 'guided exercise references' : 'step-by-step form notes')) throw new Error('Exercise library guidance label missing for the expected release');
   if (catalogue.includes('with animations') || catalogue.includes('no animation')) throw new Error('Exercise library still promises missing media');
 
   if (libraryV3) {
@@ -204,6 +226,22 @@ try {
   await page.click('[data-testid="tv-library-filters"]');
   const panel = await page.$eval('[data-testid="tv-library-filters"]', el => el.getAttribute('aria-expanded'));
   if (panel !== 'true' || !await page.$('#tv-library-advanced')) throw new Error('Accessible filters failed to expand');
+  if (expectV4) {
+    const overlay = await page.$('[data-testid="tv-filter-overlay"] [role="dialog"][aria-modal="true"]');
+    if (!overlay) throw new Error('v4 filter sheet did not open as an accessible modal');
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:4000});
+    await page.click('[data-testid="tv-library-filters"]');
+    await page.click('[data-testid="tv-filters-done"]');
+    await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:4000});
+    const dimensions = await page.evaluate(() => ({
+      width: document.documentElement.scrollWidth, viewport: innerWidth,
+      visibleCards: document.querySelectorAll('[data-testid="tv-exercise-card"]').length
+    }));
+    if (dimensions.width > dimensions.viewport + 2 || dimensions.visibleCards < 20) {
+      throw new Error('v4 library horizontal overflow or missing cards: ' + JSON.stringify(dimensions));
+    }
+  }
   await page.screenshot({path:screenshot.replace('.png', '-library.png'),fullPage:true});
   console.log(JSON.stringify({status:'LIBRARY_V3_PASS',libraryCount,favoritePersisted:savedId,planFilter:true,recentFilter:true,search:true,filterPanel:true}));
 
@@ -221,7 +259,7 @@ try {
   intentionalOffline = true;
   await page.setOfflineMode(true);
   await page.reload({waitUntil:'domcontentloaded',timeout:20000});
-  await page.waitForFunction(()=>document.querySelector('h1')?.textContent?.includes('TriValley FIT'),{timeout:15000});
+  await page.waitForFunction(()=>(document.querySelector('h1')?.textContent?.includes('TriValley FIT') || document.querySelector('h1')?.textContent?.includes('Today')),{timeout:15000});
   const offline=await page.evaluate(()=>({text:document.body.innerText.slice(0,160),saved:JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length}));
   if(offline.saved!==3)throw new Error('Offline reload lost workout plan');
 
