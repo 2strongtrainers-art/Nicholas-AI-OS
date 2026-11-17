@@ -229,6 +229,8 @@ try {
   if (expectV4) {
     const overlay = await page.$('[data-testid="tv-filter-overlay"] [role="dialog"][aria-modal="true"]');
     if (!overlay) throw new Error('v4 filter sheet did not open as an accessible modal');
+    const portalAttached = await page.$eval('[data-testid="tv-filter-overlay"]', element => element.parentElement === document.body);
+    if (!portalAttached) throw new Error('v4 filters must portal to document.body to avoid transformed app positioning');
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.querySelector('[data-testid="tv-filter-overlay"]'), {timeout:4000});
     await page.click('[data-testid="tv-library-filters"]');
