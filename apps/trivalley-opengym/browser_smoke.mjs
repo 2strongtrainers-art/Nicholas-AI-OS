@@ -155,8 +155,44 @@ try {
   await page.evaluate(() => { location.hash = '#/library' });
   await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('Exercises'), {timeout:12000});
   const catalogue = await page.evaluate(() => document.body.innerText);
-  if (!catalogue.includes('step-by-step form notes')) throw new Error('Exercise library form guidance label missing');
+  if (!catalogue.includes('guided exercise references')) throw new Error('Upgraded exercise library guidance label missing');
   if (catalogue.includes('with animations') || catalogue.includes('no animation')) throw new Error('Exercise library still promises missing media');
+
+  // TriValley library v3 acceptance: browse, search, clear, persist favorites and history views.
+  await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-library"]'), {timeout:10000});
+  const libraryCount = await page.evaluate(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length);
+  if (libraryCount < 20) throw new Error('Exercise library initial browse unexpectedly sparse: ' + libraryCount);
+  await page.type('[data-testid="tv-library-search"]', 'Air Bike');
+  await page.waitForFunction(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length > 0
+    && [...document.querySelectorAll('.tv-exercise-name')].some(el => el.textContent.toLowerCase().includes('air bike')), {timeout:6000});
+  await page.click('[data-testid="tv-library-clear"]');
+  await page.waitForFunction(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length >= 20, {timeout:6000});
+
+  const savedId = await page.$eval('[data-testid="tv-exercise-card"]', card => card.getAttribute('data-ex-id'));
+  if (!savedId) throw new Error('Exercise ID missing for favorite persistence');
+  await page.click('[data-testid="tv-favorite-toggle"]');
+  await page.waitForFunction(id => (JSON.parse(localStorage.getItem('gym_state_v1')||'{}').favoriteExercises || []).includes(id),
+    {timeout:6000}, savedId);
+  await page.click('[data-testid="tv-mode-favorites"]');
+  await page.waitForFunction(id => document.querySelectorAll('[data-testid="tv-exercise-card"]').length === 1 &&
+    document.querySelector('[data-testid="tv-exercise-card"]')?.getAttribute('data-ex-id') === id,
+    {timeout:6000}, savedId);
+  await page.reload({waitUntil:'networkidle0',timeout:20000});
+  await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-library"]'), {timeout:12000});
+  await page.click('[data-testid="tv-mode-favorites"]');
+  await page.waitForFunction(id => document.querySelector('[data-testid="tv-exercise-card"]')?.getAttribute('data-ex-id') === id,
+    {timeout:6000}, savedId);
+
+  await page.click('[data-testid="tv-mode-plan"]');
+  await page.waitForFunction(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length > 0, {timeout:6000});
+  await page.click('[data-testid="tv-mode-recent"]');
+  await page.waitForFunction(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length > 0, {timeout:6000});
+  await page.click('[data-testid="tv-mode-all"]');
+  await page.click('[data-testid="tv-library-filters"]');
+  const panel = await page.$eval('[data-testid="tv-library-filters"]', el => el.getAttribute('aria-expanded'));
+  if (panel !== 'true' || !await page.$('#tv-library-advanced')) throw new Error('Accessible filters failed to expand');
+  await page.screenshot({path:screenshot.replace('.png', '-library.png'),fullPage:true});
+  console.log(JSON.stringify({status:'LIBRARY_V3_PASS',libraryCount,favoritePersisted:savedId,planFilter:true,recentFilter:true,search:true,filterPanel:true}));
 
   await page.waitForFunction(async () => { const r=await navigator.serviceWorker?.getRegistration(); return r?.active?.scriptURL?.endsWith('/tv-sw.js') },{timeout:25000});
   const worker = await page.evaluate(async () => {
