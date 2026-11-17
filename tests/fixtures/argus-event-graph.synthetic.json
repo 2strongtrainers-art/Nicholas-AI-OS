@@ -1,0 +1,80 @@
+{
+  "schema": "argus.event-graph.v1",
+  "cutoff": "2026-11-17T10:15:00-08:00",
+  "visibility": "synthetic-public",
+  "sources": [
+    {
+      "id": "source-1",
+      "title": "Fictional harbor record",
+      "publisher": "Fictional Maritime Board",
+      "publisher_family": "Fictional Maritime Board",
+      "url": "https://example.org/record-one"
+    },
+    {
+      "id": "source-2",
+      "title": "Fictional review",
+      "publisher": "Fictional Civic Paper",
+      "publisher_family": "Fictional Civic Paper",
+      "url": "https://example.org/record-two"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-a",
+      "occurred_on": "2026-11-01",
+      "precision": "day",
+      "title": "Synthetic port alert",
+      "summary": "Fictional alert for testing the graph.",
+      "review_status": "source-indexed-unreviewed",
+      "source_ids": [
+        "source-1"
+      ],
+      "tags": [
+        "fictional-maritime"
+      ]
+    },
+    {
+      "id": "evt-b",
+      "occurred_on": "2026-11-02",
+      "precision": "day",
+      "title": "Synthetic harbor follow-up",
+      "summary": "Fictional follow-up for testing chronology.",
+      "review_status": "source-indexed-unreviewed",
+      "source_ids": [
+        "source-2"
+      ],
+      "tags": [
+        "fictional-maritime"
+      ]
+    },
+    {
+      "id": "evt-c",
+      "occurred_on": "2026-11-03",
+      "precision": "day",
+      "title": "Unrelated fictional event",
+      "summary": "No documented relationship to harbor alerts.",
+      "review_status": "source-indexed-unreviewed",
+      "source_ids": [
+        "source-2"
+      ],
+      "tags": [
+        "fictional-other"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "link-1",
+      "source_event_id": "evt-a",
+      "target_event_id": "evt-b",
+      "type": "Temporal sequence",
+      "assertion": "Illustrative chronology only: no causal connection is asserted.",
+      "source_ids": [
+        "source-1",
+        "source-2"
+      ],
+      "review_status": "candidate",
+      "confidence": "unassessed"
+    }
+  ]
+}

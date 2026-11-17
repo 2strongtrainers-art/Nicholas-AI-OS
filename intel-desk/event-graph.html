@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">
+<title>ARGUS | Private Evidence Graph Explorer</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#080d15;color:#edf2f8}
+*{box-sizing:border-box}body{margin:0}.shell{max-width:1500px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;gap:14px;align-items:start;border-bottom:1px solid #2a3a50;padding-bottom:22px}h1{font-size:30px;margin:5px 0}h2{font-size:17px;margin:0 0 12px}.eyebrow{letter-spacing:.17em;color:#86d7ca;font-size:11px;font-weight:800}.note{font-size:12px;color:#a5b8cf;line-height:1.6}.badge{font-size:11px;background:#1c3140;color:#98e0d5;border-radius:18px;padding:7px 10px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.btn{cursor:pointer;border:1px solid #3a5068;background:#122238;color:#e9f2fc;padding:12px 15px;border-radius:9px;font-size:13px}.btn:hover,.btn:focus-visible{border-color:#74c9d2}.btn.secondary{background:transparent}.status{margin:12px 0;color:#8cdbd1;font-size:13px}.layout{display:grid;grid-template-columns:275px minmax(400px,1fr) 300px;gap:14px}.panel{border:1px solid #253950;background:#0d1724;border-radius:13px;min-height:520px;padding:16px}.filters{width:100%;padding:12px;border-radius:8px;background:#0a1420;color:#fff;border:1px solid #2b455d;margin-bottom:10px}.eventlist{height:620px;max-height:70vh;overflow:auto}.event{display:block;text-align:left;width:100%;border:0;border-bottom:1px solid #20364c;background:none;color:#e3ecf5;padding:12px 8px;cursor:pointer;font-size:13px}.event small{display:block;color:#87a5c1;font-size:11px;margin-bottom:4px}.event:hover,.event.selected{background:#163143}.viz{height:600px;min-height:470px;display:block;width:100%;background:radial-gradient(circle at 50% 45%,#13293d 0%,#0c1624 62%);border:1px solid #213b52;border-radius:10px}.detail p{line-height:1.6;font-size:13px;color:#bfd0df}.detail .label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#80cfc8;margin-top:18px}.detail a{color:#8dd8ec;font-size:12px;overflow-wrap:anywhere}.source{padding:9px 0;border-bottom:1px solid #27384b}.source strong{display:block;font-size:12px}.source small{font-size:11px;color:#879db4}.empty{padding:25px 10px;color:#8095ab;text-align:center}.footer{margin:20px 0;font-size:12px;color:#a5b8cf}.node-text{fill:#d6e8f5;text-anchor:middle;font:12px system-ui;pointer-events:none}.node-circle{cursor:pointer}.evidence-line{stroke:#52718a;stroke-width:1.5;stroke-dasharray:3 6}.related-line{stroke:#f6be72;stroke-width:2}.main-title{fill:#fff;font:bold 13px system-ui;text-anchor:middle;pointer-events:none}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.panel{min-height:auto}.eventlist{height:200px}.viz{height:480px}.shell{padding:14px}}
+</style>
+</head><body><div class="shell">
+<header><div><div class="eyebrow">ARGUS PRIME / EVIDENCE-FIRST ANALYSIS</div><h1>Structured Event Relationship Graph</h1><p class="note">Source → Event links show cited reporting. Event → Event links show explicitly proposed relationships.<br>Neither proximity nor a shared citation demonstrates coordination or causation.</p></div><span class="badge">LOCAL-ONLY FILE VIEWER</span></header>
+<div class="tools"><label class="btn">Choose private graph JSON <input id="upload" type="file" accept=".json,application/json" hidden></label><button class="btn secondary" id="demo" type="button">Load synthetic demonstration</button><button class="btn secondary" id="clear" type="button">Clear data</button></div>
+<div class="note">Your selected file is parsed inside this browser. This page contains no network calls or third-party scripts. Run the Python integrity validator before relying on any case content. Only synthetic data is stored in this public repository.</div>
+<div id="status" class="status" role="status">No case loaded. Choose a local JSON file or the synthetic demonstration.</div>
+<div class="layout"><div class="panel"><h2>Events</h2><input class="filters" id="filter" placeholder="Filter dates / places / titles" aria-label="Filter events"><div id="eventlist" class="eventlist"></div></div><div class="panel"><h2>Evidence / Relationship Explorer</h2><svg id="network" class="viz" viewBox="0 0 850 600" role="img" aria-label="Selected event connections"></svg><div class="note">Blue = source evidence; amber = related event (a candidate unless separately reviewed). Click related event circles to pivot.</div></div><div class="panel detail"><h2 id="detailtitle">Select an event</h2><div id="details" class="note">Links are intentionally sparse until evidence supports their inclusion.</div></div></div>
+<p class="footer">ARGUS v1. Client-only local viewer. No personal or private mission data is preloaded, synchronized or published. The absence of a link is not evidence that events are unrelated.</p>
+</div>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);const NS="http://www.w3.org/2000/svg";
+let doc=null,selected=null;
+const synthetic={schema:"argus.event-graph.v1",cutoff:"2026-11-17T10:15:00-08:00",visibility:"synthetic-public",sources:[
+{id:"source-1",title:"Fictional maritime notice",publisher:"Fictional Maritime Board",publisher_family:"Fictional Board",url:"https://example.org/notice"},
+{id:"source-2",title:"Fictional news coverage",publisher:"Fictional News Agency",publisher_family:"Fictional News",url:"https://example.org/fiction"}],
+events:[
+{id:"evt-a",occurred_on:"2026-11-01",title:"Synthetic port alert",summary:"A fictional harbor notice used to exercise the viewer.",source_ids:["source-1"],tags:["fictional-maritime"],review_status:"source-indexed-unreviewed"},
+{id:"evt-b",occurred_on:"2026-11-02",title:"Synthetic harbor follow-up",summary:"A fabricated example about the same fictional topic.",source_ids:["source-2"],tags:["fictional-maritime"],review_status:"source-indexed-unreviewed"},
+{id:"evt-c",occurred_on:"2026-11-03",title:"Unrelated fictional event",summary:"No claimed relationship with the harbor events.",source_ids:["source-2"],tags:["fictional-other"],review_status:"source-indexed-unreviewed"}],
+relationships:[{id:"link-1",source_event_id:"evt-a",target_event_id:"evt-b",type:"Temporal sequence",assertion:"The events are fictitiously sequential; no causation asserted.",source_ids:["source-1","source-2"],review_status:"candidate",confidence:"unassessed"}]};
+function elem(tag,cls,txt){const el=document.createElement(tag);if(cls)el.className=cls;if(txt!==undefined)el.textContent=String(txt);return el}
+function svg(tag,props){const el=document.createElementNS(NS,tag);Object.keys(props).forEach(k=>el.setAttribute(k,props[k]));return el}
+function tspan(x,y,txt,color,cls){let s=svg("text",{x,y,fill:color||"#dceafa",class:cls||"node-text"});s.textContent=txt.length>26?txt.slice(0,24)+"…":txt;return s}
+function info(text){$("status").textContent=text}
+function safeUrl(u){try{let x=new URL(u);return x.protocol==="https:"?x.href:null}catch(e){return null}}
+function readData(x){if(!x||x.schema!=="argus.event-graph.v1"||!Array.isArray(x.events)||!Array.isArray(x.sources)||!Array.isArray(x.relationships))throw Error("Not ARGUS event-graph v1 JSON");
+if(x.events.length>5000||x.sources.length>5000||x.relationships.length>20000)throw Error("Graph too large for browser viewer");
+doc=x;selected=x.events.length?x.events[0].id:null;
+info(x.events.length+" events · "+x.sources.length+" sources · "+x.relationships.length+" authored event links · "+String(x.visibility||"visibility unknown")+" · VIEW ONLY / NOT VERIFIED");
+render()}
+function render(){const list=$("eventlist");list.replaceChildren();if(!doc){$("network").replaceChildren();$("details").textContent="No graph loaded.";return}
+const query=$("filter").value.trim().toLowerCase();
+doc.events.filter(e=>(e.title+" "+e.occurred_on+" "+e.summary).toLowerCase().includes(query)).sort((a,b)=>String(a.occurred_on).localeCompare(String(b.occurred_on))).forEach(e=>{
+let btn=elem("button","event"+(e.id===selected?" selected":""),e.title||e.id);btn.type="button";btn.prepend(elem("small","",e.occurred_on||"date unavailable"));btn.addEventListener("click",()=>{selected=e.id;render()});list.append(btn)});
+if(!list.children.length)list.append(elem("div","empty","No matching events"));draw()}
+function draw(){const canvas=$("network");canvas.replaceChildren();const e=doc.events.find(x=>x.id===selected);if(!e){$("details").textContent="Select an event";return}
+const other=doc.relationships.filter(l=>l.source_event_id===selected||l.target_event_id===selected).map(l=>({edge:l,node:doc.events.find(x=>x.id===(l.source_event_id===selected?l.target_event_id:l.source_event_id))})).filter(x=>x.node);
+const sources=e.source_ids.map(id=>doc.sources.find(s=>s.id===id)).filter(Boolean);
+const peripherals=[...other.slice(0,9).map(x=>({kind:"related",label:x.node.title,node:x.node,edge:x.edge})),...sources.slice(0,15).map(s=>({kind:"source",label:s.title,node:s}))];const cx=425,cy=305,radius=Math.min(230,170+peripherals.length*4);
+peripherals.forEach((p,i)=>{const ang=2*Math.PI*i/Math.max(1,peripherals.length)-Math.PI/2;const x=cx+Math.cos(ang)*radius,y=cy+Math.sin(ang)*radius;p.x=x;p.y=y;
+canvas.append(svg("line",{x1:cx,y1:cy,x2:x,y2:y,class:p.kind==="related"?"related-line":"evidence-line"}))});
+peripherals.forEach(p=>{const c=svg("circle",{cx:p.x,cy:p.y,r:p.kind==="related"?31:22,fill:p.kind==="related"?"#a5783b":"#284e64",stroke:p.kind==="related"?"#ffce86":"#6cc9d5","stroke-width":"2",class:"node-circle"});c.setAttribute("tabindex","0");c.setAttribute("role","button");c.setAttribute("aria-label",p.label);
+let fn=()=>{if(p.kind==="related"){selected=p.node.id;render()}else{showSource(p.node)}};
+c.addEventListener("click",fn);c.addEventListener("keydown",ev=>{if(ev.key==="Enter")fn()});canvas.append(c);canvas.append(tspan(p.x,p.y+45,p.label,"#bdd8e5"))});
+canvas.append(svg("circle",{cx,cy,r:74,fill:"#17565c",stroke:"#81dbcc","stroke-width":"3"}));canvas.append(tspan(cx,cy-8,e.occurred_on,"#bde6df","main-title"));
+let words=String(e.title||e.id).split(" ");let a="",b="";for(let w of words){if(a.length<18)a+=(a?" ":"")+w;else b+=(b?" ":"")+w}
+canvas.append(tspan(cx,cy+14,a,"#fff","main-title"));if(b)canvas.append(tspan(cx,cy+33,b,"#fff","main-title"));
+const detail=$("details");detail.replaceChildren();$("detailtitle").textContent=e.title||e.id;
+detail.append(elem("p","",e.occurred_on+" · "+(e.review_status||"status unspecified")));detail.append(elem("div","label","Event summary"));detail.append(elem("p","",e.summary||"Not provided"));if(e.ramification){detail.append(elem("div","label","Reported ramifications"));detail.append(elem("p","",e.ramification))}
+detail.append(elem("div","label","Sources ("+sources.length+")"));
+sources.forEach(s=>{let area=elem("div","source");area.append(elem("strong","",s.title||s.id));area.append(elem("small","",s.publisher||""));let link=safeUrl(s.url);if(link){let a=elem("a","","Open original source");a.href=link;a.target="_blank";a.rel="noopener noreferrer";area.append(a)}detail.append(area)});
+detail.append(elem("div","label","Event-event relationships ("+other.length+")"));
+other.forEach(p=>{let area=elem("div","source");area.append(elem("strong","",p.edge.type+" / "+p.edge.review_status));area.append(elem("small","",p.node.title));area.append(elem("p","",p.edge.assertion));detail.append(area)});
+if(!other.length)detail.append(elem("p","","No authored event-event relationships. This is not proof of independence."))}
+function showSource(s){const x=$("details");x.replaceChildren();$("detailtitle").textContent=s.title||s.id;x.append(elem("p","",s.publisher||""));let url=safeUrl(s.url);if(url){let a=elem("a","","Open cited source");a.href=url;a.rel="noopener noreferrer";a.target="_blank";x.append(a)}}
+$("upload").addEventListener("change",async ev=>{const file=ev.target.files[0];if(!file)return;if(file.size>8000000){info("REJECTED: file exceeds 8MB limit");return}try{readData(JSON.parse(await file.text()))}catch(e){info("REJECTED: "+e.message)}});
+$("demo").addEventListener("click",()=>{readData(synthetic)});
+$("clear").addEventListener("click",()=>{doc=null;selected=null;$("upload").value="";$("filter").value="";info("No case loaded.");$("eventlist").replaceChildren();render()});
+$("filter").addEventListener("input",render);
+})();
+</script></body></html>
