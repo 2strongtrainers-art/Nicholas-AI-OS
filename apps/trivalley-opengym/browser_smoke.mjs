@@ -50,6 +50,27 @@ try {
   if (initial.text.includes('Let the Coach build it')) throw new Error('Fake AI Coach visible');
   if (initial.unit && initial.unit !== 'lb') throw new Error('US-first weight unit default missing');
 
+  // Real first-day Bible verse: appears once, can be dismissed, revisited and opted out of.
+  await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:12000});
+  const verseBefore = await page.evaluate(() => ({
+    reference: document.querySelector('.tv-verse-ref')?.textContent,
+    quote: document.querySelector('.tv-verse-quote')?.textContent,
+    day: localStorage.getItem('tv_daily_verse_last_shown_v1')
+  }));
+  if (!verseBefore.reference?.includes('KJV') || !verseBefore.quote || !/^\d{4}-\d{2}-\d{2}$/.test(verseBefore.day || '')) {
+    throw new Error('Verse reference, source or once-per-day storage missing');
+  }
+  await page.click('[data-testid="tv-verse-dismiss"]');
+  await page.waitForFunction(() => !document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
+  await page.reload({waitUntil:'networkidle0', timeout:20000});
+  await page.waitForFunction(() => document.querySelector('h1')?.textContent?.includes('TriValley FIT'), {timeout:12000});
+  if (await page.$('[data-testid="tv-daily-verse"]')) throw new Error('Verse repeats after dismissal on same local day');
+  await page.click('[data-testid="tv-daily-verse-trigger"]');
+  await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
+  const reread = await page.$eval('.tv-verse-ref', node => node.textContent);
+  if (reread !== verseBefore.reference) throw new Error('Manual revisit changed the same-day verse');
+  await page.click('[data-testid="tv-verse-dismiss"]');
+
   const clicked = await page.evaluate(() => {
     const button=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Load starter plan'));
     if(!button)return false;button.click();return true;
@@ -108,6 +129,25 @@ try {
   await page.evaluate(()=>{location.hash='#/settings'});
   await page.waitForFunction(()=>document.querySelector('h1')?.textContent?.includes('Settings'),{timeout:12000});
   const settings=await page.evaluate(()=>document.body.innerText);
+  // Settings opt-out prevents tomorrow's auto-popup without removing the manual reading option.
+  const switchedOff = await page.evaluate(() => {
+    const row = document.querySelector('[data-testid="tv-verse-settings"]');
+    const toggle = row?.querySelector('[role="switch"]');
+    if (!toggle) return false;
+    toggle.click();
+    return localStorage.getItem('tv_daily_verse_enabled_v1') === 'false';
+  });
+  if (!switchedOff) throw new Error('Daily Bible verse opt-out switch failed');
+  await page.evaluate(() => { localStorage.setItem('tv_daily_verse_last_shown_v1', '1999-01-01') });
+  await page.reload({waitUntil:'networkidle0',timeout:20000});
+  if (await page.$('[data-testid="tv-daily-verse"]')) throw new Error('Disabled verse still auto-popup on a new day');
+  await page.evaluate(() => {
+    document.querySelector('[data-testid="tv-verse-settings"] [role="switch"]')?.click();
+  });
+  await page.waitForFunction(() => localStorage.getItem('tv_daily_verse_enabled_v1') === 'true', {timeout:4000});
+  await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
+  await page.click('[data-testid="tv-verse-dismiss"]');
+
   if(!settings.includes('Local workout storage'))throw new Error('Settings incorrectly presents this as a demo');
   if(settings.includes('Reset demo data'))throw new Error('Destructive demo reset remains exposed');
   if(settings.includes('Meet the Coach'))throw new Error('Simulated AI coach remains visible');
