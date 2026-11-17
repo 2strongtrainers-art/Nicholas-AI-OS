@@ -155,7 +155,7 @@ text = text.replace("const [filtersOpen, setFiltersOpen] = useState(false)",
     const onKey = ev => {
       if (ev.key === 'Escape') { ev.preventDefault(); setFiltersOpen(false); return }
       if (ev.key !== 'Tab' || !panelRef.current) return
-      const focusable = [...panelRef.current.querySelectorAll('button:not([disabled]), input:not([disabled])')]
+      const focusable = [...panelRef.current.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled])')]
       if (!focusable.length) return
       if (ev.shiftKey && document.activeElement === focusable[0]) {
         ev.preventDefault(); focusable[focusable.length - 1].focus()
@@ -219,23 +219,19 @@ sheet = """    {(bodyPart || equipmentOn) && <div className="tv-active-filters" 
           <button ref={closeFiltersRef} className="tv-sheet-close" type="button"
             data-testid="tv-filters-close" onClick={() => setFiltersOpen(false)}>Close</button>
         </div>
-        <div className="tv-advanced-heading"><strong>Target muscle</strong>
-          <button type="button" onClick={resetFilters}>Clear all</button></div>
-        <div className="tv-advanced-chips">
-          <button type="button" className={'tv-filter-chip' + (!bodyPart ? ' active' : '')}
-            onClick={() => changePart('')}>All muscles</button>
-          {BODYPARTS.map(part => <button type="button" key={part}
-            className={'tv-filter-chip' + (bodyPart === part ? ' active' : '')}
-            onClick={() => changePart(part)}>{t(part)}</button>)}
-        </div>
-        <div className="tv-advanced-heading"><strong>Available equipment</strong></div>
-        <div className="tv-advanced-chips">
-          <button type="button" className={'tv-filter-chip' + (!equipmentOn ? ' active' : '')}
-            onClick={() => {setEquipment('');setShown(40)}}>Any equipment</button>
-          {equipmentOptions.map(item => <button type="button" key={item}
-            className={'tv-filter-chip' + (equipmentOn === item ? ' active' : '')}
-            onClick={() => {setEquipment(item);setShown(40)}}>{t(item)}</button>)}
-        </div>
+        <label className="tv-field-label" htmlFor="tv-muscle-select">Muscle group</label>
+        <select id="tv-muscle-select" className="tv-filter-select" data-testid="tv-muscle-select"
+          value={bodyPart} onChange={event => changePart(event.target.value)}>
+          <option value="">All muscle groups</option>
+          {BODYPARTS.map(part => <option value={part} key={part}>{t(part)}</option>)}
+        </select>
+        <label className="tv-field-label" htmlFor="tv-equipment-select">Equipment available</label>
+        <select id="tv-equipment-select" className="tv-filter-select" data-testid="tv-equipment-select"
+          value={equipmentOn} onChange={event => {setEquipment(event.target.value);setShown(40)}}>
+          <option value="">Any equipment</option>
+          {equipmentOptions.map(item => <option value={item} key={item}>{t(item)}</option>)}
+        </select>
+        <button className="tv-clear-all" type="button" onClick={resetFilters}>Clear filters</button>
         <button type="button" className="tv-done-filters" data-testid="tv-filters-done"
           onClick={() => setFiltersOpen(false)}>Show {matching.length} exercises</button>
       </section>
@@ -261,6 +257,11 @@ if text.count(open_modal) != 1 or text.count(close_modal) != 1:
 text = text.replace(open_modal, '    {filtersOpen && createPortal(<div className="tv-filter-overlay"', 1)
 text = text.replace(close_modal, '    </div>, document.body)}\n\n    <div className="tv-exercise-list"', 1)
 lib.write_text(text)
+
+# Activity heatmap needs a labeled keyboard-focusable scrolling region.
+edit("src/components/Heatmap.jsx",
+     '<div className="hm-wrap" ref={wrapRef}>',
+     '<div className="hm-wrap" ref={wrapRef} tabIndex={0} role="region" aria-label="Training activity calendar; scroll horizontally to see older dates">')
 
 # 5. Upgrade backup export/import without ever sending the JSON off-device.
 shutil.copyfile(assets / "tv-backup.mjs", front / "src/lib/tv-backup.js")
