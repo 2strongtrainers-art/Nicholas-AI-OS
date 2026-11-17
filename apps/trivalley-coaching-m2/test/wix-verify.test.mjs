@@ -19,10 +19,10 @@ const make=({
   scope
 }={})=>{
   const calls=[];
-  const request=transport||async (url,options)=>{
+  const request=transport||(async (url,options)=>{
     calls.push({url,method:options.method,authorization:options.headers.Authorization,redirect:options.redirect});
     return{ok:httpOk,status:httpOk?200:401,text:async()=>response};
-  };
+  });
   const verifier=makeWixMemberVerifier({
     siteId,verifyTokenSite:scope||async()=>siteResult,
     lookupProvisionedMember:lookup||async()=>membership,
