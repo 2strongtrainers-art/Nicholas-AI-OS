@@ -44,6 +44,7 @@ function isEnabled() {
 
 export default function DailyVerse({ active }) {
   const [open, setOpen] = useState(false)
+  const [compact, setCompact] = useState(true)
   const [date, setDate] = useState(() => new Date())
   const cardRef = useRef(null)
   const closeRef = useRef(null)
@@ -58,10 +59,11 @@ export default function DailyVerse({ active }) {
         localStorage.setItem(VERSE_SEEN_KEY, today)
       } catch { /* Private browsing may block storage: opening still works. */ }
       setDate(new Date())
+      setCompact(true)
       setOpen(true)
     }
     const onVisible = () => { if (document.visibilityState === 'visible') showIfNewDay() }
-    const onManual = () => { setDate(new Date()); setOpen(true) }
+    const onManual = () => { setDate(new Date()); setCompact(false); setOpen(true) }
     const onPreference = () => {
       if (!isEnabled()) setOpen(false)
       else showIfNewDay()
@@ -80,7 +82,7 @@ export default function DailyVerse({ active }) {
   }, [active])
 
   useEffect(() => {
-    if (!open) return undefined
+    if (!open || compact) return undefined
     const previousFocus = document.activeElement
     const oldOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -101,7 +103,7 @@ export default function DailyVerse({ active }) {
       document.removeEventListener('keydown', onKeyDown)
       if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus()
     }
-  }, [open])
+  }, [open, compact])
 
   if (!active || !open) return null
   const verse = verseForLocalDay(date)
@@ -113,6 +115,26 @@ export default function DailyVerse({ active }) {
     setOpen(false)
     window.dispatchEvent(new Event('tv:verse-preference'))
   }
+
+  // Automatically show a non-blocking daily verse. The full accessible dialog
+  // remains available through Read reflection and the permanent header trigger.
+  if (compact) return (
+    <aside className="tv-verse-banner" data-testid="tv-daily-verse"
+      role="region" aria-label="Today's Bible verse">
+      <div className="tv-verse-banner-copy">
+        <span className="tv-verse-banner-kicker">TRIVALLEY.FIT · DAILY INSPIRATION</span>
+        <strong>{verse.title}</strong>
+        <span className="tv-verse-quote">“{verse.quote}”</span>
+        <span className="tv-verse-ref">{verse.ref} · KJV</span>
+      </div>
+      <div className="tv-verse-banner-actions">
+        <button type="button" data-testid="tv-verse-expand"
+          onClick={() => setCompact(false)}>Read reflection</button>
+        <button type="button" data-testid="tv-verse-dismiss"
+          onClick={close}>Dismiss</button>
+      </div>
+    </aside>
+  )
 
   return (
     <div className="tv-verse-overlay" data-testid="tv-daily-verse"
