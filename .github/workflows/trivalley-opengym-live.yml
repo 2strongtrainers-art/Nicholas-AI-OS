@@ -29,7 +29,7 @@ jobs:
       - name: Verify Wix release, plan, set logging, history and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-C-WLJ2mA.js'
+          TV_EXPECTED_JS: 'index-NmXqvcNy.js'
         run: node "$RUNNER_TEMP/trivalley-live/smoke.mjs" unused "$RUNNER_TEMP/trivalley-live/live.png"
       - name: Upload live mobile screenshot
         if: always()
