@@ -292,10 +292,8 @@ if "data-testid=\"tv-library\"" not in library_component or "favoriteExercises" 
     raise RuntimeError("TriValley Library source is missing persistent favorites or test hooks")
 (front / "src/views/Library.jsx").write_text(library_component)
 (front / "src/index.css").open("a").write("\n" + (assets / "library-tune.css").read_text())
-# Preserve immediately accessible AGPL corresponding-source and original-author links,
-# while reducing the mobile header to a single useful line where it fits.
-app = front / "src/App.jsx"
-app.write_text(app.read_text().replace("Modified source · AGPL-3.0", "Source · AGPL-3.0").replace("openGym credit", "openGym"))
+# Keep visible, exact AGPL corresponding-source attribution and upstream credit.
+# The build verifier enforces this; styling alone may reduce visual crowding.
 # Optional coaching invitation is separate from the free workout tools;
 # it does not imply an AI coach or any in-app subscription/checkout.
 replace_exact(
