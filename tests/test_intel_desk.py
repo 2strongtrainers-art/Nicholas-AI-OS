@@ -123,6 +123,56 @@ class NormalizationTests(unittest.TestCase):
         y = dict(x, topic="Economy", publisher="b.gov", url="https://b.gov/b")
         self.assertEqual(s.connections([x,y]), [])
 
+    def test_news_rss_attribution_does_not_impersonate_government(self):
+        xml = """<item><title>Energy infrastructure security in Europe</title>
+            <link>https://www.bbc.com/news/example</link>
+            <pubDate>Mon, 16 Nov 2026 23:10:00 GMT</pubDate></item>"""
+        event = s.normalize_rss_item(s.ET.fromstring(xml), "BBC Energy Watch", "Energy")
+        self.assertEqual(event["publisher"], "BBC")
+        self.assertIn("unverified", event["trust"].lower())
+        self.assertNotIn("official agency", event["basis"].lower())
+
+    def test_cisa_kev_is_official_catalog_not_attack_attribution(self):
+        row = {"cveID": "CVE-2026-12345", "dateAdded": "2026-11-16",
+               "vendorProject": "TestVendor", "product": "TestProduct"}
+        event = s.normalize_kev(row)
+        self.assertEqual(event["source"], "CISA KEV")
+        self.assertEqual(event["observed_at"], "2026-11-16T00:00:00Z")
+        self.assertEqual(event["position"], None)
+        self.assertIn("not evidence of compromise", event["basis"])
+        self.assertIsNone(s.normalize_kev({"cveID": "garbage", "dateAdded": "2026-11-16"}))
+        self.assertIsNone(s.normalize_kev({"cveID": "CVE-2026-12345", "dateAdded": "no date"}))
+
+    def test_review_receipt_stable_manual_ack_never_claimed(self):
+        source = {
+            "generated_at": "2026-11-16T23:30:02Z",
+            "status": "DEGRADED",
+            "source_health": [
+                {"name": "BBC World", "family": "BBC", "state": "ok", "count": 10},
+                {"name": "BBC Energy Watch", "family": "BBC", "state": "ok", "count": 2},
+                {"name": "EIA", "family": "EIA", "state": "error", "count": 0}],
+            "source_families": ["BBC"],
+            "source_family_count": 1,
+            "events": [{"id": "x"}], "connections": []}
+        first = s.make_review_receipt(source)
+        self.assertEqual(first, s.make_review_receipt(source))
+        self.assertEqual(first["receipt_key"], "global-intel-20261116233002")
+        self.assertEqual(first["state"], "DEGRADED_SOURCE_COVERAGE")
+        self.assertEqual(first["source_feed_healthy"], 2)
+        self.assertEqual(first["source_family_count"], 1)
+        self.assertEqual(first["chief_snapshot"]["items"][0]["priority"], "high")
+        self.assertIn("acknowledgment_not_observed", first["chief_delivery"])
+        self.assertEqual(first["outbound_actions"], 0)
+        self.assertEqual(first["paid_provider_calls"], 0)
+
+    def test_zero_spend_and_no_duplicate_gdelt_doc_queries(self):
+        self.assertEqual(len(s.NEWS_RSS), 4)
+        self.assertTrue(all(url.startswith("https://") for topic, url in s.NEWS_RSS.values()))
+        self.assertIn("BBC Energy Watch", s.RELEVANT_HEADLINES)
+        self.assertIn("NPR Technology", s.RELEVANT_HEADLINES)
+        self.assertEqual(len(s.OFFICIAL_RSS), 3)
+        self.assertIn("State Travel Advisories", s.OFFICIAL_RSS)
+
     def test_gdelt_date_fail_closed(self):
         self.assertIsNone(s.parse_gdelt_date("yesterday"))
         self.assertIsNone(s.parse_gdelt_date(None))
