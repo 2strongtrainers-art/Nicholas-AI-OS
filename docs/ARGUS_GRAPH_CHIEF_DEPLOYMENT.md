@@ -79,3 +79,14 @@ observed. Then a separately reviewed trigger can be considered.
 Green code CI never implies the remaining hosted or human-review stages.
 The n8n workflow does NOT automatically notify a Chief, publish a report,
 execute trading, or establish casualty or attacker identity.
+
+## MCP exposure / privacy guard
+
+The synthetic-only staging template explicitly sets `settings.availableInMCP=false`.
+Do not auto-expose the graph gate to n8n MCP clients. n8n documents that
+instance-level MCP clients may discover and operate on enabled workflows.
+Before any owner-private graph is placed into n8n, inspect workflow execution
+retention and redaction availability and do not store raw private case payloads
+in execution history. Consider sending a sanitized review receipt rather than
+the raw source graph. The existing synthetic-only workflow may retain manual
+execution history for QA.
