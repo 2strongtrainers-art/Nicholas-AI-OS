@@ -41,7 +41,7 @@ try{
   let first=await page.evaluate(()=>document.body.innerText);
   console.log(JSON.stringify({status:'M2_PREVIEW_INITIAL_RENDER',
     length:first.length,text:first.slice(0,900),errors:errors.slice(0,10)}));
-  if(!first.includes('DEMONSTRATION ONLY')||!first.includes('Synthetic')||!first.includes('Coach demo'))
+  if(!first.includes('DEMONSTRATION ONLY')||!first.includes('invented sample records')||!first.includes('Coach demo'))
     throw new Error('Unambiguous synthetic-only user consent messaging missing');
   const hasOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
   if(hasOverflow)throw new Error('Synthetic coaching preview overflows mobile width');
