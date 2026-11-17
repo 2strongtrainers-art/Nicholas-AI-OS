@@ -268,4 +268,15 @@ css.open("a").write("""
 @media(max-width:390px){.tv-exercise-media svg{flex-basis:24%;width:24%}.tv-steps{font-size:11px}}
 """)
 
+# Exercise library describes our actual static coaching cards, never nonexistent GIFs.
+replace_exact("src/views/Library.jsx",
+    "{t('{0} exercises with animations', EXDB.length)}",
+    "{EXDB.length} exercises · step-by-step form notes")
+replace_exact("src/views/Library.jsx",
+    "{t('name + body part, no animation')}",
+    "Custom name and body part · stored on this device")
+replace_exact("src/views/Library.jsx",
+    '<input className="input" placeholder={t(\'Search…\')}',
+    '<input className="input" aria-label="Search exercises" placeholder={t(\'Search…\')}')
+
 print("TriValley original-source modifications applied; real OpenGym logic retained.")
