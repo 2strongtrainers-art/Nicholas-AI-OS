@@ -80,6 +80,14 @@ class EventGraphTests(unittest.TestCase):
         self.doc["sources"][0]["url"] = "http://example.org/unsafe"
         self.fail_reason("source URL must be absolute HTTPS")
 
+    def test_relationship_source_must_belong_to_endpoint(self):
+        self.doc["sources"].append({
+            "id": "source-3", "title": "Unrelated record",
+            "publisher_family": "Separate publisher",
+            "url": "https://example.org/not-attached-to-either-endpoint"})
+        self.doc["relationships"][0]["source_ids"] = ["source-3"]
+        self.fail_reason("relationship sources are not cited by endpoint events")
+
     def test_related_link_requires_context_tag(self):
         self.doc["events"][1]["tags"] = []
         self.doc["relationships"][0]["type"] = "Shared subject"
