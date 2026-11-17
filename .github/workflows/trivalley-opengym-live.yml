@@ -26,10 +26,10 @@ jobs:
           mkdir -p "$RUNNER_TEMP/trivalley-live"
           npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
-      - name: Verify Wix release, plan, set logging, history and offline restart
+      - name: Verify Wix daily verse, opt-out, saved workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-NmXqvcNy.js'
+          TV_EXPECTED_JS: 'index-CdEFuQLY.js'
         run: node "$RUNNER_TEMP/trivalley-live/smoke.mjs" unused "$RUNNER_TEMP/trivalley-live/live.png"
       - name: Upload live mobile screenshot
         if: always()
