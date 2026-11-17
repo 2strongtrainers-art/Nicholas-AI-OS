@@ -75,9 +75,13 @@
   border:1px solid #4a8959;border-radius:99px;font-size:12px;cursor:pointer;}
 .tv-filter-overlay {position:fixed;inset:0;z-index:360;display:flex;align-items:flex-end;justify-content:center;}
 .tv-filter-backdrop {position:absolute;inset:0;background:rgba(0,0,0,.78);border:0;cursor:pointer;}
-.tv-filter-sheet {position:relative;width:min(100%,620px);max-height:min(78dvh,720px);
+/* Reserve the bottom region for the existing nav and Wix-hosted platform chrome.
+   The modal backdrop remains full-screen; actions remain accessible above that region. */
+.tv-filter-sheet {position:relative;width:min(100%,620px);
+  max-height:min(calc(78dvh - 100px),620px);
+  margin-bottom:calc(100px + env(safe-area-inset-bottom)); 
   overflow-y:auto;overscroll-behavior:contain;background:#181d1a;
-  border:1px solid #345440;border-radius:22px 22px 0 0;
+  border:1px solid #345440;border-radius:20px;
   padding:18px 18px calc(20px + env(safe-area-inset-bottom));color:#edf5ee;
   box-shadow:0 -15px 50px #000a;}
 .tv-filter-sheet .tv-sheet-heading {position:sticky;top:-18px;z-index:2;background:#181d1a;
