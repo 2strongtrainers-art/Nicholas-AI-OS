@@ -155,6 +155,39 @@ test('published program and assignment versions remain referenced in completed l
   assert.equal(a.record.programId,program.id);
   assert.equal(a.record.programVersion,1);
 });
+test('retired assignments remain in the clients own portable export',()=>{
+  const {svc,assignA}=fixture();
+  svc.revokeAssignment(members.coachA,assignA.id);
+  const exportData=svc.clientExport(members.clientA);
+  assert.equal(exportData.assignments.length,1);
+  assert.equal(exportData.assignments[0].assignment.status,'revoked');
+  assert.equal(exportData.assignments[0].program.id,assignA.programId);
+});
+test('deletion requests are explicit, private and never auto-erase records',()=>{
+  const {svc,assignA,store}=fixture();
+  svc.logWorkout(members.clientA,workout(assignA.id));
+  const req={requestId:randomUUID(),confirmation:'REQUEST_MY_DATA_DELETION'};
+  const first=svc.requestDataDeletion(members.clientA,req);
+  assert.equal(first.record.status,'pending_owner_review');
+  assert.equal(first.reused,false);
+  assert.equal(svc.requestDataDeletion(members.clientA,req).reused,true);
+  assert.equal(svc.ownDeletionRequests(members.clientB).length,0);
+  assert.equal(svc.clientProgress(members.clientA,'client-a').totalWorkouts,1);
+  rejects(()=>svc.requestDataDeletion(members.coachA,req),'CLIENT_ONLY');
+  rejects(()=>svc.requestDataDeletion(members.clientA,{...req,confirmation:'DELETE_NOW'}),'VALIDATION');
+  assert.equal(store.audit.some(x=>x.action==='DATA_DELETION_REQUESTED'),true);
+});
+test('synthetic audit log records event IDs, not token or training notes',()=>{
+  const {svc,store,assignA}=fixture();
+  svc.logWorkout(members.clientA,workout(assignA.id));
+  svc.submitCheckin(members.clientA,checkin(assignA.id));
+  svc.clientExport(members.clientA);
+  const log=JSON.stringify(store.audit);
+  assert.equal(log.includes('Completed the assigned sessions'),false);
+  assert.equal(log.includes('Controlled movement'),false);
+  assert.equal(log.includes('synthetic-client-a-token'),false);
+  assert.equal(store.audit.some(x=>x.action==='CLIENT_DATA_EXPORTED'),true);
+});
 test('non-member or forged organization fails closed',()=>{
   const {svc}=fixture();
   rejects(()=>svc.publicMember({sub:'guest',orgId:'org-a',role:'client'}),'NOT_FOUND');
@@ -211,6 +244,12 @@ test('HTTP adapter requires a verifier, denies missing/invalid bearer and forged
   r=await call('/v1/me/export','synthetic-client-a-token');
   assert.equal(r.status,200);
   assert.equal(r.data.data.ownerId,'client-a');
+  const deletion={requestId:randomUUID(),confirmation:'REQUEST_MY_DATA_DELETION'};
+  r=await call('/v1/me/deletion-requests','synthetic-client-a-token',{method:'POST',body:deletion});
+  assert.equal(r.status,202);
+  assert.equal(r.data.record.status,'pending_owner_review');
+  r=await call('/v1/me/deletion-requests','synthetic-client-b-token');
+  assert.equal(r.data.requests.length,0);
   const session=workout(svc.activeAssignments(members.clientA)[0].assignment.id);
   r=await call('/v1/me/workouts','synthetic-client-a-token',{method:'POST',body:session});
   assert.equal(r.status,201);
