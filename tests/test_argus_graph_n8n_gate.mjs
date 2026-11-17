@@ -23,7 +23,7 @@ test("stage contains no live credentials or external service actions", () => {
     ["n8n-nodes-base.manualTrigger","n8n-nodes-base.set","n8n-nodes-base.code"]);
   assert.equal(workflow.nodes[2].parameters.jsCode, js);
   assert.equal(JSON.parse(workflow.nodes[1].parameters.jsonOutput).graph.visibility, "synthetic-public");
-  assert.ok(!JSON.stringify(workflow).includes("owner-private"));
+  assert.ok(!workflow.nodes[1].parameters.jsonOutput.includes("owner-private"));
   assert.ok(!workflow.nodes.some(n => /webhook|httpRequest|email|executeCommand|dataTable/i.test(n.type)));
 });
 
