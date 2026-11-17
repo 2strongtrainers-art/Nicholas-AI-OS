@@ -279,4 +279,39 @@ replace_exact("src/views/Library.jsx",
     '<input className="input" placeholder={t(\'Search…\')}',
     '<input className="input" aria-label="Search exercises" placeholder={t(\'Search…\')}')
 
+# Versioned TriValley Library presentation. Preserve the upstream training state engine
+# and keep user favorites within the existing workout state for backup/restore.
+assets = Path(__file__).resolve().parent
+replace_exact(
+    "src/store/useStore.js",
+    "exWeights: {}, workouts: [], active: null, customEx: [], gifSize: 'full',",
+    "exWeights: {}, workouts: [], active: null, customEx: [], favoriteExercises: [], gifSize: 'full',"
+)
+library_component = (assets / "Library.jsx").read_text()
+if "data-testid=\"tv-library\"" not in library_component or "favoriteExercises" not in library_component:
+    raise RuntimeError("TriValley Library source is missing persistent favorites or test hooks")
+(front / "src/views/Library.jsx").write_text(library_component)
+(front / "src/index.css").open("a").write("\n" + (assets / "library-tune.css").read_text())
+# Preserve immediately accessible AGPL corresponding-source and original-author links,
+# while reducing the mobile header to a single useful line where it fits.
+app = front / "src/App.jsx"
+app.write_text(app.read_text().replace("Modified source · AGPL-3.0", "Source · AGPL-3.0").replace("openGym credit", "openGym"))
+# Optional coaching invitation is separate from the free workout tools;
+# it does not imply an AI coach or any in-app subscription/checkout.
+replace_exact(
+    "src/views/Home.jsx",
+    """    <div className="card">
+      <div className="row between" style={{ marginBottom: 6 }}>
+        <h2 style={{ margin: 0 }}>{t('Body weight')}</h2>""",
+    """    <div className="card tv-coaching-card">
+      <div className="tv-eyebrow">TRIVALLEY.FIT COACHING</div>
+      <h2 style={{ margin: '7px 0' }}>Get a plan built around you</h2>
+      <p className="muted small" style={{ marginBottom: 12 }}>Train on your own here, or explore personalized coaching, form checks and accountability.</p>
+      <a className="btn plain" href="https://www.trivalley.fit/" target="_blank" rel="noopener noreferrer">Explore coaching at TriValley.fit</a>
+    </div>
+    <div className="card">
+      <div className="row between" style={{ marginBottom: 6 }}>
+        <h2 style={{ margin: 0 }}>{t('Body weight')}</h2>"""
+)
+
 print("TriValley original-source modifications applied; real OpenGym logic retained.")
