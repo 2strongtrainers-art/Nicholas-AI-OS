@@ -39,7 +39,7 @@ def build():
         },
         "settings": {"executionOrder": "v1", "timezone": "America/Los_Angeles",
                      "saveDataSuccessExecution": "all", "saveDataErrorExecution": "all",
-                     "saveManualExecutions": True},
+                     "saveManualExecutions": True, "availableInMCP": False},
         "pinData": {}, "tags": [],
     }
 
