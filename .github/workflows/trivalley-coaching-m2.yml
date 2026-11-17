@@ -32,6 +32,9 @@ jobs:
           ALLOW_PAID_AI: 'false'
           ALLOW_OUTBOUND_SEND: 'false'
         run: node --test test/*.test.mjs
+      - name: Verify SQLite tenancy and replay constraints without cloud services
+        working-directory: apps/trivalley-coaching-m2
+        run: python3 -m unittest discover -s test -p 'test_*.py' -v
       - name: Verify no deployable server or credentials were introduced
         shell: bash
         run: |
