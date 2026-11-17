@@ -11,7 +11,7 @@ const fixture = JSON.parse(readFileSync(path.join(ROOT, "tests/fixtures/argus-ev
 const workflow = JSON.parse(readFileSync(path.join(ROOT, "workflows/n8n/argus-graph-chief-gate.json"), "utf8"));
 const copy = obj => JSON.parse(JSON.stringify(obj));
 function run(graph, id = "121") {
-  const context = {$input: {first: () => ({json: {graph}})}, $execution: id === null ? undefined : {id}, URL};
+  const context = {$input: {first: () => ({json: {graph}})}, $execution: id === null ? undefined : {id}}; // No global URL: n8n Code sandbox
   return vm.runInNewContext(js, context, {timeout: 2500})[0].json;
 }
 function blocked(graph) { assert.throws(() => run(graph), /ARGUS_GRAPH_VALIDATION_BLOCKED/); }
@@ -84,4 +84,21 @@ test("hypothesis cannot be auto promoted", () => {
 test("empty graph and future event block", () => {
   const a=copy(fixture);a.events=[];blocked(a);
   const b=copy(fixture);b.events[0].occurred_on="2027-01-30";blocked(b);
+});
+
+test("strict HTTPS link validation works without global URL or imports", () => {
+  const good = copy(fixture);
+  assert.equal(run(good).status, "STRUCTURAL_PASS_REVIEW_REQUIRED");
+  for (const bad of [
+    "http://example.org/source",
+    "https://user:password@example.org/source",
+    "https://example.org:443/source",
+    "https://evil.com@example.org/source",
+    "https://bad..example.org/source",
+    "https://-invalid.example.org/source",
+    "https://example.org\\evil",
+    "https://example.org/white space",
+  ]) {
+    const doc=copy(fixture);doc.sources[0].url=bad;blocked(doc);
+  }
 });
