@@ -32,8 +32,11 @@ jobs:
         run: |
           python3 apps/trivalley-opengym/patch_opengym.py upstream/frontend
           python3 apps/trivalley-opengym/add_daily_verse.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_v4.py upstream/frontend
           cp apps/trivalley-opengym/branding/icon-192.png upstream/frontend/public/icon-192.png
           cp apps/trivalley-opengym/branding/icon-512.png upstream/frontend/public/icon-512.png
+      - name: Test deterministic exercise discovery and validated backup recovery
+        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs
       - name: Install locked dependencies
         working-directory: upstream/frontend
         run: npm ci --no-audit --no-fund
@@ -60,6 +63,7 @@ jobs:
         env:
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
+          TV_EXPECT_V4: '1'
         run: node "$RUNNER_TEMP/trivalley-browser/smoke.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/mobile.png"
       - name: Upload mobile browser QA screenshot
         if: always()
