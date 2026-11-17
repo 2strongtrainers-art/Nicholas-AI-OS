@@ -51,7 +51,19 @@ new = f'''<header className="tv-v4-topbar">
               className="tv-upstream-credit">openGym</a>
           </span>
         </header>'''
-app.write_text(text.replace(old, new, 1))
+app_source = text.replace(old, new, 1)
+# Wix's free-site browser banner overlaps the fixed workout navigation.
+# Set a host-only layout flag without touching installed standalone PWAs.
+original = "function applyPrefs(theme, accent) {\\n  const de = document.documentElement"
+replacement = """function applyPrefs(theme, accent) {
+  const de = document.documentElement
+  const hostedBrowser = location.hostname.endsWith('.wix-site-host.com') &&
+    !window.matchMedia('(display-mode: standalone)').matches &&
+    window.navigator.standalone !== true
+  de.dataset.tvFreeHosted = hostedBrowser ? '1' : '0'"""
+if app_source.count(original) != 1:
+    raise RuntimeError("Cannot position hosted navigation: preferences anchor missing")
+app.write_text(app_source.replace(original, replacement, 1))
 
 # 2. Replace the automatic modal/banner with a manually opened full dialog.
 # The new DailyVerseCard is rendered inline on Home only.
