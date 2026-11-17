@@ -63,6 +63,15 @@
           <div class="feed-list" id="feed-list" aria-live="polite"><div class="placeholder">Loading verifiable source metadata…</div></div>
         </div>
       </section>
+      <section class="surface" aria-label="Source corroboration review" style="margin-top:18px;padding:24px">
+        <div class="section-bar"><div><div class="section-kicker">EVIDENCE REVIEW / SOURCE INDEPENDENCE</div><h2>Corroboration workbench</h2></div><span class="subtle-pill">HUMAN REVIEW REQUIRED</span></div>
+        <p class="section-desc">Strict matching looks for shared event actions, places, recent dates and two distinct publishers. Leads are <strong>not</strong> verified incidents or evidence of common cause. Underlying syndication may remain unknown.</p>
+        <div id="corroboration-status" role="status" class="footnote">Loading independent review receipt…</div>
+        <div id="corroboration-list" class="connections-list"><div class="placeholder">Checking published review queue…</div></div>
+        <p class="mini-label" style="margin-top:18px">OFFICIAL RECORDS FOR FURTHER VERIFICATION</p>
+        <div id="primary-review-list" class="connection-evidence"></div>
+        <p class="footnote">Official publications are authoritative evidence that an agency published a statement—not proof that every asserted event occurred. Cross-publisher coverage is not independent forensics.</p>
+      </section>
       <section class="lower">
         <div class="surface connections-card">
           <div class="section-bar"><div><div class="section-kicker">PATTERN DISCOVERY</div><h2>Connection candidates</h2></div><span class="subtle-pill">INVESTIGATE · NOT CONFIRMED</span></div>
@@ -85,7 +94,7 @@
       </section>
       <section class="method">
         <div><p class="mini-label">METHODOLOGY</p><strong>Evidence before narrative.</strong><p>GDELT indexes reporting, not confirmed incidents. USGS and NASA provide curated physical-event metadata, subject to revision. The dashboard does not identify attackers, verify claims in linked articles, produce financial advice or place trades.</p></div>
-        <div class="method-links"><a href="./README.md" target="_blank" rel="noopener noreferrer">Documentation</a><a href="./data/events.json" target="_blank" rel="noopener noreferrer">Raw snapshot</a><a href="https://github.com/2strongtrainers-art/Nicholas-AI-OS" target="_blank" rel="noopener noreferrer">Source code</a></div>
+        <div class="method-links"><a href="./README.md" target="_blank" rel="noopener noreferrer">Documentation</a><a href="./data/events.json" target="_blank" rel="noopener noreferrer">Raw snapshot</a><a href="./data/corroboration.json" target="_blank" rel="noopener noreferrer">Corroboration queue</a><a href="https://github.com/2strongtrainers-art/Nicholas-AI-OS" target="_blank" rel="noopener noreferrer">Source code</a></div>
       </section>
     </main>
     <footer>TRIVALLEY INTELLIGENCE DESK <span>·</span> PUBLIC SOURCE METADATA <span>·</span> NO TRADE EXECUTION <span>·</span> NO PAID API REQUIREMENT</footer>
