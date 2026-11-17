@@ -1,4 +1,7 @@
-import {randomUUID} from 'node:crypto';
+const generateId = () => {
+  if(!globalThis.crypto?.randomUUID)throw new Error('Secure UUID generation unavailable');
+  return globalThis.crypto.randomUUID();
+};
 
 // Milestone 2 core. No network, credentials, or real client records.
 // The authenticated identity MUST come from a server-side verified Wix/OIDC session.
@@ -75,7 +78,7 @@ export class InMemoryCoachingStore {
 // A deterministic data-contract implementation, intentionally not a production server.
 // Production needs a durable transactional repository and a trusted identity verifier.
 export class CoachingService {
-  constructor({store,now=()=>new Date().toISOString(),createId=randomUUID}) {
+  constructor({store,now=()=>new Date().toISOString(),createId=generateId}) {
     if(!store || !store.members || !store.assignments) throw new Error('Repository interface required');
     this.store=store;this.now=now;this.createId=createId;
   }
