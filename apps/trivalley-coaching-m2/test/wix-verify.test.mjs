@@ -24,8 +24,8 @@ const make=({
     return{ok:httpOk,status:httpOk?200:401,text:async()=>response};
   });
   const verifier=makeWixMemberVerifier({
-    siteId,verifyTokenSite:scope||async()=>siteResult,
-    lookupProvisionedMember:lookup||async()=>membership,
+    siteId,verifyTokenSite:scope||(async()=>siteResult),
+    lookupProvisionedMember:lookup||(async()=>membership),
     fetchImpl:request
   });
   return {verifier,calls};
