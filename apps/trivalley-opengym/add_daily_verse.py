@@ -90,6 +90,27 @@ with (front / "src/index.css").open("a") as css:
   border:0;color:#b9ccc1;font-size:12px;text-decoration:underline;cursor:pointer;margin-top:6px}
 @media(max-width:390px){.tv-verse-card{padding:26px 20px 19px}.tv-verse-kicker{margin-bottom:14px}}
 @media(prefers-reduced-motion:reduce){.tv-verse-overlay *, .tv-verse-card{animation:none!important;transition:none!important}}
+
+/* Automatic inspiration is a small, non-modal banner: workout controls stay usable. */
+.tv-verse-banner {position:fixed;z-index:260;left:14px;right:14px;
+  bottom:calc(92px + env(safe-area-inset-bottom));margin:0 auto;max-width:450px;
+  background:linear-gradient(135deg,#20342a 0%,#121b19 100%);color:#f4fff7;
+  border:1px solid rgba(153,228,177,.55);box-shadow:0 12px 50px #000a;
+  border-radius:17px;padding:13px 15px 12px;display:flex;flex-direction:column;gap:9px;
+  max-height:min(245px,46dvh);overflow:auto;overscroll-behavior:contain}
+.tv-verse-banner-copy {display:flex;flex-direction:column;gap:4px;min-width:0}
+.tv-verse-banner-kicker {font-size:9px;letter-spacing:.11em;font-weight:800;color:#a8e2b8}
+.tv-verse-banner-copy strong {font-size:17px;line-height:1.2}
+.tv-verse-banner .tv-verse-quote {font-family:Georgia,serif;font-size:13px;line-height:1.4;
+  margin:1px 0;color:#ecf8ef}
+.tv-verse-banner .tv-verse-ref {font-size:11px;margin:0;color:#b8ebc6}
+.tv-verse-banner-actions {display:flex;gap:8px}
+.tv-verse-banner-actions button {min-height:40px;border-radius:10px;padding:8px 10px;
+  font-size:12px;font-weight:750;cursor:pointer;flex:1}
+.tv-verse-banner-actions button:first-child {border:0;background:#a4e6ba;color:#12271c}
+.tv-verse-banner-actions button:last-child {border:1px solid #709581;background:transparent;color:#d6f6df}
+.tv-verse-banner button:focus-visible {outline:3px solid #b1f0ca;outline-offset:2px}
+@media(max-width:390px) {.tv-verse-banner {left:10px;right:10px;padding:11px 13px}}
 """)
 
 print("Daily Bible verse added to the existing local-first OpenGym build.")
