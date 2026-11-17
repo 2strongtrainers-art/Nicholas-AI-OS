@@ -1,0 +1,55 @@
+name: TriValley openGym — free build and review
+on:
+  push:
+    branches:
+      - feat/trivalley-opengym-free-20261116
+    paths:
+      - 'apps/trivalley-opengym/**'
+      - '.github/workflows/trivalley-opengym-free.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-open-gym:
+    name: Build pinned OpenGym frontend without external exercise media
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout TriValley build definitions
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Clone the exact screenshot repository source (no credentials)
+        run: |
+          git clone --filter=blob:none https://github.com/alexpcosta/opengym.git upstream
+          git -C upstream checkout --detach 678bf5bf10446e8997a77d43e89c9b2721d8d0fc
+          test "$(git -C upstream rev-parse HEAD)" = "678bf5bf10446e8997a77d43e89c9b2721d8d0fc"
+      - name: Apply TriValley original-visuals and data-safety patch
+        run: |
+          python3 apps/trivalley-opengym/patch_opengym.py upstream/frontend
+          cp apps/trivalley-opengym/branding/icon-192.png upstream/frontend/public/icon-192.png
+          cp apps/trivalley-opengym/branding/icon-512.png upstream/frontend/public/icon-512.png
+      - name: Install locked dependencies
+        working-directory: upstream/frontend
+        run: npm ci --no-audit --no-fund
+      - name: Run OpenGym training tests
+        working-directory: upstream/frontend
+        run: npm test
+      - name: Compile real OpenGym React/Vite guest-mode app
+        working-directory: upstream/frontend
+        env:
+          VITE_DEMO: '1'
+        run: npm run build
+      - name: Verify self-contained assets and build offline cache
+        run: python3 apps/trivalley-opengym/check_dist.py upstream/frontend/dist
+      - name: Upload public-app deployment bundle for Wix
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-opengym-wix-build
+          path: upstream/frontend/dist/
+          retention-days: 7
+          if-no-files-found: error
