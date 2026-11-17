@@ -92,6 +92,51 @@ test('client cannot write identity, role or unassigned exercise data',()=>{
   rejects(()=>svc.logWorkout(members.clientA,{...workout(assignA.id),
     sets:[{exerciseId:'secret',setIndex:1,reps:8,weight:70,unit:'lb'}]}),'VALIDATION');
 });
+test('published program revisions never rewrite older assignments or completed history',()=>{
+  const {svc,program,store,assignA}=fixture();
+  store.seedExercise('row');
+  const revise=svc.reviseProgram(members.coachA,program.id,{
+    title:'Updated upper strength',description:'Adds back work',
+    exercises:[{exerciseId:'row',sets:3,reps:10,restSeconds:90}]
+  });
+  assert.equal(revise.version,2);
+  assert.equal(revise.status,'draft');
+  const oldAssignment=svc.activeAssignments(members.clientA).find(x=>x.assignment.id===assignA.id);
+  assert.equal(oldAssignment.program.version,1);
+  assert.equal(oldAssignment.program.exercises[0].exerciseId,'bench');
+  const log=svc.logWorkout(members.clientA,workout(assignA.id));
+  assert.equal(log.record.programVersion,1);
+  assert.equal(svc.clientExport(members.clientA).assignments[0].program.version,1);
+  rejects(()=>svc.assignProgram(members.coachA,{programId:program.id,clientId:'client-a'}),'NOT_FOUND');
+  svc.publishProgram(members.coachA,program.id);
+  const assignedNew=svc.assignProgram(members.coachA,{programId:program.id,clientId:'client-a'});
+  assert.equal(assignedNew.programVersion,2);
+  assert.equal(svc.activeAssignments(members.clientA).length,2);
+  const ownExport=svc.clientExport(members.clientA);
+  assert.equal(ownExport.assignments.find(x=>x.assignment.id===assignA.id).program.version,1);
+  assert.equal(ownExport.assignments.find(x=>x.assignment.id===assignedNew.id).program.version,2);
+  assert.equal(ownExport.workouts[0].programVersion,1);
+  rejects(()=>svc.logWorkout(members.clientA,{...workout(assignedNew.id),
+    sets:[{exerciseId:'bench',setIndex:1,reps:8,weight:40,unit:'lb'}]}),'VALIDATION');
+  const second=svc.logWorkout(members.clientA,{...workout(assignedNew.id),
+    sets:[{exerciseId:'row',setIndex:1,reps:10,weight:30,unit:'lb'}]});
+  assert.equal(second.record.programVersion,2);
+});
+test('disabled client and revoked assignments cannot appear as active coach clients',()=>{
+  const {svc,store,assignA}=fixture();
+  assert.equal(svc.coachClients(members.coachA).length,2);
+  svc.revokeAssignment(members.coachA,assignA.id);
+  assert.equal(svc.coachClients(members.coachA).length,1);
+  store.members.get('client-b').status='disabled';
+  rejects(()=>svc.clientProgress(members.clientB,'client-b'),'MEMBERSHIP_MISMATCH');
+  rejects(()=>svc.activeAssignments(members.clientB),'MEMBERSHIP_MISMATCH');
+});
+test('invalid calendar dates are rejected cleanly',()=>{
+  const {svc,assignA}=fixture();
+  for(const date of ['2026-02-31','2026-13-01','2026-00-01','invalid']){
+    rejects(()=>svc.submitCheckin(members.clientA,{...checkin(assignA.id),weekOf:date}),'VALIDATION');
+  }
+});
 test('offline sessions synchronize idempotently, differing replay conflicts',()=>{
   const {svc,assignA}=fixture();
   const w=workout(assignA.id);
@@ -260,6 +305,18 @@ test('HTTP adapter requires a verifier, denies missing/invalid bearer and forged
   r=await call('/v1/coach/clients/client-a/progress','synthetic-client-b-token');
   // Do not reveal whether another client's record exists; 404 is intentional.
   assert.equal(r.status,404);
+  r=await call('/v1/coach/programs','synthetic-coach-token',{method:'POST',body:{
+    title:'Synthetic pull plan',exercises:[{exerciseId:'bench',sets:2,reps:8,restSeconds:90}]
+  }});
+  assert.equal(r.status,201);
+  const newProgram=r.data.program.id;
+  r=await call('/v1/coach/programs/'+newProgram+'/publish','synthetic-coach-token',{method:'POST',body:{}});
+  assert.equal(r.status,200);
+  r=await call('/v1/coach/programs/'+newProgram+'/revise','synthetic-coach-token',{method:'POST',body:{
+    title:'Revised synthetic pull plan',exercises:[{exerciseId:'bench',sets:3,reps:10,restSeconds:90}]
+  }});
+  assert.equal(r.status,201);
+  assert.equal(r.data.program.version,2);
   r=await call('/v1/me/export','synthetic-client-a-token');
   assert.equal(r.status,200);
   assert.equal(r.data.data.ownerId,'client-a');
