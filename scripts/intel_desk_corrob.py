@@ -20,10 +20,10 @@ MAX_LEADS = 12
 OFFICIAL_SOURCES = frozenset({"Federal Reserve", "Defense Department",
                               "Department of Energy"})
 BROAD_PLACES = frozenset({"United States"})
-STOP = frozenset(("the a an and or of for to in on by at after before amid with from
+STOP = frozenset("""the a an and or of for to in on by at after before amid with from
                   over under during says said new latest report reports as us uk
                   could may will about into updates officials people world today
-                  2026 government news more than has have had this that").split())
+                  2026 government news more than has have had this that""".split())
 TOPIC_WORDS = {
     "Security": re.compile(r"\b(cyber|hack|malware|ransomware|breach|vulnerab\w*|"
                            r"espionage|data leak|security flaw|network attack|phishing)\b", re.I),
