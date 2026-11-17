@@ -41,7 +41,7 @@ upstream_match = re.search(r'<a href="([^"]+)"[^>]*>openGym credit', old)
 if not src_match or not upstream_match:
     raise RuntimeError("AGPL/source links were moved; refuse to erase attribution")
 new = f'''<header className="tv-v4-topbar">
-          <span className="tv-topbar-brand"><span className="tv-knot" aria-hidden="true">✧</span>TRIVALLEY.FIT</span>
+          <span className="tv-topbar-brand"><span className="tv-knot" aria-hidden="true">TV</span>TRIVALLEY.FIT</span>
           <span className="tv-topbar-actions">
             <button type="button" className="tv-verse-trigger" data-testid="tv-daily-verse-trigger"
               onClick={{() => window.dispatchEvent(new Event('tv:verse-open'))}}>Verse</button>
