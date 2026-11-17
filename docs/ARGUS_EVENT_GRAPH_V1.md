@@ -9,8 +9,8 @@ before merge; the n8n/Chief live workflow is unchanged.
 - **NetworkX 3.7** (BSD-3-Clause), installed by the new GitHub Actions job from a
   pinned requirements file. Its MultiDiGraph stores separate directed evidence
   links and event-event links.
-- **Cytoscape.js 3.34.4** (MIT), pinned via public CDN only on the optional graph
-  viewing page. Viewer never uploads selected files; it parses a file locally.
+- **Offline SVG viewer** in intel-desk/event-graph.html is self-contained: no third-party scripts or network calls; loads a selected JSON locally.
+- **Cytoscape.js** (MIT) was evaluated as an optional future high-volume visual engine, but is deliberately NOT loaded for owner-private cases to avoid third-party runtime code.
 - **OASIS STIX 2.1** inspired explicit source, target, kind, confidence, and
   external references, but this is **not** a fully conformant STIX bundle.
 - **ACLED** inspired immutable event IDs, event-date precision, explicit source
@@ -54,9 +54,11 @@ Keep the real case JSON **outside the public repo**:
     python scripts/argus_event_graph.py /private/path/graph.json --graphml /private/path/graph.graphml
 
 Open intel-desk/event-graph.html in a browser; choose the JSON file. The
-page uses the local File API; it does not POST data. If the CDN is blocked,
-show an error rather than misrepresenting a blank graph as healthy.
-The raw JSON can be reloaded into NetworkX or reviewed using Gephi.
+page uses the local File API with no network requests and no third-party runtime.
+It renders a selected event's source/reporting edges and explicitly authored
+candidate relationships. The browser does NOT perform server-side validation:
+run the Python integrity gate first. The raw JSON can be reloaded into
+NetworkX or reviewed using Gephi.
 
 ## Production gates
 
