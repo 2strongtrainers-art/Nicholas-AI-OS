@@ -115,3 +115,34 @@
 [data-theme="light"] .tv-home-verse-row .tv-verse-kicker{color:#31553b;}
 [data-theme="light"] .tv-home-verse-read{color:#145c2a;border-color:#7ca88a;}
 [data-theme="light"] .tv-home-verse-dismiss{color:#31553b;}
+
+/* v4 accessibility correction: readable labels on dark and light backgrounds. */
+:root:not([data-theme="light"]) {
+  --label-2: #c7c7cd;
+  --label-3: #b6b6bc;
+  --label-4: #a8a8af;
+}
+:root[data-theme="light"] {
+  --label-2: #46464e;
+  --label-3: #55565e;
+  --label-4: #60616a;
+}
+.tv-filter-sheet .tv-field-label {
+  display:block;font-size:13px;font-weight:700;line-height:1.4;color:#dbf4e2;
+  margin:10px 0 5px;
+}
+.tv-filter-sheet .tv-filter-select {
+  display:block;width:100%;min-height:50px;padding:10px 13px;border-radius:11px;
+  border:1px solid #7eaa88;background:#26372e;color:#fff;
+  font-size:16px;font-weight:550;margin:4px 0 12px;appearance:auto;
+}
+.tv-filter-sheet .tv-filter-select:focus-visible,
+.tv-filter-sheet .tv-clear-all:focus-visible {
+  outline:3px solid #b7ffc8;outline-offset:2px;
+}
+.tv-filter-sheet .tv-clear-all {
+  display:block;width:100%;min-height:44px;margin:4px 0 12px;
+  background:transparent;border:1px solid #6d9c77;color:#dcf4e3;
+  border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;
+}
+.hm-wrap:focus-visible {outline:3px solid var(--acc);outline-offset:3px;}
