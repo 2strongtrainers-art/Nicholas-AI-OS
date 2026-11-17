@@ -287,7 +287,7 @@ assets = Path(__file__).resolve().parent
 replace_exact(
     "src/store/useStore.js",
     "exWeights: {}, workouts: [], active: null, customEx: [], gifSize: 'full',",
-    "exWeights: {}, workouts: [], active: null, customEx: [], favoriteExercises: [], gifSize: 'full',"
+    "exWeights: {}, workouts: [], active: null, customEx: [], favoriteExercises: [], schemaVersion: 4, gifSize: 'full',"
 )
 library_component = (assets / "Library.jsx").read_text()
 if "data-testid=\"tv-library\"" not in library_component or "favoriteExercises" not in library_component:
