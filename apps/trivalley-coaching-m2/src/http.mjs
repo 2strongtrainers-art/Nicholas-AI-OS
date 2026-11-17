@@ -69,6 +69,10 @@ export function coachingHttpHandler({service,verifyIdentity,allowedOrigins=[]}) 
       if(pathname==='/v1/coach/clients'&&isGet)return respond(res,200,{clients:service.coachClients(serviceActor)},headers);
       let match=pathname.match(/^\/v1\/coach\/programs\/([^/]+)\/publish$/);
       if(match&&!isGet)return respond(res,200,{program:service.publishProgram(serviceActor,singleSegment(match[1]))},headers);
+      match=pathname.match(/^\/v1\/coach\/checkins\/([^/]+)\/review$/);
+      if(match&&!isGet)return respond(res,200,service.reviewCheckin(serviceActor,singleSegment(match[1]),body),headers);
+      match=pathname.match(/^\/v1\/coach\/assignments\/([^/]+)\/revoke$/);
+      if(match&&!isGet)return respond(res,200,{assignment:service.revokeAssignment(serviceActor,singleSegment(match[1]))},headers);
       match=pathname.match(/^\/v1\/coach\/clients\/([^/]+)\/progress$/);
       if(match&&isGet)return respond(res,200,{progress:service.clientProgress(serviceActor,singleSegment(match[1]))},headers);
       match=pathname.match(/^\/v1\/coach\/clients\/([^/]+)\/checkins$/);
