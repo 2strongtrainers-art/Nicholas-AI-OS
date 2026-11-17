@@ -54,7 +54,7 @@ new = f'''<header className="tv-v4-topbar">
 app_source = text.replace(old, new, 1)
 # Wix's free-site browser banner overlaps the fixed workout navigation.
 # Set a host-only layout flag without touching installed standalone PWAs.
-original = "function applyPrefs(theme, accent) {\\n  const de = document.documentElement"
+original = "function applyPrefs(theme, accent) {\n  const de = document.documentElement"
 replacement = """function applyPrefs(theme, accent) {
   const de = document.documentElement
   const hostedBrowser = location.hostname.endsWith('.wix-site-host.com') &&
