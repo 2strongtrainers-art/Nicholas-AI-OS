@@ -52,7 +52,10 @@ export function coachingHttpHandler({service,verifyIdentity,allowedOrigins=[]}) 
       const token=(req.headers.authorization||'').match(/^Bearer ([^\s]{10,4096})$/i)?.[1];
       if(!token)throw new CoachingError(401,'UNAUTHENTICATED','Bearer session required');
       const actor=await verifyIdentity(token);
-      if(!actor)throw new CoachingError(401,'UNAUTHENTICATED','Session not verified');
+      if(!actor || typeof actor!=='object' || typeof actor.sub!=='string' ||
+         typeof actor.orgId!=='string' || !['coach','client'].includes(actor.role)) {
+        throw new CoachingError(401,'UNAUTHENTICATED','Session not verified');
+      }
       const serviceActor={sub:actor.sub,orgId:actor.orgId,role:actor.role};
       const url=new URL(req.url||'/', 'http://localhost');
       const pathname=url.pathname;
