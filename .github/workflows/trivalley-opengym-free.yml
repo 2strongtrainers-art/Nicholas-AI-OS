@@ -59,6 +59,7 @@ jobs:
       - name: Test actual mobile Chromium UI, saved plan and offline reload
         env:
           TV_EXPECT_LIBRARY_V3: '1'
+          TV_EXPECT_COMPACT_VERSE: '1'
         run: node "$RUNNER_TEMP/trivalley-browser/smoke.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/mobile.png"
       - name: Upload mobile browser QA screenshot
         if: always()
