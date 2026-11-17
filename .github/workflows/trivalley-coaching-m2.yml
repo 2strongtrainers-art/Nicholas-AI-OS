@@ -47,6 +47,8 @@ jobs:
           curl --fail --location --silent --show-error --retry 2 --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/trivalley-triquetra.png' \
             -o "$RUNNER_TEMP/m2-preview-public/m2-preview/triquetra.png"
+          cp "$RUNNER_TEMP/m2-preview-public/m2-preview/triquetra.png" \
+            "$RUNNER_TEMP/m2-preview-public/trivalley-triquetra.png"
           python3 - <<'PY'
           from pathlib import Path
           import struct
