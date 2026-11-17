@@ -32,7 +32,7 @@ Before opening registration or publishing promises:
 2. Appropriate business/abuse/molestation and athletic insurance validated by the policy broker, written facility permissions and accessibility plan.
 3. Two screened, appropriately trained adults in a visible supervised setting, with no unobserved one-on-one contact; capacity determined by child needs, experience and venue, not assumed legal ratios.
 4. California HSC §124235 concussion/SCA procedures, annual required parent forms/coach education and remove-from-play rules, documented emergency escalation, incident records in a restricted system.
-5. California HSC §124238.5 scope checked against the **Jan 1, 2027** CPR/AED-certification and cardiac emergency plan milestone, and **Jan 1, 2028** AED accessibility milestone; confirm latest laws before launch.
+5. California HSC §124238.5 scope checked against the **Jan 1, 2027** CPR/AED-certification and cardiac emergency plan milestone, and **Jan 1, 2028** AED accessibility milestone. AB 387 requires facility/youth organization access coordination and cost-sharing discussion when the facility has installed an AED; if the facility has none, the youth organization must ensure an operational AED is available during the entire practice/match. Confirm current consolidated text and legal scope before launch.
 6. Staff-site emergency rehearsal for medical events, heat/smoke/AQI, reunification, missing child, behavioral safety and accessible activities.
 7. Review by qualified youth S&C/physical education and pediatric/adaptive consultants for developmentally appropriate activity adaptations when needed.
 8. Adult-only interest experience, privacy-reviewed forms, verified dates/costs, clear parent terms, accessible mobile site and documented owner approval.
@@ -48,7 +48,7 @@ Before opening registration or publishing promises:
 - [CDC ages 6–17 physical activity guidance](https://www.cdc.gov/physical-activity-basics/guidelines/children.html)
 - [2024 SHAPE National PE Standards](https://shapeamerica.org/standards/pe/new-pe-standards/)
 - [California HSC §124235](https://law.justia.com/codes/california/code-hsc/division-106/part-2/chapter-4/article-2-5/section-124235/)
-- [California HSC §124238.5](https://law.justia.com/codes/california/code-hsc/division-106/part-2/chapter-4/article-2-6/section-124238-5/)
+- [California HSC §124238.5](https://legiscan.com/CA/text/AB387/id/3460624/California-2025-AB387-Chaptered.html)
 
 These organizations have not endorsed TriValley.fit or approved this curriculum.
 
