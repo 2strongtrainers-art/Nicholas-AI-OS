@@ -53,6 +53,8 @@ export class InMemoryCoachingStore {
     this.assignments = new Map();
     this.workouts = new Map();
     this.checkins = new Map();
+    this.deletionRequests = new Map();
+    this.audit = [];
   }
   // Synthetic fixture setup only. No public API allows profile or role provisioning.
   seedMember({id,orgId,role,displayName}) {
@@ -85,6 +87,11 @@ export class CoachingService {
     if(info.a.role!=='client') error(403,'CLIENT_ONLY','Client authorization required');
     return info;
   }
+  audit(actor,action,id) {
+    if (!this.store.audit) return;
+    // Intentional: no exercise details, medical notes, tokens or client names in audit events.
+    this.store.audit.push({actorId:actor.sub,orgId:actor.orgId,action,resourceId:id,at:this.now()});
+  }
   publicMember(actor) {
     const {a,m}=this.member(actor);
     return {id:a.sub,orgId:a.orgId,role:a.role,displayName:m.displayName};
@@ -93,7 +100,8 @@ export class CoachingService {
     const {a}=this.requireCoach(actor);
     fields(input,['title','description','exercises']);
     const title=text(input.title,90,'Program title');
-    const description=input.description==null?'':(typeof input.description==='string'&&input.description.length<=500?input.description:'');
+    const description=input.description==null?'':(typeof input.description==='string'&&input.description.length<=500
+      ? input.description : error(422,'VALIDATION','Description too long or invalid'));
     if(!Array.isArray(input.exercises) || !input.exercises.length || input.exercises.length>30) error(422,'VALIDATION','Program requires 1-30 exercises');
     const exercises=input.exercises.map((entry)=>{
       fields(entry,['exerciseId','sets','reps','restSeconds','tempo','coachCue']);
@@ -109,13 +117,14 @@ export class CoachingService {
     const id=this.createId();
     const record={id,orgId:a.orgId,coachId:a.sub,title,description,exercises,version:1,status:'draft',createdAt:this.now(),publishedAt:null};
     this.store.programs.set(id,record);
+    this.audit(a,'PROGRAM_CREATED',id);
     return clone(record);
   }
   publishProgram(actor,programId) {
     const {a}=this.requireCoach(actor);
     const p=exists(this.store.programs.get(uuid(programId)));
     if(!isOrg(p,a.orgId) || p.coachId!==a.sub) error(404,'NOT_FOUND','Program not found');
-    if(p.status==='draft') {p.status='published';p.publishedAt=this.now();}
+    if(p.status==='draft') {p.status='published';p.publishedAt=this.now();this.audit(a,'PROGRAM_PUBLISHED',p.id);}
     return clone(p);
   }
   assignProgram(actor,input) {
@@ -131,6 +140,7 @@ export class CoachingService {
     const id=this.createId();
     const record={id,orgId:a.orgId,coachId:a.sub,clientId:m.id,programId:p.id,programVersion:p.version,assignedAt:this.now(),status:'active'};
     this.store.assignments.set(id,record);
+    this.audit(a,'PROGRAM_ASSIGNED',id);
     return clone(record);
   }
   activeAssignments(actor) {
@@ -192,6 +202,7 @@ export class CoachingService {
       programId:assignment.programId,programVersion:assignment.programVersion,
       ...normalized,loggedAt:this.now()};
     this.store.workouts.set(composite,{fingerprint,record});
+    this.audit(a,'WORKOUT_RECEIVED',record.id);
     return {record:clone(record),reused:false};
   }
   submitCheckin(actor,input) {
@@ -216,6 +227,7 @@ export class CoachingService {
     const record={id:this.createId(),orgId:a.orgId,coachId:assignment.coachId,clientId:a.sub,
       ...payload,submittedAt:this.now(),reviewStatus:'pending'};
     this.store.checkins.set(key,{record,fingerprint});
+    this.audit(a,'CHECKIN_RECEIVED',record.id);
     return {record:clone(record),reused:false};
   }
   clientProgress(actor,clientId) {
@@ -248,6 +260,7 @@ export class CoachingService {
     record.reviewStatus='reviewed';
     record.reviewedAt=this.now();
     record.reviewNote=reviewNote;
+    this.audit(a,'CHECKIN_REVIEWED',record.id);
     return {record:clone(record),reused:false};
   }
   revokeAssignment(actor,id) {
@@ -257,6 +270,7 @@ export class CoachingService {
       error(404,'NOT_FOUND','Assignment not found');
     assignment.status='revoked';
     assignment.revokedAt=assignment.revokedAt || this.now();
+    this.audit(a,'ASSIGNMENT_REVOKED',assignment.id);
     return clone(assignment);
   }
   coachCheckins(actor,clientId) {
@@ -264,11 +278,34 @@ export class CoachingService {
     const a=sanitizedActor(actor);
     return [...this.store.checkins.values()].map(v=>v.record).filter(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.clientId===clientId).map(v=>clone(v));
   }
+  requestDataDeletion(actor,input) {
+    const {a}=this.requireClient(actor);
+    fields(input,['requestId','confirmation']);
+    if(input.confirmation!=='REQUEST_MY_DATA_DELETION')
+      error(422,'VALIDATION','Explicit deletion request confirmation required');
+    const requestId=uuid(input.requestId,'Request ID');
+    const key=a.orgId+':'+a.sub+':'+requestId;
+    const existing=this.store.deletionRequests.get(key);
+    if(existing) return {record:clone(existing),reused:true};
+    const record={requestId,orgId:a.orgId,clientId:a.sub,status:'pending_owner_review',
+      requestedAt:this.now()};
+    this.store.deletionRequests.set(key,record);
+    this.audit(a,'DATA_DELETION_REQUESTED',requestId);
+    // No deletion occurs without a provider-specific retention and backup policy.
+    return {record:clone(record),reused:false};
+  }
+  ownDeletionRequests(actor) {
+    const {a}=this.requireClient(actor);
+    return [...this.store.deletionRequests.values()].filter(x=>x.orgId===a.orgId&&x.clientId===a.sub).map(v=>clone(v));
+  }
   clientExport(actor) {
     const {a}=this.requireClient(actor);
+    this.audit(a,'CLIENT_DATA_EXPORTED',a.sub);
     return {
       exportVersion:1,exportedAt:this.now(),ownerId:a.sub,
-      assignments:this.activeAssignments(actor),
+      assignments:[...this.store.assignments.values()]
+        .filter(x=>x.orgId===a.orgId&&x.clientId===a.sub)
+        .map(assignment=>({assignment:clone(assignment),program:clone(this.store.programs.get(assignment.programId))})),
       workouts:[...this.store.workouts.values()].map(x=>x.record).filter(x=>x.clientId===a.sub&&x.orgId===a.orgId).map(clone),
       checkins:[...this.store.checkins.values()].map(x=>x.record).filter(x=>x.clientId===a.sub&&x.orgId===a.orgId).map(clone)
     };
