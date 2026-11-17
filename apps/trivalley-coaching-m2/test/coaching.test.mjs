@@ -25,6 +25,7 @@ const checkin = (assignmentId,checkinId=randomUUID())=>({
 });
 function fixture() {
   const store=new InMemoryCoachingStore();
+  store.seedExercise('bench');
   for(const v of Object.values(members)) store.seedMember({id:v.sub,orgId:v.orgId,role:v.role,displayName:'Synthetic '+v.sub});
   const svc=new CoachingService({store,now:()=> '2026-11-17T15:30:00.000Z'});
   const program=svc.createProgram(members.coachA,{
@@ -109,6 +110,7 @@ test('revoke a client assignment stops future uploads and coach visibility',()=>
   assert.equal(rev.status,'revoked');
   assert.equal(svc.activeAssignments(members.clientA).length,0);
   rejects(()=>svc.logWorkout(members.clientA,workout(assignA.id)),'NOT_FOUND');
+  rejects(()=>svc.submitCheckin(members.clientA,checkin(assignA.id)),'NOT_FOUND');
   // A separate active assignment may still authorize the coach, but this client has none.
   rejects(()=>svc.clientProgress(members.coachA,'client-a'),'NOT_FOUND');
 });
@@ -143,6 +145,11 @@ test('exports contain own client data only and no other names',()=>{
 });
 test('input validation rejects malformed IDs and bad set bounds',()=>{
   const {svc,assignA}=fixture();
+  rejects(()=>svc.logWorkout(members.clientA,{...workout(assignA.id),
+    sets:[{exerciseId:'bench',setIndex:1,reps:8,weight:70,unit:'lb'},
+      {exerciseId:'bench',setIndex:1,reps:9,weight:75,unit:'lb'}]}),'DUPLICATE_SET');
+  rejects(()=>svc.logWorkout(members.clientA,{...workout(assignA.id),
+    sets:[{exerciseId:'bench',setIndex:20,reps:8,weight:70,unit:'lb'}]}),'VALIDATION');
   rejects(()=>svc.logWorkout(members.clientA,{...workout(assignA.id),sessionId:'not-uuid'}),'VALIDATION');
   rejects(()=>svc.logWorkout(members.clientA,{...workout(assignA.id),durationMinutes:10000}),'VALIDATION');
   rejects(()=>svc.logWorkout(members.clientA,{...workout(assignA.id),
@@ -154,6 +161,18 @@ test('published program and assignment versions remain referenced in completed l
   const a=svc.logWorkout(members.clientA,workout(assignA.id));
   assert.equal(a.record.programId,program.id);
   assert.equal(a.record.programVersion,1);
+});
+test('unknown canonical exercises cannot be inserted into coaching programs',()=>{
+  const {svc}=fixture();
+  rejects(()=>svc.createProgram(members.coachA,{
+    title:'Unapproved move',exercises:[{exerciseId:'invented',sets:2,reps:10,restSeconds:60}]
+  }),'UNKNOWN_EXERCISE');
+  rejects(()=>svc.createProgram(members.coachA,{
+    title:'Duplicate exercises',exercises:[
+      {exerciseId:'bench',sets:2,reps:10,restSeconds:60},
+      {exerciseId:'bench',sets:2,reps:10,restSeconds:60}
+    ]
+  }),'DUPLICATE_EXERCISE');
 });
 test('retired assignments remain in the clients own portable export',()=>{
   const {svc,assignA}=fixture();
