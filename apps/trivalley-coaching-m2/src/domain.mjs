@@ -42,14 +42,18 @@ const sanitizedActor = actor => {
 const clone = value => structuredClone(value);
 const exists = (v,message='Record not found') => {if(!v) error(404,'NOT_FOUND',message);return v};
 const isOrg = (v,orgId) => v && v.orgId === orgId;
-const isDay = value => typeof value==='string' && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
-  new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value;
+const isDay = value => {
+  if(typeof value!=='string' || !/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+  const d=new Date(value+'T12:00:00Z');
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0,10)===value;
+};
 
 export class InMemoryCoachingStore {
   constructor() {
     this.ephemeralForTests = true;
     this.members = new Map();
     this.programs = new Map();
+    this.programVersions = new Map();
     this.exerciseCatalog = new Set();
     this.assignments = new Map();
     this.workouts = new Map();
@@ -64,7 +68,7 @@ export class InMemoryCoachingStore {
   seedMember({id,orgId,role,displayName}) {
     if(!['coach','client'].includes(role)) throw new Error('invalid fixture role');
     if(!id || !orgId) throw new Error('fixture requires identity and organization');
-    this.members.set(id,{id,orgId,role,displayName:displayName||'Member'});
+    this.members.set(id,{id,orgId,role,displayName:displayName||'Member',status:'active'});
   }
 }
 
@@ -78,7 +82,7 @@ export class CoachingService {
   member(actor) {
     const a=sanitizedActor(actor);
     const m=exists(this.store.members.get(a.sub),'Membership not found');
-    if(m.orgId!==a.orgId || m.role!==a.role) error(403,'MEMBERSHIP_MISMATCH','Membership verification failed');
+    if(m.orgId!==a.orgId || m.role!==a.role || m.status==='disabled') error(403,'MEMBERSHIP_MISMATCH','Membership verification failed');
     return {a,m};
   }
   requireCoach(actor) {
@@ -125,6 +129,7 @@ export class CoachingService {
     const id=this.createId();
     const record={id,orgId:a.orgId,coachId:a.sub,title,description,exercises,version:1,status:'draft',createdAt:this.now(),publishedAt:null};
     this.store.programs.set(id,record);
+    this.store.programVersions.set(id+':1',clone(record));
     this.audit(a,'PROGRAM_CREATED',id);
     return clone(record);
   }
@@ -132,8 +137,50 @@ export class CoachingService {
     const {a}=this.requireCoach(actor);
     const p=exists(this.store.programs.get(uuid(programId)));
     if(!isOrg(p,a.orgId) || p.coachId!==a.sub) error(404,'NOT_FOUND','Program not found');
-    if(p.status==='draft') {p.status='published';p.publishedAt=this.now();this.audit(a,'PROGRAM_PUBLISHED',p.id);}
+    if(p.status==='draft') {
+      p.status='published';p.publishedAt=this.now();
+      this.store.programVersions.set(p.id+':'+p.version,clone(p));
+      this.audit(a,'PROGRAM_PUBLISHED',p.id+':'+p.version);
+    }
     return clone(p);
+  }
+  // Assignments always refer to the exact published snapshot they were given.
+  // A new draft or publication must never silently rewrite a client's old plan.
+  programForAssignment(assignment) {
+    return this.store.programVersions.get(assignment.programId+':'+assignment.programVersion) || null;
+  }
+  reviseProgram(actor,programId,input) {
+    const {a}=this.requireCoach(actor);
+    const id=uuid(programId,'Program ID');
+    const prior=exists(this.store.programs.get(id),'Program not found');
+    if(prior.orgId!==a.orgId||prior.coachId!==a.sub)error(404,'NOT_FOUND','Program not found');
+    if(prior.status!=='published')error(409,'UNPUBLISHED_DRAFT','Publish or discard the current draft before revising');
+    fields(input,['title','description','exercises']);
+    const title=text(input.title,90,'Program title');
+    const description=input.description==null?'':(typeof input.description==='string'&&input.description.length<=500?input.description:error(422,'VALIDATION','Description too long'));
+    if(!Array.isArray(input.exercises)||input.exercises.length<1||input.exercises.length>30)
+      error(422,'VALIDATION','Program requires 1-30 exercises');
+    const exercises=input.exercises.map(entry=>{
+      fields(entry,['exerciseId','sets','reps','restSeconds','tempo','coachCue']);
+      return {
+        exerciseId:text(entry.exerciseId,100,'Exercise ID'),
+        sets:integer(entry.sets,1,12,'Sets'),
+        reps:integer(entry.reps,1,60,'Reps'),
+        restSeconds:integer(entry.restSeconds,0,600,'Rest seconds'),
+        tempo:entry.tempo==null?null:text(entry.tempo,20,'Tempo'),
+        coachCue:entry.coachCue==null?'':text(entry.coachCue,240,'Coach cue')
+      };
+    });
+    if(!exercises.every(ex=>this.store.exerciseCatalog.has(ex.exerciseId)))
+      error(422,'UNKNOWN_EXERCISE','Program contains an unverified exercise ID');
+    if(new Set(exercises.map(ex=>ex.exerciseId)).size!==exercises.length)
+      error(422,'DUPLICATE_EXERCISE','Program exercises must be unique');
+    const next={...clone(prior),title,description,exercises,version:prior.version+1,
+      previousVersion:prior.version,status:'draft',createdAt:this.now(),publishedAt:null};
+    this.store.programs.set(id,next);
+    this.store.programVersions.set(id+':'+next.version,clone(next));
+    this.audit(a,'PROGRAM_REVISED',id+':'+next.version);
+    return clone(next);
   }
   assignProgram(actor,input) {
     const {a}=this.requireCoach(actor);
@@ -155,13 +202,13 @@ export class CoachingService {
     const {a}=this.requireClient(actor);
     return [...this.store.assignments.values()].filter(x=>x.orgId===a.orgId&&x.clientId===a.sub&&x.status==='active')
       .map(assignment=>{
-        const p=this.store.programs.get(assignment.programId);
+        const p=this.programForAssignment(assignment);
         return {assignment:clone(assignment),program:p?clone(p):null};
       });
   }
   coachClients(actor) {
     const {a}=this.requireCoach(actor);
-    const ids=new Set([...this.store.assignments.values()].filter(x=>x.orgId===a.orgId&&x.coachId===a.sub).map(x=>x.clientId));
+    const ids=new Set([...this.store.assignments.values()].filter(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.status==='active').map(x=>x.clientId));
     return [...ids].map(id=>this.store.members.get(id)).filter(Boolean).map(m=>({id:m.id,displayName:m.displayName}));
   }
   authorizedCoachClient(actor,clientId) {
@@ -179,7 +226,7 @@ export class CoachingService {
     const sessionId=uuid(input.sessionId,'Session ID');
     const assignment=exists(this.store.assignments.get(uuid(input.assignmentId,'Assignment ID')),'Assignment not found');
     if(assignment.orgId!==a.orgId||assignment.clientId!==a.sub||assignment.status!=='active')error(404,'NOT_FOUND','Assignment not found');
-    const program=exists(this.store.programs.get(assignment.programId),'Assigned program not found');
+    const program=exists(this.programForAssignment(assignment),'Assigned program version not found');
     const performedAt=text(input.performedAt,35,'Completion time');
     const t=new Date(performedAt);
     if(!Number.isFinite(t.getTime())||t.toISOString()!==performedAt)error(422,'VALIDATION','performedAt must be ISO UTC');
@@ -282,9 +329,11 @@ export class CoachingService {
     const assignment=this.store.assignments.get(uuid(id,'Assignment ID'));
     if(!assignment || assignment.orgId!==a.orgId || assignment.coachId!==a.sub)
       error(404,'NOT_FOUND','Assignment not found');
-    assignment.status='revoked';
-    assignment.revokedAt=assignment.revokedAt || this.now();
-    this.audit(a,'ASSIGNMENT_REVOKED',assignment.id);
+    if(assignment.status==='active') {
+      assignment.status='revoked';
+      assignment.revokedAt=this.now();
+      this.audit(a,'ASSIGNMENT_REVOKED',assignment.id);
+    }
     return clone(assignment);
   }
   coachCheckins(actor,clientId) {
@@ -319,7 +368,7 @@ export class CoachingService {
       exportVersion:1,exportedAt:this.now(),ownerId:a.sub,
       assignments:[...this.store.assignments.values()]
         .filter(x=>x.orgId===a.orgId&&x.clientId===a.sub)
-        .map(assignment=>({assignment:clone(assignment),program:clone(this.store.programs.get(assignment.programId))})),
+        .map(assignment=>({assignment:clone(assignment),program:clone(this.programForAssignment(assignment))})),
       workouts:[...this.store.workouts.values()].map(x=>x.record).filter(x=>x.clientId===a.sub&&x.orgId===a.orgId).map(clone),
       checkins:[...this.store.checkins.values()].map(x=>x.record).filter(x=>x.clientId===a.sub&&x.orgId===a.orgId).map(clone)
     };
