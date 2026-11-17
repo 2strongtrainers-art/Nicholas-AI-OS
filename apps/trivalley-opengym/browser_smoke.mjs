@@ -53,6 +53,13 @@ try {
 
   // Real first-day Bible verse: appears once, can be dismissed, revisited and opted out of.
   await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:12000});
+  if (libraryV3) {
+    const banner = await page.$eval('[data-testid="tv-daily-verse"]', node => ({
+      isBanner: node.classList.contains('tv-verse-banner'),
+      hasFullModal: !!document.querySelector('[aria-modal="true"]')
+    }));
+    if (!banner.isBanner || banner.hasFullModal) throw new Error('Daily verse blocks first-run workout dashboard');
+  }
   const verseBefore = await page.evaluate(() => ({
     reference: document.querySelector('.tv-verse-ref')?.textContent,
     quote: document.querySelector('.tv-verse-quote')?.textContent,
@@ -70,6 +77,9 @@ try {
   await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
   const reread = await page.$eval('.tv-verse-ref', node => node.textContent);
   if (reread !== verseBefore.reference) throw new Error('Manual revisit changed the same-day verse');
+  if (libraryV3 && !await page.$('[data-testid="tv-daily-verse"] [role="dialog"][aria-modal="true"]')) {
+    throw new Error('Manual scripture details did not reopen the accessible full dialog');
+  }
   await page.click('[data-testid="tv-verse-dismiss"]');
 
   const clicked = await page.evaluate(() => {
