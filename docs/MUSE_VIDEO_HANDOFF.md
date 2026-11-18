@@ -8,6 +8,8 @@ For reusable creator briefs, capped capability preflight, the continuous-narrati
 
 Updated November 13, 2026. Owner-requested handoff for Muse and the TriValley Chief of Staff.
 
+**Voice connection recovery (November 18):** Before requesting any August Nick narration, resolve the [Cloudflare OAuth and ElevenLabs outage recovery checklist](ELEVENLABS_AUGUST_NICK_RECOVERY.md). The Replit `ElevenLabs_Bridge` is retired (HTTP 404). A healthy public Cloudflare `/health` endpoint does not establish an authenticated ChatGPT MCP connection or working voice. Use the existing voice; never regenerate old paid media to troubleshoot access.
+
 ## Start here
 
 Nick asked that the workflow behind the completed **NVDA: Follow the Filings** video be saved for future fitness videos. Use the following documents in order:
