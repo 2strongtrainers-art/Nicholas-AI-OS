@@ -50,14 +50,14 @@ jobs:
   public-site:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
+    container:
+      # Match @playwright/test in tests/trivalley-site/package-lock.json.
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
+      options: --ipc=host
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - project: chromium
-            browser: chromium
-          - project: iphone-webkit
-            browser: webkit
+        project: [chromium, iphone-webkit]
     defaults:
       run:
         working-directory: tests/trivalley-site
@@ -71,5 +71,4 @@ jobs:
           cache: npm
           cache-dependency-path: tests/trivalley-site/package-lock.json
       - run: npm ci --ignore-scripts
-      - run: npx playwright install --with-deps --only-shell ${{ matrix.browser }}
       - run: npm test -- --project=${{ matrix.project }}

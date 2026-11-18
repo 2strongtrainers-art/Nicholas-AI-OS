@@ -3,6 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 const heroId = "#tv-coaching-hero";
 const shopPath = "/fitness-guides";
+const coachingPath = "/coaching";
 const assessmentPath = "/service-page/start-here-elite-assessment";
 const qaQuery = "?utm_source=trivalley_qa";
 const guides = [
@@ -53,7 +54,7 @@ test("coaching homepage renders, fits the viewport, and passes scoped accessibil
   const hero = await openHome(page);
   const photo = hero.getByRole("img", { name: /boxing mitts/ });
   await expect.poll(() => photo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-  for (const name of ["Start with an Assessment", "Shop Fitness Guides"]) {
+  for (const name of ["Apply for Local Coaching", "Shop Fitness Guides"]) {
     const button = hero.getByRole("link", { name, exact: true });
     await expect(button).toBeVisible();
     const fit = await button.evaluate(el => {
@@ -77,14 +78,17 @@ test("coaching homepage renders, fits the viewport, and passes scoped accessibil
   }))).toEqual([]);
 });
 
-test("assessment link reaches the $297 service and booking entry", async ({ page }) => {
+test("local coaching starts with the application and offers the $297 assessment", async ({ page }) => {
   const hero = await openHome(page);
-  await hero.getByRole("link", { name: "Start with an Assessment", exact: true }).click();
+  await hero.getByRole("link", { name: "Apply for Local Coaching", exact: true }).click();
+  await expect(page).toHaveURL(url => url.pathname === coachingPath);
+  await expect(page.getByRole("button", { name: "Get My Coaching Recommendation", exact: true })).toBeVisible();
+  await page.getByRole("link", { name: "Assessment Details", exact: true }).click();
   await expect(page).toHaveURL(url => url.pathname === assessmentPath);
   await expect(page.getByRole("heading", { name: "Start Here: Elite Assessment", exact: true })).toBeVisible();
   await expect(page.getByText("$297", { exact: true }).first()).toBeVisible();
   await page.waitForLoadState("load");
-  const calendar = page.getByRole("heading", { name: "Select a Date and Time", exact: true });
+  const calendar = page.getByRole("heading", { name: /^Select a date and time$/i });
   await activateWixControl(page.getByRole("link", { name: "Book Now", exact: true }).first(), calendar);
   await expect(page).toHaveURL(url => url.pathname === "/booking-calendar/start-here-elite-assessment");
 });
