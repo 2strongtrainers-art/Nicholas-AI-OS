@@ -2,7 +2,7 @@
  * Manually triggered owner-private case only. A structurally valid graph is NOT
  * independently verified geopolitical intelligence or evidence of causation.
  */
-(function () {
+return (function () {
   "use strict";
   const fail = () => { throw new Error("ARGUS_GRAPH_VALIDATION_BLOCKED"); };
   const obj = v => v !== null && typeof v === "object" && !Array.isArray(v);
