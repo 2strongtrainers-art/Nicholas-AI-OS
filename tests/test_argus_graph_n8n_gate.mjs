@@ -12,7 +12,10 @@ const workflow = JSON.parse(readFileSync(path.join(ROOT, "workflows/n8n/argus-gr
 const copy = obj => JSON.parse(JSON.stringify(obj));
 function run(graph, id = "121") {
   const context = {$input: {first: () => ({json: {graph}})}, $execution: id === null ? undefined : {id}}; // No global URL: n8n Code sandbox
-  return vm.runInNewContext(js, context, {timeout: 2500})[0].json;
+  const items = vm.runInNewContext('(function(){\n' + js + '\n})()', context, {timeout: 2500});
+  assert.ok(Array.isArray(items), 'n8n Code user function must return items array');
+  assert.ok(items.length >= 1 && items[0].json, 'n8n Code item must contain json');
+  return items[0].json;
 }
 function blocked(graph) { assert.throws(() => run(graph), /ARGUS_GRAPH_VALIDATION_BLOCKED/); }
 
@@ -101,4 +104,13 @@ test("strict HTTPS link validation works without global URL or imports", () => {
   ]) {
     const doc=copy(fixture);doc.sources[0].url=bad;blocked(doc);
   }
+});
+
+test("n8n user-function contract has an actual top-level return, not just an expression", () => {
+  assert.match(js, /\nreturn \(function \(\) \{/);
+  const sandbox = {$input: {first: () => ({json:{graph:copy(fixture)}})}, $execution:{id:"555"}};
+  const result = vm.runInNewContext('(function(){\n' + js + '\n})()', sandbox, {timeout:2500});
+  assert.ok(Array.isArray(result));
+  assert.equal(result[0].json.status, "STRUCTURAL_PASS_REVIEW_REQUIRED");
+  assert.equal(result[0].json.n8n_execution_id, "555");
 });
