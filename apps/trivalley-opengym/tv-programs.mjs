@@ -83,3 +83,19 @@ export function restForEntry(entry, fallback) {
 export function needsWorkingLoad(entry, setIndex) {
   return entry?.target?.loadRequired === true && !(Number(entry.sets?.[setIndex]?.w) > 0)
 }
+
+// Building from 8 toward 12 reps is progress, not three failed sessions at 12.
+// Keep the existing deload rule for genuinely repeated/non-improving performances.
+export function repRangeStalls(sessions) {
+  let count = 0, previous = null
+  const total = session => (session.reps || []).reduce((n, r) => n + r, 0)
+  for (const session of sessions) {
+    const complete = session.reps?.length > 0 && session.reps.every(r => r > 0)
+    const improving = previous && session.weight === previous.weight && complete &&
+      session.reps.length === previous.reps?.length &&
+      (session.low > previous.low || (session.low === previous.low && total(session) > total(previous)))
+    count = session.ok || improving ? 0 : count + 1
+    previous = session
+  }
+  return count
+}
