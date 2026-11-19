@@ -73,7 +73,26 @@ try {
   await page.waitForFunction(()=>document.body.innerText.includes('Start without weighing in'));
   await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start without weighing in')).click());
   await page.waitForSelector('[data-testid="tv-poster-active"]');
-  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Focus view').click());
+  const weight = '[data-testid="tv-inline-set-fields"] input[aria-label$="Weight (lb)"]';
+  await page.waitForSelector(weight,{visible:true});
+  await page.click(weight,{clickCount:3});await page.keyboard.type('58.5');await page.keyboard.press('Tab');
+  const firstEntry=await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0]);
+  assert(firstEntry.sets.every(set=>set.w===58.5&&!set.done),'Inline load must populate untouched sets without completing them');
+  await page.reload({waitUntil:'networkidle0'});
+  assert(await page.$eval(weight,input=>input.value)==='58.5','Inline lifting load did not persist');
+  for(const width of [320,390,430]){
+    await page.setViewport({width,height:667,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Inline fields overflow at '+width);
+    assert(await page.$eval(weight,input=>input.getBoundingClientRect().height>=44&&getComputedStyle(input).fontSize==='18px'),'Weight field touch target or iPhone font too small');
+  }
+  await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+  await tap('[data-testid="tv-poster-set"]');
+  assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0].sets[0].done),'Inline entered load cannot be logged');
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='One exercise').click());
+  await page.waitForSelector('.tv-focus-set-table',{visible:true});
+  assert(await page.$eval('.tv-focus-reference',n=>!n.open),'Optional reference must start collapsed');
+  assert(await page.$eval('.tv-focus-set-table input',input=>input.value)==='58.5','Switching display lost inline weight');
+  await page.$eval('.tv-focus-reference',n=>n.open=true);
   await page.waitForSelector('.tv-movement-media .tv-steps');
   assert(!await page.$('[data-testid="tv-movement-figure"]'),'Held Focus image exposed');
   assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries.length===5),'Artwork changed workout entries');
@@ -91,7 +110,7 @@ try {
   assert(!await page.$('[data-testid="tv-movement-figure"], .tv-thumb-photo, .tv-movement-reference'),'Held image exposed offline');
   assert(await page.evaluate(()=>document.body.innerText.toLowerCase().includes('leg press')),'Offline program instructions unavailable');
   assert(!errors.length,'Browser errors: '+errors.join('; '));
-  console.log(JSON.stringify({status:'MOVEMENT_REVIEW_HOLD_BROWSER_PASS',displayedIllustrations:0,pendingReview:16,checks:['all three program exercise lists preserved','no unapproved artwork on posters, library, details, Focus or offline reload','320-430px reflow','automated accessibility','corrected neutral hammer grip retained','workout entries preserved'],physicalIPhoneAcceptance:'PENDING',likeness:'NOT_ACCEPTED'}));
+  console.log(JSON.stringify({status:'MOVEMENT_REVIEW_HOLD_BROWSER_PASS',displayedIllustrations:0,pendingReview:16,checks:['all three program exercise lists preserved','no unapproved artwork on posters, library, details, Focus or offline reload','320-430px reflow','automated accessibility','corrected neutral hammer grip retained','workout entries preserved','direct weight entry and load propagation without switching modes','inline weight survives reload and display changes','44px fields and 18px iPhone input text','optional reference follows logging'],physicalIPhoneAcceptance:'PENDING',likeness:'NOT_ACCEPTED'}));
 } catch(error){
   console.error(JSON.stringify({errors,page:page?await page.evaluate(()=>document.body.innerText).catch(()=>null):null}));throw error;
 } finally {if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));}

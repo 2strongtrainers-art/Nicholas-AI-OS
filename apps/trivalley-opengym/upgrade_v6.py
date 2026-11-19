@@ -33,16 +33,16 @@ edit('src/views/Workout.jsx', '    <div style={{ height: 14 }} />', '''    {S.ro
       {S.routines.map(r => <button type="button" className="tv-text-action" key={r.id} onClick={() => setPosterId(r.id)}>Preview {r.name}</button>)}
     </section>}
     <div style={{ height: 14 }} />''')
-edit('src/views/Workout.jsx', '  const A = S.active', "  const A = S.active\n  const view = S.tvWorkoutView === 'focus' ? 'focus' : 'poster'\n  const setView = value => update(s => { s.tvWorkoutView = value })")
+edit('src/views/Workout.jsx', '  const A = S.active', "  const A = S.active\n  const view = S.tvWorkoutView === 'focus' ? 'focus' : 'poster'\n  const setView = value => { update(s => { s.tvWorkoutView = value }); window.scrollTo({ top: 0 }) }")
 # A poster can log any card, so rest/superset context must belong to that card.
 edit('src/views/Workout.jsx', '  const toggle = (idx, i) => {\n    const m = modeAt(idx)', '  const toggle = (idx, i) => {\n    const unit = unitOf(units, idx)\n    const unitIdx = units.findIndex(u => u === unit)\n    const m = modeAt(idx)')
 edit('src/views/Workout.jsx', '      if (!useStore.getState().S.active.entries[idx].sets[i].done) toggle(idx, i)', "      if (useStore.getState().S.active?.id === A.id && !useStore.getState().S.active.entries[idx]?.sets[i]?.done) toggle(idx, i)")
 edit('src/views/Workout.jsx', '  return <div className="narrow">\n    <div className="hdr">\n      <button', '  return <div className={"narrow" + (view === "poster" ? " tv-poster-page" : "")}>\n    <div className="hdr">\n      <button')
 edit('src/views/Workout.jsx', '    {A.entries.length ? <>', '''    <div className="tv-workout-view-switch" aria-label="Workout display">
-      <button type="button" aria-pressed={view === 'poster'} onClick={() => setView('poster')}>Poster view</button>
-      <button type="button" aria-pressed={view === 'focus'} onClick={() => setView('focus')}>Focus view</button>
+      <button type="button" aria-pressed={view === 'poster'} onClick={() => setView('poster')}>All exercises</button>
+      <button type="button" aria-pressed={view === 'focus'} onClick={() => setView('focus')}>One exercise</button>
     </div>
-    {view === 'poster' ? <ActiveWorkoutPoster onToggle={toggle} onTimed={startTimed} onDetails={exerciseDetailSheet}
+    {view === 'poster' ? <ActiveWorkoutPoster onToggle={toggle} onTimed={startTimed} onDetails={exerciseDetailSheet} onField={setField}
       onEdit={idx => { update(s => { s.active.cur = idx; s.tvWorkoutView = 'focus' }) }} /> : <>
     {A.entries.length ? <>''')
 edit('src/views/Workout.jsx', '    <div style={{ height: 10 }} />\n    <Button onClick={() => exercisePicker', '    </>}\n    <div style={{ height: 10 }} />\n    <Button onClick={() => exercisePicker')

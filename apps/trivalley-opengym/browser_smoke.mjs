@@ -130,7 +130,7 @@ try {
   });
   if(!skipped)throw new Error('Cannot skip optional bodyweight check-in');
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').active?.entries?.length>=1,{timeout:10000});
-  await page.evaluate(() => [...document.querySelectorAll('button')].find(b => b.textContent === 'Focus view')?.click());
+  await page.evaluate(() => [...document.querySelectorAll('button')].find(b => b.textContent === 'One exercise')?.click());
   await page.waitForSelector('.setrow [role="checkbox"]');
   const setChecked=await page.evaluate(() => {
     const box=document.querySelector('.setrow [role="checkbox"]');

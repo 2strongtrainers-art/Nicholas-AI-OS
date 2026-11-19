@@ -86,7 +86,7 @@ try {
   await tap('[data-testid="tv-start-primary"]');
   await page.waitForSelector('[data-testid="tv-poster-active"]');
   assert(await page.evaluate(id=>JSON.parse(localStorage.getItem('gym_state_v1')).active.id===id,before.id),'Resume replaced an active session');
-  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Focus view').click());
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='One exercise').click());
   await page.waitForSelector('.setrow .w input');
   await page.click('.setrow .w input',{clickCount:3});await page.keyboard.press('Backspace');await page.type('.setrow .w input','25');await page.keyboard.press('Tab');
   await page.$eval('.setrow [role="checkbox"]',b=>b.click());

@@ -1,0 +1,36 @@
+/* Keep every lifting control in the current view, above optional art and cues. */
+.tv-inline-set-fields {display:grid;grid-template-columns:42px minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:end;padding:10px 0 0}
+.tv-inline-set-number {align-self:center;font-size:12px;color:var(--label-2)}
+.tv-inline-set-fields label {display:grid;gap:5px;min-width:0;font-size:12px;color:var(--label-2)}
+.tv-inline-set-fields input.num {box-sizing:border-box;width:100%;min-width:0;min-height:48px;border:1px solid var(--sep);border-radius:10px;padding:10px;background:var(--surface);color:var(--label);font:600 18px/1.3 system-ui;text-align:center;scroll-margin:100px}
+.tv-inline-set-fields input:focus {outline:3px solid var(--acc);outline-offset:1px}
+.tv-active-workout-title {font-size:22px;margin:0 0 8px}
+.tv-logging-help {margin:0 0 12px;line-height:1.5}
+.tv-exercise-jump {display:grid;gap:6px;font-size:13px;color:var(--label-2)}
+.tv-exercise-jump select {box-sizing:border-box;width:100%;min-height:48px;max-width:100%;font-size:16px;padding:8px;border-radius:8px;background:var(--surface-2);color:var(--label);border:1px solid var(--sep)}
+.tv-session-detail {margin:8px 0}
+.tv-session-detail summary,.tv-focus-reference summary {min-height:44px;display:flex;align-items:center;color:var(--acc);cursor:pointer;font-size:14px}
+.tv-session-detail summary::before,.tv-focus-reference summary::before {content:'▸';margin-right:8px}
+.tv-session-detail[open] summary::before,.tv-focus-reference[open] summary::before {content:'▾'}
+.tv-poster-movement {scroll-margin-top:24px}
+.tv-workout-quick-actions {display:flex;align-items:center;gap:12px;margin:10px 0;font-size:12px;line-height:1.4;color:var(--label-2)}
+.tv-workout-quick-actions button {flex:0 0 auto;min-height:44px;padding:10px 12px;border:1px solid var(--sep);border-radius:10px;background:var(--surface);color:var(--acc);font:inherit;font-size:14px}
+.tv-coach-cue {display:block;font-size:12px;line-height:1.5;color:var(--label-2);margin:10px 0}
+.tv-coach-cue strong {display:block;color:var(--acc);font-size:11px;letter-spacing:.04em;margin-bottom:4px}
+/* Scope sizing to artwork, never descendant branding marks. */
+.tv-movement-figure figcaption img {width:22px!important;height:22px!important;max-width:22px!important;max-height:22px!important;flex:0 0 22px!important;aspect-ratio:1!important}
+.tv-focus-reference {margin-top:14px}
+.tv-bodyweight-shortcut {margin:0 0 14px;min-height:48px}
+@media(max-width:600px){
+ .tv-workout-poster {padding:14px;border-radius:14px}
+ .tv-poster-movement {padding:14px}
+ .tv-poster-ex-heading {gap:10px;margin-bottom:10px}
+ .tv-poster-ex-heading h3 {font-size:17px}
+ .tv-poster-rest {padding:6px 0 12px;margin-bottom:12px}
+ .tv-poster-rest>span.small {display:none}
+ .tv-workout-view-switch {margin:10px 0 14px}
+ .tv-workout-view-switch button {font-size:15px}
+ .tv-focus-set-table .num {font-size:18px}
+ .tv-poster-page {padding-bottom:calc(170px + env(safe-area-inset-bottom,0px))}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

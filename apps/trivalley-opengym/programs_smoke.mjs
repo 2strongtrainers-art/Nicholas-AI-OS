@@ -109,7 +109,7 @@ try {
   await page.waitForSelector('[data-testid="tv-poster-active"]');
   await page.$eval('[data-testid="tv-poster-set"]',b=>b.click());
   assert(await page.evaluate(() => !JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0].sets[0].done),'Poster allowed an unknown working load');
-  await page.evaluate(() => [...document.querySelectorAll('button')].find(b=>b.textContent==='Focus view').click());
+  await page.evaluate(() => [...document.querySelectorAll('button')].find(b=>b.textContent==='One exercise').click());
   await page.waitForSelector('[data-testid="tv-working-load-note"]');
   assert(await page.$('[data-testid="tv-workout-prep"]'),'Warm-up guidance not available in the workout');
   await page.$eval('.setrow [role="checkbox"]',b=>b.click());

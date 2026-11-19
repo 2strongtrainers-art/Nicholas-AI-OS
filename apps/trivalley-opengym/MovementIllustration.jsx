@@ -10,7 +10,8 @@ export default function MovementIllustration({ ex, collapsible = false }) {
     {failed === src ? <p role="status">Illustration unavailable. Use the written technique cues below.</p>
       : <img src={src} alt={asset.alt} width={asset.width} height={asset.height} loading="lazy" decoding="async" onError={() => setFailed(src)} />}
     <div className="tv-movement-phases" aria-hidden="true"><span>1 · {asset.leftLabel}</span><span>2 · {asset.rightLabel}</span></div>
-    <figcaption><span className="tv-movement-brand"><img src="./trivalley-triquetra.png" width="22" height="22" alt="" />TRIVALLEY.FIT · COACHED BY NICK KAPLAN</span>
+    <figcaption><span className="tv-movement-brand">TRIVALLEY.FIT · COACHED BY NICK KAPLAN</span>
+      <span className="tv-coach-cue"><strong>Technique cue</strong>{asset.steps[asset.steps.length - 1]}</span>
       <span>AI-generated likeness illustration · two positions, not a video. Return with control.</span>
       {failed !== src && <a href={src} target="_blank" rel="noopener noreferrer">View larger illustration<span className="sr-only"> for {asset.name} (opens a new tab)</span></a>}
     </figcaption>

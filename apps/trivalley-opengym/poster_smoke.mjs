@@ -85,9 +85,9 @@ try {
   await page.waitForSelector('[data-testid="tv-poster-active"]');
   assert(await page.evaluate(expected=>JSON.parse(localStorage.getItem('gym_state_v1')).active.id===expected,id),'Reload replaced the session');
   assert(await page.$eval('.tv-poster-notes textarea',n=>n.value==='Synthetic poster acceptance note'),'Session notes did not survive reload');
-  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Focus view').click());
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='One exercise').click());
   await page.waitForSelector('.setrow');
-  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Poster view').click());
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='All exercises').click());
   await page.waitForSelector('[data-testid="tv-poster-active"]');
   await page.click('button[aria-label="Finish"]');
   await page.waitForFunction(()=>document.body.innerText.includes('Finish early?'));
