@@ -67,8 +67,8 @@ edit('src/views/Stats.jsx', "import { useState", "import { ProgressSummary } fro
 edit('src/views/Stats.jsx', '    <div className="tiles">', '    <ProgressSummary />\n    <div className="tiles">')
 
 edit('src/views/Settings.jsx', "import {serializeWorkoutBackup,parseWorkoutBackup} from '../lib/tv-backup.js'", "import {serializeWorkoutBackup,parseWorkoutBackup} from '../lib/tv-backup.js'\nimport { BackupPanel, backupPrepared } from '../components/TrainingCompanion.jsx'")
-edit('src/views/Settings.jsx', "if (MOBILE) { await shareExport(json, name); toast('Backup ready to save'); return }", "if (MOBILE) { await shareExport(json, name); backupPrepared(S); toast('Backup ready — confirm after saving'); return }")
-edit('src/views/Settings.jsx', "      toast('Backup exported with checksum')", "      backupPrepared(S)\n      toast('Verified backup ready — save the file, then confirm below')")
+edit('src/views/Settings.jsx', "if (MOBILE) { await shareExport(json, name); toast('Backup ready to save'); return }", "if (MOBILE) { await shareExport(json, name); const tracked = backupPrepared(S); toast(tracked ? 'Backup ready — confirm after saving' : 'Backup file ready — save it now. Reminder status could not be stored.'); return }")
+edit('src/views/Settings.jsx', "      toast('Backup exported with checksum')", "      const tracked = backupPrepared(S)\n      toast(tracked ? 'Verified backup ready — save the file, then confirm below' : 'Backup file ready — save it now. Reminder status could not be stored.')")
 edit('src/views/Settings.jsx', '    {/* ---------- general ---------- */}', '    <BackupPanel onExport={doExport} />\n\n    {/* ---------- general ---------- */}')
 edit('src/views/Settings.jsx', '      <Row icon="moon"', '''      <Row icon="sparkles" iconTint="var(--acc)" title="Visual style" subtitle="Premium uses TriValley Onyx and Gold. Classic lets you choose an accent.">
         <Segmented className="seg-inline" options={[{ value: 'premium', label: 'Premium' }, { value: 'classic', label: 'Classic' }]}

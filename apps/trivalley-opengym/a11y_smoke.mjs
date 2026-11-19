@@ -34,7 +34,7 @@ try {
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
   await page.goto(url,{waitUntil:'networkidle0',timeout:30000});
-  for(const [route,selector] of [['home','[data-testid="tv-today-hero"]'],['library','[data-testid="tv-library"]'],['plan','#app'],['workout','#app'],['stats','#app']]){
+  for(const [route,selector] of [['home','[data-testid="tv-today-hero"]'],['library','[data-testid="tv-library"]'],['plan','#app'],['workout','#app'],['stats','#app'],['settings','[data-testid="tv-backup-panel"]']]){
     await page.evaluate(r=>{location.hash='#/'+r},route);
     await page.waitForSelector(selector,{timeout:15000});
     await page.waitForFunction(r=>location.hash==='#/'+r,{timeout:10000},route);

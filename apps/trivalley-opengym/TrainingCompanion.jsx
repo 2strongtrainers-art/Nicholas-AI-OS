@@ -13,8 +13,11 @@ const nameOf = id => EXIDX[id]?.n || id
 const dateLabel = day => new Date(day + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
 const notifyBackup = () => window.dispatchEvent(new Event('tv:backup-status'))
 export function backupPrepared(S) {
-  prepareBackup(localStorage, S)
-  notifyBackup()
+  try {
+    prepareBackup(localStorage, S)
+    notifyBackup()
+    return true
+  } catch { return false }
 }
 function useBackup(S) {
   const [metadata, setMetadata] = useState(() => readBackup(localStorage))
@@ -118,7 +121,7 @@ export function ProgressSummary() {
       <div><strong>{summary.scheduledDue ? `${summary.scheduledDone}/${summary.scheduledDue}` : '—'}</strong><span>Scheduled days trained</span></div>
     </div>
     <p className="small muted">{summary.total ? `${summary.previousSessions} sessions in the previous seven days. Last session: ${dateLabel(summary.last.d)}.` : 'Complete and finish a workout to see your actual training here.'}</p>
-    {rep && <p className="tv-progress-gain">{nameOf(rep.id)}: {rep.gain} more {rep.gain === 1 ? 'rep' : 'reps'} at {fmtNum(rep.weight)} {rep.unit} ({dateLabel(rep.day)}), compared with your previous logged top set at that load.</p>}
+    {rep && <p className="tv-progress-gain">{nameOf(rep.id)}: {rep.gain} more {rep.gain === 1 ? 'rep' : 'reps'} {rep.weight > 0 ? `at ${fmtNum(rep.weight)} ${rep.unit}` : 'with bodyweight'} ({dateLabel(rep.day)}), compared with your previous logged top set at that load.</p>}
     <details><summary>How this is calculated</summary><p className="small muted">Only finished sessions with completed sets count. Scheduled days cover Monday through today using your current plan and day overrides; any completed session on a scheduled day counts. Future sessions are excluded. Rep comparisons require the same exercise, mode, load and recorded unit. Older entries without a unit are excluded from rep comparisons.</p></details>
   </section>
 }

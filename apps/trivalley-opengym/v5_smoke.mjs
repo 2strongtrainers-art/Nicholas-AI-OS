@@ -87,8 +87,11 @@ try {
   await page.evaluate(() => [...document.querySelectorAll('button')].find(b => b.textContent === 'Classic').click());
   await page.waitForFunction(() => document.documentElement.dataset.tvStyle === 'classic');
   assert(await page.$('.swatches'), 'Classic accent controls missing');
+  await page.evaluate(() => { Storage.prototype.setItem = function() { throw new DOMException('Synthetic full storage', 'QuotaExceededError') } });
+  await page.$eval('[data-testid="tv-backup-panel"] .primary', b => b.click());
+  await page.waitForFunction(() => document.body.innerText.includes('Backup file ready — save it now. Reminder status could not be stored.'));
   assert(!errors.length, 'Browser errors: ' + errors.join('; '));
-  console.log(JSON.stringify({ status: 'V5_BROWSER_PASS', checks: ['empty-state honesty', 'existing progression', 'previous logged sets', 'completed-record summaries', '320-430px reflow', 'prepared versus confirmed backup', 'quota-failure warning and in-memory edit', 'premium/light/classic appearance'], physicalIPhoneAcceptance: 'PENDING' }));
+  console.log(JSON.stringify({ status: 'V5_BROWSER_PASS', checks: ['empty-state honesty', 'existing progression', 'previous logged sets', 'completed-record summaries', '320-430px reflow', 'prepared versus confirmed backup', 'quota-failure warning and in-memory edit', 'export available when all storage writes fail', 'premium/light/classic appearance'], physicalIPhoneAcceptance: 'PENDING' }));
 } catch (error) {
   if (page) {
     console.error(JSON.stringify({ errors, page: await page.evaluate(() => document.body.innerText.slice(0, 5000)).catch(() => 'unavailable') }));
