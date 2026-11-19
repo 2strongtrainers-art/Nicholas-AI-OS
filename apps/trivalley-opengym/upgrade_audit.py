@@ -44,6 +44,8 @@ edit('src/sheets.jsx',"confirmText: t('Finish workout'), onConfirm: doFinishWork
 edit('src/sheets.jsx','    id: A.id, d: A.d, tvTemplate:', '    partial: setsDoneActive(A) < A.entries.reduce((n,e) => n + e.sets.length, 0), plannedSets: A.entries.reduce((n,e) => n + e.sets.length, 0),\n    id: A.id, d: A.d, tvTemplate:')
 edit('src/sheets.jsx','    <BodyMap load={loadOfWorkouts([w])} body={st.body} />','    <p className="small">Exercises performed: {w.entries.map(e => EXIDX[e.id]?.n || e.id).join(\', \') || \'No sets logged\'}.</p>\n    <BodyMap load={loadOfWorkouts([w])} body={st.body} />')
 edit('src/sheets.jsx',"{ kind: 'center', locked: true })\n}","{ kind: 'center', locked: false })\n}")
+edit('src/sheets.jsx','    <h3>{w.name}</h3>','    <h3>{w.name}</h3>\n    {w.partial && <p className="small">Partial workout: {setsDone(w)} of {w.plannedSets} planned sets saved.</p>}')
+edit('src/sheets.jsx','<div className="grow"><div className="tt">{w.name}</div>','<div className="grow"><div className="tt">{w.name}{w.partial && <span className="tag">Partial</span>}</div>')
 edit('src/sheets.jsx','return <div className="item" onClick={onClick}>','return <div className="item" role="button" tabIndex={0} aria-label={`View ${w.name}, ${fmtDate(w.d, true)}`} onKeyDown={e => { if (e.key === \'Enter\' || e.key === \' \') { e.preventDefault(); onClick() } }} onClick={onClick}>')
 
 edit('src/sheets.jsx', 'sets: e.sets, topW: e.topW || null, target:', 'sets: e.sets.filter(set => set.done), topW: e.topW || null, target:')
@@ -58,6 +60,7 @@ edit('src/components/Media.jsx','{steps.length > 0 && <ol','{instructions && ste
 edit('src/sheets.jsx','onClick={close}>Close</button></div>\n    <Media ex={ex} />','onClick={close}>Close</button></div>\n    <Media ex={ex} instructions={false} />')
 
 edit('src/components/TrainingCompanion.jsx','Older logs have no recorded unit; changing the unit setting relabels numbers without converting them.', 'Older logs have no recorded unit. Weight-unit changes are locked once you save weight data.')
+edit('src/components/TrainingCompanion.jsx','<span>Completed sessions</span>','<span>Saved sessions</span>')
 
 # One Home program guide, consistent titles, relevant progress chart.
 edit('src/views/Home.jsx','    {(!program || program.routine) && <TrainingBrief routineOverride={program?.routine} />}','    {!program && !S.active && <TrainingBrief />}')
