@@ -90,7 +90,7 @@ export default function ReadyPrograms() {
             <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises{day.note ? ' · ' + day.note : ''}</p>
             <div className="tv-program-card-buttons">
               <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} aria-label={'Start ' + (routine?.name || day.name)} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
-              <button type="button" className="btn" data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); window.scrollTo(0, 0) }}>View workout</button>
+              <button type="button" className="btn" aria-label={'View ' + day.name + ' workout'} data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); window.scrollTo(0, 0) }}>View workout</button>
               {days[index] && <button type="button" className="tv-text-action" aria-label={'Edit ' + routine.name} onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>}
             </div>
           </div>

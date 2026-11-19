@@ -25,7 +25,7 @@ try{
  assert(await page.evaluate(()=>document.activeElement?.id==='tv-bodyweight-value'),'Initial dialog focus');
  for(let i=0;i<18;i++){if(i>=9)await page.keyboard.down('Shift');await page.keyboard.press('Tab');if(i>=9)await page.keyboard.up('Shift');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Dialog focus escaped')}
  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));
- assert(await page.evaluate(()=>document.activeElement?.dataset.testid==='tv-log-bodyweight'),'Focus did not return to opener');
+ await page.waitForFunction(()=>document.activeElement?.dataset.testid==='tv-log-bodyweight',{timeout:3000});
  await openCheckin();await page.type('#tv-bodyweight-value','221.5');await page.click('[role="dialog"] button.primary');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')).bodyweight.some(b=>b.w===221.5));
  await page.goto(url+'#/settings',{waitUntil:'networkidle0'});

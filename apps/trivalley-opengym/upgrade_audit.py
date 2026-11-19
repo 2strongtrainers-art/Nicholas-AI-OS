@@ -86,8 +86,16 @@ edit('src/views/Settings.jsx','<a href="https://github.com/DuarteSantos8/openGym
 edit('src/store/useUI.js',"import { create }", "import { recoverRest } from '../lib/tv-audit-safety.js'\nimport { create }")
 edit('src/store/useUI.js','let toastTm = null', '''const REST_KEY = 'tv_rest_timer_v1'
 const persistRest = timer => { try { if (timer) localStorage.setItem(REST_KEY, JSON.stringify(timer)); else localStorage.removeItem(REST_KEY) } catch {} }
+// Safari and touch browsers do not always focus a tapped button. Retain the
+// actual trigger, rather than returning focus to document.body after dismissal.
+let lastTrigger = null, triggerAt = 0
+const rememberTrigger = e => { lastTrigger = e.target.closest?.('button,a[href],[role="button"],input,select,textarea,[tabindex]'); triggerAt = Date.now() }
+document.addEventListener('pointerdown', rememberTrigger, true)
+document.addEventListener('click', rememberTrigger, true)
+document.addEventListener('keydown', () => { lastTrigger = null }, true)
+const sheetOpener = () => lastTrigger?.isConnected && Date.now() - triggerAt < 1000 ? lastTrigger : document.activeElement
 let toastTm = null''')
-edit('src/store/useUI.js',"{ id, render, kind, locked }", "{ id, render, kind, locked, opener: document.activeElement }")
+edit('src/store/useUI.js',"{ id, render, kind, locked }", "{ id, render, kind, locked, opener: sheetOpener() }")
 edit('src/store/useUI.js','  startRest(sec) {','''  restoreRest() {
     if (get().timer) return
     let raw; try { raw = localStorage.getItem(REST_KEY) } catch { return }
