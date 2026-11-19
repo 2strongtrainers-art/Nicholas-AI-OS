@@ -1,0 +1,150 @@
+{
+  "kind": "generated two-position exercise likeness illustrations",
+  "version": "20261119-v1",
+  "assets": [
+    {
+      "id": "2330",
+      "name": "Cable lat pulldown",
+      "path": "assets/tv-movement-2330-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 83354,
+      "sha256": "76f51a9b35f3e93d84b2c44342cb4e78ccdf0646ace9ccd22ccae4336403c7a8"
+    },
+    {
+      "id": "0861",
+      "name": "Cable seated row",
+      "path": "assets/tv-movement-0861-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 84696,
+      "sha256": "79b8e7c83322f2e8be042a1e9682e51bcd1f187e84f1316675f7f8896eceb0d4"
+    },
+    {
+      "id": "0383",
+      "name": "Dumbbell reverse fly",
+      "path": "assets/tv-movement-0383-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 112088,
+      "sha256": "3debf57f8efa01c0b85cde6f9afd5582d06eb55302c939e42929abc2ed940e37"
+    },
+    {
+      "id": "0294",
+      "name": "Dumbbell biceps curl",
+      "path": "assets/tv-movement-0294-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 96060,
+      "sha256": "9805625941c3969af2b465d0ce1f2189e88e470b978ccfc8a0dc569999a3070b"
+    },
+    {
+      "id": "0313",
+      "name": "Dumbbell hammer curl",
+      "path": "assets/tv-movement-0313-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 102012,
+      "sha256": "3902b645490a74da0ca3245c76878c4ca0161f16407d627de35e166cff6a7f0e"
+    },
+    {
+      "id": "0289",
+      "name": "Dumbbell bench press",
+      "path": "assets/tv-movement-0289-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 115306,
+      "sha256": "97eedb62c78c2edf85afc1c8f22f7a4228ee53e00e51f463b466a3181324e907"
+    },
+    {
+      "id": "0314",
+      "name": "Dumbbell incline bench press",
+      "path": "assets/tv-movement-0314-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 112196,
+      "sha256": "6b6985c1e67de6f258b70efe5b687862be9dd5de68e1752e0b9fc5c7c4b4b890"
+    },
+    {
+      "id": "0405",
+      "name": "Dumbbell seated shoulder press",
+      "path": "assets/tv-movement-0405-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 102348,
+      "sha256": "6a7ba85f3bc8965711c15a766dbf185db804568bfe485bcc74cec4236281095f"
+    },
+    {
+      "id": "0334",
+      "name": "Dumbbell lateral raise",
+      "path": "assets/tv-movement-0334-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 98368,
+      "sha256": "e3b988f61c9785fba7fa892d5837753ae81d46a097b47cabd654c85fd96ddee9"
+    },
+    {
+      "id": "0200",
+      "name": "Cable rope pushdown",
+      "path": "assets/tv-movement-0200-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 84844,
+      "sha256": "8eedfebd9825e6077022efbd20377f57a0301bded2174a40cc457112789ab83c"
+    },
+    {
+      "id": "0194",
+      "name": "Cable overhead rope triceps extension",
+      "path": "assets/tv-movement-0194-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 80864,
+      "sha256": "133db363b879c924349ccefb29339152d79b20db70a406b65e532375cbf9d630"
+    },
+    {
+      "id": "0739",
+      "name": "45-degree sled leg press",
+      "path": "assets/tv-movement-0739-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 97066,
+      "sha256": "5edda351b814d943abdb74fb78600279f8db589b23fa53069c6c94cdd9d652e2"
+    },
+    {
+      "id": "1459",
+      "name": "Dumbbell Romanian deadlift",
+      "path": "assets/tv-movement-1459-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 97564,
+      "sha256": "5b923aa3afe06aab72b3cdcd0fde1d524a2f639cb512a863457e04d082620e6b"
+    },
+    {
+      "id": "0586",
+      "name": "Lying leg curl",
+      "path": "assets/tv-movement-0586-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 97912,
+      "sha256": "6365395495297fd5b55522e00821c71d9021e9c2172ef22dfa5dd63127823e91"
+    },
+    {
+      "id": "0585",
+      "name": "Leg extension",
+      "path": "assets/tv-movement-0585-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 88464,
+      "sha256": "409e8c72df1352c2ed4429d9d43cfc4d09d688f7f87cabfc714b702b5c79661b"
+    },
+    {
+      "id": "0605",
+      "name": "Machine standing calf raise",
+      "path": "assets/tv-movement-0605-20261119.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 89494,
+      "sha256": "8190d07bfb0c3559f09d4d3759dfa7f4a6902a72a4a258423382e422a65a4bd8"
+    }
+  ]
+}
