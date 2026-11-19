@@ -83,7 +83,7 @@ try {
   assert(!a11y.length,'Poster accessibility findings: '+JSON.stringify(a11y));
   await page.reload({waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-poster-active"]');
-  assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.id===id),'Reload replaced the session');
+  assert(await page.evaluate(expected=>JSON.parse(localStorage.getItem('gym_state_v1')).active.id===expected,id),'Reload replaced the session');
   assert(await page.$eval('.tv-poster-notes textarea',n=>n.value==='Synthetic poster acceptance note'),'Session notes did not survive reload');
   await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Focus view').click());
   await page.waitForSelector('.setrow');
