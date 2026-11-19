@@ -99,6 +99,8 @@ try {
   }
   await page.click('[data-testid="tv-verse-dismiss"]');
 
+  await page.evaluate(()=>{location.hash='#/plan'});
+  await page.waitForSelector('[data-testid="tv-ready-programs"]');
   const clicked = await page.evaluate(() => {
     const button=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Load starter plan'));
     if(!button)return false;button.click();return true;
@@ -108,6 +110,7 @@ try {
     const s=JSON.parse(localStorage.getItem('gym_state_v1')||'{}');
     return Array.isArray(s.routines) && s.routines.length===3 && Object.keys(s.week||{}).length>=3 && s.unit==='lb';
   },{timeout:10000});
+  await page.evaluate(()=>{location.hash='#/home'});
   await page.reload({waitUntil:'networkidle0',timeout:20000});
   await page.waitForFunction(() => (document.querySelector('h1')?.textContent?.includes('TriValley FIT') || document.querySelector('h1')?.textContent?.includes('Today')),{timeout:15000});
   const persisted=await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length);
