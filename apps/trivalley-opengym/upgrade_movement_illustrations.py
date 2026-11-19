@@ -14,13 +14,13 @@ shutil.copyfile(assets/'MovementIllustration.jsx',front/'src/components/Movement
 shutil.copyfile(assets/'tv-movement-illustrations.mjs',front/'src/lib/tv-movement-illustrations.js')
 shutil.copyfile(assets/'movement-illustrations.css',front/'src/movement-illustrations.css')
 edit('src/main.jsx',"import './program-visuals.css'","import './program-visuals.css'\nimport './movement-illustrations.css'")
-edit('src/lib/exercises.js',"import { EXDB }", "import { movementFor } from './tv-movement-illustrations.js'\nimport { EXDB }")
-edit('src/lib/exercises.js','export const EXIDX = {}','// Reviewed English cues for this exact sixteen-exercise image set.\nEXDB.forEach(ex => { const art = movementFor(ex); if (art) ex.st = [...art.steps] })\nexport const EXIDX = {}')
-edit('src/components/Media.jsx',"import Icon from './Icon.jsx'","import Icon from './Icon.jsx'\nimport MovementIllustration from './MovementIllustration.jsx'\nimport { movementFor } from '../lib/tv-movement-illustrations.js'")
-edit('src/components/Media.jsx','  return (\n    <div id={id}', '''  if (movementFor(ex)) return <div id={id} className={'exmedia tv-exercise-media tv-movement-media' + (mini ? ' mini' : '')}>
+edit('src/lib/exercises.js',"import { EXDB }", "import { movementReferenceFor } from './tv-movement-illustrations.js'\nimport { EXDB }")
+edit('src/lib/exercises.js','export const EXIDX = {}','// Reviewed English cues for this exact sixteen-exercise image set.\nEXDB.forEach(ex => { const art = movementReferenceFor(ex); if (art) ex.st = [...art.steps] })\nexport const EXIDX = {}')
+edit('src/components/Media.jsx',"import Icon from './Icon.jsx'","import Icon from './Icon.jsx'\nimport MovementIllustration from './MovementIllustration.jsx'\nimport { movementFor, movementReferenceFor } from '../lib/tv-movement-illustrations.js'")
+edit('src/components/Media.jsx','  return (\n    <div id={id}', '''  if (movementReferenceFor(ex)) return <div id={id} className={'exmedia tv-exercise-media tv-movement-media' + (mini ? ' mini' : '')}>
     {mini ? <div className="tv-mini-row"><strong>{ex.n}</strong><button type="button" className="tv-cue-toggle" onClick={toggle}>Show cues</button></div>
       : <><MovementIllustration ex={ex} /><div className="tv-ex-info"><strong>{ex.n}</strong>
-        <ol className="tv-steps">{movementFor(ex).steps.map((step,i) => <li key={i}>{step}</li>)}</ol>
+        <ol className="tv-steps">{movementReferenceFor(ex).steps.map((step,i) => <li key={i}>{step}</li>)}</ol>
         {minimizable && <button type="button" className="tv-cue-toggle" onClick={toggle}>Hide cues</button>}</div></>}
   </div>
   return (

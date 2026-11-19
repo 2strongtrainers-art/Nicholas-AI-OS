@@ -41,14 +41,8 @@ try {
   for(const [day,ids]of idsByDay){
     await page.goto(url+'#/plan?day='+day,{waitUntil:'networkidle0'});
     await page.waitForSelector('[data-testid="tv-poster-preview"]');
-    assert(await page.$$eval('.tv-movement-reference',n=>n.length)===ids.length,'Wrong illustration count on '+day);
-    for(const id of ids){
-      const fig='[data-testid="tv-movement-figure"][data-exercise-id="'+id+'"]';
-      await page.$eval(fig,n=>{n.closest('details').open=true;n.scrollIntoView({block:'center'});});
-      await page.waitForFunction(sel=>{const n=document.querySelector(sel+' > img');return n?.complete&&n.naturalWidth===1200},{timeout:15000},fig);
-      const result=await page.$eval(fig,n=>({src:n.querySelector('img').getAttribute('src'),alt:n.querySelector('img').alt,phases:n.querySelectorAll('.tv-movement-phases span').length,disclosure:n.innerText.includes('AI-generated likeness illustration')}));
-      assert(result.src.includes('tv-movement-'+id+'-20261119.webp')&&result.alt.includes('left')&&result.alt.includes('right')&&result.phases===2&&result.disclosure,'Wrong movement artwork: '+id);
-    }
+    assert(await page.$$eval('.tv-movement-reference, [data-testid="tv-movement-figure"], .tv-thumb-photo',n=>n.length)===0,'Unapproved illustration exposed on '+day);
+    assert(await page.$$eval('[data-testid="tv-poster-preview"] .tv-poster-movement',n=>n.length)===ids.length,'Workout exercises changed on '+day);
     for(const width of [320,390,430]){
       await page.setViewport({width,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Movement reference overflow at '+width);
@@ -56,8 +50,7 @@ try {
   }
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url+'#/plan?day=chest-triceps',{waitUntil:'networkidle0'});
-  await page.waitForSelector('.tv-movement-reference');
-  await page.$eval('.tv-movement-reference',n=>n.open=true);
+  await page.waitForSelector('[data-testid="tv-poster-preview"]');
   await page.screenshot({path:screenshot,fullPage:true});
   const axeSource=fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8');
   await page.addScriptTag({content:axeSource});
@@ -68,9 +61,10 @@ try {
   await page.waitForSelector('[data-testid="tv-library-search"]');
   await page.type('[data-testid="tv-library-search"]','dumbbell hammer curl');
   await page.waitForSelector('[data-ex-id="0313"] .tv-exercise-open');
-  assert(await page.$('[data-ex-id="0313"] .tv-thumb-photo'),'Known exercise thumbnail missing');
+  assert(!await page.$('[data-ex-id="0313"] .tv-thumb-photo'),'Held thumbnail exposed');
   await tap('[data-ex-id="0313"] .tv-exercise-open');
-  await page.waitForSelector('[data-testid="tv-movement-figure"][data-exercise-id="0313"]');
+  await page.waitForSelector('[aria-label="Close exercise details"]');
+  assert(!await page.$('[data-testid="tv-movement-figure"]'),'Held detail image exposed');
   assert(await page.evaluate(()=>document.body.innerText.includes('do not rotate your palms forward')),'Hammer curl catalogue error still present');
   await tap('[aria-label="Close exercise details"]');
   await page.waitForFunction(()=>!document.getElementById('modal-root'));
@@ -80,7 +74,8 @@ try {
   await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start without weighing in')).click());
   await page.waitForSelector('[data-testid="tv-poster-active"]');
   await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Focus view').click());
-  await page.waitForSelector('.tv-movement-media [data-exercise-id="2330"]');
+  await page.waitForSelector('.tv-movement-media .tv-steps');
+  assert(!await page.$('[data-testid="tv-movement-figure"]'),'Held Focus image exposed');
   assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries.length===5),'Artwork changed workout entries');
   await page.evaluate(async()=>{await navigator.serviceWorker.ready});
   await page.waitForFunction(async()=>{
@@ -92,11 +87,11 @@ try {
   });
   await page.setOfflineMode(true);
   await page.goto(url+'#/plan?day=legs',{waitUntil:'networkidle0'});
-  await page.waitForSelector('[data-testid="tv-movement-figure"][data-exercise-id="0739"]');
-  await page.$eval('[data-exercise-id="0739"]',n=>{n.closest('details').open=true;n.scrollIntoView({block:'center'})});
-  await page.waitForFunction(()=>{const n=document.querySelector('[data-exercise-id="0739"] > img');return n?.complete&&n.naturalWidth===1200});
+  await page.waitForSelector('[data-testid="tv-poster-preview"]');
+  assert(!await page.$('[data-testid="tv-movement-figure"], .tv-thumb-photo, .tv-movement-reference'),'Held image exposed offline');
+  assert(await page.evaluate(()=>document.body.innerText.toLowerCase().includes('leg press')),'Offline program instructions unavailable');
   assert(!errors.length,'Browser errors: '+errors.join('; '));
-  console.log(JSON.stringify({status:'MOVEMENT_ILLUSTRATIONS_BROWSER_PASS',assets:16,posePanels:32,checks:['exact exercise IDs on all three posters','correct unique artwork and phase captions','320-430px reflow','automated accessibility','library thumbnail and exercise details','corrected neutral hammer grip','Focus view','workout entries preserved','all sixteen cached and offline reload'],physicalIPhoneAcceptance:'PENDING',likeness:'generated approximation; owner feedback applied, not a real demonstration'}));
+  console.log(JSON.stringify({status:'MOVEMENT_REVIEW_HOLD_BROWSER_PASS',displayedIllustrations:0,pendingReview:16,checks:['all three program exercise lists preserved','no unapproved artwork on posters, library, details, Focus or offline reload','320-430px reflow','automated accessibility','corrected neutral hammer grip retained','workout entries preserved'],physicalIPhoneAcceptance:'PENDING',likeness:'NOT_ACCEPTED'}));
 } catch(error){
   console.error(JSON.stringify({errors,page:page?await page.evaluate(()=>document.body.innerText).catch(()=>null):null}));throw error;
 } finally {if(browser)await browser.close();if(server)await new Promise(r=>server.close(r));}

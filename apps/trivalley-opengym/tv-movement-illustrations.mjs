@@ -274,4 +274,11 @@ export const MOVEMENT_ILLUSTRATIONS = {
   }
 }
 
-export function movementFor(ex) { return MOVEMENT_ILLUSTRATIONS[typeof ex === 'string' ? ex : ex?.id] || null }
+// Display approval is independent of asset existence and written technique cues.
+export const MOVEMENT_REVIEW_STATUS = Object.freeze(Object.fromEntries(Object.keys(MOVEMENT_ILLUSTRATIONS).map(id => [id, 'pending_review'])))
+export function movementReferenceFor(ex) { return MOVEMENT_ILLUSTRATIONS[typeof ex === 'string' ? ex : ex?.id] || null }
+
+export function movementFor(ex) {
+  const reference = movementReferenceFor(ex)
+  return reference && MOVEMENT_REVIEW_STATUS[reference.id] === 'approved' ? reference : null
+}
