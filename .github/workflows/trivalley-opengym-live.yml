@@ -26,7 +26,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/trivalley-live"
           npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
-      - name: Verify exact published TriValley v4 source and compiled asset
+      - name: Verify exact published TriValley v5 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -34,23 +34,29 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '4.0.0' ||
-              release.sourceCommit !== '69cfb5c71898afc62662a1b0df6c44a861f84994' ||
-              release.mainScript !== 'assets/index-CqSO4SY_.js' ||
+          if (release.version !== '5.0.0' ||
+              release.sourceCommit !== 'd199e72a10a047cddeefa5e052f2a3b710f0af4d' ||
+              release.mainScript !== 'assets/index-DAM8S8bh.js' ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
           console.log(JSON.stringify({status:'WIX_RELEASE_IDENTITY_PASS',commit:release.sourceCommit,script:release.mainScript}));
           NODE
-      - name: Verify live Wix v4 Today, library, backup, scripture, workouts and offline restart
+      - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-CqSO4SY_.js'
+          TV_EXPECTED_JS: 'index-DAM8S8bh.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
         run: node "$RUNNER_TEMP/trivalley-live/smoke.mjs" unused "$RUNNER_TEMP/trivalley-live/live.png"
-      - name: Run automated accessibility audit on actual Wix-hosted v4
+      - name: Test live guidance, summaries, backup confirmation and failed-save recovery
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/v5_smoke.mjs "$RUNNER_TEMP/trivalley-live/v5.mjs"
+          node "$RUNNER_TEMP/trivalley-live/v5.mjs" unused "$RUNNER_TEMP/trivalley-live/live-premium.png"
+      - name: Run automated accessibility audit on actual Wix-hosted v5
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
         run: |
@@ -65,5 +71,6 @@ jobs:
           path: |
             ${{ runner.temp }}/trivalley-live/live.png
             ${{ runner.temp }}/trivalley-live/live-library.png
+            ${{ runner.temp }}/trivalley-live/live-premium.png
           retention-days: 7
           if-no-files-found: ignore
