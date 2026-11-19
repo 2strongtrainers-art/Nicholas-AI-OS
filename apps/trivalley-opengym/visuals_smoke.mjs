@@ -40,6 +40,11 @@ try {
     const r=n.getBoundingClientRect();
     return r.top>=0&&r.bottom<=innerHeight&&[r.top+5,r.top+r.height/2,r.bottom-5].every(y=>n.contains(document.elementFromPoint(r.x+r.width/2,y)));
   });
+  const settled=()=>page.waitForFunction(()=>{
+    const app=document.getElementById('app'),toast=document.getElementById('toast');
+    return (!app||getComputedStyle(app).opacity==='1')&&(!toast||getComputedStyle(toast).opacity==='0');
+  });
+  const violations=report=>report.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}));
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url+'#/plan',{waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
@@ -64,11 +69,12 @@ try {
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Home overflows at '+width);
   }
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+  await settled();
   await page.screenshot({path:screenshot.replace(/\.png$/,'-home.png'),fullPage:true});
   const axeSource=fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8');
   await page.addScriptTag({content:axeSource});
   let report=await page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));
-  assert(!report.violations.length,'Program Home accessibility: '+JSON.stringify(report.violations.map(v=>({id:v.id,nodes:v.nodes.length}))));
+  assert(!report.violations.length,'Program Home accessibility: '+JSON.stringify(violations(report)));
   await tap('[data-testid="tv-start-primary"]');
   await page.waitForFunction(()=>document.body.innerText.includes('Start without weighing in'));
   await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start without weighing in')).click());
@@ -96,9 +102,10 @@ try {
   await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Chest & Triceps');
   assert(await page.evaluate(()=>Object.keys(JSON.parse(localStorage.getItem('gym_state_v1')).week).length===0),'Rotation overwrote the calendar');
   await page.evaluate(()=>{location.hash='#/plan'});await page.waitForSelector('[data-testid="tv-program-cover-card"]');
+  await settled();
   await page.addScriptTag({content:axeSource});
   report=await page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));
-  assert(!report.violations.length,'Program cards accessibility: '+JSON.stringify(report.violations.map(v=>({id:v.id,nodes:v.nodes.length}))));
+  assert(!report.violations.length,'Program cards accessibility: '+JSON.stringify(violations(report)));
   await page.evaluate(async()=>{await navigator.serviceWorker.ready});
   await page.waitForFunction(async()=>{
     const keys=await caches.keys();
