@@ -31,6 +31,16 @@ try {
   browser = await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
   page = await browser.newPage();
   page.on('pageerror', e => errors.push(e.message));
+  const tapVisible = async selector => {
+    await page.$eval(selector, button => button.scrollIntoView({block:'center',inline:'nearest'}));
+    await page.waitForFunction(selector => {
+      const button=document.querySelector(selector), r=button?.getBoundingClientRect();
+      if(!r)return false;
+      const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+      return hit===button || button.contains(hit);
+    }, {timeout:10000}, selector);
+    await page.click(selector);
+  };
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url + '#/plan', {waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
@@ -50,7 +60,7 @@ try {
   await page.reload({waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
   await page.select('[data-testid="tv-program-schedule"]','mwf');
-  await page.click('[data-testid="tv-add-program"]');
+  await tapVisible('[data-testid="tv-add-program"]');
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length===4);
   const installed=await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')));
   assert(installed.active.id==='qa-existing-active','Installation replaced an active workout');
@@ -58,14 +68,14 @@ try {
   assert(installed.routines[0].name==='My routine' && installed.workouts.length===0,'Installation replaced existing data');
   assert(installed.week[3]===installed.routines[2].id && installed.week[5]===installed.routines[3].id,'Wrong split day assigned');
   assert(await page.$$eval('[data-testid^="tv-start-program-"]',buttons=>buttons.length===3 && buttons.every(b=>b.disabled)), 'Starting a new day could overwrite an active workout');
-  await page.click('[data-testid="tv-add-program"]');
+  await tapVisible('[data-testid="tv-add-program"]');
   assert(await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')).routines.length===4),'Repeated add duplicated routines');
   await page.evaluate(() => {const S=JSON.parse(localStorage.getItem('gym_state_v1'));S.active=null;localStorage.setItem('gym_state_v1',JSON.stringify(S))});
   await page.reload({waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-program-launchers"]');
   await page.click('[data-testid="tv-program-preview"] summary');
   await page.screenshot({path:screenshot,fullPage:true});
-  await page.click('[data-testid="tv-start-program-0"]');
+  await tapVisible('[data-testid="tv-start-program-0"]');
   await page.waitForFunction(() => document.body.innerText.includes('Quick check-in'));
   await page.evaluate(() => [...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start without weighing in')).click());
   await page.waitForSelector('[data-testid="tv-poster-active"]');

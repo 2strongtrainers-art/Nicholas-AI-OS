@@ -5,6 +5,7 @@ on:
       - feat/trivalley-opengym-free-20261116
     paths:
       - 'apps/trivalley-opengym/browser_smoke.mjs'
+      - 'apps/trivalley-opengym/programs_smoke.mjs'
       - '.github/workflows/trivalley-opengym-live.yml'
   workflow_dispatch:
 
