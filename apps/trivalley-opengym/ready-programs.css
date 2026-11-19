@@ -18,6 +18,12 @@
 .tv-program-launcher > span > span {display:block;margin-top:4px}
 .tv-program-launcher > div {display:flex;gap:8px}
 .tv-program-launcher .btn {min-height:44px;min-width:62px}
+.tv-program-launcher > div {flex-wrap:wrap}
+.tv-current-session,.tv-empty-session-help {padding:16px;margin:14px 0;border:1px solid var(--acc-line);border-radius:14px;background:var(--acc-soft);line-height:1.6}
+.tv-current-session p,.tv-empty-session-help p {font-size:14px;margin:8px 0 12px}
+.tv-current-session .btn,.tv-empty-session-help .btn {white-space:normal;min-height:48px}
+.tv-current-session .tv-text-action {display:block;margin-top:8px}
+.tv-program-detail {margin-top:14px}
 .tv-program-receipt {padding:10px 12px;border-left:2px solid var(--acc);background:var(--acc-soft)}
 .tv-load-note {font-size:13px;line-height:1.6;color:var(--label-2);background:var(--surface-2);border-radius:10px;padding:12px;margin:10px 0}
 .tv-workout-prep {margin-bottom:14px}.tv-workout-prep p {line-height:1.6;font-size:13px}

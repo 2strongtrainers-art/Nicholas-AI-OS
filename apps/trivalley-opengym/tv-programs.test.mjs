@@ -1,12 +1,42 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
-import { MUSCLE_SPLIT, installedDays, addMuscleSplit, restForEntry, needsWorkingLoad } from './tv-programs.mjs'
+import { MUSCLE_SPLIT, installedDays, addMuscleSplit, restForEntry, needsWorkingLoad, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from './tv-programs.mjs'
 import { serializeWorkoutBackup, parseWorkoutBackup } from './tv-backup.mjs'
 import { durationRange } from './tv-training-insights.mjs'
 
 const fresh = () => ({ unit: 'lb', routines: [{ id: 'mine', name: 'My original routine', ex: [] }], workouts: [{ id: 'history', entries: [] }], bodyweight: [], week: {}, dayPlan: { '2026-11-20': 'mine' }, active: { id: 'in-progress', entries: [] } })
 const generator = () => { let n = 0; return () => 'program-' + ++n }
+
+test('every workout is previewable before installation without changing any saved state', () => {
+  const S = fresh(), before = structuredClone(S)
+  for (const [i, key] of ['back-biceps', 'chest-triceps', 'legs'].entries()) {
+    const preview = programPreviewRoutine(S, key)
+    assert.equal(preview.ex.length, [5, 6, 5][i])
+    assert.ok(preview.ex.every(e => e.repsMin > 0 && e.reps >= e.repsMin && e.restSec > 0))
+  }
+  assert.equal(programPreviewRoutine(S, 'unknown'), null)
+  assert.deepEqual(S, before)
+  addMuscleSplit(S, { makeId: generator() })
+  installedDays(S)[0].ex[0].reps = 9
+  assert.equal(programPreviewRoutine(S, 'back-biceps').ex[0].reps, 9)
+})
+
+test('closing a confirmed empty freestyle preserves all other data and rejects changed sessions', () => {
+  const S = fresh(), before = structuredClone(S)
+  assert.ok(isEmptyFreestyle(S.active))
+  assert.equal(closeEmptyFreestyle(S, 'another-session'), false)
+  for (const change of [{ note: 'Keep my note' }, { entries: [{ id: '2330', sets: [] }] }, { routineId: 'mine' }]) {
+    S.active = { ...before.active, ...change }
+    assert.equal(closeEmptyFreestyle(S, 'in-progress'), false)
+    assert.ok(S.active)
+  }
+  S.active = structuredClone(before.active)
+  assert.equal(closeEmptyFreestyle(S, 'in-progress'), true)
+  assert.equal(S.active, null)
+  for (const key of ['routines', 'workouts', 'bodyweight', 'week', 'dayPlan']) assert.deepEqual(S[key], before[key])
+  assert.equal(closeEmptyFreestyle(S, 'in-progress'), false)
+})
 
 test('adds three ordered, editable routines without changing the active session, overrides, records or existing routine', () => {
   const S = fresh(), before = structuredClone(S)

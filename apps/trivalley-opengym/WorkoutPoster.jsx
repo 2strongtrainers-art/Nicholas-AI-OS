@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { restForEntry } from '../lib/tv-programs.js'
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
@@ -40,7 +41,9 @@ function Movement({ entry, index, unit, preview, onToggle, onTimed, onEdit, onDe
   const ex = exOr(entry.id), mode = modeOf({ ...(entry.target || {}), id: entry.id })
   const steps = Array.isArray(ex.st) ? ex.st.filter(Boolean) : []
   const completed = entry.sets.filter(s => s.done).length
-  const label = set => entry.target?.loadRequired && !(set.w > 0) ? `${set.r} reps · choose working load` : posterSetLabel(mode, set, unit)
+  const label = set => preview && entry.target?.repsMin
+    ? `${entry.target.repsMin}–${entry.target.reps} reps · ${set.w > 0 ? set.w + ' ' + unit : 'choose working load'}`
+    : entry.target?.loadRequired && !(set.w > 0) ? `${set.r} reps · choose working load` : posterSetLabel(mode, set, unit)
   return <article className="tv-poster-movement" aria-labelledby={'tv-poster-ex-' + index} data-testid="tv-poster-movement">
     <div className="tv-poster-ex-heading"><span className="tv-poster-number">{String(index + 1).padStart(2, '0')}</span><div>
       <h3 id={'tv-poster-ex-' + index}>{ex.n}</h3><p>{[ex.eq, ex.tg || ex.bp].filter(Boolean).join(' · ') || 'Custom exercise'}</p>
@@ -67,15 +70,16 @@ function Movement({ entry, index, unit, preview, onToggle, onTimed, onEdit, onDe
   </article>
 }
 
-export function RoutinePosterPreview({ routine, onStart, onClose }) {
+export function RoutinePosterPreview({ routine, onStart, onClose, startDisabled = false }) {
   const S = useStore(s => s.S)
   const entries = routine.ex.map(cfg => ({ id: cfg.id, sg: cfg.sg, target: cfg,
     sets: applyPrescription(buildSets(S, cfg), nextPrescription(S, cfg, routine)) }))
   return <section className="tv-workout-poster" data-testid="tv-poster-preview" aria-label="Workout poster preview">
-    <button type="button" className="tv-text-action" onClick={onClose}>Back to workout choices</button>
+    <button type="button" className="tv-text-action" onClick={onClose} data-testid="tv-poster-back">Back to workout choices</button>
     <PosterHeading name={routine.name} preview />
     <p className="muted">Review your planned targets before starting. The clock starts after you confirm Start. Your actual completed sets are recorded separately.</p>
-    <button type="button" className="btn primary" onClick={onStart} data-testid="tv-poster-start">Start this workout</button>
+    <button type="button" className="btn primary" disabled={startDisabled} onClick={onStart} data-testid="tv-poster-start">{startDisabled ? 'Close current session to start this workout' : 'Start this workout'}</button>
+    {routine.tvWarmup && <details className="tv-poster-cues"><summary>Warm-up & progression</summary><p>{routine.tvWarmup}</p><p>{routine.tvEffort}</p><p>Build reps within the planned range. When every set reaches the top with controlled technique, increase the load by the smallest suitable amount.</p></details>}
     <p className="small muted">Exercise-specific rest periods are shown on each card; otherwise use your {S.restSec}s default. Targets follow your current progression policy.</p>
     <div className="tv-poster-grid">{entries.map((entry, i) => <Movement key={entry.id + '-' + i} entry={entry} index={i} unit={S.unit} preview />)}</div>
   </section>
@@ -83,6 +87,7 @@ export function RoutinePosterPreview({ routine, onStart, onClose }) {
 
 export function ActiveWorkoutPoster({ onToggle, onTimed, onEdit, onDetails }) {
   const S = useStore(s => s.S), update = useStore(s => s.update)
+  const nav = useNavigate()
   const timer = useUI(s => s.timer), working = useUI(s => s.work)
   const A = S.active
   if (!A) return null
@@ -96,7 +101,7 @@ export function ActiveWorkoutPoster({ onToggle, onTimed, onEdit, onDetails }) {
     </div>
     {A.entries.length ? <div className="tv-poster-grid">{A.entries.map((entry, i) => <Movement key={entry.id + '-' + i} entry={entry} index={i}
       unit={A.unit || S.unit} onToggle={onToggle} onTimed={onTimed} onEdit={onEdit} onDetails={onDetails} working={working} />)}</div>
-      : <p className="muted">Add your first exercise below to build this session's poster.</p>}
+      : <div className="tv-empty-session-help" data-testid="tv-empty-session-help"><h3>This Freestyle session has no exercises</h3><p>Choose a complete Back & Biceps, Chest & Triceps, or Legs workout. You can preview every exercise before starting.</p><button type="button" className="btn primary" onClick={() => nav('/plan')}>Choose a ready-made workout</button><p className="small muted">Or add your own exercises below to keep this freestyle session.</p></div>}
     <label className="tv-poster-notes">Session notes <span className="small muted">Optional · saved on this device with this session</span>
       <textarea maxLength={300} rows={3} value={A.note || ''} placeholder="What would help you next time?"
         onChange={e => { const note = e.target.value; update(s => { if (s.active?.id === A.id) s.active.note = note.slice(0, 300) }) }} />

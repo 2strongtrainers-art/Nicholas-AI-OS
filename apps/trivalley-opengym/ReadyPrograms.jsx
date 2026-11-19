@@ -1,14 +1,41 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
 import { uid, DAYN } from '../lib/format.js'
-import { startFlow } from '../sheets.jsx'
-import { MUSCLE_SPLIT, installedDays, addMuscleSplit } from '../lib/tv-programs.js'
+import { startFlow, confirmSheet } from '../sheets.jsx'
+import { MUSCLE_SPLIT, installedDays, addMuscleSplit, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from '../lib/tv-programs.js'
+
+import { RoutinePosterPreview } from './WorkoutPoster.jsx'
+
+function CurrentSessionNotice() {
+  const active = useStore(s => s.S.active), update = useStore(s => s.update), nav = useNavigate()
+  if (!active) return null
+  const empty = isEmptyFreestyle(active)
+  const closeEmpty = () => confirmSheet({
+    title: 'Close empty Freestyle session?',
+    message: 'This session has no exercises or notes. Close it without adding an empty workout to your history, then choose Start on the workout you want.',
+    confirmText: 'Close empty session',
+    onConfirm: () => {
+      let closed = false
+      update(s => { closed = closeEmptyFreestyle(s, active.id) })
+      if (closed) { useUI.getState().stopRest(); useUI.getState().stopWork() }
+      else useUI.getState().toast('Your session changed. Resume it to review your work.')
+    }
+  })
+  return <aside className="tv-current-session" data-testid="tv-current-session">
+    <strong>{empty ? 'An empty Freestyle session is still open' : 'A workout is in progress'}</strong>
+    <p>{empty ? 'It is blocking new workouts. Close the empty session below, then start your selected day.' : 'You can view every workout now. Resume and finish your current session before starting another.'}</p>
+    {empty && <button type="button" className="btn" data-testid="tv-close-empty-session" onClick={closeEmpty}>Close empty Freestyle session</button>}
+    <button type="button" className="tv-text-action" onClick={() => nav('/workout')}>Resume current workout</button>
+  </aside>
+}
 
 export default function ReadyPrograms() {
   const S = useStore(s => s.S), update = useStore(s => s.update), nav = useNavigate()
   const toast = useUI(s => s.toast)
+  const [params, setParams] = useSearchParams()
+  const preview = programPreviewRoutine(S, params.get('day'))
   const [schedule, setSchedule] = useState('none')
   const [receipt, setReceipt] = useState('')
   const days = installedDays(S), complete = days.every(Boolean)
@@ -21,11 +48,36 @@ export default function ReadyPrograms() {
       setReceipt(message); toast(message)
     } catch (error) { setReceipt(error.message) }
   }
+  const beginDay = key => {
+    if (useStore.getState().S.active) return
+    update(draft => { addMuscleSplit(draft, { makeId: uid }); draft.tvWorkoutView = 'poster' })
+    const routine = programPreviewRoutine(useStore.getState().S, key)
+    if (routine) startFlow(routine.id)
+  }
+  if (preview) return <section className="tv-program-detail" data-testid="tv-program-detail">
+    <CurrentSessionNotice />
+    <RoutinePosterPreview routine={preview} startDisabled={!!S.active}
+      onClose={() => { const next = new URLSearchParams(params); next.delete('day'); setParams(next); window.scrollTo(0, 0) }}
+      onStart={() => beginDay(params.get('day'))} />
+  </section>
   return <section className="card tv-ready-programs" data-testid="tv-ready-programs" aria-label="Ready-made workout programs">
     <div className="tv-eyebrow">READY-MADE PROGRAM</div>
     <h2>{MUSCLE_SPLIT.name}</h2>
     <p className="muted small">Back & Biceps → Chest & Triceps → Legs. Complete routines with rep ranges, exercise rest timers and editable progression.</p>
     <p className="small muted">{MUSCLE_SPLIT.equipment}.</p>
+    <CurrentSessionNotice />
+    <div className="tv-program-launchers" data-testid="tv-program-launchers">
+      {MUSCLE_SPLIT.days.map((day, index) => {
+        const routine = programPreviewRoutine(S, day.key)
+        return <article key={day.key} className="tv-program-launcher">
+          <span><strong>Day {index + 1} · {routine.name}</strong><span className="small muted">{routine.ex.length} exercises · {routine.ex.reduce((n, ex) => n + ex.sets, 0)} working sets</span></span>
+          <div><button type="button" className="btn" data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); window.scrollTo(0, 0) }}>View workout</button>
+            {days[index] && <button type="button" className="btn" onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>}
+            <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
+          </div>
+        </article>
+      })}
+    </div>
     <details className="tv-program-preview" data-testid="tv-program-preview">
       <summary>Preview all three workouts</summary>
       <p className="small"><strong>Warm-up:</strong> {MUSCLE_SPLIT.warmup}</p>
@@ -53,16 +105,6 @@ export default function ReadyPrograms() {
       {complete ? schedule === 'none' ? 'Program added' : 'Apply selected schedule' : 'Add this program'}
     </button>
     {receipt && <p className="small tv-program-receipt" role="status" data-testid="tv-program-receipt">{receipt}</p>}
-    {complete && <div className="tv-program-launchers" data-testid="tv-program-launchers">
-      {S.active && <p className="small">A workout is in progress. <button type="button" className="tv-text-action" onClick={() => nav('/workout')}>Resume current workout</button></p>}
-      {days.map((routine, index) => <div key={routine.id} className="tv-program-launcher">
-        <span><strong>Day {index + 1} · {routine.name}</strong><span className="small muted">{routine.ex.length} exercises</span></span>
-        <div><button type="button" className="btn" onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>
-          <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} disabled={!!S.active} onClick={() => {
-            if (useStore.getState().S.active) { nav('/workout'); return }
-            startFlow(routine.id)
-          }}>Start</button></div>
-      </div>)}
-    </div>}
+
   </section>
 }

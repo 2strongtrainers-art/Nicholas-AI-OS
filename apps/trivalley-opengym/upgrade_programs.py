@@ -43,4 +43,6 @@ edit('src/views/Workout.jsx', '    <div className="wprog">', '''    {A.tvWarmup 
 edit('src/views/Workout.jsx', '    <Media ex={ex} key={entry.id} compact={compact} minimizable />', '''    <Media ex={ex} key={entry.id} compact={compact} minimizable />
     {entry.target?.loadRequired && <div className="tv-load-note" data-testid="tv-working-load-note">Working target: {entry.target.sets} × {entry.target.repsMin}–{entry.target.reps} reps · {restForEntry(entry, S.restSec)}s rest. Choose your own working load; the initial zero is not a prescribed weight. Keep 2–3 good reps in reserve. For dumbbells, log one dumbbell’s weight consistently.</div>}''')
 edit('src/components/TrainingCompanion.jsx', "  const mode = modeOf(cfg), n = sets.length", "  const mode = modeOf(cfg), n = sets.length\n  if (cfg.loadRequired && sets.every(s => !(s.w > 0))) return `${n} × ${cfg.repsMin || cfg.reps}–${cfg.reps} reps · choose a working load`")
+edit('src/views/Home.jsx', '      <span className="tv-today-quiet">', '''      <button type="button" className="tv-text-action" data-testid="tv-browse-programs" onClick={() => nav('/plan')}>Browse ready-made workouts</button>
+      <span className="tv-today-quiet">''')
 print('Ready-made muscle split integrated; current routines, schedule conflicts and active sessions preserved')

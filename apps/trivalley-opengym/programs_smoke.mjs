@@ -44,7 +44,7 @@ try {
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url + '#/plan', {waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
-  await page.click('[data-testid="tv-program-preview"] summary');
+  await tapVisible('[data-testid="tv-program-preview"] summary');
   assert(await page.$$eval('.tv-program-day li', nodes => nodes.length === 16), 'Expected all 16 exercise prescriptions');
   for(const width of [320,390,430]) {
     await page.setViewport({width,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
@@ -59,6 +59,16 @@ try {
   });
   await page.reload({waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
+  // Workouts remain viewable while a real session is active, and preview is read-only.
+  const beforePreview = await page.evaluate(() => localStorage.getItem('gym_state_v1'));
+  for (const [index, count] of [5,6,5].entries()) {
+    await tapVisible('[data-testid="tv-preview-program-' + index + '"]');
+    await page.waitForSelector('[data-testid="tv-program-detail"]');
+    assert(await page.$$eval('[data-testid="tv-poster-movement"]', n => n.length) === count,'Missing prescribed exercises in preview '+index);
+    assert(await page.$eval('[data-testid="tv-poster-start"]', n=>n.disabled),'Preview allowed replacement of active session');
+    assert(await page.evaluate(() => localStorage.getItem('gym_state_v1')) === beforePreview,'Preview changed saved training data');
+    await tapVisible('[data-testid="tv-poster-back"]');
+  }
   await page.select('[data-testid="tv-program-schedule"]','mwf');
   await tapVisible('[data-testid="tv-add-program"]');
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length===4);
@@ -70,10 +80,25 @@ try {
   assert(await page.$$eval('[data-testid^="tv-start-program-"]',buttons=>buttons.length===3 && buttons.every(b=>b.disabled)), 'Starting a new day could overwrite an active workout');
   await tapVisible('[data-testid="tv-add-program"]');
   assert(await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')).routines.length===4),'Repeated add duplicated routines');
-  await page.evaluate(() => {const S=JSON.parse(localStorage.getItem('gym_state_v1'));S.active=null;localStorage.setItem('gym_state_v1',JSON.stringify(S))});
+  // Reproduce the owner's 58-hour empty Freestyle. Recovery must be explicit.
+  await page.evaluate(() => {const S=JSON.parse(localStorage.getItem('gym_state_v1'));S.active={id:'qa-empty-freestyle',name:'Freestyle',entries:[],cur:0,start:Date.now()-58*3600*1000};localStorage.setItem('gym_state_v1',JSON.stringify(S))});
+  await page.reload({waitUntil:'networkidle0'});
+  await tapVisible('[data-testid="tv-preview-program-0"]');
+  await page.waitForSelector('[data-testid="tv-program-detail"]');
+  assert(await page.$$eval('[data-testid="tv-poster-movement"]',n=>n.length)===5,'Empty active session hid program exercises');
+  await tapVisible('[data-testid="tv-close-empty-session"]');
+  await page.waitForFunction(()=>document.body.innerText.includes('Close empty Freestyle session?'));
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Cancel').click());
+  assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.id)==='qa-empty-freestyle','Cancel closed the session');
+  await tapVisible('[data-testid="tv-close-empty-session"]');
+  await page.waitForFunction(()=>document.body.innerText.includes('Close empty Freestyle session?'));
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Close empty session').click());
+  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active===null);
+  assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).workouts.length)===0,'Empty session polluted completed history');
+  await tapVisible('[data-testid="tv-poster-back"]');
   await page.reload({waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-program-launchers"]');
-  await page.click('[data-testid="tv-program-preview"] summary');
+  await tapVisible('[data-testid="tv-program-preview"] summary');
   await page.screenshot({path:screenshot,fullPage:true});
   await tapVisible('[data-testid="tv-start-program-0"]');
   await page.waitForFunction(() => document.body.innerText.includes('Quick check-in'));
@@ -95,7 +120,7 @@ try {
   const clock=await page.$eval('#timer .t',n=>n.textContent);
   assert(/^1:5\d$|^2:00$/.test(clock),'Exercise-specific 120-second rest not started: '+clock);
   assert(!errors.length,'Browser errors: '+errors.join('; '));
-  console.log(JSON.stringify({status:'READY_PROGRAMS_BROWSER_PASS',checks:['16 catalogue-backed prescriptions','320-430px preview','append-only install','occupied schedule preservation','active-workout protection','duplicate prevention','direct program start','warm-up guidance','working-load required','first load fills untouched sets','exercise rest timer']}));
+  console.log(JSON.stringify({status:'READY_PROGRAMS_BROWSER_PASS',checks:['16 catalogue-backed prescriptions','320-430px preview','append-only install','occupied schedule preservation','active-workout protection','read-only previews during active sessions','58-hour empty session recovery','cancel preserves session','empty session excluded from history','duplicate prevention','direct program start','warm-up guidance','working-load required','first load fills untouched sets','exercise rest timer']}));
 } catch(error) {
   console.error(JSON.stringify({errors,page:page?await page.evaluate(()=>document.body.innerText.slice(0,4500)).catch(()=>null):null}));
   if(page)await page.screenshot({path:screenshot,fullPage:true}).catch(()=>{});

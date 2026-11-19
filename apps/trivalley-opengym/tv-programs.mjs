@@ -36,6 +36,38 @@ export const MUSCLE_SPLIT = {
 }
 export const SCHEDULES = { none: [], mwf: [1, 3, 5], tts: [2, 4, 6] }
 
+export function templateRoutine(day, id = 'preview-' + day.key) {
+  return {
+    id, name: day.name, emoji: day.emoji, prog: 'double',
+    tvTemplate: { id: MUSCLE_SPLIT.id, version: MUSCLE_SPLIT.version, day: day.key },
+    tvWarmup: MUSCLE_SPLIT.warmup, tvEffort: MUSCLE_SPLIT.effort,
+    ex: day.exercises.map(([exerciseId, , sets, repsMin, reps, restSec]) => ({
+      id: exerciseId, sets, repsMin, reps, restSec, mode: 'reps', prog: 'double',
+      weight: 0, loadRequired: true
+    }))
+  }
+}
+
+// Preview never installs a program or changes an in-progress session.
+export function programPreviewRoutine(S, key) {
+  const day = MUSCLE_SPLIT.days.find(d => d.key === key)
+  if (!day) return null
+  return installedDays(S)[MUSCLE_SPLIT.days.indexOf(day)] || templateRoutine(day)
+}
+
+export function isEmptyFreestyle(active) {
+  return !!active && !active.routineId && Array.isArray(active.entries) &&
+    active.entries.length === 0 && !String(active.note || '').trim()
+}
+
+// Only the explicitly confirmed, still-empty session may be closed. Never create
+// a zero-set history record or remove a session that gained exercises or notes.
+export function closeEmptyFreestyle(S, expectedId) {
+  if (!expectedId || S.active?.id !== expectedId || !isEmptyFreestyle(S.active)) return false
+  S.active = null
+  return true
+}
+
 export function installedDays(S) {
   return MUSCLE_SPLIT.days.map(day => (S.routines || []).find(r => r.tvTemplate?.id === MUSCLE_SPLIT.id && r.tvTemplate.day === day.key) || null)
 }
@@ -55,15 +87,7 @@ export function addMuscleSplit(S, { makeId, schedule = 'none' } = {}) {
     const id = makeId()
     if (typeof id !== 'string' || !id || usedIds.has(id)) throw new Error('Routine ID must be unique')
     usedIds.add(id)
-    const routine = {
-      id, name: day.name, emoji: day.emoji, prog: 'double',
-      tvTemplate: { id: MUSCLE_SPLIT.id, version: MUSCLE_SPLIT.version, day: day.key },
-      tvWarmup: MUSCLE_SPLIT.warmup, tvEffort: MUSCLE_SPLIT.effort,
-      ex: day.exercises.map(([exerciseId, , sets, repsMin, reps, restSec]) => ({
-        id: exerciseId, sets, repsMin, reps, restSec, mode: 'reps', prog: 'double',
-        weight: 0, loadRequired: true
-      }))
-    }
+    const routine = templateRoutine(day, id)
     S.routines.push(routine); added++
     return routine
   })
