@@ -18,7 +18,7 @@ try{
  // Optional support is a real public payment link, with corresponding-source credit preserved.
  assert(await page.$eval('.tv-support-link',n=>n.textContent==='Donate'&&n.href==='https://donate.stripe.com/bJe3cw6LUfnw8Z1biqf3a02'&&n.target==='_blank'),'Donation header link');
  const clickText=async text=>{await page.evaluate(text=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);if(!b)throw Error('Button missing: '+text);b.click()},text)};
- const openCheckin=async()=>{await page.click('[data-testid="tv-log-bodyweight"]');await page.waitForSelector('[role="dialog"] #tv-bodyweight-value')};
+ const openCheckin=async()=>{await page.click('[data-testid="tv-log-bodyweight"]');await page.waitForSelector('[role="dialog"] #tv-bodyweight-value');await page.waitForFunction(()=>getComputedStyle(document.querySelector('[role="dialog"]')).transform==='none')};
  await openCheckin();
  assert(await page.$eval('#tv-bodyweight-value',n=>n.value===''),'Invented body-weight default');
  assert(await page.$eval('[role="dialog"] button.primary',n=>n.disabled),'Blank body weight can be saved');

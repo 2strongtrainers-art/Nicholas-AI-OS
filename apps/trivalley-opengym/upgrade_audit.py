@@ -61,7 +61,7 @@ edit('src/components/TrainingCompanion.jsx','Older logs have no recorded unit; c
 
 # One Home program guide, consistent titles, relevant progress chart.
 edit('src/views/Home.jsx','    {(!program || program.routine) && <TrainingBrief routineOverride={program?.routine} />}','    {!program && !S.active && <TrainingBrief />}')
-edit('src/views/Home.jsx','<Button icon="plus" onClick={loadStarterPlan}>Load starter plan</Button>','<Button icon="calendar" onClick={() => nav(\'/plan\')}>Choose a ready-made program</Button>')
+edit('src/views/Home.jsx','<Button icon="plus" onClick={loadStarterPlan}>Load starter plan</Button>','')
 edit('src/views/Home.jsx','        <Button icon="calendar" onClick={() => nav(\'/plan\')}>Build my plan</Button>','')
 edit('src/views/Home.jsx','      <img src="./assets/tv-coach-portrait.webp" width="72" height="72" alt="Nick Kaplan, your TriValley.fit coach" style={{ objectFit: \'cover\', borderRadius: 14, float: \'right\', margin: \'0 0 12px 14px\' }} />','      <img className="tv-coach-mark" src="./trivalley-triquetra.png" width="44" height="44" alt="TriValley.fit Trinity knot" />')
 edit('src/views/Plan.jsx',"<h1>{t('Plan')}</h1>","<h1>Programs</h1>")
