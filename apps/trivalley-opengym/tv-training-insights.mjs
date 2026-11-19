@@ -12,8 +12,10 @@ export function shiftDay(day, offset) {
 }
 export function routineOn(S, day) {
   if (!validDay(day)) return null
-  const id = Object.hasOwn(S.dayPlan || {}, day)
-    ? S.dayPlan[day] : S.week?.[new Date(day + 'T12:00:00Z').getUTCDay()]
+  const override = S.dayPlan?.[day]
+  if (override === 'rest') return null
+  const validOverride = (S.routines || []).some(r => r.id === override)
+  const id = validOverride ? override : S.week?.[new Date(day + 'T12:00:00Z').getUTCDay()]
   return (S.routines || []).find(r => r.id === id && r.ex?.length) || null
 }
 export function nextSession(S, today) {

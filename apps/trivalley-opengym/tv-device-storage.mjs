@@ -26,6 +26,7 @@ export function backupSummary(metadata, state, now = Date.now()) {
   const saved = metadata.confirmed
   if (!saved) return { due: true, label: 'No backup confirmed' }
   const changed = (state.workouts || []).some(w => (w.end || 0) > saved.at)
+  const stateChanged = (state._ts || 0) > (saved.stateTs || 0)
   const old = now - saved.at >= 7 * 86400000
-  return { due: changed || old, label: changed ? 'New workouts need a backup' : old ? 'Weekly backup due' : 'Backup confirmed by you' }
+  return { due: changed || stateChanged || old, label: changed ? 'New workouts need a backup' : stateChanged ? 'Changes need a fresh backup' : old ? 'Weekly backup due' : 'Backup confirmed by you' }
 }

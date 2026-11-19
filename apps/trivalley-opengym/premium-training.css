@@ -7,6 +7,7 @@
   --bg:#f4f1ea; --bg-el:#fcfaf5; --surface:#ffffff; --surface-2:#e9e5dc; --surface-3:#d9d4c9;
   --label:#191a1c; --label-2:#555249; --label-3:#625e54; --label-4:#726e64;
   --sep:#c8c1b2; --acc:#725319; --acc-2:#61430c; --on-acc:#ffffff;
+  --red:#b42318;
 }
 .tv-device-status {display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:760px;margin:4px auto 16px;padding:12px 14px;border:1px solid var(--sep);border-radius:12px;background:var(--surface);font-size:12px}
 .tv-device-status strong,.tv-device-status span {display:block}
@@ -45,6 +46,7 @@
 :root[data-tv-style="premium"] .tv-filter-sheet,:root[data-tv-style="premium"] .tv-filter-sheet .tv-sheet-heading {background:var(--surface);color:var(--label);border-color:var(--sep)}
 :root[data-tv-style="premium"] .tv-filter-sheet .tv-sheet-close,:root[data-tv-style="premium"] .tv-filter-sheet .tv-filter-select {background:var(--surface-2);color:var(--label);border-color:var(--acc-line)}
 :root[data-tv-style="premium"] .tv-filter-sheet .tv-field-label {color:var(--label)}
+:root[data-tv-style="premium"] .tv-filter-sheet .tv-clear-all {color:var(--acc);background:var(--acc-soft);border-color:var(--acc-line)}
 :root[data-tv-style="premium"] .tv-filter-sheet .tv-done-filters {background:var(--acc);color:var(--on-acc);box-shadow:0 -10px 22px var(--surface)}
 :root[data-tv-style="premium"] .tv-v4-topbar button:focus-visible,:root[data-tv-style="premium"] .tv-v4-topbar a:focus-visible,:root[data-tv-style="premium"] .tv-filter-sheet .tv-filter-select:focus-visible,:root[data-tv-style="premium"] .tv-filter-sheet .tv-clear-all:focus-visible {outline-color:var(--acc)!important}
 @media(max-width:360px) {.tv-device-status{padding:10px;gap:8px}.tv-progress-grid{gap:6px}.tv-progress-grid div{padding:12px 4px}}

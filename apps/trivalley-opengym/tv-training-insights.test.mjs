@@ -21,6 +21,7 @@ test('next session respects rest overrides, missing routines and one-off schedul
   assert.equal(nextSession(S, day).day, '2026-11-21')
   assert.equal(routineOn({ ...plan, week: { 4: 'missing' } }, day), null)
   assert.equal(nextSession({ ...plan, week: {} }, day), null)
+  assert.equal(routineOn({ ...plan, dayPlan: { '2026-11-20': 'deleted-routine' } }, '2026-11-20').id, 'a')
 })
 test('summary uses complete sets, ignores duplicate/future/empty records and compares exact seven-day windows', () => {
   const S = { ...plan, workouts: [workout('a', '2026-11-17', [set(), set(50, 5, false)]), workout('a', '2026-11-17'), workout('old', '2026-11-12'), workout('edge', '2026-11-13'), workout('future', '2026-11-20'), workout('empty', day, []), workout('bad', '2026-02-30')] }
@@ -67,6 +68,7 @@ test('preparing a file never confirms a backup and confirmation rejects stale ex
   assert.throws(() => confirmBackup(storage, { ...state, _ts: 11 }))
   confirmBackup(storage, state, 102)
   assert.equal(backupSummary(readBackup(storage), state, 103).due, false)
+  assert.equal(backupSummary(readBackup(storage), { ...state, _ts: 11 }, 103).label, 'Changes need a fresh backup')
   assert.equal(backupSummary(readBackup(storage), { workouts: [{ end: 104 }] }, 105).label, 'New workouts need a backup')
   assert.equal(backupSummary(readBackup(storage), state, 100 + 7 * 86400000).label, 'Weekly backup due')
 })
