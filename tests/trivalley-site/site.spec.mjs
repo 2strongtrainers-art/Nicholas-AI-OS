@@ -130,6 +130,20 @@ for (const guide of guides) {
   });
 }
 
+// This business toolkit is sold through its own Wix product page, not the fitness-guide gallery.
+// Keep the check read-only on every run; never add to cart, create orders, or trigger buyer email.
+test("Inquiry Desk has a live $59 Wix digital-product page", async ({ page }) => {
+  const product = {
+    name: "Inquiry Desk | 7-Day Booking Follow-Up Kit",
+    slug: "inquiry-desk-7-day-booking-follow-up-kit",
+  };
+  await openProduct(page, product);
+  const price = page.locator('[data-hook="product-prices-wrapper"]');
+  await expect(price.getByText("$59.00", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Add to Cart", exact: true }))
+    .toBeEnabled();
+});
+
 test("the Dumbbell guide can enter a temporary cart and reach the checkout control", async ({ page }) => {
   test.skip(process.env.TRIVALLEY_READ_ONLY === "1", "Scheduled checks leave carts empty");
   await openProduct(page, guides[0]);
