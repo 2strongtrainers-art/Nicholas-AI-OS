@@ -45,8 +45,7 @@ jobs:
           assert struct.unpack('>II', raw[16:24]) == (72,72), 'Expected 72px reviewed triquetra'
           print('Brand source SHA-256:', hashlib.sha256(raw).hexdigest())
           PY
-          cp apps/trivalley-opengym/branding/icon-192.png upstream/frontend/public/icon-192.png
-          cp apps/trivalley-opengym/branding/icon-512.png upstream/frontend/public/icon-512.png
+          cp apps/trivalley-opengym/branding/*.png upstream/frontend/public/
       - name: Test deterministic exercise discovery and validated backup recovery
         run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs
       - name: Install locked dependencies
@@ -97,3 +96,4 @@ jobs:
           path: upstream/frontend/dist/
           retention-days: 7
           if-no-files-found: error
+

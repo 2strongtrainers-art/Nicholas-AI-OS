@@ -18,6 +18,16 @@ manifest = json.loads((dist / "manifest.json").read_text())
 if "TriValley FIT" not in html or manifest.get("name") != "TriValley FIT Training":
     raise SystemExit("Branding is missing from real OpenGym build")
 
+# Verify the actual Apple touch icon and every installation image before release.
+touch_name = "apple-touch-icon-trinity-20261119.png"
+icon_files = [touch_name] + [icon["src"] for icon in manifest["icons"]]
+if not re.search(r'<link(?=[^>]*rel="apple-touch-icon")(?=[^>]*sizes="180x180")(?=[^>]*href="' + re.escape(touch_name) + r'")[^>]*>', html):
+    raise SystemExit("Missing explicit 180px Trinity Apple touch icon")
+for filename, width in [(touch_name, 180), ("icon-192-trinity-20261119.png", 192), ("icon-512-trinity-20261119.png", 512)]:
+    raw = (dist / filename).read_bytes()
+    if not raw.startswith(b"\x89PNG\r\n\x1a\n") or int.from_bytes(raw[16:20], "big") != width or int.from_bytes(raw[20:24], "big") != width:
+        raise SystemExit("Invalid installation icon: " + filename)
+
 assets = sorted(str(p.relative_to(dist)).replace("\\", "/") for p in (dist / "assets").rglob("*") if p.is_file())
 if not assets or not any(x.endswith(".js") for x in assets):
     raise SystemExit("Missing Vite compiled React asset(s)")
@@ -60,8 +70,9 @@ release = {
 core = ["./", "./index.html", "./tv-release.json", "./manifest.json", "./icon-192.png",
         "./icon-512.png", "./trivalley-exercise.svg", "./trivalley-triquetra.png",
         "./" + entry_js[0], "./" + entry_css[0]]
+core += ["./" + path for path in icon_files if "./" + path not in core]
 extras = ["./" + x for x in assets if x not in entry_js + entry_css]
-fingerprint = hashlib.sha256(("|".join(assets) + bundle[:500]).encode()).hexdigest()[:12]
+fingerprint = hashlib.sha256(("|".join(assets) + bundle[:500] + "|".join(hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files)).encode()).hexdigest()[:12]
 worker = """
 const CACHE = 'trivalley-open-gym-v2-%s';
 const CORE = %s;
@@ -117,3 +128,4 @@ print(json.dumps({
     "media":"original generic SVG only; no third-party exercise GIFs",
     "source":"https://github.com/alexpcosta/opengym"
 }))
+

@@ -113,15 +113,17 @@ replace_exact("src/App.jsx",
 replace_exact("src/views/Home.jsx", ": 'openGym'", ": 'TriValley FIT'")
 
 html = front / "index.html"
-page = html.read_text().replace("openGym", "TriValley FIT").replace("Personal gym & body weight tracker", "Free TriValley.fit strength, cardio and workout tracker").replace("icon-180.png", "icon-192.png")
+page = html.read_text().replace("openGym", "TriValley FIT").replace("Personal gym & body weight tracker", "Free TriValley.fit strength, cardio and workout tracker").replace("icon-180.png", "apple-touch-icon-trinity-20261119.png")
+page = page.replace('rel="apple-touch-icon"', 'rel="apple-touch-icon" sizes="180x180"')
+page = page.replace('rel="icon" type="image/png" href="apple-touch-icon-trinity-20261119.png"', 'rel="icon" type="image/png" href="icon-192-trinity-20261119.png"')
 html.write_text(page)
 
 manifest_path = front / "public/manifest.json"
 manifest = json.loads(manifest_path.read_text())
 manifest.update(name="TriValley FIT Training", short_name="TriValley", description="Free local-first workout planner and progress tracker", id="./", start_url="./", scope="./", theme_color="#0c0e12")
 manifest["icons"] = [
-    {"src":"icon-192.png", "sizes":"192x192", "type":"image/png", "purpose":"any"},
-    {"src":"icon-512.png", "sizes":"512x512", "type":"image/png", "purpose":"any maskable"}
+    {"src":"icon-192-trinity-20261119.png", "sizes":"192x192", "type":"image/png", "purpose":"any"},
+    {"src":"icon-512-trinity-20261119.png", "sizes":"512x512", "type":"image/png", "purpose":"any maskable"}
 ]
 manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
 
@@ -315,3 +317,4 @@ replace_exact(
 )
 
 print("TriValley original-source modifications applied; real OpenGym logic retained.")
+
