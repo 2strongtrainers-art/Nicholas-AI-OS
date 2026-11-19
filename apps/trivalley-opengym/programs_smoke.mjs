@@ -32,6 +32,7 @@ try {
   page = await browser.newPage();
   page.on('pageerror', e => errors.push(e.message));
   const tapVisible = async selector => {
+    await page.waitForSelector(selector, {visible:true,timeout:10000});
     await page.$eval(selector, button => button.scrollIntoView({block:'center',inline:'nearest'}));
     await page.waitForFunction(selector => {
       const button=document.querySelector(selector), r=button?.getBoundingClientRect();
@@ -68,6 +69,7 @@ try {
     assert(await page.$eval('[data-testid="tv-poster-start"]', n=>n.disabled),'Preview allowed replacement of active session');
     assert(await page.evaluate(() => localStorage.getItem('gym_state_v1')) === beforePreview,'Preview changed saved training data');
     await tapVisible('[data-testid="tv-poster-back"]');
+    await page.waitForSelector('[data-testid="tv-ready-programs"]');
   }
   await page.select('[data-testid="tv-program-schedule"]','mwf');
   await tapVisible('[data-testid="tv-add-program"]');
@@ -96,6 +98,7 @@ try {
   await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active===null);
   assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).workouts.length)===0,'Empty session polluted completed history');
   await tapVisible('[data-testid="tv-poster-back"]');
+    await page.waitForSelector('[data-testid="tv-ready-programs"]');
   await page.reload({waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-program-launchers"]');
   await tapVisible('[data-testid="tv-program-preview"] summary');
