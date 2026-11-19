@@ -18,6 +18,9 @@ edit('src/views/Settings.jsx',"options={[{ value: 'kg', label: 'kg' }, { value: 
 edit('src/components/ui.jsx',"aria-pressed={o.value === value}\n          onClick", "aria-pressed={o.value === value}\n          disabled={!!o.disabled}\n          onClick")
 edit('src/components/ui.jsx',"export function Check({ checked, onChange, className = '', size })", "export function Check({ checked, onChange, className = '', size, 'aria-label': label = 'Set completed' })")
 edit('src/components/ui.jsx','role="checkbox"\n      aria-checked', 'role="checkbox"\n      aria-label={label}\n      aria-checked')
+edit('src/components/ui.jsx','aria-label="Decrease"','aria-label={\'Decrease \' + (label || \'value\')}')
+edit('src/components/ui.jsx','aria-label="Increase"','aria-label={\'Increase \' + (label || \'value\')}')
+edit('src/components/ui.jsx','<NumberField value={value} decimal={decimal} onChange={onChange} />','<NumberField aria-label={label || \'Numeric value\'} value={value} decimal={decimal} onChange={onChange} />')
 
 # Intentional body-weight entry: no fabricated default and no forced check-in.
 edit('src/sheets.jsx',"Button, Slider, Switch, Segmented, SelectRow, TextArea", "Button, Slider, Switch, Segmented, SelectRow, TextArea, NumberField")
