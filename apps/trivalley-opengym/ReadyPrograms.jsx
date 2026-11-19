@@ -4,8 +4,8 @@ import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
 import { uid, DAYN } from '../lib/format.js'
 import { startFlow, confirmSheet } from '../sheets.jsx'
-import { MUSCLE_SPLIT, installedDays, addMuscleSplit, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from '../lib/tv-programs.js'
-
+import { MUSCLE_SPLIT, installedDays, addMuscleSplit, programPosition, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from '../lib/tv-programs.js'
+import { ProgramCover } from './ProgramContinue.jsx'
 import { RoutinePosterPreview } from './WorkoutPoster.jsx'
 
 function CurrentSessionNotice() {
@@ -38,7 +38,7 @@ export default function ReadyPrograms() {
   const preview = programPreviewRoutine(S, params.get('day'))
   const [schedule, setSchedule] = useState('none')
   const [receipt, setReceipt] = useState('')
-  const days = installedDays(S), complete = days.every(Boolean)
+  const days = installedDays(S), complete = days.every(Boolean), position = programPosition(S)
   const add = () => {
     try {
       let result
@@ -61,25 +61,45 @@ export default function ReadyPrograms() {
       onStart={() => beginDay(params.get('day'))} />
   </section>
   return <section className="card tv-ready-programs" data-testid="tv-ready-programs" aria-label="Ready-made workout programs">
-    <div className="tv-eyebrow">READY-MADE PROGRAM</div>
+    <div className="tv-eyebrow">TRAIN WITH NICK</div>
     <h2>{MUSCLE_SPLIT.name}</h2>
-    <p className="muted small">Back & Biceps → Chest & Triceps → Legs. Complete routines with rep ranges, exercise rest timers and editable progression.</p>
-    <p className="small muted">{MUSCLE_SPLIT.equipment}.</p>
-    <CurrentSessionNotice />
-    <div className="tv-program-launchers" data-testid="tv-program-launchers">
+    <p className="muted small">Three complete workouts. Choose your days, then make the next session count.</p>
+    <div className="tv-program-setup">
+      <label className="tv-program-schedule">Choose a schedule
+        <select data-testid="tv-program-schedule" value={schedule} onChange={e => setSchedule(e.target.value)}>
+          <option value="none">Routines only — choose days later</option>
+          <option value="mwf">Monday / Wednesday / Friday</option>
+          <option value="tts">Tuesday / Thursday / Saturday</option>
+        </select>
+      </label>
+      <button type="button" className="btn primary" data-testid="tv-add-program" disabled={complete && schedule === 'none'} onClick={add}>
+        {complete ? schedule === 'none' ? 'Program added' : 'Apply selected schedule' : 'Add this program'}
+      </button>
+      {receipt && <p className="small tv-program-receipt" role="status" data-testid="tv-program-receipt">{receipt}</p>}
+      <CurrentSessionNotice />
+      {!complete && <p className="small muted">Start a day now, or add and schedule all three. Existing routines and occupied days are kept.</p>}
+    </div>
+    <div className="tv-program-covers" data-testid="tv-program-launchers">
       {MUSCLE_SPLIT.days.map((day, index) => {
         const routine = programPreviewRoutine(S, day.key)
-        return <article key={day.key} className="tv-program-launcher">
-          <span><strong>Day {index + 1} · {routine.name}</strong><span className="small muted">{routine.ex.length} exercises · {routine.ex.reduce((n, ex) => n + ex.sets, 0)} working sets</span></span>
-          <div><button type="button" className="btn" data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); window.scrollTo(0, 0) }}>View workout</button>
-            {days[index] && <button type="button" className="btn" onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>}
-            <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
+        return <article key={day.key} className="tv-program-cover-card" data-testid="tv-program-cover-card">
+          <ProgramCover dayKey={day.key} title={day.name} index={index} />
+          <div className="tv-program-card-body">
+            <div className="tv-program-card-kicker">DAY {index + 1}{routine && position?.routine?.id === routine.id && !S.active && <span>UP NEXT</span>}</div>
+            <h3>{routine?.name || day.name}</h3>
+            <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises{day.note ? ' · ' + day.note : ''}</p>
+            <div className="tv-program-card-buttons">
+              <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} aria-label={'Start ' + (routine?.name || day.name)} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
+              <button type="button" className="btn" data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); window.scrollTo(0, 0) }}>View workout</button>
+              {days[index] && <button type="button" className="tv-text-action" aria-label={'Edit ' + routine.name} onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>}
+            </div>
           </div>
         </article>
       })}
     </div>
     <details className="tv-program-preview" data-testid="tv-program-preview">
-      <summary>Preview all three workouts</summary>
+      <summary>View all exercises and training guidance</summary>
+      <p className="small muted">{MUSCLE_SPLIT.equipment}.</p>
       <p className="small"><strong>Warm-up:</strong> {MUSCLE_SPLIT.warmup}</p>
       {MUSCLE_SPLIT.days.map((day, index) => <article key={day.key} className="tv-program-day">
         <h3>Day {index + 1} · {day.name}</h3>
@@ -93,18 +113,5 @@ export default function ReadyPrograms() {
       <p className="muted small">{MUSCLE_SPLIT.frequency} This is a general gym template, not an individual assessment.</p>
       <a className="small" href={MUSCLE_SPLIT.source} target="_blank" rel="noopener noreferrer">Read ACSM’s training principles</a>
     </details>
-    <label className="tv-program-schedule">Choose a schedule
-      <select data-testid="tv-program-schedule" value={schedule} onChange={e => setSchedule(e.target.value)}>
-        <option value="none">Routines only — choose days later</option>
-        <option value="mwf">Monday / Wednesday / Friday</option>
-        <option value="tts">Tuesday / Thursday / Saturday</option>
-      </select>
-    </label>
-    <p className="small muted">Adds routines alongside yours. Scheduling fills empty selected days and keeps existing assignments. Your current workout and logs stay in place.</p>
-    <button type="button" className="btn primary" data-testid="tv-add-program" disabled={complete && schedule === 'none'} onClick={add}>
-      {complete ? schedule === 'none' ? 'Program added' : 'Apply selected schedule' : 'Add this program'}
-    </button>
-    {receipt && <p className="small tv-program-receipt" role="status" data-testid="tv-program-receipt">{receipt}</p>}
-
   </section>
 }

@@ -1,0 +1,31 @@
+{
+  "kind": "owner-authorized generated decorative program covers",
+  "date": "2026-11-19",
+  "notMovementInstructions": true,
+  "assets": [
+    {
+      "key": "back-biceps",
+      "path": "assets/tv-cover-back-biceps-20261119.webp",
+      "width": 960,
+      "height": 540,
+      "sha256": "eccc2dfefc208192ce668d685f4b15e8dbbb46ae34a11c895231c0105dd897a4",
+      "bytes": 29686
+    },
+    {
+      "key": "chest-triceps",
+      "path": "assets/tv-cover-chest-triceps-20261119.webp",
+      "width": 960,
+      "height": 540,
+      "sha256": "d45baf9643a49a79c1e1d5d9c06838b7af463934559e8487eb272e6aefb713da",
+      "bytes": 33054
+    },
+    {
+      "key": "legs",
+      "path": "assets/tv-cover-legs-20261119.webp",
+      "width": 960,
+      "height": 540,
+      "sha256": "5ad2d31815180c59e480088429791cbc9f15edc369b7ef8634b6fca396247b76",
+      "bytes": 41914
+    }
+  ]
+}

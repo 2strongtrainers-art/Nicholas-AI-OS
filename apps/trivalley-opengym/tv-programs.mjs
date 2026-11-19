@@ -36,6 +36,12 @@ export const MUSCLE_SPLIT = {
 }
 export const SCHEDULES = { none: [], mwf: [1, 3, 5], tts: [2, 4, 6] }
 
+export const PROGRAM_COVERS = {
+  'back-biceps': './assets/tv-cover-back-biceps-20261119.webp',
+  'chest-triceps': './assets/tv-cover-chest-triceps-20261119.webp',
+  legs: './assets/tv-cover-legs-20261119.webp'
+}
+
 export function templateRoutine(day, id = 'preview-' + day.key) {
   return {
     id, name: day.name, emoji: day.emoji, prog: 'double',
@@ -70,6 +76,26 @@ export function closeEmptyFreestyle(S, expectedId) {
 
 export function installedDays(S) {
   return MUSCLE_SPLIT.days.map(day => (S.routines || []).find(r => r.tvTemplate?.id === MUSCLE_SPLIT.id && r.tvTemplate.day === day.key) || null)
+}
+
+// Rotation follows finished program sessions, never the calendar or the active session.
+// New logs retain a template tag; existing logs can resolve through their saved routine ID.
+export function programPosition(S, now = Date.now()) {
+  const days = installedDays(S)
+  if (!days.some(Boolean)) return null
+  let last = null, lastIndex = -1, lastTime = -1
+  for (const workout of S.workouts || []) {
+    if (!Number.isFinite(workout.end) || workout.end <= 0 || workout.end > now ||
+        !(workout.entries || []).some(e => e.sets?.some(set => set.done === true))) continue
+    const routine = (S.routines || []).find(r => r.id === workout.routineId)
+    const tag = workout.tvTemplate?.id === MUSCLE_SPLIT.id ? workout.tvTemplate : routine?.tvTemplate
+    if (tag?.id !== MUSCLE_SPLIT.id) continue
+    const index = MUSCLE_SPLIT.days.findIndex(day => day.key === tag.day)
+    if (index < 0 || workout.end < lastTime) continue
+    last = workout; lastIndex = index; lastTime = workout.end
+  }
+  const index = (lastIndex + 1) % MUSCLE_SPLIT.days.length
+  return { index, day: MUSCLE_SPLIT.days[index], routine: days[index], last, missing: !days[index], days }
 }
 
 // Called inside the existing store's cloned-draft update. Append only; never replace an

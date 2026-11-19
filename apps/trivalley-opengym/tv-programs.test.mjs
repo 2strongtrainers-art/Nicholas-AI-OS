@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
-import { MUSCLE_SPLIT, installedDays, addMuscleSplit, restForEntry, needsWorkingLoad, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from './tv-programs.mjs'
+import { MUSCLE_SPLIT, installedDays, addMuscleSplit, restForEntry, needsWorkingLoad, programPosition, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from './tv-programs.mjs'
 import { serializeWorkoutBackup, parseWorkoutBackup } from './tv-backup.mjs'
 import { durationRange } from './tv-training-insights.mjs'
 
@@ -36,6 +36,53 @@ test('closing a confirmed empty freestyle preserves all other data and rejects c
   assert.equal(S.active, null)
   for (const key of ['routines', 'workouts', 'bodyweight', 'week', 'dayPlan']) assert.deepEqual(S[key], before[key])
   assert.equal(closeEmptyFreestyle(S, 'in-progress'), false)
+})
+
+test('program sequence starts at day one and ignores schedule, active sessions and unrelated logs', () => {
+  const S = fresh()
+  assert.equal(programPosition(S, 1000), null)
+  addMuscleSplit(S, { makeId: generator() })
+  S.workouts.push({ id: 'other', routineId: 'mine', end: 800, entries: [{ sets: [{ done: true }] }] })
+  assert.equal(programPosition(S, 1000).index, 0)
+  assert.equal(programPosition(S, 1000).routine.name, 'Back & Biceps')
+})
+test('sequence follows actual finished sessions across missed days, advances and wraps after legs', () => {
+  const S = fresh(); addMuscleSplit(S, { makeId: generator(), schedule: 'mwf' })
+  const days = installedDays(S), snapshot = structuredClone(S.week)
+  S.workouts.push({ routineId: days[0].id, end: 100, entries: [{ sets: [{ done: true }] }] })
+  assert.equal(programPosition(S, 10000000).index, 1)
+  S.workouts.push({ routineId: days[1].id, end: 200, entries: [{ sets: [{ done: true }] }] })
+  assert.equal(programPosition(S, 10000000).index, 2)
+  S.workouts.push({ routineId: days[2].id, end: 300, entries: [{ sets: [{ done: true }] }] })
+  assert.equal(programPosition(S, 10000000).index, 0)
+  assert.deepEqual(S.week, snapshot)
+})
+test('sequence rejects unfinished, future and empty logs and selects the latest valid finish', () => {
+  const S = fresh(); addMuscleSplit(S, { makeId: generator() }); const days = installedDays(S)
+  S.workouts = [
+    { routineId: days[2].id, end: 1001, entries: [{ sets: [{ done: true }] }] },
+    { routineId: days[0].id, end: 300, entries: [{ sets: [{ done: true }] }] },
+    { routineId: days[1].id, end: 200, entries: [{ sets: [{ done: true }] }] },
+    { routineId: days[2].id, end: 400, entries: [{ sets: [{ done: false }] }] },
+    { routineId: days[2].id, entries: [{ sets: [{ done: true }] }] }
+  ]
+  assert.equal(programPosition(S, 1000).index, 1)
+})
+test('saved template tags survive a deleted/re-added routine; missing next days are not silently skipped', () => {
+  const S = fresh(), makeId = generator(); addMuscleSplit(S, { makeId }); const days = installedDays(S)
+  S.workouts.push({ routineId: 'old-deleted-id', tvTemplate: { id: MUSCLE_SPLIT.id, day: 'back-biceps' }, end: 100, entries: [{ sets: [{ done: true }] }] })
+  S.routines = S.routines.filter(r => r.id !== days[1].id)
+  assert.equal(programPosition(S, 1000).missing, true)
+  assert.equal(programPosition(S, 1000).index, 1)
+  addMuscleSplit(S, { makeId })
+  assert.equal(programPosition(S, 1000).routine.name, 'Chest & Triceps')
+})
+
+test('verified backup restore retains the exact program continuation point', async () => {
+  const S = fresh(); addMuscleSplit(S, { makeId: generator() })
+  S.workouts.push({ id: 'qa-finish', d: '2026-11-19', end: 100, tvTemplate: { id: MUSCLE_SPLIT.id, day: 'back-biceps' }, entries: [{ id: '2330', sets: [{ w: 25, r: 12, done: true }] }] })
+  const restored = await parseWorkoutBackup(await serializeWorkoutBackup(S))
+  assert.equal(programPosition(restored.state, 1000).routine.id, programPosition(S, 1000).routine.id)
 })
 
 test('adds three ordered, editable routines without changing the active session, overrides, records or existing routine', () => {
