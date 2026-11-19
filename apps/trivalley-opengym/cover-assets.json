@@ -1,31 +1,31 @@
 {
-  "kind": "owner-authorized generated decorative program covers",
+  "kind": "Revised exact-exercise illustrations reused as decorative program covers",
   "date": "2026-11-19",
   "notMovementInstructions": true,
   "assets": [
     {
       "key": "back-biceps",
-      "path": "assets/tv-cover-back-biceps-20261119.webp",
-      "width": 960,
-      "height": 540,
-      "sha256": "eccc2dfefc208192ce668d685f4b15e8dbbb46ae34a11c895231c0105dd897a4",
-      "bytes": 29686
+      "path": "assets/tv-movement-2330-20261119-v2.webp",
+      "width": 1200,
+      "height": 800,
+      "sha256": "f4487d4f35d0b1807a15e700572cb4ff7840c5ba9de812cf27b6cd02b669b028",
+      "bytes": 109404
     },
     {
       "key": "chest-triceps",
-      "path": "assets/tv-cover-chest-triceps-20261119.webp",
-      "width": 960,
-      "height": 540,
-      "sha256": "d45baf9643a49a79c1e1d5d9c06838b7af463934559e8487eb272e6aefb713da",
-      "bytes": 33054
+      "path": "assets/tv-movement-0314-20261119-v2.webp",
+      "width": 1200,
+      "height": 800,
+      "sha256": "383cc927679f762b9d311f1b9b42b5b0c512ade4fb8af6742d4a679c522fa860",
+      "bytes": 138724
     },
     {
       "key": "legs",
-      "path": "assets/tv-cover-legs-20261119.webp",
-      "width": 960,
-      "height": 540,
-      "sha256": "5ad2d31815180c59e480088429791cbc9f15edc369b7ef8634b6fca396247b76",
-      "bytes": 41914
+      "path": "assets/tv-movement-1459-20261119-v2.webp",
+      "width": 1200,
+      "height": 800,
+      "sha256": "287a20df652307b79fa355d2aff25a4f0fb0b03584ec8753717db2ab818fe295",
+      "bytes": 107220
     }
   ]
 }

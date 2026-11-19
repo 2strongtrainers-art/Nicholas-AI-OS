@@ -16,6 +16,36 @@ const aliases = ex => {
   return out
 }
 export const normalizeQuery = expand
+// Suggestions only, after zero exact results. One edit on words of 4+ letters,
+// deterministic ordering, no fuzzy replacement of the actual matching results.
+function oneEdit(a,b) {
+  if (Math.abs(a.length-b.length)>1) return false
+  let i=0,j=0,edits=0
+  while(i<a.length && j<b.length) {
+    if(a[i]===b[j]) {i++;j++;continue}
+    if(++edits>1) return false
+    if(a.length>=b.length)i++
+    if(b.length>=a.length)j++
+  }
+  return edits+(i<a.length || j<b.length ? 1:0)===1
+}
+export function suggestExerciseQuery(exercises, query) {
+  const q=expand(query), tokens=q.split(' ')
+  if(q.length<4 || q.length>60 || tokens.length>6) return null
+  const vocabulary=[...new Set(exercises.flatMap(e=>expand(e.n).split(' ')))].sort()
+  const candidates=[]
+  for(let i=0;i<tokens.length;i++) {
+    if(tokens[i].length<4 || vocabulary.includes(tokens[i]))continue
+    for(const word of vocabulary) {
+      if(!oneEdit(tokens[i],word))continue
+      const fixed=tokens.map((t,j)=>i===j?word:t).join(' ')
+      const matches=exercises.filter(e=>scoreExercise(e,fixed)>=80)
+      if(matches.length)candidates.push({fixed,score:Math.max(...matches.map(e=>scoreExercise(e,fixed)))})
+    }
+  }
+  candidates.sort((a,b)=>b.score-a.score || a.fixed.localeCompare(b.fixed))
+  return candidates[0]?.fixed || null
+}
 export function scoreExercise(ex, query) {
   const q = expand(query)
   if (!q) return 1

@@ -11,7 +11,7 @@ manifest = json.loads((Path(__file__).parent / 'cover-assets.json').read_text())
 base = 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
 for asset in manifest['assets']:
     name = asset['path']
-    if not name.startswith('assets/tv-cover-') or '/' in name[len('assets/'):] or not name.endswith('.webp'):
+    if not name.startswith('assets/tv-movement-') or '/' in name[len('assets/'):] or not name.endswith('.webp'):
         raise SystemExit('Unexpected cover path')
     data = urllib.request.urlopen(base + name, timeout=25).read()
     if hashlib.sha256(data).hexdigest() != asset['sha256'] or data[:4] != b'RIFF' or data[8:12] != b'WEBP':

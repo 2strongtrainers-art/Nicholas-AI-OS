@@ -53,7 +53,7 @@ try {
   for(let i=0;i<3;i++){
     const selector=`[data-testid="tv-program-cover-card"]:nth-child(${i+1}) .tv-program-art-photo`;
     await page.$eval(selector,n=>n.scrollIntoView({block:'center'}));
-    await page.waitForFunction(selector=>{const n=document.querySelector(selector);return n.complete&&n.naturalWidth===960},{timeout:10000},selector);
+    await page.waitForFunction(selector=>{const n=document.querySelector(selector);return n.complete&&n.naturalWidth===1200},{timeout:10000},selector);
   }
   assert(await page.evaluate(()=>document.querySelector('[data-testid="tv-program-launchers"]').compareDocumentPosition(document.querySelector('[data-testid="tv-program-preview"]'))&Node.DOCUMENT_POSITION_FOLLOWING),'Start controls are after the long exercise preview');
   await page.evaluate(()=>{localStorage.setItem('tv_daily_verse_enabled_v1','false')});
@@ -92,14 +92,14 @@ try {
   await page.$eval('.setrow [role="checkbox"]',b=>b.click());
   await page.click('button[aria-label="Finish"]');
   await page.waitForFunction(()=>document.body.innerText.includes('Finish early?'));
-  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Finish workout').click());
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Save partial workout').click());
   await page.waitForFunction(()=>!JSON.parse(localStorage.getItem('gym_state_v1')).active);
   const finished=await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).workouts[0]);
   assert(finished.tvTemplate?.day==='back-biceps','Finished record lost its template tag');
   await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent==='Nice!').click());
-  await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Chest & Triceps');
+  await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Back & Biceps');
   await page.reload({waitUntil:'networkidle0'});
-  await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Chest & Triceps');
+  await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Back & Biceps');
   assert(await page.evaluate(()=>Object.keys(JSON.parse(localStorage.getItem('gym_state_v1')).week).length===0),'Rotation overwrote the calendar');
   await page.evaluate(()=>{location.hash='#/plan'});await page.waitForSelector('[data-testid="tv-program-cover-card"]');
   await settled();
@@ -111,7 +111,7 @@ try {
     const keys=await caches.keys();
     for(const key of keys.filter(k=>k.startsWith('trivalley-open-gym-'))){
       const c=await caches.open(key);
-      if((await Promise.all(['back-biceps','chest-triceps','legs'].map(k=>c.match(new URL('./assets/tv-cover-'+k+'-20261119.webp',location.href.split('#')[0]).href)))).every(Boolean))return true;
+      if((await Promise.all(['2330','0314','1459'].map(k=>c.match(new URL('./assets/tv-movement-'+k+'-20261119-v2.webp',location.href.split('#')[0]).href)))).every(Boolean))return true;
     }
     return false;
   });
@@ -120,10 +120,10 @@ try {
   for(let i=0;i<3;i++){
     const selector=`[data-testid="tv-program-cover-card"]:nth-child(${i+1}) .tv-program-art-photo`;
     await page.$eval(selector,n=>n.scrollIntoView({block:'center'}));
-    await page.waitForFunction(selector=>{const n=document.querySelector(selector);return n.complete&&n.naturalWidth===960},{timeout:10000},selector);
+    await page.waitForFunction(selector=>{const n=document.querySelector(selector);return n.complete&&n.naturalWidth===1200},{timeout:10000},selector);
   }
   assert(!errors.length,'Browser errors: '+errors.join('; '));
-  console.log(JSON.stringify({status:'PROGRAM_VISUALS_BROWSER_PASS',checks:['three approved cover images','Add and Start before long previews','320x667 to 430x932 unobscured Continue','program accessibility','actual Start and guarded Resume','durable template tags','finish advances to next workout','reload keeps sequence','calendar stays user-controlled','offline covers and program state'],physicalIPhoneAcceptance:'PENDING'}));
+  console.log(JSON.stringify({status:'PROGRAM_VISUALS_BROWSER_PASS',checks:['three approved cover images','Add and Start before long previews','320x667 to 430x932 unobscured Continue','program accessibility','actual Start and guarded Resume','durable template tags','partial finish retains its program day','reload keeps sequence','calendar stays user-controlled','offline covers and program state'],physicalIPhoneAcceptance:'PENDING'}));
 }catch(error){
   console.error(JSON.stringify({errors,page:page?await page.evaluate(()=>document.body.innerText.slice(0,5000)).catch(()=>null):null}));
   if(page)await page.screenshot({path:screenshot,fullPage:true}).catch(()=>{});

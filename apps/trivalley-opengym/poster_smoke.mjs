@@ -91,7 +91,7 @@ try {
   await page.waitForSelector('[data-testid="tv-poster-active"]');
   await page.click('button[aria-label="Finish"]');
   await page.waitForFunction(()=>document.body.innerText.includes('Finish early?'));
-  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Finish workout').click());
+  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Save partial workout').click());
   await page.waitForFunction(()=>!JSON.parse(localStorage.getItem('gym_state_v1')).active);
   const record=await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).workouts);
   assert(record.length===1 && record[0].id===id,'Finished session was missing or duplicated');

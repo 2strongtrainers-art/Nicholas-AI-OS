@@ -37,9 +37,9 @@ export const MUSCLE_SPLIT = {
 export const SCHEDULES = { none: [], mwf: [1, 3, 5], tts: [2, 4, 6] }
 
 export const PROGRAM_COVERS = {
-  'back-biceps': './assets/tv-cover-back-biceps-20261119.webp',
-  'chest-triceps': './assets/tv-cover-chest-triceps-20261119.webp',
-  legs: './assets/tv-cover-legs-20261119.webp'
+  'back-biceps': './assets/tv-movement-2330-20261119-v2.webp',
+  'chest-triceps': './assets/tv-movement-0314-20261119-v2.webp',
+  legs: './assets/tv-movement-1459-20261119-v2.webp'
 }
 
 export function templateRoutine(day, id = 'preview-' + day.key) {
@@ -85,6 +85,7 @@ export function programPosition(S, now = Date.now()) {
   if (!days.some(Boolean)) return null
   let last = null, lastIndex = -1, lastTime = -1
   for (const workout of S.workouts || []) {
+    if (workout.partial === true) continue
     if (!Number.isFinite(workout.end) || workout.end <= 0 || workout.end > now ||
         !(workout.entries || []).some(e => e.sets?.some(set => set.done === true))) continue
     const routine = (S.routines || []).find(r => r.id === workout.routineId)

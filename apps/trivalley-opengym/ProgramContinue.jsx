@@ -8,7 +8,7 @@ export function ProgramCover({ dayKey, title, index, hero = false }) {
   const src = PROGRAM_COVERS[dayKey]
   if (!src) return null
   return <div className={'tv-program-art' + (hero ? ' tv-program-art-hero' : '')} aria-hidden="true">
-    <img className="tv-program-art-photo" src={src} alt="" width="960" height="540"
+    <img className="tv-program-art-photo" src={src} alt="" width="1200" height="800"
       loading={hero ? 'eager' : 'lazy'} decoding="async" onError={e => { e.currentTarget.style.visibility = 'hidden' }} />
     <div className="tv-program-art-caption"><img src="./trivalley-triquetra.png" alt="" width="26" height="26" />
       <span>DAY {String(index + 1).padStart(2, '0')}</span><strong>{title}</strong></div>

@@ -141,7 +141,7 @@ try {
   await page.evaluate(() => document.querySelector('button[aria-label="Finish"]')?.click());
   await page.waitForFunction(()=>document.body.innerText.includes('Finish early?'),{timeout:10000});
   const confirmed=await page.evaluate(() => {
-    const b=[...document.querySelectorAll('button')].find(el=>el.textContent.trim()==='Finish workout');
+    const b=[...document.querySelectorAll('button')].find(el=>el.textContent.trim()==='Save partial workout');
     if(!b)return false;b.click();return true;
   });
   if(!confirmed)throw new Error('Cannot confirm finishing workout');

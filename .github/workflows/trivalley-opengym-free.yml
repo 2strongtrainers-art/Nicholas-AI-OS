@@ -41,6 +41,7 @@ jobs:
           python3 apps/trivalley-opengym/upgrade_movement_illustrations.py upstream/frontend
           python3 apps/trivalley-opengym/fetch_movements.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_iphone.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_audit.py upstream/frontend
           curl --fail --location --silent --show-error --retry 2 --max-time 25 \
             'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
             -o upstream/frontend/public/trivalley-triquetra.png
@@ -62,7 +63,7 @@ jobs:
       - name: Test deterministic exercise discovery and validated backup recovery
         env:
           TV_CATALOGUE_PATH: upstream/frontend/src/lib/exercises-data.js
-        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs
+        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs apps/trivalley-opengym/tv-audit-safety.test.mjs
       - name: Install locked dependencies
         working-directory: upstream/frontend
         run: npm ci --no-audit --no-fund
@@ -90,6 +91,7 @@ jobs:
           cp apps/trivalley-opengym/poster_smoke.mjs "$RUNNER_TEMP/trivalley-browser/poster.mjs"
           cp apps/trivalley-opengym/programs_smoke.mjs "$RUNNER_TEMP/trivalley-browser/programs.mjs"
           cp apps/trivalley-opengym/movements_smoke.mjs "$RUNNER_TEMP/trivalley-browser/movements.mjs"
+          cp apps/trivalley-opengym/audit_smoke.mjs "$RUNNER_TEMP/trivalley-browser/audit.mjs"
           cp apps/trivalley-opengym/visuals_smoke.mjs "$RUNNER_TEMP/trivalley-browser/visuals.mjs"
       - name: Test actual mobile Chromium UI, saved plan and offline reload
         env:
@@ -109,6 +111,8 @@ jobs:
         run: node "$RUNNER_TEMP/trivalley-browser/visuals.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/visuals.png"
       - name: Verify exact exercise images, technique cues, accessible references and offline coverage
         run: node "$RUNNER_TEMP/trivalley-browser/movements.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/movements.png"
+      - name: Verify first-user audit fixes in the actual mobile browser
+        run: node "$RUNNER_TEMP/trivalley-browser/audit.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/audit.png"
       - name: Upload mobile browser QA screenshot
         if: always()
         uses: actions/upload-artifact@v4
@@ -123,6 +127,7 @@ jobs:
             ${{ runner.temp }}/trivalley-browser/visuals.png
             ${{ runner.temp }}/trivalley-browser/visuals-home.png
             ${{ runner.temp }}/trivalley-browser/movements.png
+            ${{ runner.temp }}/trivalley-browser/audit.png
           retention-days: 7
           if-no-files-found: ignore
       - name: Upload public-app deployment bundle for Wix
