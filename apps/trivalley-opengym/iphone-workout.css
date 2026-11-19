@@ -34,3 +34,9 @@
  .tv-poster-page {padding-bottom:calc(170px + env(safe-area-inset-bottom,0px))}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Short iPhone browser windows need actions ahead of decorative cover art. */
+@media(max-height:740px) and (max-width:600px){
+ .tv-continue-card .tv-program-art {display:none}
+ .tv-bodyweight-shortcut {min-height:44px;margin-bottom:8px}
+ .tv-continue-card p {margin:6px 0}
+}
