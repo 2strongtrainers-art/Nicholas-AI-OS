@@ -105,7 +105,7 @@ export function TrainingBrief() {
         })}
       </ol>
       <p className="small muted">Targets follow your selected progression policy. Adjust to your readiness and available equipment. Older logs have no recorded unit; changing the unit setting relabels numbers without converting them.</p>
-      <p className="small muted">Time is a planning estimate: five minutes of preparation, planned sets, 3–5 seconds per rep, your rest setting, and exercise transitions.</p>
+      <p className="small muted">Time is a planning estimate: five minutes of preparation, planned sets, 3–5 seconds per rep, planned rest periods (or your rest setting), and exercise transitions.</p>
     </details>
     <button className="tv-text-action" onClick={() => nav('/plan')}>Review or adjust my plan</button>
   </section>

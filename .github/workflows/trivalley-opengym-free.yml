@@ -35,6 +35,7 @@ jobs:
           python3 apps/trivalley-opengym/upgrade_v4.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_v5.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_v6.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_programs.py upstream/frontend
           curl --fail --location --silent --show-error --retry 2 --max-time 25 \
             'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
             -o upstream/frontend/public/trivalley-triquetra.png
@@ -54,7 +55,9 @@ jobs:
             -o upstream/frontend/public/assets/tv-coach-portrait.webp
           echo 'ef1b3e6367cf189731f9d26abb4dd73971391717a1e0e370614ba114b50c03b8  upstream/frontend/public/assets/tv-coach-portrait.webp' | sha256sum --check
       - name: Test deterministic exercise discovery and validated backup recovery
-        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs
+        env:
+          TV_CATALOGUE_PATH: upstream/frontend/src/lib/exercises-data.js
+        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs
       - name: Install locked dependencies
         working-directory: upstream/frontend
         run: npm ci --no-audit --no-fund
@@ -80,6 +83,7 @@ jobs:
           cp apps/trivalley-opengym/a11y_smoke.mjs "$RUNNER_TEMP/trivalley-browser/a11y.mjs"
           cp apps/trivalley-opengym/v5_smoke.mjs "$RUNNER_TEMP/trivalley-browser/v5.mjs"
           cp apps/trivalley-opengym/poster_smoke.mjs "$RUNNER_TEMP/trivalley-browser/poster.mjs"
+          cp apps/trivalley-opengym/programs_smoke.mjs "$RUNNER_TEMP/trivalley-browser/programs.mjs"
       - name: Test actual mobile Chromium UI, saved plan and offline reload
         env:
           TV_EXPECT_LIBRARY_V3: '1'
@@ -92,6 +96,8 @@ jobs:
         run: node "$RUNNER_TEMP/trivalley-browser/v5.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/premium.png"
       - name: Verify interactive posters, timed sets and finished-session timestamps
         run: node "$RUNNER_TEMP/trivalley-browser/poster.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/poster.png"
+      - name: Verify ready-made programs, schedule preservation, loads and exercise rest timers
+        run: node "$RUNNER_TEMP/trivalley-browser/programs.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/programs.png"
       - name: Upload mobile browser QA screenshot
         if: always()
         uses: actions/upload-artifact@v4
@@ -102,6 +108,7 @@ jobs:
             ${{ runner.temp }}/trivalley-browser/mobile-library.png
             ${{ runner.temp }}/trivalley-browser/premium.png
             ${{ runner.temp }}/trivalley-browser/poster.png
+            ${{ runner.temp }}/trivalley-browser/programs.png
           retention-days: 7
           if-no-files-found: ignore
       - name: Upload public-app deployment bundle for Wix

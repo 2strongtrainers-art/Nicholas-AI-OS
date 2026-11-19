@@ -60,8 +60,9 @@ export function progressSummary(S, today) {
 export function durationRange(S, routine) {
   if (!routine?.ex?.length) return null
   let low = 300, high = 300
-  const rest = Math.max(0, Number(S.restSec) || 0)
+  const fallbackRest = Math.max(0, Number(S.restSec) || 0)
   for (const cfg of routine.ex) {
+    const rest = Number.isInteger(cfg.restSec) && cfg.restSec >= 0 && cfg.restSec <= 600 ? cfg.restSec : fallbackRest
     const sets = Math.max(1, Number(cfg.sets) || 1)
     const mode = cfg.mode || (cfg.min != null ? 'cardio' : 'reps')
     const fixed = mode === 'cardio' ? (Number(cfg.min) || 20) * 60

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { restForEntry } from '../lib/tv-programs.js'
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
 import { exOr } from '../lib/exercises.js'
@@ -39,18 +40,20 @@ function Movement({ entry, index, unit, preview, onToggle, onTimed, onEdit, onDe
   const ex = exOr(entry.id), mode = modeOf({ ...(entry.target || {}), id: entry.id })
   const steps = Array.isArray(ex.st) ? ex.st.filter(Boolean) : []
   const completed = entry.sets.filter(s => s.done).length
+  const label = set => entry.target?.loadRequired && !(set.w > 0) ? `${set.r} reps · choose working load` : posterSetLabel(mode, set, unit)
   return <article className="tv-poster-movement" aria-labelledby={'tv-poster-ex-' + index} data-testid="tv-poster-movement">
     <div className="tv-poster-ex-heading"><span className="tv-poster-number">{String(index + 1).padStart(2, '0')}</span><div>
       <h3 id={'tv-poster-ex-' + index}>{ex.n}</h3><p>{[ex.eq, ex.tg || ex.bp].filter(Boolean).join(' · ') || 'Custom exercise'}</p>
     </div></div>
+    {entry.target?.restSec != null && <p className="small muted">Rest {restForEntry(entry, 90)}s between working sets. {entry.target?.loadRequired ? "Choose a working load before logging your first set." : ""}</p>}
     {entry.sg && <p className="small muted">Superset group {entry.sg}: follow your plan's exercise order.</p>}
     <ul className="tv-poster-sets" aria-label={ex.n + ' sets'}>
       {entry.sets.map((set, i) => <li key={i}>
-        {preview ? <span className="tv-poster-target">Set {i + 1}<strong>{posterSetLabel(mode, set, unit)}</strong></span>
+        {preview ? <span className="tv-poster-target">Set {i + 1}<strong>{label(set)}</strong></span>
           : <button type="button" aria-pressed={!!set.done} disabled={!!working}
-              aria-label={`${ex.n}, set ${i + 1}: ${posterSetLabel(mode, set, unit)}. ${set.done ? 'Completed; mark incomplete' : 'Mark complete'}`}
+              aria-label={`${ex.n}, set ${i + 1}: ${label(set)}. ${set.done ? 'Completed; mark incomplete' : 'Mark complete'}`}
               onClick={() => onToggle(index, i)} data-testid="tv-poster-set">
-              <span>Set {i + 1}<strong>{posterSetLabel(mode, set, unit)}</strong></span><b>{set.done ? 'Done' : 'Log set'}</b>
+              <span>Set {i + 1}<strong>{label(set)}</strong></span><b>{set.done ? 'Done' : 'Log set'}</b>
             </button>}
         {!preview && mode === 'time' && <button type="button" className="tv-poster-hold" disabled={set.done || !!working} onClick={() => onTimed(index, i)}>Time set {i + 1}</button>}
       </li>)}
@@ -73,7 +76,7 @@ export function RoutinePosterPreview({ routine, onStart, onClose }) {
     <PosterHeading name={routine.name} preview />
     <p className="muted">Review your planned targets before starting. The clock starts after you confirm Start. Your actual completed sets are recorded separately.</p>
     <button type="button" className="btn primary" onClick={onStart} data-testid="tv-poster-start">Start this workout</button>
-    <p className="small muted">Rest setting: {S.restSec} seconds. Targets follow your current routine and progression policy.</p>
+    <p className="small muted">Exercise-specific rest periods are shown on each card; otherwise use your {S.restSec}s default. Targets follow your current progression policy.</p>
     <div className="tv-poster-grid">{entries.map((entry, i) => <Movement key={entry.id + '-' + i} entry={entry} index={i} unit={S.unit} preview />)}</div>
   </section>
 }
