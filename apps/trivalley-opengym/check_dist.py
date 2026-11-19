@@ -92,6 +92,8 @@ core = ["./", "./index.html", "./tv-release.json", "./manifest.json", "./icon-19
 core += ["./" + path for path in icon_files if "./" + path not in core]
 core += ['./tv-movement-assets.json'] + ['./' + asset['path'] for asset in movement_manifest['assets']]
 core += ['./tv-cover-assets.json'] + ['./' + asset['path'] for asset in cover_manifest['assets']]
+# Covers reuse three movement assets; duplicate cache.addAll URLs reject SW installation.
+core = list(dict.fromkeys(core))
 extras = ["./" + x for x in assets if x not in entry_js + entry_css and './' + x not in core]
 fingerprint = hashlib.sha256(("|".join(assets) + bundle[:500] + "|".join(hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files)).encode()).hexdigest()[:12]
 worker = """

@@ -94,24 +94,32 @@ jobs:
           cp apps/trivalley-opengym/audit_smoke.mjs "$RUNNER_TEMP/trivalley-browser/audit.mjs"
           cp apps/trivalley-opengym/visuals_smoke.mjs "$RUNNER_TEMP/trivalley-browser/visuals.mjs"
       - name: Test actual mobile Chromium UI, saved plan and offline reload
+        if: ${{ !cancelled() }}
         env:
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
         run: node "$RUNNER_TEMP/trivalley-browser/smoke.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/mobile.png"
       - name: Audit automated WCAG mobile accessibility across training routes
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/a11y.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist"
       - name: Verify guidance, progress, backup confirmation and storage failure in Chromium
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/v5.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/premium.png"
       - name: Verify interactive posters, timed sets and finished-session timestamps
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/poster.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/poster.png"
       - name: Verify ready-made programs, schedule preservation, loads and exercise rest timers
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/programs.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/programs.png"
       - name: Verify owner cover images, program continuation, mobile controls and offline artwork
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/visuals.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/visuals.png"
       - name: Verify exact exercise images, technique cues, accessible references and offline coverage
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/movements.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/movements.png"
       - name: Verify first-user audit fixes in the actual mobile browser
+        if: ${{ !cancelled() }}
         run: node "$RUNNER_TEMP/trivalley-browser/audit.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/audit.png"
       - name: Upload mobile browser QA screenshot
         if: always()
