@@ -26,7 +26,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/trivalley-live"
           npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
-      - name: Verify exact published TriValley v5.1 source and compiled asset
+      - name: Verify exact published TriValley v5.2 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -34,9 +34,9 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.1.0' ||
-              release.sourceCommit !== '7138943f776b6fe8ac1140f90ea4f953388d1ab1' ||
-              release.mainScript !== 'assets/index-DtwPiAEW.js' ||
+          if (release.version !== '5.2.0' ||
+              release.sourceCommit !== '4474175dab8e8d3d09c19e9c26cd0ec091f16c2b' ||
+              release.mainScript !== 'assets/index-u-R2ypy0.js' ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
@@ -45,7 +45,7 @@ jobs:
       - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-DtwPiAEW.js'
+          TV_EXPECTED_JS: 'index-u-R2ypy0.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
@@ -69,6 +69,12 @@ jobs:
         run: |
           cp apps/trivalley-opengym/poster_smoke.mjs "$RUNNER_TEMP/trivalley-live/poster.mjs"
           node "$RUNNER_TEMP/trivalley-live/poster.mjs" unused "$RUNNER_TEMP/trivalley-live/live-poster.png"
+      - name: Verify live ready-made programs and safe scheduling
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/programs_smoke.mjs "$RUNNER_TEMP/trivalley-live/programs.mjs"
+          node "$RUNNER_TEMP/trivalley-live/programs.mjs" unused "$RUNNER_TEMP/trivalley-live/live-programs.png"
       - name: Upload live mobile screenshot
         if: always()
         uses: actions/upload-artifact@v4
@@ -79,5 +85,6 @@ jobs:
             ${{ runner.temp }}/trivalley-live/live-library.png
             ${{ runner.temp }}/trivalley-live/live-premium.png
             ${{ runner.temp }}/trivalley-live/live-poster.png
+            ${{ runner.temp }}/trivalley-live/live-programs.png
           retention-days: 7
           if-no-files-found: ignore
