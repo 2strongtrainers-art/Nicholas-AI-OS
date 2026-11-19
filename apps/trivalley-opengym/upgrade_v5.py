@@ -57,6 +57,7 @@ edit('src/store/useStore.js', "    isGuest: () => localStorage.getItem('gym_gues
     },""")
 
 edit('src/views/Home.jsx', "import DailyVerseCard from '../components/DailyVerseCard.jsx'", "import DailyVerseCard from '../components/DailyVerseCard.jsx'\nimport { TrainingBrief, ProgressSummary } from '../components/TrainingCompanion.jsx'")
+edit('src/views/Home.jsx', 'todayISO, isoOf, weekKey, DAYS', 'todayISO, isoOf, weekKey, DAYS, exCount')
 edit('src/views/Home.jsx', '    <DailyVerseCard />', '    <TrainingBrief />\n    <ProgressSummary />\n    <DailyVerseCard />')
 edit('src/views/Home.jsx', "'Your logged sets are saved locally. Return to your workout where you left off.'", "'Return to your workout where you left off. Check the device status above to confirm your latest save.'")
 # Preserve Nick's already-approved, already-public portrait as a native component.

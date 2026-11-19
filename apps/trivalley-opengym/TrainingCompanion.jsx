@@ -65,6 +65,10 @@ function targetLabel(cfg, sets, unit) {
   const set = sets[0]
   if (!set) return 'Set your target in the workout'
   const mode = modeOf(cfg), n = sets.length
+  const fields = mode === 'cardio' ? ['min', 'speed'] : mode === 'time' ? ['sec', 'w'] : ['r', 'w']
+  if (sets.some(s => fields.some(key => s[key] !== set[key]))) {
+    return sets.map(s => targetLabel(cfg, [s], unit)).join('; ')
+  }
   if (mode === 'cardio') return `${n} × ${fmtNum(set.min || 0)} min · ${fmtNum(set.speed || 0)} km/h`
   const load = set.w > 0 ? `${fmtNum(set.w)} ${unit} · ` : ''
   return mode === 'time' ? `${n} × ${fmtSec(set.sec)} · ${load ? load.slice(0, -3) : 'bodyweight'}`

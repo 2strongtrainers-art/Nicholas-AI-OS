@@ -27,9 +27,10 @@ const chrome = [process.env.CHROME_PATH,'/usr/bin/google-chrome','/usr/bin/googl
 if (!chrome) throw new Error('No Chrome/Chromium executable available for actual-browser QA');
 const assert = (value, reason) => { if (!value) throw new Error(reason) };
 let browser;
+let page, errors = [];
 try {
   browser = await puppeteer.launch({ executablePath: chrome, headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
-  const page = await browser.newPage(), errors = [];
+  page = await browser.newPage();
   page.on('pageerror', e => errors.push(e.message));
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
   await page.goto(url, { waitUntil: 'networkidle0' });
@@ -88,6 +89,12 @@ try {
   assert(await page.$('.swatches'), 'Classic accent controls missing');
   assert(!errors.length, 'Browser errors: ' + errors.join('; '));
   console.log(JSON.stringify({ status: 'V5_BROWSER_PASS', checks: ['empty-state honesty', 'existing progression', 'previous logged sets', 'completed-record summaries', '320-430px reflow', 'prepared versus confirmed backup', 'quota-failure warning and in-memory edit', 'premium/light/classic appearance'], physicalIPhoneAcceptance: 'PENDING' }));
+} catch (error) {
+  if (page) {
+    console.error(JSON.stringify({ errors, page: await page.evaluate(() => document.body.innerText.slice(0, 5000)).catch(() => 'unavailable') }));
+    await page.screenshot({ path: screenshot, fullPage: true }).catch(() => {});
+  }
+  throw error;
 } finally {
   if (browser) await browser.close();
   if (server) await new Promise(resolve => server.close(resolve));
