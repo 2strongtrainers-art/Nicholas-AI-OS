@@ -11,7 +11,7 @@ manifest=json.loads((Path(__file__).parent/'movement-assets.json').read_text())
 assert len(manifest['assets'])==16
 for a in manifest['assets']:
     path=a['path']
-    assert re.fullmatch(r'assets/tv-movement-\d{4}-20261119.webp',path)
+    assert re.fullmatch(r'assets/tv-movement-\d{4}-20261119-v2.webp',path)
     req=urllib.request.Request('https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'+path)
     with urllib.request.urlopen(req,timeout=25) as response: raw=response.read()
     assert raw.startswith(b'RIFF') and raw[8:12]==b'WEBP'

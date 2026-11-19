@@ -30,11 +30,18 @@ test('Hammer and biceps curl grip cues remain distinct and hammer cue explicitly
   assert.match(movementReferenceFor('0586').steps[0],/behind your lower legs/)
 })
 
-test('Unapproved art is withheld independently of preserved technique cues',()=>{
+test('Reviewed v2 allowlist enables only exact exercise images and preserves technique cues',()=>{
   for (const id of Object.keys(MOVEMENT_ILLUSTRATIONS)) {
-    assert.equal(MOVEMENT_REVIEW_STATUS[id], 'pending_review')
-    assert.equal(movementFor(id), null)
+    assert.equal(MOVEMENT_REVIEW_STATUS[id], 'approved')
+    assert.equal(movementFor(id), movementReferenceFor(id))
+    assert.match(movementFor(id).path, /-v2\.webp$/)
     assert.equal(movementReferenceFor(id).steps.length, 3)
   }
   assert.equal(movementFor('unknown'), null)
+})
+
+test('Press captions and close-grip row instructions match the revised image sequence',()=>{
+  for(const id of ['0289','0314']){assert.match(movementFor(id).leftLabel,/Lowered/);assert.match(movementFor(id).rightLabel,/Press/)}
+  assert.match(movementFor('0861').steps[0],/palms facing inward/)
+  assert.equal(movementFor('custom-0313'),null)
 })
