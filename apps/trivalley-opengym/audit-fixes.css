@@ -10,3 +10,8 @@
 .tv-program-art-photo {object-fit:cover;object-position:center 38%}
 .tv-support-link {white-space:nowrap}
 .tv-finish-note {line-height:1.5;margin:12px 0}
+.center {box-sizing:border-box;max-height:calc(100dvh - 48px);overflow-y:auto;overscroll-behavior:contain}
+/* The free host reserves this same area for navigation. Keep dialog actions
+   above its banner too; standalone installed apps retain their normal layout. */
+:root[data-tv-free-hosted="1"] .sheet {bottom:calc(76px + env(safe-area-inset-bottom));max-height:calc(100dvh - 100px - env(safe-area-inset-bottom))}
+:root[data-tv-free-hosted="1"] .center {top:calc(50% - 38px);max-height:calc(100dvh - 124px - env(safe-area-inset-bottom))}

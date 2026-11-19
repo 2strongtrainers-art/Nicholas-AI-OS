@@ -10,11 +10,12 @@ const chrome=[process.env.CHROME_PATH,'/usr/bin/google-chrome','/usr/bin/google-
 const assert=(v,msg)=>{if(!v)throw Error(msg)};
 let browser,page;const errors=[];
 try{
- browser=await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));
+ browser=await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});page=await browser.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));
  await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
  await page.goto(url+'#/home',{waitUntil:'networkidle0'});
  await page.evaluate(()=>{localStorage.setItem('tv_daily_verse_enabled_v1','false');localStorage.setItem('tv_daily_verse_seen_v1',new Date().toLocaleDateString('en-CA'))});
  await page.reload({waitUntil:'networkidle0'});
+ if(!process.env.TV_LIVE_URL)await page.evaluate(()=>{document.documentElement.dataset.tvFreeHosted='1';const banner=document.createElement('a');banner.id='qa-hosted-banner';banner.textContent='Synthetic hosted platform banner';banner.href='#';banner.style.cssText='position:fixed;bottom:0;left:0;right:0;height:64px;z-index:2147483647;background:white;color:black';document.body.append(banner)});
  // Optional support is a real public payment link, with corresponding-source credit preserved.
  assert(await page.$eval('.tv-support-link',n=>n.textContent==='Donate'&&n.href==='https://donate.stripe.com/bJe3cw6LUfnw8Z1biqf3a02'&&n.target==='_blank'),'Donation header link');
  const clickText=async text=>{await page.evaluate(text=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);if(!b)throw Error('Button missing: '+text);b.click()},text)};
@@ -26,8 +27,11 @@ try{
  for(let i=0;i<18;i++){if(i>=9)await page.keyboard.down('Shift');await page.keyboard.press('Tab');if(i>=9)await page.keyboard.up('Shift');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Dialog focus escaped')}
  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));
  await page.waitForFunction(()=>document.activeElement?.dataset.testid==='tv-log-bodyweight',{timeout:3000});
- await openCheckin();await page.type('#tv-bodyweight-value','221.5');await page.click('[role="dialog"] button.primary');
+ await openCheckin();await page.type('#tv-bodyweight-value','221.5');
+ assert(await page.$eval('[role="dialog"] button.primary',n=>{const r=n.getBoundingClientRect();return !n.disabled&&r.top>=0&&r.bottom<=innerHeight&&n.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))}),'Body-weight Save is obscured by a hosted banner');
+ await page.click('[role="dialog"] button.primary');
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')).bodyweight.some(b=>b.w===221.5));
+ if(!process.env.TV_LIVE_URL)await page.evaluate(()=>{document.querySelector('#qa-hosted-banner')?.remove();document.documentElement.dataset.tvFreeHosted='0'});
  await page.goto(url+'#/settings',{waitUntil:'networkidle0'});
  assert(await page.evaluate(()=>[...document.querySelectorAll('.seg button')].filter(b=>b.textContent==='kg'||b.textContent==='lb').some(b=>b.disabled)),'Saved weight does not lock alternate unit');
  await page.goto(url+'#/plan',{waitUntil:'networkidle0'});await page.waitForSelector('[data-testid="tv-add-program"]');await page.click('[data-testid="tv-add-program"]');
@@ -62,5 +66,5 @@ try{
  const axe=await page.evaluate(async()=>await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));
  assert(!axe.violations.length,'Dialog accessibility: '+JSON.stringify(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
  assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'FIRST_USER_AUDIT_FIXES_PASS',checks:['donation link','blank valid body-weight entry','modal initial focus, Tab, Shift+Tab, Escape, restore','unit lock','named lifting fields','rest deadline after reload','partial history and program day','progress title','typo suggestion','readable detail title','single full instructions','dialog accessibility'],physicalIPhoneAcceptance:'PENDING'}));
-}catch(e){console.error(JSON.stringify({error:e.message,page:page?await page.evaluate(()=>document.body.innerText.slice(0,6000)).catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true}).catch(()=>{});throw e}
+}catch(e){console.error(JSON.stringify({error:e.message,page:page?await page.evaluate(()=>document.body.innerText.slice(0,6000)).catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true,timeout:10000}).catch(()=>{});throw e}
 finally{if(browser)await browser.close();if(server)await new Promise(r=>server.close(r))}
