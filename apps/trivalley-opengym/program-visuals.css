@@ -1,4 +1,6 @@
 html {scroll-padding-top:24px;scroll-padding-bottom:calc(160px + env(safe-area-inset-bottom))}
+/* Keep navigation labels readable over cover art and gold workout actions. */
+:root #tabbar,:root[data-theme="light"] #tabbar {background:var(--bg-el)}
 .tv-program-setup > .btn {min-height:50px;width:100%;white-space:normal;scroll-margin-block:160px}
 .tv-program-setup .tv-program-schedule {margin-top:13px}
 .tv-program-active {display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:12px 0;font-size:14px}
