@@ -78,6 +78,19 @@ edit('src/views/Settings.jsx', '      <Row icon="moon"', '''      <Row icon="spa
 edit('src/views/Settings.jsx', '      <div className="lrow" style={{ flexDirection:', "      {S.tvVisualStyle === 'classic' && <div className=\"lrow\" style={{ flexDirection:")
 edit('src/views/Settings.jsx', '        </div>\n      </div>\n    </Section>\n\n    {/* ---------- data:', '        </div>\n      </div>}\n    </Section>\n\n    {/* ---------- data:')
 
+# Settings switches must expose their actual control names to VoiceOver.
+edit('src/components/ui.jsx', 'export function Switch({ checked, onChange, disabled }) {', "export function Switch({ checked, onChange, disabled, 'aria-label': label }) {")
+edit('src/components/ui.jsx', '      role="switch"\n      aria-checked={!!checked}', '      role="switch"\n      aria-label={label}\n      aria-checked={!!checked}')
+for old, label in [
+    ('<Switch checked={verseEnabled}', 'Daily Bible verse'),
+    ('<Switch checked={wakeOK && S.keepAwake !== false}', 'Keep screen awake'),
+    ('<Switch checked={!!S.sound}', 'Workout sounds'),
+    ('<Switch checked={!!S.reminder?.on} onChange={toggle}', 'Workout reminders'),
+    ('<Switch checked={on} disabled={busy}', 'Push notifications'),
+    ('<Switch checked={!!S.reminder?.on} onChange={() => update', 'Scheduled workout reminders'),
+]:
+    edit('src/views/Settings.jsx', old, '<Switch aria-label="' + label + '"' + old[len('<Switch'):])
+
 # The existing records remain unchanged. New records retain the unit actually selected
 # at session start so future comparisons can reject mixed-unit history.
 edit('src/sheets.jsx', 's.active = { id: uid(), d: todayISO(), start:', 's.active = { unit: s.unit, id: uid(), d: todayISO(), start:')

@@ -50,6 +50,16 @@ try {
     problems.push(...relevant);
     results.push({route,violationCount:relevant.length,criticalOrSerious:relevant.filter(v=>['critical','serious'].includes(v.impact)).length});
   }
+  await page.evaluate(() => [...document.querySelectorAll('button')].find(b => b.textContent === 'Light').click());
+  await page.waitForFunction(() => document.documentElement.dataset.theme === 'light');
+  for(const route of ['settings','home']) {
+    await page.evaluate(r => {location.hash='#/'+r}, route);
+    await page.waitForSelector(route === 'settings' ? '[data-testid="tv-backup-panel"]' : '[data-testid="tv-today-hero"]');
+    await page.addScriptTag({path:axePath});
+    const report=await page.evaluate(async()=>await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']},resultTypes:['violations']}));
+    problems.push(...report.violations.map(v=>({route:'light/'+route,id:v.id,impact:v.impact,nodeCount:v.nodes.length,firstTarget:v.nodes[0]?.target,firstFailure:v.nodes[0]?.failureSummary?.slice(0,190)})));
+    results.push({route:'light/'+route,violationCount:report.violations.length});
+  }
   await page.evaluate(()=>{location.hash='#/library'});
   await page.waitForSelector('[data-testid="tv-library"]');
   await page.click('[data-testid="tv-library-filters"]');

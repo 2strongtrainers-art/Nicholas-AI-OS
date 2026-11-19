@@ -35,6 +35,7 @@
 :root[data-tv-style="premium"] .tv-hero-metrics span {background:var(--acc-soft);color:var(--label)}
 :root[data-tv-style="premium"] .tv-v4-topbar .tv-topbar-brand {color:var(--label)}
 :root[data-tv-style="premium"] .tv-v4-topbar a,:root[data-tv-style="premium"] .tv-library-header .tv-library-eyebrow {color:var(--acc)}
+:root[data-tv-style="premium"] #app a:not(.btn) {text-decoration:underline;text-underline-offset:3px}
 :root[data-tv-style="premium"] .tv-v4-topbar .tv-verse-trigger {color:var(--acc);background:var(--acc-soft);border-color:var(--acc-line)}
 :root[data-tv-style="premium"] .tv-knot {border-color:var(--acc-line)}
 :root[data-tv-style="premium"] .tv-home-verse-card {background:var(--surface);border-color:var(--acc-line);color:var(--label)}
