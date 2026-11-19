@@ -23,7 +23,7 @@ try{
  assert(await page.$eval('#tv-bodyweight-value',n=>n.value===''),'Invented body-weight default');
  assert(await page.$eval('[role="dialog"] button.primary',n=>n.disabled),'Blank body weight can be saved');
  assert(await page.evaluate(()=>document.activeElement?.id==='tv-bodyweight-value'),'Initial dialog focus');
- for(let i=0;i<18;i++){await page.keyboard.press(i<9?'Tab':'Shift+Tab');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Dialog focus escaped')}
+ for(let i=0;i<18;i++){if(i>=9)await page.keyboard.down('Shift');await page.keyboard.press('Tab');if(i>=9)await page.keyboard.up('Shift');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Dialog focus escaped')}
  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));
  assert(await page.evaluate(()=>document.activeElement?.dataset.testid==='tv-log-bodyweight'),'Focus did not return to opener');
  await openCheckin();await page.type('#tv-bodyweight-value','221.5');await page.click('[role="dialog"] button.primary');
