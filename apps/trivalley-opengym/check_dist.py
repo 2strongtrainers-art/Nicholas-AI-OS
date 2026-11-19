@@ -53,7 +53,7 @@ if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "5.0.0",
+    "version": "5.1.0",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],
@@ -65,7 +65,7 @@ release = {
     ),
     "storage": "browser-local; no client cloud sync",
     "backend": "disabled",
-    "features": ["native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance"],
+    "features": ["native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance", "interactive workout posters", "session start and finish timestamps", "poster set logging and timed holds", "local session notes"],
     "portraitSha256": hashlib.sha256((dist / "assets/tv-coach-portrait.webp").read_bytes()).hexdigest(),
     "iconAddon": {"version": "trinity-20261119", "appleTouchIcon": touch_name,
                   "sha256": {path: hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files}},
