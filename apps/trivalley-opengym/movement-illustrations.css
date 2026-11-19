@@ -18,3 +18,4 @@
 .tv-exercise-detail-heading {display:flex;align-items:center;justify-content:space-between;gap:12px}
 .tv-exercise-detail-heading h3 {min-width:0}
 .tv-exercise-detail-heading .btn {flex-shrink:0;min-height:44px}
+.tv-poster-number {flex:0 0 2.25ch;white-space:nowrap}
