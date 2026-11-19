@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 dist = Path(sys.argv[1]).resolve()
-required = ["index.html", "manifest.json", "icon-192.png", "icon-512.png", "trivalley-exercise.svg", "trivalley-triquetra.png"]
+required = ["index.html", "manifest.json", "icon-192.png", "icon-512.png", "trivalley-exercise.svg", "trivalley-triquetra.png", "assets/tv-coach-portrait.webp"]
 missing = [p for p in required if not (dist / p).is_file()]
 if missing:
     raise SystemExit("Missing required built files: " + ", ".join(missing))
@@ -53,7 +53,7 @@ if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],
@@ -65,10 +65,16 @@ release = {
     ),
     "storage": "browser-local; no client cloud sync",
     "backend": "disabled",
+    "features": ["native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance"],
+    "portraitSha256": hashlib.sha256((dist / "assets/tv-coach-portrait.webp").read_bytes()).hexdigest(),
+    "iconAddon": {"version": "trinity-20261119", "appleTouchIcon": touch_name,
+                  "sha256": {path: hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files}},
 }
+if release["portraitSha256"] != "ef1b3e6367cf189731f9d26abb4dd73971391717a1e0e370614ba114b50c03b8":
+    raise SystemExit("Approved coach portrait checksum mismatch")
 (dist / "tv-release.json").write_text(json.dumps(release, indent=2) + "\n")
 core = ["./", "./index.html", "./tv-release.json", "./manifest.json", "./icon-192.png",
-        "./icon-512.png", "./trivalley-exercise.svg", "./trivalley-triquetra.png",
+        "./icon-512.png", "./trivalley-exercise.svg", "./trivalley-triquetra.png", "./assets/tv-coach-portrait.webp",
         "./" + entry_js[0], "./" + entry_css[0]]
 core += ["./" + path for path in icon_files if "./" + path not in core]
 extras = ["./" + x for x in assets if x not in entry_js + entry_css]
