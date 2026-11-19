@@ -72,6 +72,8 @@ try {
   await tap('[data-ex-id="0313"] .tv-exercise-open');
   await page.waitForSelector('[data-testid="tv-movement-figure"][data-exercise-id="0313"]');
   assert(await page.evaluate(()=>document.body.innerText.includes('do not rotate your palms forward')),'Hammer curl catalogue error still present');
+  await tap('[aria-label="Close exercise details"]');
+  await page.waitForFunction(()=>!document.getElementById('modal-root'));
   await page.goto(url+'#/plan?day=back-biceps',{waitUntil:'networkidle0'});
   await tap('[data-testid="tv-poster-start"]');
   await page.waitForFunction(()=>document.body.innerText.includes('Start without weighing in'));
