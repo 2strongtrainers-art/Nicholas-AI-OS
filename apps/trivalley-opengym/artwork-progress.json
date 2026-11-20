@@ -8,10 +8,19 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "nick-pictograms-20261120-01",
-    "status": "BUILT_NOT_DEPLOYED",
+    "status": "DEPLOYED_NATIVE_READBACK_VERIFIED",
     "customExerciseEntries": 18,
     "uniqueNewMovements": 14,
-    "presets": 4
+    "presets": 4,
+    "appVersion": "5.17.0",
+    "releaseSourceCommit": "74f06ed84e0e2855a4015396ddc4fb9c63cae3a2",
+    "buildRunId": 44759892755,
+    "artifactId": 14639169574,
+    "artifactSha256": "94efe2a70c258d8ea1cb846e151a6141a23be253d318f82d3cb3e9f63c9b5b91",
+    "publicationId": "ea6c0e5a-d207-40cd-8996-5095342deb59",
+    "observedAt": "2026-11-20T15:10:50.258867+00:00",
+    "liveBrowserAcceptance": "PENDING",
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
