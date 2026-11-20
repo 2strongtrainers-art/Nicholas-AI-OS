@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://www.wixapis.com https://kszzvzysxwetwapbhzgy.supabase.co; form-action 'none'">
+<title>TriValley.fit — Private Coaching Pilot</title>
+<style>
+:root{color-scheme:dark;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 10%,#253448 0%,#0b1423 48%,#060b13 100%);color:#f1f4f6}
+main{max-width:680px;margin:0 auto;padding:24px 20px 72px}
+header{display:flex;align-items:center;gap:14px;padding:24px 0 26px}
+.logo{width:54px;height:54px;object-fit:contain;filter:drop-shadow(0 4px 16px #d8b5744d)}
+.brand{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#e4c99c;font-weight:700}
+.subtitle{font-size:13px;color:#b0b9c5;margin-top:5px}
+.hairline{height:1px;background:linear-gradient(to right,#c9a56e80,transparent);margin-bottom:30px}
+h1{font-size:clamp(31px,8vw,45px);line-height:1.07;letter-spacing:-.04em;font-weight:660;margin:0 0 14px}
+.lead{font-size:15px;line-height:1.65;color:#b9c4d3;margin:0 0 26px;max-width:48ch}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;border:1px solid #bfa17255;border-radius:999px;padding:8px 12px;color:#e4c99c;background:#bfa17211;margin-bottom:18px}
+.panel{padding:23px;border:1px solid #47566b;border-radius:20px;background:linear-gradient(155deg,#172538e8,#0f1b2bdb);box-shadow:0 16px 46px #0004;margin-bottom:16px}
+.panel h2{font-size:16px;letter-spacing:-.01em;margin:0 0 9px}
+.panel p{font-size:13px;line-height:1.6;color:#afbbcb;margin:0 0 19px}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:15px 18px;font-weight:700;min-height:48px}
+.primary{background:linear-gradient(100deg,#f0d7a7,#c79f60);color:#132235;width:100%}
+.secondary{background:transparent;border:1px solid #65758b;color:#f3f5f8}
+.buttonrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+[hidden]{display:none!important}
+#status{padding:14px 16px;border-radius:12px;border:1px solid #51627a;color:#ccd7e5;background:#142235;font-size:13px;line-height:1.55;min-height:50px}
+#status.error{border-color:#d99d68;color:#ffd5b1;background:#3c2618}
+#status.success{border-color:#6ea68c;color:#c6f3db;background:#193428}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.metric{padding:17px;border:1px solid #425168;border-radius:14px;background:#0b1829}
+.metric b{font-size:24px;display:block}.metric span{font-size:11px;color:#aab7c9}
+.small{color:#96a4b7;font-size:12px;line-height:1.6}
+a{color:#e7cd9f;text-decoration-color:#e7cd9f77}
+footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
+</style>
+</head>
+<body>
+<main>
+<header>
+<img class="logo" src="/apple-touch-icon-trinity-20261119.png" alt="TriValley Trinity knot">
+<div><div class="brand">TRIVALLEY.FIT</div><div class="subtitle">Private coaching workspace</div></div>
+</header>
+<div class="hairline"></div>
+<div class="tag">Secure staging pilot · Owner access</div>
+<h1>Your coaching.<br>Your data. <span style="color:#e4c99c">Your control.</span></h1>
+<p class="lead">A private verification workspace for the TriValley coaching backend. Your existing workout app and purchases are unchanged.</p>
+<section class="panel" id="login-panel">
+<h2>Owner member sign-in</h2>
+<p>Sign in through Wix using the <strong>2strongtrainers@gmail.com</strong> member account. We never ask for your password on this page.</p>
+<button id="login" class="primary" type="button">Continue securely with Wix</button>
+</section>
+<div id="status" role="status" aria-live="polite">Not signed in. Coaching data access is disabled until your identity is verified.</div>
+<section class="panel" id="workspace" hidden>
+<h2>Coach account verified</h2>
+<div class="small" id="identity">Verifying...</div>
+<div class="stats">
+<div class="metric"><b id="clientCount">—</b><span>Assigned active clients</span></div>
+<div class="metric"><b>Private</b><span>Data access</span></div>
+</div>
+<p id="emptyNote">No real client data has been migrated to this staging project.</p>
+<div class="buttonrow">
+<button id="reload" class="secondary" type="button">Refresh client list</button>
+<button id="endSession" class="secondary" type="button">End this session</button>
+</div>
+</section>
+<footer>
+<div class="small">Owner-only pilot. Do not enter medical information here. This page stores your Wix access token in memory only for the current visit. Client migration, payments and coach-client messaging are not enabled.</div>
+<div class="small" style="margin-top:14px"><a href="/#/home">Back to Training Companion</a> · <a href="https://www.trivalley.fit/">TriValley.fit</a></div>
+</footer>
+</main>
+<script type="module" src="/coach-login-client.mjs"></script>
+</body>
+</html>
