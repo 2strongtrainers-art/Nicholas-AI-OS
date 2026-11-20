@@ -1,0 +1,206 @@
+// TriValley Coaching: private, deny-by-default Wix-member staging API.
+// Runtime credentials are supplied by Supabase, never stored in Git or sent to clients.
+// Production rollout is gated by real Wix-member site binding + end-to-end acceptance.
+import postgres from "npm:postgres@3.4.3";
+import {CoachingService,InMemoryCoachingStore,CoachingError} from "./domain.mjs";
+import {makeWixMemberVerifier} from "./wix-verify.mjs";
+import {makeWixSiteUrlBinding} from "./wix-site-binding.mjs";
+
+const SITE_ID="9e6343d9-5a1c-45e2-8596-f73408e38402";
+const HOST_NAME="trivalley-coaching-api";
+const MAX_BODY=48*1024;
+const ORIGINS=new Set([
+  "https://www.trivalley.fit",
+  "https://trivalley.fit",
+  "https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com"
+]);
+const DB_URL=Deno.env.get("SUPABASE_DB_URL");
+const sql=DB_URL?postgres(DB_URL,{max:2,prepare:false,idle_timeout:10,connect_timeout:5}):null;
+const MAP_KEYS=["programs","programVersions","assignments","workouts","checkins","deletionRequests"];
+
+function send(body,status=200,origin=null) {
+  const headers={
+    "Content-Type":"application/json; charset=utf-8",
+    "Cache-Control":"no-store",
+    "X-Content-Type-Options":"nosniff",
+    "Referrer-Policy":"no-referrer",
+    "Vary":"Origin, Authorization"
+  };
+  if(origin&&ORIGINS.has(origin)){
+    headers["Access-Control-Allow-Origin"]=origin;
+    headers["Access-Control-Allow-Headers"]="authorization, content-type";
+    headers["Access-Control-Allow-Methods"]="GET, POST, OPTIONS";
+  }
+  return new Response(JSON.stringify(body),{status,headers});
+}
+function pathFor(req) {
+  const path=new URL(req.url).pathname;
+  const at=path.indexOf("/"+HOST_NAME);
+  return at>=0 ? (path.slice(at+HOST_NAME.length+1)||"/") : path;
+}
+async function jsonBody(req) {
+  if(!/^application\/json(?:\s*;|$)/i.test(req.headers.get("content-type")||""))
+    throw new CoachingError(415,"CONTENT_TYPE","Expected application/json");
+  if(Number(req.headers.get("content-length")||"0")>MAX_BODY)
+    throw new CoachingError(413,"BODY_TOO_LARGE","Request too large");
+  if(!req.body) throw new CoachingError(400,"INVALID_JSON","Request body required");
+  const reader=req.body.getReader();
+  const decoder=new TextDecoder("utf-8",{fatal:true});
+  let size=0,text="";
+  try {
+    while(true) {
+      const {value,done}=await reader.read();
+      if(done) break;
+      size+=value.byteLength;
+      if(size>MAX_BODY) {
+        await reader.cancel();
+        throw new CoachingError(413,"BODY_TOO_LARGE","Request too large");
+      }
+      text+=decoder.decode(value,{stream:true});
+    }
+    text+=decoder.decode();
+    const obj=JSON.parse(text);
+    if(!obj||typeof obj!=="object"||Array.isArray(obj))
+      throw new Error("Not an object");
+    return obj;
+  }catch(e){
+    if(e instanceof CoachingError)throw e;
+    throw new CoachingError(400,"INVALID_JSON","Expected a JSON object");
+  }finally{reader.releaseLock()}
+}
+function decodeSnapshot(json,members) {
+  if(!json||typeof json!=="object"||Array.isArray(json))throw new Error("Bad snapshot");
+  const store=new InMemoryCoachingStore();
+  for(const name of MAP_KEYS) {
+    const value=json[name];
+    if(!Array.isArray(value)||value.length>20000)throw new Error("Bad snapshot maps");
+    for(const pair of value)if(!Array.isArray(pair)||pair.length!==2||typeof pair[0]!=="string")
+      throw new Error("Bad snapshot entries");
+    store[name]=new Map(value);
+  }
+  if(!Array.isArray(json.exerciseCatalog)||json.exerciseCatalog.length>5000)
+    throw new Error("Bad exercise catalog");
+  store.exerciseCatalog=new Set(json.exerciseCatalog);
+  store.audit=[];
+  for(const row of members){
+    store.members.set(row.member_id,{
+      id:row.member_id,orgId:row.org_id,role:row.role,
+      status:row.status,displayName:row.display_name
+    });
+  }
+  return store;
+}
+function encodeSnapshot(store) {
+  const value={};
+  for(const name of MAP_KEYS)value[name]=Array.from(store[name].entries());
+  value.exerciseCatalog=Array.from(store.exerciseCatalog.values());
+  return JSON.stringify(value);
+}
+function dispatch(service,actor,method,path,body) {
+  if(method==="GET") {
+    if(path==="/v1/me")return {member:service.publicMember(actor)};
+    if(path==="/v1/me/assignments")return {items:service.activeAssignments(actor)};
+    if(path==="/v1/me/progress")return {progress:service.clientProgress(actor,actor.sub)};
+    if(path==="/v1/me/export")return {data:service.clientExport(actor)};
+    if(path==="/v1/me/deletion-requests")return {requests:service.ownDeletionRequests(actor)};
+    if(path==="/v1/coach/clients")return {clients:service.coachClients(actor)};
+    let m=path.match(/^\/v1\/coach\/clients\/([^/]+)\/progress$/);
+    if(m)return {progress:service.clientProgress(actor,decodeURIComponent(m[1]))};
+    m=path.match(/^\/v1\/coach\/clients\/([^/]+)\/checkins$/);
+    if(m)return {items:service.coachCheckins(actor,decodeURIComponent(m[1]))};
+  }
+  if(method==="POST") {
+    if(path==="/v1/me/workouts")return service.logWorkout(actor,body);
+    if(path==="/v1/me/checkins")return service.submitCheckin(actor,body);
+    if(path==="/v1/me/deletion-requests")return service.requestDataDeletion(actor,body);
+    if(path==="/v1/coach/programs")return {program:service.createProgram(actor,body)};
+    if(path==="/v1/coach/assignments")return {assignment:service.assignProgram(actor,body)};
+    let m=path.match(/^\/v1\/coach\/programs\/([^/]+)\/revise$/);
+    if(m)return {program:service.reviseProgram(actor,decodeURIComponent(m[1]),body)};
+    m=path.match(/^\/v1\/coach\/programs\/([^/]+)\/publish$/);
+    if(m)return {program:service.publishProgram(actor,decodeURIComponent(m[1]))};
+    m=path.match(/^\/v1\/coach\/checkins\/([^/]+)\/review$/);
+    if(m)return service.reviewCheckin(actor,decodeURIComponent(m[1]),body);
+    m=path.match(/^\/v1\/coach\/assignments\/([^/]+)\/revoke$/);
+    if(m)return {assignment:service.revokeAssignment(actor,decodeURIComponent(m[1]))};
+  }
+  throw new CoachingError(404,"NOT_FOUND","Endpoint not found");
+}
+const verify=makeWixMemberVerifier({
+  siteId:SITE_ID,
+  verifyTokenSite:makeWixSiteUrlBinding({expectedSiteId:SITE_ID}),
+  lookupProvisionedMember:async ({siteId,memberId})=>{
+    if(!sql)return null;
+    const rows=await sql.unsafe(
+      "select org_id::text as org_id, role,status from coaching_private.wix_memberships where wix_site_id=$1::uuid and wix_member_id=$2::uuid limit 1",
+      [siteId,memberId]
+    );
+    if(rows.length!==1)return null;
+    return {siteId,memberId,orgId:rows[0].org_id,role:rows[0].role,status:rows[0].status};
+  }
+});
+async function handle(req) {
+  const origin=req.headers.get("origin");
+  try {
+    if(origin&&!ORIGINS.has(origin))return send({error:"ORIGIN_DENIED"},403);
+    const path=pathFor(req);
+    if(req.method==="OPTIONS") {
+      if(!origin||!ORIGINS.has(origin))return send({error:"ORIGIN_DENIED"},403);
+      const h=new Headers({
+        "Access-Control-Allow-Origin":origin,
+        "Access-Control-Allow-Headers":"authorization, content-type",
+        "Access-Control-Allow-Methods":"GET, POST, OPTIONS",
+        "Cache-Control":"no-store","Vary":"Origin"
+      });
+      return new Response(null,{status:204,headers:h});
+    }
+    if(req.method==="GET"&&path==="/health")
+      return send({service:"TriValley coaching",stage:"staging",authenticatedAccess:"required",clientMigration:false},200,origin);
+    if(req.method!=="GET"&&req.method!=="POST")return send({error:"METHOD_NOT_ALLOWED"},405,origin);
+    if(!sql)return send({error:"SERVICE_NOT_READY"},503,origin);
+    const bearer=/^Bearer ([^\s]{10,4096})$/i.exec(req.headers.get("authorization")||"")?.[1];
+    if(!bearer)return send({error:"UNAUTHENTICATED"},401,origin);
+    const actor=await verify(bearer);
+    if(!actor)return send({error:"UNAUTHENTICATED"},401,origin);
+    const body=req.method==="POST"?await jsonBody(req):null;
+    const result=await sql.begin(async tx=>{
+      // Re-check permissions *inside* the serialized write transaction.
+      const rows=await tx.unsafe(
+        "select wix_member_id::text as member_id, org_id::text as org_id, role, status, display_name from coaching_private.wix_memberships where org_id=$1::uuid and wix_site_id=$2::uuid and status='active'",
+        [actor.orgId,SITE_ID]
+      );
+      const current=rows.find(row=>row.member_id===actor.sub);
+      if(!current||current.role!==actor.role||current.org_id!==actor.orgId)
+        throw new CoachingError(401,"UNAUTHENTICATED","Member access revoked");
+      const state=await tx.unsafe(
+        "select payload from coaching_private.snapshots where org_id=$1::uuid for update",
+        [actor.orgId]
+      );
+      if(state.length!==1)throw new CoachingError(503,"SERVICE_NOT_READY","Coaching state unavailable");
+      const store=decodeSnapshot(state[0].payload,rows);
+      const service=new CoachingService({store});
+      const data=dispatch(service,actor,req.method,path,body);
+      if(req.method==="POST"||store.audit.length){
+        const payload=encodeSnapshot(store);
+        if(new TextEncoder().encode(payload).byteLength>4000000)
+          throw new CoachingError(413,"STORAGE_LIMIT","Private coaching record limit reached");
+        await tx.unsafe(
+          "update coaching_private.snapshots set payload=$2::jsonb, revision=revision+1, updated_at=now() where org_id=$1::uuid",
+          [actor.orgId,payload]
+        );
+        for(const evt of store.audit)await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id,occurred_at) values ($1::uuid,$2::uuid,$3,$4,$5::timestamptz)",
+          [actor.orgId,evt.actorId,evt.action,evt.resourceId,evt.at]
+        );
+      }
+      return data;
+    });
+    const created=req.method==="POST"?201:200;
+    return send(result,created,origin);
+  }catch(e) {
+    if(e instanceof CoachingError)
+      return send({error:e.code,message:e.message},e.status,origin);
+    return send({error:"INTERNAL_ERROR",message:"Operation unavailable"},500,origin);
+  }
+}
+Deno.serve(handle);
