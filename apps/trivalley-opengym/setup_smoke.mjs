@@ -35,6 +35,7 @@ try {
   await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('gym_state_v1')||'{}');s.routines=[{id:'keep',name:'My existing workout',emoji:'dumbbell',ex:[]}];s.week={0:'keep',1:'keep'};s.unit='lb';s.workouts=[];s.bodyweight=[];s.exWeights={};s.targetW=null;s.active=null;s.tvSetupDone=false;localStorage.setItem('gym_state_v1',JSON.stringify(s))});
   await page.reload({waitUntil:'networkidle0'});
   const clickText=async text=>{
+    await page.waitForFunction(text=>[...document.querySelectorAll('button')].some(n=>n.textContent.trim()===text),{timeout:10000},text);
     const buttons=await page.$$('button');
     for(const button of buttons){
       if((await button.evaluate(n=>n.textContent.trim()))!==text)continue;
