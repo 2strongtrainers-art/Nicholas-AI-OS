@@ -41,7 +41,7 @@ test('End-to-end: Wix-simulated site/member proof → SQLite → HTTP → offlin
     if(url.endsWith('/ricos/v1/site-context/site-url'))return {
       ok:true,text:async()=>JSON.stringify({baseUrl:presented.site,published:true})
     };
-    if(url.endsWith('/members/v1/members/my?fieldsets=EXTENDED'))return {
+    if(url.endsWith('/members/v1/members/my?fieldSet=FULL'))return {
       ok:true,text:async()=>JSON.stringify({member:{id:presented.id,status:'APPROVED'}})
     };
     throw Error('Unexpected mocked Wix API');
