@@ -3,7 +3,7 @@
 // Official flow: https://dev.wix.com/docs/go-headless/authentication/members/wix-login-page/add-a-wix-login-page-rest
 const TOKEN_URL='https://www.wixapis.com/oauth2/token';
 const REDIRECT_URL='https://www.wixapis.com/_api/redirects-api/v1/redirect-session';
-const MEMBER_URL='https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED';
+const MEMBER_URL='https://www.wixapis.com/members/v1/members/my?fieldSet=FULL';
 const PENDING_KEY='trivalley_coaching_oauth_pkce_v1';
 const MAX_AGE_MS=600000;
 const CLIENT_ID='82db080c-df7a-4995-9e72-d9fe9babd503';
