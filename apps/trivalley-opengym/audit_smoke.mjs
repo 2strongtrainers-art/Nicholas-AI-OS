@@ -67,7 +67,10 @@ try{
  await page.waitForFunction(selector=>{const n=document.querySelector(selector);const r=n?.getBoundingClientRect();return r&&n.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))},{timeout:5000},detailSelector);
  await page.click(detailSelector);
  await page.waitForSelector('.tv-exercise-detail-heading h3');assert(await page.$eval('.tv-exercise-detail-heading h3',n=>n.getBoundingClientRect().width>130),'Exercise heading collapsed');
- assert(await page.$$eval('[role="dialog"] ol',ns=>ns.length===1),'Full instructions are duplicated');
+ assert(await page.$$eval('[role="dialog"] [data-testid="tv-coach-notes"]',ns=>ns.length===1),'Expected one complete coaching guide');
+ assert(await page.$$eval('[role="dialog"] [data-testid="tv-coach-notes"] dt',ns=>ns.map(n=>n.textContent).join('|')==='Setup|Do this|Avoid|Make it easier'),'Four coaching sections missing');
+ assert(await page.$$eval('[role="dialog"] .steps-list',ns=>ns.length===0),'Old and new instructions are duplicated');
+ assert(await page.$eval('.tv-strength-estimate',n=>!n.open),'Example strength estimate should start collapsed');
  await page.screenshot({path:shot,fullPage:true});
  await page.addScriptTag({content:fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8')});
  const axe=await page.evaluate(async()=>await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));
