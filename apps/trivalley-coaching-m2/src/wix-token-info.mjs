@@ -33,7 +33,7 @@ export function makeWixOAuthTokenBinding({expectedSiteId,expectedClientId,
       // Wix returns exp/iat as decimal Unix-second *strings* in live responses.
       // Require a currently valid, bounded token even when Wix reports active=true.
       const toSeconds=value=>{
-        if(typeof value!=="number" && !(typeof value==="string" && /^\\d{10,12}$/.test(value)))return null;
+        if(typeof value!=="number" && !(typeof value==="string" && /^\d{10,12}$/.test(value)))return null;
         const n=Number(value);
         return Number.isSafeInteger(n)&&n>0?n:null;
       };
