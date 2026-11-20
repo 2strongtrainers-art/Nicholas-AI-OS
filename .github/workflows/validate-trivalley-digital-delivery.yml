@@ -1,0 +1,46 @@
+name: Validate TriValley Digital Delivery
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-trivalley-digital-delivery.yml"
+      - "services/trivalley-digital-delivery/**"
+      - "scripts/deploy_trivalley_digital_delivery.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Use Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Install pinned worker dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd services/trivalley-digital-delivery
+          npm install --no-audit --no-fund
+
+      - name: Run deterministic access tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd services/trivalley-digital-delivery
+          npm test
+
+      - name: Validate Cloudflare build
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd services/trivalley-digital-delivery
+          npx wrangler deploy --config wrangler.jsonc --dry-run --outdir "$RUNNER_TEMP/trivalley-delivery-worker"
