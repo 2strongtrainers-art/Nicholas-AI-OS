@@ -49,6 +49,16 @@
     <p class="tv-app-note">Workouts stay on the device you use. Save a copy with the backup controls in the app’s Settings. Before training offline, wait for the app to confirm “Offline app cached”.</p>
   `;
   let queued = false, lastJump = '';
+  function focusAppEntry(link) {
+    link.addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const card = document.getElementById(cardId);
+      if (location.pathname !== '/' || !card) return;
+      event.preventDefault(); event.stopPropagation();
+      card.scrollIntoView({block:'start'});
+      card.querySelector('h2').focus({preventScroll:true});
+    });
+  }
   function mount() {
     queued = false;
     if (!document.getElementById(styleId)) {
@@ -58,11 +68,11 @@
     if (menu && !document.getElementById('tv-app-menu-item')) {
       const item = document.createElement('li'); item.id = 'tv-app-menu-item';
       const link = document.createElement('a'); link.id = 'tv-app-menu-link';link.href = '/#tv-training-app';link.textContent = 'Get the App';
-      item.append(link);menu.classList.add('tv-app-menu-ready');menu.prepend(item);
+      focusAppEntry(link);item.append(link);menu.classList.add('tv-app-menu-ready');menu.prepend(item);
     }
     const heroActions = document.querySelector('#tv-coaching-hero .coach-actions');
     if (heroActions && !document.getElementById('tv-app-hero-link')) {
-      const link = document.createElement('a');link.id='tv-app-hero-link';link.className='coach-action';link.href='/#tv-training-app';link.textContent='Get the free training app';heroActions.prepend(link);
+      const link = document.createElement('a');link.id='tv-app-hero-link';link.className='coach-action';link.href='/#tv-training-app';link.textContent='Get the free training app';focusAppEntry(link);heroActions.prepend(link);
     }
     const path = location.pathname.replace(/\/+$/, '') || '/';
     const existing = document.getElementById(cardId);
