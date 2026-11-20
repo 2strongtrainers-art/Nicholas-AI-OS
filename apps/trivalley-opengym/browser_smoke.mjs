@@ -123,7 +123,7 @@ try {
 
   // Real workout acceptance: start a planned routine, mark a set, finish early, and confirm saved history.
   const selected=await page.evaluate(() => {
-    const item=[...document.querySelectorAll('.item')].find(el=>el.textContent.includes('Push Day'));
+    const item=[...document.querySelectorAll('button')].find(el=>el.textContent.trim()==='Start Push Day');
     if(!item)return false;item.click();return true;
   });
   if(!selected)throw new Error('Cannot select Push Day from workout chooser');
