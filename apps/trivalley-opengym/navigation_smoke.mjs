@@ -30,7 +30,12 @@ let browser,page; const errors=[];
 try {
  browser=await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  page=await browser.newPage();page.setDefaultTimeout(12000);page.on('pageerror',e=>errors.push(e.message));
- const clickText=async text=>{await page.waitForFunction(text=>[...document.querySelectorAll('button')].some(b=>b.textContent.trim()===text),{},text);const buttons=await page.$$('button');for(const b of buttons)if(await b.evaluate(n=>n.textContent.trim())===text){await b.click();return}throw Error('Missing '+text)};
+ const clickText=async text=>{
+  await page.waitForFunction(text=>{const n=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);if(!n)return false;const d=n.closest('[role="dialog"]');return !d||getComputedStyle(d).transform==='none'}, {},text);
+  await page.evaluate(text=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()===text).scrollIntoView({block:'center'}),text);
+  const ready=await page.waitForFunction(text=>{const n=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);const r=n?.getBoundingClientRect();if(!r||!r.width||!r.height)return false;const x=r.x+r.width/2,y=r.y+r.height/2;return n.contains(document.elementFromPoint(x,y))?{x,y}:false},{timeout:10000},text);
+  const point=await ready.jsonValue();await page.mouse.click(point.x,point.y);
+ };
  const geometry=async label=>{
   await page.waitForFunction(()=>{const a=document.querySelector('#app')?.getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]')?.getBoundingClientRect();return a&&d&&a.height>100&&a.bottom<=d.top-6});
   const g=await page.evaluate(()=>{const a=document.querySelector('#app').getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]').getBoundingClientRect(),n=document.querySelector('#tabbar').getBoundingClientRect(),t=document.querySelector('#timer')?.getBoundingClientRect();return {a:a.toJSON(),d:d.toJSON(),n:n.toJSON(),t:t?.toJSON(),h:innerHeight,w:innerWidth,host:document.documentElement.dataset.tvFreeHosted}});

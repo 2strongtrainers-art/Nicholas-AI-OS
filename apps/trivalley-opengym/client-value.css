@@ -1,6 +1,6 @@
 .tv-save-error{position:sticky;top:0;z-index:30}
 #app :is(button,a,input,textarea,select,summary){scroll-margin-block:20px}
-#app input,#app textarea,#app select{font-size:max(16px,1em)}
+#app input:not(.num),#app textarea,#app select{font-size:max(16px,1em)}
 .tv-program-brief{margin:14px 0 18px;border:1px solid var(--sep);border-radius:14px;background:var(--surface-2)}
 .tv-program-brief>summary{padding:13px 14px;min-height:48px;box-sizing:border-box;cursor:pointer;font-size:15px;font-weight:650}
 .tv-brief-content{padding:0 16px 16px;font-size:15px;line-height:1.55}
