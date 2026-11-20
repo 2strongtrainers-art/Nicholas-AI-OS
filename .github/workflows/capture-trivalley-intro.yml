@@ -1,0 +1,40 @@
+name: Capture TriValley app introduction
+on:
+  push:
+    branches: [media/trivalley-app-intro-20261119]
+    paths: ['media/app-intro-20261119/**', '.github/workflows/capture-trivalley-intro.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+      - name: Reuse exact tested v5.11 app build
+        uses: actions/download-artifact@v4
+        with:
+          name: trivalley-opengym-wix-build
+          path: app-dist
+          run-id: 44664201143
+          github-token: ${{ github.token }}
+      - name: Capture isolated synthetic tutorial
+        run: |
+          mkdir -p "$RUNNER_TEMP/tutorial"
+          npm install --prefix "$RUNNER_TEMP/tutorial" --no-audit --no-fund playwright-core@1.65.0
+          cp media/app-intro-20261119/capture.mjs "$RUNNER_TEMP/tutorial/capture.mjs"
+          node "$RUNNER_TEMP/tutorial/capture.mjs" "$GITHUB_WORKSPACE/app-dist" "$GITHUB_WORKSPACE/tutorial-capture"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivalley-introduction-source-screens
+          path: tutorial-capture/
+          retention-days: 7
+          if-no-files-found: error
