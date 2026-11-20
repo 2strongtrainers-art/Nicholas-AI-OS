@@ -54,7 +54,9 @@ export function makeWixMemberVerifier({
         if(!member||member.siteId!==siteId||member.memberId!==payload.member.id||
           member.status!=='active'||!permitted.has(member.role)||
           typeof member.orgId!=='string'||!member.orgId.trim())return null;
-        return Object.freeze({sub:payload.member.id,orgId:member.orgId,role:member.role});
+        const canonical=member.canonicalMemberId||payload.member.id;
+        if(!validGuid(canonical)||(canonical!==payload.member.id && member.role!=="coach"))return null;
+        return Object.freeze({sub:canonical,orgId:member.orgId,role:member.role});
       }finally {
         clearTimeout(timeout);
       }
