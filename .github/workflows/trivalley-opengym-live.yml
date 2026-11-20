@@ -26,7 +26,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/trivalley-live"
           npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
-      - name: Verify exact published TriValley v5.9.0 source and compiled asset
+      - name: Verify exact published TriValley v5.11.0 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -34,9 +34,9 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.9.0' ||
-              release.sourceCommit !== '220eb80014a02e56a63c14b7fff3ed239efeb468' ||
-              release.mainScript !== 'assets/index-BGUL85gA.js' ||
+          if (release.version !== '5.11.0' ||
+              release.sourceCommit !== '7ede5600a02bf16278cfaf09912bcc1a3b05988b' ||
+              release.mainScript !== 'assets/index-CL1mtFAI.js' ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
@@ -45,7 +45,7 @@ jobs:
       - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-BGUL85gA.js'
+          TV_EXPECTED_JS: 'index-CL1mtFAI.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
@@ -99,6 +99,12 @@ jobs:
         run: |
           cp apps/trivalley-opengym/setup_smoke.mjs "$RUNNER_TEMP/trivalley-live/setup.mjs"
           node "$RUNNER_TEMP/trivalley-live/setup.mjs" unused "$RUNNER_TEMP/trivalley-live/live-setup.png"
+      - name: Verify live reserved navigation, timer clearance and one setup path
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/navigation_smoke.mjs "$RUNNER_TEMP/trivalley-live/navigation.mjs"
+          node "$RUNNER_TEMP/trivalley-live/navigation.mjs" unused "$RUNNER_TEMP/trivalley-live/live-navigation.png"
       - name: Upload live mobile screenshot
         if: always()
         uses: actions/upload-artifact@v4
@@ -115,6 +121,39 @@ jobs:
             ${{ runner.temp }}/trivalley-live/live-movements.png
             ${{ runner.temp }}/trivalley-live/live-audit.png
             ${{ runner.temp }}/trivalley-live/live-setup.png
+            ${{ runner.temp }}/trivalley-live/live-navigation.png
           retention-days: 7
           if-no-files-found: ignore
 
+
+  client-value:
+    name: Client value and mobile layout (${{ matrix.engine }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
+      options: --ipc=host
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+      - name: Test the actual compiled app in both browser engines
+        env:
+          TV_ENGINE: ${{ matrix.engine }}
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-client-value"
+          npm install --prefix "$RUNNER_TEMP/trivalley-client-value" --no-audit --no-fund playwright-core@1.65.0
+          cp apps/trivalley-opengym/client_value_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/test.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/test.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/progress.png"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivalley-live-client-value-${{ matrix.engine }}
+          path: ${{ runner.temp }}/trivalley-client-value/progress.png
+          retention-days: 7
