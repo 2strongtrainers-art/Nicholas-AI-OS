@@ -23,14 +23,15 @@ await go('07-active',()=>p.getByRole('button',{name:'Start without weighing in',
 const fields=p.locator('[data-testid="tv-inline-set-fields"] input');await fields.first().scrollIntoViewIfNeeded();await snap('08-fields');
 await fields.nth(0).fill('35');await fields.nth(0).press('Tab');await fields.nth(1).fill('10');await fields.nth(1).press('Tab');await snap('09-entered');
 await go('10-rest',()=>p.locator('[data-testid="tv-poster-set"]').first().click());
-await p.getByRole('button',{name:'Skip',exact:true}).click();await p.waitForTimeout(300);await snap('11-finish');
+await p.getByRole('button',{name:'Skip',exact:true}).click();await p.getByRole('button',{name:'Finish',exact:true}).scrollIntoViewIfNeeded();await p.waitForTimeout(300);await snap('11-finish');
 // Separate demo history in a fresh browser profile. Never access real client storage.
 await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('gym_state_v1'));const day=o=>{const d=new Date();d.setDate(d.getDate()+o);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};S.active=null;S.workouts=[0,-2,-4].map((d,i)=>({id:'tutorial-demo-'+i,d:day(d),end:Date.now()+d*86400000-60000,unit:'lb',entries:[{id:'0294',target:{mode:'reps'},sets:Array.from({length:3},()=>({w:25,r:10,done:true}))}]}));localStorage.setItem('gym_state_v1',JSON.stringify(S));});
 await p.reload({waitUntil:'networkidle'});await go('12-progress',()=>p.getByRole('button',{name:'Progress',exact:true}).click());
 const weekly=p.locator('[data-testid="tv-progress-summary"]');await weekly.scrollIntoViewIfNeeded();await snap('13-weekly');
 if(await p.locator('[data-testid="tv-summary-sessions"]').textContent()!=='3')throw Error('Demo history not counted');
 // The settings route is linked by the public More menu; capture its visible backup controls.
-await p.goto(`http://127.0.0.1:${server.address().port}/#/settings`,{waitUntil:'networkidle'});await snap('14-settings');
+await p.locator('[data-testid="tv-client-more"] summary').click();await snap('14-menu');
+await p.getByRole('button',{name:'Settings & backups',exact:true}).click();await p.waitForTimeout(300);await snap('14-settings');
 fs.writeFileSync(path.join(out,'settings-text.txt'),await p.locator('body').innerText());
 const backup=p.getByRole('button',{name:/backup|Back up/i}).first();if(await backup.count())await backup.scrollIntoViewIfNeeded();await snap('15-backup');
 fs.writeFileSync(path.join(out,'capture-receipt.json'),JSON.stringify({version:release.version,sourceCommit:release.sourceCommit,syntheticData:true,viewport:{width:390,height:680,deviceScaleFactor:2},events,errors},null,2));if(errors.length)throw Error(errors.join(';'));
