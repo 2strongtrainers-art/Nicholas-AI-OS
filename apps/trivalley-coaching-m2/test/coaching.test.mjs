@@ -135,6 +135,16 @@ test('disabled client and revoked assignments cannot appear as active coach clie
   rejects(()=>svc.clientProgress(members.clientB,'client-b'),'MEMBERSHIP_MISMATCH');
   rejects(()=>svc.activeAssignments(members.clientB),'MEMBERSHIP_MISMATCH');
 });
+test('unexpected member states fail closed instead of granting access',()=>{
+  for(const state of ['pending','suspended',null,undefined]) {
+    const {svc,store}=fixture();
+    store.members.get('client-a').status=state;
+    rejects(()=>svc.publicMember(members.clientA),'MEMBERSHIP_MISMATCH');
+    rejects(()=>svc.activeAssignments(members.clientA),'MEMBERSHIP_MISMATCH');
+    rejects(()=>svc.clientExport(members.clientA),'MEMBERSHIP_MISMATCH');
+    assert.equal(svc.coachClients(members.coachA).some(x=>x.id==='client-a'),false);
+  }
+});
 test('invalid calendar dates are rejected cleanly',()=>{
   const {svc,assignA}=fixture();
   for(const date of ['2026-02-31','2026-13-01','2026-00-01','invalid']){
