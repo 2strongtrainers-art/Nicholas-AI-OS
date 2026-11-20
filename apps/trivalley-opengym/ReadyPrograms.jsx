@@ -47,7 +47,7 @@ export default function ReadyPrograms() {
   if (preview) return <section className="tv-program-detail" data-testid="tv-program-detail">
     <CurrentSessionNotice />
     <SessionBrief dayKey={params.get('day')} routine={preview} />
-    <RoutinePosterPreview routine={preview} startDisabled={!!S.active}
+    <RoutinePosterPreview routine={preview} startDisabled={!!S.active || !preview.ex.length}
       onClose={() => { const next = new URLSearchParams(params); next.delete('day'); setParams(next); document.getElementById('app')?.scrollTo(0, 0) }}
       onStart={() => beginDay(params.get('day'))} />
   </section>
@@ -71,9 +71,9 @@ export default function ReadyPrograms() {
           <div className="tv-program-card-body">
             <div className="tv-program-card-kicker">DAY {index + 1}{routine && position?.routine?.id === routine.id && !S.active && <span>UP NEXT</span>}</div>
             <h3>{routine?.name || day.name}</h3>
-            <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises · {durationRange(S, routine).min}–{durationRange(S, routine).max} min estimated{day.note ? ' · ' + day.note : ''}</p>
+            <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises{durationRange(S, routine) && <> · {durationRange(S, routine).min}–{durationRange(S, routine).max} min estimated</>}{day.note ? ' · ' + day.note : ''}</p>
             <div className="tv-program-card-buttons">
-              <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} aria-label={'Start ' + (routine?.name || day.name)} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
+              <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} aria-label={'Start ' + (routine?.name || day.name)} disabled={!!S.active || !routine?.ex.length} onClick={() => beginDay(day.key)}>Start</button>
               <button type="button" className="btn" aria-label={'View ' + day.name + ' workout'} data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); document.getElementById('app')?.scrollTo(0, 0) }}>View workout</button>
               {days[index] && <button type="button" className="tv-text-action" aria-label={'Edit ' + routine.name} onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>}
             </div>

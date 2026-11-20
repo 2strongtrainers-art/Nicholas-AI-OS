@@ -78,6 +78,11 @@ try{
  await page.setViewportSize({width:390,height:844})
  await page.reload({waitUntil:'networkidle'})
  assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0].sets[0].w===35),'Direct lifting entry lost after reload')
+ await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('gym_state_v1'));s.routines[0].ex=[];localStorage.setItem('gym_state_v1',JSON.stringify(s))});
+ await page.goto(url+'#/plan',{waitUntil:'networkidle'});await page.reload({waitUntil:'networkidle'});
+ assert(await page.locator('[data-testid="tv-start-program-0"]').isDisabled(),'Empty edited routine can start');
+ await page.locator('[data-testid="tv-preview-program-0"]').click();
+ assert((await page.locator('[data-testid="tv-session-program-brief"]').innerText()).includes('0 exercises'),'Empty routine brief invents exercises or crashes');
  assert(!errors.length,errors.join('; '))
  console.log(JSON.stringify({status:'CLIENT_VALUE_BROWSER_PASS',engine,checks:['320-430px non-overlapping navigation','one reviewed setup path','program and session briefs','honest seven-day card','separate partial effort','recorded same-load progress','rest-day clarity','returning-user onboarding','direct entry in reduced viewport','reload persistence'],physicalIPhone:'PENDING'}))
 }catch(error){console.error(JSON.stringify({error:error.message,engine,page:page?await page.locator('body').innerText().catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true}).catch(()=>{});throw error}

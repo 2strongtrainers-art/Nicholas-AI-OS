@@ -33,6 +33,7 @@ export default function ProgramContinue() {
     if (current.active) { nav('/workout'); return }
     const next = programPosition(current)
     if (!next?.routine) { nav('/plan'); return }
+    if (!next.routine.ex?.length) { nav('/plan/r/' + next.routine.id); return }
     startFlow(next.routine.id)
   }
   return <section className="card tv-continue-card" data-testid="tv-today-hero" aria-label="Continue your program">
@@ -41,10 +42,10 @@ export default function ProgramContinue() {
     <h2 data-testid="tv-program-next-name">{title}</h2>
     {active ? <p className="muted small">Resume the session you already started. Check Settings & backups for your saved records.</p>
       : position.missing ? <p className="muted small">Add the missing {position.day.name} routine in Programs to keep your sequence intact.</p>
-      : <p className="muted small">{routine.ex.length} exercises · {estimate.min}–{estimate.max} min estimated. {position.last ? 'Continues after your last finished program session.' : 'Your first program session is ready.'}</p>}
+      : <p className="muted small">{routine.ex.length} exercises{estimate ? ` · ${estimate.min}–${estimate.max} min estimated.` : '. Add exercises before starting.'} {position.last ? 'Continues after your last finished program session.' : 'Your first program session is ready.'}</p>}
     {!active && !position.missing && <p className="tv-program-schedule-note tv-calendar-status" data-testid="tv-today-calendar">{scheduled ? <>Today’s calendar: <strong>{scheduled.name}</strong>. The workout above is next in your program.</> : <><strong>Today is a rest day.</strong> The workout above is ready for your next training day.</>}</p>}
     <button type="button" className="btn primary tv-primary-action" data-testid="tv-start-primary" onClick={start}>
-      {active ? 'Resume workout' : position.missing ? 'Restore program day' : 'Start next workout'}
+      {active ? 'Resume workout' : position.missing ? 'Restore program day' : !routine?.ex.length ? 'Add exercises to workout' : 'Start next workout'}
     </button>
     <div className="tv-continue-actions">
       {!active && routine && <button type="button" className="tv-text-action" onClick={() => nav('/workout?poster=' + encodeURIComponent(routine.id))}>Preview workout</button>}

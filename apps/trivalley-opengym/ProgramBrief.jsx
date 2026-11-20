@@ -22,7 +22,7 @@ export function SessionBrief({ dayKey, routine }) {
   const estimate = durationRange(S, routine || templateRoutine(day))
   return <aside className="tv-session-program-brief" data-testid="tv-session-program-brief" aria-label={day.name + ' program brief'}>
     <span className="tv-eyebrow">YOUR SESSION BRIEF</span><p><strong>{day.focus}</strong> {day.brief}</p>
-    <dl><div><dt>Plan</dt><dd>{routine?.ex.length || day.exercises.length} exercises · {estimate.min}–{estimate.max} min estimated</dd></div>
+    <dl><div><dt>Plan</dt><dd>{routine?.ex.length ?? day.exercises.length} exercises{estimate ? ` · ${estimate.min}–${estimate.max} min estimated` : ' · Add exercises before starting'}</dd></div>
       <div><dt>Bring</dt><dd>{day.equipment}</dd></div></dl>
     <p className="small muted">Allow extra time to learn a movement or wait for equipment. Warm-up guidance and rep targets follow below.</p>
   </aside>
