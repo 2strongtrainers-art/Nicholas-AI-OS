@@ -30,8 +30,17 @@ export function makeWixOAuthTokenBinding({expectedSiteId,expectedClientId,
       if(!data||data.active!==true||data.subjectType!=="MEMBER"||
          data.siteId!==expectedSiteId||data.clientId!==expectedClientId||
          !UUID.test(data.subjectId||""))return null;
-      // Do not accept a provider-reported expired member session even if a stale response says active.
-      if(typeof data.exp==="number" && (!Number.isFinite(data.exp)||data.exp*1000<=now()))return null;
+      // Wix returns exp/iat as decimal Unix-second *strings* in live responses.
+      // Require a currently valid, bounded token even when Wix reports active=true.
+      const toSeconds=value=>{
+        if(typeof value!=="number" && !(typeof value==="string" && /^\\d{10,12}$/.test(value)))return null;
+        const n=Number(value);
+        return Number.isSafeInteger(n)&&n>0?n:null;
+      };
+      const issued=toSeconds(data.iat),expires=toSeconds(data.exp);
+      const current=Math.floor(now()/1000);
+      if(issued===null||expires===null||issued>current+60||
+         expires<=current||expires<=issued||expires-issued>604800)return null;
       return Object.freeze({siteId:expectedSiteId,identityType:"member",memberId:data.subjectId});
     }catch{return null}
     finally{clearTimeout(timeout)}
