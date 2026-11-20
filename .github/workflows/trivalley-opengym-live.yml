@@ -26,7 +26,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/trivalley-live"
           npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
           cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
-      - name: Verify exact published TriValley v5.15.0 source and compiled asset
+      - name: Verify exact published TriValley v5.16.0 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -34,9 +34,9 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.15.0' ||
-              release.sourceCommit !== 'e9aa55cf798f37c0fc2e8c352537de1a91d47e0d' ||
-              release.mainScript !== 'assets/index-Wg_1FzHL.js' ||
+          if (release.version !== '5.16.0' ||
+              release.sourceCommit !== '835ceb535d32af0c0e63c2c1c1cc74de54861d03' ||
+              release.mainScript !== 'assets/index-CMr05se4.js' ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
@@ -45,7 +45,7 @@ jobs:
       - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-Wg_1FzHL.js'
+          TV_EXPECTED_JS: 'index-CMr05se4.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
@@ -162,6 +162,8 @@ jobs:
           node "$RUNNER_TEMP/trivalley-client-value/workout-tools.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/workout-tools.png"
           cp apps/trivalley-opengym/calculators_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/calculators.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/calculators.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/calculators.png"
+          cp apps/trivalley-opengym/learning_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/learning.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/learning.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/learning.png"
           cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
       - uses: actions/upload-artifact@v4
@@ -173,5 +175,6 @@ jobs:
             ${{ runner.temp }}/trivalley-client-value/calculators.png
             ${{ runner.temp }}/trivalley-client-value/first-use.png
             ${{ runner.temp }}/trivalley-client-value/workout-tools.png
+            ${{ runner.temp }}/trivalley-client-value/learning.png
           retention-days: 7
 
