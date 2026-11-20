@@ -38,7 +38,7 @@ function harness({
       assert.equal(body.auth.authRequest.scope,'offline_access');
       return fake({redirectSession:{fullUrl:loginUrl}});
     }
-    if(url==='https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED') {
+    if(url==='https://www.wixapis.com/members/v1/members/my?fieldSet=FULL') {
       assert.equal(options.headers.authorization,'synthetic-member-token-value');
       return fake({member:{id:MEMBER,status}});
     }
