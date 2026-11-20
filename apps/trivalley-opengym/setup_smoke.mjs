@@ -55,6 +55,7 @@ try {
   await page.waitForSelector('[data-testid="tv-device-status"]');
   await clickText('Today');
 
+  await page.waitForSelector('[data-testid="tv-get-started"] summary',{visible:true});
   await page.click('[data-testid="tv-get-started"] summary');
   await clickText('Set up my training');await page.waitForSelector('#tv-setup-schedule');
   await page.click('[data-testid="tv-unit-options"] summary');

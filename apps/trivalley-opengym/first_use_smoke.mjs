@@ -53,7 +53,7 @@ try{
  assert((await page.locator('.tv-meal-example').innerText()).includes('division only'),'Meal example presented as prescription')
  assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===original,'Guides or calculators changed training records')
  await page.goto(url+'#/start',{waitUntil:'networkidle'})
- for(const width of [320,390,430]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Start guide overflow '+width)}
+ for(const width of [320,390,430]){await page.setViewportSize({width,height:667});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Start guide overflow '+width);assert(await page.locator('.tv-start-main').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&n.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))}),'Main first-use action is not reachable on the first screen '+width)}
  await page.setViewportSize({width:390,height:844});await page.screenshot({path:shot,fullPage:true})
  await page.addScriptTag({content:fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8')})
  const axe=await page.evaluate(async()=>await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}))
