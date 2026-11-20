@@ -25,6 +25,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Parse-check deployed Edge and coaching login JavaScript
+        working-directory: apps/trivalley-coaching-m2
+        run: |
+          node --check supabase/edge/index.mjs
+          node --check supabase/companion/coach-login-client.mjs
+          node --check src/wix-login-browser.mjs
       - name: Run deterministic M2 contract and security tests
         working-directory: apps/trivalley-coaching-m2
         env:
