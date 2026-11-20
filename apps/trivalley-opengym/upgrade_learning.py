@@ -28,6 +28,10 @@ edit('src/components/WorkoutTools.jsx','{nextSessionMessage(plan,target,unit)}',
 edit('src/views/Workout.jsx',"import WorkoutChooser from '../components/WorkoutChooser.jsx'","import WorkoutChooser from '../components/WorkoutChooser.jsx'\nimport { PosterSessionGuide } from '../components/PosterSketch.jsx'")
 edit('src/views/Workout.jsx','    <div className="wprog">','    <PosterSessionGuide template={A.tvTemplate} />\n    <div className="wprog">')
 edit('src/views/Workout.jsx',"if (m === 'reps' && !e.asked)","if (m === 'reps' && !e.asked && !(e.target?.tvPoster && e.sets.every(s=>!(s.w>0))))")
+edit('src/views/Workout.jsx',"    useUI.getState().startWork(e.sets[i].sec || 45, exOr(e.id).n, elapsed => {",'''    const seconds=Number(e.sets[i].sec)
+    if(!Number.isFinite(seconds)||seconds<=0){useUI.getState().toast('Enter a duration greater than zero before starting the set.');return}
+    useUI.getState().startWork(seconds, exOr(e.id).n, elapsed => {''')
+edit('src/sheets.jsx','This does not mark the program day complete. Repeat the day when ready.',"{w.tvTemplate?.id==='trivalley-quick-posters'?'Only the sets you performed are recorded. Adjust the next session to your ability.':'This does not mark the program day complete. Repeat the day when ready.'}")
 edit('src/components/Media.jsx',"import CoachNotes from './CoachNotes.jsx'","import CoachNotes from './CoachNotes.jsx'\nimport PosterSketch from './PosterSketch.jsx'\nimport { posterExercise } from '../lib/tv-learning.js'")
 edit('src/components/Media.jsx','  if (movementReferenceFor(ex)) return', '''  if (posterExercise(ex.id) && ex.tvPosterVersion===1 && posterExercise(ex.id).n===ex.n) return <div id={id} className="exmedia tv-exercise-media">
     <PosterSketch ex={ex} />
