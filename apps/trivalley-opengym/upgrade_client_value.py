@@ -12,4 +12,8 @@ for name in ['WeeklyProgress.jsx','ProgramBrief.jsx']:
 (front/'src/lib/tv-weekly-progress.js').write_text((assets/'tv-weekly-progress.mjs').read_text().replace(".mjs'",".js'"))
 shutil.copyfile(assets/'client-value.css',front/'src/client-value.css')
 edit('src/main.jsx',"import './navigation-layout.css'","import './navigation-layout.css'\nimport './client-value.css'")
+p=front/'src/components/TrainingCompanion.jsx';s=p.read_text()
+s="import WeeklyProgress from './WeeklyProgress.jsx'\n"+s
+a=s.index('export function ProgressSummary() {');b=s.index('export function BackupPanel',a)
+p.write_text(s[:a]+"export function ProgressSummary() { return <WeeklyProgress /> }\n"+s[b:])
 print('Program briefs and real weekly progress applied on the reconciled navigation layout')
