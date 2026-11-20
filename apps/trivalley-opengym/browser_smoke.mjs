@@ -90,6 +90,7 @@ try {
   await page.reload({waitUntil:'networkidle0', timeout:20000});
   await page.waitForFunction(() => (document.querySelector('h1')?.textContent?.includes('TriValley FIT') || document.querySelector('h1')?.textContent?.includes('Today')), {timeout:12000});
   if (await page.$('[data-testid="tv-daily-verse"]')) throw new Error('Verse repeats after dismissal on same local day');
+  await page.click('[data-testid="tv-client-more"] summary');
   await page.click('[data-testid="tv-daily-verse-trigger"]');
   await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-daily-verse"]'), {timeout:4000});
   const reread = await page.$eval('.tv-verse-ref', node => node.textContent);
@@ -328,3 +329,4 @@ try {
   if(browser)await browser.close();
   if (server) await new Promise(resolve=>server.close(resolve));
 }
+

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { todayISO, fmtNum } from '../lib/format.js'
 import { EXIDX } from '../lib/exercises.js'
@@ -30,7 +30,7 @@ function useBackup(S) {
   return { metadata, summary: backupSummary(metadata, S) }
 }
 export function DeviceStatus() {
-  const nav = useNavigate(), S = useStore(s => s.S), saved = useStore(s => s.storageStatus)
+  const nav = useNavigate(), route = useLocation(), S = useStore(s => s.S), saved = useStore(s => s.storageStatus)
   const [online, setOnline] = useState(navigator.onLine)
   const [offlineReady, setOfflineReady] = useState(false)
   const { summary } = useBackup(S)
@@ -56,6 +56,7 @@ export function DeviceStatus() {
     return () => { window.removeEventListener('online', check); window.removeEventListener('offline', check); navigator.serviceWorker?.removeEventListener('controllerchange', check) }
   }, [])
   const failed = saved?.ok === false
+  if (!failed && route.pathname !== '/settings') return null
   return <aside className={'tv-device-status' + (failed ? ' tv-save-error' : '')} aria-label="Device storage status" data-testid="tv-device-status">
     <div role={failed ? 'alert' : 'status'}>
       <strong>{failed ? 'Changes are not saved' : saved?.ok ? 'Saved on this device' : 'Ready to save on this device'}</strong>
@@ -141,3 +142,4 @@ export function BackupPanel({ onExport }) {
     <p className="small muted">Importing a backup replaces this device’s current data after a confirmation. Export before switching phones or clearing browser data.</p>
   </section>
 }
+

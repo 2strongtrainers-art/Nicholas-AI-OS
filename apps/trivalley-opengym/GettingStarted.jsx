@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
@@ -22,6 +22,8 @@ export function ProgramSetup({onClose}) {
   const S = useStore(s => s.S), update = useStore(s => s.update), nav = useNavigate()
   const [schedule,setSchedule] = useState(''), [unit,setUnit] = useState(S.unit)
   const [review,setReview] = useState(null), [error,setError] = useState('')
+  const reviewHeading = useRef(null)
+  useEffect(()=>{if(review)reviewHeading.current?.focus()},[review])
   const locked = hasWeightData(S)
   const confirm = () => {
     try {
@@ -32,20 +34,21 @@ export function ProgramSetup({onClose}) {
     } catch(e) {setError(e.message);setReview(null)}
   }
   return <section className="tv-program-setup-guide" data-testid="tv-program-setup-guide" aria-labelledby="tv-setup-heading">
-    <div className="tv-eyebrow">GUIDED SETUP</div><h3 id="tv-setup-heading">Make this program your own</h3>
-    <p>Back & Biceps, Chest & Triceps, then Legs. Preview the workout cards below before deciding.</p>
+    <h3 id="tv-setup-heading">Choose your training days</h3>
+    <p>Back & Biceps · Chest & Triceps · Legs</p>
     {!review ? <>
-      <label htmlFor="tv-setup-unit">1. Weight unit</label>
-      <select id="tv-setup-unit" value={unit} disabled={locked} onChange={e=>setUnit(e.target.value)}><option value="lb">Pounds (lb)</option><option value="kg">Kilograms (kg)</option></select>
-      {locked && <p className="small muted">Your saved weight data keeps this unit locked.</p>}
-      <label htmlFor="tv-setup-schedule">2. Training days</label>
+      <label htmlFor="tv-setup-schedule">Training days</label>
       <select id="tv-setup-schedule" value={schedule} onChange={e=>setSchedule(e.target.value)}>
         <option value="" disabled>Choose your training days</option><option value="mwf">Monday / Wednesday / Friday</option><option value="tts">Tuesday / Thursday / Saturday</option><option value="none">Flexible — choose each session</option>
       </select>
-      <p className="small muted">A dated schedule sets the three weekdays. Flexible keeps your existing calendar and lets you follow the program in sequence.</p>
+      <details className="tv-unit-options" data-testid="tv-unit-options"><summary>Weights: {unit === 'lb' ? 'pounds (lb)' : 'kilograms (kg)'}</summary>
+      <label htmlFor="tv-setup-unit">1. Weight unit</label>
+      <select id="tv-setup-unit" value={unit} disabled={locked} onChange={e=>setUnit(e.target.value)}><option value="lb">Pounds (lb)</option><option value="kg">Kilograms (kg)</option></select>
+      {locked && <p className="small muted">Your saved weight data keeps this unit locked.</p>}
+      </details>
       <div className="tv-setup-actions"><button type="button" className="btn primary" disabled={!schedule} onClick={()=>{setError('');setReview(setupReview(S,schedule))}}>Review my setup</button><button type="button" className="tv-text-action" onClick={onClose}>Close setup</button></div>
     </> : <div data-testid="tv-setup-review" aria-live="polite">
-      <h4>3. Review before applying</h4><p>Weight unit: <strong>{unit === 'lb' ? 'Pounds (lb)' : 'Kilograms (kg)'}</strong></p>
+      <h4 ref={reviewHeading} tabIndex="-1">Review your changes</h4><p>Weight unit: <strong>{unit === 'lb' ? 'Pounds (lb)' : 'Kilograms (kg)'}</strong></p>
       {review.rows.length ? <ul>{review.rows.map(row=><li key={row.day}><strong>{DAYN[row.day]}</strong>: {row.from} to {row.to}</li>)}</ul> : <p>{schedule === 'none' ? 'Flexible program: your weekly calendar will stay as it is.' : 'These training days already match the program.'}</p>}
       <p className="small">Only the listed calendar assignments change. Your routines, workout history, notes and any active session are kept.</p>
       <div className="tv-setup-actions"><button type="button" className="btn primary" onClick={confirm}>Confirm program and training days</button><button type="button" className="btn" onClick={()=>setReview(null)}>Back to choices</button></div>
@@ -59,7 +62,7 @@ export function AppHelp() {
     <h3>Add the Trinity knot to your iPhone</h3><ol><li>Open this app page in Safari.</li><li>Use Share, then Add to Home Screen.</li><li>Enable Open as Web App if shown, then tap Add.</li></ol>
     <p className="small">In other browsers, use Install or Add to Home Screen when available. A website cannot perform the final installation tap for you.</p>
     <h3>Keep a separate backup</h3><ol><li>In Settings, choose Export a fresh backup.</li><li>Finish saving the JSON file in Files or another safe location.</li><li>Return and tap I saved this backup.</li></ol>
-    <p className="small">Your workouts stay in this browser on this device. Before clearing browser data or changing phones, export a backup. Restore it using Import backup in Settings; review the replacement confirmation first.</p>
+    <p className="small">Your workouts stay in this browser on this device. Before clearing browser data or changing phones, export a backup. Restore it using Import checked backup in Settings; review the replacement confirmation first.</p>
     <p className="small">For offline training, wait until the status above says Offline app cached. Your installed app and browser can have separate storage on iPhone; check your history after installation and import your backup if needed.</p>
   </details>
 }

@@ -43,6 +43,7 @@ jobs:
           python3 apps/trivalley-opengym/upgrade_iphone.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_audit.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_setup.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_client_interface.py upstream/frontend
           curl --fail --location --silent --show-error --retry 2 --max-time 25 \
             'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
             -o upstream/frontend/public/trivalley-triquetra.png

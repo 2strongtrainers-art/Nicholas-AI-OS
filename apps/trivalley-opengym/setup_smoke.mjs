@@ -34,11 +34,32 @@ try {
   await page.goto(url+'#/home',{waitUntil:'networkidle0'});
   await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('gym_state_v1')||'{}');s.routines=[{id:'keep',name:'My existing workout',emoji:'dumbbell',ex:[]}];s.week={0:'keep',1:'keep'};s.unit='lb';s.workouts=[];s.bodyweight=[];s.exWeights={};s.targetW=null;s.active=null;s.tvSetupDone=false;localStorage.setItem('gym_state_v1',JSON.stringify(s))});
   await page.reload({waitUntil:'networkidle0'});
-  const clickText=async text=>{await page.evaluate(text=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);if(!b)throw new Error('Missing button '+text);b.scrollIntoView({block:'center'});b.click()},text)};
+  const clickText=async text=>{
+    const buttons=await page.$$('button');
+    for(const button of buttons){
+      if((await button.evaluate(n=>n.textContent.trim()))!==text)continue;
+      await button.evaluate(n=>n.scrollIntoView({block:'center',inline:'nearest'}));
+      await page.waitForFunction(text=>{const b=[...document.querySelectorAll('button')].find(n=>n.textContent.trim()===text);const r=b?.getBoundingClientRect();if(!r)return false;const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return hit===b||b.contains(hit)},{timeout:10000},text);
+      await button.click();return;
+    }
+    throw new Error('Missing button '+text);
+  };
+  assert(!await page.$('[data-testid="tv-device-status"]'),'Healthy storage details clutter the client home screen');
+  assert(!await page.evaluate(()=>[...document.querySelectorAll('a')].some(a=>a.href.startsWith('https://manage.wix.com/'))),'Owner management URL exposed in client links');
+  await page.click('[data-testid="tv-client-more"] summary');
+  await page.waitForSelector('.tv-client-more-panel a[aria-label*="corresponding source"]',{visible:true});
+  await page.keyboard.press('Escape');
+  assert(await page.$eval('[data-testid="tv-client-more"]',n=>!n.open&&n.querySelector('summary')===document.activeElement),'More does not close and restore focus on Escape');
+  await page.click('[data-testid="tv-client-more"] summary');await clickText('Settings & backups');
+  await page.waitForSelector('[data-testid="tv-device-status"]');
+  await clickText('Today');
+
   await clickText('Set up my training');await page.waitForSelector('#tv-setup-schedule');
+  await page.click('[data-testid="tv-unit-options"] summary');
   await page.select('#tv-setup-unit','kg');await page.select('#tv-setup-schedule','mwf');
   const before=await page.evaluate(()=>localStorage.getItem('gym_state_v1'));
   await clickText('Review my setup');await page.waitForSelector('[data-testid="tv-setup-review"]');
+  await page.waitForFunction(()=>document.activeElement?.textContent==='Review your changes');
   assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===before,'Review mutated the plan before confirmation');
   assert((await page.$eval('[data-testid="tv-setup-review"]',n=>n.textContent)).includes('My existing workout'),'Review hid an existing calendar replacement');
   await clickText('Back to choices');assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===before,'Back changed saved data');
@@ -60,7 +81,7 @@ try {
   await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('gym_state_v1'));s.bodyweight=[{d:'2026-11-19',w:90}];localStorage.setItem('gym_state_v1',JSON.stringify(s))});
   await page.goto(url+'#/plan?setup=1',{waitUntil:'networkidle0'});await page.reload({waitUntil:'networkidle0'});await page.waitForSelector('#tv-setup-unit');assert(await page.$eval('#tv-setup-unit',n=>n.disabled),'Setup bypassed the weight-unit lock');
   assert(!errors.length,'Browser errors: '+errors.join('; '));
-  console.log(JSON.stringify({status:'GUIDED_SETUP_BROWSER_PASS',checks:['read-only review','Back preserves saved data','explicit replacement confirmation','chosen weight unit','program-calendar assignments','unrelated day preserved','moving split clears old days','no duplicate routines','calendar-sequence explanation','installation and backup help','320-430px guidance','existing-weight unit lock']}));
+  console.log(JSON.stringify({status:'GUIDED_SETUP_BROWSER_PASS',checks:['quiet client header','source and scripture under More','Escape focus return','healthy storage details limited to Settings','no owner management URLs','actual button hit testing','review heading focus','read-only review','Back preserves saved data','explicit replacement confirmation','chosen weight unit','program-calendar assignments','unrelated day preserved','moving split clears old days','no duplicate routines','calendar-sequence explanation','installation and backup help','320-430px guidance','existing-weight unit lock']}));
 } catch(error) {
   console.error(JSON.stringify({errors,page:page?await page.evaluate(()=>document.body.innerText.slice(0,4500)).catch(()=>null):null}));
   if(page)await page.screenshot({path:screenshot,fullPage:true}).catch(()=>{});throw error;

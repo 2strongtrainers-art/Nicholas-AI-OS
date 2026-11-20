@@ -61,10 +61,10 @@ export default function ReadyPrograms() {
       onClose={() => { const next = new URLSearchParams(params); next.delete('day'); setParams(next); window.scrollTo(0, 0) }}
       onStart={() => beginDay(params.get('day'))} />
   </section>
-  return <section className="card tv-ready-programs" data-testid="tv-ready-programs" aria-label="Ready-made workout programs">
+  return <section className={'card tv-ready-programs' + (params.get('setup') === '1' ? ' tv-setting-up' : '')} data-testid="tv-ready-programs" aria-label="Ready-made workout programs">
     <div className="tv-eyebrow">TRAIN WITH NICK</div>
     <h2>{MUSCLE_SPLIT.name}</h2>
-    <p className="muted small">Three complete workouts. Choose your days, then make the next session count.</p>
+    {params.get('setup') !== '1' && <p className="muted small">Three complete workouts. Choose your days, then make the next session count.</p>}
     {params.get('setup') === '1'
       ? <ProgramSetup onClose={() => {const next=new URLSearchParams(params);next.delete('setup');setParams(next)}} />
       : <button type="button" className="btn" data-testid="tv-open-setup" onClick={() => setParams({setup:'1'})}>Set up program & training days</button>}
