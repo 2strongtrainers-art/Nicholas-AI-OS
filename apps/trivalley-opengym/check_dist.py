@@ -58,12 +58,17 @@ entry_js = [x for x in assets if x.startswith("assets/index-") and x.endswith(".
 entry_css = [x for x in assets if x.startswith("assets/index-") and x.endswith(".css")]
 if len(entry_js) != 1 or len(entry_css) != 1:
     raise SystemExit("Expected one Vite entrypoint JS and CSS, found " + repr((entry_js, entry_css)))
+catalogue_source = (Path(__file__).parent / 'tv-catalogue-art-batch2.mjs').read_text()
+catalogue_art = json.loads(re.search(r'export const CATALOGUE_ART_BATCH2 = (\{.*?\})\nexport', catalogue_source, re.S).group(1))
+if len(catalogue_art) != 25 or len(set(catalogue_art) & {a['id'] for a in movement_manifest['assets']}) != 0:
+    raise SystemExit('Catalogue artwork batch must add 25 distinct exact IDs')
+(dist / 'tv-catalogue-art-batch2.json').write_text(json.dumps({'batch':'20261120-02','assets':list(catalogue_art.values())}, indent=2))
 source_sha = os.environ.get("GITHUB_SHA", "")
 if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "5.17.0",
+    "version": "5.18.0",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],
@@ -75,10 +80,12 @@ release = {
     ),
     "storage": "browser-local; no client cloud sync",
     "backend": "disabled",
-    "features": ["four owner-authorized illustrated short-session presets with blended TRX and dumbbell likeness styles and separate side logging","five original Learn guides, user-label protein portions and three bodyweight workout posters with original sketches", "first-workout guide, question-led calculators with practical interpretation and recommended Main 16 default", "explicit main-16 equipment substitutions with performed-set and fresh-load safeguards", "per-equipment lifting weight conventions and next-step guidance", "user-reviewed feedback drafts without attached workout records", "13 original local calculators with formula sources and four labelled external resources", "main sixteen exercise collection and first-person setup/do/avoid/scale coaching notes", "complete catalogue integrity audit and corrected degree labels", "polished program and session briefs", "seven-day activity card with separate partial-workout and recorded rep-improvement counts", "one reviewed training-day setup, returning-user guidance and reserved navigation/timer space", "client-focused header, Settings-only healthy storage details and compact guided setup", "reviewed program setup, explicit calendar changes and iPhone installation/backup help", "first-user audit fixes: unit lock, dialog focus, partial sessions, timer recovery, typo suggestions", "optional one-time Stripe support link", "direct all-exercise lifting-weight and rep entry", "logging before optional illustrations", "body-weight shortcuts", "compact technique cues", "native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance", "interactive workout posters", "session start and finish timestamps", "poster set logging and timed holds", "local session notes", "ready-made Back/Biceps Chest/Triceps Legs program", "per-exercise rest timers", "explicit working-load selection", "program previews during active sessions", "explicit empty freestyle recovery", "owner-approved program covers", "history-based Continue my program", "program actions before long previews", "sixteen revised exercise illustrations with owner-approved likeness direction", "corrected neutral hammer-curl instructions"],
+    "features": ["25 additional exact-ID catalogue illustrations with blended likeness styles and on-demand offline caching", "four owner-authorized illustrated short-session presets with blended TRX and dumbbell likeness styles and separate side logging","five original Learn guides, user-label protein portions and three bodyweight workout posters with original sketches", "first-workout guide, question-led calculators with practical interpretation and recommended Main 16 default", "explicit main-16 equipment substitutions with performed-set and fresh-load safeguards", "per-equipment lifting weight conventions and next-step guidance", "user-reviewed feedback drafts without attached workout records", "13 original local calculators with formula sources and four labelled external resources", "main sixteen exercise collection and first-person setup/do/avoid/scale coaching notes", "complete catalogue integrity audit and corrected degree labels", "polished program and session briefs", "seven-day activity card with separate partial-workout and recorded rep-improvement counts", "one reviewed training-day setup, returning-user guidance and reserved navigation/timer space", "client-focused header, Settings-only healthy storage details and compact guided setup", "reviewed program setup, explicit calendar changes and iPhone installation/backup help", "first-user audit fixes: unit lock, dialog focus, partial sessions, timer recovery, typo suggestions", "optional one-time Stripe support link", "direct all-exercise lifting-weight and rep entry", "logging before optional illustrations", "body-weight shortcuts", "compact technique cues", "native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance", "interactive workout posters", "session start and finish timestamps", "poster set logging and timed holds", "local session notes", "ready-made Back/Biceps Chest/Triceps Legs program", "per-exercise rest timers", "explicit working-load selection", "program previews during active sessions", "explicit empty freestyle recovery", "owner-approved program covers", "history-based Continue my program", "program actions before long previews", "sixteen revised exercise illustrations with owner-approved likeness direction", "corrected neutral hammer-curl instructions"],
     "programCovers": cover_manifest['assets'],
-    "illustrationReview": {"display": "enabled", "reviewed": 16, "pending": 0, "likenessDirection": "owner-approved two proofs and continued generation authorized", "scope": "operator visual review; generated illustrations, not recorded demonstrations"},
-    "movementIllustrations": movement_manifest['assets'],
+    "illustrationReview": {"display": "enabled", "reviewed": 41, "pending": 0, "likenessDirection": "owner-approved two proofs and continued generation authorized", "scope": "operator visual review; generated illustrations, not recorded demonstrations"},
+    "movementIllustrations": movement_manifest['assets'] + list(catalogue_art.values()),
+    "catalogueIllustrated": 41,
+    "catalogueQueued": 1283,
     "portraitSha256": hashlib.sha256((dist / "assets/tv-coach-portrait.webp").read_bytes()).hexdigest(),
     "iconAddon": {"version": "trinity-20261119", "appleTouchIcon": touch_name,
                   "sha256": {path: hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files}},
@@ -90,7 +97,7 @@ core = ["./", "./index.html", "./tv-release.json", "./manifest.json", "./icon-19
         "./icon-512.png", "./trivalley-exercise.svg", "./trivalley-triquetra.png", "./assets/tv-coach-portrait.webp",
         "./" + entry_js[0], "./" + entry_css[0]]
 core += ["./" + path for path in icon_files if "./" + path not in core]
-core += ['./tv-movement-assets.json'] + ['./' + asset['path'] for asset in movement_manifest['assets']]
+core += ['./tv-catalogue-art-batch2.json', './tv-movement-assets.json'] + ['./' + asset['path'] for asset in movement_manifest['assets']]
 core += ['./tv-cover-assets.json'] + ['./' + asset['path'] for asset in cover_manifest['assets']]
 # Covers reuse three movement assets; duplicate cache.addAll URLs reject SW installation.
 core = list(dict.fromkeys(core))
@@ -101,12 +108,16 @@ art_urls = sorted(set(re.findall(r'https://static\.wixstatic\.com/media/[A-Za-z0
 if len(art_urls) != 5:
     raise SystemExit('Expected five pinned Nick poster artwork URLs')
 extras += art_urls
+catalogue_urls = sorted(set(a['url'] for a in catalogue_art.values()))
 fingerprint = hashlib.sha256(("|".join(assets) + bundle[:500] + "|".join(hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files)).encode()).hexdigest()[:12]
 worker = """
 const CACHE = 'trivalley-open-gym-v2-%s';
+const MEDIA_CACHE = CACHE + '-catalogue-art';
+const MAX_MEDIA = 12;
 const CORE = %s;
 const EXTRAS = %s;
 const ART_URLS = %s;
+const CATALOGUE_URLS = %s;
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
@@ -118,14 +129,15 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k.startsWith('trivalley-open-gym-') && k !== CACHE).map(k => caches.delete(k)));
+    await Promise.all(keys.filter(k => k.startsWith('trivalley-open-gym-') && k !== CACHE && k !== MEDIA_CACHE).map(k => caches.delete(k)));
     await self.clients.claim();
   })());
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || (new URL(event.request.url).origin !== self.location.origin && !ART_URLS.includes(event.request.url))) return;
   event.respondWith((async () => {
-    const cache = await caches.open(CACHE);
+    const catalogueMedia = CATALOGUE_URLS.includes(event.request.url);
+    const cache = await caches.open(catalogueMedia ? MEDIA_CACHE : CACHE);
     if (event.request.mode === 'navigate') {
       try {
         const response = await fetch(event.request);
@@ -139,14 +151,20 @@ self.addEventListener('fetch', event => {
     if (cached) return cached;
     try {
       const response = await fetch(event.request);
-      if (response.ok) await cache.put(event.request, response.clone());
+      if (response.ok || (catalogueMedia && response.type === 'opaque')) {
+        await cache.put(event.request, response.clone());
+        if (catalogueMedia) {
+          const keys = await cache.keys();
+          while (keys.length > MAX_MEDIA) await cache.delete(keys.shift());
+        }
+      }
       return response;
     } catch {
       return Response.error();
     }
   })());
 });
-""" % (fingerprint, json.dumps(core, separators=(",", ":")), json.dumps(extras, separators=(",", ":")), json.dumps(art_urls, separators=(",", ":")))
+""" % (fingerprint, json.dumps(core, separators=(",", ":")), json.dumps(extras, separators=(",", ":")), json.dumps(art_urls + catalogue_urls, separators=(",", ":")), json.dumps(catalogue_urls, separators=(",", ":")))
 (dist / "tv-sw.js").write_text(worker)
 
 print(json.dumps({

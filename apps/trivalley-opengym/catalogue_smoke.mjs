@@ -54,7 +54,7 @@ try {
     await page.waitForSelector('[aria-label="Close exercise details"]',{visible:true});
     const details=await page.$eval('#modal-root',modal=>({
       name:modal.querySelector('h3')?.textContent?.trim(),
-      instructions:modal.querySelectorAll('.steps-list li').length,
+      instructions:modal.querySelectorAll('.steps-list li, .tv-steps li').length,
       notes:modal.querySelectorAll('[data-testid="tv-coach-notes"] dt').length,
       picture:!!modal.querySelector('[data-testid="tv-movement-figure"]'),
       add:[...modal.querySelectorAll('button')].some(button=>button.textContent.includes('Add to my plan')),

@@ -1,3 +1,4 @@
+import { CATALOGUE_ART_BATCH2, APPROVED_CATALOGUE_BATCH2_IDS } from './tv-catalogue-art-batch2.mjs'
 // Generated likeness illustrations, exact catalogue IDs only. New references and owner-approved proof direction.
 export const MOVEMENT_ILLUSTRATIONS = {
   "1459": {
@@ -274,8 +275,10 @@ export const MOVEMENT_ILLUSTRATIONS = {
   }
 }
 
+Object.assign(MOVEMENT_ILLUSTRATIONS, CATALOGUE_ART_BATCH2)
+
 // Explicit reviewed allowlist: newly added assets default to pending review.
-const APPROVED_MOVEMENT_IDS = new Set(["1459", "2330", "0861", "0383", "0294", "0313", "0289", "0314", "0405", "0334", "0200", "0194", "0739", "0586", "0585", "0605"])
+const APPROVED_MOVEMENT_IDS = new Set(["1459", "2330", "0861", "0383", "0294", "0313", "0289", "0314", "0405", "0334", "0200", "0194", "0739", "0586", "0585", "0605", ...APPROVED_CATALOGUE_BATCH2_IDS])
 export const MOVEMENT_REVIEW_STATUS = Object.freeze(Object.fromEntries(Object.keys(MOVEMENT_ILLUSTRATIONS).map(id => [id, APPROVED_MOVEMENT_IDS.has(id) ? 'approved' : 'pending_review'])))
 export function movementReferenceFor(ex) { return MOVEMENT_ILLUSTRATIONS[typeof ex === 'string' ? ex : ex?.id] || null }
 export function movementFor(ex) {

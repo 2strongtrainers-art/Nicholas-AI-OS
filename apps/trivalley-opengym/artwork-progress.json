@@ -7,20 +7,38 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-pictograms-20261120-01",
-    "status": "DEPLOYED_NATIVE_READBACK_VERIFIED",
-    "customExerciseEntries": 18,
-    "uniqueNewMovements": 14,
-    "presets": 4,
-    "appVersion": "5.17.0",
-    "releaseSourceCommit": "74f06ed84e0e2855a4015396ddc4fb9c63cae3a2",
-    "buildRunId": 44759892755,
-    "artifactId": 14639169574,
-    "artifactSha256": "94efe2a70c258d8ea1cb846e151a6141a23be253d318f82d3cb3e9f63c9b5b91",
-    "publicationId": "ea6c0e5a-d207-40cd-8996-5095342deb59",
-    "observedAt": "2026-11-20T15:10:50.258867+00:00",
-    "liveBrowserAcceptance": "PENDING",
-    "physicalIPhone": "UNVERIFIED"
+    "id": "nick-catalogue-20261120-02",
+    "status": "REVIEWED_NOT_DEPLOYED",
+    "exactIds": [
+      "0025",
+      "0027",
+      "0032",
+      "1436",
+      "0085",
+      "0117",
+      "0662",
+      "3211",
+      "0493",
+      "0659",
+      "0274",
+      "0872",
+      "1760",
+      "0297",
+      "0308",
+      "0310",
+      "0333",
+      "0406",
+      "0413",
+      "0336",
+      "0431",
+      "0417",
+      "1373",
+      "3013",
+      "0652"
+    ],
+    "newCatalogueEntries": 25,
+    "priorCatalogueIllustrated": 16,
+    "targetCatalogueIllustrated": 41
   },
   "entries": [
     {
@@ -615,7 +633,9 @@
       "id": "0025",
       "name": "barbell bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc"
     },
     {
       "id": "0026",
@@ -633,7 +653,9 @@
       "id": "0027",
       "name": "barbell bent over row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc"
     },
     {
       "id": "2407",
@@ -669,7 +691,9 @@
       "id": "0032",
       "name": "barbell deadlift",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc"
     },
     {
       "id": "0033",
@@ -801,7 +825,9 @@
       "id": "1436",
       "name": "barbell high bar squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070"
     },
     {
       "id": "0047",
@@ -1119,7 +1145,9 @@
       "id": "0085",
       "name": "barbell romanian deadlift",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070"
     },
     {
       "id": "0086",
@@ -1377,7 +1405,9 @@
       "id": "0117",
       "name": "barbell sumo deadlift",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070"
     },
     {
       "id": "3305",
@@ -1563,7 +1593,9 @@
       "id": "1373",
       "name": "bodyweight standing calf raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664"
     },
     {
       "id": "3156",
@@ -2739,7 +2771,9 @@
       "id": "0274",
       "name": "crunch floor",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8"
     },
     {
       "id": "3016",
@@ -2979,7 +3013,9 @@
       "id": "0297",
       "name": "dumbbell concentration curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a"
     },
     {
       "id": "3635",
@@ -3081,7 +3117,9 @@
       "id": "0308",
       "name": "dumbbell fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a"
     },
     {
       "id": "1277",
@@ -3099,7 +3137,9 @@
       "id": "0310",
       "name": "dumbbell front raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222"
     },
     {
       "id": "0309",
@@ -3117,7 +3157,9 @@
       "id": "1760",
       "name": "dumbbell goblet squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a"
     },
     {
       "id": "0313",
@@ -3351,7 +3393,9 @@
       "id": "0333",
       "name": "dumbbell kickback",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222"
     },
     {
       "id": "1734",
@@ -3384,7 +3428,9 @@
       "id": "0336",
       "name": "dumbbell lunge",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7"
     },
     {
       "id": "1658",
@@ -4203,7 +4249,9 @@
       "id": "0406",
       "name": "dumbbell shrug",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222"
     },
     {
       "id": "0407",
@@ -4263,7 +4311,9 @@
       "id": "0413",
       "name": "dumbbell squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7"
     },
     {
       "id": "3560",
@@ -4317,7 +4367,9 @@
       "id": "0417",
       "name": "dumbbell standing calf raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664"
     },
     {
       "id": "0418",
@@ -4425,7 +4477,9 @@
       "id": "0431",
       "name": "dumbbell step-up",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7"
     },
     {
       "id": "2796",
@@ -5151,7 +5205,9 @@
       "id": "0493",
       "name": "incline push-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea"
     },
     {
       "id": "3785",
@@ -5571,7 +5627,9 @@
       "id": "3211",
       "name": "kneeling push-up (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea"
     },
     {
       "id": "3288",
@@ -6072,7 +6130,9 @@
       "id": "3013",
       "name": "low glute bridge on floor",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664"
     },
     {
       "id": "1352",
@@ -6426,7 +6486,9 @@
       "id": "0652",
       "name": "pull-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "e02affa8732a12111f7a03fd700bddcb7d582a457ea5844ab5159235144dc74d"
     },
     {
       "id": "1689",
@@ -6450,7 +6512,9 @@
       "id": "0662",
       "name": "push-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea"
     },
     {
       "id": "0653",
@@ -6474,7 +6538,9 @@
       "id": "0659",
       "name": "push-up (wall)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8"
     },
     {
       "id": "0658",
@@ -6612,7 +6678,9 @@
       "id": "0872",
       "name": "reverse crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_not_deployed",
+      "batch": "nick-catalogue-20261120-02",
+      "assetSha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8"
     },
     {
       "id": "0672",
@@ -8014,6 +8082,24 @@
       "name": "wrist rollerer",
       "equipment": "weighted",
       "status": "queued"
+    }
+  ],
+  "previousBatches": [
+    {
+      "id": "nick-pictograms-20261120-01",
+      "status": "DEPLOYED_NATIVE_READBACK_VERIFIED",
+      "customExerciseEntries": 18,
+      "uniqueNewMovements": 14,
+      "presets": 4,
+      "appVersion": "5.17.0",
+      "releaseSourceCommit": "74f06ed84e0e2855a4015396ddc4fb9c63cae3a2",
+      "buildRunId": 44759892755,
+      "artifactId": 14639169574,
+      "artifactSha256": "94efe2a70c258d8ea1cb846e151a6141a23be253d318f82d3cb3e9f63c9b5b91",
+      "publicationId": "ea6c0e5a-d207-40cd-8996-5095342deb59",
+      "observedAt": "2026-11-20T15:10:50.258867+00:00",
+      "liveBrowserAcceptance": "PENDING",
+      "physicalIPhone": "UNVERIFIED"
     }
   ]
 }

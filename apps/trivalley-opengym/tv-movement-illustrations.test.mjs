@@ -5,7 +5,7 @@ import { MOVEMENT_ILLUSTRATIONS, MOVEMENT_REVIEW_STATUS, movementReferenceFor, m
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.deepEqual(Object.keys(MOVEMENT_ILLUSTRATIONS).sort(),ids)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,41)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -31,7 +31,7 @@ test('Hammer and biceps curl grip cues remain distinct and hammer cue explicitly
 })
 
 test('Reviewed v2 allowlist enables only exact exercise images and preserves technique cues',()=>{
-  for (const id of Object.keys(MOVEMENT_ILLUSTRATIONS)) {
+  for (const id of MUSCLE_SPLIT.days.flatMap(d=>d.exercises.map(e=>e[0]))) {
     assert.equal(MOVEMENT_REVIEW_STATUS[id], 'approved')
     assert.equal(movementFor(id), movementReferenceFor(id))
     assert.match(movementFor(id).path, /-v2\.webp$/)
@@ -44,4 +44,23 @@ test('Press captions and close-grip row instructions match the revised image seq
   for(const id of ['0289','0314']){assert.match(movementFor(id).leftLabel,/Lowered/);assert.match(movementFor(id).rightLabel,/Press/)}
   assert.match(movementFor('0861').steps[0],/palms facing inward/)
   assert.equal(movementFor('custom-0313'),null)
+})
+
+test('New batch binds 25 reviewed catalogue IDs to valid disjoint image regions and exact equipment',()=>{
+ const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
+ const ids=progress.currentBatch.exactIds
+ assert.equal(ids.length,25);assert.equal(new Set(ids).size,25)
+ const regions=new Set()
+ for(const id of ids){
+  const art=movementFor(id),entry=progress.entries.find(e=>e.id===id)
+  assert.equal(art.name,entry.name);assert.equal(art.equipment,entry.equipment)
+  assert.ok(art.top>=0&&art.cropHeight>0&&art.top+art.cropHeight<=art.height)
+  assert.match(art.url,/^https:\/\/static\.wixstatic\.com\/media\/[A-Za-z0-9_~.-]+\.png$/)
+  assert.match(art.sha256,/^[a-f0-9]{64}$/);assert.equal(art.steps.length,3)
+  regions.add([art.url,art.top,art.cropHeight].join(':'))
+ }
+ assert.equal(regions.size,25)
+ assert.equal(movementFor('0043'),null) // A high-bar squat illustration must not imply full-depth acceptance.
+ assert.notEqual(movementFor('0417').top,movementFor('1373').top)
+ assert.equal(movementFor('custom-0662'),null)
 })

@@ -10,6 +10,7 @@ def edit(path,old,new):
     text=p.read_text()
     if text.count(old)!=1: raise RuntimeError(f'{path}: expected one anchor: {old[:90]}')
     p.write_text(text.replace(old,new,1))
+shutil.copyfile(assets/'tv-catalogue-art-batch2.mjs',front/'src/lib/tv-catalogue-art-batch2.mjs')
 shutil.copyfile(assets/'MovementIllustration.jsx',front/'src/components/MovementIllustration.jsx')
 shutil.copyfile(assets/'tv-movement-illustrations.mjs',front/'src/lib/tv-movement-illustrations.js')
 shutil.copyfile(assets/'movement-illustrations.css',front/'src/movement-illustrations.css')
@@ -25,7 +26,7 @@ edit('src/components/Media.jsx','  return (\n    <div id={id}', '''  if (movemen
   </div>
   return (
     <div id={id}''')
-edit('src/components/Media.jsx',"<Icon name=\"dumbbell\" /></div>\n}","<Icon name=\"dumbbell\" />{movementFor(ex) && <img className=\"tv-thumb-photo\" src={'./' + movementFor(ex).path} alt=\"\" loading=\"lazy\" width=\"56\" height=\"56\" onError={e => { e.currentTarget.style.visibility = 'hidden' }} />}</div>\n}")
+edit('src/components/Media.jsx',"<Icon name=\"dumbbell\" /></div>\n}","<Icon name=\"dumbbell\" />{movementFor(ex)?.path && <img className=\"tv-thumb-photo\" src={'./' + movementFor(ex).path} alt=\"\" loading=\"lazy\" width=\"56\" height=\"56\" onError={e => { e.currentTarget.style.visibility = 'hidden' }} />}</div>\n}")
 edit('src/components/WorkoutPoster.jsx',"import { useEffect, useState } from 'react'","import { useEffect, useState } from 'react'\nimport MovementIllustration from './MovementIllustration.jsx'")
 edit('src/components/WorkoutPoster.jsx','    <details className="tv-poster-cues"><summary>Technique instructions</summary>', '    <MovementIllustration ex={ex} collapsible />\n    <details className="tv-poster-cues"><summary>Technique instructions</summary>')
 edit('src/sheets.jsx','  const best = bestWeightFor(st, ex.id)\n  return <>\n    <h3 className="capitalize">{ex.n}</h3>\n    <Media ex={ex} />', '  const best = bestWeightFor(st, ex.id)\n  return <>\n    <div className="tv-exercise-detail-heading"><h3 className="capitalize">{ex.n}</h3><button type="button" className="btn" aria-label="Close exercise details" onClick={close}>Close</button></div>\n    <Media ex={ex} />')

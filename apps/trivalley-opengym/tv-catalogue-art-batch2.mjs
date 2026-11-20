@@ -1,0 +1,529 @@
+// Batch 20261120-02: reviewed generated references; no prescriptions or private reference photos.
+export const CATALOGUE_ART_BATCH2 = {
+  "0025": {
+    "id": "0025",
+    "name": "barbell bench press",
+    "equipment": "barbell",
+    "url": "https://static.wixstatic.com/media/856ae2_38dac05d750b4ee9bdc05199504a2d74~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 527,
+    "style": "TRX",
+    "bytes": 2059727,
+    "sha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc",
+    "leftLabel": "Lower to chest",
+    "rightLabel": "Press above chest",
+    "alt": "Generated Nick likeness for barbell bench press: lower to chest on the left; press above chest on the right.",
+    "steps": [
+      "Set the rack safeties and lie with your head, shoulders and hips supported; plant both feet.",
+      "Lower the bar toward your lower chest with straight wrists and forearms near vertical, then press above your chest.",
+      "I want a controlled return: no bouncing, lifted hips or forced elbow lock. Use a competent spotter for challenging sets."
+    ]
+  },
+  "0027": {
+    "id": "0027",
+    "name": "barbell bent over row",
+    "equipment": "barbell",
+    "url": "https://static.wixstatic.com/media/856ae2_38dac05d750b4ee9bdc05199504a2d74~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 529,
+    "cropHeight": 449,
+    "style": "TRX",
+    "bytes": 2059727,
+    "sha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc",
+    "leftLabel": "Arms long",
+    "rightLabel": "Row toward lower ribs",
+    "alt": "Generated Nick likeness for barbell bent over row: arms long on the left; row toward lower ribs on the right.",
+    "steps": [
+      "Hinge at your hips, soften your knees and grip the bar just outside your legs.",
+      "Hold the same neutral back angle while pulling your elbows behind you toward your lower ribs.",
+      "Lower the bar smoothly without jerking your torso upright."
+    ]
+  },
+  "0032": {
+    "id": "0032",
+    "name": "barbell deadlift",
+    "equipment": "barbell",
+    "url": "https://static.wixstatic.com/media/856ae2_38dac05d750b4ee9bdc05199504a2d74~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 982,
+    "cropHeight": 554,
+    "style": "TRX",
+    "bytes": 2059727,
+    "sha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc",
+    "leftLabel": "Set up over midfoot",
+    "rightLabel": "Stand tall",
+    "alt": "Generated Nick likeness for barbell deadlift: set up over midfoot on the left; stand tall on the right.",
+    "steps": [
+      "Set the bar above midfoot, grip outside your knees and brace with a long neutral back.",
+      "Push through the floor and stand with the bar staying close to your shins and thighs.",
+      "Lower by moving your hips back and bending your knees; do not lean backward at the top."
+    ]
+  },
+  "1436": {
+    "id": "1436",
+    "name": "barbell high bar squat",
+    "equipment": "barbell",
+    "url": "https://static.wixstatic.com/media/856ae2_084d8048443c47428a2ef836bcd34cb1~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 512,
+    "style": "Dumbbell",
+    "bytes": 2080557,
+    "sha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070",
+    "leftLabel": "Stand in the rack",
+    "rightLabel": "Squat with control",
+    "alt": "Generated Nick likeness for barbell high bar squat: stand in the rack on the left; squat with control on the right.",
+    "steps": [
+      "Set the rack safeties and place the bar on your upper trapezius, not your neck.",
+      "Brace, bend your hips and knees, and lower to a depth where your heels stay grounded and your trunk remains controlled.",
+      "Stand through your whole foot; keep your knees following your toes and ask for qualified help with rack setup."
+    ]
+  },
+  "0085": {
+    "id": "0085",
+    "name": "barbell romanian deadlift",
+    "equipment": "barbell",
+    "url": "https://static.wixstatic.com/media/856ae2_084d8048443c47428a2ef836bcd34cb1~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 516,
+    "cropHeight": 483,
+    "style": "Dumbbell",
+    "bytes": 2080557,
+    "sha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070",
+    "leftLabel": "Stand tall",
+    "rightLabel": "Hinge hips back",
+    "alt": "Generated Nick likeness for barbell romanian deadlift: stand tall on the left; hinge hips back on the right.",
+    "steps": [
+      "Hold the bar at your thighs with soft knees and a braced trunk.",
+      "Push your hips backward, keeping the bar close, and stop before your back rounds.",
+      "Stand tall through your hips without leaning backward; this is a hinge, not a floor deadlift."
+    ]
+  },
+  "0117": {
+    "id": "0117",
+    "name": "barbell sumo deadlift",
+    "equipment": "barbell",
+    "url": "https://static.wixstatic.com/media/856ae2_084d8048443c47428a2ef836bcd34cb1~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1004,
+    "cropHeight": 532,
+    "style": "Dumbbell",
+    "bytes": 2080557,
+    "sha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070",
+    "leftLabel": "Wide-stance setup",
+    "rightLabel": "Stand tall",
+    "alt": "Generated Nick likeness for barbell sumo deadlift: wide-stance setup on the left; stand tall on the right.",
+    "steps": [
+      "Take a wide stance with toes turned outward and grip the bar inside your knees.",
+      "Brace, keep your knees following your toes and push the floor away with the bar close.",
+      "Stand without leaning back, then lower with control; keep your arms long rather than curling the bar."
+    ]
+  },
+  "0662": {
+    "id": "0662",
+    "name": "push-up",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_1eb463a2b9114a2d9f786a0f4503b395~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 508,
+    "style": "TRX",
+    "bytes": 2172618,
+    "sha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea",
+    "leftLabel": "High plank",
+    "rightLabel": "Lower as one line",
+    "alt": "Generated Nick likeness for push-up: high plank on the left; lower as one line on the right.",
+    "steps": [
+      "Place your hands slightly wider than your shoulders and extend your legs into a firm plank.",
+      "Bend your elbows roughly diagonally backward and lower your chest with your trunk moving as one line.",
+      "Press the floor away without sagging at your hips; use the kneeling or incline variation when needed."
+    ]
+  },
+  "3211": {
+    "id": "3211",
+    "name": "kneeling push-up (male)",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_1eb463a2b9114a2d9f786a0f4503b395~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 515,
+    "cropHeight": 503,
+    "style": "TRX",
+    "bytes": 2172618,
+    "sha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea",
+    "leftLabel": "Knees supported",
+    "rightLabel": "Lower with control",
+    "alt": "Generated Nick likeness for kneeling push-up (male): knees supported on the left; lower with control on the right.",
+    "steps": [
+      "Place your knees on a mat and hands slightly wider than your shoulders. Keep knees, hips and shoulders in one line.",
+      "Bend your elbows and lower your chest while keeping that line through your trunk.",
+      "Press up without letting your hips fold backward or your lower back sag."
+    ]
+  },
+  "0493": {
+    "id": "0493",
+    "name": "incline push-up",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_1eb463a2b9114a2d9f786a0f4503b395~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1025,
+    "cropHeight": 511,
+    "style": "TRX",
+    "bytes": 2172618,
+    "sha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea",
+    "leftLabel": "Hands on stable bench",
+    "rightLabel": "Chest toward bench",
+    "alt": "Generated Nick likeness for incline push-up: hands on stable bench on the left; chest toward bench on the right.",
+    "steps": [
+      "Choose a fixed stable support and place both hands on it; step your feet back into a straight body line.",
+      "Bend your elbows and bring your chest toward the support with your hips and shoulders moving together.",
+      "Press away without shrugging or sagging; a higher fixed support is an easier option."
+    ]
+  },
+  "0659": {
+    "id": "0659",
+    "name": "push-up (wall)",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_af048423689142948f33e752ecef722a~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 570,
+    "style": "Dumbbell",
+    "bytes": 2007984,
+    "sha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8",
+    "leftLabel": "Hands on wall",
+    "rightLabel": "Chest toward wall",
+    "alt": "Generated Nick likeness for push-up (wall): hands on wall on the left; chest toward wall on the right.",
+    "steps": [
+      "Place your palms against a clear wall at chest height and step back a comfortable distance.",
+      "Bend your elbows to bring your chest toward the wall while your body stays aligned.",
+      "Push away smoothly; adjust your foot distance instead of forcing an uncomfortable shoulder position."
+    ]
+  },
+  "0274": {
+    "id": "0274",
+    "name": "crunch floor",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_af048423689142948f33e752ecef722a~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 576,
+    "cropHeight": 444,
+    "style": "Dumbbell",
+    "bytes": 2007984,
+    "sha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8",
+    "leftLabel": "Head supported on mat",
+    "rightLabel": "Small upper-trunk curl",
+    "alt": "Generated Nick likeness for crunch floor: head supported on mat on the left; small upper-trunk curl on the right.",
+    "steps": [
+      "Lie with your knees bent and feet flat; rest your fingertips lightly near your temples.",
+      "Exhale and curl your shoulder blades just off the mat while keeping your pelvis grounded.",
+      "Lower slowly; I do not want you pulling your head forward or turning this into a full sit-up."
+    ]
+  },
+  "0872": {
+    "id": "0872",
+    "name": "reverse crunch",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_af048423689142948f33e752ecef722a~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1027,
+    "cropHeight": 509,
+    "style": "Dumbbell",
+    "bytes": 2007984,
+    "sha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8",
+    "leftLabel": "Hips and knees bent",
+    "rightLabel": "Gently curl pelvis",
+    "alt": "Generated Nick likeness for reverse crunch: hips and knees bent on the left; gently curl pelvis on the right.",
+    "steps": [
+      "Lie with your head and shoulders supported, arms beside you and hips and knees comfortably bent.",
+      "Bring your knees toward your chest by gently rolling your pelvis, lifting it only a small distance.",
+      "Return with control; avoid swinging your legs or pushing through your neck."
+    ]
+  },
+  "1760": {
+    "id": "1760",
+    "name": "dumbbell goblet squat",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_59a04fd9930b40e28545ce29764660fd~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 538,
+    "style": "TRX",
+    "bytes": 2271437,
+    "sha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a",
+    "leftLabel": "One weight at chest",
+    "rightLabel": "Squat comfortably",
+    "alt": "Generated Nick likeness for dumbbell goblet squat: one weight at chest on the left; squat comfortably on the right.",
+    "steps": [
+      "Hold one dumbbell vertically at your chest and stand with your feet at a comfortable width.",
+      "Bend your hips and knees while keeping your heels grounded and your knees following your toes.",
+      "Stand through your whole foot; choose a depth you can control rather than forcing the pictured range."
+    ]
+  },
+  "0297": {
+    "id": "0297",
+    "name": "dumbbell concentration curl",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_59a04fd9930b40e28545ce29764660fd~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 544,
+    "cropHeight": 470,
+    "style": "TRX",
+    "bytes": 2271437,
+    "sha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a",
+    "leftLabel": "Elbow braced on inner thigh",
+    "rightLabel": "Curl with steady upper arm",
+    "alt": "Generated Nick likeness for dumbbell concentration curl: elbow braced on inner thigh on the left; curl with steady upper arm on the right.",
+    "steps": [
+      "Sit on a stable bench with your legs apart; brace one upper arm against your inner thigh.",
+      "Keep that support steady and bend your elbow to curl the dumbbell upward.",
+      "Lower slowly without swinging your torso or bending your wrist; repeat on the other side as planned."
+    ]
+  },
+  "0308": {
+    "id": "0308",
+    "name": "dumbbell fly",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_59a04fd9930b40e28545ce29764660fd~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1021,
+    "cropHeight": 515,
+    "style": "TRX",
+    "bytes": 2271437,
+    "sha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a",
+    "leftLabel": "Weights above chest",
+    "rightLabel": "Open arms with soft elbows",
+    "alt": "Generated Nick likeness for dumbbell fly: weights above chest on the left; open arms with soft elbows on the right.",
+    "steps": [
+      "Lie on a flat bench with your head, shoulders and hips supported and your feet planted.",
+      "Keep a soft elbow bend and open your arms to a comfortable chest-level range.",
+      "Bring the dumbbells back above your chest without dropping your arms far below the bench or forcing your shoulders."
+    ]
+  },
+  "0310": {
+    "id": "0310",
+    "name": "dumbbell front raise",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_f2431c9affa7488d9c428cdc677e99f3~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 3,
+    "cropHeight": 534,
+    "style": "Dumbbell",
+    "bytes": 1954325,
+    "sha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222",
+    "leftLabel": "Weights near thighs",
+    "rightLabel": "Raise forward to shoulder level",
+    "alt": "Generated Nick likeness for dumbbell front raise: weights near thighs on the left; raise forward to shoulder level on the right.",
+    "steps": [
+      "Stand tall with light dumbbells near the fronts of your thighs and a small elbow bend.",
+      "Raise your arms forward to about shoulder level with your trunk steady.",
+      "Lower under control without leaning backward, shrugging or lifting above your comfortable range."
+    ]
+  },
+  "0333": {
+    "id": "0333",
+    "name": "dumbbell kickback",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_f2431c9affa7488d9c428cdc677e99f3~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 546,
+    "cropHeight": 463,
+    "style": "Dumbbell",
+    "bytes": 1954325,
+    "sha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222",
+    "leftLabel": "Hinge; elbows bent",
+    "rightLabel": "Straighten elbows backward",
+    "alt": "Generated Nick likeness for dumbbell kickback: hinge; elbows bent on the left; straighten elbows backward on the right.",
+    "steps": [
+      "Hinge with soft knees and a neutral back; hold your upper arms beside your torso and bend your elbows.",
+      "Keep your upper arms still while straightening your elbows to send the dumbbells backward.",
+      "Bend your elbows to return; avoid swinging your shoulders or changing your torso angle."
+    ]
+  },
+  "0406": {
+    "id": "0406",
+    "name": "dumbbell shrug",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_f2431c9affa7488d9c428cdc677e99f3~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1018,
+    "cropHeight": 515,
+    "style": "Dumbbell",
+    "bytes": 1954325,
+    "sha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222",
+    "leftLabel": "Shoulders relaxed",
+    "rightLabel": "Lift shoulders upward",
+    "alt": "Generated Nick likeness for dumbbell shrug: shoulders relaxed on the left; lift shoulders upward on the right.",
+    "steps": [
+      "Stand tall with dumbbells beside you, straight wrists and long arms.",
+      "Lift your shoulders straight upward through a comfortable range.",
+      "Lower slowly without rolling your shoulders, bending your elbows or jutting your head forward."
+    ]
+  },
+  "0413": {
+    "id": "0413",
+    "name": "dumbbell squat",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_bb1ba2a7202a441aa0914d7232401202~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 486,
+    "style": "TRX",
+    "bytes": 2047315,
+    "sha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7",
+    "leftLabel": "Two weights at sides",
+    "rightLabel": "Squat with weights beside legs",
+    "alt": "Generated Nick likeness for dumbbell squat: two weights at sides on the left; squat with weights beside legs on the right.",
+    "steps": [
+      "Stand with a dumbbell beside each thigh and your feet at a comfortable squat width.",
+      "Bend your hips and knees while the weights stay outside your legs and both heels remain grounded.",
+      "Stand through your whole foot without collapsing your knees inward or forcing depth."
+    ]
+  },
+  "0336": {
+    "id": "0336",
+    "name": "dumbbell lunge",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_bb1ba2a7202a441aa0914d7232401202~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 495,
+    "cropHeight": 484,
+    "style": "TRX",
+    "bytes": 2047315,
+    "sha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7",
+    "leftLabel": "Stand with weights at sides",
+    "rightLabel": "Step forward and lower",
+    "alt": "Generated Nick likeness for dumbbell lunge: stand with weights at sides on the left; step forward and lower on the right.",
+    "steps": [
+      "Stand tall holding the dumbbells at your sides with enough clear floor space.",
+      "Step forward and bend both knees, keeping your front foot flat and your front knee following its toes.",
+      "Push through the front foot to return; keep a stance wide enough for balance and use a bodyweight version if needed."
+    ]
+  },
+  "0431": {
+    "id": "0431",
+    "name": "dumbbell step-up",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_bb1ba2a7202a441aa0914d7232401202~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 990,
+    "cropHeight": 546,
+    "style": "TRX",
+    "bytes": 2047315,
+    "sha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7",
+    "leftLabel": "Whole front foot on step",
+    "rightLabel": "Stand tall on the step",
+    "alt": "Generated Nick likeness for dumbbell step-up: whole front foot on step on the left; stand tall on the step on the right.",
+    "steps": [
+      "Use a fixed stable low step and plant your whole lead foot on it while holding the dumbbells at your sides.",
+      "Drive through that foot to stand on the step; bring your trailing foot up without bouncing.",
+      "Step down under control, check the step cannot slide and train both sides as planned."
+    ]
+  },
+  "0417": {
+    "id": "0417",
+    "name": "dumbbell standing calf raise",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_3585de439a5a4dd7afa20c07a1429284~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 3,
+    "cropHeight": 543,
+    "style": "Dumbbell",
+    "bytes": 1902106,
+    "sha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664",
+    "leftLabel": "Heels on floor; weights at sides",
+    "rightLabel": "Rise onto forefeet",
+    "alt": "Generated Nick likeness for dumbbell standing calf raise: heels on floor; weights at sides on the left; rise onto forefeet on the right.",
+    "steps": [
+      "Stand on a clear flat floor with a dumbbell at each side and your knees softly straight.",
+      "Lift both heels to rise onto the balls of your feet without shifting your trunk.",
+      "Lower slowly without bouncing; use a separately planned supported or bodyweight variation if balance is uncertain."
+    ]
+  },
+  "1373": {
+    "id": "1373",
+    "name": "bodyweight standing calf raise",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_3585de439a5a4dd7afa20c07a1429284~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 552,
+    "cropHeight": 530,
+    "style": "Dumbbell",
+    "bytes": 1902106,
+    "sha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664",
+    "leftLabel": "Heels grounded",
+    "rightLabel": "Rise onto forefeet",
+    "alt": "Generated Nick likeness for bodyweight standing calf raise: heels grounded on the left; rise onto forefeet on the right.",
+    "steps": [
+      "Stand tall on a clear flat floor with your feet at a comfortable width and no added weight.",
+      "Lift both heels through your ankles while keeping your trunk steady.",
+      "Lower gently without bouncing or turning the movement into a squat; use support if needed."
+    ]
+  },
+  "3013": {
+    "id": "3013",
+    "name": "low glute bridge on floor",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_3585de439a5a4dd7afa20c07a1429284~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1090,
+    "cropHeight": 443,
+    "style": "Dumbbell",
+    "bytes": 1902106,
+    "sha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664",
+    "leftLabel": "Hips on mat",
+    "rightLabel": "Lift hips with ribs controlled",
+    "alt": "Generated Nick likeness for low glute bridge on floor: hips on mat on the left; lift hips with ribs controlled on the right.",
+    "steps": [
+      "Lie with your head and shoulders on a mat, knees bent and both feet flat near your hips.",
+      "Press through your feet and lift your hips until your shoulders, hips and knees form a comfortable line.",
+      "Lower with control without pushing through your neck or arching your lower back."
+    ]
+  },
+  "0652": {
+    "id": "0652",
+    "name": "pull-up",
+    "equipment": "body weight",
+    "url": "https://static.wixstatic.com/media/856ae2_ec4a514b26d045dca128b145ffb7d9df~mv2.png",
+    "width": 1536,
+    "height": 1024,
+    "top": 0,
+    "cropHeight": 1024,
+    "style": "TRX",
+    "bytes": 2099666,
+    "sha256": "e02affa8732a12111f7a03fd700bddcb7d582a457ea5844ab5159235144dc74d",
+    "leftLabel": "Controlled overhand hang",
+    "rightLabel": "Pull chin above bar",
+    "alt": "Generated Nick likeness for pull-up: controlled overhand hang on the left; pull chin above bar on the right.",
+    "steps": [
+      "Use a secure fixed bar and an overhand grip slightly wider than your shoulders; keep your shoulders controlled.",
+      "Pull your elbows toward your ribs until your chin clears the bar without craning your neck.",
+      "Lower with control; do not swing or kick. Choose a separately planned assisted variation when needed."
+    ]
+  }
+}
+export const APPROVED_CATALOGUE_BATCH2_IDS = ["0025", "0027", "0032", "1436", "0085", "0117", "0662", "3211", "0493", "0659", "0274", "0872", "1760", "0297", "0308", "0310", "0333", "0406", "0413", "0336", "0431", "0417", "1373", "3013", "0652"]
