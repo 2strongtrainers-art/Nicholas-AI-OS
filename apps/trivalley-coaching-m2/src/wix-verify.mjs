@@ -1,14 +1,14 @@
 // Staging-only Wix Headless member identity adapter.
 //
 // Verified official member endpoint:
-// GET https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED
+// GET https://www.wixapis.com/members/v1/members/my?fieldSet=FULL
 // Member status must be APPROVED (PUBLIC fieldset returns UNKNOWN).
 // Documentation: https://dev.wix.com/docs/api-reference/crm/members-contacts/members/member-management/members/get-my-member
 //
 // This cannot be activated in production without a provider-verified OAuth
 // token-to-site binding function, protected membership/roles storage, and
 // a verified login + redirect configuration. No identities are guessed.
-const MY_MEMBER_URL='https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED';
+const MY_MEMBER_URL='https://www.wixapis.com/members/v1/members/my?fieldSet=FULL';
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const permitted=new Set(['client','coach']);
 const validGuid=x=>typeof x==='string'&&UUID.test(x);
