@@ -80,7 +80,7 @@ el("endSession").addEventListener("click",()=>{
     token=null;
     cleanup();
     el("login").disabled=false;
-    const safeApiCode=typeof e?.message==="string"&&/^HTTP_\\d{3}_[A-Z_]{2,45}$/.test(e.message)
+    const safeApiCode=typeof e?.message==="string"&&/^HTTP_\d{3}_[A-Z_]{2,45}$/.test(e.message)
       ?e.message:"API_CHECK_FAILED";
     const message=stage==="wix"
       ?"Wix sign-in could not be completed or validated (WIX_MEMBER_CHECK). Use a Wix Member login for 1strongtrainer or 2strongtrainers, not the Wix editor admin session."
