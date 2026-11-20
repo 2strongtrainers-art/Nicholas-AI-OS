@@ -8,3 +8,8 @@
 .tv-library-start p { margin: 6px 0 12px; line-height: 1.5; }
 .tv-library-start button { min-height: 44px; white-space: normal; }
 .tv-mode-tabs { flex-wrap: wrap; }
+
+.tv-library-start summary, .tv-strength-estimate summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 650; }
+.tv-library-start summary::after, .tv-strength-estimate summary::after { content: '+'; margin-left: auto; padding-left: 12px; }
+.tv-library-start[open] summary::after, .tv-strength-estimate[open] summary::after { content: '−'; }
+.tv-strength-estimate { margin: 14px 0; border-top: 1px solid var(--line); }

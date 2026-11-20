@@ -24,13 +24,15 @@ edit('src/views/Library.jsx', "import {useEffect, useRef, useState}", "import { 
 edit('src/views/Library.jsx', '    all: fullLibrary.length,', "    all: fullLibrary.length,\n    essentials: fullLibrary.filter(ex => ESSENTIAL_IDS.includes(ex.id)).length,")
 edit('src/views/Library.jsx', "    mode === 'all' ||", "    mode === 'all' || (mode === 'essentials' && ESSENTIAL_IDS.includes(ex.id)) ||")
 edit('src/views/Library.jsx', "['all', 'Explore'], ['favorites', 'Saved']", "['all', 'Explore'], ['essentials', 'Main 16'], ['favorites', 'Saved']")
-edit('src/views/Library.jsx', '    <div className="tv-library-search">', '''    <section className="tv-library-start" aria-label="Where to start">
-      <strong>Not sure where to start?</strong>
+edit('src/views/Library.jsx', '    <div className="tv-library-search">', '''    <details className="tv-library-start">
+      <summary>Start with my 16 core movements</summary>
       <p>I’ve grouped the 16 movements from the 3-Day Muscle Split so you can learn one at a time. Each has an illustration and my setup, movement and easier-option notes.</p>
       <button type="button" className="btn" onClick={() => changeMode('essentials')}>Show the main 16 movements</button>
       <p className="small muted">The full catalogue contains 1,324 written exercise references. Only these 16 have generated likeness illustrations; they are not recorded demonstrations.</p>
-    </section>
+    </details>
     <div className="tv-library-search">''')
+edit('src/sheets.jsx', '    {!isCardio(ex) && <OneRM ex={ex} />}','')
+edit('src/sheets.jsx', '  </>\n}\nexport const exerciseDetailSheet', '    {!isCardio(ex) && <details className="tv-strength-estimate"><summary>Optional strength estimate</summary><OneRM ex={ex} /></details>}\n  </>\n}\nexport const exerciseDetailSheet')
 # Clarify this schedule's limitation without silently replacing anyone's chosen plan.
 edit('src/components/ProgramBrief.jsx', 'A repeatable gym plan with a clear next step', 'Here’s how I want you to use this plan')
 edit('src/components/ProgramBrief.jsx', 'Build strength and muscle through consistent, recorded training.', 'I want you to build consistency, record your work and progress with control.')

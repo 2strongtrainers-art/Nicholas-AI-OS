@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
+import { resolve } from 'node:path'
 import { COACH_NOTES, ESSENTIAL_IDS, coachNotesFor, normalizeExerciseNames } from './tv-coach-notes.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 
@@ -16,7 +17,7 @@ test('every split movement has exactly four usable notes and one exact identifie
   assert.equal(coachNotesFor({id:'__proto__'}), null)
 })
 test('catalogue entries and every programmed prescription resolve without invented media coverage', {skip: !process.env.TV_CATALOGUE_PATH}, async () => {
-  const { EXDB } = await import('file://' + process.env.TV_CATALOGUE_PATH)
+  const { EXDB } = await import(pathToFileURL(resolve(process.env.TV_CATALOGUE_PATH)).href)
   assert.equal(EXDB.length,1324)
   assert.equal(new Set(EXDB.map(ex => ex.id)).size,1324)
   normalizeExerciseNames(EXDB)
