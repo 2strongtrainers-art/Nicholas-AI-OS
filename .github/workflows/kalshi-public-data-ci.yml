@@ -1,0 +1,29 @@
+name: Kalshi Public Data CI
+
+on:
+  pull_request:
+    paths:
+      - 'trading/kalshi_public_data.py'
+      - 'tests/test_kalshi_public_data.py'
+      - 'docs/kalshi-public-data.md'
+      - '.github/workflows/kalshi-public-data-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Public-data and existing trading regression tests
+        run: |
+          python -m py_compile trading/kalshi_public_data.py
+          python -m unittest discover -s tests -p 'test_kalshi_public_data.py' -v
+          python -m unittest discover -s tests -p 'test_coinbase*.py' -v
+          python -m unittest discover -s tests -p 'test_daytrade_engine.py' -v
+          python -m unittest discover -s tests -p 'test_paper_trading_desk.py' -v
