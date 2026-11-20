@@ -76,7 +76,9 @@ try {
   await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Back & Biceps');
   for(const [width,height] of [[320,667],[390,844],[430,932]]){
     await page.setViewport({width,height,deviceScaleFactor:2,isMobile:true,hasTouch:true});
+    await page.waitForFunction(()=>{const d=document.querySelector('[data-testid="tv-training-dock"]').getBoundingClientRect(),host=document.documentElement.dataset.tvFreeHosted==='1'?76:0;return Math.abs(d.bottom-((visualViewport?.height||innerHeight)-host-8))<2});
     await page.evaluate(()=>document.getElementById('app').scrollTo(0,0));
+    await page.waitForFunction(()=>{const n=document.querySelector('[data-testid="tv-start-primary"]'),r=n.getBoundingClientRect();return n.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))},{timeout:10000});
     assert(await unobscured('[data-testid="tv-start-primary"]'),'Continue action is obscured at '+width+'x'+height);
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Home overflows at '+width);
   }
