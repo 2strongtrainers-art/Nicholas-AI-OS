@@ -37,7 +37,7 @@ try {
   const point=await ready.jsonValue();await page.mouse.click(point.x,point.y);
  };
  const geometry=async label=>{
-  await page.waitForFunction(()=>{const a=document.querySelector('#app')?.getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]')?.getBoundingClientRect();return a&&d&&a.height>100&&a.bottom<=d.top-6});
+  await page.waitForFunction(()=>{const a=document.querySelector('#app')?.getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]')?.getBoundingClientRect(),n=document.querySelector('#tabbar')?.getBoundingClientRect(),t=document.querySelector('#timer')?.getBoundingClientRect(),host=document.documentElement.dataset.tvFreeHosted==='1'?76:0;return a&&d&&n&&a.height>100&&a.bottom<=d.top-6&&d.bottom<=innerHeight-host+2&&(!t||t.bottom<=n.top-6)});
   const g=await page.evaluate(()=>{const a=document.querySelector('#app').getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]').getBoundingClientRect(),n=document.querySelector('#tabbar').getBoundingClientRect(),t=document.querySelector('#timer')?.getBoundingClientRect();return {a:a.toJSON(),d:d.toJSON(),n:n.toJSON(),t:t?.toJSON(),h:innerHeight,w:innerWidth,host:document.documentElement.dataset.tvFreeHosted}});
   assert(g.a.bottom<=g.d.top-6,label+': content overlaps dock');
   assert(g.d.bottom<=g.h-(g.host==='1'?76:0)+2,label+': dock overlaps host chrome');

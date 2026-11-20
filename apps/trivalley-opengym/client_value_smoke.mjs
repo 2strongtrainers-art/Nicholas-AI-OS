@@ -24,7 +24,7 @@ try{
  assert(await page.locator('[data-testid="tv-program-schedule"]').count()===0,'Competing legacy schedule selector remains')
  for(const [width,height] of [[320,667],[390,844],[430,932]]){
   await page.setViewportSize({width,height})
-  await page.waitForFunction(()=>{const a=document.querySelector('#app').getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]').getBoundingClientRect();return a.bottom<=d.top-6&&a.height>100})
+  await page.waitForFunction(()=>{const a=document.querySelector('#app').getBoundingClientRect(),d=document.querySelector('[data-testid="tv-training-dock"]').getBoundingClientRect();return a.bottom<=d.top-6&&a.height>100&&d.bottom<=innerHeight-(document.documentElement.dataset.tvFreeHosted==='1'?76:0)+2})
   const layout=await page.evaluate(()=>{const app=document.querySelector('#app').getBoundingClientRect(),nav=document.querySelector('#tabbar').getBoundingClientRect();return {bottom:app.bottom,navTop:nav.top,navBottom:nav.bottom,height:innerHeight,overflow:document.documentElement.scrollWidth>innerWidth+2}})
   assert(layout.bottom<=layout.navTop+1,'App content extends behind navigation at '+width)
   assert(layout.navBottom<=layout.height+1&&!layout.overflow,'Navigation/viewport overflow at '+width)
