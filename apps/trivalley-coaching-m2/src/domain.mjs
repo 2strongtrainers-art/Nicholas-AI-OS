@@ -191,7 +191,7 @@ export class CoachingService {
     const p=exists(this.store.programs.get(uuid(input.programId)),'Published program not found');
     if(!isOrg(p,a.orgId) || p.coachId!==a.sub || p.status!=='published') error(404,'NOT_FOUND','Published program not found');
     const m=exists(this.store.members.get(text(input.clientId,160,'Client ID')),'Client not found');
-    if(m.role!=='client' || m.orgId!==a.orgId) error(404,'NOT_FOUND','Client not found');
+    if(m.role!=='client' || m.orgId!==a.orgId || m.status!=='active') error(404,'NOT_FOUND','Client not found');
     const previous=[...this.store.assignments.values()].find(v=>v.orgId===a.orgId&&v.coachId===a.sub&&
       v.clientId===m.id&&v.programId===p.id&&v.programVersion===p.version&&v.status==='active');
     if(previous) return {...clone(previous),reused:true};
@@ -212,7 +212,7 @@ export class CoachingService {
   coachClients(actor) {
     const {a}=this.requireCoach(actor);
     const ids=new Set([...this.store.assignments.values()].filter(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.status==='active').map(x=>x.clientId));
-    return [...ids].map(id=>this.store.members.get(id)).filter(Boolean).map(m=>({id:m.id,displayName:m.displayName}));
+    return [...ids].map(id=>this.store.members.get(id)).filter(m=>m?.status==='active' && m.role==='client' && m.orgId===a.orgId).map(m=>({id:m.id,displayName:m.displayName}));
   }
   authorizedCoachClient(actor,clientId) {
     const {a}=this.requireCoach(actor);
@@ -220,7 +220,7 @@ export class CoachingService {
     const allowed=[...this.store.assignments.values()].some(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.clientId===clientId&&x.status==='active');
     if(!allowed) error(404,'NOT_FOUND','Client not found');
     const member=exists(this.store.members.get(clientId));
-    if(member.role!=='client'||member.orgId!==a.orgId) error(404,'NOT_FOUND','Client not found');
+    if(member.role!=='client'||member.orgId!==a.orgId||member.status!=='active') error(404,'NOT_FOUND','Client not found');
     return member;
   }
   logWorkout(actor,input) {
