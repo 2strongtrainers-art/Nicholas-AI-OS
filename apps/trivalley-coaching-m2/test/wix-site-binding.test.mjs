@@ -13,7 +13,7 @@ function fixture({baseUrl='https://www.trivalley.fit',published=true,
     calls.push({url,headers:options.headers,method:options.method});
     if(url==='https://www.wixapis.com/ricos/v1/site-context/site-url')
       return {ok:siteStatus===200,text:async()=>JSON.stringify({baseUrl,published})};
-    if(url==='https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED')
+    if(url==='https://www.wixapis.com/members/v1/members/my?fieldSet=FULL')
       return {ok:true,text:async()=>JSON.stringify({member:{id:memberId,status:memberStatus}})};
     throw new Error('Unexpected request');
   };
@@ -33,7 +33,7 @@ test('token site proof plus APPROVED Wix member plus protected role allow only i
   assert.equal(actor.orgId,'org-a');
   assert.equal(f.calls.length,2);
   assert.equal(f.calls[0].url,'https://www.wixapis.com/ricos/v1/site-context/site-url');
-  assert.equal(f.calls[1].url,'https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED');
+  assert.equal(f.calls[1].url,'https://www.wixapis.com/members/v1/members/my?fieldSet=FULL');
   assert.equal(f.calls[0].headers.Authorization,token);
 });
 test('wrong site domain, unpublished site or OAuth site-context denial block member lookup',async()=>{
