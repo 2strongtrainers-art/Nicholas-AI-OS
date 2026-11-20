@@ -49,6 +49,7 @@ jobs:
           python3 apps/trivalley-opengym/upgrade_coach_notes.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_calculators.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_workout_tools.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_first_use.py upstream/frontend
           curl --fail --location --silent --show-error --retry 2 --max-time 25 \
             'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
             -o upstream/frontend/public/trivalley-triquetra.png
@@ -198,6 +199,8 @@ jobs:
           node "$RUNNER_TEMP/trivalley-client-value/workout-tools.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/workout-tools.png"
           cp apps/trivalley-opengym/calculators_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/calculators.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/calculators.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/calculators.png"
+          cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -205,6 +208,7 @@ jobs:
           path: |
             ${{ runner.temp }}/trivalley-client-value/progress.png
             ${{ runner.temp }}/trivalley-client-value/calculators.png
+            ${{ runner.temp }}/trivalley-client-value/first-use.png
           retention-days: 7
 
   catalogue-integrity:

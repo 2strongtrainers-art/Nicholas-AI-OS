@@ -40,6 +40,8 @@ try {
 
   await page.goto(url+'#/library',{waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-exercise-card"]');
+  assert(await page.$$eval('[data-testid="tv-exercise-card"]',cards=>cards.length)===16,'Recommended Main 16 is not the default');
+  await page.click('[data-testid="tv-mode-all"]');
   // The actual rendered collection, not a second hardcoded exercise list.
   while(await page.$('.tv-load-more')) {
     await page.$eval('.tv-load-more',button=>button.click());

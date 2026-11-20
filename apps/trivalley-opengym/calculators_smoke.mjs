@@ -19,7 +19,7 @@ try{
  await page.goto(url+'#/calculators',{waitUntil:'networkidle'})
  await page.getByTestId('tv-calculators').waitFor()
  const initial=await page.evaluate(()=>localStorage.getItem('gym_state_v1'))
- assert(await page.locator('[aria-label="Choose your calculator"] option').count()===13,'Expected thirteen native tools')
+ assert(await page.locator('[aria-label="What would you like to work out?"] option').count()===13,'Expected thirteen native tools')
  assert(await page.getByTestId('tv-calc-result').count()===0,'Result fabricated before input')
  await page.getByRole('button',{name:'Calculate my estimate',exact:true}).click()
  assert(await page.getByRole('alert').isVisible(),'Blank inputs should show validation')
@@ -29,7 +29,7 @@ try{
  const expected={calories:'2,759',maintenance:'2,759',macros:'206.9',protein:'206.9',carbs:'275.9',fats:'92',bmr:'1,864.4',rmr:'1,864.4',lean:'64',bmi:'24.7','one-rm':'116.7',burn:'147',creatine:'5'}
  const nonGets=[];page.on('request',request=>{if(request.method()!=='GET')nonGets.push(request.method()+' '+request.url())})
  for(const [id,value]of Object.entries(expected)){
-  await page.getByLabel('Choose your calculator',{exact:true}).selectOption(id)
+  await page.getByLabel('What would you like to work out?',{exact:true}).selectOption(id)
   for(const [key,value]of Object.entries(fixtures)){
    const field=page.locator('#tv-calc-'+key)
    if(await field.count()){
@@ -46,7 +46,7 @@ try{
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Calculator overflow '+id+' at '+width)
   }
  }
- await page.getByLabel('Choose your calculator',{exact:true}).selectOption('macros')
+ await page.getByLabel('What would you like to work out?',{exact:true}).selectOption('macros')
  await page.locator('#tv-calc-ratio').selectOption('custom')
  for(const [key,value]of [['carbPercent','50'],['proteinPercent','25'],['fatPercent','24']])await page.locator('#tv-calc-'+key).fill(value)
  await page.getByRole('button',{name:'Calculate my estimate',exact:true}).click()

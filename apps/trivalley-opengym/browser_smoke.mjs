@@ -202,7 +202,7 @@ try {
   // TriValley library v3 acceptance: browse, search, clear, persist favorites and history views.
   await page.waitForFunction(() => !!document.querySelector('[data-testid="tv-library"]'), {timeout:10000});
   const libraryCount = await page.evaluate(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length);
-  if (libraryCount < 20) throw new Error('Exercise library initial browse unexpectedly sparse: ' + libraryCount);
+  if (libraryCount !== 16) throw new Error('Recommended Main 16 must be the initial collection: ' + libraryCount);
   await page.type('[data-testid="tv-library-search"]', 'Air Bike');
   await page.waitForFunction(() => document.querySelectorAll('[data-testid="tv-exercise-card"]').length > 0
     && [...document.querySelectorAll('.tv-exercise-name')].some(el => el.textContent.toLowerCase().includes('air bike')), {timeout:6000});
