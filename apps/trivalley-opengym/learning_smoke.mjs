@@ -1,0 +1,60 @@
+import http from 'node:http'
+import fs from 'node:fs'
+import path from 'node:path'
+import {chromium,webkit} from 'playwright-core'
+const root=path.resolve(process.argv[2]||'dist'),shot=process.argv[3]||'/tmp/learning.png',engine=process.env.TV_ENGINE||'chromium'
+const assert=(v,m)=>{if(!v)throw Error(m)}
+let server,url=process.env.TV_LIVE_URL,browser,page;const errors=[]
+if(!url){const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml'};server=http.createServer((req,res)=>{const p=path.resolve(root,'.'+new URL(req.url,'http://localhost').pathname.replace(/\/$/,'/index.html'));if(!p.startsWith(root+path.sep)||!fs.existsSync(p)){res.writeHead(404);return res.end()}res.setHeader('Content-Type',types[path.extname(p)]||'application/octet-stream');fs.createReadStream(p).pipe(res)});await new Promise(r=>server.listen(0,'0.0.0.0',r));url=`http://127.0.0.1:${server.address().port}/`}
+try{
+ browser=await(engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})})
+ const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});page=await context.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message))
+ const go=async route=>{await page.goto(url+'#'+route,{waitUntil:'networkidle'});await page.locator('h1').first().waitFor()}
+ const storage=()=>page.evaluate(()=>localStorage.getItem('gym_state_v1'))
+ const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')))
+ const a11y=async()=>{await page.addScriptTag({path:new URL('node_modules/axe-core/axe.min.js',import.meta.url).pathname});const findings=await page.evaluate(async()=>{const r=await axe.run('[data-testid="tv-learning"], [data-testid="tv-quick-posters"], [data-testid="tv-quick-poster-detail"]',{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}});return r.violations.map(x=>({id:x.id,impact:x.impact,nodes:x.nodes.length}))});assert(!findings.length,'New resource accessibility findings '+JSON.stringify(findings))}
+ await go('/home');await page.evaluate(()=>localStorage.setItem('tv_daily_verse_enabled_v1','false'));await page.reload({waitUntil:'networkidle'})
+ await page.getByRole('button',{name:'Library',exact:true}).click();await page.getByTestId('tv-resource-links').waitFor();const before=await storage()
+ await page.getByTestId('tv-resource-links').getByRole('button').first().click();await page.getByTestId('tv-lesson-0').waitFor();await a11y()
+ for(let i=0;i<5;i++){
+  await page.getByTestId('tv-lesson-'+i).click();await page.getByTestId('tv-lesson-article').waitFor();assert(await page.getByTestId('tv-lesson-article').locator('section').count()===3,'Lesson sections missing')
+  assert(await page.locator('h1').evaluate(e=>e===document.activeElement),'Lesson heading did not receive focus')
+  assert(await storage()===before,'Reading a guide changed gym records');await page.getByRole('button',{name:'← All learning guides',exact:true}).click()
+ }
+ await page.getByRole('button',{name:'Open protein portions',exact:true}).click();await page.getByTestId('tv-portion-form').waitFor()
+ await page.getByRole('button',{name:'Calculate my portion',exact:true}).click();assert(await page.getByRole('alert').count()===1,'Blank values accepted')
+ for(const [id,v] of [['servingGrams','200'],['proteinGrams','20'],['wantedProtein','25']])await page.locator('#tv-portion-'+id).fill(v)
+ await page.getByRole('button',{name:'Calculate my portion',exact:true}).click();assert((await page.getByTestId('tv-portion-result').innerText()).includes('250 g'),'Label arithmetic wrong');assert(await page.getByTestId('tv-portion-result').evaluate(e=>e===document.activeElement),'Portion result focus missing')
+ await page.locator('#tv-portion-proteinGrams').fill('201');assert(await page.getByTestId('tv-portion-result').count()===0,'Old portion result survived an input change');await page.getByRole('button',{name:'Calculate my portion',exact:true}).click();assert(await page.getByRole('alert').count()===1,'Impossible protein mass accepted')
+ await page.locator('#tv-portion-proteinGrams').fill('20');await page.getByRole('button',{name:'Calculate my portion',exact:true}).click();await a11y()
+ for(const width of [320,390,430]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Protein guide overflow '+width)}
+ assert(await storage()===before,'Label calculation changed training state');await go('/posters');await page.getByTestId('tv-quick-posters').waitFor();await a11y()
+ for(const key of ['lower-body','plank-practice','easy-circuit']){
+  await go('/posters/'+key);await page.getByTestId('tv-poster-preview').waitFor();assert(await page.getByTestId('tv-poster-movement').count()===3,'Poster does not contain three movements');assert(await page.getByTestId('tv-poster-sketch').count()===3,'Original movement sketches missing')
+  assert(!(await page.getByTestId('tv-poster-preview').innerText()).includes('Unknown exercise'),'Preview has unresolved exercise');assert(await storage()===before,'Preview installed a program or started a workout')
+  await a11y()
+  for(const width of [320,390,430]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>{const app=document.querySelector('#app'),dock=document.querySelector('[data-testid="tv-training-dock"]');return document.documentElement.scrollWidth<=innerWidth+2&&app.getBoundingClientRect().bottom<=dock.getBoundingClientRect().top-5}),'Poster overlaps navigation or viewport '+width)}
+ }
+ await go('/posters/lower-body');await page.getByRole('button',{name:'Save workout to My routines',exact:true}).click();await page.getByRole('button',{name:'Edit my saved workout',exact:true}).waitFor();let S=await read();assert(S.routines.length===1&&S.customEx.length===3&&!S.active&&Object.keys(S.week).length===0,'Save changed more than the explicit routine and exercise definitions')
+ await page.reload({waitUntil:'networkidle'});assert(await page.getByRole('button',{name:'Save workout to My routines',exact:true}).count()===0,'Saved version duplicated on reload')
+ await page.getByTestId('tv-poster-start').click();await page.getByRole('button',{name:'Start without weighing in',exact:true}).click();await page.getByTestId('tv-poster-active').waitFor()
+ await page.getByTestId('tv-poster-movement').first().getByTestId('tv-poster-set').nth(0).click();await page.getByTestId('tv-poster-movement').first().getByTestId('tv-poster-set').nth(1).click();assert(!(await page.locator('body').innerText()).includes('Confirm the weight you worked with'),'Bodyweight-only sets opened a working-weight confirmation')
+ await page.getByRole('button',{name:'Finish',exact:true}).click();await page.getByRole('button',{name:'Save partial workout',exact:true}).click();await page.waitForFunction(()=>!JSON.parse(localStorage.getItem('gym_state_v1')).active)
+ await go('/learn/protein-portions');assert(await page.locator('#tv-portion-servingGrams').inputValue()==='','Portion inputs persisted across route exit')
+ await go('/posters/plank-practice');await page.getByTestId('tv-poster-start').click();assert(!(await read()).active,'Workout started before check-in confirmation');await page.getByRole('button',{name:'Start without weighing in',exact:true}).click();await page.getByTestId('tv-poster-active').waitFor();S=await read();const activeId=S.active.id
+ assert(S.active.name==='Plank practice'&&S.active.entries[1].id.endsWith('side-left')&&S.active.entries[2].id.endsWith('side-right'),'Side-specific plank entries wrong');assert(S.active.entries.every(e=>e.sets.every(x=>x.w===0)),'Poster invented added load');assert(S.active.entries[0].sets[0].sec===15,'Plank opening duration wrong')
+ const card=page.getByTestId('tv-poster-movement').first();await card.getByTestId('tv-inline-set-fields').first().locator('input').first().fill('1');await card.getByTestId('tv-inline-set-fields').first().locator('input').first().press('Tab');await card.getByRole('button',{name:'Time set 1',exact:true}).click();await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0].sets[0].done)
+ S=await read();assert(S.active.entries[0].sets[0].sec===1,'Timed set did not record actual work')
+ await page.reload({waitUntil:'networkidle'});assert((await read()).active.id===activeId,'Reload lost or replaced the session');await go('/posters/easy-circuit');assert(!(await page.getByTestId('tv-poster-start').isEnabled()),'A poster can replace an active workout');assert((await read()).active.id===activeId,'Preview replaced the active session')
+ await page.getByRole('button',{name:'Resume current workout',exact:true}).click();await page.getByTestId('tv-poster-active').waitFor();await page.getByRole('button',{name:'Finish',exact:true}).click();await page.getByRole('button',{name:'Save partial workout',exact:true}).click();await page.waitForFunction(()=>!JSON.parse(localStorage.getItem('gym_state_v1')).active)
+ S=await read();const record=S.workouts.find(w=>w.id===activeId);assert(S.workouts.length===2&&record?.partial===true&&record.end>=record.start,'Partial poster record or timestamps wrong')
+ await go('/posters/easy-circuit');await page.getByTestId('tv-poster-start').click();await page.getByRole('button',{name:'Start without weighing in',exact:true}).click();await page.getByTestId('tv-poster-active').waitFor();S=await read();assert(S.active.entries.every(e=>e.target.mode==='time'&&e.sets.length===2&&e.sets[0].sec===30),'Circuit timing/rounds wrong');assert((await page.getByTestId('tv-poster-session-guide').innerText()).includes('set 1 on each card'),'Circuit order unclear');assert((await page.getByTestId('tv-poster-set').first().innerText()).includes('movement'),'Moving interval incorrectly labelled a static hold')
+ for(let i=0;i<3;i++){
+  const movement=page.getByTestId('tv-poster-movement').nth(i),seconds=movement.getByTestId('tv-inline-set-fields').first().locator('input').first();await seconds.fill('1');await seconds.press('Tab');await movement.getByRole('button',{name:'Time set 1',exact:true}).click();await page.waitForFunction(index=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[index].sets[0].done,i)
+  if(i<2)assert(await page.locator('#timer.rest').count()===0,'Circuit rested before the final movement')
+ }
+ assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('tv_rest_timer_v1')).total===60),'Circuit did not start its specified round rest')
+ await go('/posters/lower-body');await page.screenshot({path:shot,fullPage:true})
+ await page.evaluate(async()=>{if(navigator.serviceWorker?.controller)await navigator.serviceWorker.ready});await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.getByTestId('tv-poster-preview').waitFor();assert(await page.getByTestId('tv-poster-sketch').count()===3,'Poster sketches failed offline');await context.setOffline(false)
+ assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'LEARNING_AND_POSTERS_BROWSER_PASS',engine,checks:['five read-only lessons','label known answer and invalid rejection','stale result removal and focus','route-local input clearing','three original illustrated previews without mutation','320-430px no overlap','automated accessibility','explicit append-only save','distinct left/right holds','native timed logging and reload','active-session protection','partial history and timestamps','two-round moving circuit labels','offline poster sketches'],physicalIPhone:'UNVERIFIED'}))
+}catch(e){console.error(JSON.stringify({error:e.message,engine,page:page?await page.locator('body').innerText().catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true}).catch(()=>{});throw e}finally{await browser?.close();if(server)await new Promise(r=>server.close(r))}
