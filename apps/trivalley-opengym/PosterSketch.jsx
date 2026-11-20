@@ -27,11 +27,11 @@ export default function PosterSketch({ex,compact=false,collapsible=false}){
  if(!d||ex?.tvPosterVersion!==1||ex.n!==d.n)return null
  const labels=d.pose==='plank'?['Knees down option','Hold with control']:d.pose==='side'?['Supported setup','Lift and hold']:d.pose==='march'?['One step','Then the other']:['Set up','Move with control']
  const figure=<figure className={'tv-poster-sketch'+(compact?' tv-sketch-compact':'')} data-testid="tv-poster-sketch">
-  <svg viewBox="0 0 390 165" role="img" aria-label={d.n+': '+labels.join(', then ')+'. Read the written cues for setup and easier options.'}>
+  <svg viewBox="0 0 390 145" role="img" aria-label={d.n+': '+labels.join(', then ')+'. Read the written cues for setup and easier options.'}>
    <path d="M10 140 H185 M205 140 H380" stroke="currentColor" strokeOpacity=".25"/>
    <g transform="translate(5 0)"><Pose type={d.pose} phase={0} right={d.id.endsWith('right')}/></g><g transform="translate(200 0)"><Pose type={d.pose} phase={1} right={d.id.endsWith('right')}/></g>
-   <g fill="currentColor" fontSize="12" textAnchor="middle"><text x="98" y="160">1 · {labels[0]}</text><text x="293" y="160">2 · {labels[1]}</text></g>
   </svg>
+  <div className="tv-sketch-phases" aria-hidden="true"><span>1 · {labels[0]}</span><span>2 · {labels[1]}</span></div>
   {!compact&&<figcaption>Movement sketch · use the written cues. This is a reference, not a video or a personal form check.</figcaption>}
  </figure>
  return collapsible?<details className="tv-movement-reference"><summary>View movement sketch</summary>{figure}</details>:figure
