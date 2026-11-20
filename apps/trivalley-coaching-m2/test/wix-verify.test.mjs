@@ -112,3 +112,15 @@ test('token-site verifier must affirm member site even when Wix status says APPR
   assert.equal(await verifier(token),null);
   assert.equal(calls.length,0);
 });
+
+test('approved secondary owner login resolves only a database-provisioned canonical coach',async()=>{
+  const canonical='4d122d05-0633-461b-ab06-4c642199e75a';
+  const alias={siteId,memberId,role:'coach',orgId:'org-private',status:'active',
+    canonicalMemberId:canonical};
+  const {verifier}=make({membership:alias});
+  const actor=await verifier(token);
+  assert.deepEqual(actor,{sub:canonical,orgId:'org-private',role:'coach'});
+  assert.equal((await make({membership:{...alias,canonicalMemberId:'bad'}}).verifier(token)),null);
+  assert.equal((await make({membership:{...alias,role:'client'}}).verifier(token)),null);
+  assert.equal((await make({membership:{...alias,status:'disabled'}}).verifier(token)),null);
+});
