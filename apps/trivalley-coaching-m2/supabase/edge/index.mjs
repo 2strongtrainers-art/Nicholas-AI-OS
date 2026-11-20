@@ -154,8 +154,20 @@ async function handle(req) {
       });
       return new Response(null,{status:204,headers:h});
     }
-    if(req.method==="GET"&&path==="/health")
-      return send({service:"TriValley coaching",stage:"staging",authenticatedAccess:"required",clientMigration:false},200,origin);
+    if(req.method==="GET"&&path==="/health") {
+      if(!sql)return send({service:"TriValley coaching",stage:"staging",databaseReady:false},503,origin);
+      try {
+        const rows=await sql.unsafe(
+          "select count(*)::int as organizations from coaching_private.organizations where wix_site_id=$1::uuid",
+          [SITE_ID]
+        );
+        if(rows.length!==1||rows[0].organizations!==1)throw new Error("Missing staging organization");
+        return send({service:"TriValley coaching",stage:"staging",databaseReady:true,
+          authenticatedAccess:"required",clientMigration:false},200,origin);
+      }catch{
+        return send({service:"TriValley coaching",stage:"staging",databaseReady:false},503,origin);
+      }
+    }
     if(req.method!=="GET"&&req.method!=="POST")return send({error:"METHOD_NOT_ALLOWED"},405,origin);
     if(!sql)return send({error:"SERVICE_NOT_READY"},503,origin);
     const bearer=/^Bearer ([^\s]{10,4096})$/i.exec(req.headers.get("authorization")||"")?.[1];
