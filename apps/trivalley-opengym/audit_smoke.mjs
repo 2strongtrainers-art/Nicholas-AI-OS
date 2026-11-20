@@ -58,7 +58,14 @@ try{
  await page.goto(url+'#/library',{waitUntil:'networkidle0'});await page.waitForSelector('input[type="search"]');await page.type('input[type="search"]','hamer curl');
  await page.waitForFunction(()=>document.body.innerText.includes('Did you mean'));
  await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Did you mean')).click());
- await page.waitForSelector('button[aria-label="View form and details for dumbbell hammer curl"]');await page.click('button[aria-label="View form and details for dumbbell hammer curl"]');
+ const detailSelector='button[aria-label="View form and details for dumbbell hammer curl"]';
+ await page.waitForSelector(detailSelector);
+ // Fixed app navigation can cover Puppeteer's initial click point. Scroll as a reader
+ // would, then require the real hit target before sending a physical browser click.
+ console.log(JSON.stringify({status:'DETAIL_CLICK_BEFORE_SCROLL',target:await page.$eval(detailSelector,n=>{const r=n.getBoundingClientRect();const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {top:r.top,bottom:r.bottom,hit:hit?.closest('button,a')?.textContent?.trim()||hit?.tagName}})}));
+ await page.$eval(detailSelector,n=>n.scrollIntoView({block:'center',inline:'nearest'}));
+ await page.waitForFunction(selector=>{const n=document.querySelector(selector);const r=n?.getBoundingClientRect();return r&&n.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))},{timeout:5000},detailSelector);
+ await page.click(detailSelector);
  await page.waitForSelector('.tv-exercise-detail-heading h3');assert(await page.$eval('.tv-exercise-detail-heading h3',n=>n.getBoundingClientRect().width>130),'Exercise heading collapsed');
  assert(await page.$$eval('[role="dialog"] ol',ns=>ns.length===1),'Full instructions are duplicated');
  await page.screenshot({path:shot,fullPage:true});
