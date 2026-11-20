@@ -21,7 +21,7 @@ try{
   styles.add(art.style);assert((await figure.innerText()).includes('AI-generated likeness illustration'),'Disclosure missing')
   for(const width of [320,390,430]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Overflow '+art.id+' '+width)}
   if(art.id==='0662')await page.screenshot({path:shot,fullPage:false})
-  await page.getByRole('button',{name:'Close exercise details',exact:true}).click()
+  await page.getByRole('button',{name:'Close exercise details',exact:true}).click();await page.locator('#modal-root').waitFor({state:'detached'})
  }
  assert(styles.size===2,'Requested style mix missing');assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===before,'Reading artwork changed training data')
  await page.getByTestId('tv-library-search').fill('pull-up');await page.locator('[data-ex-id="0652"] .tv-exercise-open').click();await page.locator('[data-exercise-id="0652"] img').scrollIntoViewIfNeeded()
