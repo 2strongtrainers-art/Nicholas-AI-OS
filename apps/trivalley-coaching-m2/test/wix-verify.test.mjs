@@ -45,7 +45,7 @@ test('approved member identity only from EXTENDED Wix endpoint with protected me
   const identity=await verifier(token);
   assert.deepEqual(identity,{sub:memberId,orgId:'org-private',role:'client'});
   assert.equal(calls.length,1);
-  assert.equal(calls[0].url,'https://www.wixapis.com/members/v1/members/my?fieldsets=EXTENDED');
+  assert.equal(calls[0].url,'https://www.wixapis.com/members/v1/members/my?fieldSet=FULL');
   assert.equal(calls[0].authorization,token);
   assert.equal(calls[0].redirect,'error');
   assert.equal(JSON.stringify(identity).includes('example.invalid'),false);
