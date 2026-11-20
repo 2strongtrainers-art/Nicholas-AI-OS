@@ -59,7 +59,7 @@ try {
  assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===original,'Cancelling setup changed data');
  await page.click('[data-testid="tv-open-setup"]');await page.waitForSelector('#tv-setup-schedule');await page.select('#tv-setup-schedule','none');await clickText('Review my setup');await page.waitForSelector('[data-testid="tv-setup-review"]');await clickText('Confirm program and training days');await page.waitForSelector('[data-testid="tv-program-next-name"]');
  assert(!await page.$('[data-testid="tv-get-started"]'),'Confirmed user still sees onboarding');
- await page.click('#tabbar button:nth-child(3)');await page.waitForFunction(()=>location.hash==='#/workout');
+ await page.click('#tabbar button:nth-child(3)');await page.waitForFunction(()=>location.hash==='#/workout');await page.waitForFunction(()=>document.querySelector('h1')?.textContent==='Start workout');
  assert(!await page.$('[role="dialog"]')&&!await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active),'Navigation unexpectedly started a workout');
  await page.click('#tabbar button:nth-child(2)');await page.waitForSelector('[data-testid="tv-preview-program-0"]');await page.click('[data-testid="tv-preview-program-0"]');await page.waitForSelector('[data-testid="tv-poster-preview"]');
  assert(!await page.$('.tv-calendar-tools'),'Workout preview contains unrelated calendar tools');
