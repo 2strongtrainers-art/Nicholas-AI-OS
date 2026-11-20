@@ -34,7 +34,7 @@ try{
  if(!process.env.TV_LIVE_URL)await page.evaluate(()=>{document.querySelector('#qa-hosted-banner')?.remove();document.documentElement.dataset.tvFreeHosted='0'});
  await page.goto(url+'#/settings',{waitUntil:'networkidle0'});
  assert(await page.evaluate(()=>[...document.querySelectorAll('.seg button')].filter(b=>b.textContent==='kg'||b.textContent==='lb').some(b=>b.disabled)),'Saved weight does not lock alternate unit');
- await page.goto(url+'#/plan',{waitUntil:'networkidle0'});await page.waitForSelector('[data-testid="tv-add-program"]');await page.click('[data-testid="tv-add-program"]');
+ await page.goto(url+'#/plan',{waitUntil:'networkidle0'});await page.waitForSelector('[data-testid="tv-open-setup"]');await page.click('[data-testid="tv-open-setup"]');await page.waitForSelector('#tv-setup-schedule');await page.select('#tv-setup-schedule','none');await clickText('Review my setup');await page.waitForSelector('[data-testid="tv-setup-review"]');await clickText('Confirm program and training days');
  await page.goto(url+'#/home',{waitUntil:'networkidle0'});await page.waitForSelector('[data-testid="tv-program-next-name"]');
  assert(!await page.$('[data-testid="tv-session-brief"]'),'Duplicate Home program guide');
  await page.click('[data-testid="tv-start-primary"]');await page.waitForSelector('#tv-bodyweight-value');await clickText('Start without weighing in');

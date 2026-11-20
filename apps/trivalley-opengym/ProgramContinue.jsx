@@ -37,9 +37,9 @@ export default function ProgramContinue() {
   }
   return <section className="card tv-continue-card" data-testid="tv-today-hero" aria-label="Continue your program">
     {artKey && <ProgramCover dayKey={artKey} title={title} index={Math.max(0, artIndex)} hero />}
-    <div className="tv-eyebrow">{active ? 'YOUR SESSION IS IN PROGRESS' : position.missing ? 'PROGRAM DAY MISSING' : `UP NEXT · DAY ${position.index + 1} OF 3`}</div>
+    <div className="tv-eyebrow">{active ? 'YOUR SESSION IS IN PROGRESS' : position.missing ? 'PROGRAM DAY MISSING' : `NEXT WORKOUT · DAY ${position.index + 1} OF 3`}</div>
     <h2 data-testid="tv-program-next-name">{title}</h2>
-    {active ? <p className="muted small">Pick up your current session. Your device status above shows whether your latest edits were saved.</p>
+    {active ? <p className="muted small">Resume the session you already started. Check Settings & backups for your saved records.</p>
       : position.missing ? <p className="muted small">Add the missing {position.day.name} routine in Programs to keep your sequence intact.</p>
       : <p className="muted small">{routine.ex.length} exercises · {estimate.min}–{estimate.max} min estimated. {position.last ? 'Continues after your last finished program session.' : 'Your first program session is ready.'}</p>}
     <button type="button" className="btn primary tv-primary-action" data-testid="tv-start-primary" onClick={start}>
@@ -50,8 +50,8 @@ export default function ProgramContinue() {
       <button type="button" className="tv-text-action" onClick={() => nav('/plan')}>Choose another day</button>
     </div>
     {!active && !position.missing && <>
-      <p className="tv-program-schedule-note">Weekly schedule for {dayName}: <strong>{scheduled?.name || 'Rest'}</strong>. The workout above is next in your program sequence; it does not change your calendar.</p>
-      <p className="tv-continue-note">Your place is remembered across missed days. Follow your planned rest and recovery days; starting is your choice.</p>
+      <p className="tv-program-schedule-note">{scheduled ? <>Today’s calendar: <strong>{scheduled.name}</strong>. The workout above is next in your program.</> : <><strong>Today is a rest day.</strong> The workout above is ready for your next training day.</>}</p>
+      <p className="tv-continue-note">Starting a workout is your choice. Your calendar stays unchanged.</p>
     </>}
   </section>
 }

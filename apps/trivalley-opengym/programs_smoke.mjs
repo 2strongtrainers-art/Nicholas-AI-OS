@@ -42,6 +42,18 @@ try {
     }, {timeout:10000}, selector);
     await page.click(selector);
   };
+  const installFlexible = async () => {
+    await page.waitForSelector('[data-testid="tv-open-setup"]');
+    await page.click('[data-testid="tv-open-setup"]');
+    await page.waitForSelector('#tv-setup-schedule');
+    await page.select('#tv-setup-schedule','none');
+    await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Review my setup').click());
+    await page.waitForSelector('[data-testid="tv-setup-review"]');
+    await page.click('[data-testid="tv-setup-review"] button.primary');
+    await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')||'{}').tvSetupDone===true);
+    await page.goto(url+'#/plan',{waitUntil:'networkidle0'});
+    await page.waitForSelector('[data-testid="tv-program-launchers"]');
+  };
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url + '#/plan', {waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
@@ -71,16 +83,15 @@ try {
     await tapVisible('[data-testid="tv-poster-back"]');
     await page.waitForSelector('[data-testid="tv-ready-programs"]');
   }
-  await page.select('[data-testid="tv-program-schedule"]','mwf');
-  await tapVisible('[data-testid="tv-add-program"]');
+  await installFlexible();
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length===4);
   const installed=await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')));
   assert(installed.active.id==='qa-existing-active','Installation replaced an active workout');
   assert(installed.week[1]==='qa-existing-routine','Installation overwrote an occupied weekday');
   assert(installed.routines[0].name==='My routine' && installed.workouts.length===0,'Installation replaced existing data');
-  assert(installed.week[3]===installed.routines[2].id && installed.week[5]===installed.routines[3].id,'Wrong split day assigned');
+  assert(!installed.week[3] && !installed.week[5],'Flexible setup changed other weekdays');
   assert(await page.$$eval('[data-testid^="tv-start-program-"]',buttons=>buttons.length===3 && buttons.every(b=>b.disabled)), 'Starting a new day could overwrite an active workout');
-  await tapVisible('[data-testid="tv-add-program"]');
+  await installFlexible();
   assert(await page.evaluate(() => JSON.parse(localStorage.getItem('gym_state_v1')).routines.length===4),'Repeated add duplicated routines');
   // Reproduce the owner's 58-hour empty Freestyle. Recovery must be explicit.
   await page.evaluate(() => {const S=JSON.parse(localStorage.getItem('gym_state_v1'));S.active={id:'qa-empty-freestyle',name:'Freestyle',entries:[],cur:0,start:Date.now()-58*3600*1000};localStorage.setItem('gym_state_v1',JSON.stringify(S))});

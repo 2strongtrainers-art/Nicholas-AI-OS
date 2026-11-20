@@ -56,14 +56,14 @@ try {
         screenHeight: innerHeight, sideways: document.documentElement.scrollWidth > innerWidth + 2,
         sourceVisible: !!document.querySelector('.tv-v4-topbar a[aria-label*="corresponding source"]')};
     });
-    if (!hero.text.includes('Start a workout now') || hero.rect.bottom > hero.screenHeight
+    if (!hero.text.includes('Choose a workout') || hero.rect.bottom > hero.screenHeight
       || hero.sideways || !hero.sourceVisible) {
       throw new Error('v4 Home hero, viewport reflow, or source link failed: ' + JSON.stringify(hero));
     }
   }
   await page.screenshot({path:screenshot,fullPage:true});
   if (!initial.text.includes('Ready to train?')) throw new Error('First-use onboarding missing: '+initial.text.slice(0,450));
-  if (!initial.text.includes('Start a workout now')) throw new Error('No immediate workout action in onboarding');
+  if (!initial.text.includes('Choose a workout')) throw new Error('No immediate workout action in onboarding');
   if (initial.text.includes('Let the Coach build it')) throw new Error('Fake AI Coach visible');
   if (initial.unit && initial.unit !== 'lb') throw new Error('US-first weight unit default missing');
 

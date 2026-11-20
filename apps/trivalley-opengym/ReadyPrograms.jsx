@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
-import { uid, DAYN } from '../lib/format.js'
+import { uid } from '../lib/format.js'
 import { startFlow, confirmSheet } from '../sheets.jsx'
 import { MUSCLE_SPLIT, installedDays, addMuscleSplit, programPosition, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from '../lib/tv-programs.js'
 import { ProgramCover } from './ProgramContinue.jsx'
@@ -34,21 +33,9 @@ function CurrentSessionNotice() {
 
 export default function ReadyPrograms() {
   const S = useStore(s => s.S), update = useStore(s => s.update), nav = useNavigate()
-  const toast = useUI(s => s.toast)
   const [params, setParams] = useSearchParams()
   const preview = programPreviewRoutine(S, params.get('day'))
-  const [schedule, setSchedule] = useState('none')
-  const [receipt, setReceipt] = useState('')
   const days = installedDays(S), complete = days.every(Boolean), position = programPosition(S)
-  const add = () => {
-    try {
-      let result
-      update(draft => { result = addMuscleSplit(draft, { makeId: uid, schedule }) })
-      const saved = useStore.getState().storageStatus?.ok
-      const message = `${result.added ? 'Added ' + result.added + ' ready-to-train routines.' : 'Your program is already added.'}${result.assigned.length ? ' Scheduled on ' + result.assigned.map(d => DAYN[d]).join(', ') + '.' : ''}${result.kept.length ? ' Kept existing assignments on ' + result.kept.map(d => DAYN[d]).join(', ') + '.' : ''}${saved === false ? ' Changes are only in memory: export a backup before closing.' : ''}`
-      setReceipt(message); toast(message)
-    } catch (error) { setReceipt(error.message) }
-  }
   const beginDay = key => {
     if (useStore.getState().S.active) return
     update(draft => { addMuscleSplit(draft, { makeId: uid }); draft.tvWorkoutView = 'poster' })
@@ -58,31 +45,20 @@ export default function ReadyPrograms() {
   if (preview) return <section className="tv-program-detail" data-testid="tv-program-detail">
     <CurrentSessionNotice />
     <RoutinePosterPreview routine={preview} startDisabled={!!S.active}
-      onClose={() => { const next = new URLSearchParams(params); next.delete('day'); setParams(next); window.scrollTo(0, 0) }}
+      onClose={() => { const next = new URLSearchParams(params); next.delete('day'); setParams(next); document.getElementById('app')?.scrollTo(0, 0) }}
       onStart={() => beginDay(params.get('day'))} />
   </section>
-  return <section className={'card tv-ready-programs' + (params.get('setup') === '1' ? ' tv-setting-up' : '')} data-testid="tv-ready-programs" aria-label="Ready-made workout programs">
+  if (params.get('setup') === '1') return <section className="card tv-ready-programs tv-setting-up" data-testid="tv-ready-programs" aria-label="Set up training days">
+    <h2>Training days</h2>
+    <ProgramSetup onClose={() => {const next=new URLSearchParams(params);next.delete('setup');setParams(next)}} />
+  </section>
+  return <section className="card tv-ready-programs" data-testid="tv-ready-programs" aria-label="Ready-made workout programs">
     <div className="tv-eyebrow">TRAIN WITH NICK</div>
     <h2>{MUSCLE_SPLIT.name}</h2>
-    {params.get('setup') !== '1' && <p className="muted small">Three complete workouts. Choose your days, then make the next session count.</p>}
-    {params.get('setup') === '1'
-      ? <ProgramSetup onClose={() => {const next=new URLSearchParams(params);next.delete('setup');setParams(next)}} />
-      : <button type="button" className="btn" data-testid="tv-open-setup" onClick={() => setParams({setup:'1'})}>Set up program & training days</button>}
-    {params.get('setup') !== '1' && <div className="tv-program-setup">
-      <label className="tv-program-schedule">Choose a schedule
-        <select data-testid="tv-program-schedule" value={schedule} onChange={e => setSchedule(e.target.value)}>
-          <option value="none">Routines only — choose days later</option>
-          <option value="mwf">Monday / Wednesday / Friday</option>
-          <option value="tts">Tuesday / Thursday / Saturday</option>
-        </select>
-      </label>
-      <button type="button" className="btn primary" data-testid="tv-add-program" disabled={complete && schedule === 'none'} onClick={add}>
-        {complete ? schedule === 'none' ? 'Program added' : 'Apply selected schedule' : 'Add this program'}
-      </button>
-      {receipt && <p className="small tv-program-receipt" role="status" data-testid="tv-program-receipt">{receipt}</p>}
-      <CurrentSessionNotice />
-      {!complete && <p className="small muted">Start a day now, or add and schedule all three. Existing routines and occupied days are kept.</p>}
-    </div>}
+    <p className="muted small">Choose a workout below. Set up training days when you want to plan your week.</p>
+    <button type="button" className="btn" data-testid="tv-open-setup" onClick={() => setParams({setup:'1'})}>{S.tvSetupDone ? 'Change training days' : 'Set up training days'}</button>
+    {complete && <span className="tv-program-status" role="status">Your three workouts are ready.</span>}
+    <CurrentSessionNotice />
     <div className="tv-program-covers" data-testid="tv-program-launchers">
       {MUSCLE_SPLIT.days.map((day, index) => {
         const routine = programPreviewRoutine(S, day.key)
@@ -94,7 +70,7 @@ export default function ReadyPrograms() {
             <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises{day.note ? ' · ' + day.note : ''}</p>
             <div className="tv-program-card-buttons">
               <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} aria-label={'Start ' + (routine?.name || day.name)} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
-              <button type="button" className="btn" aria-label={'View ' + day.name + ' workout'} data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); window.scrollTo(0, 0) }}>View workout</button>
+              <button type="button" className="btn" aria-label={'View ' + day.name + ' workout'} data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); document.getElementById('app')?.scrollTo(0, 0) }}>View workout</button>
               {days[index] && <button type="button" className="tv-text-action" aria-label={'Edit ' + routine.name} onClick={() => nav('/plan/r/' + routine.id)}>Edit</button>}
             </div>
           </div>

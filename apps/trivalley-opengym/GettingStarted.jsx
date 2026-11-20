@@ -5,10 +5,11 @@ import { useUI } from '../store/useUI.js'
 import { uid, DAYN } from '../lib/format.js'
 import { hasWeightData } from '../lib/tv-audit-safety.js'
 import { setupReview, applySetup } from '../lib/tv-setup.js'
+import { showGettingStarted } from '../lib/tv-navigation.js'
 
 export function GettingStarted() {
   const S = useStore(s => s.S), update = useStore(s => s.update), nav = useNavigate()
-  if (S.tvSetupDone || S.active) return null
+  if (!showGettingStarted(S)) return null
   return <section className="card tv-get-started" data-testid="tv-get-started" aria-label="Getting started">
     <div className="tv-eyebrow">START HERE</div><h2>A clear plan for your week</h2>
     <p>Set up Nick’s 3-Day Muscle Split, choose your training days and confirm your weight unit.</p>

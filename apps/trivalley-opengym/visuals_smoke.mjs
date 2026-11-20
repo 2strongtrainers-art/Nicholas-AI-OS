@@ -45,10 +45,22 @@ try {
     return (!app||getComputedStyle(app).opacity==='1')&&(!toast||getComputedStyle(toast).opacity==='0');
   });
   const violations=report=>report.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}));
+  const installFlexible = async () => {
+    await page.waitForSelector('[data-testid="tv-open-setup"]');
+    await page.click('[data-testid="tv-open-setup"]');
+    await page.waitForSelector('#tv-setup-schedule');
+    await page.select('#tv-setup-schedule','none');
+    await page.evaluate(()=>[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Review my setup').click());
+    await page.waitForSelector('[data-testid="tv-setup-review"]');
+    await page.click('[data-testid="tv-setup-review"] button.primary');
+    await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')||'{}').tvSetupDone===true);
+    await page.goto(url+'#/plan',{waitUntil:'networkidle0'});
+    await page.waitForSelector('[data-testid="tv-program-launchers"]');
+  };
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url+'#/plan',{waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-ready-programs"]');
-  assert(await unobscured('[data-testid="tv-add-program"]'),'Program Add is hidden by floating navigation before any long preview');
+  assert(await unobscured('[data-testid="tv-open-setup"]'),'Program Add is hidden by floating navigation before any long preview');
   assert(await page.$$eval('[data-testid="tv-program-cover-card"]',n=>n.length===3),'Missing cover cards');
   for(let i=0;i<3;i++){
     const selector=`[data-testid="tv-program-cover-card"]:nth-child(${i+1}) .tv-program-art-photo`;
@@ -57,14 +69,14 @@ try {
   }
   assert(await page.evaluate(()=>document.querySelector('[data-testid="tv-program-launchers"]').compareDocumentPosition(document.querySelector('[data-testid="tv-program-preview"]'))&Node.DOCUMENT_POSITION_FOLLOWING),'Start controls are after the long exercise preview');
   await page.evaluate(()=>{localStorage.setItem('tv_daily_verse_enabled_v1','false')});
-  await tap('[data-testid="tv-add-program"]');
+  await installFlexible();
   await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')||'{}').routines?.length===3);
   await page.screenshot({path:screenshot,fullPage:true});
   await page.evaluate(()=>{location.hash='#/home'});
   await page.waitForFunction(()=>document.querySelector('[data-testid="tv-program-next-name"]')?.textContent==='Back & Biceps');
   for(const [width,height] of [[320,667],[390,844],[430,932]]){
     await page.setViewport({width,height,deviceScaleFactor:2,isMobile:true,hasTouch:true});
-    await page.evaluate(()=>window.scrollTo(0,0));
+    await page.evaluate(()=>document.getElementById('app').scrollTo(0,0));
     assert(await unobscured('[data-testid="tv-start-primary"]'),'Continue action is obscured at '+width+'x'+height);
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Home overflows at '+width);
   }
