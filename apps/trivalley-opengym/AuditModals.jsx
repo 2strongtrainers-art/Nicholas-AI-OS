@@ -27,7 +27,11 @@ function Sheet({ sheet, top }) {
     document.addEventListener('focusin', onFocus)
     return () => {
       document.removeEventListener('keydown', onKey, true); document.removeEventListener('focusin', onFocus)
-      requestAnimationFrame(() => { if (!useUI.getState().sheets.some(s => s.id === sheet.id) && sheet.opener?.isConnected) sheet.opener.focus({preventScroll:true}) })
+      requestAnimationFrame(() => {
+        const active = document.activeElement
+        const focusUnclaimed = !active || active === document.body || active === el || el.contains(active)
+        if (focusUnclaimed && !useUI.getState().sheets.some(s => s.id === sheet.id) && sheet.opener?.isConnected) sheet.opener.focus({preventScroll:true})
+      })
     }
   }, [sheet.id, top, sheet.locked])
   return <div inert={top ? undefined : true}>

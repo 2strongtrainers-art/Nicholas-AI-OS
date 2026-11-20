@@ -92,6 +92,7 @@ export default function Library() {
         data-testid="tv-library-search"
         placeholder="Search exercises, muscles, equipment…"
         value={query}
+        onInput={event => { setQuery(event.currentTarget.value); setShown(40) }}
         onChange={event => { setQuery(event.target.value); setShown(40) }}
         onKeyDown={event => { if (event.key === 'Escape') setQuery('') }}
       />
