@@ -12,7 +12,7 @@ try{
  const go=async route=>{await page.goto(url+'#'+route,{waitUntil:'networkidle'});await page.locator('h1').first().waitFor()}
  const storage=()=>page.evaluate(()=>localStorage.getItem('gym_state_v1'))
  const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')))
- await go('/home');await page.evaluate(()=>localStorage.setItem('tv_daily_verse_enabled_v1','false'));await page.reload({waitUntil:'networkidle'})
+ await go('/home');await page.evaluate(()=>{localStorage.setItem('tv_daily_verse_enabled_v1','false');localStorage.setItem('gym_state_v1',JSON.stringify({unit:'lb',routines:[],customEx:[],week:{},dayPlan:{},workouts:[],active:null,bodyweight:[],_ts:Date.now()}))});await page.reload({waitUntil:'networkidle'})
  const baseline=await read(),styles=new Set()
  for(const [key,count] of [['nick-upper-body',5],['nick-supported-lower',4],['nick-core-control',5],['nick-dumbbell-foundation',4]]){
   const before=await storage();await go('/posters/'+key);await page.getByTestId('tv-poster-preview').waitFor()
@@ -39,7 +39,7 @@ try{
  s=await read();assert(s.active.entries[0].sets[0].w===10&&s.active.entries[0].sets[0].r===8,'Actual set not recorded')
  await go('/posters/nick-core-control');assert(!(await page.getByTestId('tv-poster-start').isEnabled()),'Preview can replace active training');assert((await read()).active.id===activeId,'Active workout replaced')
  await page.screenshot({path:shot,fullPage:true})
- await page.waitForFunction(async()=>!!(await caches.match('https://static.wixstatic.com/media/856ae2_cf1ed6d791f7407f9268ea06198c4b38~mv2.png')),{timeout:30000})
+ await page.waitForFunction(async()=>!!(await caches.match('https://static.wixstatic.com/media/856ae2_cf1ed6d791f7407f9268ea06198c4b38~mv2.png')),undefined,{timeout:45000})
  await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.getByTestId('tv-nick-art').first().waitFor();const image=page.getByTestId('tv-nick-art').first().locator('img');await image.scrollIntoViewIfNeeded();await page.waitForFunction(()=>[...document.querySelectorAll('[data-testid="tv-nick-art"] img')].some(e=>e.complete&&e.naturalWidth>0));await context.setOffline(false)
  assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'ILLUSTRATED_PRESETS_BROWSER_PASS',engine,checks:['four original presets','18 separate side entries','both likeness styles','all mapped artwork loads','preview no mutation','explicit append-only save','working weight required','actual set logging','active protection','320/390/430 reflow','automated accessibility','cached artwork offline'],physicalIPhone:'UNVERIFIED'}))
 }catch(e){console.error(JSON.stringify({error:e.message,engine,page:page?await page.locator('body').innerText().catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true}).catch(()=>{});throw e}finally{await browser?.close();if(server)await new Promise(r=>server.close(r))}
