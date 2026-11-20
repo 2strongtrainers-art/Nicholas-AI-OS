@@ -1,5 +1,20 @@
 # TriValley FIT — Milestone 2 security gates
 
+## OWNER LOGIN REPAIR — November 20, 2026, after failed iPhone sign-in
+
+- The iPhone screenshot at 3:48 PM PT showed the staging page's generic sign-in rejection. An Edge 401 was seen in the relevant server log window, but those logs do not identify the specific user and the browser error did not distinguish Wix callback failure from API denial. Do not assert a verified root cause.
+- An official Wix provider verification was independently tested using a visitor OAuth token: `POST https://www.wixapis.com/oauth2/token-info` returns live camelCase `active, subjectType, subjectId, clientId, siteId`; its real VISITOR response confirmed the exact main Wix site ID and staging OAuth client ID. This replaces the potentially permission-blocked Ricos site-context proof in the Edge service.
+- `src/wix-token-info.mjs` now requires active Wix token, `MEMBER` subject, exact site and OAuth client, valid member UUID and nonexpired token; token-info responses are never trusted without verifying the actual `Get My Member` member ID and APPROVED status. Anonymous visitors, wrong-site, wrong-client and malformed tokens fail closed.
+- Corrected Wix Get My Member REST parameter from `?fieldsets=EXTENDED` to official `?fieldSet=FULL` in both browser and server adapters and corresponding tests.
+- Configured a private, narrowly scoped owner alias: only the previously verified site member `1strongtrainer@gmail.com` maps to canonical `2strongtrainers@gmail.com` coach record. No separate duplicate coach business identity is created. The private `owner_member_aliases` table enforces exact ID and canonical FK, with RLS and no browser grants.
+- Supabase `trivalley-coaching-api` is ACTIVE **v4**, with the corrected auth provider module and alias lookup. Readback from published Wix Training Companion confirms guest root app still exists, both emails appear in private pilot text, diagnostic errors identify Wix vs API stage, and `fieldSet=FULL` is live.
+- Latest GitHub M2 synthetic/security CI run `44840406221` passed, and independent external tests showed `/health` `databaseReady:true` and unauthenticated `/v1/me` HTTP 401. These checks do NOT establish successful Wix member sign-in.
+- No browser-saved Wix credentials are available to the execution environment; the connected Wix administrator credential does not equal an interactive OAuth member token. **Next gate**: owner personally signs into `https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/coach-login.html` as either Wix Member email; report the page's new nonsecret error stage/code if it fails. Never request or log passwords, access tokens or OAuth callback codes.
+- Public/free workouts and paid checkout unchanged. No real clients migrated. Production remains gated by live user acceptance, account/role isolation tests, recoverable backup strategy, consent, private exports/deletion and physical iPhone acceptance.
+
+---
+
+
 ## AUTHENTICATION REPAIR — November 20, 2026 (current checkpoint)
 
 - Owner's iPhone screenshot showed Wix redirect back to the private coaching pilot followed by a generic error. Supabase function logs showed an actual `GET /v1/me` HTTP 401 at approximately 3:48 p.m. Pacific. This did **not** prove which verification sub-step failed.
