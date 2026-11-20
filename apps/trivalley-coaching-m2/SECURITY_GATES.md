@@ -1,5 +1,16 @@
 # TriValley FIT — Milestone 2 security gates
 
+## AUTHENTICATION REPAIR — November 20, 2026 (current checkpoint)
+
+- Owner's iPhone screenshot showed Wix redirect back to the private coaching pilot followed by a generic error. Supabase function logs showed an actual `GET /v1/me` HTTP 401 at approximately 3:48 p.m. Pacific. This did **not** prove which verification sub-step failed.
+- Corrected the fragile Ricos site-URL authorization dependency by verifying the actual Wix OAuth bearer through official `POST https://www.wixapis.com/oauth2/token-info`. A real disposable Wix anonymous token independently proved the provider returns `active`, `subjectType`, `subjectId`, `siteId`, `clientId`, `iat`, `exp` in camelCase; timestamps are decimal Unix-second strings. Protected access requires `MEMBER` (never `VISITOR`), exact main site ID, exact dedicated OAuth client ID, matching approved Wix member ID, unexpired token, and database-provisioned coach role.
+- Both Wix Member accounts were rechecked and remain APPROVED and verified: `2strongtrainers@gmail.com` is the canonical coach identity; `1strongtrainer@gmail.com` is a narrowly provisioned, enabled owner alias in the separate private `coaching_private.owner_member_aliases` table. There is still only **one canonical coach row** and zero clients. Both logins resolve to the same coaching identity; no email merge, password transfer, or Wix administrator-role elevation occurred.
+- `src/wix-token-info.mjs` now validates numeric-string issue/expiry timestamps (the live Wix format), not only numeric expiry. `src/wix-verify.mjs` uses official `fieldSet=FULL`. The private Edge function **v4** is ACTIVE; external `/health` confirmed `databaseReady:true`, and unauthenticated `/v1/me` remains HTTP 401. GitHub Actions coaching QA on commit `cdc02f8` passed after fixing stale simulated Wix fieldset and canonical-alias expectations.
+- The published isolated `/coach-login.html` now explicitly offers either verified member email and differentiates Wix member verification failures from API denial, without disclosing tokens. Published HTML and JavaScript were independently read back; no existing guest PWA files were replaced.
+- **Not a full release:** Neither real member identity has yet completed the corrected sign-in callback in an observed acceptance test. No client migration, live offline workout sync, backup/restore or physical iPhone acceptance. Do not merge PR #191 or enable real client data until the owner confirms successful live login and all remaining production gates pass.
+
+---
+
 ## LIVE STAGING CHECKPOINT — November 20, 2026 (supersedes the historical no-project notes below)
 
 **Status: STAGING API AND PILOT LOGIN PAGE DEPLOYED; PRODUCTION COACH-CLIENT WORKFLOW NOT VERIFIED.**
