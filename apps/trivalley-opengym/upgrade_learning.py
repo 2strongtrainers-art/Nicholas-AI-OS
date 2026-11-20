@@ -6,7 +6,7 @@ def edit(path,old,new):
  p=front/path;s=p.read_text()
  if s.count(old)!=1:raise RuntimeError(f'{path}: expected one learning anchor: {old[:100]}')
  p.write_text(s.replace(old,new,1))
-for name,target in [('Learn.jsx','src/views/Learn.jsx'),('WorkoutPosters.jsx','src/views/WorkoutPosters.jsx'),('PosterSketch.jsx','src/components/PosterSketch.jsx'),('tv-learning.mjs','src/lib/tv-learning.js'),('learning.css','src/learning.css')]:shutil.copyfile(assets/name,front/target)
+for name,target in [('Learn.jsx','src/views/Learn.jsx'),('WorkoutPosters.jsx','src/views/WorkoutPosters.jsx'),('PosterSketch.jsx','src/components/PosterSketch.jsx'),('tv-learning.mjs','src/lib/tv-learning.js'),('tv-illustrated-presets.mjs','src/lib/tv-illustrated-presets.mjs'),('learning.css','src/learning.css')]:shutil.copyfile(assets/name,front/target)
 edit('src/main.jsx',"import './first-use.css'","import './first-use.css'\nimport './learning.css'")
 edit('src/App.jsx',"import StartGuide from './views/StartGuide.jsx'","import StartGuide from './views/StartGuide.jsx'\nimport Learn from './views/Learn.jsx'\nimport WorkoutPosters from './views/WorkoutPosters.jsx'")
 edit('src/App.jsx','              <Route path="/start" element={<StartGuide />} />','              <Route path="/start" element={<StartGuide />} />\n              <Route path="/learn" element={<Learn />} />\n              <Route path="/learn/:slug" element={<Learn />} />\n              <Route path="/posters" element={<WorkoutPosters />} />\n              <Route path="/posters/:slug" element={<WorkoutPosters />} />')
@@ -24,10 +24,10 @@ edit('src/components/WorkoutPoster.jsx','    <ExerciseSwap entry={entry}', '    
 edit('src/components/WorkoutPoster.jsx','startDisabled = false })','startDisabled = false, exerciseResolver = exOr })')
 edit('src/components/WorkoutPoster.jsx','const entries = routine.ex.map(cfg => ({ id: cfg.id, sg: cfg.sg, target: cfg,','const entries = routine.ex.map(cfg => ({ id: cfg.id, sg: cfg.sg, target: cfg, exercise: exerciseResolver(cfg.id) || exOr(cfg.id),')
 edit('src/components/WorkoutPoster.jsx','<p>Build reps within the planned range. When every set reaches the top with controlled technique, increase the load by the smallest suitable amount.</p>',"<p>{routine.tvTemplate?.id==='trivalley-quick-posters'?'Automatic increases are off. Adjust duration, repetitions or variation deliberately, keeping controlled technique.':'Build reps within the planned range. When every set reaches the top with controlled technique, increase the load by the smallest suitable amount.'}</p>")
-edit('src/components/WorkoutTools.jsx','{nextSessionMessage(plan,target,unit)}',"{target?.tvPoster?'Start with bodyweight only. Adjust the repetitions or seconds to your ability, and stop before technique changes. Automatic increases are off.':nextSessionMessage(plan,target,unit)}")
+edit('src/components/WorkoutTools.jsx','{nextSessionMessage(plan,target,unit)}',"{target?.tvPoster?(target.loadRequired?'Choose a comfortable working load and log one dumbbell’s weight. Automatic increases are off.':'Start with bodyweight only. Adjust repetitions or seconds to your ability; stop before technique changes. Automatic increases are off.'):nextSessionMessage(plan,target,unit)}")
 edit('src/views/Workout.jsx',"import WorkoutChooser from '../components/WorkoutChooser.jsx'","import WorkoutChooser from '../components/WorkoutChooser.jsx'\nimport { PosterSessionGuide } from '../components/PosterSketch.jsx'")
 edit('src/views/Workout.jsx','    <div className="wprog">','    <PosterSessionGuide template={A.tvTemplate} />\n    <div className="wprog">')
-edit('src/views/Workout.jsx',"if (m === 'reps' && !e.asked)","if (m === 'reps' && !e.asked && !(e.target?.tvPoster && e.sets.every(s=>!(s.w>0))))")
+edit('src/views/Workout.jsx',"if (m === 'reps' && !e.asked)","if (m === 'reps' && !e.asked && !(e.target?.tvPoster && !e.target.loadRequired && e.sets.every(s=>!(s.w>0))))")
 edit('src/views/Workout.jsx',"    useUI.getState().startWork(e.sets[i].sec || 45, exOr(e.id).n, elapsed => {",'''    const seconds=Number(e.sets[i].sec)
     if(!Number.isFinite(seconds)||seconds<=0){useUI.getState().toast('Enter a duration greater than zero before starting the set.');return}
     useUI.getState().startWork(seconds, exOr(e.id).n, elapsed => {''')
@@ -38,5 +38,5 @@ edit('src/components/Media.jsx','  if (movementReferenceFor(ex)) return', '''  i
     {instructions && <><ol className="tv-steps">{ex.st.map((step,i)=><li key={i}>{step}</li>)}</ol><p className="small">Easier option: {ex.easier}</p></>}
   </div>
   if (movementReferenceFor(ex)) return''')
-edit('src/views/AppFeedback.jsx',"version:'5.15.0'","version:'5.16.0'")
-print('Five original lessons, protein label arithmetic and three explicit bodyweight posters integrated; existing data and navigation preserved')
+edit('src/views/AppFeedback.jsx',"version:'5.15.0'","version:'5.17.0'")
+print('Five original lessons, protein label arithmetic and seven explicit short-session posters integrated; existing data and navigation preserved')

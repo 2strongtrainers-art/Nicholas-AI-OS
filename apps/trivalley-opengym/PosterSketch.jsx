@@ -1,4 +1,16 @@
 import {posterExercise} from '../lib/tv-learning.js'
+import {useState} from 'react'
+import {illustratedArtFor} from '../lib/tv-illustrated-presets.mjs'
+
+function NickExerciseArt({asset,compact=false}){
+ const [failed,setFailed]=useState(false)
+ return <figure className={'tv-nick-art'+(compact?' tv-nick-art-compact':'')} data-testid="tv-nick-art" data-style={asset.style}>
+  {failed?<p role="status">Illustration unavailable. Use the written setup and coaching cues.</p>:<div className="tv-nick-art-window" style={{aspectRatio:asset.width+'/'+asset.cropHeight}}>
+   <img src={asset.url} alt={asset.name+': generated Nick likeness showing setup and movement positions.'} width={asset.width} height={asset.height} loading="lazy" decoding="async" style={{transform:`translateY(-${asset.top/asset.height*100}%)`}} onError={()=>setFailed(true)}/>
+  </div>}
+  {!compact&&<figcaption>AI-generated likeness illustration · not a video or a personal form assessment. {asset.sideNote}</figcaption>}
+ </figure>
+}
 
 // Original inline SVG movement schematics. No archive artwork, photos or external assets.
 function Pose({type,phase,right}){
@@ -25,6 +37,9 @@ function Pose({type,phase,right}){
 export default function PosterSketch({ex,compact=false,collapsible=false}){
  const d=posterExercise(ex?.id)
  if(!d||ex?.tvPosterVersion!==1||ex.n!==d.n)return null
+ const asset=illustratedArtFor(ex)
+ if(asset){const figure=<NickExerciseArt asset={asset} compact={compact}/>;return collapsible?<details className="tv-movement-reference"><summary>View Nick’s setup & movement illustration</summary>{figure}</details>:figure}
+ if(d.pose==='illustration')return <p className="small muted">This exercise has been edited. Use its saved written instructions; the original illustration is hidden.</p>
  const labels=d.pose==='plank'?['Knees down option','Hold with control']:d.pose==='side'?['Supported setup','Lift and hold']:d.pose==='march'?['One step','Then the other']:['Set up','Move with control']
  const figure=<figure className={'tv-poster-sketch'+(compact?' tv-sketch-compact':'')} data-testid="tv-poster-sketch">
   <svg viewBox="0 0 390 145" role="img" aria-label={d.n+': '+labels.join(', then ')+'. Read the written cues for setup and easier options.'}>
@@ -39,6 +54,6 @@ export default function PosterSketch({ex,compact=false,collapsible=false}){
 
 export function PosterSessionGuide({template}){
  if(template?.id!=='trivalley-quick-posters')return null
- const text=template.day==='easy-circuit'?'Circuit order: complete set 1 on each card from top to bottom, then rest 60 seconds. Repeat using set 2 on each card. Take time to change position; each timer measures the movement, not the transition.':template.day==='plank-practice'?'Each side has its own entry and timer. Record the left and right holds separately, and end each hold before you lose control.':'Complete the two sets for each exercise before moving to the next card. Use bodyweight only to begin.'
+ const text=template.day.startsWith('nick-')?'Complete the two sets for each movement before moving on. Left and right sides have separate entries where shown. Choose a comfortable working weight for dumbbell exercises; log one dumbbell’s weight. Automatic increases are off. These are standalone options, not additional daily work.':template.day==='easy-circuit'?'Circuit order: complete set 1 on each card from top to bottom, then rest 60 seconds. Repeat using set 2 on each card. Take time to change position; each timer measures the movement, not the transition.':template.day==='plank-practice'?'Each side has its own entry and timer. Record the left and right holds separately, and end each hold before you lose control.':'Complete the two sets for each exercise before moving to the next card. Use bodyweight only to begin.'
  return <aside className="tv-resource-note" data-testid="tv-poster-session-guide"><strong>Your short-session guide</strong><p>{text}</p></aside>
 }

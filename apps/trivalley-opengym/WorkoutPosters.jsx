@@ -33,7 +33,7 @@ export default function WorkoutPosters(){
    <RoutinePosterPreview routine={routine} exerciseResolver={saved?exOr:posterExercise} onClose={()=>nav('/posters')} startDisabled={!!S.active||!routine.ex.length} onStart={()=>save(true)}/>
    <div className="tv-resource-actions">{!saved?<button className="btn" onClick={()=>save(false)}>Save workout to My routines</button>:<><p className="small">Saved in My routines · your edits are kept.</p><button className="btn" onClick={()=>nav('/plan/r/'+saved.id)}>Edit my saved workout</button></>}</div>
    {error&&<p role="alert">{error}</p>}
-   <details className="tv-resource-note"><summary>Exercise references</summary><p>Original TriValley programming and movement sketches. The references explain the movement; they do not prescribe this exact session.</p><ul>{[...new Map(poster.ex.map(c=>{const d=posterExercise(c.id);return [d.source,d]})).values()].map(d=><li key={d.source}><a href={d.source} target="_blank" rel="noopener noreferrer">{d.n} reference (opens a new tab)</a></li>)}</ul></details>
+   <details className="tv-resource-note"><summary>Exercise references</summary><p>Original TriValley programming and movement references. Some posters use generated Nick likeness illustrations, not real recordings. The references explain the movement; they do not prescribe this exact session.</p><ul>{[...new Map(poster.ex.map(c=>{const d=posterExercise(c.id);return [d.source,d]})).values()].map(d=><li key={d.source}><a href={d.source} target="_blank" rel="noopener noreferrer">{d.n} reference (opens a new tab)</a></li>)}</ul></details>
   </main>
  }
  return <main className="tv-learning" data-testid="tv-quick-posters">

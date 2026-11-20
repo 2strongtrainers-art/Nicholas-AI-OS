@@ -1,3 +1,4 @@
+import {ILLUSTRATED_EXERCISES, ILLUSTRATED_POSTERS} from './tv-illustrated-presets.mjs'
 // Original TriValley lessons and short sessions. No archived graphics or guest copy is republished.
 export const LEARNING_REVIEW_DATE = '2026-11-20'
 export const TRAINING_SOURCE = 'https://acsm.org/resistance-training-guidelines-update-2026/'
@@ -74,6 +75,7 @@ export const POSTER_EXERCISES = [
   'Keep the steps controlled. Slow down or stop if you feel unsteady or unusually breathless.'
  ],'Use smaller steps, move more slowly and hold a fixed support.',TRAINING_SOURCE)
 ]
+POSTER_EXERCISES.push(...ILLUSTRATED_EXERCISES)
 export const posterExercise = id => POSTER_EXERCISES.find(e=>e.id===id) || null
 const id = key => 'tv-poster-v1-' + key
 const cfg = (key,sets,value,mode='reps',restSec=60,sg) => ({id:id(key),sets,...(mode==='time'?{sec:value}:{reps:value}),mode,weight:0,prog:'off',restSec,tvPoster:true,...(sg?{sg}:{})})
@@ -82,6 +84,7 @@ export const QUICK_POSTERS = [
  {key:'plank-practice',name:'Plank practice',tag:'A short core sequence',level:'Floor-based core practice',time:'6–10 min estimated',equipment:'Mat and clear floor space',audience:'Adults comfortable supporting themselves on forearms and knees.',summary:'Forearm hold, then left and right kneeling side holds. Each side has its own timer and log.',ex:[cfg('plank',2,15,'time',30),cfg('side-left',2,10,'time',30),cfg('side-right',2,10,'time',30)]},
  {key:'easy-circuit',name:'Move & reset',tag:'A simple timed circuit',level:'Low-impact option',time:'8–12 min estimated',equipment:'Fixed wall, level floor and clear space',audience:'Adults comfortable standing, squatting and pushing against a wall.',summary:'Two rounds: 30 seconds of squats, wall push-ups and easy marching, in that order. Take time to change position; rest 60 seconds after each round.',ex:[cfg('squat',2,30,'time',0,'tv-easy-circuit'),cfg('wall-push',2,30,'time',0,'tv-easy-circuit'),cfg('march',2,30,'time',60,'tv-easy-circuit')]}
 ]
+QUICK_POSTERS.push(...ILLUSTRATED_POSTERS)
 export function savedPosterRoutine(S,key) {
  return (S.routines||[]).find(r=>r.tvTemplate?.id==='trivalley-quick-posters'&&r.tvTemplate.day===key)||null
 }

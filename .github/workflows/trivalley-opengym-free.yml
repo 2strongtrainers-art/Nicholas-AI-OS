@@ -72,7 +72,7 @@ jobs:
       - name: Test deterministic exercise discovery and validated backup recovery
         env:
           TV_CATALOGUE_PATH: upstream/frontend/src/lib/exercises-data.js
-        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs apps/trivalley-opengym/tv-audit-safety.test.mjs apps/trivalley-opengym/tv-setup.test.mjs apps/trivalley-opengym/tv-navigation.test.mjs apps/trivalley-opengym/tv-weekly-progress.test.mjs apps/trivalley-opengym/tv-coach-notes.test.mjs apps/trivalley-opengym/tv-calculators.test.mjs apps/trivalley-opengym/tv-workout-tools.test.mjs apps/trivalley-opengym/tv-learning.test.mjs
+        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs apps/trivalley-opengym/tv-audit-safety.test.mjs apps/trivalley-opengym/tv-setup.test.mjs apps/trivalley-opengym/tv-navigation.test.mjs apps/trivalley-opengym/tv-weekly-progress.test.mjs apps/trivalley-opengym/tv-coach-notes.test.mjs apps/trivalley-opengym/tv-calculators.test.mjs apps/trivalley-opengym/tv-workout-tools.test.mjs apps/trivalley-opengym/tv-learning.test.mjs apps/trivalley-opengym/tv-illustrated-presets.test.mjs
       - name: Install locked dependencies
         working-directory: upstream/frontend
         run: npm ci --no-audit --no-fund
@@ -202,6 +202,8 @@ jobs:
           node "$RUNNER_TEMP/trivalley-client-value/calculators.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/calculators.png"
           cp apps/trivalley-opengym/learning_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/learning.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/learning.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/learning.png"
+          cp apps/trivalley-opengym/illustrated_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/illustrated.png"
           cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
       - uses: actions/upload-artifact@v4

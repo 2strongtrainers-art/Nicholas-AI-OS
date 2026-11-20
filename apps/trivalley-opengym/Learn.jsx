@@ -6,7 +6,7 @@ export function LibraryLearningLinks(){
  const nav=useNavigate()
  return <section className="tv-resource-links" aria-label="Learn and workout posters" data-testid="tv-resource-links">
   <button type="button" onClick={()=>nav('/learn')}><strong>Learn with Nick</strong><span>5 short guides · protein portions →</span></button>
-  <button type="button" onClick={()=>nav('/posters')}><strong>Workout posters</strong><span>3 bodyweight sessions · timers & logging →</span></button>
+  <button type="button" onClick={()=>nav('/posters')}><strong>Workout posters</strong><span>7 short sessions · illustrations, timers & logging →</span></button>
  </section>
 }
 function ProteinPortions(){

@@ -9,7 +9,7 @@ test('all five lessons have unique routes, real actions and nonempty original se
  for(const l of LESSONS){assert.equal(l.sections.length,3);assert.ok(l.sections.every(([title,text])=>title&&text.length>60));assert.ok(routes.has(l.action.to));assert.ok(l.source.startsWith('https://'))}
 })
 test('posters use distinct supported definitions, no starting load and no automatic progression',()=>{
- assert.equal(QUICK_POSTERS.length,3);assert.equal(POSTER_EXERCISES.length,8)
+ assert.equal(QUICK_POSTERS.length,7);assert.equal(POSTER_EXERCISES.length,26)
  for(const p of QUICK_POSTERS){const r=posterRoutine(p.key);assert.equal(new Set(r.ex.map(x=>x.id)).size,r.ex.length);for(const c of r.ex){assert.ok(posterExercise(c.id));assert.equal(c.weight,0);assert.equal(c.prog,'off');assert.ok(c.tvPoster);assert.equal(c.sets,2);assert.ok(c.mode==='time'?c.sec>0:c.reps>0)}}
  const core=posterRoutine('plank-practice').ex;assert.ok(core[1].id.endsWith('side-left'));assert.ok(core[2].id.endsWith('side-right'));assert.equal(core[1].sec,core[2].sec)
  const circuit=posterRoutine('easy-circuit').ex;assert.ok(circuit.every(c=>c.sg===circuit[0].sg&&c.mode==='time'&&c.sec===30));assert.deepEqual(circuit.map(x=>x.restSec),[0,0,60])
