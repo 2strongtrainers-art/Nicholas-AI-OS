@@ -58,7 +58,7 @@ try {
   for(const width of [320,390,430]){await page.setViewport({width,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Help overflow at '+width)}
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});await page.screenshot({path:screenshot,fullPage:true});
   await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('gym_state_v1'));s.bodyweight=[{d:'2026-11-19',w:90}];localStorage.setItem('gym_state_v1',JSON.stringify(s))});
-  await page.goto(url+'#/plan?setup=1',{waitUntil:'networkidle0'});assert(await page.$eval('#tv-setup-unit',n=>n.disabled),'Setup bypassed the weight-unit lock');
+  await page.goto(url+'#/plan?setup=1',{waitUntil:'networkidle0'});await page.reload({waitUntil:'networkidle0'});await page.waitForSelector('#tv-setup-unit');assert(await page.$eval('#tv-setup-unit',n=>n.disabled),'Setup bypassed the weight-unit lock');
   assert(!errors.length,'Browser errors: '+errors.join('; '));
   console.log(JSON.stringify({status:'GUIDED_SETUP_BROWSER_PASS',checks:['read-only review','Back preserves saved data','explicit replacement confirmation','chosen weight unit','program-calendar assignments','unrelated day preserved','moving split clears old days','no duplicate routines','calendar-sequence explanation','installation and backup help','320-430px guidance','existing-weight unit lock']}));
 } catch(error) {
