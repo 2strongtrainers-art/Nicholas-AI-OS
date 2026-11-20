@@ -123,11 +123,15 @@ test('published program revisions never rewrite older assignments or completed h
   assert.equal(second.record.programVersion,2);
 });
 test('disabled client and revoked assignments cannot appear as active coach clients',()=>{
-  const {svc,store,assignA}=fixture();
+  const {svc,store,assignA,program}=fixture();
   assert.equal(svc.coachClients(members.coachA).length,2);
   svc.revokeAssignment(members.coachA,assignA.id);
   assert.equal(svc.coachClients(members.coachA).length,1);
   store.members.get('client-b').status='disabled';
+  assert.equal(svc.coachClients(members.coachA).length,0);
+  rejects(()=>svc.assignProgram(members.coachA,{clientId:'client-b',programId:program.id}),'NOT_FOUND');
+  rejects(()=>svc.clientProgress(members.coachA,'client-b'),'NOT_FOUND');
+  rejects(()=>svc.coachCheckins(members.coachA,'client-b'),'NOT_FOUND');
   rejects(()=>svc.clientProgress(members.clientB,'client-b'),'MEMBERSHIP_MISMATCH');
   rejects(()=>svc.activeAssignments(members.clientB),'MEMBERSHIP_MISMATCH');
 });
