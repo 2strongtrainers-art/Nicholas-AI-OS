@@ -59,6 +59,6 @@ test('verified secondary Wix member is mapped to canonical primary coaching acco
     })})
   });
   assert.deepEqual(await verifier(token),{
-    sub:canonicalId,authenticatedMemberId:memberId,orgId:'org-private',role:'coach'
+    sub:canonicalId,orgId:'org-private',role:'coach'
   });
 });
