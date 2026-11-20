@@ -85,7 +85,7 @@ export class CoachingService {
   member(actor) {
     const a=sanitizedActor(actor);
     const m=exists(this.store.members.get(a.sub),'Membership not found');
-    if(m.orgId!==a.orgId || m.role!==a.role || m.status==='disabled') error(403,'MEMBERSHIP_MISMATCH','Membership verification failed');
+    if(m.orgId!==a.orgId || m.role!==a.role || m.status!=='active') error(403,'MEMBERSHIP_MISMATCH','Membership verification failed');
     return {a,m};
   }
   requireCoach(actor) {
