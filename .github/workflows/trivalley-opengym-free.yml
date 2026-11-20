@@ -45,6 +45,7 @@ jobs:
           python3 apps/trivalley-opengym/upgrade_setup.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_client_interface.py upstream/frontend
           python3 apps/trivalley-opengym/upgrade_navigation.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_client_value.py upstream/frontend
           curl --fail --location --silent --show-error --retry 2 --max-time 25 \
             'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
             -o upstream/frontend/public/trivalley-triquetra.png
@@ -66,7 +67,7 @@ jobs:
       - name: Test deterministic exercise discovery and validated backup recovery
         env:
           TV_CATALOGUE_PATH: upstream/frontend/src/lib/exercises-data.js
-        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs apps/trivalley-opengym/tv-audit-safety.test.mjs apps/trivalley-opengym/tv-setup.test.mjs apps/trivalley-opengym/tv-navigation.test.mjs
+        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs apps/trivalley-opengym/tv-audit-safety.test.mjs apps/trivalley-opengym/tv-setup.test.mjs apps/trivalley-opengym/tv-navigation.test.mjs apps/trivalley-opengym/tv-weekly-progress.test.mjs
       - name: Install locked dependencies
         working-directory: upstream/frontend
         run: npm ci --no-audit --no-fund
@@ -160,3 +161,39 @@ jobs:
           if-no-files-found: error
 
 
+
+  client-value:
+    name: Client value and mobile layout (${{ matrix.engine }})
+    needs: build-open-gym
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
+      options: --ipc=host
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@v4
+        with:
+          name: trivalley-opengym-wix-build
+          path: client-dist
+      - name: Test the actual compiled app in both browser engines
+        env:
+          TV_ENGINE: ${{ matrix.engine }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-client-value"
+          npm install --prefix "$RUNNER_TEMP/trivalley-client-value" --no-audit --no-fund playwright-core@1.65.0
+          cp apps/trivalley-opengym/client_value_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/test.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/test.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/progress.png"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivalley-client-value-${{ matrix.engine }}
+          path: ${{ runner.temp }}/trivalley-client-value/progress.png
+          retention-days: 7

@@ -2,7 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { startFlow } from '../sheets.jsx'
 import { MUSCLE_SPLIT, PROGRAM_COVERS, programPosition } from '../lib/tv-programs.js'
-import { durationRange } from '../lib/tv-training-insights.js'
+import { todayISO } from '../lib/format.js'
+import { routineOn, durationRange } from '../lib/tv-training-insights.js'
 
 export function ProgramCover({ dayKey, title, index, hero = false }) {
   const src = PROGRAM_COVERS[dayKey]
@@ -25,8 +26,7 @@ export default function ProgramContinue() {
   const routine = active ? null : position.routine
   const estimate = routine ? durationRange(S, routine) : null
   const title = active?.name || routine?.name || 'Restore your next workout'
-  const weekday = new Date().getDay()
-  const scheduled = S.routines.find(r => r.id === S.week?.[weekday])
+  const scheduled = routineOn(S, todayISO())
   const dayName = new Date().toLocaleDateString(undefined,{weekday:'long'})
   const start = () => {
     const current = useStore.getState().S
@@ -42,15 +42,16 @@ export default function ProgramContinue() {
     {active ? <p className="muted small">Resume the session you already started. Check Settings & backups for your saved records.</p>
       : position.missing ? <p className="muted small">Add the missing {position.day.name} routine in Programs to keep your sequence intact.</p>
       : <p className="muted small">{routine.ex.length} exercises · {estimate.min}–{estimate.max} min estimated. {position.last ? 'Continues after your last finished program session.' : 'Your first program session is ready.'}</p>}
+    {!active && !position.missing && <p className="tv-program-schedule-note tv-calendar-status" data-testid="tv-today-calendar">{scheduled ? <>Today’s calendar: <strong>{scheduled.name}</strong>. The workout above is next in your program.</> : <><strong>Today is a rest day.</strong> The workout above is ready for your next training day.</>}</p>}
     <button type="button" className="btn primary tv-primary-action" data-testid="tv-start-primary" onClick={start}>
-      {active ? 'Resume workout' : position.missing ? 'Restore program day' : 'Continue my program'}
+      {active ? 'Resume workout' : position.missing ? 'Restore program day' : 'Start next workout'}
     </button>
     <div className="tv-continue-actions">
       {!active && routine && <button type="button" className="tv-text-action" onClick={() => nav('/workout?poster=' + encodeURIComponent(routine.id))}>Preview workout</button>}
       <button type="button" className="tv-text-action" onClick={() => nav('/plan')}>Choose another day</button>
     </div>
     {!active && !position.missing && <>
-      <p className="tv-program-schedule-note">{scheduled ? <>Today’s calendar: <strong>{scheduled.name}</strong>. The workout above is next in your program.</> : <><strong>Today is a rest day.</strong> The workout above is ready for your next training day.</>}</p>
+
       <p className="tv-continue-note">Starting a workout is your choice. Your calendar stays unchanged.</p>
     </>}
   </section>

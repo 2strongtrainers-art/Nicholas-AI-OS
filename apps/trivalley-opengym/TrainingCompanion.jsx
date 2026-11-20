@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import WeeklyProgress from './WeeklyProgress.jsx'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { todayISO, fmtNum } from '../lib/format.js'
@@ -111,21 +112,7 @@ export function TrainingBrief() {
     <button className="tv-text-action" onClick={() => nav('/plan')}>Review or adjust my plan</button>
   </section>
 }
-export function ProgressSummary() {
-  const S = useStore(s => s.S), summary = progressSummary(S, todayISO()), rep = recentRepProgress(S, todayISO())
-  return <section className="card tv-progress-summary" data-testid="tv-progress-summary" aria-label="Training progress summary">
-    <div className="tv-eyebrow">YOUR LAST SEVEN DAYS</div>
-    <h2>{summary.total ? 'Your consistency, at a glance' : 'Your progress starts with one session'}</h2>
-    <div className="tv-progress-grid">
-      <div><strong data-testid="tv-summary-sessions">{summary.sessions}</strong><span>Completed sessions</span></div>
-      <div><strong data-testid="tv-summary-sets">{summary.completedSets}</strong><span>Logged sets</span></div>
-      <div><strong>{summary.scheduledDue ? `${summary.scheduledDone}/${summary.scheduledDue}` : '—'}</strong><span>Scheduled days trained</span></div>
-    </div>
-    <p className="small muted">{summary.total ? `${summary.previousSessions} sessions in the previous seven days. Last session: ${dateLabel(summary.last.d)}.` : 'Complete and finish a workout to see your actual training here.'}</p>
-    {rep && <p className="tv-progress-gain">{nameOf(rep.id)}: {rep.gain} more {rep.gain === 1 ? 'rep' : 'reps'} {rep.weight > 0 ? `at ${fmtNum(rep.weight)} ${rep.unit}` : 'with bodyweight'} ({dateLabel(rep.day)}), compared with your previous logged top set at that load.</p>}
-    <details><summary>How this is calculated</summary><p className="small muted">Only finished sessions with completed sets count. Scheduled days cover Monday through today using your current plan and day overrides; any completed session on a scheduled day counts. Future sessions are excluded. Rep comparisons require the same exercise, mode, load and recorded unit. Older entries without a unit are excluded from rep comparisons.</p></details>
-  </section>
-}
+export function ProgressSummary() { return <WeeklyProgress /> }
 export function BackupPanel({ onExport }) {
   const S = useStore(s => s.S), { metadata, summary } = useBackup(S)
   const [error, setError] = useState('')

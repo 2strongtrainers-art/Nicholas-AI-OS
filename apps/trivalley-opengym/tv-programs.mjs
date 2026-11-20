@@ -10,14 +10,14 @@ export const MUSCLE_SPLIT = {
   frequency: 'Three reusable sessions, in your chosen order. The optional Mon/Wed/Fri or Tue/Thu/Sat schedule gives each primary group one dedicated session per week. Adjust frequency and volume to your goals and recovery.',
   source: 'https://acsm.org/resistance-training-guidelines-update-2026/',
   days: [
-    { key: 'back-biceps', name: 'Back & Biceps', emoji: 'pullup', exercises: [
+    { key: 'back-biceps', focus: 'Back & biceps.', brief: 'Vertical and horizontal pulls, rear shoulders, then curls.', equipment: 'Cable station and dumbbells', name: 'Back & Biceps', emoji: 'pullup', exercises: [
       ['2330', 'Cable lat pulldown', 3, 8, 12, 120],
       ['0861', 'Cable seated row', 3, 8, 12, 120],
       ['0383', 'Dumbbell reverse fly', 2, 12, 15, 75],
       ['0294', 'Dumbbell biceps curl', 3, 10, 12, 75],
       ['0313', 'Dumbbell hammer curl', 2, 10, 12, 75]
     ] },
-    { key: 'chest-triceps', name: 'Chest & Triceps', emoji: 'dumbbell', note: 'Includes shoulders.', exercises: [
+    { key: 'chest-triceps', focus: 'Chest, shoulders & triceps.', brief: 'Chest presses lead, followed by shoulder work and triceps isolation.', equipment: 'Dumbbells, adjustable bench and cable station', name: 'Chest & Triceps', emoji: 'dumbbell', note: 'Includes shoulders.', exercises: [
       ['0289', 'Dumbbell bench press', 3, 8, 12, 120],
       ['0314', 'Dumbbell incline bench press', 3, 8, 12, 120],
       ['0405', 'Dumbbell seated shoulder press', 2, 8, 12, 120],
@@ -25,7 +25,7 @@ export const MUSCLE_SPLIT = {
       ['0200', 'Cable rope pushdown', 3, 10, 15, 75],
       ['0194', 'Cable overhead rope triceps extension', 2, 10, 15, 75]
     ] },
-    { key: 'legs', name: 'Legs', emoji: 'legs', exercises: [
+    { key: 'legs', focus: 'Legs & posterior chain.', brief: 'Leg press and a hip hinge, followed by leg curls, extensions and calves.', equipment: 'Leg machines and dumbbells', name: 'Legs', emoji: 'legs', exercises: [
       ['0739', 'Leg press', 3, 8, 12, 120],
       ['1459', 'Dumbbell Romanian deadlift', 3, 8, 12, 120],
       ['0586', 'Lying leg curl', 3, 10, 15, 90],

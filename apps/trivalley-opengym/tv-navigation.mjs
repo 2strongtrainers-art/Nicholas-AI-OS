@@ -1,7 +1,8 @@
 // Returning trainees should not be asked to repeat first-use onboarding.
 export function showGettingStarted(S) {
   const trained = (S.workouts || []).some(w => (w.entries || []).some(e => Array.isArray(e.sets) && e.sets.length > 0))
-  return !S.tvSetupDone && !S.active && !trained
+  const hasPlan = (S.routines || []).some(r => r.ex?.length)
+  return !S.tvSetupDone && !S.active && !trained && !hasPlan
 }
 
 export function contentHeight(viewportHeight, dockTop, keyboard = false) {

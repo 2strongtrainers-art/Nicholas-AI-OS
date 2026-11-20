@@ -7,6 +7,8 @@ import { MUSCLE_SPLIT, installedDays, addMuscleSplit, programPosition, programPr
 import { ProgramCover } from './ProgramContinue.jsx'
 import { RoutinePosterPreview } from './WorkoutPoster.jsx'
 import { ProgramSetup } from './GettingStarted.jsx'
+import { ProgramBrief, SessionBrief } from './ProgramBrief.jsx'
+import { durationRange } from '../lib/tv-training-insights.js'
 
 function CurrentSessionNotice() {
   const active = useStore(s => s.S.active), update = useStore(s => s.update), nav = useNavigate()
@@ -44,6 +46,7 @@ export default function ReadyPrograms() {
   }
   if (preview) return <section className="tv-program-detail" data-testid="tv-program-detail">
     <CurrentSessionNotice />
+    <SessionBrief dayKey={params.get('day')} routine={preview} />
     <RoutinePosterPreview routine={preview} startDisabled={!!S.active}
       onClose={() => { const next = new URLSearchParams(params); next.delete('day'); setParams(next); document.getElementById('app')?.scrollTo(0, 0) }}
       onStart={() => beginDay(params.get('day'))} />
@@ -59,6 +62,7 @@ export default function ReadyPrograms() {
     <button type="button" className="btn" data-testid="tv-open-setup" onClick={() => setParams({setup:'1'})}>{S.tvSetupDone ? 'Change training days' : 'Set up training days'}</button>
     {complete && <span className="tv-program-status" role="status">Your three workouts are ready.</span>}
     <CurrentSessionNotice />
+    <ProgramBrief />
     <div className="tv-program-covers" data-testid="tv-program-launchers">
       {MUSCLE_SPLIT.days.map((day, index) => {
         const routine = programPreviewRoutine(S, day.key)
@@ -67,7 +71,7 @@ export default function ReadyPrograms() {
           <div className="tv-program-card-body">
             <div className="tv-program-card-kicker">DAY {index + 1}{routine && position?.routine?.id === routine.id && !S.active && <span>UP NEXT</span>}</div>
             <h3>{routine?.name || day.name}</h3>
-            <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises{day.note ? ' · ' + day.note : ''}</p>
+            <p className="small muted">{routine?.ex.length ?? day.exercises.length} exercises · {durationRange(S, routine).min}–{durationRange(S, routine).max} min estimated{day.note ? ' · ' + day.note : ''}</p>
             <div className="tv-program-card-buttons">
               <button type="button" className="btn primary" data-testid={'tv-start-program-' + index} aria-label={'Start ' + (routine?.name || day.name)} disabled={!!S.active} onClick={() => beginDay(day.key)}>Start</button>
               <button type="button" className="btn" aria-label={'View ' + day.name + ' workout'} data-testid={'tv-preview-program-' + index} onClick={() => { setParams({ day: day.key }); document.getElementById('app')?.scrollTo(0, 0) }}>View workout</button>

@@ -1,0 +1,23 @@
+.tv-save-error{position:sticky;top:0;z-index:30}
+#app :is(button,a,input,textarea,select,summary){scroll-margin-block:20px}
+#app input,#app textarea,#app select{font-size:max(16px,1em)}
+.tv-program-brief{margin:14px 0 18px;border:1px solid var(--sep);border-radius:14px;background:var(--surface-2)}
+.tv-program-brief>summary{padding:13px 14px;min-height:48px;box-sizing:border-box;cursor:pointer;font-size:15px;font-weight:650}
+.tv-brief-content{padding:0 16px 16px;font-size:15px;line-height:1.55}
+.tv-brief-content h3{font-size:19px}.tv-brief-content h4{margin-bottom:6px}.tv-brief-content p{margin-top:6px}
+.tv-brief-content dl,.tv-session-program-brief dl{margin:10px 0}.tv-brief-content dl>div,.tv-session-program-brief dl>div{margin:10px 0}
+.tv-brief-content dt,.tv-session-program-brief dt{font-size:12px;letter-spacing:.05em;color:var(--label-2);text-transform:uppercase;font-weight:700}
+.tv-brief-content dd,.tv-session-program-brief dd{margin:3px 0 0}
+.tv-session-program-brief{padding:16px;border:1px solid var(--sep);border-radius:16px;margin:8px 0 18px;background:var(--surface);font-size:15px;line-height:1.5}
+.tv-session-program-brief>p{margin:8px 0}.tv-session-program-brief dl{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tv-weekly-heading{display:flex;justify-content:space-between;align-items:start;gap:12px}.tv-weekly-heading h2{font-size:22px;margin:6px 0 12px}
+.tv-weekly-range{font-size:12px;color:var(--label-2);white-space:nowrap;margin-top:2px}
+.tv-weekly-progress .tv-progress-grid{margin:12px 0 18px}.tv-weekly-progress .tv-progress-grid span{font-size:12px}
+.tv-weekly-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:0;margin:0 0 16px;list-style:none}
+.tv-weekly-days li{display:grid;text-align:center;gap:4px;padding:9px 1px;border:1px solid var(--sep);border-radius:12px;background:var(--surface-2);font-size:12px;color:var(--label-2)}
+.tv-weekly-days li b{font-size:20px;color:var(--label)}.tv-weekly-days li.trained{border-color:var(--acc)}.tv-weekly-days li.trained b{color:var(--acc)}.tv-weekly-days li.partial b{color:var(--label)}
+.tv-weekly-footer{display:flex;justify-content:space-between;gap:12px;align-items:start;flex-wrap:wrap}.tv-weekly-footer summary{font-size:13px;min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--label-2)}
+.tv-weekly-footer details[open]{flex-basis:100%}.tv-weekly-footer button{margin:0;min-height:44px}
+.tv-calendar-status{font-size:14px;line-height:1.4;color:var(--label-2);margin:8px 0}.tv-calendar-status strong{color:var(--label)}
+@media(max-width:480px){.tv-weekly-heading{display:block}.tv-weekly-range{display:block;margin-bottom:12px}.tv-session-program-brief dl{grid-template-columns:1fr}.tv-program-brief>summary{font-size:14px}}
+@media(max-height:740px){.tv-client-header{padding-block:4px;min-height:48px}#tabbar button{min-height:54px}.tv-continue-card .tv-program-art-hero{height:62px}.tv-continue-card .tv-continue-note{display:none}.tv-calendar-status{font-size:12px;margin:5px 0}.tv-continue-card .tv-continue-actions{margin-top:3px}.tv-continue-card{padding:12px}.tv-continue-card h2{font-size:23px}}

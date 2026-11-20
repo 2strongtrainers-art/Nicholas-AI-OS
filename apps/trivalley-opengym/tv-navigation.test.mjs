@@ -6,6 +6,7 @@ test('welcome is for new trainees, without marking returning records or changing
   const s = {workouts:[],routines:[{id:'custom'}]}, before = structuredClone(s)
   assert.equal(showGettingStarted(s),true)
   assert.deepEqual(s,before)
+  assert.equal(showGettingStarted({...s,routines:[{id:'existing',ex:[{id:'curl'}]}]}),false)
   assert.equal(showGettingStarted({...s,tvSetupDone:true}),false)
   assert.equal(showGettingStarted({...s,active:{id:'in-progress'}}),false)
   assert.equal(showGettingStarted({...s,workouts:[{entries:[{sets:[{w:25,r:10}]}]}]}),false)
