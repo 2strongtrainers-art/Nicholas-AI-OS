@@ -72,7 +72,7 @@ try{
  await page.getByRole('button',{name:'Fitness calculators · nutrition & training',exact:true}).click()
  await page.getByTestId('tv-calculators').waitFor()
  assert(await page.locator('#tv-calc-weight').inputValue()==='','Private entries persisted across leaving')
- await page.getByRole('button',{name:'More',exact:true}).click()
+ await page.locator('.tv-client-more summary').click()
  await page.getByRole('button',{name:'Fitness calculators',exact:true}).click()
  assert(await page.getByTestId('tv-calculators').isVisible(),'Header entry does not route')
  assert(!errors.length,'Browser errors: '+errors.join(';'))
