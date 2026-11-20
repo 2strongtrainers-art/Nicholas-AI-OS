@@ -5,10 +5,10 @@ const site="9e6343d9-5a1c-45e2-8596-f73408e38402";
 const client="d61ad4ca-bfe1-4792-b1d6-099567dd79d0";
 const member="4d122d05-0633-461b-ab06-4c642199e75a";
 const token="synthetic-wix-member-token-value";
-const valid=()=>({active:true,subjectType:"MEMBER",subjectId:member,siteId:site,clientId:client,exp:2000000000});
+const valid=()=>({active:true,subjectType:"MEMBER",subjectId:member,siteId:site,clientId:client,iat:'1795218792',exp:'1795233192'});
 function create(data=valid()){
   const calls=[];
-  const fn=makeWixOAuthTokenBinding({expectedSiteId:site,expectedClientId:client,now:()=>1795218000000,
+  const fn=makeWixOAuthTokenBinding({expectedSiteId:site,expectedClientId:client,now:()=>1795220000000,
     fetchImpl:async(url,options)=>{calls.push({url,method:options.method,body:JSON.parse(options.body)});return {ok:true,text:async()=>JSON.stringify(data)};}});
   return {fn,calls};
 }
@@ -24,7 +24,7 @@ test("visitor, app, admin, wrong site, wrong client, expired and inactive are re
     {subjectType:"VISITOR"},{subjectType:"USER"},{subjectType:"APP"},
     {siteId:"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"},
     {clientId:"bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"},
-    {subjectId:"bad"},{active:false},{exp:1}
+    {subjectId:"bad"},{active:false},{exp:1},{iat:null},{exp:'1795218000'},{iat:'1795234000'}
   ])assert.equal(await create({...valid(),...change}).fn({token,expectedSiteId:site}),null);
 });
 test("no token or forged expected site never calls the provider",async()=>{
