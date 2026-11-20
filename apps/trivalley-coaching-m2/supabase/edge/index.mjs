@@ -4,7 +4,7 @@
 import postgres from "npm:postgres@3.4.3";
 import {CoachingService,InMemoryCoachingStore,CoachingError} from "./domain.mjs";
 import {makeWixMemberVerifier} from "./wix-verify.mjs";
-import {makeWixSiteUrlBinding} from "./wix-site-binding.mjs";
+import {makeWixOAuthTokenBinding} from "./wix-token-info.mjs";
 
 const SITE_ID="9e6343d9-5a1c-45e2-8596-f73408e38402";
 const HOST_NAME="trivalley-coaching-api";
@@ -128,15 +128,31 @@ function dispatch(service,actor,method,path,body) {
 }
 const verify=makeWixMemberVerifier({
   siteId:SITE_ID,
-  verifyTokenSite:makeWixSiteUrlBinding({expectedSiteId:SITE_ID}),
+  verifyTokenSite:makeWixOAuthTokenBinding({expectedSiteId:SITE_ID,expectedClientId:"d61ad4ca-bfe1-4792-b1d6-099567dd79d0"}),
   lookupProvisionedMember:async ({siteId,memberId})=>{
     if(!sql)return null;
+    // Raw Wix identity must exist as a direct member or an exact, owner-approved alias.
+    // Only the canonical member ID participates in coaching assignments and audit records.
     const rows=await sql.unsafe(
-      "select org_id::text as org_id, role,status from coaching_private.wix_memberships where wix_site_id=$1::uuid and wix_member_id=$2::uuid limit 1",
+      `select m.org_id::text as org_id, m.role, m.status,
+              m.wix_member_id::text as canonical_member_id
+         from coaching_private.wix_memberships m
+        where m.wix_site_id=$1::uuid and m.wix_member_id=$2::uuid
+        union all
+       select m.org_id::text as org_id, m.role, m.status,
+              m.wix_member_id::text as canonical_member_id
+         from coaching_private.owner_member_aliases a
+         join coaching_private.wix_memberships m
+           on m.wix_site_id=a.wix_site_id
+          and m.wix_member_id=a.canonical_member_id
+        where a.wix_site_id=$1::uuid and a.alias_member_id=$2::uuid
+          and a.enabled=true and m.role='coach' and m.status='active'
+        limit 2`,
       [siteId,memberId]
     );
     if(rows.length!==1)return null;
-    return {siteId,memberId,orgId:rows[0].org_id,role:rows[0].role,status:rows[0].status};
+    return {siteId,memberId,orgId:rows[0].org_id,role:rows[0].role,
+            status:rows[0].status,canonicalMemberId:rows[0].canonical_member_id};
   }
 });
 async function handle(req) {
