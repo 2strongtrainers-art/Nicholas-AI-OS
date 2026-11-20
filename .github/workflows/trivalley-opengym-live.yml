@@ -1,4 +1,5 @@
 name: TriValley openGym — live Wix browser acceptance
+# Retest after restoring cached-page compatibility assets; source release unchanged.
 # Exercise detail clicks scroll to a verified reachable target before physical input.
 on:
   push:
