@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Nick · Revenue lab</title
+  ><style>
+    :root {
+      color-scheme: dark;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #081c23;
+      color: #f4f7ec;
+      font:
+        16px system-ui,
+        sans-serif;
+    }
+    main {
+      max-width: 1080px;
+      margin: auto;
+      padding: 44px 24px;
+    }
+    small,
+    .muted {
+      color: #b7cdc9;
+    }
+    h1 {
+      font-size: clamp(36px, 7vw, 70px);
+      letter-spacing: -2px;
+      margin: 14px 0;
+    }
+    select,
+    input {
+      font: inherit;
+      width: 100%;
+      padding: 12px;
+      background: #122e36;
+      color: white;
+      border: 1px solid #78938f;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-bottom: 7px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      border: 1px solid #35565e;
+      background: #0c242d;
+      padding: 24px;
+      border-radius: 16px;
+      margin-top: 24px;
+    }
+    .results {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .number {
+      font-size: 32px;
+      color: #d8ff52;
+      margin: 8px 0;
+    }
+    .negative {
+      color: #ffaca0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td,
+    th {
+      text-align: left;
+      padding: 12px 8px;
+      border-bottom: 1px solid #35565e;
+    }
+    .scroll {
+      overflow: auto;
+    }
+    a {
+      color: #d8ff52;
+    }
+    p {
+      line-height: 1.65;
+    }
+    .tag {
+      letter-spacing: 3px;
+      color: #d8ff52;
+    }
+    .note {
+      padding: 16px;
+      background: #17343a;
+      border-left: 4px solid #d8ff52;
+    }
+    button {
+      font: inherit;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: #d8ff52;
+      color: #081c23;
+      cursor: pointer;
+    }
+    @media (max-width: 720px) {
+      .controls,
+      .results {
+        grid-template-columns: 1fr;
+      }
+      main {
+        padding: 24px 16px;
+      }
+    }
+  </style>
+  <main>
+    <div class="tag">TRIVALLEY.FIT / BUSINESS LAB</div>
+    <h1>Make the numbers earn their place.</h1>
+    <p class="muted">
+      Five ways to turn the acquired tools into an offer. Editable assumptions,
+      not sales forecasts.
+    </p>
+    <section class="card">
+      <h2>Model an offer</h2>
+      <label for="path">Business model</label
+      ><select id="path"></select>
+      <p id="offer"></p>
+      <div class="controls">
+        <div>
+          <label for="price">Price per unit ($)</label
+          ><input id="price" type="number" min="0" />
+        </div>
+        <div>
+          <label for="direct">Direct cost per unit ($)</label
+          ><input id="direct" type="number" min="0" />
+        </div>
+        <div>
+          <label for="hours">Delivery hours per unit</label
+          ><input id="hours" type="number" min="0" step=".25" />
+        </div>
+        <div>
+          <label for="hourly">Value of time ($/hour)</label
+          ><input id="hourly" type="number" min="0" value="50" />
+        </div>
+        <div>
+          <label for="units">Units sold this month</label
+          ><input id="units" type="number" min="0" step="1" value="1" />
+        </div>
+        <div>
+          <label for="salesHours">Acquisition/admin hours this month</label
+          ><input id="salesHours" type="number" min="0" step=".25" value="1" />
+        </div>
+      </div>
+      <p class="muted">
+        Setup, tax, overhead and refunds excluded. Add payment fees to direct
+        costs.
+      </p>
+      <button id="target">Use $200/hour target</button>
+    </section>
+    <section class="card results" aria-live="polite">
+      <div>
+        <small>GROSS REVENUE</small>
+        <div class="number" id="revenue"></div>
+      </div>
+      <div>
+        <small>AFTER DIRECT COSTS</small>
+        <div class="number" id="gross"></div>
+      </div>
+      <div>
+        <small>AFTER DELIVERY + ADMIN TIME</small>
+        <div class="number" id="profit"></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Revenue targets</h2>
+      <p class="muted" id="billing"></p>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Gross revenue target</th>
+              <th>Units</th>
+              <th>Actual revenue</th>
+              <th>Delivery hours</th>
+            </tr>
+          </thead>
+          <tbody id="targets"></tbody>
+        </table>
+      </div>
+      <p class="note" id="gate"></p>
+    </section>
+    <section class="card">
+      <h2>Start with a small paid pilot</h2>
+      <p>
+        Two original branded motion clips for a proposed $297. One revision per
+        clip. Test demand before four clips/month at $597.
+      </p>
+      <p>
+        View <a href="demo/sample.mp4">the sample MP4</a>,
+        <a href="PLAN.md">the plan</a> and
+        <a href="OFFER-AND-OUTREACH.md">outreach drafts</a>. A sample proves
+        production capability, not sales.
+      </p>
+    </section>
+  </main>
+  <script>
+    const models = [
+      {
+        name: "Content studio",
+        offer:
+          "Four branded motion clips/month for trainers and local businesses.",
+        price: 597,
+        direct: 30,
+        hours: 2,
+        acquisitionHours: 1,
+        setupHours: 4,
+        billing: "monthly package",
+        repos: "Hyperframes; Open-Generative-AI optional",
+        requirements:
+          "One reusable motion template. Preserve the existing OpenMontage/Fast Reel path for supplied-footage edits. Generative imagery, voice and stock are excluded.",
+        gate: "Show this sample to ten warm business contacts, seek five conversations and one $297 paid two-clip pilot. Continue only if the pilot is usable and takes <=2 hours including one revision.",
+        evidence:
+          "Strong skills fit, demonstrated sample; no paid customer validation.",
+        rank: 1,
+      },
+      {
+        name: "Premium coaching workflow",
+        offer:
+          "The existing $497 online-coaching offer with structured check-ins and visual progress reports.",
+        price: 497,
+        direct: 10,
+        hours: 2,
+        acquisitionHours: 1,
+        setupHours: 6,
+        billing: "monthly coaching client",
+        repos: "LibreChat optional; Hyperframes optional",
+        requirements:
+          "Preserve existing Notion/Airtable records. No live client data is imported. LibreChat later needs a host, MongoDB/services and approved model configuration. Hours must include communication and review; no automatic program changes.",
+        gate: "Have five opt-in prospect conversations. Seek one suitable enrollment at the existing price and time a fictional check-in/report dry run to <=30 minutes. Measure total support time in month one.",
+        evidence:
+          "Very strong business fit; incremental conversion/retention unmeasured.",
+        rank: 2,
+      },
+      {
+        name: "Inbox setup service",
+        offer:
+          "One-domain email drafting workflow, access setup and handoff training for a compatible business.",
+        price: 750,
+        direct: 25,
+        hours: 6,
+        acquisitionHours: 2,
+        setupHours: 10,
+        billing: "one-time setup project",
+        repos: "Agentic Inbox",
+        requirements:
+          "Requires domain-owner access, Cloudflare Access, Email Routing/Service, R2, Durable Objects and Workers AI. Shared Access members can access all mailboxes by design. No deployment, Gmail migration or live sending verified. Provider/domain costs are separately quoted.",
+        gate: "Interview three compatible domain owners; continue after one paid setup request and a non-production inbound/authentication/draft-review test.",
+        evidence:
+          "Build/typecheck passed; willingness to pay and live deployment unverified.",
+        rank: 3,
+      },
+      {
+        name: "Private AI workspace",
+        offer:
+          "One team workspace answering questions about approved business documents, plus training.",
+        price: 995,
+        direct: 25,
+        hours: 8,
+        acquisitionHours: 2,
+        setupHours: 12,
+        billing: "one-time setup project",
+        repos: "LibreChat; VTuber optional; Camofox optional",
+        requirements:
+          "Requires maintained host, database/services and approved provider/data policy. Camofox browser integration remains unresolved. An avatar adds ASR/TTS/model setup without proving customer value. Hardware and inference billed separately.",
+        gate: "Interview three owners about one costly repeated task; continue after one paid request and ten representative synthetic-document queries pass with citations/access checks.",
+        evidence:
+          "Setup-service hypothesis; support load and hardware needs unresolved.",
+        rank: 4,
+      },
+      {
+        name: "Paper-research journal",
+        offer:
+          "A research journal, fee/slippage worksheet and paper-trade review template for record-keeping.",
+        price: 199,
+        direct: 5,
+        hours: 2,
+        acquisitionHours: 1,
+        setupHours: 8,
+        billing: "one-time template/setup sale",
+        repos:
+          "Vibe-Trading; AutoHedge optional; Fincept excluded commercially pending license clearance",
+        requirements:
+          "Use synthetic/public records only. Fincept has custom commercial/internal-use license terms. No profitable strategy is validated. Sell bookkeeping utility, not signals, personalized recommendations or returns. No live trading.",
+        gate: "Show a synthetic example to three journal users. Continue only after one paid request, reproducible fee calculations and applicable license/marketing review.",
+        evidence:
+          "Weakest revenue evidence; no demand or trading edge validated.",
+        rank: 5,
+      },
+    ];
+    const el = (id) => document.getElementById(id);
+    const money = (n) =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+      }).format(n);
+    models.forEach((m, i) => {
+      const o = document.createElement("option");
+      o.value = String(i);
+      o.textContent = m.rank + ". " + m.name;
+      el("path").append(o);
+    });
+    function number(id) {
+      const n = Number(el(id).value);
+      return Number.isFinite(n) ? Math.max(0, n) : 0;
+    }
+    function update() {
+      const m = models[Number(el("path").value)];
+      const p = number("price"),
+        c = number("direct"),
+        h = number("hours"),
+        w = number("hourly"),
+        n = Math.floor(number("units")),
+        a = number("salesHours");
+      const rev = p * n,
+        gross = (p - c) * n,
+        profit = gross - w * (h * n + a);
+      el("revenue").textContent = money(rev);
+      el("gross").textContent = money(gross);
+      el("profit").textContent = money(profit);
+      el("profit").classList.toggle("negative", profit < 0);
+      el("targets").replaceChildren();
+      [500, 2000, 5000].forEach((t) => {
+        const u = p > 0 ? Math.ceil(t / p) : null;
+        const tr = document.createElement("tr");
+        [
+          money(t),
+          u === null ? "—" : u,
+          u === null ? "—" : money(u * p),
+          u === null ? "—" : (u * h).toFixed(1),
+        ].forEach((v) => {
+          const td = document.createElement("td");
+          td.textContent = String(v);
+          tr.append(td);
+        });
+        el("targets").append(tr);
+      });
+      el("billing").textContent =
+        "Unit: " + m.billing + ". One-time sales are not recurring revenue.";
+      el("gate").textContent = "Validation gate: " + m.gate;
+    }
+    function load() {
+      const m = models[Number(el("path").value)];
+      el("offer").textContent = m.offer;
+      ["price", "direct", "hours"].forEach((k) => (el(k).value = m[k]));
+      el("salesHours").value = m.acquisitionHours;
+      update();
+    }
+    el("path").addEventListener("change", load);
+    document
+      .querySelectorAll("input")
+      .forEach((i) => i.addEventListener("input", update));
+    el("target").addEventListener("click", () => {
+      el("hourly").value = 200;
+      update();
+    });
+    load();
+  </script>
+</html>
