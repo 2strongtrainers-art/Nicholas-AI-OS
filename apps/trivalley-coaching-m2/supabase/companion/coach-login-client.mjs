@@ -21,7 +21,10 @@ async function apiGet(path) {
     credentials:"omit",cache:"no-store",redirect:"error"
   });
   const body=await response.json().catch(()=>({}));
-  if(!response.ok)throw new Error(body.error||"Protected coaching API rejected this session");
+  if(!response.ok) {
+    const reason=typeof body.error==="string"&&/^[A-Z_]{2,45}$/.test(body.error)?body.error:"REQUEST_DENIED";
+    throw new Error("HTTP_"+response.status+"_"+reason);
+  }
   return body;
 }
 async function showCoach() {
@@ -65,15 +68,23 @@ el("endSession").addEventListener("click",()=>{
   const hash=window.location.hash||"";
   if(!hash.includes("code=")&&!hash.includes("error="))return;
   status("Checking Wix member and secure coaching permissions...");
+  let stage="wix";
   try {
     const member=await login.complete(window.location.href);
     cleanup();
     token=member.accessToken;
+    status("Wix member verified; checking private owner permissions...");
+    stage="api";
     await showCoach();
   } catch(e) {
     token=null;
     cleanup();
     el("login").disabled=false;
-    status("Sign-in was not verified by the private coaching API. This staging security check blocks access. Try the 2strongtrainers Wix member account; if it still fails, report this result in ChatGPT.","error");
+    const safeApiCode=typeof e?.message==="string"&&/^HTTP_\\d{3}_[A-Z_]{2,45}$/.test(e.message)
+      ?e.message:"API_CHECK_FAILED";
+    const message=stage==="wix"
+      ?"Wix sign-in could not be completed or validated (WIX_MEMBER_CHECK). Use a Wix Member login for 1strongtrainer or 2strongtrainers, not the Wix editor admin session."
+      :"Wix sign-in completed, but the private coaching API rejected it ("+safeApiCode+"). Access remains blocked. Share only this error code for troubleshooting, never a token.";
+    status(message,"error");
   }
 })();
