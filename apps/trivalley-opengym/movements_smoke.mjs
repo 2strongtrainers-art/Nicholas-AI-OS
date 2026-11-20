@@ -100,7 +100,7 @@ try {
   assert(await page.$eval('.tv-focus-reference',n=>!n.open),'Optional reference must start collapsed');
   assert(await page.$eval('.tv-focus-set-table input',input=>input.value)==='58.5','Switching display lost inline weight');
   await page.$eval('.tv-focus-reference',n=>n.open=true);
-  await page.waitForSelector('.tv-movement-media .tv-steps');
+  await page.waitForSelector('.tv-movement-media [data-testid="tv-coach-notes"]');
   await page.waitForSelector('.tv-focus-reference [data-testid="tv-movement-figure"][data-exercise-id="2330"]');
   assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')).active.entries.length===5),'Artwork changed workout entries');
   await page.evaluate(async()=>{await navigator.serviceWorker.ready});
