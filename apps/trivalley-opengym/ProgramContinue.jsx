@@ -25,6 +25,9 @@ export default function ProgramContinue() {
   const routine = active ? null : position.routine
   const estimate = routine ? durationRange(S, routine) : null
   const title = active?.name || routine?.name || 'Restore your next workout'
+  const weekday = new Date().getDay()
+  const scheduled = S.routines.find(r => r.id === S.week?.[weekday])
+  const dayName = new Date().toLocaleDateString(undefined,{weekday:'long'})
   const start = () => {
     const current = useStore.getState().S
     if (current.active) { nav('/workout'); return }
@@ -46,6 +49,10 @@ export default function ProgramContinue() {
       {!active && routine && <button type="button" className="tv-text-action" onClick={() => nav('/workout?poster=' + encodeURIComponent(routine.id))}>Preview workout</button>}
       <button type="button" className="tv-text-action" onClick={() => nav('/plan')}>Choose another day</button>
     </div>
-    {!active && !position.missing && <p className="tv-continue-note">Your place is remembered across missed days. Follow your planned rest and recovery days; starting is your choice.</p>}
+    {!active && !position.missing && <>
+      <p className="tv-program-schedule-note">Weekly schedule for {dayName}: <strong>{scheduled?.name || 'Rest'}</strong>. The workout above is next in your program sequence; it does not change your calendar.</p>
+      <p className="tv-continue-note">Your place is remembered across missed days. Follow your planned rest and recovery days; starting is your choice.</p>
+    </>}
   </section>
 }
+

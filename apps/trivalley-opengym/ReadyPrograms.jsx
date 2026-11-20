@@ -7,6 +7,7 @@ import { startFlow, confirmSheet } from '../sheets.jsx'
 import { MUSCLE_SPLIT, installedDays, addMuscleSplit, programPosition, programPreviewRoutine, isEmptyFreestyle, closeEmptyFreestyle } from '../lib/tv-programs.js'
 import { ProgramCover } from './ProgramContinue.jsx'
 import { RoutinePosterPreview } from './WorkoutPoster.jsx'
+import { ProgramSetup } from './GettingStarted.jsx'
 
 function CurrentSessionNotice() {
   const active = useStore(s => s.S.active), update = useStore(s => s.update), nav = useNavigate()
@@ -64,7 +65,10 @@ export default function ReadyPrograms() {
     <div className="tv-eyebrow">TRAIN WITH NICK</div>
     <h2>{MUSCLE_SPLIT.name}</h2>
     <p className="muted small">Three complete workouts. Choose your days, then make the next session count.</p>
-    <div className="tv-program-setup">
+    {params.get('setup') === '1'
+      ? <ProgramSetup onClose={() => {const next=new URLSearchParams(params);next.delete('setup');setParams(next)}} />
+      : <button type="button" className="btn" data-testid="tv-open-setup" onClick={() => setParams({setup:'1'})}>Set up program & training days</button>}
+    {params.get('setup') !== '1' && <div className="tv-program-setup">
       <label className="tv-program-schedule">Choose a schedule
         <select data-testid="tv-program-schedule" value={schedule} onChange={e => setSchedule(e.target.value)}>
           <option value="none">Routines only — choose days later</option>
@@ -78,7 +82,7 @@ export default function ReadyPrograms() {
       {receipt && <p className="small tv-program-receipt" role="status" data-testid="tv-program-receipt">{receipt}</p>}
       <CurrentSessionNotice />
       {!complete && <p className="small muted">Start a day now, or add and schedule all three. Existing routines and occupied days are kept.</p>}
-    </div>
+    </div>}
     <div className="tv-program-covers" data-testid="tv-program-launchers">
       {MUSCLE_SPLIT.days.map((day, index) => {
         const routine = programPreviewRoutine(S, day.key)
@@ -115,3 +119,4 @@ export default function ReadyPrograms() {
     </details>
   </section>
 }
+
