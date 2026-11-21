@@ -7,30 +7,22 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-catalogue-20261120-03",
-    "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+    "id": "nick-catalogue-20261120-04",
+    "status": "SOURCE_REVIEWED_HOSTED_ACCEPTANCE_PENDING",
     "exactIds": [
-      "0426",
-      "0396",
-      "1678",
-      "0429",
-      "0392",
-      "0391"
+      "0404",
+      "1379",
+      "0401",
+      "0381",
+      "0410",
+      "0375"
     ],
     "newCatalogueEntries": 6,
-    "priorCatalogueIllustrated": 41,
-    "targetCatalogueIllustrated": 47,
-    "appVersion": "5.19.0",
+    "priorCatalogueIllustrated": 47,
+    "targetCatalogueIllustrated": 53,
+    "appVersion": "5.20.0",
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Operator visual review; no human movement certification. Corrected pronated front-raise grip before integration.",
-    "releaseSourceCommit": "5c6355d3f09de1b9caba9b4ec29d8449c992dfa4",
-    "buildRunId": 44844741859,
-    "artifactId": 14682756111,
-    "artifactSha256": "6d01ebf8a4ee1522e1aa9abd3d4411a4ffdb304a0483a1dd09c28e37feb170af",
-    "publicationId": "069ec33b-c831-4ce9-966c-34c05fed6333",
-    "liveAcceptanceRunId": 44845376841,
-    "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
-    "observedAt": "2026-11-21T00:42:35.152464+00:00"
+    "reviewScope": "Operator visual review; no human movement certification. Corrected seated calf-raise block support before integration."
   },
   "entries": [
     {
@@ -3910,7 +3902,8 @@
       "id": "0375",
       "name": "dumbbell pullover",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-catalogue-20261120-04"
     },
     {
       "id": "1294",
@@ -3970,7 +3963,8 @@
       "id": "0381",
       "name": "dumbbell rear lunge",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-catalogue-20261120-04"
     },
     {
       "id": "0382",
@@ -4120,7 +4114,8 @@
       "id": "1379",
       "name": "dumbbell seated calf raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-catalogue-20261120-04"
     },
     {
       "id": "0391",
@@ -4222,7 +4217,8 @@
       "id": "0401",
       "name": "dumbbell seated palms up wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-catalogue-20261120-04"
     },
     {
       "id": "0402",
@@ -4255,7 +4251,8 @@
       "id": "0404",
       "name": "dumbbell seated shoulder press (parallel grip)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-catalogue-20261120-04"
     },
     {
       "id": "2188",
@@ -4318,7 +4315,8 @@
       "id": "0410",
       "name": "dumbbell single leg split squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-catalogue-20261120-04"
     },
     {
       "id": "0411",
@@ -8180,6 +8178,32 @@
       "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
       "observedAt": "2026-11-20T15:57:56.606927+00:00",
       "physicalIPhone": "UNVERIFIED"
+    },
+    {
+      "id": "nick-catalogue-20261120-03",
+      "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+      "exactIds": [
+        "0426",
+        "0396",
+        "1678",
+        "0429",
+        "0392",
+        "0391"
+      ],
+      "newCatalogueEntries": 6,
+      "priorCatalogueIllustrated": 41,
+      "targetCatalogueIllustrated": 47,
+      "appVersion": "5.19.0",
+      "physicalIPhone": "UNVERIFIED",
+      "reviewScope": "Operator visual review; no human movement certification. Corrected pronated front-raise grip before integration.",
+      "releaseSourceCommit": "5c6355d3f09de1b9caba9b4ec29d8449c992dfa4",
+      "buildRunId": 44844741859,
+      "artifactId": 14682756111,
+      "artifactSha256": "6d01ebf8a4ee1522e1aa9abd3d4411a4ffdb304a0483a1dd09c28e37feb170af",
+      "publicationId": "069ec33b-c831-4ce9-966c-34c05fed6333",
+      "liveAcceptanceRunId": 44845376841,
+      "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
+      "observedAt": "2026-11-21T00:42:35.152464+00:00"
     }
   ],
   "catalogueQueued": 1277

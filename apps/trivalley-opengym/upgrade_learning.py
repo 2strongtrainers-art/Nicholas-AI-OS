@@ -38,5 +38,5 @@ edit('src/components/Media.jsx','  if (movementReferenceFor(ex)) return', '''  i
     {instructions && <><ol className="tv-steps">{ex.st.map((step,i)=><li key={i}>{step}</li>)}</ol><p className="small">Easier option: {ex.easier}</p></>}
   </div>
   if (movementReferenceFor(ex)) return''')
-edit('src/views/AppFeedback.jsx',"version:'5.15.0'","version:'5.19.0'")
+edit('src/views/AppFeedback.jsx',"version:'5.15.0'","version:'5.20.0'")
 print('Five original lessons, protein label arithmetic and seven explicit short-session posters integrated; existing data and navigation preserved')

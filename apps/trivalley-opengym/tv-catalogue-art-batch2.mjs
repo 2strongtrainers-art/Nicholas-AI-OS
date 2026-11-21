@@ -650,6 +650,132 @@ export const CATALOGUE_ART_BATCH2 = {
       "Bend your elbows to curl both weights toward your shoulders while keeping your upper arms beside your torso.",
       "Lower smoothly without rocking your body or bending your wrists. Keep the palms-up curl distinct from a hammer curl."
     ]
+  },
+  "0404": {
+    "id": "0404",
+    "name": "dumbbell seated shoulder press (parallel grip)",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_cacf8c54e61b45478dc0253b7876f0f3~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 510,
+    "style": "Dumbbell",
+    "bytes": 2031812,
+    "sha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98",
+    "leftLabel": "Shoulder-height neutral grip",
+    "rightLabel": "Press overhead",
+    "alt": "Generated Nick likeness for dumbbell seated shoulder press (parallel grip): shoulder-height neutral grip on the left; press overhead on the right.",
+    "steps": [
+      "Sit against a stable backrest with feet planted and palms facing each other.",
+      "I want you to press upward without flaring your ribs or leaning back. Keep the neutral grip throughout.",
+      "Lower smoothly to shoulder height and use a comfortable range without forcing your shoulders."
+    ]
+  },
+  "1379": {
+    "id": "1379",
+    "name": "dumbbell seated calf raise",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_cacf8c54e61b45478dc0253b7876f0f3~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 514,
+    "cropHeight": 508,
+    "style": "Dumbbell",
+    "bytes": 2031812,
+    "sha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98",
+    "leftLabel": "Heels lowered",
+    "rightLabel": "Rise onto forefeet",
+    "alt": "Generated Nick likeness for dumbbell seated calf raise: heels lowered on the left; rise onto forefeet on the right.",
+    "steps": [
+      "Sit on a stable bench with only the balls of your feet on a secure low block and your heels free.",
+      "Hold the dumbbells steady across your lower thighs, clear of your kneecaps, and lift both heels.",
+      "I want a slow, controlled lower without bouncing or letting the weights slide."
+    ]
+  },
+  "0401": {
+    "id": "0401",
+    "name": "dumbbell seated palms up wrist curl",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_cacf8c54e61b45478dc0253b7876f0f3~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1027,
+    "cropHeight": 509,
+    "style": "Dumbbell",
+    "bytes": 2031812,
+    "sha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98",
+    "leftLabel": "Wrists extended comfortably",
+    "rightLabel": "Curl wrists upward",
+    "alt": "Generated Nick likeness for dumbbell seated palms up wrist curl: wrists extended comfortably on the left; curl wrists upward on the right.",
+    "steps": [
+      "Sit with palms up, forearms supported on your thighs and wrists just beyond your knees.",
+      "Keep your forearms still as you curl your wrists upward, then lower through a comfortable range.",
+      "I want light weights and controlled wrist movement, without turning this into an elbow curl."
+    ]
+  },
+  "0381": {
+    "id": "0381",
+    "name": "dumbbell rear lunge",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_8df58c50c7584e05a95f1dfd7f62f8e1~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 548,
+    "style": "TRX",
+    "bytes": 1973776,
+    "sha256": "e06c86a5f4190dedf8b206c589c7834bb187dccf5afdb63e3fd97b195b55dd4a",
+    "leftLabel": "Stand tall",
+    "rightLabel": "Step back and lower",
+    "alt": "Generated Nick likeness for dumbbell rear lunge: stand tall on the left; step back and lower on the right.",
+    "steps": [
+      "Stand tall with a dumbbell at each side and leave clear space behind you.",
+      "Step one foot backward and bend both knees while keeping your front foot flat and your knee following your toes.",
+      "Push through the front foot to return. I want a controlled step, then switch sides."
+    ]
+  },
+  "0410": {
+    "id": "0410",
+    "name": "dumbbell single leg split squat",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_8df58c50c7584e05a95f1dfd7f62f8e1~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 552,
+    "cropHeight": 490,
+    "style": "TRX",
+    "bytes": 1973776,
+    "sha256": "e06c86a5f4190dedf8b206c589c7834bb187dccf5afdb63e3fd97b195b55dd4a",
+    "leftLabel": "Set rear foot on bench",
+    "rightLabel": "Lower through front leg",
+    "alt": "Generated Nick likeness for dumbbell single leg split squat: set rear foot on bench on the left; lower through front leg on the right.",
+    "steps": [
+      "Place your rear foot on a stable low bench and set your front foot far enough forward to keep it flat.",
+      "Hold the dumbbells at your sides and lower through the front leg while your knee follows your toes.",
+      "I want your hips level and your balance controlled. Use a supported split squat if the bench version is too demanding."
+    ]
+  },
+  "0375": {
+    "id": "0375",
+    "name": "dumbbell pullover",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_8df58c50c7584e05a95f1dfd7f62f8e1~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1047,
+    "cropHeight": 489,
+    "style": "TRX",
+    "bytes": 1973776,
+    "sha256": "e06c86a5f4190dedf8b206c589c7834bb187dccf5afdb63e3fd97b195b55dd4a",
+    "leftLabel": "Hold above chest",
+    "rightLabel": "Lower behind head",
+    "alt": "Generated Nick likeness for dumbbell pullover: hold above chest on the left; lower behind head on the right.",
+    "steps": [
+      "Lie lengthwise on a stable bench with head, back and hips supported and both feet planted.",
+      "Hold one dumbbell securely in both hands above your chest. Keep a slight elbow bend as you lower behind your head.",
+      "I want a comfortable shoulder range with ribs controlled. Bring the dumbbell back above your chest without lifting your head."
+    ]
   }
 }
-export const APPROVED_CATALOGUE_BATCH2_IDS = ["0025", "0027", "0032", "1436", "0085", "0117", "0662", "3211", "0493", "0659", "0274", "0872", "1760", "0297", "0308", "0310", "0333", "0406", "0413", "0336", "0431", "0417", "1373", "3013", "0652", "0426", "0396", "1678", "0429", "0392", "0391"]
+export const APPROVED_CATALOGUE_BATCH2_IDS = ["0025", "0027", "0032", "1436", "0085", "0117", "0662", "3211", "0493", "0659", "0274", "0872", "1760", "0297", "0308", "0310", "0333", "0406", "0413", "0336", "0431", "0417", "1373", "3013", "0652", "0426", "0396", "1678", "0429", "0392", "0391", "0404", "1379", "0401", "0381", "0410", "0375"]
