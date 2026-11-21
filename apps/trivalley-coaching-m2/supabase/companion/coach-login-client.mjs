@@ -64,9 +64,24 @@ el("endSession").addEventListener("click",()=>{
   el("login").disabled=false;
   status("This page's session ended. Wix may remain signed in on its own website.");
 });
+function hasWixResult() {
+  const params=new URLSearchParams(window.location.hash.slice(1));
+  return params.has("code")||params.has("error")||params.has("state");
+}
+function reportIncompleteReturn() {
+  if(!login.hasPending?.())return;
+  login.cancel();
+  el("login").disabled=false;
+  status("Wix returned without a sign-in result (WIX_RETURN_MISSING). Coaching access is still locked. Tap Continue securely with Wix to try again.","error");
+}
+window.addEventListener("pageshow",event=>{
+  if(event.persisted&&!hasWixResult())reportIncompleteReturn();
+});
 (async()=>{
-  const hash=window.location.hash||"";
-  if(!hash.includes("code=")&&!hash.includes("error="))return;
+  if(!hasWixResult()) {
+    reportIncompleteReturn();
+    return;
+  }
   status("Checking Wix member and secure coaching permissions...");
   let stage="wix";
   try {

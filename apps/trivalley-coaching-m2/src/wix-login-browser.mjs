@@ -101,5 +101,11 @@ export function createWixMemberLogin({
       source:'wix-main-business-site',cleanCallbackUrl:redirectUri+'#/home'
     };
   }
-  return {begin,complete,cancel:()=>storage.removeItem(PENDING_KEY),config:{clientId,redirectUri}};
+  return {
+    begin,
+    complete,
+    hasPending:()=>storage.getItem(PENDING_KEY)!==null,
+    cancel:()=>storage.removeItem(PENDING_KEY),
+    config:{clientId,redirectUri}
+  };
 }
