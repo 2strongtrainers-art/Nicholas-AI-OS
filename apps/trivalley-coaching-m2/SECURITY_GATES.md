@@ -1,5 +1,19 @@
 # TriValley FIT — Milestone 2 security gates
 
+## CURRENT — owner-authorized staging release v9 (November 20, 2026 PT)
+
+**Live stage: secured owner login and isolated client pilot portals DEPLOYED. Public/real-client production NOT ENABLED.**
+
+- Backend: Supabase project `kszzvzysxwetwapbhzgy` in `us-west-1`, private coaching SQL and Edge API `trivalley-coaching-api` v9 ACTIVE. Main Wix Members login and canonical 2strongtrainers coach verified; one owner Safari login reached protected `/v1/me` and `/v1/coach/clients` (200). Secondary 1strongtrainer member is an exact owner alias, no duplicate coach.
+- Three owner-private Back/Biceps, Chest/Triceps, Legs programs with sixteen pinned guest-app exercise IDs saved/published; **zero client assignments**.
+- Owner page `/coach-login.html` includes program library, encrypted backup export/verification, invitation and consented-assignment controls, check-in/deletion review, and owner-only pilot release/pause. Separate `/coach-client.html` includes Wix member login, explicit consent, assigned workouts, local IndexedDB queue with idempotent replay, private check-ins, personal export/deletion requests. Existing free app and checkout preserved.
+- Enrollment and workout sync gates remain **OFF**. Latest SQL confirmed `privacy_approved_at=NULL` and `backup_verified_at=NULL`. Public `/pilot-status` independently says `enrollmentEnabled:false, syncEnabled:false`; unsigned private endpoints return 401. No client is provisioned, no invitations issued, no real workout record submitted.
+- Owner must first download AES-GCM encrypted backup, save off-provider, locally verify decrypt, complete backup receipt and privacy notice approval and explicitly consent to activating a limited private pilot. **No owner passphrase/access token may be requested in chat.** Do not override release controls via SQL. Even after pilot activation, real two-user iPhone offline sync and backup restoration still require separate acceptance before broad production.
+- Automated GitHub security, data contract, SQLite and mobile synthetic CI passed on run [44844617848](https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/44844617848). Supabase lints show intentionally no RLS policies on private non-exposed schema; three FK index performance findings fixed. Live mobile signed-out client page was tested with a Wix login redirect; actual client onboarding remains untested.
+- Full source receipts: [staging release acceptance](acceptance/2026-11-20-staging-release-v9.md) and [owner login success](acceptance/2026-11-20-owner-login-success.md). **Keep PR #191 draft/unmerged** and do not migrate real client data until release criteria pass.
+
+---
+
 ## OWNER LOGIN REPAIR — November 20, 2026, after failed iPhone sign-in
 
 - The iPhone screenshot at 3:48 PM PT showed the staging page's generic sign-in rejection. An Edge 401 was seen in the relevant server log window, but those logs do not identify the specific user and the browser error did not distinguish Wix callback failure from API denial. Do not assert a verified root cause.
