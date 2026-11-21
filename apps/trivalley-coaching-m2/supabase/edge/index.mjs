@@ -689,7 +689,9 @@ async function handle(req) {
           notice:"Review previously downloaded external backups separately; they cannot be recalled."};
       }
       const data=dispatch(service,actor,req.method,path,body);
-      if(req.method==="POST"||store.audit.length){
+      // Export/read auditing must NOT create a new coaching revision or
+      // invalidate the current offsite backup receipt.
+      if(req.method==="POST"){
         const payload=encodeSnapshot(store);
         if(new TextEncoder().encode(payload).byteLength>4000000)
           throw new CoachingError(413,"STORAGE_LIMIT","Private coaching record limit reached");
@@ -707,11 +709,13 @@ async function handle(req) {
           "insert into coaching_private.snapshot_revisions(org_id,revision,payload) values ($1::uuid,$2::bigint,$3::jsonb) on conflict(org_id,revision) do nothing",
           [actor.orgId,String(BigInt(state[0].revision)+1n),payload]
         );
-        for(const evt of store.audit)await tx.unsafe(
-          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id,occurred_at) values ($1::uuid,$2::uuid,$3,$4,$5::timestamptz)",
-          [actor.orgId,evt.actorId,evt.action,evt.resourceId,evt.at]
-        );
       }
+      // Read-only client exports can create audit events, but leave snapshot
+      // revision and recovery history unchanged. Writes keep the same audit trail.
+      for(const evt of store.audit)await tx.unsafe(
+        "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id,occurred_at) values ($1::uuid,$2::uuid,$3,$4,$5::timestamptz)",
+        [actor.orgId,evt.actorId,evt.action,evt.resourceId,evt.at]
+      );
       return data;
     });
     const created=req.method==="POST"?201:200;
