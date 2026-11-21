@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "nick-core-20261121-next25",
-    "status": "IN_PROGRESS_PRIVATE_GENERATION",
+    "status": "GENERATED_PRIVATE_REVIEW_PENDING_INTEGRATION",
     "exactIds": [
       "3204",
       "3544",
@@ -39,11 +39,24 @@
     "claimedAt": "2026-11-21T16:39:13.791Z",
     "claimOwner": "owner-directed-next25-20261121",
     "newCatalogueEntries": 25,
-    "generatedCount": 0,
+    "generatedCount": 25,
     "acceptedCount": 0,
     "deployedCount": 0,
     "reviewScope": "Owner explicitly requested the next 25 after first 25-card review pack. Preserve previous 25 and ten-card publisher; no overlap.",
-    "nextStep": "Generate and inspect these exact IDs. Keep generated/private, accepted and live counts distinct."
+    "nextStep": "Resume review/integration of the existing two saved 25-card batches, not regeneration. Confirm exact catalogue mapping (especially2466), likeness and qualified movement review; run exact release build/mobile/offline checks and live acceptance before any live count promotion.",
+    "operatorInspectedCount": 25,
+    "generationCalls": 32,
+    "correctedIds": [
+      "3204",
+      "0272",
+      "0459",
+      "1422",
+      "2466"
+    ],
+    "deliveryPackSha256": "c52608342324fd17c8e12acd6731c455e2f0fbaa9efc4c65c5223cbebb561c73",
+    "observedLiveCoverage": 63,
+    "sourceRelease": "1f70953954e2d4b31da0683d85d6bca0de40f520",
+    "updatedAt": "2026-11-21T17:10:48.949Z"
   },
   "entries": [
     {
@@ -122,11 +135,24 @@
       "id": "3204",
       "name": "arms overhead full sit-up (male)",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3204-v2.png",
+        "sha256": "a6ff5580607704b73559b8e7686f4acbe3af9c06e48646ffc2a061a8dd26343c",
+        "bytes": 1838481,
+        "width": 1536,
+        "height": 1024,
+        "version": 2
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0009",
@@ -1578,11 +1604,24 @@
       "id": "3544",
       "name": "bodyweight incline side plank",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3544-v1.png",
+        "sha256": "6acfb09df1d0157d673cdc214ed6f8af1562cad32aaaa06122a313dcd7961b5a",
+        "bytes": 2180429,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1771",
@@ -1657,11 +1696,24 @@
       "id": "0138",
       "name": "bottoms-up",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/0138-v1.png",
+        "sha256": "8c60d045699f7b7c03a0ed98ed84dbe1f45f78b8a9cd849660b5d99e3faa8376",
+        "bytes": 2092532,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1374",
@@ -1673,11 +1725,24 @@
       "id": "2466",
       "name": "bridge - mountain climber (cross body)",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/2466-v3.png",
+        "sha256": "89c6717aafb62281727dbf53f6471c51af7214d1f8613b6119192fd9212bd2ff",
+        "bytes": 2060125,
+        "width": 1536,
+        "height": 1024,
+        "version": 3
+      },
+      "operatorReviewed": true,
+      "reviewScope": "High-plank interpretation corrected from initial reverse-tabletop draft; exact catalogue variant mapping must be confirmed before release.",
+      "releaseAccepted": false
     },
     {
       "id": "1160",
@@ -1689,11 +1754,24 @@
       "id": "0870",
       "name": "butt-ups",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/0870-v1.png",
+        "sha256": "52fde8ffaa983af33dab80d055650634d14eea08c3527cc9c477fc0032b93e50",
+        "bytes": 2189770,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1494",
@@ -2767,11 +2845,24 @@
       "id": "0260",
       "name": "cocoons",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0260-v1.png",
+        "sha256": "6a45a01777c45bd441dd986c9309d6dad384de488936f925dce36ada58414a58",
+        "bytes": 2193798,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1468",
@@ -2807,21 +2898,47 @@
       "id": "0271",
       "name": "crunch (on stability ball)",
       "equipment": "stability ball",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0271-v1.png",
+        "sha256": "d202e547fa49a7e3564ed4af987cfe6209a4241ea1de1ba6558611beec4cfb99",
+        "bytes": 2302109,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0272",
       "name": "crunch (on stability ball, arms straight)",
       "equipment": "stability ball",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0272-v2.png",
+        "sha256": "c68cb66e324813cc92d4917a2d6634357c16fd3a1ce4aebb938d0ae6ec69180a",
+        "bytes": 2047551,
+        "width": 1536,
+        "height": 1024,
+        "version": 2
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0274",
@@ -4372,11 +4489,24 @@
       "id": "0407",
       "name": "dumbbell side bend",
       "equipment": "dumbbell",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0407-v1.png",
+        "sha256": "ea89e425d73e9b057dad06ee0da6e97f512d16cd45432ceafb458991bccd684a",
+        "bytes": 1959406,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0408",
@@ -5054,11 +5184,24 @@
       "id": "0459",
       "name": "flutter kicks",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0459-v3.png",
+        "sha256": "6990c1c3581fc7996d8048c23acd4a3980b08fd4efb250d2b106f1f0d5ab4fa3",
+        "bytes": 1929170,
+        "width": 1536,
+        "height": 1024,
+        "version": 3
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1472",
@@ -5082,11 +5225,24 @@
       "id": "2429",
       "name": "frog crunch",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/2429-v1.png",
+        "sha256": "b116a76083e7d8ced611bd5f14e1844d57c2fa63ec0765c3f25cb95d29f1535d",
+        "bytes": 2154666,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3301",
@@ -5152,21 +5308,47 @@
       "id": "3561",
       "name": "glute bridge march",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3561-v1.png",
+        "sha256": "0271d826cf6e1486bf7c64de24586228507e0361dcd5055f917d3c14dd5ae932",
+        "bytes": 2135939,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3523",
       "name": "glute bridge two legs on bench (male)",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3523-v1.png",
+        "sha256": "01ad7062ce41b9695566558aab14860e7b6244df6d68063dcbc036cedc883c05",
+        "bytes": 2161990,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3193",
@@ -5865,11 +6047,24 @@
       "id": "3239",
       "name": "kneeling plank tap shoulder (male)",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3239-v1.png",
+        "sha256": "1bd5d19a2152de130547e9486f144207bfc9dc6c8f34206a606c160d1f1ed202",
+        "bytes": 2217924,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3211",
@@ -6448,11 +6643,24 @@
       "id": "0865",
       "name": "lying leg-hip raise",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/0865-v1.png",
+        "sha256": "4e8db35f100da3d083fdc0fcc708a21c77b446ac38ca55c882ca8dbcb0867835",
+        "bytes": 2110074,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1301",
@@ -6548,11 +6756,24 @@
       "id": "0630",
       "name": "mountain climber",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0630-v1.png",
+        "sha256": "1c0f6d57dafeea0d7ec0423950b2bf11a1ca341660ae23c4c3efd7b651031e5b",
+        "bytes": 2132617,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0631",
@@ -6720,11 +6941,24 @@
       "id": "1422",
       "name": "pelvic tilt into bridge",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/1422-v2.png",
+        "sha256": "8fe026433074e04cf0b50c389d3b5c76728c9af439196fba9c4167e18a9e68cb",
+        "bytes": 1946949,
+        "width": 1536,
+        "height": 1024,
+        "version": 2
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "1388",
@@ -6778,11 +7012,24 @@
       "id": "3665",
       "name": "power point plank",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3665-v1.png",
+        "sha256": "069aa5ee07daaa9a90e03ff00ad659892809750e30bc43b2ecac139c28fe3d70",
+        "bytes": 2158904,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3203",
@@ -7058,11 +7305,24 @@
       "id": "3663",
       "name": "reverse plank with leg lift",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/3663-v1.png",
+        "sha256": "aff2838bf82844b78e94479ac309e9a8dd1b293ef163dbe676a569dd863c72cc",
+        "bytes": 2141447,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0677",
@@ -7302,21 +7562,47 @@
       "id": "1774",
       "name": "side bridge hip abduction",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/1774-v1.png",
+        "sha256": "da1d59e92ebc2fa0ea90a9a69733b57767666b66a6bcd0931ae047c7ca7f8ae3",
+        "bytes": 2178311,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0705",
       "name": "side bridge v. 2",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.948Z",
+      "artifact": {
+        "file": "cards/0705-v1.png",
+        "sha256": "eac419fa6abbfe18b89e0a5fd23e1cfbaab8d769382f1b6cafd0e6566bd4161a",
+        "bytes": 2170307,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0709",
@@ -7400,11 +7686,24 @@
       "id": "3645",
       "name": "single leg bridge with outstretched leg",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/3645-v1.png",
+        "sha256": "53bf5b51c311405daed1dfeaeab609570679e34fd5368de4e232d20f5ed31d7d",
+        "bytes": 2228986,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "0727",
@@ -7452,11 +7751,24 @@
       "id": "3679",
       "name": "sit-up with arms on chest",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/3679-v1.png",
+        "sha256": "652305c82d0fa7ad91bb07fadaf4dc7c8658c4959646a1c9523714159a8f3acc",
+        "bytes": 1993750,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3361",
@@ -7891,11 +8203,24 @@
       "id": "2329",
       "name": "spine twist",
       "equipment": "body weight",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/2329-v1.png",
+        "sha256": "503db666020a1975914c1eca71064c118aab8716db7824fad9d7a231f9fc7cb4",
+        "bytes": 2157196,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "2368",
@@ -8489,11 +8814,24 @@
       "id": "0857",
       "name": "wheel rollerout",
       "equipment": "wheel roller",
-      "status": "in_progress",
+      "status": "generated_review_pending",
       "batch": "nick-core-20261121-next25",
       "claimedAt": "2026-11-21T16:39:13.791Z",
       "claimOwner": "owner-directed-next25-20261121",
-      "deployed": false
+      "deployed": false,
+      "generated": true,
+      "generatedAt": "2026-11-21T17:10:48.949Z",
+      "artifact": {
+        "file": "cards/0857-v1.png",
+        "sha256": "f971349af872dc295a0833db4c930b1bd45f60dc7f16b483b5ea42e33d2c2763",
+        "bytes": 2074084,
+        "width": 1536,
+        "height": 1024,
+        "version": 1
+      },
+      "operatorReviewed": true,
+      "reviewScope": "AI-generated illustration visually inspected; qualified movement review and exact catalogue mapping acceptance pending.",
+      "releaseAccepted": false
     },
     {
       "id": "3637",
