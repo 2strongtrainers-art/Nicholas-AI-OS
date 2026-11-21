@@ -2,10 +2,11 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { MOVEMENT_ILLUSTRATIONS, MOVEMENT_REVIEW_STATUS, movementReferenceFor, movementFor } from './tv-movement-illustrations.mjs'
+import { CATALOGUE_ART_CORE } from './tv-catalogue-art-core.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -100,8 +101,27 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
+})
+
+
+test('Core artwork maps only the 38 reviewed IDs to verified derivative assets',()=>{
+ const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
+ const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
+ const assets=Object.values(CATALOGUE_ART_CORE)
+ assert.equal(assets.length,38)
+ assert.equal(new Set(assets.map(asset=>asset.url)).size,38)
+ for(const asset of assets){
+  assert.equal(movementFor(asset.id),asset)
+  assert.equal(catalogue.get(asset.id).n,asset.name)
+  assert.equal(catalogue.get(asset.id).eq,asset.equipment)
+  assert.match(asset.url,/^https:\/\/static\.wixstatic\.com\/media\/[A-Za-z0-9_~.-]+\.webp$/)
+  assert.deepEqual([asset.width,asset.height],[1536,1024])
+  assert.match(asset.sha256,/^[a-f0-9]{64}$/)
+  assert(asset.steps[0].length>30)
+ }
+ for(const id of ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466'])assert.equal(movementFor(id),null)
 })

@@ -9,7 +9,7 @@ if(!url){const types={'.html':'text/html','.js':'text/javascript','.css':'text/c
 try{
  browser=await(engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})})
  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});page=await context.newPage();page.setDefaultTimeout(20000);page.on('pageerror',e=>errors.push(e.message))
- const response=await fetch(url+'tv-catalogue-art-batch2.json'),manifest=await response.json();assert(manifest.assets.length===47,'Wrong new catalogue count')
+ const response=await fetch(url+'tv-catalogue-art-batch2.json'),manifest=await response.json();manifest.assets=manifest.assets.filter(a=>a.cropHeight);assert(manifest.assets.length===47,'Wrong previous catalogue count')
  const crypto=await import('node:crypto');const unique=new Map(manifest.assets.map(a=>[a.url,a]));assert(unique.size===23,'Unexpected atlas count')
  for(const [url,a]of unique){const response=await fetch(url);assert(response.ok,'Artwork HTTP '+response.status);const bytes=Buffer.from(await response.arrayBuffer());assert(bytes.length===a.bytes&&crypto.createHash('sha256').update(bytes).digest('hex')===a.sha256,'Public artwork digest mismatch')}
  await page.goto(url+'#/library',{waitUntil:'networkidle'});await page.getByTestId('tv-mode-all').click();const before=await page.evaluate(()=>localStorage.getItem('gym_state_v1'));const styles=new Set()

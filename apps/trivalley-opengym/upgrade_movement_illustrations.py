@@ -12,6 +12,7 @@ def edit(path,old,new):
     p.write_text(text.replace(old,new,1))
 shutil.copyfile(assets/'tv-catalogue-art-batch2.mjs',front/'src/lib/tv-catalogue-art-batch2.mjs')
 shutil.copyfile(assets/'tv-catalogue-art-abs-avatar.mjs',front/'src/lib/tv-catalogue-art-abs-avatar.mjs')
+shutil.copyfile(assets/'tv-catalogue-art-core.mjs',front/'src/lib/tv-catalogue-art-core.mjs')
 shutil.copyfile(assets/'MovementIllustration.jsx',front/'src/components/MovementIllustration.jsx')
 shutil.copyfile(assets/'tv-movement-illustrations.mjs',front/'src/lib/tv-movement-illustrations.js')
 shutil.copyfile(assets/'movement-illustrations.css',front/'src/movement-illustrations.css')

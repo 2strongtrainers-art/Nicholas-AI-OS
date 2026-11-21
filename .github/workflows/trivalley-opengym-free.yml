@@ -209,6 +209,8 @@ jobs:
           node "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/catalogue-art.png"
           cp apps/trivalley-opengym/abs_avatar_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/abs-avatar.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/abs-avatar.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/abs-avatar.png"
+          cp apps/trivalley-opengym/core_art_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/core-art.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/core-art.mjs" "$GITHUB_WORKSPACE/client-dist"
           cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
       - uses: actions/upload-artifact@v4
