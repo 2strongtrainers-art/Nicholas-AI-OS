@@ -93,7 +93,18 @@ a{color:#e8cea0;text-decoration-color:#9b7d51}footer{border-top:1px solid #34415
 <section class="card"><h2>My records and privacy</h2>
 <p>Your coach can only see accounts they are explicitly assigned. You can export your own coaching records and request deletion.</p>
 <div class="row"><button id="exportMine" class="secondary">Export my records</button><button id="deleteMine" class="secondary">Request data deletion</button></div>
-<p class="small" id="privacyStatus" aria-live="polite"></p></section>
+<p class="small" id="privacyStatus" aria-live="polite"></p>
+<hr class="divider">
+<h2>Protect unsynced workouts</h2>
+<p>Training logs waiting on this device are NOT included in the server export above. Save an encrypted copy before changing phones, clearing Safari data or uninstalling the app.</p>
+<div class="row">
+<button id="offlineExport" class="secondary" type="button" disabled>Save encrypted pending workouts</button>
+</div>
+<label for="offlineRestoreFile">Recover a saved pending-workout file</label>
+<input id="offlineRestoreFile" type="file" accept=".tvqueue,application/json">
+<button id="offlineImport" class="secondary" type="button" disabled>Import pending workout backup</button>
+<p id="offlineBackupStatus" class="small" role="status" aria-live="polite">Private offline queue is available after client sign-in.</p>
+</section>
 </section>
 <footer><div class="small">Secure staging pilot. Client enrollment and cloud workout submission are locked until launch checks finish. Do not enter sensitive medical information. Offline workout records remain on this browser until successfully synced; keep your own backup.</div>
 <p class="small" style="margin-top:13px"><a href="/#/home">Free workout companion</a> · <a href="https://www.trivalley.fit">TriValley.fit</a></p></footer>
