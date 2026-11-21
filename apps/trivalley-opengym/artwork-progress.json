@@ -3,51 +3,51 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 101,
+  "catalogueIllustrated": 120,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-core-20261121-third25",
-    "status": "GENERATED_PRIVATE_REVIEW_PENDING",
+    "id": "nick-core-20261121-fourth25",
+    "status": "CLAIMED_GENERATION_PENDING",
     "exactIds": [
-      "0002",
-      "0969",
-      "0972",
-      "0979",
-      "0981",
-      "0985",
-      "1002",
-      "0992",
-      "1011",
-      "1005",
-      "1007",
-      "1014",
-      "1015",
-      "0071",
-      "0094",
-      "0175",
-      "0873",
-      "0211",
-      "0212",
-      "0222",
-      "0223",
-      "0226",
-      "0874",
-      "0242",
-      "0243"
+      "1512",
+      "0007",
+      "1368",
+      "3293",
+      "3294",
+      "2355",
+      "2333",
+      "3214",
+      "0009",
+      "0011",
+      "0010",
+      "1708",
+      "1709",
+      "1710",
+      "0012",
+      "0013",
+      "0014",
+      "0015",
+      "0016",
+      "1713",
+      "1714",
+      "0017",
+      "1716",
+      "1712",
+      "1758"
     ],
     "newCatalogueEntries": 25,
-    "generatedCount": 25,
-    "operatorInspectedCount": 25,
+    "generatedCount": 0,
+    "operatorInspectedCount": 0,
     "acceptedCount": 0,
     "deployedCount": 0,
-    "observedLiveCoverage": 101,
-    "sourceRelease": "e08c749970f807bdef84e009908eee8c309b009f",
-    "claimedAt": "2026-11-21T20:01:00Z",
+    "observedLiveCoverage": 120,
+    "sourceRelease": "8427a0b33fc2c6df58df64e5f950a89bc06cc196",
+    "appVersion": "5.23.0",
+    "claimedAt": "2026-11-21T20:50:00Z",
     "claimOwner": "owner-directed-next-set-20261121",
-    "deliveryPackSha256": "25088ef108023862c3b21504bd4ac540b28689a331da2ef3efe81c6d80f641b5",
-    "nextStep": "Review exact source variations and equipment geometry; correct holds; integrate only passing cards through the existing publisher and verify build/mobile/offline/live bytes before promotion.",
-    "reviewScope": "Private generated likeness review. No production upload; qualified movement, physical iPhone and VoiceOver acceptance unverified."
+    "nextStep": "Fetch and inspect each exact source movement, generate 25 private review pairs using approved Nick Style 3 references, then deploy only cards that pass movement and creative review.",
+    "reviewScope": "Claimed only. No generated asset or production promotion may be inferred until exact-source review and live acceptance pass."
   },
   "entries": [
     {
@@ -66,9 +66,9 @@
     },
     {
       "id": "0002",
-      "name": "45° side bend",
+      "name": "45\u00b0 side bend",
       "equipment": "body weight",
-      "status": "generated_review_pending",
+      "status": "correction_hold",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
@@ -85,7 +85,8 @@
       },
       "operatorReviewed": true,
       "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": false,
+      "holdReason": "Source is a 45-degree bench side bend; generated card showed an unsupported standing variation."
     },
     {
       "id": "0003",
@@ -105,7 +106,13 @@
       "id": "1512",
       "name": "all fours squad stretch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0006",
@@ -125,43 +132,85 @@
       "id": "0007",
       "name": "alternate lateral pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1368",
       "name": "ankle circles",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "3293",
       "name": "archer pull up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "3294",
       "name": "archer push up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "2355",
       "name": "arm slingers hanging bent knee legs",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "2333",
       "name": "arm slingers hanging straight legs",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "3214",
       "name": "arms apart circular toe touch (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "3204",
@@ -190,103 +239,205 @@
       "id": "0009",
       "name": "assisted chest dip (kneeling)",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0011",
       "name": "assisted hanging knee raise",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0010",
       "name": "assisted hanging knee raise with throw down",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1708",
       "name": "assisted lying calves stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1709",
       "name": "assisted lying glutes stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1710",
       "name": "assisted lying gluteus and piriformis stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0012",
       "name": "assisted lying leg raise with lateral throw down",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0013",
       "name": "assisted lying leg raise with throw down",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0014",
       "name": "assisted motion russian twist",
       "equipment": "medicine ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0015",
       "name": "assisted parallel close grip pull-up",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0016",
       "name": "assisted prone hamstring",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1713",
       "name": "assisted prone lying quads stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1714",
       "name": "assisted prone rectus femoris stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "0017",
       "name": "assisted pull-up",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1716",
       "name": "assisted seated pectoralis major stretch with stability ball",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1712",
       "name": "assisted side lying adductor stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1758",
       "name": "assisted sit-up",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "deployed": false,
+      "generated": false,
+      "releaseAccepted": false,
+      "batch": "nick-core-20261121-fourth25",
+      "claimedAt": "2026-11-21T20:50:00Z",
+      "claimOwner": "owner-directed-next-set-20261121"
     },
     {
       "id": "1431",
@@ -370,7 +521,7 @@
       "id": "0969",
       "name": "band alternating v-up",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "correction_hold",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
@@ -387,7 +538,8 @@
       },
       "operatorReviewed": true,
       "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": false,
+      "holdReason": "Band path and alternating-leg mechanics did not match the source variation."
     },
     {
       "id": "0970",
@@ -417,24 +569,20 @@
       "id": "0972",
       "name": "band bicycle crunch",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0972.png",
-        "sha256": "c7173ddd1f7846c126664ec0554453e7d2e2bcef16dc414fe490f3a5ed2d949c",
-        "bytes": 2141892,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "c79ff88c71cb3c86f1401934ef86a76f11b2a97a0904468510dfc66281d013bf",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_e57e832463da407c8513e4500b2778a6~mv2.webp",
+      "assetBytes": 157606,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0974",
@@ -488,47 +636,39 @@
       "id": "0979",
       "name": "band horizontal pallof press",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0979.png",
-        "sha256": "67867e37e5d866b397dccfd122fdedf27f6c8821e1f627f4e050da5b13a355f9",
-        "bytes": 2075327,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "0ce59fa820689e5e729a08e1e38172acbb36678f9778836ad576e4549a8325c7",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_2ea97e7343374266a5e9656ffc5444ba~mv2.webp",
+      "assetBytes": 141618,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0981",
       "name": "band jack knife sit-up",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0981.png",
-        "sha256": "f96b8a37d4d1624b4546bbed69c83c5cb4fe979b449106d0981d48d0fd31ddf8",
-        "bytes": 2167884,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "7a36c36e65566a483ba701666ad048a0db280e8006ae5220a1378e6e41637894",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_56522160723c46faa04838f2c9421301~mv2.webp",
+      "assetBytes": 153634,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0983",
@@ -540,7 +680,7 @@
       "id": "0985",
       "name": "band kneeling twisting crunch",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "correction_hold",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
@@ -557,7 +697,8 @@
       },
       "operatorReviewed": true,
       "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": false,
+      "holdReason": "Source routes the band high over the shoulders; generated card used a low side anchor."
     },
     {
       "id": "0984",
@@ -569,24 +710,20 @@
       "id": "1002",
       "name": "band lying straight leg raise",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/1002.png",
-        "sha256": "96e9c58bb05eab0ce16cfb8d56dece7b3a5d5b6a8470605bb20b081c3dceccd5",
-        "bytes": 2039334,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "fb53cd24aaf86371b01403c19f8af4084a6f3ae413728592da5ebdf188dce18b",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_c99f29f5b7cb4ce48e1eba250adcb381~mv2.webp",
+      "assetBytes": 143926,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0986",
@@ -628,24 +765,20 @@
       "id": "0992",
       "name": "band push sit-up",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0992.png",
-        "sha256": "f994e0af49cbb2fe912a594d6016e65d2a1806582f372a97b8e91e99e0847a9e",
-        "bytes": 2154753,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "081911ae4d53c91c593d67d7188ddde51f0fdfd3716728082911f02610ae6897",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_bb09eb7e44fd454eae0a593eee1eb742~mv2.webp",
+      "assetBytes": 159204,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0993",
@@ -669,7 +802,7 @@
       "id": "1011",
       "name": "band seated twist",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "correction_hold",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
@@ -686,7 +819,8 @@
       },
       "operatorReviewed": true,
       "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": false,
+      "holdReason": "Source holds the band at the chest; generated card placed it around the waist."
     },
     {
       "id": "0997",
@@ -740,24 +874,20 @@
       "id": "1005",
       "name": "band standing crunch",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/1005.png",
-        "sha256": "98e736b6ac95e141195b8a036eb18c57641e8735222e81adc9d56f5f1104823a",
-        "bytes": 1965250,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "7850386422f57f3d5361af7bd4aa64c349e5d7833d689b5aad945a6b7814ea52",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_d8fec39ad9d64e6b8bbc82d8c18110cf~mv2.webp",
+      "assetBytes": 124516,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "1022",
@@ -769,24 +899,20 @@
       "id": "1007",
       "name": "band standing twisting crunch",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/1007.png",
-        "sha256": "fafa1b8820524fb947a18fad2c37ba05b29cb66b37713a364bac576509fb4120",
-        "bytes": 2060669,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "f2f59f0b516ab1c9e2cf693ab996f09704064ef6bd2c1cbd13b8b2825d00f3e7",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_5ac9d2b114f245a380a7bcc4bf9efa17~mv2.webp",
+      "assetBytes": 142900,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "1008",
@@ -834,7 +960,7 @@
       "id": "1014",
       "name": "band v-up",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "correction_hold",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
@@ -851,30 +977,27 @@
       },
       "operatorReviewed": true,
       "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": false,
+      "holdReason": "Source uses an external anchor; generated card incorrectly connected hands to feet."
     },
     {
       "id": "1015",
       "name": "band vertical pallof press",
       "equipment": "band",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/1015.png",
-        "sha256": "2aa5c6ae38d53e9d47a93c0a5a832bd74dfc8dd8c2d9b33c18d3e9036ec7dad6",
-        "bytes": 2030347,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "a69e51c3805d85977c7200c9a387237d10c6735af8ed7905b494e6162fb0403e",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_ff3602029eee44fc98e847bb0bcfc505~mv2.webp",
+      "assetBytes": 133992,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "1016",
@@ -1294,24 +1417,20 @@
       "id": "0071",
       "name": "barbell press sit-up",
       "equipment": "barbell",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0071.png",
-        "sha256": "075104c081e66bd02f7d993a3b7a0abbe4fc48fc7ec5ae0cb71e615bca64bb90",
-        "bytes": 2075525,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "dd657cf984c48d4aa4e0d79d834dcd2b9f5d1e3028a36ad32b0fdc26e872807d",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_75652b11559f48908862dccfbe8c4139~mv2.webp",
+      "assetBytes": 146866,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0072",
@@ -1500,24 +1619,20 @@
       "id": "0094",
       "name": "barbell seated twist",
       "equipment": "barbell",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0094.png",
-        "sha256": "6ed440fe9a9b0d74ce165c3f6b5f00b50f78097dda44429742e1958f13e7413d",
-        "bytes": 2123887,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "393b2ec61fe732d68d97b28120078fd6a2c84692daf39d508eddec8b735a7838",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_b746a9bbafb7453ba32ce154440f4651~mv2.webp",
+      "assetBytes": 151490,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0095",
@@ -2283,24 +2398,20 @@
       "id": "0175",
       "name": "cable kneeling crunch",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0175.png",
-        "sha256": "4e9b22029dd517838cc5afd221f5f7f69b1aedc03de029018e12f4b4c6e7b0a7",
-        "bytes": 2012279,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "c2bf620f696b7b8f3fcdb86d2a8b0142877fc7975a00e0ea60aabe3451b850fb",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_a9f64d1a056d4addbc28e55dac30dac8~mv2.webp",
+      "assetBytes": 136110,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "3697",
@@ -2612,24 +2723,20 @@
       "id": "0873",
       "name": "cable reverse crunch",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0873.png",
-        "sha256": "344d6e6960b74bf93504ed7752593fbfbf80db41aa0076e94f5cc413be81f75a",
-        "bytes": 2133930,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "7ff2ac2fa0c15eb70ea3bcbf109c6ad1bdbc85310f0d41137b231ad8bca277ef",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_51770c1dbc3b45efbe2274b1e482296e~mv2.webp",
+      "assetBytes": 154928,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0206",
@@ -2731,24 +2838,20 @@
       "id": "0211",
       "name": "cable russian twists (on stability ball)",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0211.png",
-        "sha256": "b2acfeeb5bc7ac407dfaaecdf6d7c9cce76d9f99917fdbd8688b5172820a6e49",
-        "bytes": 2138465,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "b4d7a8d201c6b8cf381beab4e6d7bb381631d9c4228ac3159e130c8b4a45cab3",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_cc360b3bef62488085f1a848acc8241f~mv2.webp",
+      "assetBytes": 161874,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "2144",
@@ -2760,24 +2863,20 @@
       "id": "0212",
       "name": "cable seated crunch",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0212.png",
-        "sha256": "34a4d662b287405128ecbfdc97d375227a11c845a2d352e4ffdc9044f326fd0c",
-        "bytes": 2060641,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "ec92941cf853d30e5cc8c00afa65278f2e1e29d96c06437ea5fbfcf96a47d169",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_22a54e757cb94544a00483ef9708d4bf~mv2.webp",
+      "assetBytes": 138432,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "1641",
@@ -2865,24 +2964,20 @@
       "id": "0222",
       "name": "cable side bend",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0222.png",
-        "sha256": "1083217e990d869733c462fce5f110404497be315a1055fd98309816e372632b",
-        "bytes": 1990599,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "e9bc3951bd012ac0696a5c74fc30247a0a09a6c7cc16b5357e42760046144318",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_8902c122e5e0464280816219963ccd27~mv2.webp",
+      "assetBytes": 129294,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0221",
@@ -2894,24 +2989,20 @@
       "id": "0223",
       "name": "cable side crunch",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0223.png",
-        "sha256": "511ee62090e159961614b3cf9f0b12e4fe8eb3ac7778cb999bf899aeb520d2d3",
-        "bytes": 1936319,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "9aacc24e43431a3ae89bf2964d24122c2035387b545ec9c8923a72832c5aa454",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_9b019586aee0444da4b6b40e6bb5297a~mv2.webp",
+      "assetBytes": 128126,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "1717",
@@ -2947,7 +3038,7 @@
       "id": "0226",
       "name": "cable standing crunch",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "correction_hold",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
@@ -2964,30 +3055,27 @@
       },
       "operatorReviewed": true,
       "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": false,
+      "holdReason": "Generated setup duplicated the rope geometry of 0874 instead of the catalogue's distinct attachment."
     },
     {
       "id": "0874",
       "name": "cable standing crunch (with rope attachment)",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0874.png",
-        "sha256": "ff34ff89c2e8692fab27da5fbb2219df865ed91608b71ca429e93a57dce44e7a",
-        "bytes": 2013194,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "14d05864853814cead89595a37fad985fb328bf612fb6011151526e31dd81bef",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_7de2e1dbe83145c4b895e1e15dea7ec9~mv2.webp",
+      "assetBytes": 139094,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0227",
@@ -3113,47 +3201,39 @@
       "id": "0242",
       "name": "cable tuck reverse crunch",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0242.png",
-        "sha256": "11769c4eafaab1460ee98825ba3061e8fce9c14cdf8dc2d255eccb7ea29da366",
-        "bytes": 2073453,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "20af07ee4e75d37a53f4c1e13448b563d2ff28dbe916e9c8d62f0199ca3c754f",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_d106f847bc784b74ba45d14203bc24fb~mv2.webp",
+      "assetBytes": 149240,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0243",
       "name": "cable twist",
       "equipment": "cable",
-      "status": "generated_review_pending",
+      "status": "deployed",
       "batch": "nick-core-20261121-third25",
       "claimedAt": "2026-11-21T20:01:00Z",
       "claimOwner": "owner-directed-next-set-20261121",
-      "deployed": false,
+      "deployed": true,
       "generated": true,
       "generatedAt": "2026-11-21T20:01:00Z",
-      "artifact": {
-        "file": "cards/0243.png",
-        "sha256": "b310363cda388e791407fadc62d7efd59dca60411daf119d15809de148d0766b",
-        "bytes": 2029492,
-        "width": 1536,
-        "height": 1024,
-        "version": 1
-      },
       "operatorReviewed": true,
-      "reviewScope": "Contact-sheet review completed; exact source-variation and qualified movement acceptance remain pending.",
-      "releaseAccepted": false
+      "releaseAccepted": true,
+      "appVersion": "5.23.0",
+      "assetSha256": "81a7be3592f86272207c797c10a72da0ddebf5d03726e5552866d3d21ff47ecb",
+      "assetUrl": "https://static.wixstatic.com/media/856ae2_0028868ca4cc4aa28a8f7222b2d70880~mv2.webp",
+      "assetBytes": 135570,
+      "releaseSource": "8427a0b33fc2c6df58df64e5f950a89bc06cc196"
     },
     {
       "id": "0862",
@@ -8575,13 +8655,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45в° calf press",
+      "name": "sled 45\u0432\u00b0 calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45в° leg press",
+      "name": "sled 45\u0432\u00b0 leg press",
       "equipment": "sled machine",
       "status": "deployed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -8597,19 +8677,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45в° leg press (back pov)",
+      "name": "sled 45\u0432\u00b0 leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45° leg press (side pov)",
+      "name": "sled 45\u00b0 leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45в° leg wide press",
+      "name": "sled 45\u0432\u00b0 leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -9366,7 +9446,7 @@
       "generated": true,
       "operatorVisualReview": "Inspected; private review candidate. Canonical movement variation and qualified review pending.",
       "releaseAccepted": false,
-      "reviewScope": "The demonstration uses a captain’s chair with the knees folded at the finish. This candidate shows straight horizontal legs."
+      "reviewScope": "The demonstration uses a captain\u2019s chair with the knees folded at the finish. This candidate shows straight horizontal legs."
     },
     {
       "id": "2141",
@@ -9999,7 +10079,71 @@
       "observedAt": "2026-11-21T19:22:46.335Z",
       "nextStep": "Correct the 12 specific pose holds before generating new IDs; do not re-upload the 38 verified WebP assets.",
       "reviewScope": "Owner-approved artwork checked in Chromium and WebKit. Artwork is generated. Physical iPhone and independent qualified movement review remain unverified."
+    },
+    {
+      "id": "nick-core-20261121-third25",
+      "status": "PARTIAL_LIVE_VERIFIED",
+      "exactIds": [
+        "0002",
+        "0969",
+        "0972",
+        "0979",
+        "0981",
+        "0985",
+        "1002",
+        "0992",
+        "1011",
+        "1005",
+        "1007",
+        "1014",
+        "1015",
+        "0071",
+        "0094",
+        "0175",
+        "0873",
+        "0211",
+        "0212",
+        "0222",
+        "0223",
+        "0226",
+        "0874",
+        "0242",
+        "0243"
+      ],
+      "newCatalogueEntries": 25,
+      "generatedCount": 25,
+      "operatorInspectedCount": 25,
+      "acceptedCount": 19,
+      "deployedCount": 19,
+      "observedLiveCoverage": 120,
+      "sourceRelease": "8427a0b33fc2c6df58df64e5f950a89bc06cc196",
+      "claimedAt": "2026-11-21T20:01:00Z",
+      "claimOwner": "owner-directed-next-set-20261121",
+      "deliveryPackSha256": "25088ef108023862c3b21504bd4ac540b28689a331da2ef3efe81c6d80f641b5",
+      "nextStep": "Correct the six held movement variants; do not regenerate or re-upload the 19 verified cards.",
+      "reviewScope": "Exact source comparison plus Chromium/WebKit technical acceptance. Physical iPhone, VoiceOver and independent qualified movement review remain unverified.",
+      "heldIds": [
+        "0002",
+        "0969",
+        "0985",
+        "1011",
+        "1014",
+        "0226"
+      ],
+      "heldReasons": {
+        "0002": "Source is a 45-degree bench side bend; generated card showed an unsupported standing variation.",
+        "0969": "Band path and alternating-leg mechanics did not match the source variation.",
+        "0985": "Source routes the band high over the shoulders; generated card used a low side anchor.",
+        "1011": "Source holds the band at the chest; generated card placed it around the waist.",
+        "1014": "Source uses an external anchor; generated card incorrectly connected hands to feet.",
+        "0226": "Generated setup duplicated the rope geometry of 0874 instead of the catalogue's distinct attachment."
+      },
+      "appVersion": "5.23.0",
+      "hostedBuildRun": 44947539439,
+      "buildArtifact": 14724053847,
+      "artifactSha256": "d2869fe4a026b39bf3d6744357738cc739778381edeb48bb4956ed8fbaf02d60",
+      "observedAt": "2026-11-21T20:44:30Z"
     }
   ],
-  "catalogueQueued": 1223
+  "catalogueQueued": 1204
 }
