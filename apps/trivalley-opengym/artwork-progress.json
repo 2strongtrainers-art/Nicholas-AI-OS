@@ -3,40 +3,42 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 47,
+  "catalogueIllustrated": 53,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-catalogue-20261120-04",
-    "status": "SOURCE_REVIEWED_HOSTED_ACCEPTANCE_PENDING",
+    "id": "nick-abs-avatar-20261120-01",
+    "status": "REVIEWED_INTEGRATION_TESTS_PENDING_NOT_DEPLOYED",
     "exactIds": [
-      "0404",
-      "1379",
-      "0401",
-      "0381",
-      "0410",
-      "0375"
+      "0001",
+      "0003",
+      "0006",
+      "0262",
+      "0267",
+      "0276",
+      "3640",
+      "0687",
+      "0871",
+      "3639"
     ],
-    "newCatalogueEntries": 6,
-    "priorCatalogueIllustrated": 47,
-    "targetCatalogueIllustrated": 53,
-    "appVersion": "5.20.1",
+    "newCatalogueEntries": 10,
+    "priorCatalogueIllustrated": 53,
+    "targetCatalogueIllustrated": 63,
+    "appVersion": "5.21.0",
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Operator visual review; no human movement certification. Corrected calf support and pullover shoulder movement before final acceptance.",
-    "supersededCandidate": {
-      "version": "5.20.0",
-      "sourceCommit": "76692142365971df757e77153c7b6ed4c05de55a",
-      "buildRunId": 44867047723,
-      "liveAcceptanceRunId": 44867427462,
-      "status": "Replaced after visual pullover correction despite passing technical QA."
-    }
+    "reviewScope": "Owner-authorized avatar face with Nick Style 3; original reference photographs kept private. Independent publisher active; recheck latest source and host before publishing."
   },
   "entries": [
     {
       "id": "0001",
       "name": "3/4 sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "32b32551548acb8c22bb9bd870fd5d464a8bee5c10bf90098c94f0881b335f8d",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0002",
@@ -48,7 +50,12 @@
       "id": "0003",
       "name": "air bike",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "b247b39eb1d684271ac8e4b55f0c4122cf25890fc570e582549b5f80e211df60",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1512",
@@ -60,7 +67,12 @@
       "id": "0006",
       "name": "alternate heel touchers",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "65707f303e7767fb22dd4b851837494d27c31a70e208b3ab32591bcc74912f26",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0007",
@@ -1524,7 +1536,12 @@
       "id": "3639",
       "name": "bent knee lying twist (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "752c65d5ec7e7a6a3b4daf9ed0135a97ea7ff86db5b06dcfc44d233841482ca2",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1770",
@@ -2745,13 +2762,23 @@
       "id": "0262",
       "name": "cross body crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "3d26efe06e2b4a7504107e1c4649b1762c0919d744b4c1549851439d0fd3f4ef",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0267",
       "name": "crunch (hands overhead)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "b16491d5971fa653d6f098a879d8bfc4220052d548035611ef82a0ba8ed5d02f",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0271",
@@ -2796,7 +2823,12 @@
       "id": "0276",
       "name": "dead bug",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "1758bcec5d1383699eb7d1603db25dbc75739862eab5394aebccedf30e3c3acc",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0277",
@@ -5637,7 +5669,12 @@
       "id": "3640",
       "name": "knee touch crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "fadb51c009ccd7f6a07531749beb8297122feab19cc5569910dafbda898ec245",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1420",
@@ -6852,7 +6889,12 @@
       "id": "0687",
       "name": "russian twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "11b1b3cc815362f6c1b691e97a59c9dc9f403d7bc0d71c04a08013d36fb11a1b",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3012",
@@ -7767,7 +7809,12 @@
       "id": "0871",
       "name": "tuck crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "batch": "nick-abs-avatar-20261120-01",
+      "assetSha256": "b8341af45885f9cca401df5fa89066488b70abc28000dabc038eabee11f02327",
+      "appVersion": "5.21.0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0818",
@@ -8211,7 +8258,40 @@
       "liveAcceptanceRunId": 44845376841,
       "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
       "observedAt": "2026-11-21T00:42:35.152464+00:00"
+    },
+    {
+      "id": "nick-catalogue-20261120-04",
+      "status": "SOURCE_REVIEWED_HOSTED_ACCEPTANCE_PENDING",
+      "exactIds": [
+        "0404",
+        "1379",
+        "0401",
+        "0381",
+        "0410",
+        "0375"
+      ],
+      "newCatalogueEntries": 6,
+      "priorCatalogueIllustrated": 47,
+      "targetCatalogueIllustrated": 53,
+      "appVersion": "5.20.1",
+      "physicalIPhone": "UNVERIFIED",
+      "reviewScope": "Operator visual review; no human movement certification. Corrected calf support and pullover shoulder movement before final acceptance.",
+      "supersededCandidate": {
+        "version": "5.20.0",
+        "sourceCommit": "76692142365971df757e77153c7b6ed4c05de55a",
+        "buildRunId": 44867047723,
+        "liveAcceptanceRunId": 44867427462,
+        "status": "Replaced after visual pullover correction despite passing technical QA."
+      },
+      "continuationNote": "Concurrent publisher observed live 5.20.1 at d09422be10ecac0aa8505047a29f58b3304b0f03; preserve its six entries and receipts."
     }
   ],
-  "catalogueQueued": 1277
+  "catalogueQueued": 1271,
+  "liveObservation": {
+    "version": "5.20.1",
+    "sourceCommit": "d09422be10ecac0aa8505047a29f58b3304b0f03",
+    "catalogueIllustrated": 53,
+    "catalogueQueued": 1271,
+    "scope": "Native release metadata observed; no new ten-card batch deployment claimed"
+  }
 }

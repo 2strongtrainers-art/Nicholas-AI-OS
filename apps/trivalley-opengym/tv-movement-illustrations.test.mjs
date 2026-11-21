@@ -5,7 +5,7 @@ import { MOVEMENT_ILLUSTRATIONS, MOVEMENT_REVIEW_STATUS, movementReferenceFor, m
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,53)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -48,7 +48,7 @@ test('Press captions and close-grip row instructions match the revised image seq
 
 test('Latest batch binds six reviewed catalogue IDs to valid disjoint image regions and exact equipment',()=>{
  const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
- const ids=progress.currentBatch.exactIds
+ const ids=['0404','1379','0401','0381','0410','0375']
  assert.equal(ids.length,6);assert.equal(new Set(ids).size,6)
  const regions=new Set()
  for(const id of ids){
@@ -78,6 +78,30 @@ test('Start/Finish art is visible in preview, active posters and Focus without m
   assert.match(phaseInstaller,/MovementIllustration ex=\{ex\} poster/)
   assert.match(tools,/MovementIllustration ex=\{ex\} poster/)
   assert.match(css,/\.tv-movement-poster/)
-  assert.equal(MOVEMENT_REVIEW_STATUS['0001'], undefined) // queued artwork must never appear as Nick
-  assert.equal(movementFor('0001'),null)
+  assert.equal(MOVEMENT_REVIEW_STATUS['0002'], undefined) // queued artwork must never appear as Nick
+  assert.equal(movementFor('0002'),null)
+})
+
+test('Avatar abs batch uses ten real exact catalogue IDs without replacing the previous 53',()=>{
+ const expected=['0001','0003','0006','0262','0267','0276','3640','0687','0871','3639']
+ const cataloguePath=process.env.TV_CATALOGUE_PATH
+ if(!cataloguePath) throw new Error('TV_CATALOGUE_PATH required for exact-ID artwork validation')
+ const source=fs.readFileSync(cataloguePath,'utf8')
+ const catalogue=JSON.parse(source.slice(source.indexOf('[')).trim().replace(/;$/,''))
+ const urls=new Set()
+ for(const id of expected){
+  const row=catalogue.find(e=>e.id===id),art=movementFor(id)
+  assert.ok(row&&art);assert.equal(art.name,row.n);assert.equal(art.equipment,row.eq)
+  assert.equal(art.equipment,'body weight');assert.equal(art.steps.length,3)
+  assert.equal(art.top,0);assert.equal(art.cropHeight,art.height)
+  assert.equal(art.width,1536);assert.equal(art.height,1024)
+  assert.match(art.sha256,/^[a-f0-9]{64}$/);assert.ok(art.bytes>100000)
+  assert.match(art.review.identity,/avatar portrait/);assert.match(art.review.movement,/unverified/)
+  urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
+ }
+ assert.equal(urls.size,10)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)).length,53)
+ assert.match(movementFor('0276').steps[1],/opposite leg/)
+ assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
+ assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
 })

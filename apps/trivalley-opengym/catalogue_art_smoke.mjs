@@ -9,8 +9,8 @@ if(!url){const types={'.html':'text/html','.js':'text/javascript','.css':'text/c
 try{
  browser=await(engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})})
  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});page=await context.newPage();page.setDefaultTimeout(20000);page.on('pageerror',e=>errors.push(e.message))
- const response=await fetch(url+'tv-catalogue-art-batch2.json'),manifest=await response.json();assert(manifest.assets.length===37,'Wrong new catalogue count')
- const crypto=await import('node:crypto');const unique=new Map(manifest.assets.map(a=>[a.url,a]));assert(unique.size===13,'Unexpected atlas count')
+ const response=await fetch(url+'tv-catalogue-art-batch2.json'),manifest=await response.json();assert(manifest.assets.length===47,'Wrong new catalogue count')
+ const crypto=await import('node:crypto');const unique=new Map(manifest.assets.map(a=>[a.url,a]));assert(unique.size===23,'Unexpected atlas count')
  for(const [url,a]of unique){const response=await fetch(url);assert(response.ok,'Artwork HTTP '+response.status);const bytes=Buffer.from(await response.arrayBuffer());assert(bytes.length===a.bytes&&crypto.createHash('sha256').update(bytes).digest('hex')===a.sha256,'Public artwork digest mismatch')}
  await page.goto(url+'#/library',{waitUntil:'networkidle'});await page.getByTestId('tv-mode-all').click();const before=await page.evaluate(()=>localStorage.getItem('gym_state_v1'));const styles=new Set()
  for(const art of manifest.assets){
@@ -23,11 +23,11 @@ try{
   if(art.id==='0662')await page.screenshot({path:shot,fullPage:false})
   await page.getByRole('button',{name:'Close exercise details',exact:true}).click();await page.locator('#modal-root').waitFor({state:'detached'})
  }
- assert(styles.size===2,'Requested style mix missing');assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===before,'Reading artwork changed training data')
+ assert(styles.size===3,'Requested style mix missing');assert(await page.evaluate(()=>localStorage.getItem('gym_state_v1'))===before,'Reading artwork changed training data')
  await page.getByTestId('tv-library-search').fill('pull-up');await page.locator('[data-ex-id="0652"] .tv-exercise-open').click();await page.locator('[data-exercise-id="0652"] img').scrollIntoViewIfNeeded()
  const pull=manifest.assets.find(a=>a.id==='0652');await page.waitForFunction(async url=>!!(await caches.match(url)),pull.url,{timeout:45000})
  const cacheSizes=await page.evaluate(async()=>{const names=(await caches.keys()).filter(n=>n.endsWith('-catalogue-art'));return Promise.all(names.map(async name=>(await (await caches.open(name)).keys()).length))});assert(cacheSizes.length===1&&cacheSizes[0]<=12,'Artwork cache unbounded')
  await page.addScriptTag({path:new URL('node_modules/axe-core/axe.min.js',import.meta.url).pathname});const violations=await page.evaluate(async()=>{const r=await axe.run('#modal-root',{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}});return r.violations.map(v=>v.id)});assert(!violations.length,'Accessibility '+violations.join(','))
  await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.getByTestId('tv-mode-all').click();await page.getByTestId('tv-library-search').fill('pull-up');await page.locator('[data-ex-id="0652"] .tv-exercise-open').click();await page.locator('[data-exercise-id="0652"] img').scrollIntoViewIfNeeded();await page.waitForFunction(()=>{const i=document.querySelector('[data-exercise-id="0652"] img');return i?.complete&&i.naturalWidth>0});await context.setOffline(false)
- assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'CATALOGUE_ART_BATCH2_PASS',engine,newExactIds:37,totalIllustrated:53,remaining:1271,checks:['37 exact-ID views','thirteen public asset digests','two likeness styles','undistorted correct image regions','320/390/430 reflow','no workout mutation','automated accessibility','on-demand cache bounded to12','viewed artwork offline'],physicalIPhone:'UNVERIFIED'}))
+ assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'CATALOGUE_ART_BATCH2_PASS',engine,newExactIds:47,totalIllustrated:63,remaining:1261,checks:['47 exact-ID views','twenty-three public asset digests','two historical styles plus owner-approved avatar face','undistorted correct image regions','320/390/430 reflow','no workout mutation','automated accessibility','on-demand cache bounded to12','viewed artwork offline'],physicalIPhone:'UNVERIFIED'}))
 }catch(e){console.error(JSON.stringify({error:e.message,engine,page:page?await page.locator('body').innerText().catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true}).catch(()=>{});throw e}finally{await browser?.close();if(server)await new Promise(r=>server.close(r))}

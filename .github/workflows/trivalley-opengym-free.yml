@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feat/trivalley-opengym-free-20261116
+      - feat/trivalley-abs-avatar-20261120
     paths:
       - 'apps/trivalley-opengym/**'
       - '.github/workflows/trivalley-opengym-free.yml'
