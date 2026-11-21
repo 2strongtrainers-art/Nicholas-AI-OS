@@ -209,6 +209,13 @@ export class CoachingService {
         return {assignment:clone(assignment),program:p?clone(p):null};
       });
   }
+  coachPrograms(actor) {
+    const {a}=this.requireCoach(actor);
+    return [...this.store.programs.values()]
+      .filter(p=>p.orgId===a.orgId && p.coachId===a.sub)
+      .map(p=>clone(p))
+      .sort((x,y)=>y.createdAt.localeCompare(x.createdAt)||x.id.localeCompare(y.id));
+  }
   coachClients(actor) {
     const {a}=this.requireCoach(actor);
     const ids=new Set([...this.store.assignments.values()].filter(x=>x.orgId===a.orgId&&x.coachId===a.sub&&x.status==='active').map(x=>x.clientId));
