@@ -124,7 +124,7 @@ try {
   await page.waitForFunction(() => document.body.innerText.includes('Quick check-in'));
   await page.evaluate(() => [...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start without weighing in')).click());
   await page.waitForSelector('[data-testid="tv-poster-active"]');
-  const livePhotos=await page.$eval('[data-testid="tv-poster-active"] [data-testid="tv-movement-figure"]',nodes=>nodes.map(n=>({id:n.dataset.exerciseId,
+  const livePhotos=await page.evaluate(()=>[...document.querySelectorAll('[data-testid="tv-poster-active"] [data-testid="tv-movement-figure"]')].map(n=>({id:n.dataset.exerciseId,
     labels:[...n.querySelectorAll('.tv-movement-phases strong')].map(s=>s.textContent)})));
   assert(livePhotos.length===5 && livePhotos.every(n=>n.id&&n.labels.join('/')==='START/FINISH'),
     'Start/Finish likeness references absent during active workout');
