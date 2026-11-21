@@ -45,7 +45,8 @@ try {
     assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256)
   }))
   browser = await (engine === 'webkit' ? webkit : chromium).launch({
-    headless:true, ...(engine === 'chromium' ? {executablePath:process.env.TV_CHROMIUM_BIN || undefined,args:['--no-sandbox']} : {})
+    headless:true, ...(process.env.TV_BROWSER_PROXY ? {proxy:{server:process.env.TV_BROWSER_PROXY,bypass:'127.0.0.1,localhost'}} : {}),
+    ...(engine === 'chromium' ? {executablePath:process.env.TV_CHROMIUM_BIN || undefined,args:['--no-sandbox']} : {})
   })
   const context = await browser.newContext({ viewport:{width:390,height:844}, deviceScaleFactor:2, isMobile:true, hasTouch:true })
   const page = await context.newPage()
@@ -82,8 +83,7 @@ try {
     const preview=page.getByTestId('tv-poster-preview')
     for(const asset of assets.slice(i*8,(i+1)*8)) await checkFigure(preview,asset)
     if(i===batches-1) break
-    await page.keyboard.press('Escape')
-    if(await preview.isVisible()) await page.getByRole('button',{name:/close workout preview/i}).click()
+    await preview.getByTestId('tv-poster-back').click()
   }
   assert.deepEqual(await read(),initial,'Preview changed synthetic training state')
   for(const width of [320,390,430]){
