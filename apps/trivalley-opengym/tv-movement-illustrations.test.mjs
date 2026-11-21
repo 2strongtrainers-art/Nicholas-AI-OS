@@ -64,3 +64,20 @@ test('Latest batch binds six reviewed catalogue IDs to valid disjoint image regi
  assert.notEqual(movementFor('0417').top,movementFor('1373').top)
  assert.equal(movementFor('custom-0662'),null)
 })
+
+test('Start/Finish art is visible in preview, active posters and Focus without mixing portrait and technique',()=>{
+  const component=fs.readFileSync(new URL('./MovementIllustration.jsx',import.meta.url),'utf8')
+  const phaseInstaller=fs.readFileSync(new URL('./upgrade_movement_illustrations.py',import.meta.url),'utf8')
+  const tools=fs.readFileSync(new URL('./upgrade_workout_tools.py',import.meta.url),'utf8')
+  const css=fs.readFileSync(new URL('./movement-illustrations.css',import.meta.url),'utf8')
+  assert.match(component,/poster = false/)
+  assert.match(component,/<strong>START<\/strong>/)
+  assert.match(component,/<strong>FINISH<\/strong>/)
+  assert.match(component,/if \(!asset\) return null/)
+  assert.match(component,/AI-generated likeness illustration/)
+  assert.match(phaseInstaller,/MovementIllustration ex=\{ex\} poster/)
+  assert.match(tools,/MovementIllustration ex=\{ex\} poster/)
+  assert.match(css,/\.tv-movement-poster/)
+  assert.equal(MOVEMENT_REVIEW_STATUS['0001'], undefined) // queued artwork must never appear as Nick
+  assert.equal(movementFor('0001'),null)
+})
