@@ -149,6 +149,8 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <label for="backupFile">Verify a saved encrypted backup (read-only)</label>
 <input id="backupFile" type="file" accept=".tvfitbackup,application/json" aria-label="Choose encrypted coaching backup file to check">
 <button id="verifyBackup" class="secondary" type="button">Verify selected backup</button>
+<button id="testRestore" class="secondary" type="button" disabled>Test database restore on a disposable copy</button>
+<p class="small">The restore test temporarily copies the decrypted backup into isolated PostgreSQL storage, checks its contents, and discards the copy. It never overwrites live records.</p>
 </div>
 </div>
 </section>
