@@ -27,6 +27,226 @@ async function apiGet(path) {
   }
   return body;
 }
+
+// Exact 3-day split IDs copied from the pinned TriValley guest-app programme.
+// These are opt-in, private owner drafts only; creation sends no invitations or assignments.
+const PILOT_DAYS=[
+  {
+    "title": "Back & Biceps",
+    "description": "TriValley 3-Day Muscle Split: vertical and horizontal pulls, rear shoulders and curls. Private pilot draft.",
+    "exercises": [
+      [
+        "2330",
+        3,
+        8,
+        12,
+        120
+      ],
+      [
+        "0861",
+        3,
+        8,
+        12,
+        120
+      ],
+      [
+        "0383",
+        2,
+        12,
+        15,
+        75
+      ],
+      [
+        "0294",
+        3,
+        10,
+        12,
+        75
+      ],
+      [
+        "0313",
+        2,
+        10,
+        12,
+        75
+      ]
+    ]
+  },
+  {
+    "title": "Chest & Triceps",
+    "description": "TriValley 3-Day Muscle Split: chest, shoulders and triceps. Private pilot draft.",
+    "exercises": [
+      [
+        "0289",
+        3,
+        8,
+        12,
+        120
+      ],
+      [
+        "0314",
+        3,
+        8,
+        12,
+        120
+      ],
+      [
+        "0405",
+        2,
+        8,
+        12,
+        120
+      ],
+      [
+        "0334",
+        2,
+        12,
+        15,
+        75
+      ],
+      [
+        "0200",
+        3,
+        10,
+        15,
+        75
+      ],
+      [
+        "0194",
+        2,
+        10,
+        15,
+        75
+      ]
+    ]
+  },
+  {
+    "title": "Legs",
+    "description": "TriValley 3-Day Muscle Split: lower-body strength and posterior chain. Private pilot draft.",
+    "exercises": [
+      [
+        "0739",
+        3,
+        8,
+        12,
+        120
+      ],
+      [
+        "1459",
+        3,
+        8,
+        12,
+        120
+      ],
+      [
+        "0586",
+        3,
+        10,
+        15,
+        90
+      ],
+      [
+        "0585",
+        2,
+        10,
+        15,
+        75
+      ],
+      [
+        "0605",
+        3,
+        12,
+        15,
+        75
+      ]
+    ]
+  }
+];
+async function apiPost(path,payload) {
+  if(!token)throw new Error("NO_SESSION");
+  const response=await fetch(API+path,{
+    method:"POST",
+    headers:{"authorization":"Bearer "+token,"content-type":"application/json",accept:"application/json"},
+    body:JSON.stringify(payload),
+    credentials:"omit",cache:"no-store",redirect:"error"
+  });
+  const body=await response.json().catch(()=>({}));
+  if(!response.ok){
+    const code=typeof body.error==="string"&&/^[A-Z_]{2,45}$/.test(body.error)?body.error:"REQUEST_DENIED";
+    throw new Error("HTTP_"+response.status+"_"+code);
+  }
+  return body;
+}
+function makeEntry(program) {
+  const item=document.createElement("li");
+  item.className="program-entry";
+  const title=document.createElement("strong");
+  title.textContent=program.title;
+  const details=document.createElement("small");
+  details.textContent=program.exercises.length+" exercises · "+(program.status==="published"?"Published, unassigned":"Private draft");
+  item.append(title,details);
+  if(program.status==="draft"){
+    const publish=document.createElement("button");
+    publish.className="secondary";
+    publish.type="button";
+    publish.textContent="Publish for future assignment";
+    publish.addEventListener("click",async()=>{
+      if(!window.confirm("Publish "+program.title+"? This does not assign it to any client."))return;
+      publish.disabled=true;
+      try{
+        await apiPost("/v1/coach/programs/"+encodeURIComponent(program.id)+"/publish",{});
+        el("programNotice").textContent=program.title+" published privately. No client has been assigned.";
+        await refreshPrograms();
+      }catch{
+        el("programNotice").textContent="Publish was blocked. Your other programs were not changed.";
+        publish.disabled=false;
+      }
+    });
+    item.append(publish);
+  }
+  return item;
+}
+async function refreshPrograms(){
+  const response=await apiGet("/v1/coach/programs");
+  if(!Array.isArray(response.programs))throw Error("INVALID_PROGRAM_LIST");
+  const programs=response.programs;
+  el("programList").replaceChildren(...programs.map(makeEntry));
+  const complete=PILOT_DAYS.every(day=>programs.some(p=>p.title===day.title));
+  el("createSplit").disabled=complete;
+  el("createSplit").textContent=complete?"Three-day split saved":"Create my three private drafts";
+  el("programNotice").textContent=programs.length
+    ?programs.length+" saved private coaching program"+(programs.length===1?"":"s")+"."
+    :"No private programs yet. Create your three drafts when ready.";
+  return programs;
+}
+el("createSplit").addEventListener("click",async()=>{
+  const button=el("createSplit");
+  button.disabled=true;
+  el("programNotice").textContent="Saving your private training drafts...";
+  let created=0;
+  try{
+    const current=await apiGet("/v1/coach/programs");
+    if(!Array.isArray(current.programs))throw Error("INVALID_PROGRAM_LIST");
+    const present=new Set(current.programs.map(p=>p.title));
+    for(const day of PILOT_DAYS) {
+      if(present.has(day.title))continue;
+      const exercises=day.exercises.map(([exerciseId,sets,low,high,restSeconds])=>({
+        exerciseId,sets,reps:high,restSeconds,
+        coachCue:"Target "+low+"–"+high+" controlled reps, adjust effort to recovery."
+      }));
+      await apiPost("/v1/coach/programs",{
+        title:day.title,description:day.description,exercises
+      });
+      created++;
+    }
+    await refreshPrograms();
+    status(created+" new private program drafts saved. No clients assigned.","success");
+  }catch{
+    el("programNotice").textContent="Could not finish creating all drafts. Saved drafts are kept; refresh and retry to avoid duplicates.";
+    button.disabled=false;
+  }
+});
+
 async function showCoach() {
   const me=await apiGet("/v1/me");
   if(me?.member?.role!=="coach")throw new Error("This member is not approved for the coaching role");
@@ -37,6 +257,9 @@ async function showCoach() {
   el("login-panel").hidden=true;
   el("workspace").hidden=false;
   status("Wix member and protected coaching API verified. No client records have been migrated.","success");
+  try{await refreshPrograms()}catch{
+    el("programNotice").textContent="Private programme library is currently unavailable. Coaching login still verified.";
+  }
 }
 el("login").addEventListener("click",async()=>{
   el("login").disabled=true;
@@ -59,6 +282,7 @@ el("reload").addEventListener("click",async()=>{
 el("endSession").addEventListener("click",()=>{
   token=null;
   login.cancel();
+  el("programList").replaceChildren();
   el("workspace").hidden=true;
   el("login-panel").hidden=false;
   el("login").disabled=false;
