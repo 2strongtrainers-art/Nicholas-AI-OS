@@ -77,7 +77,13 @@ try {
   for (const [index, count] of [5,6,5].entries()) {
     await tapVisible('[data-testid="tv-preview-program-' + index + '"]');
     await page.waitForSelector('[data-testid="tv-program-detail"]');
-    assert(await page.$$eval('[data-testid="tv-poster-movement"]', n => n.length) === count,'Missing prescribed exercises in preview '+index);
+    assert(await page.$eval('[data-testid="tv-poster-movement"]', n => n.length) === count,'Missing prescribed exercises in preview '+index);
+    const phases=await page.$eval('[data-testid="tv-poster-movement"]',cards=>cards.map(card=>{
+      const figure=card.querySelector('[data-testid="tv-movement-figure"]');
+      return {id:figure?.dataset.exerciseId || null, labels:[...(figure?.querySelectorAll('.tv-movement-phases strong')||[])].map(n=>n.textContent)};
+    }));
+    assert(phases.length===count && phases.every(p=>p.id&&p.labels.join('/')==='START/FINISH'),'Nick Start/Finish visual missing in day preview '+index);
+
     assert(await page.$eval('[data-testid="tv-poster-start"]', n=>n.disabled),'Preview allowed replacement of active session');
     assert(await page.evaluate(() => localStorage.getItem('gym_state_v1')) === beforePreview,'Preview changed saved training data');
     await tapVisible('[data-testid="tv-poster-back"]');
@@ -118,10 +124,17 @@ try {
   await page.waitForFunction(() => document.body.innerText.includes('Quick check-in'));
   await page.evaluate(() => [...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start without weighing in')).click());
   await page.waitForSelector('[data-testid="tv-poster-active"]');
+  const livePhotos=await page.$eval('[data-testid="tv-poster-active"] [data-testid="tv-movement-figure"]',nodes=>nodes.map(n=>({id:n.dataset.exerciseId,
+    labels:[...n.querySelectorAll('.tv-movement-phases strong')].map(s=>s.textContent)})));
+  assert(livePhotos.length===5 && livePhotos.every(n=>n.id&&n.labels.join('/')==='START/FINISH'),
+    'Start/Finish likeness references absent during active workout');
   await page.$eval('[data-testid="tv-poster-set"]',b=>b.click());
   assert(await page.evaluate(() => !JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0].sets[0].done),'Poster allowed an unknown working load');
   await page.evaluate(() => [...document.querySelectorAll('button')].find(b=>b.textContent==='One exercise').click());
   await page.waitForSelector('[data-testid="tv-working-load-note"]');
+  assert(await page.$('[data-testid="tv-movement-figure"][data-exercise-id="2330"]'),
+    'Focus mode omitted Nick Start/Finish illustration for first exercise');
+
   assert(await page.$('[data-testid="tv-workout-prep"]'),'Warm-up guidance not available in the workout');
   await page.$eval('.setrow [role="checkbox"]',b=>b.click());
   assert(await page.evaluate(() => !JSON.parse(localStorage.getItem('gym_state_v1')).active.entries[0].sets[0].done),'Unknown zero load was logged as bodyweight');
@@ -134,7 +147,7 @@ try {
   const clock=await page.$eval('#timer .t',n=>n.textContent);
   assert(/^1:5\d$|^2:00$/.test(clock),'Exercise-specific 120-second rest not started: '+clock);
   assert(!errors.length,'Browser errors: '+errors.join('; '));
-  console.log(JSON.stringify({status:'READY_PROGRAMS_BROWSER_PASS',checks:['16 catalogue-backed prescriptions','320-430px preview','append-only install','occupied schedule preservation','active-workout protection','read-only previews during active sessions','58-hour empty session recovery','cancel preserves session','empty session excluded from history','duplicate prevention','direct program start','warm-up guidance','working-load required','first load fills untouched sets','exercise rest timer']}));
+  console.log(JSON.stringify({status:'READY_PROGRAMS_BROWSER_PASS',checks:['16 catalogue-backed prescriptions','three illustrated previews with Start/Finish labels','active and Focus likeness references','320-430px preview','append-only install','occupied schedule preservation','active-workout protection','read-only previews during active sessions','58-hour empty session recovery','cancel preserves session','empty session excluded from history','duplicate prevention','direct program start','warm-up guidance','working-load required','first load fills untouched sets','exercise rest timer']}));
 } catch(error) {
   console.error(JSON.stringify({errors,page:page?await page.evaluate(()=>document.body.innerText.slice(0,4500)).catch(()=>null):null}));
   if(page)await page.screenshot({path:screenshot,fullPage:true}).catch(()=>{});
