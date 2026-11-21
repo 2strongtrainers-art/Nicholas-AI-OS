@@ -5,6 +5,7 @@ const API="https://kszzvzysxwetwapbhzgy.supabase.co/functions/v1/trivalley-coach
 const el=id=>document.getElementById(id);
 const login=createWixMemberLogin({clientId:OAUTH_CLIENT,redirectUri:CALLBACK});
 let token=null;
+let currentRevision=null;
 function status(text,kind="") {
   const box=el("status");
   box.textContent=text;
@@ -292,6 +293,7 @@ async function refreshRecovery(){
   const points=Array.isArray(r.recoveryPoints)?r.recoveryPoints:[];
   const current=Number(r.currentRevision);
   if(!Number.isSafeInteger(current))throw new Error("INVALID_RECOVERY_STATE");
+  currentRevision=current;
   el("recoveryPoints").textContent="Database revision "+current+" · "+
     points.length+" recoverable in-database revision"+(points.length===1?"":"s")+".";
 }
@@ -365,6 +367,18 @@ el("verifyBackup").addEventListener("click",async()=>{
     box.textContent="Backup verified locally: revision "+data.revision+
       ", "+data.memberships.length+" account records, "+
       data.payload.workouts.length+" workout entries. No data was uploaded or restored.";
+    if(window.confirm("Have you saved this verified encrypted file OUTSIDE Supabase (for example in iPhone Files) and can you recover its passphrase? Record that owner confirmation?")){
+      const fileBytes=new Uint8Array(await file.arrayBuffer());
+      const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",fileBytes)))
+        .map(b=>b.toString(16).padStart(2,"0")).join("");
+      const confirmed=await apiPost("/v1/coach/backup-receipt",{
+        revision:data.revision,digest,confirmedOffsite:true
+      });
+      box.textContent=confirmed.backupAttested
+        ?"Owner confirmed verified encrypted backup for revision "+data.revision+". Keep the file and password in separate safe places."
+        :"Local verification passed but backup receipt was not recorded.";
+      await refreshClientGate();
+    }
   }catch{
     box.textContent="Backup check failed. It may be the wrong passphrase, wrong file, or damaged data. Nothing was uploaded or restored.";
   }finally{button.disabled=false}
@@ -400,12 +414,61 @@ async function refreshClientGate(){
   releaseGate=data;
   const open=data.enrollment_enabled===true&&data.privacy_approved===true&&data.backup_verified===true;
   el("createInvite").disabled=!open;
+  const canActivate=!open&&data.privacy_approved===true&&data.backup_verified===true&&
+    currentRevision!==null&&Number(data.backup_revision)===currentRevision;
+  el("approveNotice").disabled=data.privacy_approved===true||!el("approveNoticeCheck").checked;
+  el("activatePilot").disabled=!canActivate;
+  el("pausePilot").disabled=!open;
+  el("releaseNotice").textContent=open
+    ?"Consented private client pilot is active. Keep up-to-date offsite backups and review data requests."
+    :"Privacy notice "+(data.privacy_approved?"approved":"not approved")+
+      " · off-provider encrypted backup "+(data.backup_verified?"owner-verified":"not verified")+
+      " · release "+(canActivate?"ready for your final activation":"locked")+".";
   el("clientGate").textContent=open
     ?"Private enrollment is enabled. Invitations require an approved Wix member and explicit consent."
     :"Enrollment locked: privacy approval "+(data.privacy_approved?"present":"pending")+
       ", verified off-provider backup "+(data.backup_verified?"present":"pending")+
       ". Workout sync "+(data.workout_sync_enabled?"enabled":"disabled")+".";
 }
+el("approveNoticeCheck").addEventListener("change",()=>{
+  el("approveNotice").disabled=!el("approveNoticeCheck").checked||releaseGate?.privacy_approved===true;
+});
+el("approveNotice").addEventListener("click",async()=>{
+  if(!el("approveNoticeCheck").checked||releaseGate?.privacy_approved)return;
+  const phrase="APPROVE TRI VALLEY PILOT NOTICE";
+  if(window.prompt("Confirm the owner has reviewed and accepts the pilot privacy, retention, backup and deletion responsibilities. Type: "+phrase)!==phrase)return;
+  el("approveNotice").disabled=true;
+  try{
+    await apiPost("/v1/coach/approve-privacy",{
+      version:"TVFIT-PILOT-2026-11-V1",confirmation:"I_APPROVE_TRIVALLEY_PILOT_DATA_NOTICE"
+    });
+    await refreshClientGate();
+  }catch{el("releaseNotice").textContent="Privacy notice approval was not recorded."}
+});
+el("activatePilot").addEventListener("click",async()=>{
+  if(el("activatePilot").disabled)return;
+  const phrase="ACTIVATE CLIENT PILOT";
+  if(window.prompt("Open this private pilot for invited Wix members only? You must maintain offsite backups and manage privacy requests. Type: "+phrase)!==phrase)return;
+  el("activatePilot").disabled=true;
+  try{
+    const result=await apiPost("/v1/coach/activate-pilot",{
+      confirmation:"ACTIVATE_CONSENTED_CLIENT_PILOT"
+    });
+    await refreshClientGate();
+    if(result.pilotActivated)el("releaseNotice").textContent="Pilot activated for invited consenting clients. This is not a mass migration or medical service.";
+  }catch{
+    el("releaseNotice").textContent="Pilot activation was denied. Verify a current backup and approve the notice first.";
+    await refreshClientGate().catch(()=>{});
+  }
+});
+el("pausePilot").addEventListener("click",async()=>{
+  if(!window.confirm("Pause all new enrollments and cloud workout/check-in syncing immediately?"))return;
+  try{
+    await apiPost("/v1/coach/pause-pilot",{confirmation:"PAUSE_CLIENT_PILOT"});
+    await refreshClientGate();
+  }catch{el("releaseNotice").textContent="Pilot pause could not be verified; check server access."}
+});
+
 async function refreshClientRoster(){
   const [roster,invites]=await Promise.all([
     apiGet("/v1/coach/enrolled-clients"),
