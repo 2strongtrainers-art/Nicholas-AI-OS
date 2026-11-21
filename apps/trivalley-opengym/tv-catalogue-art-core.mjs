@@ -86,15 +86,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 1996745,
-    "sha256": "13cf808dbdd7c9da82e49bb45eaa65817880d30090abd75800300174b8c6ce06",
+    "bytes": 108890,
+    "sha256": "3cb4e0f004ab1e76db928f467867bd66e47d159017691fd5e21e4c694b33e786",
     "leftLabel": "Foot lifted",
     "rightLabel": "Circle at the ankle",
     "alt": "AI-generated Nick Kaplan likeness in ankle circles. Start: Foot lifted. Finish: Circle at the ankle.",
     "steps": [
       "Stand tall, lift one foot slightly and draw slow ankle circles without turning the hip."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_9c6618d2006b4938a9b8bc6ef297f18a~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_ddb4ac6903fb45d0a95ca8cae7bc4a74~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -146,15 +146,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2134034,
-    "sha256": "fba4d486570b1a309e53253a352677c24817fb05c25f6a7eb5011fdc7b5603e4",
+    "bytes": 143298,
+    "sha256": "3ca73476c009c89e1adfb93f9afa0c07782bff2118ee548655976bc75d140d4f",
     "leftLabel": "Hands and knees",
     "rightLabel": "Rock hips back",
     "alt": "AI-generated Nick Kaplan likeness in all fours squad stretch. Start: Hands and knees. Finish: Rock hips back.",
     "steps": [
       "Start on hands and knees, then rock the hips back through a comfortable range without forcing the knees or rounding hard."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_b55f7d6da1ab4cd99b8c0c70b375299a~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_8d6646d8c82d4480a691eda2102a75db~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -206,15 +206,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2068729,
-    "sha256": "8f3ed4fd6a50d70a2383fff7e616c59560e5c1f0e12f675cd1205b90caa041ed",
+    "bytes": 127592,
+    "sha256": "b4340adfee55f1d28d2277c92d63c79a2f256d40f1b35e6c600ed0a092daa815",
     "leftLabel": "Lie back; leg raised",
     "rightLabel": "Guide ankle toward dorsiflexion",
     "alt": "AI-generated Nick Kaplan likeness in assisted lying calves stretch. Start: Lie back; leg raised. Finish: Guide ankle toward dorsiflexion.",
     "steps": [
       "Lie back with one leg raised while the assistant guides the ankle toward dorsiflexion without bending the knee or forcing range."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_f12c9440e3ba4d288ae4114706749748~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_08d19494c09f463b9babf6c655f1a5ae~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -226,15 +226,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2080117,
-    "sha256": "73054c5eab3234fa8d6afdc766aeb4c19c3b77524ecbfc72dfcf3a87fd71f584",
+    "bytes": 130218,
+    "sha256": "5331b61b036e6b08ce58afeb52dbf166992bb9b036d666bfd8ed003212c81f3a",
     "leftLabel": "Cross ankle over knee",
     "rightLabel": "Guide thigh inward",
     "alt": "AI-generated Nick Kaplan likeness in assisted lying glutes stretch. Start: Cross ankle over knee. Finish: Guide thigh inward.",
     "steps": [
       "Lie back with the ankle crossed over the knee while the assistant guides the thigh inward without lifting the hips."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_db654c65db9544cc940728bf4414071d~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_97d5b716b98a48f48ed934cce999cf6a~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -246,15 +246,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2098683,
-    "sha256": "816190da7b2e9b54de7ce15e0dcca68aabb729cc0e4cbf168e364d20b82b7d6d",
+    "bytes": 132172,
+    "sha256": "dcf6ba4d05e074d1a58efed23e35ff95ad24f37c2decca96cea545756781a76e",
     "leftLabel": "Hip and knee bent",
     "rightLabel": "Guide knee across gently",
     "alt": "AI-generated Nick Kaplan likeness in assisted lying gluteus and piriformis stretch. Start: Hip and knee bent. Finish: Guide knee across gently.",
     "steps": [
       "Lie back with the hip and knee bent while the assistant guides the knee across gently without twisting the low back."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_97573d014cc440b8a562fcd87a35d911~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_fbd56600d7fc49b1b86e511966f04a00~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -266,15 +266,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2204331,
-    "sha256": "f91c0f195f6341d7133f225690fd453af7a09c1d04bac077f51314371525e9f3",
+    "bytes": 149882,
+    "sha256": "4fbeeb1a9cd157c6eb93c7582fa0b1e5ef0695a09de11afb88d194447ff5df89",
     "leftLabel": "Lie on side",
     "rightLabel": "Lift top leg gently",
     "alt": "AI-generated Nick Kaplan likeness in assisted side lying adductor stretch. Start: Lie on side. Finish: Lift top leg gently.",
     "steps": [
       "Lie on the side while the assistant supports and lifts the top leg gently without rolling the pelvis or forcing the groin."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_84753c2e3aaa4af2a3c7d5c034d72573~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_ab6dce1057214c69b7f56451dcb26ea2~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -286,15 +286,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2108587,
-    "sha256": "3e0cebafb5f17521099379b9fcd726e626f52dfbefa74d6e09a05a743bfdfa5b",
+    "bytes": 140238,
+    "sha256": "9359351ad1a74e15e392ff5f87e7ce17d5129fea4ac3d4a286f3f18fa6a40df7",
     "leftLabel": "Lie face down; knee bent",
     "rightLabel": "Guide heel toward glute",
     "alt": "AI-generated Nick Kaplan likeness in assisted prone lying quads stretch. Start: Lie face down; knee bent. Finish: Guide heel toward glute.",
     "steps": [
       "Lie face down with the knee bent while the assistant guides the heel toward the glute without lifting the hips."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_a4a9e81782594c81af40ae6f756855d5~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_8b67b920a26c4e4ea3f716663ae29423~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -306,15 +306,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2135722,
-    "sha256": "336f298cbbc6b451f587c26d94b5865cb27f89ec099b3059950d476306500c0b",
+    "bytes": 143678,
+    "sha256": "a12a078f88389f5840a5fee639544e3fb4feb81746b01f1784b8a105717b2550",
     "leftLabel": "Sit supported on ball",
     "rightLabel": "Open arms gently",
     "alt": "AI-generated Nick Kaplan likeness in assisted seated pectoralis major stretch with stability ball. Start: Sit supported on ball. Finish: Open arms gently.",
     "steps": [
       "Sit supported against the stability ball while the assistant opens the arms gently without forcing the shoulders behind the body."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_d620c3aa9a944b36a1843a9757f1e696~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_d9c9bd5de80f48c4b3eddb0a0ce02671~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -326,15 +326,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2174580,
-    "sha256": "b9cfe613fd00147568fac6b1250dbb35e04cd1fac5e084f68501109842532a25",
+    "bytes": 139896,
+    "sha256": "3af1dbde76c83003087d6cd43e7f782a5ccd77c7f5d112782413fcbf111c1799",
     "leftLabel": "Lie back; legs stabilized",
     "rightLabel": "Curl torso toward thighs",
     "alt": "AI-generated Nick Kaplan likeness in assisted sit-up. Start: Lie back; legs stabilized. Finish: Curl torso toward thighs.",
     "steps": [
       "Lie back while the assistant stabilizes the lower legs, then curl the torso toward the thighs without pulling the neck."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_db97dd9f1c77407cb0b7f99d78102abd~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_4af5c626a2d84fb9aa14d6fee43b7e7a~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -386,15 +386,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2052460,
-    "sha256": "c5a0c71e4c834b159b4b03d809bc23ae386ed470b2dba162e943c78d2fdad7d7",
+    "bytes": 119490,
+    "sha256": "a3a297e951eba477beaee57270045965f06db25884a381d82839d83583600af3",
     "leftLabel": "Hang tall in slings",
     "rightLabel": "Raise straight legs",
     "alt": "AI-generated Nick Kaplan likeness in arm slingers hanging straight legs. Start: Hang tall in slings. Finish: Raise straight legs.",
     "steps": [
       "Hang tall from the slings and raise straight legs with control; bend the knees to shorten the lever."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_0e5b79a7be184bdda95ae40f1b3bf2b2~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_04fa3237e2fc418b8445e70a39168554~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -406,15 +406,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2020093,
-    "sha256": "a1ba427e4786ae654e3b4304229bada7c1bb7434bce433d06a5ab222cfcf0ef1",
+    "bytes": 124448,
+    "sha256": "3bf1ced7c96fde522be4f09985a61630c5c66ed908559cf433f13d8a795123b5",
     "leftLabel": "Hang tall in slings",
     "rightLabel": "Raise bent knees",
     "alt": "AI-generated Nick Kaplan likeness in arm slingers hanging bent knee legs. Start: Hang tall in slings. Finish: Raise bent knees.",
     "steps": [
       "Hang tall from the slings and draw bent knees toward the chest without swinging or shrugging."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_8899df53cc214d06ad56622e2ee31f28~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_b5b7e9f1a71d47a39d1e3d58bbce8443~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -446,15 +446,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2025659,
-    "sha256": "1264174d77386fff83bad85bf3e7d231a082b5d90faa07423b6e591306942c57",
+    "bytes": 113582,
+    "sha256": "9a2c41c98b8db49512e148c72e9aebbd066a87b387bbfd10d3054b8fa46a2898",
     "leftLabel": "Stand tall; arms high",
     "rightLabel": "Sweep toward toes",
     "alt": "AI-generated Nick Kaplan likeness in arms apart circular toe touch (male). Start: Stand tall; arms high. Finish: Sweep toward toes.",
     "steps": [
       "Stand tall with arms overhead and sweep the arms wide toward the toes without jerking or locking the knees."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_ed3642131d024762a5345d0211528a80~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_742ec96846f44152aee591f7fe014ee1~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -466,15 +466,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 1917299,
-    "sha256": "15377847536ab9eb16b798307a656f88ecff96ebcaf63e87f683a47fd0b22768",
+    "bytes": 102916,
+    "sha256": "1fec14e5dd2949b945ae1d086e30dc3621724d13afc96d1ab2db8ae25edb416e",
     "leftLabel": "Wide overhand hang",
     "rightLabel": "Pull toward one hand",
     "alt": "AI-generated Nick Kaplan likeness in archer pull up. Start: Wide overhand hang. Finish: Pull toward one hand.",
     "steps": [
       "Take a very wide overhand grip and pull toward one hand while the other arm stays long; avoid swinging."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_53cd7713bad84f848b794384cce5cad2~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_06c011e1cae7422fbdd183730cbdf358~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -486,15 +486,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2106368,
-    "sha256": "7294ead27600e559c78c8d17221f1c5071b6a250d5ef35b22e4e7865bef98d56",
+    "bytes": 138904,
+    "sha256": "1575b4008ee900b2d8221c807f237d268f56cb4b825301dfbbd639630e1154a7",
     "leftLabel": "Wide push-up start",
     "rightLabel": "Lower toward one hand",
     "alt": "AI-generated Nick Kaplan likeness in archer push up. Start: Wide push-up start. Finish: Lower toward one hand.",
     "steps": [
       "Set wide hands and a straight body line, then lower toward one hand while the other arm stays long."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_5648d9e88ddf43cb903412922c65f7fc~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_5baad9c8d6b14a6ea3871b10869de493~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1426,15 +1426,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2112419,
-    "sha256": "11aa9dbc4b21200a622d2d2797d47260d94018545c5ef11be765c4c16ecc1b29",
+    "bytes": 133432,
+    "sha256": "878defa6e5179b5f9ec0637974f40bc14df017a6db08de3e8440d58d43866034",
     "leftLabel": "Both arms high",
     "rightLabel": "Pull one elbow down",
     "alt": "AI-generated Nick Kaplan likeness in alternate lateral pulldown. Start: Both arms high. Finish: Pull one elbow down.",
     "steps": [
       "Sit tall with both high handles and pull one elbow down at a time without leaning back or shrugging."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_e560a850a67947b896d21d0d5c6e2a11~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_98993a60691245ef8e5333a021848ae4~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1446,15 +1446,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2013093,
-    "sha256": "db89bc5d49d04e6d334a15a853cd9a30936f4480d0c5f0db2bc31822a969556c",
+    "bytes": 124338,
+    "sha256": "1abcec1c7dd7c5ad8d76f5cb9f83d96fa37c9e02a6d88c884df007c9350c12a5",
     "leftLabel": "Kneel on assist pad",
     "rightLabel": "Lower with control",
     "alt": "AI-generated Nick Kaplan likeness in assisted chest dip (kneeling). Start: Kneel on assist pad. Finish: Lower with control.",
     "steps": [
       "Kneel on the assist pad, grip the bars and lower before pressing up with control; increase assistance as needed."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_23481e8708cc4d62a3ce553c31ef0af9~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_53394a1e68274661abb32c51c08bf8de~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1466,15 +1466,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2004366,
-    "sha256": "59a4ede80e55917b08fdd3d6038af52f1da0d26d45932fd95e07285f9f27a67b",
+    "bytes": 117678,
+    "sha256": "5134400ff237285cda7c791e011525d56099cc7edbe5fa6efcfeb068c23b5c1a",
     "leftLabel": "Hang tall",
     "rightLabel": "Raise bent knees",
     "alt": "AI-generated Nick Kaplan likeness in assisted hanging knee raise. Start: Hang tall. Finish: Raise bent knees.",
     "steps": [
       "Hang tall and raise bent knees as an assistant guides lightly; avoid swinging or pulling on the neck."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_e1bbcb7ac5a24555b4d3a970e6193f08~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_5a933857d9a748158c820eaaccaa30c8~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1486,15 +1486,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2039701,
-    "sha256": "26f2f9987a5f177d316193f0b2f5d8564f6cbfdada57f6dce38390e67d58324d",
+    "bytes": 120726,
+    "sha256": "e993b12cb9212460fa40aea44452ffae29ba175d20ccb85a8c333f2e5acc237f",
     "leftLabel": "Hang with knees raised",
     "rightLabel": "Resist guided push-down",
     "alt": "AI-generated Nick Kaplan likeness in assisted hanging knee raise with throw down. Start: Hang with knees raised. Finish: Resist guided push-down.",
     "steps": [
       "Hang tall, raise the knees and resist a light guided push-down; use a tap rather than a hard throw."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_e0d9641edd364ebfabee78bac8640624~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_5eff590947484e928aaac429145fe6a5~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1506,15 +1506,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2113633,
-    "sha256": "ed622d94b7d28b412d538f1aedaf69e660e79382dc4cd2b2f6b496ab8350cce5",
+    "bytes": 141818,
+    "sha256": "df4b4a6843f2e0f2bcc7c5e0d5181254d1843637f3926c0bfd00d874c00dd416",
     "leftLabel": "Legs raised",
     "rightLabel": "Resist lateral push",
     "alt": "AI-generated Nick Kaplan likeness in assisted lying leg raise with lateral throw down. Start: Legs raised. Finish: Resist lateral push.",
     "steps": [
       "Lie back with the legs raised and resist a small guided push toward one side without allowing the low back to arch."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_810dee354da24b2aaa409a4366324a49~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_d6408ff43e0f4a2c878ce7ac74f4a163~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1526,15 +1526,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2174914,
-    "sha256": "21dc24fd3b67160f91ebe8fd7fa892890a116258f7c6b3b8494c9100c3f0ddba",
+    "bytes": 142146,
+    "sha256": "ccd76c69d59e1770ec2990f1ea45c07ed01551960222db7147916865952a9164",
     "leftLabel": "Legs raised",
     "rightLabel": "Resist downward push",
     "alt": "AI-generated Nick Kaplan likeness in assisted lying leg raise with throw down. Start: Legs raised. Finish: Resist downward push.",
     "steps": [
       "Lie back with the legs raised and resist a light guided downward push without letting the heels strike the floor."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_3dd21b9e71bb498fb0e53cc4a602c329~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_0c9edc118bc2454f9889dce4d6396fef~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1546,15 +1546,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2258127,
-    "sha256": "07f50f5519613d12848c6b2cd2b271bd56916976239cdb80d2bd1085b5f886c7",
+    "bytes": 162944,
+    "sha256": "7dde0580ef745655d9969a30664352e446824247ee8821a3686fc82f45647ab4",
     "leftLabel": "Sit braced with ball",
     "rightLabel": "Rotate and exchange ball",
     "alt": "AI-generated Nick Kaplan likeness in assisted motion russian twist. Start: Sit braced with ball. Finish: Rotate and exchange ball.",
     "steps": [
       "Sit braced facing a partner and rotate while exchanging the ball side to side without collapsing the chest."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_0a16155f4bfb423ea360a7f9203487e3~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_16f16da9ca354af3ac7851c427b7f8fb~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1566,15 +1566,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2186116,
-    "sha256": "ddded738dda6022694ec7fa41a1a4bef19ac9a9a9b111acb2f79dc44d2ef1401",
+    "bytes": 150630,
+    "sha256": "06c3a7fe336df9c1b9e1107dd7df2257f3d850077a8832927260494d1642e809",
     "leftLabel": "Kneel; neutral close grip",
     "rightLabel": "Pull chest between handles",
     "alt": "AI-generated Nick Kaplan likeness in assisted parallel close grip pull-up. Start: Kneel; neutral close grip. Finish: Pull chest between handles.",
     "steps": [
       "Kneel on the assist pad with a neutral close grip and pull the chest between the handles without swinging."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_c6787925250e4610a9ad96c17ea9c1bd~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_2981c9a0fc834b6db3286b7f30909b7b~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1586,15 +1586,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2088919,
-    "sha256": "4b4fbf9ae15f0218c93d376694dfabb1fc2d6f15d31e9b8e260fcf7983af58f1",
+    "bytes": 137244,
+    "sha256": "30eda86841b93b9b8cb0ffda3441227c7d494419b0211a5879fd42c445afb518",
     "leftLabel": "Lie face down",
     "rightLabel": "Bend knee gently",
     "alt": "AI-generated Nick Kaplan likeness in assisted prone hamstring. Start: Lie face down. Finish: Bend knee gently.",
     "steps": [
       "Lie face down while the assistant holds the ankle and bends the knee gently without lifting the hip or forcing range."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_316d88ec946b4e84bc460bef1ae8de5f~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_dc0a5a4f0e5c4a65a594b47e142bf8eb~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1606,15 +1606,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 2021151,
-    "sha256": "a6b13998c86041afeef9ee931e6ab6c52c8c35d99c5e322bea16bba4ae84ba2e",
+    "bytes": 123626,
+    "sha256": "d73159cb2290e17f7436a84e263ca54ca25c41a0887f7254f2443cdc73688c54",
     "leftLabel": "Kneel; overhand grip",
     "rightLabel": "Pull chest toward bar",
     "alt": "AI-generated Nick Kaplan likeness in assisted pull-up. Start: Kneel; overhand grip. Finish: Pull chest toward bar.",
     "steps": [
       "Kneel on the assist pad with an overhand grip and pull the chest toward the bar without swinging or shrugging."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_30cd1b4a199f478eb9d30220b6601b69~mv2.png",
+    "url": "https://static.wixstatic.com/media/856ae2_0faa677767a74f5db9c0c08dc1c3746b~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
