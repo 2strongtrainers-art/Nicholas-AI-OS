@@ -384,6 +384,52 @@ el("verifyBackup").addEventListener("click",async()=>{
   }finally{button.disabled=false}
 });
 
+// This is a deliberate owner-triggered dry-run restore. The decrypted backup
+// is sent only to the authenticated TriValley Edge API, verified against the
+// attested encrypted-file hash, copied to a TEMP Postgres table, then discarded.
+el("testRestore").addEventListener("click",async()=>{
+  const button=el("testRestore"),box=el("backupResult");
+  if(button.disabled)return;
+  button.disabled=true;
+  try{
+    const file=el("backupFile").files?.[0];
+    if(!file||file.size<50||file.size>1900000)
+      throw new Error("INVALID_BACKUP_FILE");
+    const bytes=new Uint8Array(await file.arrayBuffer());
+    const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)))
+      .map(b=>b.toString(16).padStart(2,"0")).join("");
+    const pkg=JSON.parse(new TextDecoder("utf-8",{fatal:true}).decode(bytes));
+    if(pkg?.format!==BACKUP_TYPE||pkg.version!==1||
+      pkg.kdf!=="PBKDF2-SHA256"||pkg.iterations!==BACKUP_ITERATIONS||
+      pkg.cipher!=="AES-256-GCM"||
+      pkg.siteId!=="9e6343d9-5a1c-45e2-8596-f73408e38402")
+      throw new Error("INVALID_BACKUP_FORMAT");
+    const salt=fromBase64(pkg.salt),iv=fromBase64(pkg.iv);
+    if(salt.length!==16||iv.length!==12)throw new Error("INVALID_BACKUP_FORMAT");
+    const passphrase=askPassphrase();
+    const key=await backupKey(passphrase,salt);
+    const clear=await crypto.subtle.decrypt(
+      {name:"AES-GCM",iv,additionalData:BACKUP_AAD},key,
+      fromBase64(pkg.ciphertext));
+    const backup=JSON.parse(new TextDecoder("utf-8",{fatal:true}).decode(clear));
+    if(!validBackup(backup)||backup.revision!==pkg.revision)
+      throw new Error("INVALID_BACKUP_CONTENTS");
+    if(!window.confirm("Copy this decrypted backup to a disposable PostgreSQL test table and verify its contents? This does not overwrite live coaching data.")){
+      box.textContent="Restore test cancelled; live data unchanged.";
+      return;
+    }
+    box.textContent="Testing database-copy restoration...";
+    const result=await apiPost("/v1/coach/restore-drill",{digest,backup});
+    if(result.restoreDrillPassed!==true||result.databaseCopyOnly!==true)
+      throw new Error("RESTORE_NOT_VERIFIED");
+    box.textContent="Database-copy restore test passed for revision "+result.revision+
+      ". Live records were not overwritten. Keep the encrypted file and passphrase safely offsite.";
+    await refreshClientGate();
+  }catch{
+    box.textContent="Restore test was not verified. Reconfirm the exact saved encrypted backup, passphrase and latest revision. Live records were not replaced.";
+  }finally{button.disabled=false}
+});
+
 // Server-only membership and consent checks control all owner invitation/assignment writes.
 // Public client onboarding is disabled until the backup/privacy release gates are approved.
 let coachPrograms=[],enrolledClients=[],releaseGate=null,lastInvite=null;
@@ -414,8 +460,12 @@ async function refreshClientGate(){
   releaseGate=data;
   const open=data.enrollment_enabled===true&&data.privacy_approved===true&&data.backup_verified===true;
   el("createInvite").disabled=!open;
+  const sameRevision=currentRevision!==null&&Number(data.backup_revision)===currentRevision;
+  const restoreOk=data.restore_drill_verified===true&&
+    Number(data.restore_drill_revision)===currentRevision;
   const canActivate=!open&&data.privacy_approved===true&&data.backup_verified===true&&
-    currentRevision!==null&&Number(data.backup_revision)===currentRevision;
+    sameRevision&&restoreOk;
+  el("testRestore").disabled=!data.backup_verified||!sameRevision;
   el("approveNotice").disabled=data.privacy_approved===true||!el("approveNoticeCheck").checked;
   el("activatePilot").disabled=!canActivate;
   el("pausePilot").disabled=!open;
@@ -423,6 +473,7 @@ async function refreshClientGate(){
     ?"Consented private client pilot is active. Keep up-to-date offsite backups and review data requests."
     :"Privacy notice "+(data.privacy_approved?"approved":"not approved")+
       " · off-provider encrypted backup "+(data.backup_verified?"owner-verified":"not verified")+
+      " · database restore "+(restoreOk?"copy-verified":"pending")+
       " · release "+(canActivate?"ready for your final activation":"locked")+".";
   el("clientGate").textContent=open
     ?"Private enrollment is enabled. Invitations require an approved Wix member and explicit consent."
