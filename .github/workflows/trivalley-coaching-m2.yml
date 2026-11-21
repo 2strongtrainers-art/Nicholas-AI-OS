@@ -30,6 +30,8 @@ jobs:
         run: |
           node --check supabase/edge/index.mjs
           node --check supabase/companion/coach-login-client.mjs
+          node --check supabase/companion/coach-client.mjs
+          node --check src/offline-queue.mjs
           node --check src/wix-login-browser.mjs
       - name: Run deterministic M2 contract and security tests
         working-directory: apps/trivalley-coaching-m2
