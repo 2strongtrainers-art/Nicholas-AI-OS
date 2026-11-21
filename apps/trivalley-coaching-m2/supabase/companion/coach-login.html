@@ -110,6 +110,11 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <p>Select an enrolled client above to view and review their submitted check-ins.</p>
 <button id="loadCheckins" class="secondary" type="button" disabled>Load selected check-ins</button>
 <div id="checkinList" class="program-list" aria-live="polite"></div>
+<hr class="divider">
+<h2>Client data-deletion requests</h2>
+<p>Only owner-approved deletion removes a client's coaching records. Historical database recovery points are scrubbed; already downloaded backup files must also be managed separately.</p>
+<button id="refreshDeletion" class="secondary" type="button">Review deletion requests</button>
+<div id="deletionList" class="program-list" aria-live="polite"></div>
 </div>
 <div class="program-library" aria-labelledby="backupTitle">
 <h2 id="backupTitle">Encrypted owner backup</h2>
