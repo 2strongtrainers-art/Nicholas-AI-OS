@@ -48,7 +48,11 @@ test('Press captions and close-grip row instructions match the revised image seq
 
 test('Latest batch binds six reviewed catalogue IDs to valid disjoint image regions and exact equipment',()=>{
  const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
- const ids=progress.currentBatch.exactIds
+ // The mutable currentBatch is a reservation for PRIVATE art generation, not verified images.
+ // Keep the immutable six-image release tested while later batches are being produced.
+ const deployed=progress.previousBatches.find(batch=>batch.id==='nick-catalogue-20261120-04')
+ assert.equal(deployed?.status,'DEPLOYED_LIVE_BROWSER_VERIFIED')
+ const ids=deployed.exactIds
  assert.equal(ids.length,6);assert.equal(new Set(ids).size,6)
  const regions=new Set()
  for(const id of ids){
