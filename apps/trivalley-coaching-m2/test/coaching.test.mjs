@@ -46,6 +46,15 @@ test('new programs start in draft and require a coach to publish',()=>{
   rejects(()=>svc.createProgram(members.clientA,{title:'Bad',exercises:[]}), 'COACH_ONLY');
   assert.equal(svc.activeAssignments(members.clientA)[0].program.status,'published');
 });
+test('coach program library only shows owned programs and never exposes them to clients',()=>{
+  const {svc,program}=fixture();
+  const own=svc.coachPrograms(members.coachA);
+  assert.equal(own.length,1);
+  assert.equal(own[0].id,program.id);
+  assert.deepEqual(svc.coachPrograms(members.coachB),[]);
+  assert.deepEqual(svc.coachPrograms(members.coachForeign),[]);
+  rejects(()=>svc.coachPrograms(members.clientA),'COACH_ONLY');
+});
 test('one coach cannot manage another coaches programs in same organization',()=>{
   const {svc,program}=fixture();
   rejects(()=>svc.publishProgram(members.coachB,program.id),'NOT_FOUND');
