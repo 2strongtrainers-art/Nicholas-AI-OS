@@ -3941,8 +3941,10 @@
       "id": "0375",
       "name": "dumbbell pullover",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batch": "nick-catalogue-20261120-04"
+      "status": "deployed",
+      "batch": "nick-catalogue-20261120-04",
+      "appVersion": "5.20.1",
+      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268"
     },
     {
       "id": "1294",
@@ -4002,8 +4004,10 @@
       "id": "0381",
       "name": "dumbbell rear lunge",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batch": "nick-catalogue-20261120-04"
+      "status": "deployed",
+      "batch": "nick-catalogue-20261120-04",
+      "appVersion": "5.20.1",
+      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268"
     },
     {
       "id": "0382",
@@ -4153,8 +4157,10 @@
       "id": "1379",
       "name": "dumbbell seated calf raise",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batch": "nick-catalogue-20261120-04"
+      "status": "deployed",
+      "batch": "nick-catalogue-20261120-04",
+      "appVersion": "5.20.1",
+      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98"
     },
     {
       "id": "0391",
@@ -4256,8 +4262,10 @@
       "id": "0401",
       "name": "dumbbell seated palms up wrist curl",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batch": "nick-catalogue-20261120-04"
+      "status": "deployed",
+      "batch": "nick-catalogue-20261120-04",
+      "appVersion": "5.20.1",
+      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98"
     },
     {
       "id": "0402",
@@ -4290,8 +4298,10 @@
       "id": "0404",
       "name": "dumbbell seated shoulder press (parallel grip)",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batch": "nick-catalogue-20261120-04"
+      "status": "deployed",
+      "batch": "nick-catalogue-20261120-04",
+      "appVersion": "5.20.1",
+      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98"
     },
     {
       "id": "2188",
@@ -4354,8 +4364,10 @@
       "id": "0410",
       "name": "dumbbell single leg split squat",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batch": "nick-catalogue-20261120-04"
+      "status": "deployed",
+      "batch": "nick-catalogue-20261120-04",
+      "appVersion": "5.20.1",
+      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268"
     },
     {
       "id": "0411",
@@ -8261,7 +8273,7 @@
     },
     {
       "id": "nick-catalogue-20261120-04",
-      "status": "SOURCE_REVIEWED_HOSTED_ACCEPTANCE_PENDING",
+      "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
       "exactIds": [
         "0404",
         "1379",
@@ -8283,7 +8295,15 @@
         "liveAcceptanceRunId": 44867427462,
         "status": "Replaced after visual pullover correction despite passing technical QA."
       },
-      "continuationNote": "Concurrent publisher observed live 5.20.1 at d09422be10ecac0aa8505047a29f58b3304b0f03; preserve its six entries and receipts."
+      "releaseSourceCommit": "d09422be10ecac0aa8505047a29f58b3304b0f03",
+      "buildRunId": 44867983422,
+      "artifactId": 14691849384,
+      "artifactSha256": "6195dfe0fb3adc87803fef612d19858467c7fca8b82e0048f43d5d98c27bf234",
+      "publicationId": "c1e43d08-af62-43c7-a498-580329e02888",
+      "liveAcceptanceRunId": 44868437394,
+      "liveAcceptanceAttempt": 1,
+      "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
+      "observedAt": "2026-11-21T04:59:26.887607+00:00"
     }
   ],
   "catalogueQueued": 1271,
@@ -8292,6 +8312,6 @@
     "sourceCommit": "d09422be10ecac0aa8505047a29f58b3304b0f03",
     "catalogueIllustrated": 53,
     "catalogueQueued": 1271,
-    "scope": "Native release metadata observed; no new ten-card batch deployment claimed"
+    "scope": "Native release and independent live UI observed; publisher receipt retained without overwriting its per-entry progress"
   }
 }

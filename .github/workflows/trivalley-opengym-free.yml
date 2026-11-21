@@ -207,6 +207,8 @@ jobs:
           node "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/illustrated.png"
           cp apps/trivalley-opengym/catalogue_art_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/catalogue-art.png"
+          cp apps/trivalley-opengym/abs_avatar_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/abs-avatar.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/abs-avatar.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/abs-avatar.png"
           cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
       - uses: actions/upload-artifact@v4
@@ -219,6 +221,7 @@ jobs:
             ${{ runner.temp }}/trivalley-client-value/first-use.png
             ${{ runner.temp }}/trivalley-client-value/learning.png
             ${{ runner.temp }}/trivalley-client-value/catalogue-art.png
+            ${{ runner.temp }}/trivalley-client-value/abs-avatar.png
           retention-days: 7
 
   catalogue-integrity:
