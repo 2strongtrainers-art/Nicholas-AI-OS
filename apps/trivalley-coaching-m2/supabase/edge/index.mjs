@@ -379,7 +379,7 @@ async function handle(req) {
         if(count[0].n>=20)throw new CoachingError(429,"INVITE_LIMIT","Too many active invitations");
         const random=crypto.getRandomValues(new Uint8Array(32));
         const raw=Array.from(random,b=>String.fromCharCode(b)).join("");
-        const secret=btoa(raw).replace(/\\+/g,"-").replace(/\\//g,"_").replace(/=+$/,"");
+        const secret=btoa(raw).replaceAll("+","-").replaceAll("/","_").replace(/=+$/,"");
         const digest=await hashCode(secret);
         const entry=await tx.unsafe(
           "insert into coaching_private.invitations(org_id,coach_id,code_digest,label,expires_at) values ($1::uuid,$2::uuid,$3,$4,now()+interval '48 hours') returning id::text,label,expires_at",
@@ -391,7 +391,7 @@ async function handle(req) {
         );
         return {invitation:{...entry[0],code:secret,oneTimeDisplay:true}};
       }
-      if(req.method==="POST"&&/^\\/v1\\/coach\\/invitations\\/[^/]+\\/revoke$/.test(path)){
+      if(req.method==="POST"&&path.startsWith("/v1/coach/invitations/")&&path.endsWith("/revoke")&&path.split("/").length===6){
         if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
         if(!body||Object.keys(body).length!==0)
           throw new CoachingError(422,"VALIDATION","No body fields allowed");
