@@ -46,6 +46,11 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 .backup-verify{display:grid;gap:10px;margin-top:20px}.backup-verify label{font-size:13px;color:#cdd9e7}
 .backup-verify input{display:block;width:100%;padding:9px 0;font-size:13px;color:#c3cedc}
 .backup-verify .secondary{justify-self:start}#backupResult{margin-top:12px}
+.program-library label{display:block;font-size:12px;color:#cbd7e7;margin:12px 0 7px}
+.program-library input,.program-library select{width:100%;background:#0b1829;color:#f3f6fa;border:1px solid #617086;border-radius:10px;padding:12px;font:inherit;font-size:16px}
+.program-library .divider{border:0;border-top:1px solid #34445b;margin:20px 0}
+#inviteOutput{overflow-wrap:anywhere;border-left:3px solid #bfa172;padding:10px;margin:12px 0}
+#invitationList{margin-top:12px}#checkinList{list-style:none}
 </style>
 </head>
 <body>
@@ -82,6 +87,29 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <div class="small" role="status" aria-live="polite" id="programNotice">Loading saved programs...</div>
 <ol id="programList" class="program-list" aria-label="Your private coaching programs"></ol>
 <button id="createSplit" class="primary" type="button">Create my three private drafts</button>
+</div>
+<div class="program-library" aria-labelledby="onboardingTitle">
+<h2 id="onboardingTitle">Client onboarding & assignments</h2>
+<p>The private invitation and client workflow is prepared, but enrollment stays locked until privacy approval and backup recovery are verified. No email is sent automatically.</p>
+<div class="small" id="clientGate" role="status">Checking enrollment controls...</div>
+<label for="inviteLabel">Private invitation label (not the client's name)</label>
+<input id="inviteLabel" type="text" maxlength="80" placeholder="Pilot client" value="Pilot client" autocomplete="off">
+<div class="buttonrow"><button id="createInvite" class="secondary" type="button" disabled>Generate private invite</button></div>
+<div class="small" role="status" aria-live="polite" id="inviteOutput">No invitation code generated.</div>
+<div id="invitationList" class="small" aria-label="Invitation statuses"></div>
+<hr class="divider">
+<h2>Assign a published program</h2>
+<label for="clientSelect">Consenting enrolled client</label>
+<select id="clientSelect" aria-label="Choose enrolled client"><option value="">No clients available</option></select>
+<label for="publishedProgram">Published coaching program</label>
+<select id="publishedProgram" aria-label="Choose coaching program"><option value="">Choose a published program</option></select>
+<div class="buttonrow"><button id="assignClient" class="secondary" type="button" disabled>Assign selected program</button><button id="refreshClients" class="secondary" type="button">Refresh client roster</button></div>
+<p id="assignmentNotice" class="small" role="status" aria-live="polite">Only opted-in clients can be assigned.</p>
+<hr class="divider">
+<h2>Coach check-in reviews</h2>
+<p>Select an enrolled client above to view and review their submitted check-ins.</p>
+<button id="loadCheckins" class="secondary" type="button" disabled>Load selected check-ins</button>
+<div id="checkinList" class="program-list" aria-live="polite"></div>
 </div>
 <div class="program-library" aria-labelledby="backupTitle">
 <h2 id="backupTitle">Encrypted owner backup</h2>
