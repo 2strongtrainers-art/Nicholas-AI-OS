@@ -202,10 +202,45 @@ async function handle(req) {
       if(!current||current.role!==actor.role||current.org_id!==actor.orgId)
         throw new CoachingError(401,"UNAUTHENTICATED","Member access revoked");
       const state=await tx.unsafe(
-        "select payload from coaching_private.snapshots where org_id=$1::uuid for update",
+        "select revision, payload from coaching_private.snapshots where org_id=$1::uuid for update",
         [actor.orgId]
       );
       if(state.length!==1)throw new CoachingError(503,"SERVICE_NOT_READY","Coaching state unavailable");
+
+      // Owner-only portable backup export. The browser encrypts with a user-held
+      // passphrase before saving; neither password nor client records enter GitHub.
+      if(req.method==="GET"&&path==="/v1/coach/backup"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        const members=await tx.unsafe(
+          "select wix_site_id::text, wix_member_id::text, org_id::text, role, status, display_name from coaching_private.wix_memberships where org_id=$1::uuid order by wix_member_id",
+          [actor.orgId]
+        );
+        const aliases=await tx.unsafe(
+          "select a.wix_site_id::text,a.alias_member_id::text,a.canonical_member_id::text,a.enabled from coaching_private.owner_member_aliases a join coaching_private.wix_memberships m on a.wix_site_id=m.wix_site_id and a.canonical_member_id=m.wix_member_id where m.org_id=$1::uuid order by a.alias_member_id",
+          [actor.orgId]
+        );
+        const audit=await tx.unsafe(
+          "select actor_id::text, action, resource_id, occurred_at from coaching_private.audit_events where org_id=$1::uuid order by event_id limit 10001",
+          [actor.orgId]
+        );
+        if(audit.length>10000)throw new CoachingError(413,"EXPORT_LIMIT","Audit export exceeds current pilot limit");
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'OWNER_BACKUP_EXPORTED',$3)",
+          [actor.orgId,actor.sub,String(state[0].revision)]
+        );
+        return {format:"trivalley-coaching-private-backup-v1",generatedAt:new Date().toISOString(),
+          siteId:SITE_ID, orgId:actor.orgId, revision:Number(state[0].revision),
+          payload:state[0].payload, memberships:members, ownerAliases:aliases,audit};
+      }
+
+      if(req.method==="GET"&&path==="/v1/coach/recovery-points"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        const points=await tx.unsafe(
+          "select revision,captured_at,octet_length(payload::text) as bytes from coaching_private.snapshot_revisions where org_id=$1::uuid order by revision desc limit 20",
+          [actor.orgId]
+        );
+        return {currentRevision:Number(state[0].revision),recoveryPoints:points};
+      }
       const store=decodeSnapshot(state[0].payload,rows);
       const service=new CoachingService({store});
       const data=dispatch(service,actor,req.method,path,body);
@@ -213,9 +248,19 @@ async function handle(req) {
         const payload=encodeSnapshot(store);
         if(new TextEncoder().encode(payload).byteLength>4000000)
           throw new CoachingError(413,"STORAGE_LIMIT","Private coaching record limit reached");
+        // Persist a before-and-after recovery point atomically with the mutation.
+        // These *local* snapshots are not an off-provider backup.
+        await tx.unsafe(
+          "insert into coaching_private.snapshot_revisions(org_id,revision,payload) values ($1::uuid,$2::bigint,$3::jsonb) on conflict(org_id,revision) do nothing",
+          [actor.orgId,String(state[0].revision),JSON.stringify(state[0].payload)]
+        );
         await tx.unsafe(
           "update coaching_private.snapshots set payload=$2::jsonb, revision=revision+1, updated_at=now() where org_id=$1::uuid",
           [actor.orgId,payload]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.snapshot_revisions(org_id,revision,payload) values ($1::uuid,$2::bigint,$3::jsonb) on conflict(org_id,revision) do nothing",
+          [actor.orgId,String(BigInt(state[0].revision)+1n),payload]
         );
         for(const evt of store.audit)await tx.unsafe(
           "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id,occurred_at) values ($1::uuid,$2::uuid,$3,$4,$5::timestamptz)",
