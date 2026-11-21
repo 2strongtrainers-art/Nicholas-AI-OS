@@ -43,6 +43,9 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 .program-entry strong{font-size:14px}
 .program-entry small{color:#c0cddd;line-height:1.5}
 .program-entry .secondary{justify-self:start;padding:10px 12px;font-size:12px;min-height:42px}
+.backup-verify{display:grid;gap:10px;margin-top:20px}.backup-verify label{font-size:13px;color:#cdd9e7}
+.backup-verify input{display:block;width:100%;padding:9px 0;font-size:13px;color:#c3cedc}
+.backup-verify .secondary{justify-self:start}#backupResult{margin-top:12px}
 </style>
 </head>
 <body>
@@ -79,6 +82,18 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <div class="small" role="status" aria-live="polite" id="programNotice">Loading saved programs...</div>
 <ol id="programList" class="program-list" aria-label="Your private coaching programs"></ol>
 <button id="createSplit" class="primary" type="button">Create my three private drafts</button>
+</div>
+<div class="program-library" aria-labelledby="backupTitle">
+<h2 id="backupTitle">Encrypted owner backup</h2>
+<p>Protect your coaching records against provider outages: create a password-encrypted backup, then save the file in iPhone Files or another storage location you control. No password leaves this browser. Local recovery points are not offsite backups.</p>
+<div class="small" id="recoveryPoints" role="status">Checking recovery-point status...</div>
+<div class="buttonrow"><button id="backupNow" class="secondary" type="button">Save encrypted backup</button></div>
+<div class="small" id="backupResult" role="status" aria-live="polite">No backup downloaded in this session.</div>
+<div class="backup-verify">
+<label for="backupFile">Verify a saved encrypted backup (read-only)</label>
+<input id="backupFile" type="file" accept=".tvfitbackup,application/json" aria-label="Choose encrypted coaching backup file to check">
+<button id="verifyBackup" class="secondary" type="button">Verify selected backup</button>
+</div>
 </div>
 </section>
 <footer>
