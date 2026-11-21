@@ -349,10 +349,94 @@ async function handle(req) {
       }
       // Pilot release controls prevent collection of actual client workout data
       // before privacy, backup and access acceptance are explicitly enabled.
+      // Explicit owner-only release approvals. These controls never accept user role flags.
+      if(req.method==="POST"&&path==="/v1/coach/backup-receipt"){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner required");
+        if(!body||Object.keys(body).sort().join(",")!=="confirmedOffsite,digest,revision"||
+          body.confirmedOffsite!==true||!Number.isSafeInteger(body.revision)||
+          !Number.isSafeInteger(Number(state[0].revision))||
+          body.revision!==Number(state[0].revision)||
+          typeof body.digest!=="string"||!new RegExp("^[0-9a-f]{64}$").test(body.digest))
+          throw new CoachingError(422,"BACKUP_RECEIPT_INVALID","Verify a current encrypted backup first");
+        await tx.unsafe(
+          "update coaching_private.release_controls set backup_verified_at=now(),backup_revision=$2::bigint,backup_file_sha256=$3,reviewed_at=now() where org_id=$1::uuid",
+          [actor.orgId,String(body.revision),body.digest]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'OFFSITE_BACKUP_ATTESTED',$3)",
+          [actor.orgId,actor.sub,String(body.revision)]
+        );
+        return {backupAttested:true,revision:body.revision,
+          notice:"A verified local decrypt and owner assertion were recorded; offsite storage remains the owner's responsibility."};
+      }
+      if(req.method==="POST"&&path==="/v1/coach/approve-privacy"){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner required");
+        if(!body||Object.keys(body).sort().join(",")!=="confirmation,version"||
+          body.confirmation!=="I_APPROVE_TRIVALLEY_PILOT_DATA_NOTICE"||
+          body.version!=="TVFIT-PILOT-2026-11-V1")
+          throw new CoachingError(422,"NOTICE_NOT_APPROVED","Explicit notice approval required");
+        const result=await tx.unsafe(
+          "update coaching_private.release_controls set privacy_approved_at=now(),reviewed_at=now() where org_id=$1::uuid and privacy_notice_version=$2 returning privacy_notice_version",
+          [actor.orgId,body.version]
+        );
+        if(result.length!==1)throw new CoachingError(409,"NOTICE_VERSION","Update and review the newest privacy notice");
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'PILOT_NOTICE_APPROVED',$3)",
+          [actor.orgId,actor.sub,body.version]
+        );
+        return {noticeApproved:true,version:body.version};
+      }
+      if(req.method==="POST"&&path==="/v1/coach/activate-pilot"){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner required");
+        if(!body||Object.keys(body).length!==1||body.confirmation!=="ACTIVATE_CONSENTED_CLIENT_PILOT")
+          throw new CoachingError(422,"CONFIRMATION_REQUIRED","Explicit release approval required");
+        const controls=await tx.unsafe(
+          "select privacy_approved_at,backup_verified_at,backup_revision,privacy_notice_version from coaching_private.release_controls where org_id=$1::uuid for update",
+          [actor.orgId]
+        );
+        const gate=controls[0];
+        if(!gate||!gate.privacy_approved_at||!gate.backup_verified_at||
+           gate.privacy_notice_version!=="TVFIT-PILOT-2026-11-V1"||
+           Number(gate.backup_revision)!==Number(state[0].revision)||
+           Date.now()-new Date(gate.backup_verified_at).getTime()>48*3600000)
+          throw new CoachingError(423,"RELEASE_GATE_INCOMPLETE","Privacy approval and a current verified offsite backup are required");
+        const pending=await tx.unsafe(
+          "select 1 from coaching_private.snapshots where org_id=$1::uuid and jsonb_path_exists(payload, '$.deletionRequests[*][1] ? (@.status == \"pending_owner_review\")') limit 1",
+          [actor.orgId]
+        );
+        if(pending.length)throw new CoachingError(423,"PENDING_DELETION","Resolve pending deletion requests before enrollment");
+        await tx.unsafe(
+          "update coaching_private.release_controls set enrollment_enabled=true,workout_sync_enabled=true,enrollment_approved_at=now(),reviewed_at=now() where org_id=$1::uuid",
+          [actor.orgId]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'CONSENTED_PILOT_ACTIVATED',$3)",
+          [actor.orgId,actor.sub,String(state[0].revision)]
+        );
+        return {pilotActivated:true,stage:"private-client-pilot",clientMigration:false};
+      }
+      if(req.method==="POST"&&path==="/v1/coach/pause-pilot"){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner required");
+        if(!body||Object.keys(body).length!==1||body.confirmation!=="PAUSE_CLIENT_PILOT")
+          throw new CoachingError(422,"CONFIRMATION_REQUIRED","Explicit pause approval required");
+        await tx.unsafe(
+          "update coaching_private.release_controls set enrollment_enabled=false,workout_sync_enabled=false,reviewed_at=now() where org_id=$1::uuid",
+          [actor.orgId]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'CONSENTED_PILOT_PAUSED',$3)",
+          [actor.orgId,actor.sub,"client-pilot"]
+        );
+        return {pilotPaused:true};
+      }
       if(req.method==="GET"&&path==="/v1/coach/release-status"){
         if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
         const gates=await tx.unsafe(
-          "select enrollment_enabled, workout_sync_enabled,privacy_notice_version,(privacy_approved_at is not null) privacy_approved,(backup_verified_at is not null) backup_verified from coaching_private.release_controls where org_id=$1::uuid",
+          "select enrollment_enabled, workout_sync_enabled,privacy_notice_version,backup_revision,backup_verified_at,(privacy_approved_at is not null) privacy_approved,(backup_verified_at is not null) backup_verified from coaching_private.release_controls where org_id=$1::uuid",
           [actor.orgId]
         );
         if(gates.length!==1)throw new CoachingError(503,"SERVICE_NOT_READY","Missing release controls");
