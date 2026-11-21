@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://www.wixapis.com https://kszzvzysxwetwapbhzgy.supabase.co; form-action 'none'">
+<title>TriValley.fit | Private Training Companion</title>
+<style>
+:root{color-scheme:dark;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:#f2f4f7;background:radial-gradient(ellipse at 75% 0%,#24334a,#0b1423 54%,#060b13)}
+main{max-width:760px;margin:auto;padding:20px 18px 72px}
+header{display:flex;gap:13px;align-items:center;padding:15px 0 25px;border-bottom:1px solid #364459;margin-bottom:28px}
+.logo{width:47px;height:47px;object-fit:contain}.brand{font-size:12px;letter-spacing:.17em;color:#e5ca9a;font-weight:700}
+.mini{font-size:12px;color:#aebcd0;margin-top:5px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-weight:650;font-size:11px;color:#dfbb7f}
+h1{font-size:clamp(32px,8vw,45px);line-height:1.12;letter-spacing:-.035em;margin:8px 0 17px}
+h2{font-size:19px;margin:0 0 11px;letter-spacing:-.018em}
+p{color:#b8c5d6;font-size:14px;line-height:1.65;margin:0 0 20px}.lead{font-size:16px;max-width:48ch}
+section.card{background:linear-gradient(158deg,#19263aea,#101c2d);border:1px solid #4c5b71;border-radius:19px;padding:22px;margin:17px 0}
+button{font:inherit;font-weight:680;cursor:pointer;border-radius:11px;border:0;padding:13px 17px;min-height:46px}
+button[disabled]{opacity:.56;cursor:default}
+.primary{background:linear-gradient(115deg,#f3d9a8,#c5a06a);color:#0b1b2c}
+.secondary{background:#15243a;color:#edf2f7;border:1px solid #607087}
+button.full{width:100%}
+.status{padding:13px 16px;border:1px solid #536781;border-radius:11px;color:#ccd7e5;background:#142338;line-height:1.6;font-size:13px;min-height:48px}
+.status.success{color:#c5f0d5;background:#17372c;border-color:#6baa8c}.status.error{color:#ffd8b9;background:#402a1a;border-color:#dca36b}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{background:#0c1a2a;border:1px solid #425168;border-radius:13px;padding:16px}
+.stat strong{font-size:23px;display:block;line-height:1.4}.stat span{font-size:12px;color:#afbbce}
+label{display:block;font-size:13px;color:#d9e3f1;margin:10px 0 8px}
+input,select,textarea{border:1px solid #5a6b80;background:#0a1829;color:#f4f6fa;border-radius:10px;padding:12px 11px;font:inherit;font-size:16px;max-width:100%;width:100%;min-height:45px}
+textarea{min-height:85px}input[type=checkbox]{min-height:20px;width:20px}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.checks{display:flex;gap:10px;align-items:flex-start;margin:18px 0}
+.checks label{flex:1;margin:0}
+.divider{border:0;border-top:1px solid #34445b;margin:23px 0}
+.assignment{border:1px solid #50617a;background:#0b1a2c;border-radius:13px;padding:16px;margin:10px 0}
+.assignment strong{font-size:15px}.assignment p{margin:7px 0 0;font-size:12px}
+.exercise{border:1px solid #45546b;border-radius:11px;padding:12px;margin:12px 0;background:#0b1727}
+.exercise strong{font-size:14px}.exercise small{color:#aabbca}.setline{display:grid;grid-template-columns:38px repeat(2,minmax(0,1fr));gap:8px;align-items:end;margin:10px 0}
+.setline label{font-size:11px;margin:2px 0}.setline .setindex{align-self:center;font-size:12px;color:#bdc8d8}
+button+button{margin-left:3px}.small{font-size:12px;color:#aebbd0;line-height:1.6}
+a{color:#e8cea0;text-decoration-color:#9b7d51}footer{border-top:1px solid #344153;margin-top:30px;padding-top:18px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body><main>
+<header><img src="/apple-touch-icon-trinity-20261119.png" class="logo" alt="TriValley Trinity knot">
+<div><div class="brand">TRIVALLEY.FIT</div><div class="mini">Private training companion</div></div></header>
+<div class="eyebrow">Coach-guided training</div>
+<h1>Your plan.<br>Your progress.</h1>
+<p class="lead">The dedicated coaching area, separate from the free workout library. Your coach controls assignments; your logged training stays private.</p>
+<div id="status" class="status" role="status" aria-live="polite">Checking pilot availability...</div>
+<section class="card" id="signIn">
+<h2>Sign in as a Wix site member</h2>
+<p>Use the member account invited by your coach. Wix handles your login. We never ask for your password here.</p>
+<button id="signInButton" class="primary full">Continue securely with Wix</button>
+</section>
+<section class="card" id="enroll" hidden>
+<h2>Private client invitation</h2>
+<p>Only invited, approved Wix site members can join. Enrollment is disabled until the coaching privacy and backup requirements are approved.</p>
+<label for="inviteCode">One-time invitation code</label><input id="inviteCode" autocomplete="off" spellcheck="false" placeholder="Paste private code" maxlength="43">
+<div class="checks"><input id="consent" type="checkbox"><label for="consent">I agree to share my program activity, exercise sets, repetitions, weights, dates and check-ins with my assigned TriValley coach. I will not submit medical records or clinical information.</label></div>
+<button id="join" class="primary full" disabled>Accept invitation and join</button>
+<p class="small" id="consentVersion">Consent notice awaiting approval.</p>
+</section>
+<section id="training" hidden>
+<section class="card"><h2>My coaching overview</h2><div class="grid">
+<div class="stat"><strong id="workoutCount">0</strong><span>Completed workouts</span></div>
+<div class="stat"><strong id="assignmentCount">0</strong><span>Active programs</span></div>
+</div><div class="row" style="margin-top:19px"><button id="refresh" class="secondary">Refresh</button><button id="logout" class="secondary">End this session</button></div>
+</section>
+<section class="card"><h2>My assigned programs</h2><div id="assignments" role="region" aria-live="polite"></div></section>
+<section class="card"><h2>Log a coached workout</h2>
+<p id="syncLabel" class="small">Checking workout sync permissions...</p>
+<label for="assignmentSelect">Assigned program</label><select id="assignmentSelect"></select>
+<label for="duration">Total workout duration, minutes</label><input type="number" inputmode="numeric" id="duration" min="1" max="360" value="45">
+<div id="setsForm"></div>
+<div class="row"><button id="saveWorkout" class="primary" disabled>Save workout to offline queue</button><button id="syncWorkouts" class="secondary" disabled>Sync saved workouts</button></div>
+<p id="queueStatus" class="small" role="status" aria-live="polite">No queued workouts.</p>
+</section>
+<section class="card"><h2>Weekly coach check-in</h2>
+<label for="rating">How did your training go?</label><select id="rating"><option value="5">5 — Excellent</option><option value="4">4 — Good</option><option value="3">3 — Average</option><option value="2">2 — Challenging</option><option value="1">1 — Poor</option></select>
+<label for="comment">Training note (optional, do not include medical information)</label><textarea id="comment" maxlength="500"></textarea>
+<div class="checks"><input id="requestReview" type="checkbox"><label for="requestReview">Request coach review</label></div>
+<button id="submitCheckin" class="secondary" disabled>Send check-in</button>
+</section>
+<section class="card"><h2>My records and privacy</h2>
+<p>Your coach can only see accounts they are explicitly assigned. You can export your own coaching records and request deletion.</p>
+<div class="row"><button id="exportMine" class="secondary">Export my records</button><button id="deleteMine" class="secondary">Request data deletion</button></div>
+<p class="small" id="privacyStatus" aria-live="polite"></p></section>
+</section>
+<footer><div class="small">Secure staging pilot. Client enrollment and cloud workout submission are locked until launch checks finish. Do not enter sensitive medical information. Offline workout records remain on this browser until successfully synced; keep your own backup.</div>
+<p class="small" style="margin-top:13px"><a href="/#/home">Free workout companion</a> · <a href="https://www.trivalley.fit">TriValley.fit</a></p></footer>
+</main><script type="module" src="/coach-client.mjs"></script></body></html>
