@@ -60,6 +60,11 @@ a{color:#e8cea0;text-decoration-color:#9b7d51}footer{border-top:1px solid #34415
 <h2>Private client invitation</h2>
 <p>Only invited, approved Wix site members can join. Enrollment is disabled until the coaching privacy and backup requirements are approved.</p>
 <label for="inviteCode">One-time invitation code</label><input id="inviteCode" autocomplete="off" spellcheck="false" placeholder="Paste private code" maxlength="43">
+<details class="assignment" id="pilotNotice">
+<summary>Read the full pilot privacy notice (TVFIT-PILOT-2026-11-V1)</summary>
+<p>By enrolling, you allow TriValley.fit to store your Wix member ID and display name, assigned programs, workout dates/durations, exercise sets, repetitions, weights, and any optional check-in comments in its restricted U.S. West coaching database. Your assigned coach can view your coached records. You can request an export or deletion of coaching data.</p>
+<p>Do not provide medical histories, diagnoses, or clinical notes. Supabase Free has no guaranteed automatic backups and may pause after inactivity. The owner is responsible for manual encrypted backup copies. Deletion from live coaching tables removes in-database recovery history, but previously downloaded backups must be handled separately. Data is retained until deletion is reviewed and processed; no fixed automatic expiry is currently implemented.</p>
+</details>
 <div class="checks"><input id="consent" type="checkbox"><label for="consent">I agree to share my program activity, exercise sets, repetitions, weights, dates and check-ins with my assigned TriValley coach. I will not submit medical records or clinical information.</label></div>
 <button id="join" class="primary full" disabled>Accept invitation and join</button>
 <p class="small" id="consentVersion">Consent notice awaiting approval.</p>
