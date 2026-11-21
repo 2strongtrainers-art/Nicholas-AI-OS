@@ -14,12 +14,12 @@ edit('src/components/ClientHeader.jsx',"          <button type=\"button\" onClic
 edit('src/components/WorkoutPoster.jsx',"import { restForEntry }", "import { WeightGuidance, ExerciseSwap } from './WorkoutTools.jsx'\nimport { restForEntry }")
 edit('src/components/WorkoutPoster.jsx','onField, working })','onField, working, routineId, activeId })')
 edit('src/components/WorkoutPoster.jsx','    {entry.sg && <p', '    <WeightGuidance ex={ex} plan={entry.plan} target={entry.target} unit={unit} />\n    {entry.sg && <p')
-edit('src/components/WorkoutPoster.jsx','    <MovementIllustration ex={ex} collapsible />','    <ExerciseSwap entry={entry} index={index} routineId={routineId} activeId={activeId} />\n    <MovementIllustration ex={ex} collapsible />')
+edit('src/components/WorkoutPoster.jsx','    <MovementIllustration ex={ex} poster />','    <ExerciseSwap entry={entry} index={index} routineId={routineId} activeId={activeId} />\n    <MovementIllustration ex={ex} poster />')
 edit('src/components/WorkoutPoster.jsx',"    sets: applyPrescription(buildSets(S, cfg), nextPrescription(S, cfg, routine))", "    plan: nextPrescription(S, cfg, routine), sets: applyPrescription(buildSets(S, cfg), nextPrescription(S, cfg, routine))")
 edit('src/components/WorkoutPoster.jsx','unit={S.unit} preview />','unit={S.unit} routineId={S.routines.some(r=>r.id===routine.id)?routine.id:null} preview />')
 edit('src/components/WorkoutPoster.jsx','onField={onField} working={working} />','onField={onField} working={working} activeId={A.id} routineId={A.routineId} />')
-edit('src/views/Workout.jsx', "import WorkoutChooser from '../components/WorkoutChooser.jsx'", "import WorkoutChooser from '../components/WorkoutChooser.jsx'\nimport { WeightGuidance, ExerciseSwap } from '../components/WorkoutTools.jsx'")
-edit('src/views/Workout.jsx','    <details className="tv-focus-reference">','    <WeightGuidance ex={ex} plan={entry.plan} target={entry.target} unit={S.active?.unit||S.unit} />\n    <ExerciseSwap entry={entry} index={entryIdx} activeId={S.active.id} routineId={S.active.routineId} />\n    <details className="tv-focus-reference">')
+edit('src/views/Workout.jsx', "import WorkoutChooser from '../components/WorkoutChooser.jsx'", "import WorkoutChooser from '../components/WorkoutChooser.jsx'\nimport { WeightGuidance, ExerciseSwap } from '../components/WorkoutTools.jsx'\nimport MovementIllustration from '../components/MovementIllustration.jsx'")
+edit('src/views/Workout.jsx','    <details className="tv-focus-reference">','    <WeightGuidance ex={ex} plan={entry.plan} target={entry.target} unit={S.active?.unit||S.unit} />\n    <ExerciseSwap entry={entry} index={entryIdx} activeId={S.active.id} routineId={S.active.routineId} />\n    <MovementIllustration ex={ex} poster />\n    <details className="tv-focus-reference">')
 print('Safe explicit substitutions, weight conventions, next-step guidance and private feedback drafts integrated')
 
 edit('src/lib/history.js', "import {", "import { freshSwapLoad } from './tv-workout-tools.js'\nimport {") if False else None
@@ -29,6 +29,6 @@ p.write_text(s)
 
 shutil.copyfile(assets/'RecordedDemo.jsx',front/'src/components/RecordedDemo.jsx')
 edit('src/components/WorkoutPoster.jsx', "import CoachNotes from './CoachNotes.jsx'", "import CoachNotes from './CoachNotes.jsx'\nimport RecordedDemo from './RecordedDemo.jsx'")
-edit('src/components/WorkoutPoster.jsx', '    <MovementIllustration ex={ex} collapsible />', '    <RecordedDemo ex={ex} />\n    <MovementIllustration ex={ex} collapsible />')
+edit('src/components/WorkoutPoster.jsx', '    <MovementIllustration ex={ex} poster />', '    <RecordedDemo ex={ex} />\n    <MovementIllustration ex={ex} poster />')
 edit('src/components/CoachNotes.jsx', "import { coachNotesFor }", "import RecordedDemo from './RecordedDemo.jsx'\nimport { coachNotesFor }")
 edit('src/components/CoachNotes.jsx','    <p className="tv-eyebrow">MY COACHING NOTES</p>','    <p className="tv-eyebrow">MY COACHING NOTES</p>\n    <RecordedDemo ex={ex} />')
