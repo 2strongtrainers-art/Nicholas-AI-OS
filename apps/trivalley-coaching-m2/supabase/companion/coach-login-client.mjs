@@ -247,6 +247,127 @@ el("createSplit").addEventListener("click",async()=>{
   }
 });
 
+// Portable off-provider backup; only encrypted ciphertext is saved to a local file.
+// Server never sees the passphrase, and this page never stores it or the backup in localStorage.
+const BACKUP_TYPE="trivalley-encrypted-owner-backup-v1";
+const BACKUP_AAD=new TextEncoder().encode(BACKUP_TYPE);
+const BACKUP_ITERATIONS=350000;
+function toBase64(bytes) {
+  const chunks=[];
+  for(let i=0;i<bytes.length;i+=8192)
+    chunks.push(String.fromCharCode(...bytes.subarray(i,i+8192)));
+  return btoa(chunks.join(""));
+}
+function fromBase64(value) {
+  if(typeof value!=="string"||value.length>16000000||!/^[a-zA-Z0-9+/]*={0,2}$/.test(value))
+    throw new Error("INVALID_BACKUP_ENCODING");
+  return Uint8Array.from(atob(value),c=>c.charCodeAt(0));
+}
+async function backupKey(passphrase,salt) {
+  const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(passphrase),
+    {name:"PBKDF2"},false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:BACKUP_ITERATIONS,hash:"SHA-256"},
+    material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+function askPassphrase({confirmation=false}={}) {
+  const passphrase=window.prompt("Enter a private backup passphrase (at least 16 characters). It is not sent to TriValley or stored anywhere.");
+  if(!passphrase||passphrase.length<16||passphrase.length>256)throw new Error("PASSPHRASE_LENGTH");
+  if(confirmation&&window.prompt("Re-enter the exact backup passphrase to confirm.")!==passphrase)
+    throw new Error("PASSPHRASE_MISMATCH");
+  return passphrase;
+}
+function validBackup(data) {
+  return data&&data.format==="trivalley-coaching-private-backup-v1"&&
+    data.siteId==="9e6343d9-5a1c-45e2-8596-f73408e38402"&&
+    Number.isSafeInteger(data.revision)&&data.revision>=0&&
+    data.payload&&typeof data.payload==="object"&&
+    ["programs","programVersions","assignments","workouts","checkins",
+     "deletionRequests","exerciseCatalog"].every(k=>Array.isArray(data.payload[k]))&&
+    Array.isArray(data.memberships)&&Array.isArray(data.ownerAliases)&&Array.isArray(data.audit);
+}
+async function refreshRecovery(){
+  const r=await apiGet("/v1/coach/recovery-points");
+  const points=Array.isArray(r.recoveryPoints)?r.recoveryPoints:[];
+  const current=Number(r.currentRevision);
+  if(!Number.isSafeInteger(current))throw new Error("INVALID_RECOVERY_STATE");
+  el("recoveryPoints").textContent="Database revision "+current+" · "+
+    points.length+" recoverable in-database revision"+(points.length===1?"":"s")+".";
+}
+el("backupNow").addEventListener("click",async()=>{
+  const button=el("backupNow");
+  button.disabled=true;
+  const box=el("backupResult");
+  try{
+    if(!crypto?.subtle||!crypto?.getRandomValues)throw new Error("ENCRYPTION_NOT_AVAILABLE");
+    const passphrase=askPassphrase({confirmation:true});
+    box.textContent="Fetching and encrypting your private backup...";
+    const backup=await apiGet("/v1/coach/backup");
+    if(!validBackup(backup))throw new Error("INVALID_BACKUP_PAYLOAD");
+    const salt=crypto.getRandomValues(new Uint8Array(16));
+    const iv=crypto.getRandomValues(new Uint8Array(12));
+    const key=await backupKey(passphrase,salt);
+    const plain=new TextEncoder().encode(JSON.stringify(backup));
+    const sealed=new Uint8Array(await crypto.subtle.encrypt(
+      {name:"AES-GCM",iv,additionalData:BACKUP_AAD},key,plain));
+    const packageData={
+      format:BACKUP_TYPE,version:1,kdf:"PBKDF2-SHA256",
+      iterations:BACKUP_ITERATIONS,cipher:"AES-256-GCM",
+      siteId:backup.siteId,revision:backup.revision,
+      createdAt:new Date().toISOString(),
+      salt:toBase64(salt),iv:toBase64(iv),ciphertext:toBase64(sealed)
+    };
+    const fileName="trivalley-coaching-"+new Date().toISOString().slice(0,10)+
+      "-rev"+backup.revision+".tvfitbackup";
+    const file=new File([JSON.stringify(packageData)],fileName,{type:"application/json"});
+    let shared=false;
+    if(typeof navigator.share==="function"&&navigator.canShare?.({files:[file]})){
+      try{await navigator.share({files:[file],title:"Encrypted TriValley coaching backup"});shared=true}
+      catch{/* User cancelled share or Safari blocked it: offer a normal file download. */}
+    }
+    if(!shared){
+      const url=URL.createObjectURL(file);
+      const a=document.createElement("a");
+      a.href=url;a.download=fileName;document.body.append(a);a.click();a.remove();
+      window.setTimeout(()=>URL.revokeObjectURL(url),60000);
+    }
+    box.textContent="Encrypted backup created for revision "+backup.revision+
+      ". Save the file outside Supabase, then verify it below. Keep your passphrase safe.";
+    await refreshRecovery();
+  }catch{
+    box.textContent="Backup was not exported. No data or password was saved by this page. Check the passphrase and sign-in, then retry.";
+  }finally{button.disabled=false}
+});
+el("verifyBackup").addEventListener("click",async()=>{
+  const button=el("verifyBackup");
+  const box=el("backupResult");
+  button.disabled=true;
+  try{
+    const file=el("backupFile").files?.[0];
+    if(!file||file.size>14000000||file.size<50)throw new Error("INVALID_BACKUP_FILE");
+    const packaged=JSON.parse(await file.text());
+    if(packaged?.format!==BACKUP_TYPE||packaged.version!==1||
+      packaged.kdf!=="PBKDF2-SHA256"||packaged.iterations!==BACKUP_ITERATIONS||
+      packaged.cipher!=="AES-256-GCM"||
+      packaged.siteId!=="9e6343d9-5a1c-45e2-8596-f73408e38402")
+      throw new Error("INVALID_BACKUP_FORMAT");
+    const salt=fromBase64(packaged.salt),iv=fromBase64(packaged.iv);
+    if(salt.length!==16||iv.length!==12)throw new Error("INVALID_BACKUP_FORMAT");
+    const passphrase=askPassphrase();
+    const key=await backupKey(passphrase,salt);
+    const plain=await crypto.subtle.decrypt(
+      {name:"AES-GCM",iv,additionalData:BACKUP_AAD},key,
+      fromBase64(packaged.ciphertext));
+    const data=JSON.parse(new TextDecoder("utf-8",{fatal:true}).decode(plain));
+    if(!validBackup(data)||data.revision!==packaged.revision)
+      throw new Error("INVALID_BACKUP_CONTENTS");
+    box.textContent="Backup verified locally: revision "+data.revision+
+      ", "+data.memberships.length+" account records, "+
+      data.payload.workouts.length+" workout entries. No data was uploaded or restored.";
+  }catch{
+    box.textContent="Backup check failed. It may be the wrong passphrase, wrong file, or damaged data. Nothing was uploaded or restored.";
+  }finally{button.disabled=false}
+});
+
 async function showCoach() {
   const me=await apiGet("/v1/me");
   if(me?.member?.role!=="coach")throw new Error("This member is not approved for the coaching role");
@@ -259,6 +380,9 @@ async function showCoach() {
   status("Wix member and protected coaching API verified. No client records have been migrated.","success");
   try{await refreshPrograms()}catch{
     el("programNotice").textContent="Private programme library is currently unavailable. Coaching login still verified.";
+  }
+  try{await refreshRecovery()}catch{
+    el("recoveryPoints").textContent="Recovery-point status unavailable. Do not rely on this project as your only backup.";
   }
 }
 el("login").addEventListener("click",async()=>{
