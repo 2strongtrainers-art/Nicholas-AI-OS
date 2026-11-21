@@ -366,6 +366,35 @@ async function handle(req) {
         if(gate.length!==1||!gate[0].workout_sync_enabled)
           throw new CoachingError(423,"CLIENT_SYNC_DISABLED","Client record synchronization remains locked");
       }
+      if(req.method==="GET"&&path==="/v1/coach/enrolled-clients"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        const clients=await tx.unsafe(
+          `select m.wix_member_id::text as id, m.display_name, m.created_at
+             from coaching_private.wix_memberships m
+             join coaching_private.client_consents c on
+                c.wix_site_id=m.wix_site_id and c.wix_member_id=m.wix_member_id and c.org_id=m.org_id
+             join coaching_private.release_controls r on r.org_id=m.org_id and r.privacy_notice_version=c.notice_version
+            where m.org_id=$1::uuid and m.role='client' and m.status='active'
+            order by m.created_at desc limit 200`,
+          [actor.orgId]
+        );
+        return {clients};
+      }
+      if(req.method==="POST"&&path==="/v1/coach/assignments"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        if(!body||typeof body.clientId!=="string"||!ID_RE.test(body.clientId))
+          throw new CoachingError(422,"VALIDATION","Valid client member ID required");
+        const eligible=await tx.unsafe(
+          `select 1
+             from coaching_private.wix_memberships m
+             join coaching_private.client_consents c on c.wix_site_id=m.wix_site_id and c.wix_member_id=m.wix_member_id and c.org_id=m.org_id
+             join coaching_private.release_controls r on r.org_id=m.org_id and r.privacy_notice_version=c.notice_version
+            where m.org_id=$1::uuid and m.wix_member_id=$2::uuid and m.role='client' and m.status='active'
+            limit 1`,
+          [actor.orgId,body.clientId]
+        );
+        if(eligible.length!==1)throw new CoachingError(403,"CLIENT_CONSENT_REQUIRED","Client has not opted into this coaching program");
+      }
       if(req.method==="GET"&&path==="/v1/coach/invitations"){
         if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
         const invitations=await tx.unsafe(
