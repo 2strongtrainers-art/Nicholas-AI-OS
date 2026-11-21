@@ -7,55 +7,43 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-core-20261121-25",
-    "status": "GENERATED_PRIVATE_REVIEW_PENDING_INTEGRATION",
+    "id": "nick-core-20261121-next25",
+    "status": "IN_PROGRESS_PRIVATE_GENERATION",
     "exactIds": [
-      "0277",
-      "0282",
-      "0464",
-      "0469",
-      "0472",
-      "0475",
-      "0495",
-      "0507",
-      "0508",
-      "0620",
-      "0634",
-      "0635",
-      "0664",
-      "0689",
-      "0691",
-      "0735",
-      "0807",
-      "0826",
-      "1466",
-      "1468",
-      "1495",
-      "1686",
-      "1688",
-      "1761",
-      "1775"
+      "3204",
+      "3544",
+      "0260",
+      "0271",
+      "0272",
+      "0407",
+      "0459",
+      "2429",
+      "3561",
+      "3523",
+      "3239",
+      "0630",
+      "1422",
+      "3665",
+      "3663",
+      "1774",
+      "0705",
+      "3645",
+      "3679",
+      "2329",
+      "0857",
+      "0865",
+      "0138",
+      "0870",
+      "2466"
     ],
-    "claimedAt": "2026-11-21T16:03:57.719Z",
-    "claimOwner": "owner-directed-artwork-resume-20261121",
+    "claimedAt": "2026-11-21T16:39:13.791Z",
+    "claimOwner": "owner-directed-next25-20261121",
     "newCatalogueEntries": 25,
-    "generatedCount": 25,
+    "generatedCount": 0,
     "acceptedCount": 0,
     "deployedCount": 0,
-    "observedLiveCoverage": 63,
-    "sourceRelease": "1f70953954e2d4b31da0683d85d6bca0de40f520",
-    "reviewScope": "Owner explicitly resumed these 25 on November 21. Native image generation with private approved avatar face and right-side gym references. Per-ID visual review and technical/live acceptance pending. Preserve the separate ten-card publisher.",
-    "operatorInspectedCount": 25,
-    "generationCalls": 29,
-    "correctedIds": [
-      "0495",
-      "1466",
-      "0634",
-      "0735"
-    ],
-    "deliveryPackSha256": "0e4ba432419c1746554614f7c6715d07284be0270514ae791055e4731db19197",
-    "nextStep": "Resume this existing 25-card batch. Verify exact movement variants, owner likeness and qualified movement review, integrate reviewed assets using existing publisher, then run exact release build/mobile/offline checks and independent live acceptance. Do not generate these IDs again unless correcting a documented defect.",
-    "updatedAt": "2026-11-21T16:31:44.119Z"
+    "reviewScope": "Owner explicitly requested the next 25 after first 25-card review pack. Preserve previous 25 and ten-card publisher; no overlap.",
+    "nextStep": "Generate and inspect these exact IDs. Keep generated/private, accepted and live counts distinct."
   },
   "entries": [
     {
@@ -134,7 +122,11 @@
       "id": "3204",
       "name": "arms overhead full sit-up (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0009",
@@ -1586,7 +1578,11 @@
       "id": "3544",
       "name": "bodyweight incline side plank",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1771",
@@ -1661,7 +1657,11 @@
       "id": "0138",
       "name": "bottoms-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1374",
@@ -1673,7 +1673,11 @@
       "id": "2466",
       "name": "bridge - mountain climber (cross body)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1160",
@@ -1685,7 +1689,11 @@
       "id": "0870",
       "name": "butt-ups",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1494",
@@ -2759,7 +2767,11 @@
       "id": "0260",
       "name": "cocoons",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1468",
@@ -2795,13 +2807,21 @@
       "id": "0271",
       "name": "crunch (on stability ball)",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0272",
       "name": "crunch (on stability ball, arms straight)",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0274",
@@ -4352,7 +4372,11 @@
       "id": "0407",
       "name": "dumbbell side bend",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0408",
@@ -5030,7 +5054,11 @@
       "id": "0459",
       "name": "flutter kicks",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1472",
@@ -5054,7 +5082,11 @@
       "id": "2429",
       "name": "frog crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3301",
@@ -5120,13 +5152,21 @@
       "id": "3561",
       "name": "glute bridge march",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3523",
       "name": "glute bridge two legs on bench (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3193",
@@ -5825,7 +5865,11 @@
       "id": "3239",
       "name": "kneeling plank tap shoulder (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3211",
@@ -6404,7 +6448,11 @@
       "id": "0865",
       "name": "lying leg-hip raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1301",
@@ -6500,7 +6548,11 @@
       "id": "0630",
       "name": "mountain climber",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0631",
@@ -6668,7 +6720,11 @@
       "id": "1422",
       "name": "pelvic tilt into bridge",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "1388",
@@ -6722,7 +6778,11 @@
       "id": "3665",
       "name": "power point plank",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3203",
@@ -6998,7 +7058,11 @@
       "id": "3663",
       "name": "reverse plank with leg lift",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0677",
@@ -7238,13 +7302,21 @@
       "id": "1774",
       "name": "side bridge hip abduction",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0705",
       "name": "side bridge v. 2",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0709",
@@ -7328,7 +7400,11 @@
       "id": "3645",
       "name": "single leg bridge with outstretched leg",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "0727",
@@ -7376,7 +7452,11 @@
       "id": "3679",
       "name": "sit-up with arms on chest",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3361",
@@ -7811,7 +7891,11 @@
       "id": "2329",
       "name": "spine twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "2368",
@@ -8405,7 +8489,11 @@
       "id": "0857",
       "name": "wheel rollerout",
       "equipment": "wheel roller",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-next25",
+      "claimedAt": "2026-11-21T16:39:13.791Z",
+      "claimOwner": "owner-directed-next25-20261121",
+      "deployed": false
     },
     {
       "id": "3637",
@@ -8583,6 +8671,57 @@
       "liveAcceptanceAttempt": 1,
       "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
       "observedAt": "2026-11-21T04:59:26.887607+00:00"
+    },
+    {
+      "id": "nick-core-20261121-25",
+      "status": "GENERATED_PRIVATE_REVIEW_PENDING_INTEGRATION",
+      "exactIds": [
+        "0277",
+        "0282",
+        "0464",
+        "0469",
+        "0472",
+        "0475",
+        "0495",
+        "0507",
+        "0508",
+        "0620",
+        "0634",
+        "0635",
+        "0664",
+        "0689",
+        "0691",
+        "0735",
+        "0807",
+        "0826",
+        "1466",
+        "1468",
+        "1495",
+        "1686",
+        "1688",
+        "1761",
+        "1775"
+      ],
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "newCatalogueEntries": 25,
+      "generatedCount": 25,
+      "acceptedCount": 0,
+      "deployedCount": 0,
+      "observedLiveCoverage": 63,
+      "sourceRelease": "1f70953954e2d4b31da0683d85d6bca0de40f520",
+      "reviewScope": "Owner explicitly resumed these 25 on November 21. Native image generation with private approved avatar face and right-side gym references. Per-ID visual review and technical/live acceptance pending. Preserve the separate ten-card publisher.",
+      "operatorInspectedCount": 25,
+      "generationCalls": 29,
+      "correctedIds": [
+        "0495",
+        "1466",
+        "0634",
+        "0735"
+      ],
+      "deliveryPackSha256": "0e4ba432419c1746554614f7c6715d07284be0270514ae791055e4731db19197",
+      "nextStep": "Resume this existing 25-card batch. Verify exact movement variants, owner likeness and qualified movement review, integrate reviewed assets using existing publisher, then run exact release build/mobile/offline checks and independent live acceptance. Do not generate these IDs again unless correcting a documented defect.",
+      "updatedAt": "2026-11-21T16:31:44.119Z"
     }
   ],
   "catalogueQueued": 1271
