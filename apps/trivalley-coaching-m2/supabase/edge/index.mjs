@@ -5,6 +5,7 @@ import postgres from "npm:postgres@3.4.3";
 import {CoachingService,InMemoryCoachingStore,CoachingError} from "./domain.mjs";
 import {makeWixMemberVerifier} from "./wix-verify.mjs";
 import {makeWixOAuthTokenBinding} from "./wix-token-info.mjs";
+import {eraseClientState} from "./deletion.mjs";
 
 const SITE_ID="9e6343d9-5a1c-45e2-8596-f73408e38402";
 const HOST_NAME="trivalley-coaching-api";
@@ -453,6 +454,69 @@ async function handle(req) {
       }
       const store=decodeSnapshot(state[0].payload,rows);
       const service=new CoachingService({store});
+      if(req.method==="GET"&&path==="/v1/coach/deletion-requests"){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner review required");
+        const requests=[...store.deletionRequests.values()].map(x=>structuredClone(x));
+        return {requests:requests.sort((a,b)=>String(b.requestedAt).localeCompare(String(a.requestedAt)))};
+      }
+      if(req.method==="POST"&&path.startsWith("/v1/coach/deletion-requests/")&&
+         path.endsWith("/complete")&&path.split("/").length===6){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner review required");
+        if(!body||body.confirmation!=="CONFIRM_PERMANENT_COACHING_ERASURE"||Object.keys(body).length!==1)
+          throw new CoachingError(422,"CONFIRMATION_REQUIRED","Explicit deletion approval required");
+        const requestId=path.split("/")[4];
+        if(!ID_RE.test(requestId))throw new CoachingError(404,"NOT_FOUND","Deletion request unavailable");
+        let result;
+        try{result=eraseClientState(store,actor,requestId)}
+        catch{throw new CoachingError(404,"NOT_FOUND","Pending deletion request unavailable")}
+        const clientId=result.clientId;
+        const valid=await tx.unsafe(
+          "select 1 from coaching_private.wix_memberships where org_id=$1::uuid and wix_member_id=$2::uuid and role='client' for update",
+          [actor.orgId,clientId]
+        );
+        if(valid.length!==1)throw new CoachingError(404,"NOT_FOUND","Client enrollment unavailable");
+        const payload=encodeSnapshot(store);
+        if(new TextEncoder().encode(payload).byteLength>4000000)
+          throw new CoachingError(413,"STORAGE_LIMIT","Cannot finalize deletion");
+        // Scrub recoverable historical snapshots BEFORE writing a redacted revision.
+        await tx.unsafe(
+          "delete from coaching_private.snapshot_revisions where org_id=$1::uuid",
+          [actor.orgId]
+        );
+        await tx.unsafe(
+          "update coaching_private.snapshots set payload=$2::jsonb,revision=revision+1,updated_at=now() where org_id=$1::uuid",
+          [actor.orgId,payload]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.snapshot_revisions(org_id,revision,payload) values ($1::uuid,$2::bigint,$3::jsonb)",
+          [actor.orgId,String(BigInt(state[0].revision)+1n),payload]
+        );
+        await tx.unsafe(
+          "delete from coaching_private.client_consents where org_id=$1::uuid and wix_member_id=$2::uuid",
+          [actor.orgId,clientId]
+        );
+        await tx.unsafe(
+          "delete from coaching_private.invitations where org_id=$1::uuid and claimed_member_id=$2::uuid",
+          [actor.orgId,clientId]
+        );
+        await tx.unsafe(
+          "delete from coaching_private.wix_memberships where org_id=$1::uuid and wix_member_id=$2::uuid and role='client'",
+          [actor.orgId,clientId]
+        );
+        await tx.unsafe(
+          "delete from coaching_private.audit_events where org_id=$1::uuid and (actor_id=$2::uuid OR resource_id=ANY($3::text[]))",
+          [actor.orgId,clientId,result.resources]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'DATA_DELETION_COMPLETED',$3)",
+          [actor.orgId,actor.sub,requestId]
+        );
+        return {completed:true,requestId,removed:{workouts:result.workouts,
+          assignments:result.assignments,checkins:result.checkins},
+          notice:"Review previously downloaded external backups separately; they cannot be recalled."};
+      }
       const data=dispatch(service,actor,req.method,path,body);
       if(req.method==="POST"||store.audit.length){
         const payload=encodeSnapshot(store);
