@@ -20,9 +20,16 @@
     "newCatalogueEntries": 6,
     "priorCatalogueIllustrated": 47,
     "targetCatalogueIllustrated": 53,
-    "appVersion": "5.20.0",
+    "appVersion": "5.20.1",
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Operator visual review; no human movement certification. Corrected seated calf-raise block support before integration."
+    "reviewScope": "Operator visual review; no human movement certification. Corrected calf support and pullover shoulder movement before final acceptance.",
+    "supersededCandidate": {
+      "version": "5.20.0",
+      "sourceCommit": "76692142365971df757e77153c7b6ed4c05de55a",
+      "buildRunId": 44867047723,
+      "liveAcceptanceRunId": 44867427462,
+      "status": "Replaced after visual pullover correction despite passing technical QA."
+    }
   },
   "entries": [
     {
