@@ -272,18 +272,41 @@ function monday(){
   d.setUTCDate(d.getUTCDate()-offset);
   return d.toISOString().slice(0,10);
 }
+// Reuse one idempotency key for identical check-in retries, even after a page reload.
+// Persist only a SHA-256 fingerprint and event UUID, not the comment or Wix token.
+async function pendingCheckinId(payload){
+  const key="tv-checkin-id-v1:"+SITE_ID+":"+memberId;
+  const bytes=new TextEncoder().encode(JSON.stringify(payload));
+  const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)))
+    .map(v=>v.toString(16).padStart(2,"0")).join("");
+  try{
+    const prior=JSON.parse(sessionStorage.getItem(key)||"null");
+    if(prior&&prior.digest===digest&&
+      typeof prior.id==="string"&&/^[0-9a-f-]{36}$/i.test(prior.id)&&
+      Number.isFinite(prior.createdAt)&&Date.now()-prior.createdAt>=0&&
+      Date.now()-prior.createdAt<24*60*60*1000)
+      return {id:prior.id,key};
+  }catch{/* sessionStorage unavailable; retry still uses current page state. */}
+  const id=crypto.randomUUID();
+  try{sessionStorage.setItem(key,JSON.stringify({id,digest,createdAt:Date.now()}))}
+  catch{/* No token or plaintext comment is stored. */}
+  return {id,key};
+}
 el("submitCheckin").addEventListener("click",async()=>{
   const item=selected();if(!item||!pilot?.syncEnabled)return;
   el("submitCheckin").disabled=true;
   try{
-    const body={checkinId:crypto.randomUUID(),assignmentId:item.assignment.id,
+    const payload={assignmentId:item.assignment.id,
       weekOf:monday(),completionRating:Number(el("rating").value),
       comment:el("comment").value.slice(0,500),
       requestReview:el("requestReview").checked};
-    await request("/v1/me/checkins",{method:"POST",body});
+    const event=await pendingCheckinId(payload);
+    await request("/v1/me/checkins",{method:"POST",
+      body:{checkinId:event.id,...payload}});
+    try{sessionStorage.removeItem(event.key)}catch{}
     el("comment").value="";el("requestReview").checked=false;
     say("Private weekly check-in received by your coach.","success");
-  }catch{say("Check-in was not accepted. Please check your connection before retrying.","error")}
+  }catch{say("Check-in was not accepted. Retry without changing the fields; the same event ID will be reused.","error")}
   finally{el("submitCheckin").disabled=false}
 });
 function saveFile(text,filename){
