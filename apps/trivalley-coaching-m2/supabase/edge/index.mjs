@@ -6,6 +6,7 @@ import {CoachingService,InMemoryCoachingStore,CoachingError} from "./domain.mjs"
 import {makeWixMemberVerifier} from "./wix-verify.mjs";
 import {makeWixOAuthTokenBinding} from "./wix-token-info.mjs";
 import {eraseClientState} from "./deletion.mjs";
+import {requireCoachingOwner} from "./owner-permissions.mjs";
 import {validateCoachingBackup} from "./backup-restore.mjs";
 
 const SITE_ID="9e6343d9-5a1c-45e2-8596-f73408e38402";
@@ -341,7 +342,7 @@ async function handle(req) {
       // Owner-only portable backup export. The browser encrypts with a user-held
       // passphrase before saving; neither password nor client records enter GitHub.
       if(req.method==="GET"&&path==="/v1/coach/backup"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         const members=await tx.unsafe(
           "select wix_site_id::text, wix_member_id::text, org_id::text, role, status, display_name from coaching_private.wix_memberships where org_id=$1::uuid order by wix_member_id",
           [actor.orgId]
@@ -365,7 +366,7 @@ async function handle(req) {
       }
 
       if(req.method==="GET"&&path==="/v1/coach/recovery-points"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         const points=await tx.unsafe(
           "select revision,captured_at,octet_length(payload::text) as bytes from coaching_private.snapshot_revisions where org_id=$1::uuid order by revision desc limit 20",
           [actor.orgId]
@@ -520,7 +521,7 @@ async function handle(req) {
         return {pilotPaused:true};
       }
       if(req.method==="GET"&&path==="/v1/coach/release-status"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         const gates=await tx.unsafe(
           "select enrollment_enabled, workout_sync_enabled,privacy_notice_version,backup_revision,backup_verified_at,restore_drill_revision,restore_drill_at,(restore_drill_at is not null) restore_drill_verified,(privacy_approved_at is not null) privacy_approved,(backup_verified_at is not null) backup_verified from coaching_private.release_controls where org_id=$1::uuid",
           [actor.orgId]
@@ -538,7 +539,7 @@ async function handle(req) {
           throw new CoachingError(423,"CLIENT_SYNC_DISABLED","Client record synchronization remains locked");
       }
       if(req.method==="GET"&&path==="/v1/coach/enrolled-clients"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         const clients=await tx.unsafe(
           `select m.wix_member_id::text as id, m.display_name, m.created_at
              from coaching_private.wix_memberships m
@@ -552,7 +553,7 @@ async function handle(req) {
         return {clients};
       }
       if(req.method==="POST"&&path==="/v1/coach/assignments"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         if(!body||typeof body.clientId!=="string"||!ID_RE.test(body.clientId))
           throw new CoachingError(422,"VALIDATION","Valid client member ID required");
         const eligible=await tx.unsafe(
@@ -567,7 +568,7 @@ async function handle(req) {
         if(eligible.length!==1)throw new CoachingError(403,"CLIENT_CONSENT_REQUIRED","Client has not opted into this coaching program");
       }
       if(req.method==="GET"&&path==="/v1/coach/invitations"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         const invitations=await tx.unsafe(
           "select id::text,label,state,created_at,expires_at,claimed_at from coaching_private.invitations where org_id=$1::uuid and coach_id=$2::uuid order by created_at desc limit 50",
           [actor.orgId,actor.sub]
@@ -575,7 +576,7 @@ async function handle(req) {
         return {invitations};
       }
       if(req.method==="POST"&&path==="/v1/coach/invitations"){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         if(!body||Object.keys(body).length!==1||typeof body.label!=="string"||
           !/^[A-Za-z0-9 _.-]{2,80}$/.test(body.label))
           throw new CoachingError(422,"VALIDATION","Invitation label must be 2-80 plain characters");
@@ -606,7 +607,7 @@ async function handle(req) {
         return {invitation:{...entry[0],code:secret,oneTimeDisplay:true}};
       }
       if(req.method==="POST"&&path.startsWith("/v1/coach/invitations/")&&path.endsWith("/revoke")&&path.split("/").length===6){
-        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        requireCoachingOwner(actor);
         if(!body||Object.keys(body).length!==0)
           throw new CoachingError(422,"VALIDATION","No body fields allowed");
         const id=path.split("/")[4];
