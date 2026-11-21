@@ -127,9 +127,12 @@ function dispatch(service,actor,method,path,body) {
   }
   throw new CoachingError(404,"NOT_FOUND","Endpoint not found");
 }
+const verifyTokenSite=makeWixOAuthTokenBinding({
+  expectedSiteId:SITE_ID,expectedClientId:"d61ad4ca-bfe1-4792-b1d6-099567dd79d0"
+});
 const verify=makeWixMemberVerifier({
   siteId:SITE_ID,
-  verifyTokenSite:makeWixOAuthTokenBinding({expectedSiteId:SITE_ID,expectedClientId:"d61ad4ca-bfe1-4792-b1d6-099567dd79d0"}),
+  verifyTokenSite,
   lookupProvisionedMember:async ({siteId,memberId})=>{
     if(!sql)return null;
     // Raw Wix identity must exist as a direct member or an exact, owner-approved alias.
@@ -156,6 +159,90 @@ const verify=makeWixMemberVerifier({
             status:rows[0].status,canonicalMemberId:rows[0].canonical_member_id};
   }
 });
+// Invitation code is 256 bits of WebCrypto entropy, stored only as a SHA-256 digest.
+const MEMBER_URL="https://www.wixapis.com/members/v1/members/my?fieldSet=FULL";
+const CODE_RE=/^[A-Za-z0-9_-]{43}$/;
+const ID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const hashCode=async code=>Array.from(new Uint8Array(
+  await crypto.subtle.digest("SHA-256",new TextEncoder().encode(code))))
+  .map(x=>x.toString(16).padStart(2,"0")).join("");
+
+async function verifiedUnprovisionedMember(token){
+  const scope=await verifyTokenSite({token,expectedSiteId:SITE_ID});
+  if(!scope||scope.identityType!=="member"||!ID_RE.test(scope.memberId))return null;
+  const ctrl=new AbortController();
+  const stop=setTimeout(()=>ctrl.abort(),4000);
+  try{
+    const res=await fetch(MEMBER_URL,{
+      headers:{Authorization:token,Accept:"application/json"},
+      signal:ctrl.signal,redirect:"error"
+    });
+    if(!res.ok)return null;
+    const str=await res.text();
+    if(str.length>65536)return null;
+    const info=JSON.parse(str).member;
+    if(!info||info.id!==scope.memberId||info.status!=="APPROVED")return null;
+    const name=typeof info.profile?.nickname==="string"
+      ?info.profile.nickname.trim().slice(0,80):"Coaching Member";
+    return {memberId:info.id,displayName:name||"Coaching Member"};
+  }catch{return null}finally{clearTimeout(stop)}
+}
+async function redeemInvitation(token,body) {
+  if(!body||typeof body!=="object"||Array.isArray(body)||
+    Object.keys(body).some(k=>!["code","noticeVersion","consent"].includes(k))||
+    typeof body.code!=="string"||!CODE_RE.test(body.code)||
+    typeof body.noticeVersion!=="string"||body.consent!==true)
+    throw new CoachingError(422,"INVALID_INVITATION","Valid invitation code and consent required");
+  // Gate BEFORE any provider call, even for a valid member: no enrollment while off.
+  const gates=await sql.unsafe(
+    "select c.enrollment_enabled, c.privacy_notice_version from coaching_private.release_controls c join coaching_private.organizations o on o.id=c.org_id where o.wix_site_id=$1::uuid",
+    [SITE_ID]
+  );
+  if(gates.length!==1||!gates[0].enrollment_enabled)
+    throw new CoachingError(423,"ENROLLMENT_DISABLED","Client onboarding remains locked");
+  const member=await verifiedUnprovisionedMember(token);
+  if(!member)throw new CoachingError(401,"UNAUTHENTICATED","Approved Wix member required");
+  const digest=await hashCode(body.code);
+  return sql.begin(async tx=>{
+    const controls=await tx.unsafe(
+      "select c.org_id::text, c.enrollment_enabled,c.privacy_notice_version,c.privacy_approved_at,c.backup_verified_at from coaching_private.release_controls c join coaching_private.organizations o on c.org_id=o.id where o.wix_site_id=$1::uuid for update of c",
+      [SITE_ID]
+    );
+    const gate=controls[0];
+    if(!gate?.enrollment_enabled||!gate.privacy_approved_at||!gate.backup_verified_at)
+      throw new CoachingError(423,"ENROLLMENT_DISABLED","Client onboarding remains locked");
+    if(body.noticeVersion!==gate.privacy_notice_version)
+      throw new CoachingError(422,"NOTICE_VERSION","Review the current consent notice before proceeding");
+    const existing=await tx.unsafe(
+      "select wix_member_id from coaching_private.wix_memberships where wix_site_id=$1::uuid and wix_member_id=$2::uuid union all select alias_member_id from coaching_private.owner_member_aliases where wix_site_id=$1::uuid and alias_member_id=$2::uuid",
+      [SITE_ID,member.memberId]
+    );
+    if(existing.length)throw new CoachingError(409,"ACCOUNT_EXISTS","This Wix member is already provisioned");
+    const invitations=await tx.unsafe(
+      "select id,coach_id from coaching_private.invitations where org_id=$1::uuid and code_digest=$2 and state='pending' and expires_at>now() for update",
+      [gate.org_id,digest]
+    );
+    if(invitations.length!==1)throw new CoachingError(404,"INVITATION_INVALID","Invalid or expired invitation");
+    await tx.unsafe(
+      "insert into coaching_private.wix_memberships(org_id,wix_site_id,wix_member_id,role,status,display_name) values ($1::uuid,$2::uuid,$3::uuid,'client','active',$4)",
+      [gate.org_id,SITE_ID,member.memberId,member.displayName]
+    );
+    await tx.unsafe(
+      "insert into coaching_private.client_consents(wix_site_id,wix_member_id,org_id,notice_version) values ($1::uuid,$2::uuid,$3::uuid,$4)",
+      [SITE_ID,member.memberId,gate.org_id,body.noticeVersion]
+    );
+    await tx.unsafe(
+      "update coaching_private.invitations set state='redeemed',claimed_at=now(),claimed_member_id=$2::uuid where id=$1::uuid",
+      [invitations[0].id,member.memberId]
+    );
+    await tx.unsafe(
+      "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'CLIENT_OPTED_IN',$3)",
+      [gate.org_id,member.memberId,String(invitations[0].id)]
+    );
+    return {enrolled:true,memberId:member.memberId};
+  });
+}
+
 async function handle(req) {
   const origin=req.headers.get("origin");
   try {
@@ -189,6 +276,10 @@ async function handle(req) {
     if(!sql)return send({error:"SERVICE_NOT_READY"},503,origin);
     const bearer=/^Bearer ([^\s]{10,4096})$/i.exec(req.headers.get("authorization")||"")?.[1];
     if(!bearer)return send({error:"UNAUTHENTICATED"},401,origin);
+    if(req.method==="POST"&&path==="/v1/enroll/redeem"){
+      const body=await jsonBody(req);
+      return send(await redeemInvitation(bearer,body),201,origin);
+    }
     const actor=await verify(bearer);
     if(!actor)return send({error:"UNAUTHENTICATED"},401,origin);
     const body=req.method==="POST"?await jsonBody(req):null;
@@ -240,6 +331,82 @@ async function handle(req) {
           [actor.orgId]
         );
         return {currentRevision:Number(state[0].revision),recoveryPoints:points};
+      }
+      // Pilot release controls prevent collection of actual client workout data
+      // before privacy, backup and access acceptance are explicitly enabled.
+      if(req.method==="GET"&&path==="/v1/coach/release-status"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        const gates=await tx.unsafe(
+          "select enrollment_enabled, workout_sync_enabled,privacy_notice_version,(privacy_approved_at is not null) privacy_approved,(backup_verified_at is not null) backup_verified from coaching_private.release_controls where org_id=$1::uuid",
+          [actor.orgId]
+        );
+        if(gates.length!==1)throw new CoachingError(503,"SERVICE_NOT_READY","Missing release controls");
+        return {stage:"staging", ...gates[0], realClientMigration:false};
+      }
+      const clientWrite=req.method==="POST"&&(path==="/v1/me/workouts"||path==="/v1/me/checkins");
+      if(clientWrite) {
+        const gate=await tx.unsafe(
+          "select workout_sync_enabled from coaching_private.release_controls where org_id=$1::uuid",
+          [actor.orgId]
+        );
+        if(gate.length!==1||!gate[0].workout_sync_enabled)
+          throw new CoachingError(423,"CLIENT_SYNC_DISABLED","Client record synchronization remains locked");
+      }
+      if(req.method==="GET"&&path==="/v1/coach/invitations"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        const invitations=await tx.unsafe(
+          "select id::text,label,state,created_at,expires_at,claimed_at from coaching_private.invitations where org_id=$1::uuid and coach_id=$2::uuid order by created_at desc limit 50",
+          [actor.orgId,actor.sub]
+        );
+        return {invitations};
+      }
+      if(req.method==="POST"&&path==="/v1/coach/invitations"){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        if(!body||Object.keys(body).length!==1||typeof body.label!=="string"||
+          !/^[A-Za-z0-9 _.-]{2,80}$/.test(body.label))
+          throw new CoachingError(422,"VALIDATION","Invitation label must be 2-80 plain characters");
+        const gate=await tx.unsafe(
+          "select enrollment_enabled,privacy_approved_at,backup_verified_at from coaching_private.release_controls where org_id=$1::uuid for update",
+          [actor.orgId]
+        );
+        if(gate.length!==1||!gate[0].enrollment_enabled||
+          !gate[0].privacy_approved_at||!gate[0].backup_verified_at)
+          throw new CoachingError(423,"ENROLLMENT_DISABLED","Client onboarding is not yet approved");
+        const count=await tx.unsafe(
+          "select count(*)::int as n from coaching_private.invitations where org_id=$1::uuid and coach_id=$2::uuid and state='pending' and expires_at>now()",
+          [actor.orgId,actor.sub]
+        );
+        if(count[0].n>=20)throw new CoachingError(429,"INVITE_LIMIT","Too many active invitations");
+        const random=crypto.getRandomValues(new Uint8Array(32));
+        const raw=Array.from(random,b=>String.fromCharCode(b)).join("");
+        const secret=btoa(raw).replace(/\\+/g,"-").replace(/\\//g,"_").replace(/=+$/,"");
+        const digest=await hashCode(secret);
+        const entry=await tx.unsafe(
+          "insert into coaching_private.invitations(org_id,coach_id,code_digest,label,expires_at) values ($1::uuid,$2::uuid,$3,$4,now()+interval '48 hours') returning id::text,label,expires_at",
+          [actor.orgId,actor.sub,digest,body.label]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'INVITE_CREATED',$3)",
+          [actor.orgId,actor.sub,entry[0].id]
+        );
+        return {invitation:{...entry[0],code:secret,oneTimeDisplay:true}};
+      }
+      if(req.method==="POST"&&/^\\/v1\\/coach\\/invitations\\/[^/]+\\/revoke$/.test(path)){
+        if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
+        if(!body||Object.keys(body).length!==0)
+          throw new CoachingError(422,"VALIDATION","No body fields allowed");
+        const id=path.split("/")[4];
+        if(!ID_RE.test(id))throw new CoachingError(404,"NOT_FOUND","Invitation unavailable");
+        const revoked=await tx.unsafe(
+          "update coaching_private.invitations set state='revoked' where id=$1::uuid and org_id=$2::uuid and coach_id=$3::uuid and state='pending' returning id",
+          [id,actor.orgId,actor.sub]
+        );
+        if(revoked.length!==1)throw new CoachingError(404,"NOT_FOUND","Invitation unavailable");
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'INVITE_REVOKED',$3)",
+          [actor.orgId,actor.sub,id]
+        );
+        return {revoked:true};
       }
       const store=decodeSnapshot(state[0].payload,rows);
       const service=new CoachingService({store});
