@@ -1,5 +1,6 @@
 import {createWixMemberLogin} from "./coach-login-wix.mjs";
 import {createOfflineWorkoutQueue} from "./coach-offline-queue.mjs";
+import {validateOfflineQueue,mergeOfflineQueues} from "./coach-offline-backup.mjs";
 const CLIENT_ID="d61ad4ca-bfe1-4792-b1d6-099567dd79d0";
 const CALLBACK="https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/coach-client.html";
 const API="https://kszzvzysxwetwapbhzgy.supabase.co/functions/v1/trivalley-coaching-api";
@@ -175,6 +176,8 @@ async function refresh(){
   el("submitCheckin").disabled=!sync||!assigned.length;
   renderAssignments();
   await updateQueue();
+  el("offlineExport").disabled=false;
+  el("offlineImport").disabled=false;
   el("training").hidden=false;el("enroll").hidden=true;el("signIn").hidden=true;
   say("Approved Wix member and private coaching account verified.","success");
 }
@@ -219,6 +222,8 @@ el("refresh").addEventListener("click",async()=>{
 });
 el("logout").addEventListener("click",()=>{
   accessToken=null;memberId=null;queue=null;assigned=[];
+  el("offlineExport").disabled=true;
+  el("offlineImport").disabled=true;
   login.cancel();el("training").hidden=true;el("enroll").hidden=true;
   el("signIn").hidden=false;el("signInButton").disabled=false;
   say("Browser session ended. Pending local workouts, if any, remain on this device.");
@@ -250,7 +255,7 @@ el("saveWorkout").addEventListener("click",async()=>{
   }catch{say("Could not save workout. Check all set values and device storage.","error")}
 });
 async function syncNow(){
-  if(!queue||!accessToken||!pilot?.syncEnabled)return;
+  if(offlineImportBusy||!queue||!accessToken||!pilot?.syncEnabled)return;
   const report=await queue.flush({max:20});
   await updateQueue();
   if(report.acknowledged>0){
@@ -309,6 +314,112 @@ el("submitCheckin").addEventListener("click",async()=>{
   }catch{say("Check-in was not accepted. Retry without changing the fields; the same event ID will be reused.","error")}
   finally{el("submitCheckin").disabled=false}
 });
+// Encrypted portable backups are created entirely on the client's device.
+// No Wix credentials, encryption key, or private queue is sent to any server.
+const QUEUE_BACKUP_FORMAT="trivalley-pending-queue-v1";
+const QUEUE_AD=new TextEncoder().encode(QUEUE_BACKUP_FORMAT);
+let offlineImportBusy=false;
+function queueBase64(bytes){
+  const chunks=[];
+  for(let i=0;i<bytes.length;i+=8192)
+    chunks.push(String.fromCharCode(...bytes.subarray(i,i+8192)));
+  return btoa(chunks.join(""));
+}
+function unqueueBase64(str){
+  if(typeof str!=="string"||str.length>12000000||
+     !/^[A-Za-z0-9+/]*={0,2}$/.test(str))throw new Error("INVALID_ENCRYPTED_FILE");
+  return Uint8Array.from(atob(str),c=>c.charCodeAt(0));
+}
+async function queueKey(passphrase,salt){
+  const base=await crypto.subtle.importKey("raw",
+    new TextEncoder().encode(passphrase),"PBKDF2",false,["deriveKey"]);
+  return crypto.subtle.deriveKey(
+    {name:"PBKDF2",salt,iterations:350000,hash:"SHA-256"},
+    base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+function queuePassphrase(confirm=false){
+  const passphrase=window.prompt("Enter a backup password of at least 16 characters. Keep it separately; we cannot recover it for you.");
+  if(typeof passphrase!=="string"||passphrase.length<16||passphrase.length>256)
+    throw new Error("INVALID_PASSPHRASE");
+  if(confirm&&window.prompt("Re-enter the backup password to confirm.")!==passphrase)
+    throw new Error("BACKUP_PASSWORD_MISMATCH");
+  return passphrase;
+}
+async function offerFile(file){
+  if(typeof navigator.share==="function"&&navigator.canShare?.({files:[file]})){
+    try{await navigator.share({files:[file],title:"Encrypted pending TriValley workouts"});return}
+    catch{/* Fall back to download if user cancelled or share is unavailable. */}
+  }
+  const url=URL.createObjectURL(file),link=document.createElement("a");
+  link.href=url;link.download=file.name;document.body.append(link);
+  link.click();link.remove();
+  window.setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+function offlineNotice(text){el("offlineBackupStatus").textContent=text}
+el("offlineExport").addEventListener("click",async()=>{
+  if(!accessToken||!memberId||!queue)return;
+  const button=el("offlineExport");button.disabled=true;
+  try{
+    if(!crypto?.subtle||!crypto?.getRandomValues)throw Error("CRYPTO_UNAVAILABLE");
+    const records=validateOfflineQueue(await queue.snapshot());
+    if(!records.length){offlineNotice("No unsynced workouts to back up.");return}
+    const passphrase=queuePassphrase(true);
+    const salt=crypto.getRandomValues(new Uint8Array(16));
+    const iv=crypto.getRandomValues(new Uint8Array(12));
+    const secret=await queueKey(passphrase,salt);
+    const plain=new TextEncoder().encode(JSON.stringify({
+      format:QUEUE_BACKUP_FORMAT,siteId:SITE_ID,memberId,
+      savedAt:new Date().toISOString(),records
+    }));
+    const ciphertext=new Uint8Array(await crypto.subtle.encrypt(
+      {name:"AES-GCM",iv,additionalData:QUEUE_AD},secret,plain));
+    const packaged={format:QUEUE_BACKUP_FORMAT,version:1,
+      iterations:350000,kdf:"PBKDF2-SHA256",cipher:"AES-256-GCM",
+      salt:queueBase64(salt),iv:queueBase64(iv),ciphertext:queueBase64(ciphertext)};
+    const filename="trivalley-pending-"+new Date().toISOString().slice(0,10)+".tvqueue";
+    await offerFile(new File([JSON.stringify(packaged)],filename,{type:"application/json"}));
+    offlineNotice(records.length+" unsynced workout(s) encrypted for this Wix member. Confirm the file was saved and keep its password safe.");
+  }catch{
+    offlineNotice("No encrypted backup was confirmed. The original unsynced workouts remain on this device.");
+  }finally{button.disabled=!accessToken}
+});
+el("offlineImport").addEventListener("click",async()=>{
+  if(!accessToken||!memberId||!queue||offlineImportBusy)return;
+  const button=el("offlineImport");button.disabled=true;offlineImportBusy=true;
+  try{
+    if(!crypto?.subtle)throw Error("CRYPTO_UNAVAILABLE");
+    const file=el("offlineRestoreFile").files?.[0];
+    if(!file||file.size<60||file.size>9000000)
+      throw Error("INVALID_BACKUP_FILE");
+    const data=JSON.parse(await file.text());
+    if(data?.format!==QUEUE_BACKUP_FORMAT||data.version!==1||
+       data.kdf!=="PBKDF2-SHA256"||data.cipher!=="AES-256-GCM"||
+       data.iterations!==350000)throw Error("INVALID_BACKUP_FORMAT");
+    const salt=unqueueBase64(data.salt),iv=unqueueBase64(data.iv);
+    if(salt.length!==16||iv.length!==12)throw Error("INVALID_BACKUP_FORMAT");
+    const secret=await queueKey(queuePassphrase(),salt);
+    const buffer=await crypto.subtle.decrypt(
+      {name:"AES-GCM",iv,additionalData:QUEUE_AD},secret,
+      unqueueBase64(data.ciphertext));
+    const payload=JSON.parse(new TextDecoder("utf-8",{fatal:true}).decode(buffer));
+    if(payload?.format!==QUEUE_BACKUP_FORMAT||payload.siteId!==SITE_ID||
+       payload.memberId!==memberId)throw Error("WRONG_WIX_MEMBER");
+    const imported=validateOfflineQueue(payload.records);
+    const existing=await queue.snapshot();
+    const merged=mergeOfflineQueues(existing,imported);
+    if(!window.confirm("Recover "+imported.length+" saved workout(s) into this device? Existing sessions and conflicts are preserved. No workout will be sent automatically.")){
+      offlineNotice("Recovery cancelled. Nothing was changed.");return
+    }
+    await storageFor(memberId).write(merged);
+    queue=createQueue(memberId);
+    await updateQueue();
+    offlineNotice("Recovered "+(merged.length-existing.length)+" additional local workout(s). All data stays on this device until you choose Sync.");
+    el("offlineRestoreFile").value="";
+  }catch{
+    offlineNotice("Recovery blocked: the file, password, member identity, or session data did not validate. Existing workouts were not changed.");
+  }finally{offlineImportBusy=false;button.disabled=!accessToken}
+});
+
 function saveFile(text,filename){
   const blob=new Blob([text],{type:"application/json"});
   const url=URL.createObjectURL(blob),a=document.createElement("a");
