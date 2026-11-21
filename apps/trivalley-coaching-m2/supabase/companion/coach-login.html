@@ -36,6 +36,13 @@ button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:15px 18px
 .small{color:#96a4b7;font-size:12px;line-height:1.6}
 a{color:#e7cd9f;text-decoration-color:#e7cd9f77}
 footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
+.program-library{margin-top:25px;padding-top:24px;border-top:1px solid #47566b}
+.program-library h2{font-size:17px}
+.program-list{list-style:none;padding:0;display:grid;gap:11px;margin:15px 0 20px}
+.program-entry{border:1px solid #425168;background:#0d1b2c;border-radius:13px;padding:14px;display:grid;gap:8px}
+.program-entry strong{font-size:14px}
+.program-entry small{color:#c0cddd;line-height:1.5}
+.program-entry .secondary{justify-self:start;padding:10px 12px;font-size:12px;min-height:42px}
 </style>
 </head>
 <body>
@@ -65,6 +72,13 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <div class="buttonrow">
 <button id="reload" class="secondary" type="button">Refresh client list</button>
 <button id="endSession" class="secondary" type="button">End this session</button>
+</div>
+<div class="program-library" aria-labelledby="programTitle">
+<h2 id="programTitle">Private program library</h2>
+<p>Start with your existing three-day split. The exercises are taken from the published Training Companion. Drafts stay private until you publish them, and no client is assigned automatically.</p>
+<div class="small" role="status" aria-live="polite" id="programNotice">Loading saved programs...</div>
+<ol id="programList" class="program-list" aria-label="Your private coaching programs"></ol>
+<button id="createSplit" class="primary" type="button">Create my three private drafts</button>
 </div>
 </section>
 <footer>
