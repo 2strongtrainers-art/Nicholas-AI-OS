@@ -44,7 +44,7 @@ try {
     assert(await page.$$eval('[data-testid="tv-poster-preview"] .tv-poster-movement',n=>n.length)===ids.length,'Workout exercises changed on '+day);
     for(const id of ids){
       const fig='[data-testid="tv-movement-figure"][data-exercise-id="'+id+'"]';
-      await page.$eval(fig,n=>{n.closest('.tv-movement-reference').open=true;n.scrollIntoView({block:'center'});});
+      await page.$eval(fig,n=>n.scrollIntoView({block:'center'}));
       await page.waitForFunction(sel=>{const n=document.querySelector(sel+' > img');return n?.complete&&n.naturalWidth===1200},{timeout:15000},fig);
       const result=await page.$eval(fig,n=>({src:n.querySelector('img').getAttribute('src'),alt:n.querySelector('img').alt,phases:n.querySelectorAll('.tv-movement-phases span').length,disclosure:n.innerText.includes('AI-generated likeness illustration')}));
       assert(result.src.includes('tv-movement-'+id+'-20261119-v2.webp')&&result.alt.includes('left')&&result.alt.includes('right')&&result.phases===2&&result.disclosure,'Wrong revised artwork: '+id);
@@ -57,7 +57,7 @@ try {
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
   await page.goto(url+'#/plan?day=chest-triceps',{waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-poster-preview"]');
-  await page.$eval('.tv-movement-reference',n=>n.open=true);
+  await page.$eval('[data-testid="tv-movement-figure"]',n=>n.scrollIntoView({block:'center'}));
   await page.screenshot({path:screenshot,fullPage:true});
   const axeSource=fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8');
   await page.addScriptTag({content:axeSource});
