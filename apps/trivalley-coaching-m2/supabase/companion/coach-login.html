@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://www.wixapis.com https://kszzvzysxwetwapbhzgy.supabase.co; form-action 'none'">
+<title>TriValley.fit — Private Coaching Pilot</title>
+<style>
+:root{color-scheme:dark;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 10%,#253448 0%,#0b1423 48%,#060b13 100%);color:#f1f4f6}
+main{max-width:680px;margin:0 auto;padding:24px 20px 72px}
+header{display:flex;align-items:center;gap:14px;padding:24px 0 26px}
+.logo{width:54px;height:54px;object-fit:contain;filter:drop-shadow(0 4px 16px #d8b5744d)}
+.brand{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#e4c99c;font-weight:700}
+.subtitle{font-size:13px;color:#b0b9c5;margin-top:5px}
+.hairline{height:1px;background:linear-gradient(to right,#c9a56e80,transparent);margin-bottom:30px}
+h1{font-size:clamp(31px,8vw,45px);line-height:1.07;letter-spacing:-.04em;font-weight:660;margin:0 0 14px}
+.lead{font-size:15px;line-height:1.65;color:#b9c4d3;margin:0 0 26px;max-width:48ch}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;border:1px solid #bfa17255;border-radius:999px;padding:8px 12px;color:#e4c99c;background:#bfa17211;margin-bottom:18px}
+.panel{padding:23px;border:1px solid #47566b;border-radius:20px;background:linear-gradient(155deg,#172538e8,#0f1b2bdb);box-shadow:0 16px 46px #0004;margin-bottom:16px}
+.panel h2{font-size:16px;letter-spacing:-.01em;margin:0 0 9px}
+.panel p{font-size:13px;line-height:1.6;color:#afbbcb;margin:0 0 19px}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:15px 18px;font-weight:700;min-height:48px}
+.primary{background:linear-gradient(100deg,#f0d7a7,#c79f60);color:#132235;width:100%}
+.secondary{background:transparent;border:1px solid #65758b;color:#f3f5f8}
+.buttonrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+[hidden]{display:none!important}
+#status{padding:14px 16px;border-radius:12px;border:1px solid #51627a;color:#ccd7e5;background:#142235;font-size:13px;line-height:1.55;min-height:50px}
+#status.error{border-color:#d99d68;color:#ffd5b1;background:#3c2618}
+#status.success{border-color:#6ea68c;color:#c6f3db;background:#193428}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.metric{padding:17px;border:1px solid #425168;border-radius:14px;background:#0b1829}
+.metric b{font-size:24px;display:block}.metric span{font-size:11px;color:#aab7c9}
+.small{color:#96a4b7;font-size:12px;line-height:1.6}
+a{color:#e7cd9f;text-decoration-color:#e7cd9f77}
+footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
+.program-library{margin-top:25px;padding-top:24px;border-top:1px solid #47566b}
+.program-library h2{font-size:17px}
+.program-list{list-style:none;padding:0;display:grid;gap:11px;margin:15px 0 20px}
+.program-entry{border:1px solid #425168;background:#0d1b2c;border-radius:13px;padding:14px;display:grid;gap:8px}
+.program-entry strong{font-size:14px}
+.program-entry small{color:#c0cddd;line-height:1.5}
+.program-entry .secondary{justify-self:start;padding:10px 12px;font-size:12px;min-height:42px}
+.backup-verify{display:grid;gap:10px;margin-top:20px}.backup-verify label{font-size:13px;color:#cdd9e7}
+.backup-verify input{display:block;width:100%;padding:9px 0;font-size:13px;color:#c3cedc}
+.backup-verify .secondary{justify-self:start}#backupResult{margin-top:12px}
+.program-library label{display:block;font-size:12px;color:#cbd7e7;margin:12px 0 7px}
+.program-library input,.program-library select{width:100%;background:#0b1829;color:#f3f6fa;border:1px solid #617086;border-radius:10px;padding:12px;font:inherit;font-size:16px}
+.program-library .divider{border:0;border-top:1px solid #34445b;margin:20px 0}
+#inviteOutput{overflow-wrap:anywhere;border-left:3px solid #bfa172;padding:10px;margin:12px 0}
+#invitationList{margin-top:12px}#checkinList{list-style:none}
+#noticeDetails{background:#0c1a2b;border:1px solid #4d5b70;border-radius:12px;padding:13px;margin:13px 0}
+#noticeDetails summary{cursor:pointer;font-size:13px;font-weight:650;color:#f3dbab}
+#noticeDetails p{font-size:12px;color:#c3cfe0;line-height:1.65;margin:12px 0}
+.checks{display:flex;gap:9px;align-items:flex-start;margin:13px 0}.checks input{width:18px;height:18px;min-height:18px;margin:1px 0 0}
+.checks label{margin:0;font-size:12px;flex:1}
+#releaseNotice{padding:12px;background:#172336;border:1px solid #4a5a73;border-radius:10px;margin-top:12px}</style>
+</head>
+<body>
+<main>
+<header>
+<img class="logo" src="/apple-touch-icon-trinity-20261119.png" alt="TriValley Trinity knot">
+<div><div class="brand">TRIVALLEY.FIT</div><div class="subtitle">Private coaching workspace</div></div>
+</header>
+<div class="hairline"></div>
+<div class="tag">Secure staging pilot · Owner access</div>
+<h1>Your coaching.<br>Your data. <span style="color:#e4c99c">Your control.</span></h1>
+<p class="lead">A private verification workspace for the TriValley coaching backend. Your existing workout app and purchases are unchanged.</p>
+<section class="panel" id="login-panel">
+<h2>Owner member sign-in</h2>
+<p>Sign in with <strong>2strongtrainers@gmail.com</strong> (primary) or <strong>1strongtrainer@gmail.com</strong> (authorized owner alias). Both open the same private coaching account. Wix handles the password.</p>
+<button id="login" class="primary" type="button">Continue securely with Wix</button>
+</section>
+<div id="status" role="status" aria-live="polite">Not signed in. Coaching data access is disabled until your identity is verified.</div>
+<section class="panel" id="workspace" hidden>
+<h2>Coach account verified</h2>
+<div class="small" id="identity">Verifying...</div>
+<div class="stats">
+<div class="metric"><b id="clientCount">—</b><span>Assigned active clients</span></div>
+<div class="metric"><b>Private</b><span>Data access</span></div>
+</div>
+<p id="emptyNote">No real client data has been migrated to this staging project.</p>
+<div class="buttonrow">
+<button id="reload" class="secondary" type="button">Refresh client list</button>
+<button id="endSession" class="secondary" type="button">End this session</button>
+</div>
+<div class="program-library" aria-labelledby="programTitle">
+<h2 id="programTitle">Private program library</h2>
+<p>Start with your existing three-day split. The exercises are taken from the published Training Companion. Drafts stay private until you publish them, and no client is assigned automatically.</p>
+<div class="small" role="status" aria-live="polite" id="programNotice">Loading saved programs...</div>
+<ol id="programList" class="program-list" aria-label="Your private coaching programs"></ol>
+<button id="createSplit" class="primary" type="button">Create my three private drafts</button>
+</div>
+<div class="program-library" aria-labelledby="releaseTitle">
+<h2 id="releaseTitle">Private pilot launch controls</h2>
+<p>Client enrollment stays locked until the owner verifies an encrypted offsite backup, reviews the client data notice, and explicitly activates the pilot. This is not a public production launch.</p>
+<details id="noticeDetails">
+<summary>Read the TriValley pilot data notice (TVFIT-PILOT-2026-11-V1)</summary>
+<p>TriValley.fit's private coaching pilot stores each opted-in member's Wix member ID and display name, assigned programs, workout dates and durations, exercises, sets, repetitions, weights, and optional check-in comments. It does not request clinical histories, medical records, or diagnoses.</p>
+<p>A client sees their own records; the explicitly assigned coach sees that client's coached progress and check-ins. The owner can export encrypted backups and review deletion requests. Coaching information is held in a restricted Supabase database in the U.S. West region. Backup exports are encrypted locally using a password held by the owner.</p>
+<p>Records remain until reviewed for deletion. Deletion from the live coaching database also removes its in-database revision history, but previously downloaded backup files must be separately managed. The Supabase Free plan does not provide guaranteed automatic backups and can pause for inactivity. This is a limited coaching pilot, not an emergency or medical service.</p>
+<p>The owner is responsible for informing participating clients, protecting exported files and their passwords, reviewing requests, and checking privacy and legal requirements before wider use.</p>
+</details>
+<div class="checks"><input type="checkbox" id="approveNoticeCheck"><label for="approveNoticeCheck">I reviewed this pilot notice and accept responsibility for the data-handling and backup procedures.</label></div>
+<div class="buttonrow">
+<button id="approveNotice" class="secondary" type="button" disabled>Approve pilot data notice</button>
+<button id="activatePilot" class="primary" type="button" disabled>Activate consented client pilot</button>
+<button id="pausePilot" class="secondary" type="button" disabled>Pause client pilot</button>
+</div>
+<div id="releaseNotice" class="small" aria-live="polite">Waiting for verified backup and explicit owner approval.</div>
+</div>
+<div class="program-library" aria-labelledby="onboardingTitle">
+<h2 id="onboardingTitle">Client onboarding & assignments</h2>
+<p>The private invitation and client workflow is prepared, but enrollment stays locked until privacy approval and backup recovery are verified. No email is sent automatically.</p>
+<div class="small" id="clientGate" role="status">Checking enrollment controls...</div>
+<label for="inviteLabel">Private invitation label (not the client's name)</label>
+<input id="inviteLabel" type="text" maxlength="80" placeholder="Pilot client" value="Pilot client" autocomplete="off">
+<div class="buttonrow"><button id="createInvite" class="secondary" type="button" disabled>Generate private invite</button></div>
+<div class="small" role="status" aria-live="polite" id="inviteOutput">No invitation code generated.</div>
+<div id="invitationList" class="small" aria-label="Invitation statuses"></div>
+<hr class="divider">
+<h2>Assign a published program</h2>
+<label for="clientSelect">Consenting enrolled client</label>
+<select id="clientSelect" aria-label="Choose enrolled client"><option value="">No clients available</option></select>
+<label for="publishedProgram">Published coaching program</label>
+<select id="publishedProgram" aria-label="Choose coaching program"><option value="">Choose a published program</option></select>
+<div class="buttonrow"><button id="assignClient" class="secondary" type="button" disabled>Assign selected program</button><button id="refreshClients" class="secondary" type="button">Refresh client roster</button></div>
+<p id="assignmentNotice" class="small" role="status" aria-live="polite">Only opted-in clients can be assigned.</p>
+<hr class="divider">
+<h2>Coach check-in reviews</h2>
+<p>Select an enrolled client above to view and review their submitted check-ins.</p>
+<button id="loadCheckins" class="secondary" type="button" disabled>Load selected check-ins</button>
+<div id="checkinList" class="program-list" aria-live="polite"></div>
+<hr class="divider">
+<h2>Client data-deletion requests</h2>
+<p>Only owner-approved deletion removes a client's coaching records. Historical database recovery points are scrubbed; already downloaded backup files must also be managed separately.</p>
+<button id="refreshDeletion" class="secondary" type="button">Review deletion requests</button>
+<div id="deletionList" class="program-list" aria-live="polite"></div>
+</div>
+<div class="program-library" aria-labelledby="backupTitle">
+<h2 id="backupTitle">Encrypted owner backup</h2>
+<p>Protect your coaching records against provider outages: create a password-encrypted backup, then save the file in iPhone Files or another storage location you control. No password leaves this browser. Local recovery points are not offsite backups.</p>
+<div class="small" id="recoveryPoints" role="status">Checking recovery-point status...</div>
+<div class="buttonrow"><button id="backupNow" class="secondary" type="button">Save encrypted backup</button></div>
+<div class="small" id="backupResult" role="status" aria-live="polite">No backup downloaded in this session.</div>
+<div class="backup-verify">
+<label for="backupFile">Verify a saved encrypted backup (read-only)</label>
+<input id="backupFile" type="file" accept=".tvfitbackup,application/json" aria-label="Choose encrypted coaching backup file to check">
+<button id="verifyBackup" class="secondary" type="button">Verify selected backup</button>
+<button id="testRestore" class="secondary" type="button" disabled>Test database restore on a disposable copy</button>
+<p class="small">The restore test temporarily copies the decrypted backup into isolated PostgreSQL storage, checks its contents, and discards the copy. It never overwrites live records.</p>
+</div>
+</div>
+</section>
+<footer>
+<div class="small">Owner-only pilot. Do not enter medical information here. This page stores your Wix access token in memory only for the current visit. Client migration, payments and coach-client messaging are not enabled.</div>
+<div class="small" style="margin-top:14px"><a href="/#/home">Back to Training Companion</a> · <a href="https://www.trivalley.fit/">TriValley.fit</a></div>
+</footer>
+</main>
+<script type="module" src="/coach-login-client.mjs"></script>
+</body>
+</html>

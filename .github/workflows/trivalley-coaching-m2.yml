@@ -1,0 +1,113 @@
+name: TriValley M2 — security contract and synthetic coaching QA
+on:
+  push:
+    branches:
+      - feat/trivalley-m2-coaching-20261117
+    paths:
+      - 'apps/trivalley-coaching-m2/**'
+      - '.github/workflows/trivalley-coaching-m2.yml'
+  pull_request:
+    paths:
+      - 'apps/trivalley-coaching-m2/**'
+      - '.github/workflows/trivalley-coaching-m2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-coaching:
+    name: Verify M2 coach/client authorization, sync and test-only API
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse-check deployed Edge and coaching login JavaScript
+        working-directory: apps/trivalley-coaching-m2
+        run: |
+          node --check supabase/edge/index.mjs
+          node --check supabase/companion/coach-login-client.mjs
+          node --check supabase/companion/coach-client.mjs
+          node --check src/offline-queue.mjs
+          node --check src/wix-login-browser.mjs
+      - name: Run deterministic M2 contract and security tests
+        working-directory: apps/trivalley-coaching-m2
+        env:
+          NODE_ENV: test
+          ALLOW_PAID_AI: 'false'
+          ALLOW_OUTBOUND_SEND: 'false'
+        run: node --test test/*.test.mjs
+      - name: Verify SQLite tenancy and replay constraints without cloud services
+        working-directory: apps/trivalley-coaching-m2
+        run: python3 -m unittest discover -s test -p 'test_*.py' -v
+      - name: Package synthetic-only coaching preview for browser testing
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/m2-preview-public/m2-preview"
+          cp apps/trivalley-coaching-m2/prototype/index.html "$RUNNER_TEMP/m2-preview-public/m2-preview/index.html"
+          cp apps/trivalley-coaching-m2/prototype/demo.css "$RUNNER_TEMP/m2-preview-public/m2-preview/demo.css"
+          cp apps/trivalley-coaching-m2/prototype/demo.mjs "$RUNNER_TEMP/m2-preview-public/m2-preview/demo.mjs"
+          cp apps/trivalley-coaching-m2/src/domain.mjs "$RUNNER_TEMP/m2-preview-public/m2-preview/domain.mjs"
+          cp apps/trivalley-coaching-m2/src/offline-queue.mjs "$RUNNER_TEMP/m2-preview-public/m2-preview/offline-queue.mjs"
+          curl --fail --location --silent --show-error --retry 2 --max-time 25 \
+            'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/trivalley-triquetra.png' \
+            -o "$RUNNER_TEMP/m2-preview-public/m2-preview/triquetra.png"
+          cp "$RUNNER_TEMP/m2-preview-public/m2-preview/triquetra.png" \
+            "$RUNNER_TEMP/m2-preview-public/trivalley-triquetra.png"
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+          import os
+          root=Path(os.environ['RUNNER_TEMP'])/'m2-preview-public'/'m2-preview'
+          logo=(root/'triquetra.png').read_bytes()
+          assert logo.startswith(b'\x89PNG\r\n\x1a\n') and len(logo)<150000
+          assert struct.unpack('>II',logo[16:24])==(72,72)
+          assert len(list(root.iterdir()))==6, "Unexpected prototype contents"
+          print("M2_PREVIEW_CONTENTS_PASS")
+          PY
+      - name: Test coach/client preview in isolated mobile Chromium browser
+        run: |
+          mkdir -p "$RUNNER_TEMP/m2-preview-driver"
+          npm install --prefix "$RUNNER_TEMP/m2-preview-driver" --no-audit --no-fund puppeteer-core@24
+          cp apps/trivalley-coaching-m2/test/preview-browser.mjs "$RUNNER_TEMP/m2-preview-driver/preview-browser.mjs"
+          node "$RUNNER_TEMP/m2-preview-driver/preview-browser.mjs" \
+            "$RUNNER_TEMP/m2-preview-public" "$RUNNER_TEMP/m2-preview-driver/m2-coaching-preview.png"
+      - name: Upload synthetic preview screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-m2-preview-browser-qa
+          path: ${{ runner.temp }}/m2-preview-driver/m2-coaching-preview.png
+          retention-days: 14
+          if-no-files-found: ignore
+      - name: Upload synthetic-only static coaching preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-m2-static-preview
+          path: ${{ runner.temp }}/m2-preview-public/
+          retention-days: 14
+          if-no-files-found: error
+      - name: One-time Wix anonymous OAuth + PKCE redirect provider smoke
+        if: "${{ github.event_name == 'push' && contains(github.event.head_commit.message, 'test(oauth): provider smoke') }}"
+        working-directory: apps/trivalley-coaching-m2
+        env:
+          ALLOW_PAID_AI: 'false'
+          ALLOW_OUTBOUND_SEND: 'false'
+        run: node test/wix-provider-anonymous-smoke.mjs
+      - name: Verify staging release remains guarded and secret-free
+        shell: bash
+        run: |
+          test ! -f apps/trivalley-coaching-m2/.env
+          test ! -f apps/trivalley-coaching-m2/src/start.mjs
+          test ! -f apps/trivalley-coaching-m2/src/server.mjs
+          test -f apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          test -f apps/trivalley-coaching-m2/supabase/008_restore_drill_gate.sql
+          grep -q 'ENROLLMENT_DISABLED' apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          grep -q 'CLIENT_SYNC_DISABLED' apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          grep -q 'BACKUP_ATTESTATION_REQUIRED' apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          grep -q 'restore_drill_at' apps/trivalley-coaching-m2/supabase/008_restore_drill_gate.sql
+          test -f apps/trivalley-coaching-m2/SECURITY_GATES.md
+          echo "M2_STAGING_RELEASE_GATES_PASS"
