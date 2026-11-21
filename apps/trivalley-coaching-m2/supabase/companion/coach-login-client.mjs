@@ -210,6 +210,8 @@ async function refreshPrograms(){
   const response=await apiGet("/v1/coach/programs");
   if(!Array.isArray(response.programs))throw Error("INVALID_PROGRAM_LIST");
   const programs=response.programs;
+  coachPrograms=programs;
+  populatePublished();
   el("programList").replaceChildren(...programs.map(makeEntry));
   const complete=PILOT_DAYS.every(day=>programs.some(p=>p.title===day.title));
   el("createSplit").disabled=complete;
@@ -368,6 +370,163 @@ el("verifyBackup").addEventListener("click",async()=>{
   }finally{button.disabled=false}
 });
 
+// Server-only membership and consent checks control all owner invitation/assignment writes.
+// Public client onboarding is disabled until the backup/privacy release gates are approved.
+let coachPrograms=[],enrolledClients=[],releaseGate=null,lastInvite=null;
+function textNode(tag,text,className){
+  const node=document.createElement(tag);
+  node.textContent=text;
+  if(className)node.className=className;
+  return node;
+}
+function populatePublished(){
+  const select=el("publishedProgram");
+  select.replaceChildren();
+  const blank=textNode("option","Choose a published program");blank.value="";select.append(blank);
+  for(const p of coachPrograms.filter(p=>p.status==="published")){
+    const opt=textNode("option",p.title);opt.value=p.id;select.append(opt);
+  }
+  eligibleAssignment();
+}
+function eligibleAssignment(){
+  const ready=Boolean(el("clientSelect").value&&el("publishedProgram").value);
+  el("assignClient").disabled=!ready;
+  el("loadCheckins").disabled=!el("clientSelect").value;
+}
+el("clientSelect").addEventListener("change",eligibleAssignment);
+el("publishedProgram").addEventListener("change",eligibleAssignment);
+async function refreshClientGate(){
+  const data=await apiGet("/v1/coach/release-status");
+  releaseGate=data;
+  const open=data.enrollment_enabled===true&&data.privacy_approved===true&&data.backup_verified===true;
+  el("createInvite").disabled=!open;
+  el("clientGate").textContent=open
+    ?"Private enrollment is enabled. Invitations require an approved Wix member and explicit consent."
+    :"Enrollment locked: privacy approval "+(data.privacy_approved?"present":"pending")+
+      ", verified off-provider backup "+(data.backup_verified?"present":"pending")+
+      ". Workout sync "+(data.workout_sync_enabled?"enabled":"disabled")+".";
+}
+async function refreshClientRoster(){
+  const [roster,invites]=await Promise.all([
+    apiGet("/v1/coach/enrolled-clients"),
+    apiGet("/v1/coach/invitations")
+  ]);
+  if(!Array.isArray(roster.clients)||!Array.isArray(invites.invitations))
+    throw Error("INVALID_ROSTER");
+  enrolledClients=roster.clients;
+  const select=el("clientSelect"),prior=select.value;
+  select.replaceChildren();
+  const blank=textNode("option","Choose a consenting enrolled client");blank.value="";select.append(blank);
+  for(const client of enrolledClients){
+    const opt=textNode("option",client.display_name||"Wix member");
+    opt.value=client.id;select.append(opt);
+  }
+  if(enrolledClients.some(c=>c.id===prior))select.value=prior;
+  eligibleAssignment();
+  const list=el("invitationList");list.replaceChildren();
+  const entries=invites.invitations.slice(0,20);
+  if(!entries.length)list.append(textNode("p","No invitations issued."));
+  for(const inv of entries){
+    const row=textNode("div",inv.label+" · "+inv.state+" · expires "+String(inv.expires_at).slice(0,10),"program-entry");
+    if(inv.state==="pending"){
+      const cancel=textNode("button","Revoke invitation","secondary");
+      cancel.type="button";
+      cancel.addEventListener("click",async()=>{
+        if(!window.confirm("Revoke this pending invitation?"))return;
+        cancel.disabled=true;
+        try{
+          await apiPost("/v1/coach/invitations/"+encodeURIComponent(inv.id)+"/revoke",{});
+          await refreshClientRoster();
+        }catch{
+          el("assignmentNotice").textContent="Invitation could not be revoked. Review its status before reusing.";
+          cancel.disabled=false;
+        }
+      });
+      row.append(cancel);
+    }
+    list.append(row);
+  }
+}
+el("refreshClients").addEventListener("click",async()=>{
+  try{await refreshClientGate();await refreshPrograms();await refreshClientRoster()}
+  catch{el("assignmentNotice").textContent="Roster temporarily unavailable. Client access remains protected."}
+});
+el("createInvite").addEventListener("click",async()=>{
+  if(!releaseGate?.enrollment_enabled)return;
+  const button=el("createInvite");button.disabled=true;
+  el("inviteOutput").textContent="Generating a private invitation...";
+  try{
+    const label=el("inviteLabel").value.trim();
+    const data=await apiPost("/v1/coach/invitations",{label});
+    if(typeof data.invitation?.code!=="string"||data.invitation.code.length!==43)
+      throw new Error("INVALID_INVITE_RESPONSE");
+    const code=data.invitation.code;
+    lastInvite=code;
+    const message=textNode("span","One-time code: "+code+". Expires in 48 hours. Share privately, not in public posts.");
+    const copy=textNode("button","Copy invitation code","secondary");
+    copy.type="button";
+    copy.addEventListener("click",async()=>{
+      try{await navigator.clipboard.writeText(code);
+        el("assignmentNotice").textContent="Code copied. Send privately to the invited Wix member."
+      }catch{el("assignmentNotice").textContent="Copy unavailable. Select the code manually."}
+    });
+    el("inviteOutput").replaceChildren(message,document.createTextNode(" "),copy);
+    await refreshClientRoster();
+  }catch{
+    el("inviteOutput").textContent="No invite issued. Enrollment may still be locked or an invite limit reached.";
+  }finally{button.disabled=!releaseGate?.enrollment_enabled}
+});
+el("assignClient").addEventListener("click",async()=>{
+  const clientId=el("clientSelect").value,programId=el("publishedProgram").value;
+  if(!clientId||!programId)return;
+  const program=coachPrograms.find(p=>p.id===programId);
+  if(!window.confirm("Assign "+(program?.title||"program")+" to this opted-in client?"))return;
+  el("assignClient").disabled=true;
+  try{
+    const result=await apiPost("/v1/coach/assignments",{clientId,programId});
+    el("assignmentNotice").textContent=(result.assignment?.reused?"Assignment already existed.":"Assignment created.")+
+      " The enrolled client can now view this program in their private portal.";
+    await refreshClientRoster();
+  }catch{
+    el("assignmentNotice").textContent="Assignment denied. Confirm client consent, published program and coach permissions.";
+  }finally{eligibleAssignment()}
+});
+el("loadCheckins").addEventListener("click",async()=>{
+  const clientId=el("clientSelect").value;
+  if(!clientId)return;
+  const list=el("checkinList");list.textContent="Loading private check-ins...";
+  try{
+    const result=await apiGet("/v1/coach/clients/"+encodeURIComponent(clientId)+"/checkins");
+    list.replaceChildren();
+    if(!Array.isArray(result.items)||!result.items.length)
+      list.append(textNode("p","No check-ins received for this assigned client."));
+    for(const record of result.items||[]){
+      const item=textNode("div",undefined,"program-entry");
+      item.append(textNode("strong","Week "+record.weekOf+" · rating "+record.completionRating+"/5"),
+        textNode("small",record.comment||"No comment"),
+        textNode("small","Status: "+record.reviewStatus));
+      if(record.reviewStatus==="pending"){
+        const review=textNode("button","Mark reviewed","secondary");
+        review.type="button";
+        review.addEventListener("click",async()=>{
+          const note=window.prompt("Review note for this client (optional, max 500 characters):","");
+          if(note===null)return;
+          if(note.length>500){el("assignmentNotice").textContent="Review note too long.";return}
+          review.disabled=true;
+          try{
+            await apiPost("/v1/coach/checkins/"+encodeURIComponent(record.id)+"/review",{reviewNote:note});
+            el("loadCheckins").click();
+          }catch{el("assignmentNotice").textContent="Review could not be recorded.";review.disabled=false}
+        });
+        item.append(review);
+      }
+      list.append(item);
+    }
+  }catch{
+    list.replaceChildren(textNode("p","Check-ins unavailable. Only currently assigned clients are accessible."));
+  }
+});
+
 async function showCoach() {
   const me=await apiGet("/v1/me");
   if(me?.member?.role!=="coach")throw new Error("This member is not approved for the coaching role");
@@ -383,6 +542,9 @@ async function showCoach() {
   }
   try{await refreshRecovery()}catch{
     el("recoveryPoints").textContent="Recovery-point status unavailable. Do not rely on this project as your only backup.";
+  }
+  try{await refreshClientGate();await refreshClientRoster()}catch{
+    el("clientGate").textContent="Enrollment controls unavailable. Client enrollment remains blocked.";
   }
 }
 el("login").addEventListener("click",async()=>{
