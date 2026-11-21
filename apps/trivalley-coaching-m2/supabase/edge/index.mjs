@@ -170,6 +170,26 @@ const hashCode=async code=>Array.from(new Uint8Array(
   await crypto.subtle.digest("SHA-256",new TextEncoder().encode(code))))
   .map(x=>x.toString(16).padStart(2,"0")).join("");
 
+// Postgres-backed rate limiting is autocommitted BEFORE mutation transactions,
+// so failed code guesses still count. Only verified Wix member identities are used.
+async function consumeMemberBudget(orgId,memberId,scope,maxPerHour){
+  if(!ID_RE.test(orgId||"")||!ID_RE.test(memberId||"")||
+     !["mutation","invite_redeem"].includes(scope))
+    throw new CoachingError(401,"UNAUTHENTICATED","Verified member required");
+  const rows=await sql.unsafe(
+    `insert into coaching_private.request_limits(org_id,wix_member_id,scope,window_start,attempts)
+       values($1::uuid,$2::uuid,$3,date_trunc('hour',now()),1)
+     on conflict(org_id,wix_member_id,scope,window_start)
+       do update set attempts=least(coaching_private.request_limits.attempts+1,1000000)
+     returning attempts`,
+    [orgId,memberId,scope]
+  );
+  if(rows.length!==1||!Number.isInteger(rows[0].attempts))
+    throw new CoachingError(503,"RATE_LIMIT_UNAVAILABLE","Request safeguards unavailable");
+  if(rows[0].attempts>maxPerHour)
+    throw new CoachingError(429,"RATE_LIMIT","Too many requests; retry after the hourly window");
+}
+
 async function verifiedUnprovisionedMember(token){
   const scope=await verifyTokenSite({token,expectedSiteId:SITE_ID});
   if(!scope||scope.identityType!=="member"||!ID_RE.test(scope.memberId))return null;
@@ -198,13 +218,14 @@ async function redeemInvitation(token,body) {
     throw new CoachingError(422,"INVALID_INVITATION","Valid invitation code and consent required");
   // Gate BEFORE any provider call, even for a valid member: no enrollment while off.
   const gates=await sql.unsafe(
-    "select c.enrollment_enabled, c.privacy_notice_version from coaching_private.release_controls c join coaching_private.organizations o on o.id=c.org_id where o.wix_site_id=$1::uuid",
+    "select c.org_id::text, c.enrollment_enabled, c.privacy_notice_version from coaching_private.release_controls c join coaching_private.organizations o on o.id=c.org_id where o.wix_site_id=$1::uuid",
     [SITE_ID]
   );
   if(gates.length!==1||!gates[0].enrollment_enabled)
     throw new CoachingError(423,"ENROLLMENT_DISABLED","Client onboarding remains locked");
   const member=await verifiedUnprovisionedMember(token);
   if(!member)throw new CoachingError(401,"UNAUTHENTICATED","Approved Wix member required");
+  await consumeMemberBudget(gates[0].org_id,member.memberId,"invite_redeem",10);
   const digest=await hashCode(body.code);
   return sql.begin(async tx=>{
     const controls=await tx.unsafe(
@@ -299,6 +320,8 @@ async function handle(req) {
     }
     const actor=await verify(bearer);
     if(!actor)return send({error:"UNAUTHENTICATED"},401,origin);
+    if(req.method==="POST")
+      await consumeMemberBudget(actor.orgId,actor.sub,"mutation",240);
     const body=req.method==="POST"?await jsonBody(req,path==="/v1/coach/restore-drill"?MAX_RESTORE_BODY:MAX_BODY):null;
     const result=await sql.begin(async tx=>{
       // Re-check permissions *inside* the serialized write transaction.
