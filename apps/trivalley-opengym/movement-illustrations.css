@@ -19,3 +19,26 @@
 .tv-exercise-detail-heading h3 {min-width:0}
 .tv-exercise-detail-heading .btn {flex-shrink:0;min-height:44px}
 .tv-poster-number {flex:0 0 2.25ch;white-space:nowrap}
+
+
+/* Visible Start/Finish reference on a workout preview and during logging.
+   Native aspect ratios preserve each reviewed pair, including Wix atlas crops. */
+.tv-movement-poster{margin:12px 0 15px;border:1px solid rgba(193,157,99,.4);
+  border-radius:15px;box-shadow:0 3px 15px rgba(0,0,0,.09)}
+.tv-movement-poster-heading{display:flex;justify-content:space-between;flex-wrap:wrap;
+  gap:4px 12px;padding:10px 12px;color:var(--label);background:var(--surface-2)}
+.tv-movement-poster-heading strong{font-size:10px;line-height:1.45;
+  font-weight:800;letter-spacing:.08em;color:var(--acc)}
+.tv-movement-poster-heading span{font-size:11px;line-height:1.45}
+.tv-movement-phases strong{display:block;color:var(--acc);font-size:10px;
+  font-weight:800;letter-spacing:.1em;margin:0 0 3px}
+.tv-movement-poster .tv-movement-phases span{font-size:12px;padding:11px 8px}
+.tv-movement-poster figcaption{gap:4px;padding:9px 11px;font-size:10px}
+.tv-movement-poster figcaption .tv-movement-brand{font-size:9px;letter-spacing:.04em}
+.tv-movement-poster img{object-fit:contain}
+@media(max-width:390px){
+  .tv-movement-poster{margin:10px 0 12px}
+  .tv-movement-poster-heading{padding:9px 10px}
+  .tv-movement-poster .tv-movement-phases span{padding:9px 6px;font-size:11px;line-height:1.45}
+  .tv-movement-poster figcaption{padding:9px}
+}
