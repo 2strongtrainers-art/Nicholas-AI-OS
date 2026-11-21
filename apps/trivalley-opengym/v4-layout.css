@@ -1,0 +1,165 @@
+/* TriValley FIT v4 refinements. Existing components and workout engine remain intact.
+   No client-identifying data, third-party media, or external network calls are introduced. */
+:root { --tv-green:#62cd63;--tv-ink:#0d1110;--tv-line:rgba(214,244,221,.14); }
+.tv-v4-topbar { max-width:620px;margin:0 auto; padding:10px 17px 7px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;
+  border-bottom:1px solid var(--tv-line); }
+.tv-v4-topbar .tv-topbar-brand { color:#ecf5ed; font-size:11px;font-weight:800;
+  letter-spacing:.10em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px; }
+.tv-v4-topbar .tv-knot { width:23px;height:23px;display:inline-flex;align-items:center;
+  justify-content:center;border-radius:8px;border:1px solid #427453;font-size:10px;font-weight:850;color:#96e9a8; }
+.tv-v4-topbar .tv-knot img { width:23px;height:23px;object-fit:contain;display:block; }
+.tv-v4-topbar .tv-topbar-actions { display:flex;align-items:center;gap:10px;white-space:nowrap; }
+.tv-v4-topbar .tv-verse-trigger { margin:0;padding:6px 8px;font-size:11px;min-height:37px; }
+.tv-v4-topbar a { font-size:11px;color:#afe8be;text-decoration:underline;text-underline-offset:3px; }
+.tv-v4-topbar .tv-upstream-credit { font-size:10px; }
+.tv-today-header {display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  margin:13px 0 9px;padding:0; }
+.tv-today-header h1 {font-size:clamp(24px,6.5vw,31px);letter-spacing:-.04em;line-height:1.07;margin:3px 0 5px; }
+.tv-today-header .sub {font-size:13px;line-height:1.35;}
+.tv-today-header .tv-eyebrow {font-size:10px;letter-spacing:.11em;line-height:1.2;}
+.tv-today-header .iconbtn{width:44px;height:44px;flex:0 0 44px;}
+.tv-today-hero {padding:18px 16px 16px!important;margin:6px 0 13px;
+  background:linear-gradient(137deg,#1a3526,#16201c 60%,#1a1b1d)!important;
+  border:1px solid rgba(128,224,146,.36)!important;border-radius:17px!important;}
+.tv-today-hero-kicker {font-size:10px;letter-spacing:.14em;color:#acebb9;font-weight:800;}
+.tv-today-hero h2 {font-size:clamp(22px,6vw,27px)!important;line-height:1.15;
+  letter-spacing:-.03em;color:#fff;margin:10px 0 8px!important;}
+.tv-today-hero p {font-size:13px;line-height:1.55;color:#d5dfda;margin:0 0 12px;}
+.tv-today-hero .tv-hero-metrics {display:flex;flex-wrap:wrap;gap:8px;margin:9px 0 13px;}
+.tv-today-hero .tv-hero-metrics span {font-size:11px;background:rgba(255,255,255,.09);color:#e6f2e9;
+  border-radius:8px;padding:5px 8px;}
+.tv-today-hero .tv-primary-action {width:100%;min-height:52px;border-radius:11px!important;
+  font-size:16px!important;font-weight:800;justify-content:center;}
+.tv-today-hero .tv-hero-alternatives {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.tv-today-hero .tv-hero-alternatives .btn {flex:1;min-height:44px;font-size:12px;}
+.tv-today-hero .tv-today-quiet {display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;font-size:11px;color:#c4d4c7;}
+.tv-week-card {margin-top:11px;}
+.tv-week-card .week {margin-bottom:3px;}
+.tv-week-card .wday {min-height:45px;}
+.tv-week-card .today-row {padding-top:10px;}
+.tv-week-card .row.between {margin-bottom:2px!important;}
+.tv-home-verse-card {border:1px solid rgba(132,207,154,.3);border-radius:13px;
+  padding:12px 15px;background:rgba(23,40,31,.8);display:flex;flex-direction:column;gap:3px;
+  margin:0 0 12px;color:#ebf5ee;}
+.tv-home-verse-row {display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.tv-home-verse-row .tv-verse-kicker {font-size:9px;letter-spacing:.1em;color:#afd9b8;
+  margin:0;padding:0;}
+.tv-home-verse-card strong {font-size:15px;line-height:1.28;}
+.tv-home-verse-card .tv-verse-quote {font-size:13px;line-height:1.45;margin:3px 0;color:#e6f1ea;}
+.tv-home-verse-card .tv-verse-ref {font-size:10px;color:#b6d8bf;margin:0;}
+.tv-home-verse-read {margin-top:6px;min-height:40px;padding:8px 10px;border-radius:8px;
+  color:#b7efd0;background:rgba(108,195,126,.12);border:1px solid rgba(108,195,126,.3);
+  align-self:flex-start;font-size:12px;font-weight:700;cursor:pointer;}
+.tv-home-verse-dismiss {min-height:38px;padding:6px 9px;border:0;background:transparent;
+  color:#c5d4ca;font-size:12px;cursor:pointer;text-decoration:underline;}
+.tv-library-header {margin:8px 0 9px!important;}
+.tv-library-header .tv-library-eyebrow{font-size:9px;color:#a7d5b1;}
+.tv-library-header h1 {font-size:clamp(27px,8vw,36px);line-height:1.05;margin:2px 0!important;}
+.tv-library-header .sub {font-size:12px;line-height:1.3;}
+.tv-library-search {min-height:48px!important;border-radius:11px!important;}
+.tv-library-search .input {height:48px!important;font-size:14px;}
+.tv-mode-tabs {margin:9px 0!important;gap:6px;}
+.tv-mode-tab{min-height:46px!important;font-size:11px;}
+.tv-library-toolbar{margin:9px 0!important;}
+.tv-library .tv-results-count {font-size:12px;}
+.tv-library .tv-exercise-card {min-height:78px;}
+.tv-library .tv-exercise-open .tv-thumb {width:48px!important;min-width:48px!important;height:48px!important;}
+.tv-library .tv-exercise-name{font-size:14px!important;}
+.tv-library .tv-exercise-meta{font-size:11px!important;}
+.tv-library .tv-favorite-button{width:40px;min-height:44px;}
+.tv-library .tv-exercise-actions .btn {min-width:56px;}
+.tv-active-filters {display:flex;gap:7px;flex-wrap:wrap;margin:0 0 10px;}
+.tv-active-filter {padding:5px 8px;min-height:38px;background:#24412d;color:#daf3de;
+  border:1px solid #4a8959;border-radius:99px;font-size:12px;cursor:pointer;}
+.tv-filter-overlay {position:fixed;inset:0;z-index:360;display:flex;align-items:flex-end;justify-content:center;}
+.tv-filter-backdrop {position:absolute;inset:0;background:rgba(0,0,0,.78);border:0;cursor:pointer;}
+/* Reserve the bottom region for the existing nav and Wix-hosted platform chrome.
+   The modal backdrop remains full-screen; actions remain accessible above that region. */
+.tv-filter-sheet {position:relative;width:min(100%,620px);
+  max-height:min(calc(78dvh - 100px),620px);
+  margin-bottom:calc(100px + env(safe-area-inset-bottom)); 
+  overflow-y:auto;overscroll-behavior:contain;background:#181d1a;
+  border:1px solid #345440;border-radius:20px;
+  padding:18px 18px calc(20px + env(safe-area-inset-bottom));color:#edf5ee;
+  box-shadow:0 -15px 50px #000a;}
+.tv-filter-sheet .tv-sheet-heading {position:sticky;top:-18px;z-index:2;background:#181d1a;
+  padding:7px 0 12px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.11);margin-bottom:13px;}
+.tv-filter-sheet .tv-sheet-heading strong {font-size:20px;}
+.tv-filter-sheet .tv-sheet-close {border:1px solid #52755b;background:#21382b;
+  color:#ebffec;min-height:44px;min-width:72px;border-radius:10px;cursor:pointer;font-weight:700;}
+.tv-filter-sheet .tv-advanced-heading {font-size:13px;}
+.tv-filter-sheet .tv-advanced-chips {padding-bottom:8px;}
+.tv-filter-sheet .tv-filter-chip{min-height:44px;}
+.tv-filter-sheet .tv-done-filters {position:sticky;bottom:0;z-index:4;box-shadow:0 -10px 22px #181d1a; width:100%;min-height:48px;border:0;border-radius:12px;
+  background:#70da77;color:#102316;font-weight:800;font-size:15px;margin-top:15px;cursor:pointer;}
+.tv-library button:focus-visible,.tv-home-verse-card button:focus-visible,.tv-today-hero button:focus-visible,
+.tv-v4-topbar button:focus-visible,.tv-v4-topbar a:focus-visible {outline:3px solid #b7ffb9!important;outline-offset:2px;}
+@media(max-width:355px){
+  .tv-v4-topbar{padding-inline:8px;}
+  .tv-v4-topbar .tv-topbar-actions{gap:5px;}
+  .tv-v4-topbar .tv-upstream-credit{display:none;}
+  .tv-today-hero{padding:13px!important;}
+  .tv-mode-tab{font-size:10px;}
+}
+@media(prefers-reduced-motion:reduce){.tv-filter-sheet,.tv-today-hero{transition:none!important;animation:none!important;}}
+/* Use the existing light theme without losing readable text in TriValley custom surfaces. */
+[data-theme="light"] .tv-v4-topbar {border-color:#d9e2da;}
+[data-theme="light"] .tv-v4-topbar .tv-topbar-brand{color:#15261c;}
+[data-theme="light"] .tv-v4-topbar a{color:#155c2d;}
+[data-theme="light"] .tv-home-verse-card{background:#f2f8f3;color:#16291c;border-color:#96baa1;}
+[data-theme="light"] .tv-home-verse-card .tv-verse-quote{color:#1b2f20;}
+[data-theme="light"] .tv-home-verse-card .tv-verse-ref{color:#31553b;}
+[data-theme="light"] .tv-home-verse-row .tv-verse-kicker{color:#31553b;}
+[data-theme="light"] .tv-home-verse-read{color:#145c2a;border-color:#7ca88a;}
+[data-theme="light"] .tv-home-verse-dismiss{color:#31553b;}
+
+/* v4 accessibility correction: readable labels on dark and light backgrounds. */
+:root:not([data-theme="light"]) {
+  --label-2: #c7c7cd;
+  --label-3: #b6b6bc;
+  --label-4: #a8a8af;
+}
+:root[data-theme="light"] {
+  --label-2: #46464e;
+  --label-3: #55565e;
+  --label-4: #60616a;
+}
+.tv-filter-sheet .tv-field-label {
+  display:block;font-size:13px;font-weight:700;line-height:1.4;color:#dbf4e2;
+  margin:10px 0 5px;
+}
+.tv-filter-sheet .tv-filter-select {
+  display:block;width:100%;min-height:50px;padding:10px 13px;border-radius:11px;
+  border:1px solid #7eaa88;background:#26372e;color:#fff;
+  font-size:16px;font-weight:550;margin:4px 0 12px;appearance:auto;
+}
+.tv-filter-sheet .tv-filter-select:focus-visible,
+.tv-filter-sheet .tv-clear-all:focus-visible {
+  outline:3px solid #b7ffc8;outline-offset:2px;
+}
+.tv-filter-sheet .tv-clear-all {
+  display:block;width:100%;min-height:44px;margin:4px 0 12px;
+  background:transparent;border:1px solid #6d9c77;color:#dcf4e3;
+  border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;
+}
+.hm-wrap:focus-visible {outline:3px solid var(--acc);outline-offset:3px;}
+
+/* Free Wix hosting places a platform banner in the bottom viewport. Shift the
+   existing navigation above it ONLY when opened in a browser on that host.
+   Fullscreen installed PWAs and custom domains retain normal bottom navigation. */
+:root[data-tv-free-hosted="1"] #tabbar {
+  bottom: calc(76px + env(safe-area-inset-bottom));
+  border: 1px solid var(--tv-line);
+  border-radius: 16px;
+  width: min(calc(100% - 16px), 620px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  box-shadow: 0 12px 28px rgba(0,0,0,.54);
+}
+:root[data-tv-free-hosted="1"] #app {
+  padding-bottom: calc(174px + env(safe-area-inset-bottom));
+}

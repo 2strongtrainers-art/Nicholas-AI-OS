@@ -1,0 +1,17 @@
+/* A bounded scrollport and a separate dock: no workout content under navigation. */
+html,body,#root {height:100%;overflow:hidden}
+body {min-height:0}
+#app {position:fixed;top:0;left:0;right:0;width:100%;height:calc(100dvh - 100px);overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;scroll-padding:20px 0;padding-bottom:24px!important;-webkit-overflow-scrolling:touch}
+#app.vfade {animation:none!important}
+.tv-training-dock {position:fixed;left:50%;transform:translateX(-50%);width:min(calc(100% - 16px),720px);z-index:50;display:flex;flex-direction:column;gap:8px;padding-bottom:env(safe-area-inset-bottom)}
+.tv-training-dock #tabbar {position:relative!important;inset:auto!important;transform:none!important;width:100%!important;margin:0!important;padding:7px 5px!important;min-height:66px;border:1px solid var(--sep);border-radius:16px;background:var(--surface,#1c1c1e)!important;backdrop-filter:none;box-shadow:0 4px 16px #0003}
+.tv-training-dock #tabbar button {min-height:50px;justify-content:center;font-size:12px;line-height:1.2}
+.tv-training-dock #tabbar button.start {margin-top:0!important}
+.tv-training-dock #tabbar button.start .cir {width:34px;height:34px;box-shadow:none}
+.tv-training-dock #timer {position:relative!important;inset:auto!important;transform:none!important;margin:0!important;width:100%!important;max-height:160px;overflow-y:auto;background:var(--surface,#1c1c1e);border:1px solid var(--sep);border-radius:14px}
+:root[data-tv-keyboard="1"] .tv-training-dock {visibility:hidden;pointer-events:none}
+.tv-program-status {display:block;margin:10px 0;color:var(--label-2);font-size:14px}
+.tv-calendar-tools {margin:22px 0}
+.tv-calendar-tools>summary {min-height:48px;display:flex;align-items:center;font-weight:650;cursor:pointer}
+.tv-program-schedule-note {font-size:14px;padding:10px 12px;margin:10px 0}
+#app :is(button,input,select,textarea,summary,[tabindex]) {scroll-margin-block:20px}

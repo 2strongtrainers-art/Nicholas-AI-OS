@@ -1,0 +1,15 @@
+.tv-coach-notes { margin: 14px 0; padding: 16px; border: 1px solid var(--sep); border-radius: 14px; background: var(--surface-2); }
+.tv-coach-notes dl { margin: 0; display: grid; gap: 12px; }
+.tv-coach-notes dl > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.tv-coach-notes dt { color: var(--acc); font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; }
+.tv-coach-notes dd { margin: 0; line-height: 1.55; overflow-wrap: anywhere; }
+.tv-coach-notes .small { margin-bottom: 0; }
+.tv-library-start { margin: 0 0 16px; padding: 16px; border: 1px solid var(--sep); border-radius: 14px; }
+.tv-library-start p { margin: 6px 0 12px; line-height: 1.5; }
+.tv-library-start button { min-height: 44px; white-space: normal; }
+.tv-mode-tabs { flex-wrap: wrap; }
+
+.tv-library-start summary, .tv-strength-estimate summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 650; }
+.tv-library-start summary::after, .tv-strength-estimate summary::after { content: '+'; margin-left: auto; padding-left: 12px; }
+.tv-library-start[open] summary::after, .tv-strength-estimate[open] summary::after { content: '−'; }
+.tv-strength-estimate { margin: 14px 0; border-top: 1px solid var(--sep); }
