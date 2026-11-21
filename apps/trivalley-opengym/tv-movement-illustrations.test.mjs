@@ -108,20 +108,20 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
 })
 
 
-test('Core artwork maps only the 57 reviewed IDs to verified derivative assets',()=>{
+test('Core artwork maps only the 81 reviewed IDs to verified derivative assets',()=>{
  const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
  const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
  const assets=Object.values(CATALOGUE_ART_CORE)
- assert.equal(assets.length,57)
- assert.equal(new Set(assets.map(asset=>asset.url)).size,57)
+ assert.equal(assets.length,81)
+ assert.equal(new Set(assets.map(asset=>asset.url)).size,81)
  for(const asset of assets){
   assert.equal(movementFor(asset.id),asset)
   assert.equal(catalogue.get(asset.id).n,asset.name)
   assert.equal(catalogue.get(asset.id).eq,asset.equipment)
-  assert.match(asset.url,/^https:\/\/static\.wixstatic\.com\/media\/[A-Za-z0-9_~.-]+\.webp$/)
+  assert.match(asset.url,/^https:\/\/static\.wixstatic\.com\/media\/[A-Za-z0-9_~.-]+\.(?:png|webp)$/)
   assert.deepEqual([asset.width,asset.height],[1536,1024])
   assert.match(asset.sha256,/^[a-f0-9]{64}$/)
   assert(asset.steps[0].length>30)
  }
- for(const id of ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466'])assert.equal(movementFor(id),null)
+ for(const id of ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','1714'])assert.equal(movementFor(id),null)
 })

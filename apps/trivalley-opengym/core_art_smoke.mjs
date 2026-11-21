@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto'
 import { chromium, webkit } from 'playwright-core'
 
 const root = path.resolve(process.argv[2])
-const heldIds = ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226']
+const heldIds = ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226','1714']
 const engine = process.env.TV_ENGINE || 'chromium'
 const live = process.env.TV_LIVE_URL
 const format = { '.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
@@ -29,7 +29,7 @@ try {
   const release = await (await fetch(base+'tv-release.json')).json()
   const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration'))
   const held = heldIds
-  assert.equal(staged.length,57)
+  assert.equal(staged.length,81)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
   assert.equal(ids.size, 63 + staged.length)
   assert(held.every(id => !ids.has(id)), 'A held card appeared in the release')

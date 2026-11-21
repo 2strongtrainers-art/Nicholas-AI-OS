@@ -1,5 +1,644 @@
-// Owner-approved generated artwork URLs. Original likeness references are private.
 export const CATALOGUE_ART_CORE = {
+  "1002": {
+    "id": "1002",
+    "name": "band lying straight leg raise",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 143926,
+    "sha256": "fb53cd24aaf86371b01403c19f8af4084a6f3ae413728592da5ebdf188dce18b",
+    "leftLabel": "Back supported; band at arches",
+    "rightLabel": "Raise both straight legs",
+    "alt": "AI-generated Nick Kaplan likeness in band lying straight leg raise. Start: Back supported; band at arches. Finish: Raise both straight legs.",
+    "steps": [
+      "Keep your lower back controlled as both legs rise. Stop the lowering phase before the back arches."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c99f29f5b7cb4ce48e1eba250adcb381~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1005": {
+    "id": "1005",
+    "name": "band standing crunch",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 124516,
+    "sha256": "7850386422f57f3d5361af7bd4aa64c349e5d7833d689b5aad945a6b7814ea52",
+    "leftLabel": "Band high; brace standing",
+    "rightLabel": "Curl ribs toward pelvis",
+    "alt": "AI-generated Nick Kaplan likeness in band standing crunch. Start: Band high; brace standing. Finish: Curl ribs toward pelvis.",
+    "steps": [
+      "Keep knees soft and hips steady while curling the rib cage down. Return slowly against the band."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d8fec39ad9d64e6b8bbc82d8c18110cf~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1007": {
+    "id": "1007",
+    "name": "band standing twisting crunch",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 142900,
+    "sha256": "f2f59f0b516ab1c9e2cf693ab996f09704064ef6bd2c1cbd13b8b2825d00f3e7",
+    "leftLabel": "Band across upper back",
+    "rightLabel": "Rotate toward opposite knee",
+    "alt": "AI-generated Nick Kaplan likeness in band standing twisting crunch. Start: Band across upper back. Finish: Rotate toward opposite knee.",
+    "steps": [
+      "Brace first, then bring one shoulder toward the opposite knee without yanking the neck. Alternate sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5ac9d2b114f245a380a7bcc4bf9efa17~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1015": {
+    "id": "1015",
+    "name": "band vertical pallof press",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 133992,
+    "sha256": "a69e51c3805d85977c7200c9a387237d10c6735af8ed7905b494e6162fb0403e",
+    "leftLabel": "Hands at chest; stand side-on",
+    "rightLabel": "Press overhead; resist rotation",
+    "alt": "AI-generated Nick Kaplan likeness in band vertical pallof press. Start: Hands at chest; stand side-on. Finish: Press overhead; resist rotation.",
+    "steps": [
+      "Press the hands upward while keeping hips and ribs square. Use lighter tension if the torso turns."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ff3602029eee44fc98e847bb0bcfc505~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1368": {
+    "id": "1368",
+    "name": "ankle circles",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 1996745,
+    "sha256": "13cf808dbdd7c9da82e49bb45eaa65817880d30090abd75800300174b8c6ce06",
+    "leftLabel": "Foot lifted",
+    "rightLabel": "Circle at the ankle",
+    "alt": "AI-generated Nick Kaplan likeness in ankle circles. Start: Foot lifted. Finish: Circle at the ankle.",
+    "steps": [
+      "Stand tall, lift one foot slightly and draw slow ankle circles without turning the hip."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_9c6618d2006b4938a9b8bc6ef297f18a~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1422": {
+    "id": "1422",
+    "name": "pelvic tilt into bridge",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 133234,
+    "sha256": "8276d21177386e39be6d5c2670ff12d88ff70f9e3234d7445b55b8319dd2790c",
+    "leftLabel": "Feet flat; gently tuck pelvis",
+    "rightLabel": "Lift hips into a low bridge",
+    "alt": "AI-generated Nick Kaplan likeness in pelvic tilt into bridge. Start: Feet flat; gently tuck pelvis. Finish: Lift hips into a low bridge.",
+    "steps": [
+      "Lie back with both feet planted. Tuck the pelvis gently, then press through your feet to lift the hips. Lower without arching your back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ecd78eee05084adc8fed9be374b11712~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1468": {
+    "id": "1468",
+    "name": "crab twist toe touch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 184394,
+    "sha256": "6cc7978a7e4b69c6032c6879b6f57ab0d50b4b40082adf32ef59dff324849779",
+    "leftLabel": "Hands and feet planted",
+    "rightLabel": "Reach toward opposite foot",
+    "alt": "AI-generated Nick Kaplan likeness in crab twist toe touch. Start: Hands and feet planted. Finish: Reach toward opposite foot.",
+    "steps": [
+      "From a crab position, reach one hand toward the opposite lifted foot. Move slowly and keep the supporting shoulder steady."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ff0ecd4e9b62455082fb750587f431b4~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1512": {
+    "id": "1512",
+    "name": "all fours squad stretch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2134034,
+    "sha256": "fba4d486570b1a309e53253a352677c24817fb05c25f6a7eb5011fdc7b5603e4",
+    "leftLabel": "Hands and knees",
+    "rightLabel": "Rock hips back",
+    "alt": "AI-generated Nick Kaplan likeness in all fours squad stretch. Start: Hands and knees. Finish: Rock hips back.",
+    "steps": [
+      "Start on hands and knees, then rock the hips back through a comfortable range without forcing the knees or rounding hard."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_b55f7d6da1ab4cd99b8c0c70b375299a~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1686": {
+    "id": "1686",
+    "name": "squat to overhead reach with twist",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 155926,
+    "sha256": "08fc19544a25dd3439062c8f4bf9ad238033fcc53bb4cfed594d8fffdc70214a",
+    "leftLabel": "Squat in a comfortable range",
+    "rightLabel": "Stand, reach overhead and turn",
+    "alt": "AI-generated Nick Kaplan likeness in squat to overhead reach with twist. Start: Squat in a comfortable range. Finish: Stand, reach overhead and turn.",
+    "steps": [
+      "Squat under control. As you stand, reach overhead and turn gently, allowing the feet to pivot as needed. Alternate sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2e380099ad2f42ccaaa3ba046355f0b3~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1688": {
+    "id": "1688",
+    "name": "lunge with twist",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 154776,
+    "sha256": "9fca3cd269e0b3a1e2c6822750f71653bfb79c9f81504d35a74a910360d0aaff",
+    "leftLabel": "Steady lunge stance",
+    "rightLabel": "Rotate toward the front leg",
+    "alt": "AI-generated Nick Kaplan likeness in lunge with twist. Start: Steady lunge stance. Finish: Rotate toward the front leg.",
+    "steps": [
+      "Step into a balanced lunge. Turn your rib cage toward the front leg without letting the front knee cave. Return and switch sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_57a051eab41f469dbff12d01024db4de~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1708": {
+    "id": "1708",
+    "name": "assisted lying calves stretch",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2068729,
+    "sha256": "8f3ed4fd6a50d70a2383fff7e616c59560e5c1f0e12f675cd1205b90caa041ed",
+    "leftLabel": "Lie back; leg raised",
+    "rightLabel": "Guide ankle toward dorsiflexion",
+    "alt": "AI-generated Nick Kaplan likeness in assisted lying calves stretch. Start: Lie back; leg raised. Finish: Guide ankle toward dorsiflexion.",
+    "steps": [
+      "Lie back with one leg raised while the assistant guides the ankle toward dorsiflexion without bending the knee or forcing range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_f12c9440e3ba4d288ae4114706749748~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1709": {
+    "id": "1709",
+    "name": "assisted lying glutes stretch",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2080117,
+    "sha256": "73054c5eab3234fa8d6afdc766aeb4c19c3b77524ecbfc72dfcf3a87fd71f584",
+    "leftLabel": "Cross ankle over knee",
+    "rightLabel": "Guide thigh inward",
+    "alt": "AI-generated Nick Kaplan likeness in assisted lying glutes stretch. Start: Cross ankle over knee. Finish: Guide thigh inward.",
+    "steps": [
+      "Lie back with the ankle crossed over the knee while the assistant guides the thigh inward without lifting the hips."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_db654c65db9544cc940728bf4414071d~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1710": {
+    "id": "1710",
+    "name": "assisted lying gluteus and piriformis stretch",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2098683,
+    "sha256": "816190da7b2e9b54de7ce15e0dcca68aabb729cc0e4cbf168e364d20b82b7d6d",
+    "leftLabel": "Hip and knee bent",
+    "rightLabel": "Guide knee across gently",
+    "alt": "AI-generated Nick Kaplan likeness in assisted lying gluteus and piriformis stretch. Start: Hip and knee bent. Finish: Guide knee across gently.",
+    "steps": [
+      "Lie back with the hip and knee bent while the assistant guides the knee across gently without twisting the low back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_97573d014cc440b8a562fcd87a35d911~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1712": {
+    "id": "1712",
+    "name": "assisted side lying adductor stretch",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2204331,
+    "sha256": "f91c0f195f6341d7133f225690fd453af7a09c1d04bac077f51314371525e9f3",
+    "leftLabel": "Lie on side",
+    "rightLabel": "Lift top leg gently",
+    "alt": "AI-generated Nick Kaplan likeness in assisted side lying adductor stretch. Start: Lie on side. Finish: Lift top leg gently.",
+    "steps": [
+      "Lie on the side while the assistant supports and lifts the top leg gently without rolling the pelvis or forcing the groin."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_84753c2e3aaa4af2a3c7d5c034d72573~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1713": {
+    "id": "1713",
+    "name": "assisted prone lying quads stretch",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2108587,
+    "sha256": "3e0cebafb5f17521099379b9fcd726e626f52dfbefa74d6e09a05a743bfdfa5b",
+    "leftLabel": "Lie face down; knee bent",
+    "rightLabel": "Guide heel toward glute",
+    "alt": "AI-generated Nick Kaplan likeness in assisted prone lying quads stretch. Start: Lie face down; knee bent. Finish: Guide heel toward glute.",
+    "steps": [
+      "Lie face down with the knee bent while the assistant guides the heel toward the glute without lifting the hips."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a4a9e81782594c81af40ae6f756855d5~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1716": {
+    "id": "1716",
+    "name": "assisted seated pectoralis major stretch with stability ball",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2135722,
+    "sha256": "336f298cbbc6b451f587c26d94b5865cb27f89ec099b3059950d476306500c0b",
+    "leftLabel": "Sit supported on ball",
+    "rightLabel": "Open arms gently",
+    "alt": "AI-generated Nick Kaplan likeness in assisted seated pectoralis major stretch with stability ball. Start: Sit supported on ball. Finish: Open arms gently.",
+    "steps": [
+      "Sit supported against the stability ball while the assistant opens the arms gently without forcing the shoulders behind the body."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d620c3aa9a944b36a1843a9757f1e696~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1758": {
+    "id": "1758",
+    "name": "assisted sit-up",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2174580,
+    "sha256": "b9cfe613fd00147568fac6b1250dbb35e04cd1fac5e084f68501109842532a25",
+    "leftLabel": "Lie back; legs stabilized",
+    "rightLabel": "Curl torso toward thighs",
+    "alt": "AI-generated Nick Kaplan likeness in assisted sit-up. Start: Lie back; legs stabilized. Finish: Curl torso toward thighs.",
+    "steps": [
+      "Lie back while the assistant stabilizes the lower legs, then curl the torso toward the thighs without pulling the neck."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_db97dd9f1c77407cb0b7f99d78102abd~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1761": {
+    "id": "1761",
+    "name": "hanging oblique knee raise",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 161832,
+    "sha256": "f5c4dfcd7df719a61de28d84f9cb3e805c53ef6eb6a3c6c65cece334fccf3b3e",
+    "leftLabel": "Steady two-hand hang",
+    "rightLabel": "Lift knees toward one side",
+    "alt": "AI-generated Nick Kaplan likeness in hanging oblique knee raise. Start: Steady two-hand hang. Finish: Lift knees toward one side.",
+    "steps": [
+      "Use a secure overhand hang. Bring bent knees toward one side without swinging, lower, then repeat on the other side."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d1df7a455a9446f4856d0790707f3bf0~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1775": {
+    "id": "1775",
+    "name": "side plank hip adduction",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 162176,
+    "sha256": "2bf71cd1e17ffc0214bbc38a43781253f09827f2749ce3f95d3f3f980db78ff8",
+    "leftLabel": "Top shin supported on a bench",
+    "rightLabel": "Lift hips and lower leg",
+    "alt": "AI-generated Nick Kaplan likeness in side plank hip adduction. Start: Top shin supported on a bench. Finish: Lift hips and lower leg.",
+    "steps": [
+      "Use a stable bench and put the lower elbow under your shoulder. Lift your hips and draw the bottom leg toward the supported leg. Support your top knee to shorten the lever."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_e634edf8e8b94247b8676fecb72d84fa~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "2333": {
+    "id": "2333",
+    "name": "arm slingers hanging straight legs",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2052460,
+    "sha256": "c5a0c71e4c834b159b4b03d809bc23ae386ed470b2dba162e943c78d2fdad7d7",
+    "leftLabel": "Hang tall in slings",
+    "rightLabel": "Raise straight legs",
+    "alt": "AI-generated Nick Kaplan likeness in arm slingers hanging straight legs. Start: Hang tall in slings. Finish: Raise straight legs.",
+    "steps": [
+      "Hang tall from the slings and raise straight legs with control; bend the knees to shorten the lever."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0e5b79a7be184bdda95ae40f1b3bf2b2~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "2355": {
+    "id": "2355",
+    "name": "arm slingers hanging bent knee legs",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2020093,
+    "sha256": "a1ba427e4786ae654e3b4304229bada7c1bb7434bce433d06a5ab222cfcf0ef1",
+    "leftLabel": "Hang tall in slings",
+    "rightLabel": "Raise bent knees",
+    "alt": "AI-generated Nick Kaplan likeness in arm slingers hanging bent knee legs. Start: Hang tall in slings. Finish: Raise bent knees.",
+    "steps": [
+      "Hang tall from the slings and draw bent knees toward the chest without swinging or shrugging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_8899df53cc214d06ad56622e2ee31f28~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "2429": {
+    "id": "2429",
+    "name": "frog crunch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 151884,
+    "sha256": "6f4e27941b7b13a25831c22873da8d8f45a662ce305f98bd0b1d73587fd7a246",
+    "leftLabel": "Soles together; knees apart",
+    "rightLabel": "Curl ribs toward knees",
+    "alt": "AI-generated Nick Kaplan likeness in frog crunch. Start: Soles together; knees apart. Finish: Curl ribs toward knees.",
+    "steps": [
+      "Lie back with knees comfortably open and soles together. Curl the upper body without pulling the neck or forcing the knees apart."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_4be1bddc767641f69bd9d8ce9ef7fc8b~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3214": {
+    "id": "3214",
+    "name": "arms apart circular toe touch (male)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2025659,
+    "sha256": "1264174d77386fff83bad85bf3e7d231a082b5d90faa07423b6e591306942c57",
+    "leftLabel": "Stand tall; arms high",
+    "rightLabel": "Sweep toward toes",
+    "alt": "AI-generated Nick Kaplan likeness in arms apart circular toe touch (male). Start: Stand tall; arms high. Finish: Sweep toward toes.",
+    "steps": [
+      "Stand tall with arms overhead and sweep the arms wide toward the toes without jerking or locking the knees."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ed3642131d024762a5345d0211528a80~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3293": {
+    "id": "3293",
+    "name": "archer pull up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 1917299,
+    "sha256": "15377847536ab9eb16b798307a656f88ecff96ebcaf63e87f683a47fd0b22768",
+    "leftLabel": "Wide overhand hang",
+    "rightLabel": "Pull toward one hand",
+    "alt": "AI-generated Nick Kaplan likeness in archer pull up. Start: Wide overhand hang. Finish: Pull toward one hand.",
+    "steps": [
+      "Take a very wide overhand grip and pull toward one hand while the other arm stays long; avoid swinging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_53cd7713bad84f848b794384cce5cad2~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3294": {
+    "id": "3294",
+    "name": "archer push up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2106368,
+    "sha256": "7294ead27600e559c78c8d17221f1c5071b6a250d5ef35b22e4e7865bef98d56",
+    "leftLabel": "Wide push-up start",
+    "rightLabel": "Lower toward one hand",
+    "alt": "AI-generated Nick Kaplan likeness in archer push up. Start: Wide push-up start. Finish: Lower toward one hand.",
+    "steps": [
+      "Set wide hands and a straight body line, then lower toward one hand while the other arm stays long."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5648d9e88ddf43cb903412922c65f7fc~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3523": {
+    "id": "3523",
+    "name": "glute bridge two legs on bench (male)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 156994,
+    "sha256": "fde11476a3074b2145c0e4e1af70878cd71d1927af600cdf56ade8ac154b491d",
+    "leftLabel": "Both feet on a stable bench",
+    "rightLabel": "Press heels down and lift hips",
+    "alt": "AI-generated Nick Kaplan likeness in glute bridge two legs on bench (male). Start: Both feet on a stable bench. Finish: Press heels down and lift hips.",
+    "steps": [
+      "Lie back with both feet braced on a stable bench. Drive through your heels into a bridge and lower slowly. Keep your ribs down. Try feet on the floor to scale."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_f8d0238fe55f464bba764b975ce2c13f~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3544": {
+    "id": "3544",
+    "name": "bodyweight incline side plank",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 183314,
+    "sha256": "0013d872e9a63eb9731ff6a5da51b014d340357cd83cd450ee769b8d94f9724c",
+    "leftLabel": "Forearm on a stable bench",
+    "rightLabel": "Lift into an inclined side plank",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight incline side plank. Start: Forearm on a stable bench. Finish: Lift into an inclined side plank.",
+    "steps": [
+      "Set your elbow under your shoulder on a secure bench with feet grounded. Lift until your body is long, then lower under control. Repeat on both sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_90f52d5f4c0d42d18434433270cac714~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3561": {
+    "id": "3561",
+    "name": "glute bridge march",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 165614,
+    "sha256": "d51cacabb8234583f813eab862f32bd52d9df321b0e64faf00dff4185e2ec0d0",
+    "leftLabel": "Hips raised; both feet down",
+    "rightLabel": "Float one foot without tipping",
+    "alt": "AI-generated Nick Kaplan likeness in glute bridge march. Start: Hips raised; both feet down. Finish: Float one foot without tipping.",
+    "steps": [
+      "Set a two-foot bridge. Lift one foot a few inches, keep the pelvis level, and place it back before changing sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0aebfb6595064fac8a1dac30f1a1869f~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3645": {
+    "id": "3645",
+    "name": "single leg bridge with outstretched leg",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 161902,
+    "sha256": "d30e693c71c9353a3f0a0b98c67b04313a9132978450c6c4d02b5baa54daec5b",
+    "leftLabel": "One foot planted; other leg long",
+    "rightLabel": "Lift hips without rotating",
+    "alt": "AI-generated Nick Kaplan likeness in single leg bridge with outstretched leg. Start: One foot planted; other leg long. Finish: Lift hips without rotating.",
+    "steps": [
+      "Lie back, plant one foot, and extend the other leg. Press through the planted foot to lift hips. Keep the pelvis level and lower slowly."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2137cafd276544e381abaa3cadae4b48~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3663": {
+    "id": "3663",
+    "name": "reverse plank with leg lift",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 155846,
+    "sha256": "fb95c404ddc8075b905e514fce1dca9dee7c2aaa73acec3b1ddf1877de04ad5e",
+    "leftLabel": "Reverse tabletop; both feet planted",
+    "rightLabel": "Lift one leg; hips stay level",
+    "alt": "AI-generated Nick Kaplan likeness in reverse plank with leg lift. Start: Reverse tabletop; both feet planted. Finish: Lift one leg; hips stay level.",
+    "steps": [
+      "Start face up on both palms and both feet with knees bent. Lift one leg while keeping hips level. Place it back before switching sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a24529d2cb80445386d5a14df225eb61~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3665": {
+    "id": "3665",
+    "name": "power point plank",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 173840,
+    "sha256": "7c5352d7e055157089220319fd4d0ea4c59482844fefdb27a55c92df78a4c0e4",
+    "leftLabel": "High plank; hands under shoulders",
+    "rightLabel": "Reach opposite arm and leg",
+    "alt": "AI-generated Nick Kaplan likeness in power point plank. Start: High plank; hands under shoulders. Finish: Reach opposite arm and leg.",
+    "steps": [
+      "Start with both palms under shoulders. Reach your opposite arm and leg away, keeping hips as square as possible. Alternate sides or lift one limb only."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_8f618205206940b4931878608bf2f4fa~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3679": {
+    "id": "3679",
+    "name": "sit-up with arms on chest",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 141352,
+    "sha256": "738895aba1bd817554d975a3dd9dc2906d871060e4d57355393f85fee23812fd",
+    "leftLabel": "Feet flat; arms crossed",
+    "rightLabel": "Sit up smoothly",
+    "alt": "AI-generated Nick Kaplan likeness in sit-up with arms on chest. Start: Feet flat; arms crossed. Finish: Sit up smoothly.",
+    "steps": [
+      "Cross arms on your chest and begin with both feet grounded. Sit up and lower smoothly. Reduce your range if you need to swing."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_4da7d8333d1340db94d86cdbd2d699a0~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "0277": {
     "id": "0277",
     "name": "decline crunch",
@@ -280,126 +919,6 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "1468": {
-    "id": "1468",
-    "name": "crab twist toe touch",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 184394,
-    "sha256": "6cc7978a7e4b69c6032c6879b6f57ab0d50b4b40082adf32ef59dff324849779",
-    "leftLabel": "Hands and feet planted",
-    "rightLabel": "Reach toward opposite foot",
-    "alt": "AI-generated Nick Kaplan likeness in crab twist toe touch. Start: Hands and feet planted. Finish: Reach toward opposite foot.",
-    "steps": [
-      "From a crab position, reach one hand toward the opposite lifted foot. Move slowly and keep the supporting shoulder steady."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_ff0ecd4e9b62455082fb750587f431b4~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "1686": {
-    "id": "1686",
-    "name": "squat to overhead reach with twist",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 155926,
-    "sha256": "08fc19544a25dd3439062c8f4bf9ad238033fcc53bb4cfed594d8fffdc70214a",
-    "leftLabel": "Squat in a comfortable range",
-    "rightLabel": "Stand, reach overhead and turn",
-    "alt": "AI-generated Nick Kaplan likeness in squat to overhead reach with twist. Start: Squat in a comfortable range. Finish: Stand, reach overhead and turn.",
-    "steps": [
-      "Squat under control. As you stand, reach overhead and turn gently, allowing the feet to pivot as needed. Alternate sides."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_2e380099ad2f42ccaaa3ba046355f0b3~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "1688": {
-    "id": "1688",
-    "name": "lunge with twist",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 154776,
-    "sha256": "9fca3cd269e0b3a1e2c6822750f71653bfb79c9f81504d35a74a910360d0aaff",
-    "leftLabel": "Steady lunge stance",
-    "rightLabel": "Rotate toward the front leg",
-    "alt": "AI-generated Nick Kaplan likeness in lunge with twist. Start: Steady lunge stance. Finish: Rotate toward the front leg.",
-    "steps": [
-      "Step into a balanced lunge. Turn your rib cage toward the front leg without letting the front knee cave. Return and switch sides."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_57a051eab41f469dbff12d01024db4de~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "1761": {
-    "id": "1761",
-    "name": "hanging oblique knee raise",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 161832,
-    "sha256": "f5c4dfcd7df719a61de28d84f9cb3e805c53ef6eb6a3c6c65cece334fccf3b3e",
-    "leftLabel": "Steady two-hand hang",
-    "rightLabel": "Lift knees toward one side",
-    "alt": "AI-generated Nick Kaplan likeness in hanging oblique knee raise. Start: Steady two-hand hang. Finish: Lift knees toward one side.",
-    "steps": [
-      "Use a secure overhand hang. Bring bent knees toward one side without swinging, lower, then repeat on the other side."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_d1df7a455a9446f4856d0790707f3bf0~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "1775": {
-    "id": "1775",
-    "name": "side plank hip adduction",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 162176,
-    "sha256": "2bf71cd1e17ffc0214bbc38a43781253f09827f2749ce3f95d3f3f980db78ff8",
-    "leftLabel": "Top shin supported on a bench",
-    "rightLabel": "Lift hips and lower leg",
-    "alt": "AI-generated Nick Kaplan likeness in side plank hip adduction. Start: Top shin supported on a bench. Finish: Lift hips and lower leg.",
-    "steps": [
-      "Use a stable bench and put the lower elbow under your shoulder. Lift your hips and draw the bottom leg toward the supported leg. Support your top knee to shorten the lever."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_e634edf8e8b94247b8676fecb72d84fa~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3544": {
-    "id": "3544",
-    "name": "bodyweight incline side plank",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 183314,
-    "sha256": "0013d872e9a63eb9731ff6a5da51b014d340357cd83cd450ee769b8d94f9724c",
-    "leftLabel": "Forearm on a stable bench",
-    "rightLabel": "Lift into an inclined side plank",
-    "alt": "AI-generated Nick Kaplan likeness in bodyweight incline side plank. Start: Forearm on a stable bench. Finish: Lift into an inclined side plank.",
-    "steps": [
-      "Set your elbow under your shoulder on a secure bench with feet grounded. Lift until your body is long, then lower under control. Repeat on both sides."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_90f52d5f4c0d42d18434433270cac714~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
   "0260": {
     "id": "0260",
     "name": "cocoons",
@@ -480,66 +999,6 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "2429": {
-    "id": "2429",
-    "name": "frog crunch",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 151884,
-    "sha256": "6f4e27941b7b13a25831c22873da8d8f45a662ce305f98bd0b1d73587fd7a246",
-    "leftLabel": "Soles together; knees apart",
-    "rightLabel": "Curl ribs toward knees",
-    "alt": "AI-generated Nick Kaplan likeness in frog crunch. Start: Soles together; knees apart. Finish: Curl ribs toward knees.",
-    "steps": [
-      "Lie back with knees comfortably open and soles together. Curl the upper body without pulling the neck or forcing the knees apart."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_4be1bddc767641f69bd9d8ce9ef7fc8b~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3561": {
-    "id": "3561",
-    "name": "glute bridge march",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 165614,
-    "sha256": "d51cacabb8234583f813eab862f32bd52d9df321b0e64faf00dff4185e2ec0d0",
-    "leftLabel": "Hips raised; both feet down",
-    "rightLabel": "Float one foot without tipping",
-    "alt": "AI-generated Nick Kaplan likeness in glute bridge march. Start: Hips raised; both feet down. Finish: Float one foot without tipping.",
-    "steps": [
-      "Set a two-foot bridge. Lift one foot a few inches, keep the pelvis level, and place it back before changing sides."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_0aebfb6595064fac8a1dac30f1a1869f~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3523": {
-    "id": "3523",
-    "name": "glute bridge two legs on bench (male)",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 156994,
-    "sha256": "fde11476a3074b2145c0e4e1af70878cd71d1927af600cdf56ade8ac154b491d",
-    "leftLabel": "Both feet on a stable bench",
-    "rightLabel": "Press heels down and lift hips",
-    "alt": "AI-generated Nick Kaplan likeness in glute bridge two legs on bench (male). Start: Both feet on a stable bench. Finish: Press heels down and lift hips.",
-    "steps": [
-      "Lie back with both feet braced on a stable bench. Drive through your heels into a bridge and lower slowly. Keep your ribs down. Try feet on the floor to scale."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_f8d0238fe55f464bba764b975ce2c13f~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
   "0630": {
     "id": "0630",
     "name": "mountain climber",
@@ -560,66 +1019,6 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "1422": {
-    "id": "1422",
-    "name": "pelvic tilt into bridge",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 133234,
-    "sha256": "8276d21177386e39be6d5c2670ff12d88ff70f9e3234d7445b55b8319dd2790c",
-    "leftLabel": "Feet flat; gently tuck pelvis",
-    "rightLabel": "Lift hips into a low bridge",
-    "alt": "AI-generated Nick Kaplan likeness in pelvic tilt into bridge. Start: Feet flat; gently tuck pelvis. Finish: Lift hips into a low bridge.",
-    "steps": [
-      "Lie back with both feet planted. Tuck the pelvis gently, then press through your feet to lift the hips. Lower without arching your back."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_ecd78eee05084adc8fed9be374b11712~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3665": {
-    "id": "3665",
-    "name": "power point plank",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 173840,
-    "sha256": "7c5352d7e055157089220319fd4d0ea4c59482844fefdb27a55c92df78a4c0e4",
-    "leftLabel": "High plank; hands under shoulders",
-    "rightLabel": "Reach opposite arm and leg",
-    "alt": "AI-generated Nick Kaplan likeness in power point plank. Start: High plank; hands under shoulders. Finish: Reach opposite arm and leg.",
-    "steps": [
-      "Start with both palms under shoulders. Reach your opposite arm and leg away, keeping hips as square as possible. Alternate sides or lift one limb only."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_8f618205206940b4931878608bf2f4fa~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3663": {
-    "id": "3663",
-    "name": "reverse plank with leg lift",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 155846,
-    "sha256": "fb95c404ddc8075b905e514fce1dca9dee7c2aaa73acec3b1ddf1877de04ad5e",
-    "leftLabel": "Reverse tabletop; both feet planted",
-    "rightLabel": "Lift one leg; hips stay level",
-    "alt": "AI-generated Nick Kaplan likeness in reverse plank with leg lift. Start: Reverse tabletop; both feet planted. Finish: Lift one leg; hips stay level.",
-    "steps": [
-      "Start face up on both palms and both feet with knees bent. Lift one leg while keeping hips level. Place it back before switching sides."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_a24529d2cb80445386d5a14df225eb61~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
   "0705": {
     "id": "0705",
     "name": "side bridge v. 2",
@@ -636,46 +1035,6 @@ export const CATALOGUE_ART_CORE = {
       "Set the lower palm under your shoulder and extend both legs. Lift hips gently into a side bridge, then lower with control. Change sides."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_4d46766393584a5d9ac5400fc6617d5c~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3645": {
-    "id": "3645",
-    "name": "single leg bridge with outstretched leg",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 161902,
-    "sha256": "d30e693c71c9353a3f0a0b98c67b04313a9132978450c6c4d02b5baa54daec5b",
-    "leftLabel": "One foot planted; other leg long",
-    "rightLabel": "Lift hips without rotating",
-    "alt": "AI-generated Nick Kaplan likeness in single leg bridge with outstretched leg. Start: One foot planted; other leg long. Finish: Lift hips without rotating.",
-    "steps": [
-      "Lie back, plant one foot, and extend the other leg. Press through the planted foot to lift hips. Keep the pelvis level and lower slowly."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_2137cafd276544e381abaa3cadae4b48~mv2.webp",
-    "review": {
-      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
-    }
-  },
-  "3679": {
-    "id": "3679",
-    "name": "sit-up with arms on chest",
-    "equipment": "body weight",
-    "width": 1536,
-    "height": 1024,
-    "style": "Nick Style 3 + approved avatar face",
-    "bytes": 141352,
-    "sha256": "738895aba1bd817554d975a3dd9dc2906d871060e4d57355393f85fee23812fd",
-    "leftLabel": "Feet flat; arms crossed",
-    "rightLabel": "Sit up smoothly",
-    "alt": "AI-generated Nick Kaplan likeness in sit-up with arms on chest. Start: Feet flat; arms crossed. Finish: Sit up smoothly.",
-    "steps": [
-      "Cross arms on your chest and begin with both feet grounded. Sit up and lower smoothly. Reduce your range if you need to swing."
-    ],
-    "url": "https://static.wixstatic.com/media/856ae2_4da7d8333d1340db94d86cdbd2d699a0~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1060,82 +1419,202 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "1002": {
-    "id": "1002",
-    "name": "band lying straight leg raise",
-    "equipment": "band",
+  "0007": {
+    "id": "0007",
+    "name": "alternate lateral pulldown",
+    "equipment": "cable",
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 143926,
-    "sha256": "fb53cd24aaf86371b01403c19f8af4084a6f3ae413728592da5ebdf188dce18b",
-    "leftLabel": "Back supported; band at arches",
-    "rightLabel": "Raise both straight legs",
-    "alt": "AI-generated Nick Kaplan likeness in band lying straight leg raise. Start: Back supported; band at arches. Finish: Raise both straight legs.",
+    "bytes": 2112419,
+    "sha256": "11aa9dbc4b21200a622d2d2797d47260d94018545c5ef11be765c4c16ecc1b29",
+    "leftLabel": "Both arms high",
+    "rightLabel": "Pull one elbow down",
+    "alt": "AI-generated Nick Kaplan likeness in alternate lateral pulldown. Start: Both arms high. Finish: Pull one elbow down.",
     "steps": [
-      "Keep your lower back controlled as both legs rise. Stop the lowering phase before the back arches."
+      "Sit tall with both high handles and pull one elbow down at a time without leaning back or shrugging."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_c99f29f5b7cb4ce48e1eba250adcb381~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_e560a850a67947b896d21d0d5c6e2a11~mv2.png",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "1005": {
-    "id": "1005",
-    "name": "band standing crunch",
-    "equipment": "band",
+  "0009": {
+    "id": "0009",
+    "name": "assisted chest dip (kneeling)",
+    "equipment": "leverage machine",
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 124516,
-    "sha256": "7850386422f57f3d5361af7bd4aa64c349e5d7833d689b5aad945a6b7814ea52",
-    "leftLabel": "Band high; brace standing",
-    "rightLabel": "Curl ribs toward pelvis",
-    "alt": "AI-generated Nick Kaplan likeness in band standing crunch. Start: Band high; brace standing. Finish: Curl ribs toward pelvis.",
+    "bytes": 2013093,
+    "sha256": "db89bc5d49d04e6d334a15a853cd9a30936f4480d0c5f0db2bc31822a969556c",
+    "leftLabel": "Kneel on assist pad",
+    "rightLabel": "Lower with control",
+    "alt": "AI-generated Nick Kaplan likeness in assisted chest dip (kneeling). Start: Kneel on assist pad. Finish: Lower with control.",
     "steps": [
-      "Keep knees soft and hips steady while curling the rib cage down. Return slowly against the band."
+      "Kneel on the assist pad, grip the bars and lower before pressing up with control; increase assistance as needed."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_d8fec39ad9d64e6b8bbc82d8c18110cf~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_23481e8708cc4d62a3ce553c31ef0af9~mv2.png",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "1007": {
-    "id": "1007",
-    "name": "band standing twisting crunch",
-    "equipment": "band",
+  "0011": {
+    "id": "0011",
+    "name": "assisted hanging knee raise",
+    "equipment": "assisted",
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 142900,
-    "sha256": "f2f59f0b516ab1c9e2cf693ab996f09704064ef6bd2c1cbd13b8b2825d00f3e7",
-    "leftLabel": "Band across upper back",
-    "rightLabel": "Rotate toward opposite knee",
-    "alt": "AI-generated Nick Kaplan likeness in band standing twisting crunch. Start: Band across upper back. Finish: Rotate toward opposite knee.",
+    "bytes": 2004366,
+    "sha256": "59a4ede80e55917b08fdd3d6038af52f1da0d26d45932fd95e07285f9f27a67b",
+    "leftLabel": "Hang tall",
+    "rightLabel": "Raise bent knees",
+    "alt": "AI-generated Nick Kaplan likeness in assisted hanging knee raise. Start: Hang tall. Finish: Raise bent knees.",
     "steps": [
-      "Brace first, then bring one shoulder toward the opposite knee without yanking the neck. Alternate sides."
+      "Hang tall and raise bent knees as an assistant guides lightly; avoid swinging or pulling on the neck."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_5ac9d2b114f245a380a7bcc4bf9efa17~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_e1bbcb7ac5a24555b4d3a970e6193f08~mv2.png",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
-  "1015": {
-    "id": "1015",
-    "name": "band vertical pallof press",
-    "equipment": "band",
+  "0010": {
+    "id": "0010",
+    "name": "assisted hanging knee raise with throw down",
+    "equipment": "assisted",
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved avatar face",
-    "bytes": 133992,
-    "sha256": "a69e51c3805d85977c7200c9a387237d10c6735af8ed7905b494e6162fb0403e",
-    "leftLabel": "Hands at chest; stand side-on",
-    "rightLabel": "Press overhead; resist rotation",
-    "alt": "AI-generated Nick Kaplan likeness in band vertical pallof press. Start: Hands at chest; stand side-on. Finish: Press overhead; resist rotation.",
+    "bytes": 2039701,
+    "sha256": "26f2f9987a5f177d316193f0b2f5d8564f6cbfdada57f6dce38390e67d58324d",
+    "leftLabel": "Hang with knees raised",
+    "rightLabel": "Resist guided push-down",
+    "alt": "AI-generated Nick Kaplan likeness in assisted hanging knee raise with throw down. Start: Hang with knees raised. Finish: Resist guided push-down.",
     "steps": [
-      "Press the hands upward while keeping hips and ribs square. Use lighter tension if the torso turns."
+      "Hang tall, raise the knees and resist a light guided push-down; use a tap rather than a hard throw."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_ff3602029eee44fc98e847bb0bcfc505~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_e0d9641edd364ebfabee78bac8640624~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0012": {
+    "id": "0012",
+    "name": "assisted lying leg raise with lateral throw down",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2113633,
+    "sha256": "ed622d94b7d28b412d538f1aedaf69e660e79382dc4cd2b2f6b496ab8350cce5",
+    "leftLabel": "Legs raised",
+    "rightLabel": "Resist lateral push",
+    "alt": "AI-generated Nick Kaplan likeness in assisted lying leg raise with lateral throw down. Start: Legs raised. Finish: Resist lateral push.",
+    "steps": [
+      "Lie back with the legs raised and resist a small guided push toward one side without allowing the low back to arch."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_810dee354da24b2aaa409a4366324a49~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0013": {
+    "id": "0013",
+    "name": "assisted lying leg raise with throw down",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2174914,
+    "sha256": "21dc24fd3b67160f91ebe8fd7fa892890a116258f7c6b3b8494c9100c3f0ddba",
+    "leftLabel": "Legs raised",
+    "rightLabel": "Resist downward push",
+    "alt": "AI-generated Nick Kaplan likeness in assisted lying leg raise with throw down. Start: Legs raised. Finish: Resist downward push.",
+    "steps": [
+      "Lie back with the legs raised and resist a light guided downward push without letting the heels strike the floor."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_3dd21b9e71bb498fb0e53cc4a602c329~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0014": {
+    "id": "0014",
+    "name": "assisted motion russian twist",
+    "equipment": "medicine ball",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2258127,
+    "sha256": "07f50f5519613d12848c6b2cd2b271bd56916976239cdb80d2bd1085b5f886c7",
+    "leftLabel": "Sit braced with ball",
+    "rightLabel": "Rotate and exchange ball",
+    "alt": "AI-generated Nick Kaplan likeness in assisted motion russian twist. Start: Sit braced with ball. Finish: Rotate and exchange ball.",
+    "steps": [
+      "Sit braced facing a partner and rotate while exchanging the ball side to side without collapsing the chest."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0a16155f4bfb423ea360a7f9203487e3~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0015": {
+    "id": "0015",
+    "name": "assisted parallel close grip pull-up",
+    "equipment": "leverage machine",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2186116,
+    "sha256": "ddded738dda6022694ec7fa41a1a4bef19ac9a9a9b111acb2f79dc44d2ef1401",
+    "leftLabel": "Kneel; neutral close grip",
+    "rightLabel": "Pull chest between handles",
+    "alt": "AI-generated Nick Kaplan likeness in assisted parallel close grip pull-up. Start: Kneel; neutral close grip. Finish: Pull chest between handles.",
+    "steps": [
+      "Kneel on the assist pad with a neutral close grip and pull the chest between the handles without swinging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c6787925250e4610a9ad96c17ea9c1bd~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0016": {
+    "id": "0016",
+    "name": "assisted prone hamstring",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2088919,
+    "sha256": "4b4fbf9ae15f0218c93d376694dfabb1fc2d6f15d31e9b8e260fcf7983af58f1",
+    "leftLabel": "Lie face down",
+    "rightLabel": "Bend knee gently",
+    "alt": "AI-generated Nick Kaplan likeness in assisted prone hamstring. Start: Lie face down. Finish: Bend knee gently.",
+    "steps": [
+      "Lie face down while the assistant holds the ankle and bends the knee gently without lifting the hip or forcing range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_316d88ec946b4e84bc460bef1ae8de5f~mv2.png",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0017": {
+    "id": "0017",
+    "name": "assisted pull-up",
+    "equipment": "leverage machine",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 2021151,
+    "sha256": "a6b13998c86041afeef9ee931e6ab6c52c8c35d99c5e322bea16bba4ae84ba2e",
+    "leftLabel": "Kneel; overhand grip",
+    "rightLabel": "Pull chest toward bar",
+    "alt": "AI-generated Nick Kaplan likeness in assisted pull-up. Start: Kneel; overhand grip. Finish: Pull chest toward bar.",
+    "steps": [
+      "Kneel on the assist pad with an overhand grip and pull the chest toward the bar without swinging or shrugging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_30cd1b4a199f478eb9d30220b6601b69~mv2.png",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
