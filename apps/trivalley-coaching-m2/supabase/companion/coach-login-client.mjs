@@ -527,6 +527,53 @@ el("loadCheckins").addEventListener("click",async()=>{
   }
 });
 
+async function refreshDeletionRequests(){
+  const response=await apiGet("/v1/coach/deletion-requests");
+  const root=el("deletionList");root.replaceChildren();
+  if(!Array.isArray(response.requests))throw Error("INVALID_DELETION_QUEUE");
+  if(!response.requests.length)root.append(textNode("p","No coaching data-deletion requests."));
+  for(const record of response.requests){
+    const row=textNode("div",undefined,"program-entry");
+    const id=String(record.requestId||"");
+    row.append(textNode("strong",record.status==="completed"?"Deletion completed":"Pending deletion review"),
+      textNode("small","Request "+id+" · "+String(record.requestedAt||"")));
+    if(record.status==="pending_owner_review"){
+      const client=String(record.clientId||"");
+      row.append(textNode("small","Client member ID: "+client));
+      const button=textNode("button","Approve permanent client erasure","secondary");
+      button.type="button";
+      button.addEventListener("click",async()=>{
+        const expected="DELETE "+client;
+        const typed=window.prompt("This deletes private coaching records, assignments, membership and in-database history. You must also manage already downloaded backup files. Type exactly: "+expected);
+        if(typed!==expected)return;
+        if(!window.confirm("Final confirmation: permanently remove this client's coaching data now?"))return;
+        button.disabled=true;
+        try{
+          const result=await apiPost("/v1/coach/deletion-requests/"+encodeURIComponent(id)+"/complete",{
+            confirmation:"CONFIRM_PERMANENT_COACHING_ERASURE"
+          });
+          el("assignmentNotice").textContent=result.completed
+            ?"Coaching data erased from the live database. Handle old downloaded backups and notify the client separately."
+            :"Deletion was not completed.";
+          await refreshDeletionRequests();
+          await refreshClientRoster();
+          await refreshRecovery();
+        }catch{
+          el("assignmentNotice").textContent="Deletion failed safely; records were not confirmed erased.";
+          button.disabled=false;
+        }
+      });
+      row.append(button);
+    }
+    root.append(row);
+  }
+}
+el("refreshDeletion").addEventListener("click",async()=>{
+  try{await refreshDeletionRequests()}catch{
+    el("deletionList").replaceChildren(textNode("p","Deletion review unavailable. No records were changed."));
+  }
+});
+
 async function showCoach() {
   const me=await apiGet("/v1/me");
   if(me?.member?.role!=="coach")throw new Error("This member is not approved for the coaching role");
@@ -545,6 +592,9 @@ async function showCoach() {
   }
   try{await refreshClientGate();await refreshClientRoster()}catch{
     el("clientGate").textContent="Enrollment controls unavailable. Client enrollment remains blocked.";
+  }
+  try{await refreshDeletionRequests()}catch{
+    el("deletionList").replaceChildren(textNode("p","Deletion review unavailable."));
   }
 }
 el("login").addEventListener("click",async()=>{
