@@ -6,10 +6,12 @@ import {CoachingService,InMemoryCoachingStore,CoachingError} from "./domain.mjs"
 import {makeWixMemberVerifier} from "./wix-verify.mjs";
 import {makeWixOAuthTokenBinding} from "./wix-token-info.mjs";
 import {eraseClientState} from "./deletion.mjs";
+import {validateCoachingBackup} from "./backup-restore.mjs";
 
 const SITE_ID="9e6343d9-5a1c-45e2-8596-f73408e38402";
 const HOST_NAME="trivalley-coaching-api";
 const MAX_BODY=48*1024;
+const MAX_RESTORE_BODY=2*1024*1024;
 const ORIGINS=new Set([
   "https://www.trivalley.fit",
   "https://trivalley.fit",
@@ -39,10 +41,10 @@ function pathFor(req) {
   const at=path.indexOf("/"+HOST_NAME);
   return at>=0 ? (path.slice(at+HOST_NAME.length+1)||"/") : path;
 }
-async function jsonBody(req) {
+async function jsonBody(req,maxBody=MAX_BODY) {
   if(!/^application\/json(?:\s*;|$)/i.test(req.headers.get("content-type")||""))
     throw new CoachingError(415,"CONTENT_TYPE","Expected application/json");
-  if(Number(req.headers.get("content-length")||"0")>MAX_BODY)
+  if(Number(req.headers.get("content-length")||"0")>maxBody)
     throw new CoachingError(413,"BODY_TOO_LARGE","Request too large");
   if(!req.body) throw new CoachingError(400,"INVALID_JSON","Request body required");
   const reader=req.body.getReader();
@@ -53,7 +55,7 @@ async function jsonBody(req) {
       const {value,done}=await reader.read();
       if(done) break;
       size+=value.byteLength;
-      if(size>MAX_BODY) {
+      if(size>maxBody) {
         await reader.cancel();
         throw new CoachingError(413,"BODY_TOO_LARGE","Request too large");
       }
@@ -297,7 +299,7 @@ async function handle(req) {
     }
     const actor=await verify(bearer);
     if(!actor)return send({error:"UNAUTHENTICATED"},401,origin);
-    const body=req.method==="POST"?await jsonBody(req):null;
+    const body=req.method==="POST"?await jsonBody(req,path==="/v1/coach/restore-drill"?MAX_RESTORE_BODY:MAX_BODY):null;
     const result=await sql.begin(async tx=>{
       // Re-check permissions *inside* the serialized write transaction.
       const rows=await tx.unsafe(
@@ -370,6 +372,64 @@ async function handle(req) {
         return {backupAttested:true,revision:body.revision,
           notice:"A verified local decrypt and owner assertion were recorded; offsite storage remains the owner's responsibility."};
       }
+      if(req.method==="POST"&&path==="/v1/coach/restore-drill"){
+        if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
+          throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner required");
+        if(!body||Object.keys(body).sort().join(",")!=="backup,digest"||
+          typeof body.digest!=="string"||!/^[0-9a-f]{64}$/.test(body.digest))
+          throw new CoachingError(422,"RESTORE_DRILL_INVALID","Use a verified encrypted backup");
+        const prior=await tx.unsafe(
+          "select backup_revision,backup_file_sha256,backup_verified_at from coaching_private.release_controls where org_id=$1::uuid for update",
+          [actor.orgId]
+        );
+        const control=prior[0];
+        if(!control?.backup_verified_at||control.backup_file_sha256!==body.digest||
+          Number(control.backup_revision)!==Number(state[0].revision))
+          throw new CoachingError(423,"BACKUP_ATTESTATION_REQUIRED","Verify the current saved encrypted backup first");
+        let summary;
+        try{
+          summary=validateCoachingBackup(body.backup,{siteId:SITE_ID,orgId:actor.orgId});
+        }catch{
+          throw new CoachingError(422,"BACKUP_CONTENT_INVALID","Backup failed integrity or ownership validation");
+        }
+        if(summary.revision!==Number(state[0].revision))
+          throw new CoachingError(409,"BACKUP_STALE","A new backup is required after coaching data changes");
+        const json=JSON.stringify(body.backup);
+        if(new TextEncoder().encode(json).byteLength>MAX_RESTORE_BODY-1024)
+          throw new CoachingError(413,"BACKUP_TOO_LARGE","Restore drill limit reached");
+        // Copy the entire decrypted snapshot into isolated transaction-local
+        // PostgreSQL storage, compare JSONB content, and drop at commit.
+        // Existing organizations, programs and clients are NEVER overwritten.
+        await tx.unsafe(
+          "create temporary table trivalley_restore_probe (data jsonb not null, revision bigint not null) on commit drop"
+        );
+        await tx.unsafe(
+          "insert into pg_temp.trivalley_restore_probe(data,revision) values ($1::jsonb,$2::bigint)",
+          [json,String(summary.revision)]
+        );
+        const drill=await tx.unsafe(
+          "select (data=$1::jsonb) as same_data,(revision=$2::bigint) as same_revision from pg_temp.trivalley_restore_probe",
+          [json,String(summary.revision)]
+        );
+        if(drill.length!==1||drill[0].same_data!==true||drill[0].same_revision!==true)
+          throw new CoachingError(500,"RESTORE_DRILL_FAILED","Database copy verification failed");
+        await tx.unsafe(
+          "insert into coaching_private.restore_drill_receipts(org_id,actor_id,snapshot_revision,file_digest,program_count,assignment_count,workout_count,verified) values ($1::uuid,$2::uuid,$3::bigint,$4,$5,$6,$7,true)",
+          [actor.orgId,actor.sub,String(summary.revision),body.digest,
+            summary.programs,summary.assignments,summary.workouts]
+        );
+        await tx.unsafe(
+          "update coaching_private.release_controls set restore_drill_at=now(),restore_drill_revision=$2::bigint,restore_drill_sha256=$3,reviewed_at=now() where org_id=$1::uuid",
+          [actor.orgId,String(summary.revision),body.digest]
+        );
+        await tx.unsafe(
+          "insert into coaching_private.audit_events(org_id,actor_id,action,resource_id) values ($1::uuid,$2::uuid,'BACKUP_COPY_RESTORE_TESTED',$3)",
+          [actor.orgId,actor.sub,String(summary.revision)]
+        );
+        return {restoreDrillPassed:true,databaseCopyOnly:true,
+          revision:summary.revision,counts:summary,
+          notice:"The backup was copied into disposable Postgres storage and compared. Production records were not overwritten."};
+      }
       if(req.method==="POST"&&path==="/v1/coach/approve-privacy"){
         if(actor.role!=="coach"||actor.sub!=="4d122d05-0633-461b-ab06-4c642199e75a")
           throw new CoachingError(403,"OWNER_ONLY","Canonical coaching owner required");
@@ -394,12 +454,15 @@ async function handle(req) {
         if(!body||Object.keys(body).length!==1||body.confirmation!=="ACTIVATE_CONSENTED_CLIENT_PILOT")
           throw new CoachingError(422,"CONFIRMATION_REQUIRED","Explicit release approval required");
         const controls=await tx.unsafe(
-          "select privacy_approved_at,backup_verified_at,backup_revision,privacy_notice_version from coaching_private.release_controls where org_id=$1::uuid for update",
+          "select privacy_approved_at,backup_verified_at,backup_revision,backup_file_sha256,restore_drill_at,restore_drill_revision,restore_drill_sha256,privacy_notice_version from coaching_private.release_controls where org_id=$1::uuid for update",
           [actor.orgId]
         );
         const gate=controls[0];
         if(!gate||!gate.privacy_approved_at||!gate.backup_verified_at||
            gate.privacy_notice_version!=="TVFIT-PILOT-2026-11-V1"||
+           !gate.restore_drill_at||
+           gate.restore_drill_sha256!==gate.backup_file_sha256||
+           Number(gate.restore_drill_revision)!==Number(state[0].revision)||
            Number(gate.backup_revision)!==Number(state[0].revision)||
            Date.now()-new Date(gate.backup_verified_at).getTime()>48*3600000)
           throw new CoachingError(423,"RELEASE_GATE_INCOMPLETE","Privacy approval and a current verified offsite backup are required");
@@ -436,7 +499,7 @@ async function handle(req) {
       if(req.method==="GET"&&path==="/v1/coach/release-status"){
         if(actor.role!=="coach")throw new CoachingError(403,"COACH_ONLY","Coach account required");
         const gates=await tx.unsafe(
-          "select enrollment_enabled, workout_sync_enabled,privacy_notice_version,backup_revision,backup_verified_at,(privacy_approved_at is not null) privacy_approved,(backup_verified_at is not null) backup_verified from coaching_private.release_controls where org_id=$1::uuid",
+          "select enrollment_enabled, workout_sync_enabled,privacy_notice_version,backup_revision,backup_verified_at,restore_drill_revision,restore_drill_at,(restore_drill_at is not null) restore_drill_verified,(privacy_approved_at is not null) privacy_approved,(backup_verified_at is not null) backup_verified from coaching_private.release_controls where org_id=$1::uuid",
           [actor.orgId]
         );
         if(gates.length!==1)throw new CoachingError(503,"SERVICE_NOT_READY","Missing release controls");
