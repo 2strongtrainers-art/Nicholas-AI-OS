@@ -51,7 +51,12 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 .program-library .divider{border:0;border-top:1px solid #34445b;margin:20px 0}
 #inviteOutput{overflow-wrap:anywhere;border-left:3px solid #bfa172;padding:10px;margin:12px 0}
 #invitationList{margin-top:12px}#checkinList{list-style:none}
-</style>
+#noticeDetails{background:#0c1a2b;border:1px solid #4d5b70;border-radius:12px;padding:13px;margin:13px 0}
+#noticeDetails summary{cursor:pointer;font-size:13px;font-weight:650;color:#f3dbab}
+#noticeDetails p{font-size:12px;color:#c3cfe0;line-height:1.65;margin:12px 0}
+.checks{display:flex;gap:9px;align-items:flex-start;margin:13px 0}.checks input{width:18px;height:18px;min-height:18px;margin:1px 0 0}
+.checks label{margin:0;font-size:12px;flex:1}
+#releaseNotice{padding:12px;background:#172336;border:1px solid #4a5a73;border-radius:10px;margin-top:12px}</style>
 </head>
 <body>
 <main>
@@ -87,6 +92,24 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <div class="small" role="status" aria-live="polite" id="programNotice">Loading saved programs...</div>
 <ol id="programList" class="program-list" aria-label="Your private coaching programs"></ol>
 <button id="createSplit" class="primary" type="button">Create my three private drafts</button>
+</div>
+<div class="program-library" aria-labelledby="releaseTitle">
+<h2 id="releaseTitle">Private pilot launch controls</h2>
+<p>Client enrollment stays locked until the owner verifies an encrypted offsite backup, reviews the client data notice, and explicitly activates the pilot. This is not a public production launch.</p>
+<details id="noticeDetails">
+<summary>Read the TriValley pilot data notice (TVFIT-PILOT-2026-11-V1)</summary>
+<p>TriValley.fit's private coaching pilot stores each opted-in member's Wix member ID and display name, assigned programs, workout dates and durations, exercises, sets, repetitions, weights, and optional check-in comments. It does not request clinical histories, medical records, or diagnoses.</p>
+<p>A client sees their own records; the explicitly assigned coach sees that client's coached progress and check-ins. The owner can export encrypted backups and review deletion requests. Coaching information is held in a restricted Supabase database in the U.S. West region. Backup exports are encrypted locally using a password held by the owner.</p>
+<p>Records remain until reviewed for deletion. Deletion from the live coaching database also removes its in-database revision history, but previously downloaded backup files must be separately managed. The Supabase Free plan does not provide guaranteed automatic backups and can pause for inactivity. This is a limited coaching pilot, not an emergency or medical service.</p>
+<p>The owner is responsible for informing participating clients, protecting exported files and their passwords, reviewing requests, and checking privacy and legal requirements before wider use.</p>
+</details>
+<div class="checks"><input type="checkbox" id="approveNoticeCheck"><label for="approveNoticeCheck">I reviewed this pilot notice and accept responsibility for the data-handling and backup procedures.</label></div>
+<div class="buttonrow">
+<button id="approveNotice" class="secondary" type="button" disabled>Approve pilot data notice</button>
+<button id="activatePilot" class="primary" type="button" disabled>Activate consented client pilot</button>
+<button id="pausePilot" class="secondary" type="button" disabled>Pause client pilot</button>
+</div>
+<div id="releaseNotice" class="small" aria-live="polite">Waiting for verified backup and explicit owner approval.</div>
 </div>
 <div class="program-library" aria-labelledby="onboardingTitle">
 <h2 id="onboardingTitle">Client onboarding & assignments</h2>
