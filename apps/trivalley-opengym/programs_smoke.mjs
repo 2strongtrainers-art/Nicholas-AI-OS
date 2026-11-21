@@ -77,8 +77,8 @@ try {
   for (const [index, count] of [5,6,5].entries()) {
     await tapVisible('[data-testid="tv-preview-program-' + index + '"]');
     await page.waitForSelector('[data-testid="tv-program-detail"]');
-    assert(await page.$eval('[data-testid="tv-poster-movement"]', n => n.length) === count,'Missing prescribed exercises in preview '+index);
-    const phases=await page.$eval('[data-testid="tv-poster-movement"]',cards=>cards.map(card=>{
+    assert(await page.evaluate(() => document.querySelectorAll('[data-testid="tv-poster-movement"]').length) === count,'Missing prescribed exercises in preview '+index);
+    const phases=await page.evaluate(()=>[...document.querySelectorAll('[data-testid="tv-poster-movement"]')].map(card=>{
       const figure=card.querySelector('[data-testid="tv-movement-figure"]');
       return {id:figure?.dataset.exerciseId || null, labels:[...(figure?.querySelectorAll('.tv-movement-phases strong')||[])].map(n=>n.textContent)};
     }));
