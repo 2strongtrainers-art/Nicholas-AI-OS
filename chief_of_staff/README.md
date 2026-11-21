@@ -20,6 +20,10 @@ The Chief of Staff may use [the market-desk runbook](../docs/MARKET_DESK_OPEN_SO
 
 For the council: operator perspective (reproducibility, permissions, cost), downside perspective (IEX incompleteness, gaps, spread uncertainty, lookahead, survivorship and licensing), and trader/owner perspective (specific timestamped levels, repeatable hypotheses and clear limitations). Fincept and Vibe are optional sandboxes, not current live engines. LEAN requires an independent deployment and realistic dataset. Do not call any of them operational unless an actual runtime test supports it. Keep the separate scheduled Chief briefing read-only, and coordinate with Muse only through a verified authorized handoff.
 
+## TinyFish public-site monitoring (live provider configuration)
+
+Five native TinyFish monitors were configured for the TriValley homepage, coaching application, $39 product, free Training Companion, and weekly local-competitor search. The [TinyFish operations runbook](../docs/TINYFISH_TRIVALLEY_OPERATIONS.md) contains monitor IDs, initial verification, costs, source-of-truth rules and explicit pending acceptance gates. The existing weekly business-review task reads their results when the TinyFish connection is available; the Chief-of-Staff task remains separate. A GitHub document or saved task prompt is **not** evidence that a later run occurred or was acknowledged.
+
 ## Live operation
 
 Open Scheduled in ChatGPT to manage the Chief, weekly business and content review, and monthly Advisor tasks. The scheduled prompts are the connected-app execution path. The Chief compares the latest result available to its runner. The owner can replay a brief manually or give follow-up instructions using its item numbers. Private source links and the owner plan belong in ChatGPT and the original connected services. This repository carries workflow code and synthetic data.
