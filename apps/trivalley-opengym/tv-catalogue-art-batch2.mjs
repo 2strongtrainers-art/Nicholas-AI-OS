@@ -1,4 +1,4 @@
-// Batch 20261120-02: reviewed generated references; no prescriptions or private reference photos.
+// Reviewed exact-ID catalogue atlas references. Historical batch-2 URLs are preserved.
 export const CATALOGUE_ART_BATCH2 = {
   "0025": {
     "id": "0025",
@@ -524,6 +524,132 @@ export const CATALOGUE_ART_BATCH2 = {
       "Pull your elbows toward your ribs until your chin clears the bar without craning your neck.",
       "Lower with control; do not swing or kick. Choose a separately planned assisted variation when needed."
     ]
+  },
+  "0426": {
+    "id": "0426",
+    "name": "dumbbell standing overhead press",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_dcbc6e6a01d742bab436e30822902d2a~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 529,
+    "style": "TRX",
+    "bytes": 1955101,
+    "sha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc",
+    "leftLabel": "Weights beside shoulders",
+    "rightLabel": "Press overhead",
+    "alt": "Generated Nick likeness for dumbbell standing overhead press: weights beside shoulders on the left; press overhead on the right.",
+    "steps": [
+      "Stand with your feet planted and hold the dumbbells beside your shoulders with palms forward.",
+      "Brace your trunk and press upward until your arms are comfortably extended; keep your ribs stacked over your hips.",
+      "I want a smooth return to shoulder level, without leaning backward or forcing a painful range."
+    ]
+  },
+  "0396": {
+    "id": "0396",
+    "name": "dumbbell seated lateral raise",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_dcbc6e6a01d742bab436e30822902d2a~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 532,
+    "cropHeight": 477,
+    "style": "TRX",
+    "bytes": 1955101,
+    "sha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc",
+    "leftLabel": "Weights by thighs",
+    "rightLabel": "Raise to shoulder height",
+    "alt": "Generated Nick likeness for dumbbell seated lateral raise: weights by thighs on the left; raise to shoulder height on the right.",
+    "steps": [
+      "Sit upright on a stable bench with both feet flat and hold the dumbbells beside your thighs.",
+      "With a small elbow bend, raise your arms out and slightly forward until they approach shoulder height.",
+      "Lower slowly. Keep your shoulders relaxed and use a lighter load if you need to swing."
+    ]
+  },
+  "1678": {
+    "id": "1678",
+    "name": "dumbbell seated hammer curl",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_dcbc6e6a01d742bab436e30822902d2a~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1012,
+    "cropHeight": 524,
+    "style": "TRX",
+    "bytes": 1955101,
+    "sha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc",
+    "leftLabel": "Palms face inward",
+    "rightLabel": "Curl with neutral grip",
+    "alt": "Generated Nick likeness for dumbbell seated hammer curl: palms face inward on the left; curl with neutral grip on the right.",
+    "steps": [
+      "Sit tall on a stable bench, plant both feet and hold the weights at your sides with palms inward.",
+      "Bend your elbows to bring the dumbbells toward your shoulders while your upper arms stay beside your ribs.",
+      "Keep your palms facing inward throughout and lower with control; avoid swinging your torso."
+    ]
+  },
+  "0429": {
+    "id": "0429",
+    "name": "dumbbell standing reverse curl",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_03e02e2c1aaa44eaa9e76f877be7c871~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 0,
+    "cropHeight": 509,
+    "style": "TRX",
+    "bytes": 1818847,
+    "sha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e",
+    "leftLabel": "Arms long, palms back",
+    "rightLabel": "Curl with palms down",
+    "alt": "Generated Nick likeness for dumbbell standing reverse curl: arms long, palms back on the left; curl with palms down on the right.",
+    "steps": [
+      "Stand tall with both feet planted and hold the dumbbells with an overhand grip, palms facing behind you.",
+      "Bend your elbows with your upper arms close to your sides, keeping your palms turned down as the weights rise.",
+      "Keep your wrists straight and lower smoothly. Use a light load rather than bending your wrists or swinging."
+    ]
+  },
+  "0392": {
+    "id": "0392",
+    "name": "dumbbell seated front raise",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_03e02e2c1aaa44eaa9e76f877be7c871~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 513,
+    "cropHeight": 488,
+    "style": "TRX",
+    "bytes": 1818847,
+    "sha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e",
+    "leftLabel": "Weights at thighs",
+    "rightLabel": "Raise forward, palms down",
+    "alt": "Generated Nick likeness for dumbbell seated front raise: weights at thighs on the left; raise forward, palms down on the right.",
+    "steps": [
+      "Sit upright on a stable bench with feet flat and dumbbells at your thighs, palms facing back.",
+      "Keeping a small bend in your elbows, raise the weights forward to shoulder height with palms facing down.",
+      "Lower under control. Keep your ribs stacked and avoid leaning back or shrugging."
+    ]
+  },
+  "0391": {
+    "id": "0391",
+    "name": "dumbbell seated curl",
+    "equipment": "dumbbell",
+    "url": "https://static.wixstatic.com/media/856ae2_03e02e2c1aaa44eaa9e76f877be7c871~mv2.png",
+    "width": 1024,
+    "height": 1536,
+    "top": 1005,
+    "cropHeight": 531,
+    "style": "TRX",
+    "bytes": 1818847,
+    "sha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e",
+    "leftLabel": "Palms face forward",
+    "rightLabel": "Curl toward shoulders",
+    "alt": "Generated Nick likeness for dumbbell seated curl: palms face forward on the left; curl toward shoulders on the right.",
+    "steps": [
+      "Sit tall on a stable bench, feet flat, and hold the dumbbells at your sides with palms facing forward.",
+      "Bend your elbows to curl both weights toward your shoulders while keeping your upper arms beside your torso.",
+      "Lower smoothly without rocking your body or bending your wrists. Keep the palms-up curl distinct from a hammer curl."
+    ]
   }
 }
-export const APPROVED_CATALOGUE_BATCH2_IDS = ["0025", "0027", "0032", "1436", "0085", "0117", "0662", "3211", "0493", "0659", "0274", "0872", "1760", "0297", "0308", "0310", "0333", "0406", "0413", "0336", "0431", "0417", "1373", "3013", "0652"]
+export const APPROVED_CATALOGUE_BATCH2_IDS = ["0025", "0027", "0032", "1436", "0085", "0117", "0662", "3211", "0493", "0659", "0274", "0872", "1760", "0297", "0308", "0310", "0333", "0406", "0413", "0336", "0431", "0417", "1373", "3013", "0652", "0426", "0396", "1678", "0429", "0392", "0391"]

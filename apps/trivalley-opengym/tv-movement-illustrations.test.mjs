@@ -5,7 +5,7 @@ import { MOVEMENT_ILLUSTRATIONS, MOVEMENT_REVIEW_STATUS, movementReferenceFor, m
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,41)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,47)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -46,10 +46,10 @@ test('Press captions and close-grip row instructions match the revised image seq
   assert.equal(movementFor('custom-0313'),null)
 })
 
-test('New batch binds 25 reviewed catalogue IDs to valid disjoint image regions and exact equipment',()=>{
+test('Latest batch binds six reviewed catalogue IDs to valid disjoint image regions and exact equipment',()=>{
  const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
  const ids=progress.currentBatch.exactIds
- assert.equal(ids.length,25);assert.equal(new Set(ids).size,25)
+ assert.equal(ids.length,6);assert.equal(new Set(ids).size,6)
  const regions=new Set()
  for(const id of ids){
   const art=movementFor(id),entry=progress.entries.find(e=>e.id===id)
@@ -59,7 +59,7 @@ test('New batch binds 25 reviewed catalogue IDs to valid disjoint image regions 
   assert.match(art.sha256,/^[a-f0-9]{64}$/);assert.equal(art.steps.length,3)
   regions.add([art.url,art.top,art.cropHeight].join(':'))
  }
- assert.equal(regions.size,25)
+ assert.equal(regions.size,6)
  assert.equal(movementFor('0043'),null) // A high-bar squat illustration must not imply full-depth acceptance.
  assert.notEqual(movementFor('0417').top,movementFor('1373').top)
  assert.equal(movementFor('custom-0662'),null)

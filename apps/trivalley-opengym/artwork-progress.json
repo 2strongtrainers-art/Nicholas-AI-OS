@@ -7,48 +7,22 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-catalogue-20261120-02",
-    "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+    "id": "nick-catalogue-20261120-03",
+    "status": "REVIEWED_NOT_DEPLOYED",
     "exactIds": [
-      "0025",
-      "0027",
-      "0032",
-      "1436",
-      "0085",
-      "0117",
-      "0662",
-      "3211",
-      "0493",
-      "0659",
-      "0274",
-      "0872",
-      "1760",
-      "0297",
-      "0308",
-      "0310",
-      "0333",
-      "0406",
-      "0413",
-      "0336",
-      "0431",
-      "0417",
-      "1373",
-      "3013",
-      "0652"
+      "0426",
+      "0396",
+      "1678",
+      "0429",
+      "0392",
+      "0391"
     ],
-    "newCatalogueEntries": 25,
-    "priorCatalogueIllustrated": 16,
-    "targetCatalogueIllustrated": 41,
-    "appVersion": "5.18.0",
-    "releaseSourceCommit": "f45d86c56b1627a2bb02ab81b7a6c46fe10799aa",
-    "buildRunId": 44766850845,
-    "artifactId": 14645356912,
-    "artifactSha256": "da70a936fd17d069b6d46f2b3cd9115f75a507a32aa5dce3aa92d7617314df23",
-    "publicationId": "25b9515f-0b15-4048-94a4-09b8579dd50f",
-    "liveAcceptanceRunId": 44768021262,
-    "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
-    "observedAt": "2026-11-20T15:57:56.606927+00:00",
-    "physicalIPhone": "UNVERIFIED"
+    "newCatalogueEntries": 6,
+    "priorCatalogueIllustrated": 41,
+    "targetCatalogueIllustrated": 47,
+    "appVersion": "5.19.0",
+    "physicalIPhone": "UNVERIFIED",
+    "reviewScope": "Operator visual review; no human movement certification. Corrected pronated front-raise grip before integration."
   },
   "entries": [
     {
@@ -4144,19 +4118,25 @@
       "id": "0391",
       "name": "dumbbell seated curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batchId": "nick-catalogue-20261120-03",
+      "appVersion": "5.19.0"
     },
     {
       "id": "0392",
       "name": "dumbbell seated front raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batchId": "nick-catalogue-20261120-03",
+      "appVersion": "5.19.0"
     },
     {
       "id": "1678",
       "name": "dumbbell seated hammer curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batchId": "nick-catalogue-20261120-03",
+      "appVersion": "5.19.0"
     },
     {
       "id": "0393",
@@ -4174,7 +4154,9 @@
       "id": "0396",
       "name": "dumbbell seated lateral raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batchId": "nick-catalogue-20261120-03",
+      "appVersion": "5.19.0"
     },
     {
       "id": "0395",
@@ -4462,7 +4444,9 @@
       "id": "0426",
       "name": "dumbbell standing overhead press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batchId": "nick-catalogue-20261120-03",
+      "appVersion": "5.19.0"
     },
     {
       "id": "0427",
@@ -4480,7 +4464,9 @@
       "id": "0429",
       "name": "dumbbell standing reverse curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "batchId": "nick-catalogue-20261120-03",
+      "appVersion": "5.19.0"
     },
     {
       "id": "0430",
@@ -8136,6 +8122,50 @@
       "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
       "physicalIPhone": "UNVERIFIED",
       "liveAcceptanceRunId": 44761305361
+    },
+    {
+      "id": "nick-catalogue-20261120-02",
+      "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+      "exactIds": [
+        "0025",
+        "0027",
+        "0032",
+        "1436",
+        "0085",
+        "0117",
+        "0662",
+        "3211",
+        "0493",
+        "0659",
+        "0274",
+        "0872",
+        "1760",
+        "0297",
+        "0308",
+        "0310",
+        "0333",
+        "0406",
+        "0413",
+        "0336",
+        "0431",
+        "0417",
+        "1373",
+        "3013",
+        "0652"
+      ],
+      "newCatalogueEntries": 25,
+      "priorCatalogueIllustrated": 16,
+      "targetCatalogueIllustrated": 41,
+      "appVersion": "5.18.0",
+      "releaseSourceCommit": "f45d86c56b1627a2bb02ab81b7a6c46fe10799aa",
+      "buildRunId": 44766850845,
+      "artifactId": 14645356912,
+      "artifactSha256": "da70a936fd17d069b6d46f2b3cd9115f75a507a32aa5dce3aa92d7617314df23",
+      "publicationId": "25b9515f-0b15-4048-94a4-09b8579dd50f",
+      "liveAcceptanceRunId": 44768021262,
+      "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
+      "observedAt": "2026-11-20T15:57:56.606927+00:00",
+      "physicalIPhone": "UNVERIFIED"
     }
   ],
   "catalogueQueued": 1283
