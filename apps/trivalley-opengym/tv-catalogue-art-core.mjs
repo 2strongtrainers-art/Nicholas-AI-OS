@@ -79,6 +79,46 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1254": {
+    "id": "1254",
+    "name": "band bench press",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 148222,
+    "sha256": "eb0d469c486ad6ad093f46fbce177326a62d84f58a74e8cc0e0b7775d20e19bc",
+    "leftLabel": "Band behind bench; elbows bent",
+    "rightLabel": "Press hands over chest",
+    "alt": "AI-generated Nick Kaplan likeness in band bench press. Start: Band behind bench; elbows bent. Finish: Press hands over chest.",
+    "steps": [
+      "Keep feet planted and control the band to the chest."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_b9db09f566bc45a9b5824d20595c3548~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1314": {
+    "id": "1314",
+    "name": "back extension on exercise ball",
+    "equipment": "stability ball",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 141284,
+    "sha256": "8b095c282419745048cc516bb5d69b0b4dd36f790def122eac874db951cacb9f",
+    "leftLabel": "Hips supported on stability ball",
+    "rightLabel": "Lift torso to a straight line",
+    "alt": "AI-generated Nick Kaplan likeness in back extension on exercise ball. Start: Hips supported on stability ball. Finish: Lift torso to a straight line.",
+    "steps": [
+      "Anchor feet securely and avoid hyperextending the back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a61a419ebe6c45c78eaca4a87aea0a6f~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1368": {
     "id": "1368",
     "name": "ankle circles",
@@ -95,6 +135,46 @@ export const CATALOGUE_ART_CORE = {
       "Stand tall, lift one foot slightly and draw slow ankle circles without turning the hip."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_ddb4ac6903fb45d0a95ca8cae7bc4a74~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1405": {
+    "id": "1405",
+    "name": "back pec stretch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 114778,
+    "sha256": "6fc513eed6b272289a18f83b8c967f9046e101838c88db87c52139d506194609",
+    "leftLabel": "Arms crossed and hands linked",
+    "rightLabel": "Press palms away and lift gently",
+    "alt": "AI-generated Nick Kaplan likeness in back pec stretch. Start: Arms crossed and hands linked. Finish: Press palms away and lift gently.",
+    "steps": [
+      "Keep shoulders relaxed and use a pain-free range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0d07f5a8c9b74bc285afb69f7acf091c~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1408": {
+    "id": "1408",
+    "name": "band hip lift",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 113766,
+    "sha256": "b581b489b98affa0aa47a365212469440c9513d2f69b624f1b2402cc64ccf7dd",
+    "leftLabel": "Band above knees; feet planted",
+    "rightLabel": "Lift hips and press knees out",
+    "alt": "AI-generated Nick Kaplan likeness in band hip lift. Start: Band above knees; feet planted. Finish: Lift hips and press knees out.",
+    "steps": [
+      "Finish with ribs down and glutes tight."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0cd4ce05be5e40daae9e19569d6bbd00~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -119,6 +199,46 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1431": {
+    "id": "1431",
+    "name": "assisted standing chin-up",
+    "equipment": "leverage machine",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 138850,
+    "sha256": "56972f993fb486b64b165e4f64e944bfe27c1dc64a169ecfd1dc0a14e9012268",
+    "leftLabel": "Stand on assist platform; underhand grip",
+    "rightLabel": "Pull chin over bar",
+    "alt": "AI-generated Nick Kaplan likeness in assisted standing chin-up. Start: Stand on assist platform; underhand grip. Finish: Pull chin over bar.",
+    "steps": [
+      "Use a secure setup and lower without swinging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ebddd00f585b4cbeb428648d0cdc36b9~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1432": {
+    "id": "1432",
+    "name": "assisted standing pull-up",
+    "equipment": "leverage machine",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 117876,
+    "sha256": "9ae3a746f3a2a8e968f10d0d7cb4b7e16ca6095659fdfad17aa9c2ba135e425b",
+    "leftLabel": "Stand on assist platform; overhand grip",
+    "rightLabel": "Pull chest toward handles",
+    "alt": "AI-generated Nick Kaplan likeness in assisted standing pull-up. Start: Stand on assist platform; overhand grip. Finish: Pull chest toward handles.",
+    "steps": [
+      "Drive elbows down and control the return."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5b53d1176c3f47c1954b2e15681b0784~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1468": {
     "id": "1468",
     "name": "crab twist toe touch",
@@ -135,6 +255,26 @@ export const CATALOGUE_ART_CORE = {
       "From a crab position, reach one hand toward the opposite lifted foot. Move slowly and keep the supporting shoulder steady."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_ff0ecd4e9b62455082fb750587f431b4~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1473": {
+    "id": "1473",
+    "name": "backward jump",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 127466,
+    "sha256": "cce311ceded9b286e0c1516e3cf069356fb6487c6e8597f3fed449a19366acc5",
+    "leftLabel": "Athletic stance; knees soft",
+    "rightLabel": "Jump back and land quietly",
+    "alt": "AI-generated Nick Kaplan likeness in backward jump. Start: Athletic stance; knees soft. Finish: Jump back and land quietly.",
+    "steps": [
+      "Clear the landing area and absorb impact through hips and knees."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_4bbf1087df944dc7b1e033addeebcc1b~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -419,6 +559,26 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "2364": {
+    "id": "2364",
+    "name": "assisted wide-grip chest dip (kneeling)",
+    "equipment": "leverage machine",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 115270,
+    "sha256": "8291d8952e78bc584dc66f81d6b91c41f70a264bcb3fe14cd4924f665f0cf208",
+    "leftLabel": "Kneel on assist pad; wide handles",
+    "rightLabel": "Lower chest, then press tall",
+    "alt": "AI-generated Nick Kaplan likeness in assisted wide-grip chest dip (kneeling). Start: Kneel on assist pad; wide handles. Finish: Lower chest, then press tall.",
+    "steps": [
+      "Lean slightly forward and stop before shoulder discomfort."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c2d03e2008864619896e90d5d766a696~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "2429": {
     "id": "2429",
     "name": "frog crunch",
@@ -439,6 +599,46 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "3116": {
+    "id": "3116",
+    "name": "band fixed back underhand pulldown",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 120672,
+    "sha256": "e15c87d46d7cea1c0512343009e5326f708905bc5a636377fa5db2c2d252f788",
+    "leftLabel": "Band high; underhand grip",
+    "rightLabel": "Pull elbows toward ribs",
+    "alt": "AI-generated Nick Kaplan likeness in band fixed back underhand pulldown. Start: Band high; underhand grip. Finish: Pull elbows toward ribs.",
+    "steps": [
+      "Stand tall and keep the torso from leaning back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_4d774d7e272c4121bbe27b542d0995c6~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3117": {
+    "id": "3117",
+    "name": "band fixed back close grip pulldown",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 117986,
+    "sha256": "5ff59d5a2a4183a72fab79f4b0004932cca4d739563982869903e498de663b1a",
+    "leftLabel": "Sit tall; close grip on high band",
+    "rightLabel": "Pull hands toward chest",
+    "alt": "AI-generated Nick Kaplan likeness in band fixed back close grip pulldown. Start: Sit tall; close grip on high band. Finish: Pull hands toward chest.",
+    "steps": [
+      "Keep shoulders down and squeeze the back without jerking."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_10304248bd054697858cd8ea87e774fb~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "3214": {
     "id": "3214",
     "name": "arms apart circular toe touch (male)",
@@ -455,6 +655,26 @@ export const CATALOGUE_ART_CORE = {
       "Stand tall with arms overhead and sweep the arms wide toward the toes without jerking or locking the knees."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_742ec96846f44152aee591f7fe014ee1~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3220": {
+    "id": "3220",
+    "name": "astride jumps (male)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 129068,
+    "sha256": "14e417c0568319f71a996f189242ec7859ce791c7c933aa5721e3b9325ce0c04",
+    "leftLabel": "Feet together; arms low",
+    "rightLabel": "Jump feet wide as arms open",
+    "alt": "AI-generated Nick Kaplan likeness in astride jumps (male). Start: Feet together; arms low. Finish: Jump feet wide as arms open.",
+    "steps": [
+      "Land softly and use a step-out version to scale."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7c026f30ce73462facace1fd79c621b1~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -495,6 +715,26 @@ export const CATALOGUE_ART_CORE = {
       "Set wide hands and a straight body line, then lower toward one hand while the other arm stays long."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_5baad9c8d6b14a6ea3871b10869de493~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3297": {
+    "id": "3297",
+    "name": "back lever",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 123122,
+    "sha256": "9c74a332792cfb860c4af5f484708b00f0bda487e10566bf99f54673bd800fcd",
+    "leftLabel": "Hang securely; body long",
+    "rightLabel": "Hold a straight face-down back lever",
+    "alt": "AI-generated Nick Kaplan likeness in back lever. Start: Hang securely; body long. Finish: Hold a straight face-down back lever.",
+    "steps": [
+      "Use a tuck progression and trained supervision before full leverage."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_40258cd687aa4565b47870337480e479~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -615,6 +855,26 @@ export const CATALOGUE_ART_CORE = {
       "Start with both palms under shoulders. Reach your opposite arm and leg away, keeping hips as square as possible. Alternate sides or lift one limb only."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_8f618205206940b4931878608bf2f4fa~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3672": {
+    "id": "3672",
+    "name": "back and forth step",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 129610,
+    "sha256": "a637de8430c8480ddb463f33123e136b2972a752497ec0cbd358b27de57fe3c1",
+    "leftLabel": "Stand tall in clear space",
+    "rightLabel": "Step forward, then back",
+    "alt": "AI-generated Nick Kaplan likeness in back and forth step. Start: Stand tall in clear space. Finish: Step forward, then back.",
+    "steps": [
+      "Keep a steady rhythm and shorten the step to scale."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_4b4032af258545a6b5c4116b5ef46e66~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
@@ -1615,6 +1875,246 @@ export const CATALOGUE_ART_CORE = {
       "Kneel on the assist pad with an overhand grip and pull the chest toward the bar without swinging or shrugging."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_0faa677767a74f5db9c0c08dc1c3746b~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0018": {
+    "id": "0018",
+    "name": "assisted standing triceps extension (with towel)",
+    "equipment": "assisted",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 100460,
+    "sha256": "7483bb0ac8f2b7c5922da86bcad4f24ea0c10662d3edfb856adde925b6f22ce2",
+    "leftLabel": "Towel behind head; elbows narrow",
+    "rightLabel": "Straighten elbows overhead",
+    "alt": "AI-generated Nick Kaplan likeness in assisted standing triceps extension (with towel). Start: Towel behind head; elbows narrow. Finish: Straighten elbows overhead.",
+    "steps": [
+      "Keep upper arms still; use a gentle range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0277208476fc464b9cd23469bc8b3dc1~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0019": {
+    "id": "0019",
+    "name": "assisted triceps dip (kneeling)",
+    "equipment": "leverage machine",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 120426,
+    "sha256": "76ea992fd0d22b14e6996933bb130a386038c6d05e88b772de930f159467f95e",
+    "leftLabel": "Kneel on assist pad; grip handles",
+    "rightLabel": "Lower, then press to tall arms",
+    "alt": "AI-generated Nick Kaplan likeness in assisted triceps dip (kneeling). Start: Kneel on assist pad; grip handles. Finish: Lower, then press to tall arms.",
+    "steps": [
+      "Keep shoulders down and torso close to the machine."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_1922bad40c414b0db5c6eb2f14fe1b7e~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0020": {
+    "id": "0020",
+    "name": "balance board",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 136652,
+    "sha256": "fc8f4c8790c0eee2a29de2c80ff9f1441aa5afc8742f4640109596c3d019bb90",
+    "leftLabel": "One foot centered on board",
+    "rightLabel": "Balance with knee softly bent",
+    "alt": "AI-generated Nick Kaplan likeness in balance board. Start: One foot centered on board. Finish: Balance with knee softly bent.",
+    "steps": [
+      "Use support nearby and keep the board on a flat surface."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_09516467b6f34eeb87d58ca54d4aa0e0~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0968": {
+    "id": "0968",
+    "name": "band alternating biceps curl",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 138666,
+    "sha256": "0d910e975a8c7478148f67cb8714b423a491768925fae96fa4f52276e8fe4b91",
+    "leftLabel": "Stand on band; palms forward",
+    "rightLabel": "Curl one arm at a time",
+    "alt": "AI-generated Nick Kaplan likeness in band alternating biceps curl. Start: Stand on band; palms forward. Finish: Curl one arm at a time.",
+    "steps": [
+      "Keep elbows pinned and lower each hand slowly."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_3db59739c7fa47b6b1a2dac14fac1095~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0970": {
+    "id": "0970",
+    "name": "band assisted pull-up",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 99672,
+    "sha256": "b74727fac576a824eab96624475f96c69757bf130cd5108b347714ff03ce6d39",
+    "leftLabel": "Band secure under foot",
+    "rightLabel": "Pull chin toward bar",
+    "alt": "AI-generated Nick Kaplan likeness in band assisted pull-up. Start: Band secure under foot. Finish: Pull chin toward bar.",
+    "steps": [
+      "Start with a stable band and avoid swinging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_03863b2180f3465da055cff5e09af95a~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0971": {
+    "id": "0971",
+    "name": "band assisted wheel rollerout",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 134776,
+    "sha256": "be62a12a68954b2fba7b907d99e84fe32a216a209191fc511dd6ac693f405abc",
+    "leftLabel": "Kneel; band assists the wheel",
+    "rightLabel": "Roll forward under control",
+    "alt": "AI-generated Nick Kaplan likeness in band assisted wheel rollerout. Start: Kneel; band assists the wheel. Finish: Roll forward under control.",
+    "steps": [
+      "Brace the trunk and stop before the low back arches."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_9597e395bd6c4aef8f6960e6910dea56~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0974": {
+    "id": "0974",
+    "name": "band close-grip pulldown",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 101646,
+    "sha256": "7c3ccd51aaae96ff374a7a0d718ca03e8daab398bf5d6b414a4bd9abd743e400",
+    "leftLabel": "Band anchored high; close grip",
+    "rightLabel": "Pull hands toward upper chest",
+    "alt": "AI-generated Nick Kaplan likeness in band close-grip pulldown. Start: Band anchored high; close grip. Finish: Pull hands toward upper chest.",
+    "steps": [
+      "Keep ribs stacked and shoulders away from ears."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_6bd4debd61624d57aa22ccca5a285348~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0975": {
+    "id": "0975",
+    "name": "band close-grip push-up",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 128070,
+    "sha256": "b913892aa8b2629baad3ecd5107cce2b21574d07cc979462aca58ae850d6079f",
+    "leftLabel": "Band across upper back",
+    "rightLabel": "Press from close-grip push-up",
+    "alt": "AI-generated Nick Kaplan likeness in band close-grip push-up. Start: Band across upper back. Finish: Press from close-grip push-up.",
+    "steps": [
+      "Keep elbows near the ribs and use knees to scale."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_9c00409cf37445bf9f48b19fa59c06c6~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0976": {
+    "id": "0976",
+    "name": "band concentration curl",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 131736,
+    "sha256": "462e7ff2d9501e60a2be2f3c912e88a3a9ed65bc9108c716fde2a3404afbb336",
+    "leftLabel": "Elbow braced inside thigh",
+    "rightLabel": "Curl palm toward shoulder",
+    "alt": "AI-generated Nick Kaplan likeness in band concentration curl. Start: Elbow braced inside thigh. Finish: Curl palm toward shoulder.",
+    "steps": [
+      "Keep the upper arm still and control the return."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_20b08d000df84003b445a7146bbe647a~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0977": {
+    "id": "0977",
+    "name": "band front lateral raise",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 159654,
+    "sha256": "b1d9b5fe1ee15ec70a025475de89b022c946ad0ed53a256d9f7250a74896adc7",
+    "leftLabel": "Band under feet; arms low",
+    "rightLabel": "Raise in the scapular plane",
+    "alt": "AI-generated Nick Kaplan likeness in band front lateral raise. Start: Band under feet; arms low. Finish: Raise in the scapular plane.",
+    "steps": [
+      "Lead slightly forward and outward; stop near shoulder height."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_301188d4185b4eaa9de69102e3e3c28d~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0978": {
+    "id": "0978",
+    "name": "band front raise",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 113762,
+    "sha256": "209d048970eb9674caae667fd5c9e6d8dd245bd13f73b1e163c5b593bc5f9bff",
+    "leftLabel": "Band under feet; arms low",
+    "rightLabel": "Raise arms straight forward",
+    "alt": "AI-generated Nick Kaplan likeness in band front raise. Start: Band under feet; arms low. Finish: Raise arms straight forward.",
+    "steps": [
+      "Keep ribs down and stop at shoulder height."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7be9e97e2d7440278ace1fb19ef05dc0~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0980": {
+    "id": "0980",
+    "name": "band bent-over hip extension",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 143644,
+    "sha256": "926304f68db2f3195f1c8001531b57464af66a14552cec0a2471a00c3c53b1c2",
+    "leftLabel": "Band low behind; hinge forward",
+    "rightLabel": "Drive one leg straight back",
+    "alt": "AI-generated Nick Kaplan likeness in band bent-over hip extension. Start: Band low behind; hinge forward. Finish: Drive one leg straight back.",
+    "steps": [
+      "Keep hips square and avoid arching the low back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2dafbb7fc2b34add8c6a74c633ec665f~mv2.webp",
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }

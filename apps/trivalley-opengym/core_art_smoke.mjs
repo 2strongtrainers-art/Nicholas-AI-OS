@@ -29,7 +29,7 @@ try {
   const release = await (await fetch(base+'tv-release.json')).json()
   const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration'))
   const held = heldIds
-  assert.equal(staged.length,81)
+  assert.equal(staged.length,106)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
   assert.equal(ids.size, 63 + staged.length)
   assert(held.every(id => !ids.has(id)), 'A held card appeared in the release')
@@ -113,7 +113,7 @@ try {
   assert.deepEqual(final.routines,initial.routines)
   assert.deepEqual(errors,[])
   console.log(JSON.stringify({status:'PASS',engine,scope:live?'published site':'candidate build',previewPairs:assets.length,activePairs:last.length,
-    unchangedPriorPairs:63,heldExcluded:held.length,cacheSize,checks:['media bytes and SHA-256','exact ID start/finish','no horizontal overflow at 320/390/430','offline image and log retention','existing routines and history retained'] }))
+    unchangedPriorPairs:144,heldExcluded:held.length,cacheSize,checks:['media bytes and SHA-256','exact ID start/finish','no horizontal overflow at 320/390/430','offline image and log retention','existing routines and history retained'] }))
 } finally {
   await browser?.close()
   if(server) await new Promise(resolve=>server.close(resolve))
