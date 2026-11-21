@@ -759,5 +759,385 @@ export const CATALOGUE_ART_CORE = {
     "review": {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
+  },
+  "0071": {
+    "id": "0071",
+    "name": "barbell press sit-up",
+    "equipment": "barbell",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 146866,
+    "sha256": "dd657cf984c48d4aa4e0d79d834dcd2b9f5d1e3028a36ad32b0fdc26e872807d",
+    "leftLabel": "Back on bench; bar over chest",
+    "rightLabel": "Sit up with bar stacked overhead",
+    "alt": "AI-generated Nick Kaplan likeness in barbell press sit-up. Start: Back on bench; bar over chest. Finish: Sit up with bar stacked overhead.",
+    "steps": [
+      "Use an empty training bar first. Keep it stacked over the shoulders as you sit up without swinging the feet."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_75652b11559f48908862dccfbe8c4139~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0094": {
+    "id": "0094",
+    "name": "barbell seated twist",
+    "equipment": "barbell",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 151490,
+    "sha256": "393b2ec61fe732d68d97b28120078fd6a2c84692daf39d508eddec8b735a7838",
+    "leftLabel": "Sit tall; bar across shoulders",
+    "rightLabel": "Rotate ribs with control",
+    "alt": "AI-generated Nick Kaplan likeness in barbell seated twist. Start: Sit tall; bar across shoulders. Finish: Rotate ribs with control.",
+    "steps": [
+      "Brace the pelvis and make a small controlled torso turn. Use a dowel instead of a loaded bar to scale."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_b746a9bbafb7453ba32ce154440f4651~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0175": {
+    "id": "0175",
+    "name": "cable kneeling crunch",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 136110,
+    "sha256": "c2bf620f696b7b8f3fcdb86d2a8b0142877fc7975a00e0ea60aabe3451b850fb",
+    "leftLabel": "Kneel; rope beside head",
+    "rightLabel": "Curl ribs toward thighs",
+    "alt": "AI-generated Nick Kaplan likeness in cable kneeling crunch. Start: Kneel; rope beside head. Finish: Curl ribs toward thighs.",
+    "steps": [
+      "Keep the hips stacked over the knees while the rib cage curls down. Avoid pulling with the arms."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a9f64d1a056d4addbc28e55dac30dac8~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0211": {
+    "id": "0211",
+    "name": "cable russian twists (on stability ball)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 161874,
+    "sha256": "b4d7a8d201c6b8cf381beab4e6d7bb381631d9c4228ac3159e130c8b4a45cab3",
+    "leftLabel": "Back supported on stable ball",
+    "rightLabel": "Rotate ribs against the cable",
+    "alt": "AI-generated Nick Kaplan likeness in cable russian twists (on stability ball). Start: Back supported on stable ball. Finish: Rotate ribs against the cable.",
+    "steps": [
+      "Plant both feet and keep the ball steady while rotating the rib cage. Use lighter resistance if balance changes."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_cc360b3bef62488085f1a848acc8241f~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0212": {
+    "id": "0212",
+    "name": "cable seated crunch",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 138432,
+    "sha256": "ec92941cf853d30e5cc8c00afa65278f2e1e29d96c06437ea5fbfcf96a47d169",
+    "leftLabel": "Sit tall; cable high",
+    "rightLabel": "Curl ribs toward pelvis",
+    "alt": "AI-generated Nick Kaplan likeness in cable seated crunch. Start: Sit tall; cable high. Finish: Curl ribs toward pelvis.",
+    "steps": [
+      "Keep both feet planted and curl the rib cage forward without pulling the head or shifting the hips."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_22a54e757cb94544a00483ef9708d4bf~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0222": {
+    "id": "0222",
+    "name": "cable side bend",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 129294,
+    "sha256": "e9bc3951bd012ac0696a5c74fc30247a0a09a6c7cc16b5357e42760046144318",
+    "leftLabel": "Stand side-on; cable in hand",
+    "rightLabel": "Bend sideways with control",
+    "alt": "AI-generated Nick Kaplan likeness in cable side bend. Start: Stand side-on; cable in hand. Finish: Bend sideways with control.",
+    "steps": [
+      "Keep hips square and make a small side bend away from the cable. Return upright without rotating."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_8902c122e5e0464280816219963ccd27~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0223": {
+    "id": "0223",
+    "name": "cable side crunch",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 128126,
+    "sha256": "9aacc24e43431a3ae89bf2964d24122c2035387b545ec9c8923a72832c5aa454",
+    "leftLabel": "Low cable; brace sideways",
+    "rightLabel": "Crunch elbow toward hip",
+    "alt": "AI-generated Nick Kaplan likeness in cable side crunch. Start: Low cable; brace sideways. Finish: Crunch elbow toward hip.",
+    "steps": [
+      "Brace before bringing the elbow toward the same-side hip. Keep the movement at the trunk, not the arm."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_9b019586aee0444da4b6b40e6bb5297a~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0242": {
+    "id": "0242",
+    "name": "cable tuck reverse crunch",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 149240,
+    "sha256": "20af07ee4e75d37a53f4c1e13448b563d2ff28dbe916e9c8d62f0199ca3c754f",
+    "leftLabel": "Low cable at ankles; brace",
+    "rightLabel": "Tuck knees and curl pelvis",
+    "alt": "AI-generated Nick Kaplan likeness in cable tuck reverse crunch. Start: Low cable at ankles; brace. Finish: Tuck knees and curl pelvis.",
+    "steps": [
+      "Draw both knees in and curl the pelvis slightly while keeping the shoulders supported. Lower without momentum."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d106f847bc784b74ba45d14203bc24fb~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0243": {
+    "id": "0243",
+    "name": "cable twist",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 135570,
+    "sha256": "81a7be3592f86272207c797c10a72da0ddebf5d03726e5552866d3d21ff47ecb",
+    "leftLabel": "Stand side-on; cable at chest",
+    "rightLabel": "Rotate ribs across body",
+    "alt": "AI-generated Nick Kaplan likeness in cable twist. Start: Stand side-on; cable at chest. Finish: Rotate ribs across body.",
+    "steps": [
+      "Brace before turning the rib cage away from the cable. Keep hips stable and return slowly."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0028868ca4cc4aa28a8f7222b2d70880~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0873": {
+    "id": "0873",
+    "name": "cable reverse crunch",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 154928,
+    "sha256": "7ff2ac2fa0c15eb70ea3bcbf109c6ad1bdbc85310f0d41137b231ad8bca277ef",
+    "leftLabel": "Back supported; ankles cabled",
+    "rightLabel": "Curl pelvis as knees draw in",
+    "alt": "AI-generated Nick Kaplan likeness in cable reverse crunch. Start: Back supported; ankles cabled. Finish: Curl pelvis as knees draw in.",
+    "steps": [
+      "Brace the shoulders and draw the knees in as the pelvis curls slightly. Lower without kicking or swinging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_51770c1dbc3b45efbe2274b1e482296e~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0874": {
+    "id": "0874",
+    "name": "cable standing crunch (with rope attachment)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 139094,
+    "sha256": "14d05864853814cead89595a37fad985fb328bf612fb6011151526e31dd81bef",
+    "leftLabel": "Rope high; stand tall",
+    "rightLabel": "Curl ribs toward pelvis",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing crunch (with rope attachment). Start: Rope high; stand tall. Finish: Curl ribs toward pelvis.",
+    "steps": [
+      "Keep the hips steady and curl the rib cage down with the rope beside the head. Return under control."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7de2e1dbe83145c4b895e1e15dea7ec9~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0972": {
+    "id": "0972",
+    "name": "band bicycle crunch",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 157606,
+    "sha256": "c79ff88c71cb3c86f1401934ef86a76f11b2a97a0904468510dfc66281d013bf",
+    "leftLabel": "Shoulders raised; knees bent",
+    "rightLabel": "Rotate toward opposite knee",
+    "alt": "AI-generated Nick Kaplan likeness in band bicycle crunch. Start: Shoulders raised; knees bent. Finish: Rotate toward opposite knee.",
+    "steps": [
+      "Loop the band around both feet, support the head lightly and alternate slowly without pulling the neck."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_e57e832463da407c8513e4500b2778a6~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0979": {
+    "id": "0979",
+    "name": "band horizontal pallof press",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 141618,
+    "sha256": "0ce59fa820689e5e729a08e1e38172acbb36678f9778836ad576e4549a8325c7",
+    "leftLabel": "Hands at chest; stand side-on",
+    "rightLabel": "Arms extended; ribs square",
+    "alt": "AI-generated Nick Kaplan likeness in band horizontal pallof press. Start: Hands at chest; stand side-on. Finish: Arms extended; ribs square.",
+    "steps": [
+      "Brace before pressing straight out. Keep hips and rib cage facing forward against the band's pull."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2ea97e7343374266a5e9656ffc5444ba~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0981": {
+    "id": "0981",
+    "name": "band jack knife sit-up",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 153634,
+    "sha256": "7a36c36e65566a483ba701666ad048a0db280e8006ae5220a1378e6e41637894",
+    "leftLabel": "Long on mat; band taut",
+    "rightLabel": "Torso and straight legs lift together",
+    "alt": "AI-generated Nick Kaplan likeness in band jack knife sit-up. Start: Long on mat; band taut. Finish: Torso and straight legs lift together.",
+    "steps": [
+      "Keep the band secure at the feet and lift torso and legs together. Bend the knees to shorten the lever."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_56522160723c46faa04838f2c9421301~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0992": {
+    "id": "0992",
+    "name": "band push sit-up",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 159204,
+    "sha256": "081911ae4d53c91c593d67d7188ddde51f0fdfd3716728082911f02610ae6897",
+    "leftLabel": "Knees bent; arms vertical",
+    "rightLabel": "Curl up while pressing the band",
+    "alt": "AI-generated Nick Kaplan likeness in band push sit-up. Start: Knees bent; arms vertical. Finish: Curl up while pressing the band.",
+    "steps": [
+      "Plant both feet, keep the arms stacked and curl the ribs upward without swinging or arching the low back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_bb09eb7e44fd454eae0a593eee1eb742~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1002": {
+    "id": "1002",
+    "name": "band lying straight leg raise",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 143926,
+    "sha256": "fb53cd24aaf86371b01403c19f8af4084a6f3ae413728592da5ebdf188dce18b",
+    "leftLabel": "Back supported; band at arches",
+    "rightLabel": "Raise both straight legs",
+    "alt": "AI-generated Nick Kaplan likeness in band lying straight leg raise. Start: Back supported; band at arches. Finish: Raise both straight legs.",
+    "steps": [
+      "Keep your lower back controlled as both legs rise. Stop the lowering phase before the back arches."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c99f29f5b7cb4ce48e1eba250adcb381~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1005": {
+    "id": "1005",
+    "name": "band standing crunch",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 124516,
+    "sha256": "7850386422f57f3d5361af7bd4aa64c349e5d7833d689b5aad945a6b7814ea52",
+    "leftLabel": "Band high; brace standing",
+    "rightLabel": "Curl ribs toward pelvis",
+    "alt": "AI-generated Nick Kaplan likeness in band standing crunch. Start: Band high; brace standing. Finish: Curl ribs toward pelvis.",
+    "steps": [
+      "Keep knees soft and hips steady while curling the rib cage down. Return slowly against the band."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d8fec39ad9d64e6b8bbc82d8c18110cf~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1007": {
+    "id": "1007",
+    "name": "band standing twisting crunch",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 142900,
+    "sha256": "f2f59f0b516ab1c9e2cf693ab996f09704064ef6bd2c1cbd13b8b2825d00f3e7",
+    "leftLabel": "Band across upper back",
+    "rightLabel": "Rotate toward opposite knee",
+    "alt": "AI-generated Nick Kaplan likeness in band standing twisting crunch. Start: Band across upper back. Finish: Rotate toward opposite knee.",
+    "steps": [
+      "Brace first, then bring one shoulder toward the opposite knee without yanking the neck. Alternate sides."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5ac9d2b114f245a380a7bcc4bf9efa17~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1015": {
+    "id": "1015",
+    "name": "band vertical pallof press",
+    "equipment": "band",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved avatar face",
+    "bytes": 133992,
+    "sha256": "a69e51c3805d85977c7200c9a387237d10c6735af8ed7905b494e6162fb0403e",
+    "leftLabel": "Hands at chest; stand side-on",
+    "rightLabel": "Press overhead; resist rotation",
+    "alt": "AI-generated Nick Kaplan likeness in band vertical pallof press. Start: Hands at chest; stand side-on. Finish: Press overhead; resist rotation.",
+    "steps": [
+      "Press the hands upward while keeping hips and ribs square. Use lighter tension if the torso turns."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ff3602029eee44fc98e847bb0bcfc505~mv2.webp",
+    "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
   }
 }
