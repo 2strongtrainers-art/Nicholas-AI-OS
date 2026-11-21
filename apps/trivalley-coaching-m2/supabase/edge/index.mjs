@@ -272,6 +272,20 @@ async function handle(req) {
         return send({service:"TriValley coaching",stage:"staging",databaseReady:false},503,origin);
       }
     }
+    if(req.method==="GET"&&path==="/pilot-status"){
+      if(!sql)return send({stage:"staging",enrollmentEnabled:false,syncEnabled:false},503,origin);
+      try{
+        const gates=await sql.unsafe(
+          "select c.enrollment_enabled,c.workout_sync_enabled,c.privacy_notice_version from coaching_private.release_controls c join coaching_private.organizations o on c.org_id=o.id where o.wix_site_id=$1::uuid",
+          [SITE_ID]
+        );
+        if(gates.length!==1)throw new Error("Missing release controls");
+        return send({stage:"staging",enrollmentEnabled:gates[0].enrollment_enabled,
+          syncEnabled:gates[0].workout_sync_enabled,
+          noticeVersion:gates[0].privacy_notice_version,
+          noRealClientMigration:true},200,origin);
+      }catch{return send({stage:"staging",enrollmentEnabled:false,syncEnabled:false},503,origin)}
+    }
     if(req.method!=="GET"&&req.method!=="POST")return send({error:"METHOD_NOT_ALLOWED"},405,origin);
     if(!sql)return send({error:"SERVICE_NOT_READY"},503,origin);
     const bearer=/^Bearer ([^\s]{10,4096})$/i.exec(req.headers.get("authorization")||"")?.[1];
