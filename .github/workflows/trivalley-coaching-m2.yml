@@ -97,12 +97,17 @@ jobs:
           ALLOW_PAID_AI: 'false'
           ALLOW_OUTBOUND_SEND: 'false'
         run: node test/wix-provider-anonymous-smoke.mjs
-      - name: Verify no deployable server or credentials were introduced
+      - name: Verify staging release remains guarded and secret-free
         shell: bash
         run: |
           test ! -f apps/trivalley-coaching-m2/.env
           test ! -f apps/trivalley-coaching-m2/src/start.mjs
           test ! -f apps/trivalley-coaching-m2/src/server.mjs
+          test -f apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          test -f apps/trivalley-coaching-m2/supabase/008_restore_drill_gate.sql
+          grep -q 'ENROLLMENT_DISABLED' apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          grep -q 'CLIENT_SYNC_DISABLED' apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          grep -q 'BACKUP_ATTESTATION_REQUIRED' apps/trivalley-coaching-m2/supabase/edge/index.mjs
+          grep -q 'restore_drill_at' apps/trivalley-coaching-m2/supabase/008_restore_drill_gate.sql
           test -f apps/trivalley-coaching-m2/SECURITY_GATES.md
-          grep -q 'Not production-ready' apps/trivalley-coaching-m2/SECURITY_GATES.md
-          echo "M2_SYNTHETIC_ONLY_PASS"
+          echo "M2_STAGING_RELEASE_GATES_PASS"
