@@ -103,6 +103,7 @@ function dispatch(service,actor,method,path,body) {
     if(path==="/v1/me/progress")return {progress:service.clientProgress(actor,actor.sub)};
     if(path==="/v1/me/export")return {data:service.clientExport(actor)};
     if(path==="/v1/me/deletion-requests")return {requests:service.ownDeletionRequests(actor)};
+    if(path==="/v1/coach/programs")return {programs:service.coachPrograms(actor)};
     if(path==="/v1/coach/clients")return {clients:service.coachClients(actor)};
     let m=path.match(/^\/v1\/coach\/clients\/([^/]+)\/progress$/);
     if(m)return {progress:service.clientProgress(actor,decodeURIComponent(m[1]))};
