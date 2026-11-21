@@ -7,38 +7,44 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-catalogue-20261120-04",
-    "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+    "id": "nick-core-20261121-25",
+    "status": "IN_PROGRESS_PRIVATE_GENERATION",
     "exactIds": [
-      "0404",
-      "1379",
-      "0401",
-      "0381",
-      "0410",
-      "0375"
+      "0277",
+      "0282",
+      "0464",
+      "0469",
+      "0472",
+      "0475",
+      "0495",
+      "0507",
+      "0508",
+      "0620",
+      "0634",
+      "0635",
+      "0664",
+      "0689",
+      "0691",
+      "0735",
+      "0807",
+      "0826",
+      "1466",
+      "1468",
+      "1495",
+      "1686",
+      "1688",
+      "1761",
+      "1775"
     ],
-    "newCatalogueEntries": 6,
-    "priorCatalogueIllustrated": 47,
-    "targetCatalogueIllustrated": 53,
-    "appVersion": "5.20.1",
-    "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Operator visual review; no human movement certification. Corrected calf support and pullover shoulder movement before final acceptance.",
-    "supersededCandidate": {
-      "version": "5.20.0",
-      "sourceCommit": "76692142365971df757e77153c7b6ed4c05de55a",
-      "buildRunId": 44867047723,
-      "liveAcceptanceRunId": 44867427462,
-      "status": "Replaced after visual pullover correction despite passing technical QA."
-    },
-    "releaseSourceCommit": "d09422be10ecac0aa8505047a29f58b3304b0f03",
-    "buildRunId": 44867983422,
-    "artifactId": 14691849384,
-    "artifactSha256": "6195dfe0fb3adc87803fef612d19858467c7fca8b82e0048f43d5d98c27bf234",
-    "publicationId": "c1e43d08-af62-43c7-a498-580329e02888",
-    "liveAcceptanceRunId": 44868437394,
-    "liveAcceptanceAttempt": 1,
-    "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
-    "observedAt": "2026-11-21T04:59:26.887607+00:00"
+    "claimedAt": "2026-11-21T16:03:57.719Z",
+    "claimOwner": "owner-directed-artwork-resume-20261121",
+    "newCatalogueEntries": 25,
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0,
+    "observedLiveCoverage": 63,
+    "sourceRelease": "1f70953954e2d4b31da0683d85d6bca0de40f520",
+    "reviewScope": "Owner explicitly resumed these 25 on November 21. Native image generation with private approved avatar face and right-side gym references. Per-ID visual review and technical/live acceptance pending. Preserve the separate ten-card publisher."
   },
   "entries": [
     {
@@ -49,7 +55,7 @@
     },
     {
       "id": "0002",
-      "name": "45\u00b0 side bend",
+      "name": "45° side bend",
       "equipment": "body weight",
       "status": "queued"
     },
@@ -2748,7 +2754,11 @@
       "id": "1468",
       "name": "crab twist toe touch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0262",
@@ -2811,7 +2821,11 @@
       "id": "0277",
       "name": "decline crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0279",
@@ -2823,7 +2837,11 @@
       "id": "0282",
       "name": "decline sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "1274",
@@ -5025,7 +5043,11 @@
       "id": "0464",
       "name": "front plank with twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "3315",
@@ -5079,7 +5101,11 @@
       "id": "0469",
       "name": "groin crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "1383",
@@ -5151,13 +5177,21 @@
       "id": "0472",
       "name": "hanging leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "1761",
       "name": "hanging oblique knee raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0473",
@@ -5175,7 +5209,11 @@
       "id": "0475",
       "name": "hanging straight leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0476",
@@ -5286,7 +5324,11 @@
       "id": "0495",
       "name": "incline twisting sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "1564",
@@ -5370,13 +5412,21 @@
       "id": "0507",
       "name": "jackknife sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0508",
       "name": "janda sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "2612",
@@ -6207,7 +6257,11 @@
       "id": "1688",
       "name": "lunge with twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0613",
@@ -6225,7 +6279,11 @@
       "id": "0620",
       "name": "lying leg raise flat bench",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0865",
@@ -6357,19 +6415,31 @@
       "id": "0634",
       "name": "negative crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "1495",
       "name": "oblique crunch v. 2",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0635",
       "name": "oblique crunches floor",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0636",
@@ -6642,7 +6712,11 @@
       "id": "0664",
       "name": "push-up to side plank",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "3533",
@@ -6915,7 +6989,11 @@
       "id": "0689",
       "name": "seated leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0690",
@@ -6933,7 +7011,11 @@
       "id": "0691",
       "name": "seated side crunch (wall)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "1587",
@@ -7029,7 +7111,11 @@
       "id": "1775",
       "name": "side plank hip adduction",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0716",
@@ -7101,7 +7187,11 @@
       "id": "0735",
       "name": "sit-up v. 2",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "3679",
@@ -7141,13 +7231,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45\u0432\u00b0 calf press",
+      "name": "sled 45в° calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45\u0432\u00b0 leg press",
+      "name": "sled 45в° leg press",
       "equipment": "sled machine",
       "status": "existing_deployed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -7156,19 +7246,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45\u0432\u00b0 leg press (back pov)",
+      "name": "sled 45в° leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45\u00b0 leg press (side pov)",
+      "name": "sled 45° leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45\u0432\u00b0 leg wide press",
+      "name": "sled 45в° leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -7572,7 +7662,11 @@
       "id": "1686",
       "name": "squat to overhead reach with twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "2297",
@@ -7704,7 +7798,11 @@
       "id": "0807",
       "name": "suspended reverse crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "0808",
@@ -7800,7 +7898,11 @@
       "id": "1466",
       "name": "twist hip lift",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "2802",
@@ -7842,7 +7944,11 @@
       "id": "0826",
       "name": "vertical leg raise (on parallel bars)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "nick-core-20261121-25",
+      "claimedAt": "2026-11-21T16:03:57.719Z",
+      "claimOwner": "owner-directed-artwork-resume-20261121",
+      "deployed": false
     },
     {
       "id": "2141",
@@ -8232,6 +8338,40 @@
       "liveAcceptanceRunId": 44845376841,
       "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
       "observedAt": "2026-11-21T00:42:35.152464+00:00"
+    },
+    {
+      "id": "nick-catalogue-20261120-04",
+      "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+      "exactIds": [
+        "0404",
+        "1379",
+        "0401",
+        "0381",
+        "0410",
+        "0375"
+      ],
+      "newCatalogueEntries": 6,
+      "priorCatalogueIllustrated": 47,
+      "targetCatalogueIllustrated": 53,
+      "appVersion": "5.20.1",
+      "physicalIPhone": "UNVERIFIED",
+      "reviewScope": "Operator visual review; no human movement certification. Corrected calf support and pullover shoulder movement before final acceptance.",
+      "supersededCandidate": {
+        "version": "5.20.0",
+        "sourceCommit": "76692142365971df757e77153c7b6ed4c05de55a",
+        "buildRunId": 44867047723,
+        "liveAcceptanceRunId": 44867427462,
+        "status": "Replaced after visual pullover correction despite passing technical QA."
+      },
+      "releaseSourceCommit": "d09422be10ecac0aa8505047a29f58b3304b0f03",
+      "buildRunId": 44867983422,
+      "artifactId": 14691849384,
+      "artifactSha256": "6195dfe0fb3adc87803fef612d19858467c7fca8b82e0048f43d5d98c27bf234",
+      "publicationId": "c1e43d08-af62-43c7-a498-580329e02888",
+      "liveAcceptanceRunId": 44868437394,
+      "liveAcceptanceAttempt": 1,
+      "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
+      "observedAt": "2026-11-21T04:59:26.887607+00:00"
     }
   ],
   "catalogueQueued": 1271
