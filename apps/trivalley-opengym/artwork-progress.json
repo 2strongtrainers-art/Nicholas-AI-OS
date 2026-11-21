@@ -3,12 +3,12 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 41,
+  "catalogueIllustrated": 47,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
     "id": "nick-catalogue-20261120-03",
-    "status": "REVIEWED_NOT_DEPLOYED",
+    "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
     "exactIds": [
       "0426",
       "0396",
@@ -22,7 +22,15 @@
     "targetCatalogueIllustrated": 47,
     "appVersion": "5.19.0",
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Operator visual review; no human movement certification. Corrected pronated front-raise grip before integration."
+    "reviewScope": "Operator visual review; no human movement certification. Corrected pronated front-raise grip before integration.",
+    "releaseSourceCommit": "5c6355d3f09de1b9caba9b4ec29d8449c992dfa4",
+    "buildRunId": 44844741859,
+    "artifactId": 14682756111,
+    "artifactSha256": "6d01ebf8a4ee1522e1aa9abd3d4411a4ffdb304a0483a1dd09c28e37feb170af",
+    "publicationId": "069ec33b-c831-4ce9-966c-34c05fed6333",
+    "liveAcceptanceRunId": 44845376841,
+    "liveBrowserAcceptance": "SUCCESS_ALL_THREE_JOBS",
+    "observedAt": "2026-11-21T00:42:35.152464+00:00"
   },
   "entries": [
     {
@@ -4118,25 +4126,28 @@
       "id": "0391",
       "name": "dumbbell seated curl",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batchId": "nick-catalogue-20261120-03",
-      "appVersion": "5.19.0"
+      "status": "deployed",
+      "appVersion": "5.19.0",
+      "batch": "nick-catalogue-20261120-03",
+      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e"
     },
     {
       "id": "0392",
       "name": "dumbbell seated front raise",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batchId": "nick-catalogue-20261120-03",
-      "appVersion": "5.19.0"
+      "status": "deployed",
+      "appVersion": "5.19.0",
+      "batch": "nick-catalogue-20261120-03",
+      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e"
     },
     {
       "id": "1678",
       "name": "dumbbell seated hammer curl",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batchId": "nick-catalogue-20261120-03",
-      "appVersion": "5.19.0"
+      "status": "deployed",
+      "appVersion": "5.19.0",
+      "batch": "nick-catalogue-20261120-03",
+      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc"
     },
     {
       "id": "0393",
@@ -4154,9 +4165,10 @@
       "id": "0396",
       "name": "dumbbell seated lateral raise",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batchId": "nick-catalogue-20261120-03",
-      "appVersion": "5.19.0"
+      "status": "deployed",
+      "appVersion": "5.19.0",
+      "batch": "nick-catalogue-20261120-03",
+      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc"
     },
     {
       "id": "0395",
@@ -4444,9 +4456,10 @@
       "id": "0426",
       "name": "dumbbell standing overhead press",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batchId": "nick-catalogue-20261120-03",
-      "appVersion": "5.19.0"
+      "status": "deployed",
+      "appVersion": "5.19.0",
+      "batch": "nick-catalogue-20261120-03",
+      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc"
     },
     {
       "id": "0427",
@@ -4464,9 +4477,10 @@
       "id": "0429",
       "name": "dumbbell standing reverse curl",
       "equipment": "dumbbell",
-      "status": "reviewed",
-      "batchId": "nick-catalogue-20261120-03",
-      "appVersion": "5.19.0"
+      "status": "deployed",
+      "appVersion": "5.19.0",
+      "batch": "nick-catalogue-20261120-03",
+      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e"
     },
     {
       "id": "0430",
@@ -8168,5 +8182,5 @@
       "physicalIPhone": "UNVERIFIED"
     }
   ],
-  "catalogueQueued": 1283
+  "catalogueQueued": 1277
 }
