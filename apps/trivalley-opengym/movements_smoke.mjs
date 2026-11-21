@@ -114,7 +114,7 @@ try {
   await page.setOfflineMode(true);
   await page.goto(url+'#/plan?day=legs',{waitUntil:'networkidle0'});
   await page.waitForSelector('[data-testid="tv-poster-preview"]');
-  await page.$eval('[data-exercise-id="0739"]',n=>{n.closest('.tv-movement-reference').open=true;n.scrollIntoView({block:'center'});});
+  await page.$eval('[data-exercise-id="0739"]',n=>n.scrollIntoView({block:'center'}));
   await page.waitForFunction(()=>{const n=document.querySelector('[data-exercise-id="0739"] > img');return n?.complete&&n.naturalWidth===1200});
   assert(await page.evaluate(()=>document.body.innerText.toLowerCase().includes('leg press')),'Offline program instructions unavailable');
   assert(!errors.length,'Browser errors: '+errors.join('; '));
