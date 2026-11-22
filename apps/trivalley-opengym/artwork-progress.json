@@ -3,63 +3,48 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 438,
+  "catalogueIllustrated": 463,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch16-20261122",
-    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_HOSTED_ACCEPTANCE",
+    "id": "core-batch17-20261122",
+    "status": "CLAIMED_GENERATION_PENDING",
     "exactIds": [
-      "0149",
-      "3235",
-      "0150",
-      "1630",
-      "1631",
-      "0152",
-      "0153",
-      "0154",
-      "0155",
-      "0868",
-      "0157",
-      "0158",
-      "1260",
-      "1261",
-      "0159",
-      "1632",
-      "0160",
-      "0161",
-      "0162",
-      "0164",
-      "0165",
-      "1722",
-      "0167",
-      "0168",
-      "0169"
+      "1318",
+      "0171",
+      "0170",
+      "0172",
+      "0173",
+      "0174",
+      "0860",
+      "3697",
+      "0176",
+      "0177",
+      "2616",
+      "0178",
+      "0179",
+      "0180",
+      "1634",
+      "0182",
+      "0184",
+      "0185",
+      "0186",
+      "0188",
+      "0189",
+      "0190",
+      "1262",
+      "1263",
+      "1264"
     ],
     "claimOwner": "owner-interactive-continuation-32b205aa4444",
-    "claimedAt": "2026-11-22T18:49:01.797Z",
-    "claimBaseBlob": "4e304e106b302ee2a943d9b83cc061d0858cb67f",
-    "newCatalogueEntries": 25,
-    "generatedCount": 25,
-    "acceptedCount": 25,
+    "claimBaseBlob": "7ea4f83d8e66d5be79d8c1b76adebc5523209989",
+    "claimedAt": "2026-11-22T19:46:39.920Z",
+    "generatedCount": 0,
+    "acceptedCount": 0,
     "deployedCount": 0,
-    "priorCatalogueIllustrated": 438,
-    "targetCatalogueIllustrated": 463,
-    "existingCandidate": "0149 private PNG recovered from prior workspace; pending full-resolution QA",
-    "physicalIPhone": "UNVERIFIED",
-    "newlyGeneratedIds": 24,
-    "resumedAndCorrectedIds": [
-      "0149"
-    ],
-    "initialAndCorrectionImagesThisSession": 31,
-    "correctedIds": [
-      "0149",
-      "0154",
-      "0158",
-      "1260",
-      "0162",
-      "0155"
-    ]
+    "priorCatalogueIllustrated": 463,
+    "targetCatalogueIllustrated": 488,
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
@@ -75,7 +60,7 @@
     },
     {
       "id": "0002",
-      "name": "45\u00b0 side bend",
+      "name": "45° side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -2146,34 +2131,37 @@
       "id": "0149",
       "name": "cable alternate triceps extension",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "b84d64680aacae899a069465f251cd4f618f4e950dbf32aef832ffaf5a0217ba",
       "url": "https://static.wixstatic.com/media/856ae2_3d78e125a7284c48abd50d8a5c7b1581~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "3235",
       "name": "cable assisted inverse leg curl",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "363d9e477179b1ed59e07289c34d5fa8a528797ef19c221b9c2edbd893edf5b5",
       "url": "https://static.wixstatic.com/media/856ae2_5ca138680e3a4c59a956a2879c3798b8~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0150",
       "name": "cable bar lateral pulldown",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "125de14f8aebfc30bb47e4fe0e3c97520ac14e3a55f2a0ae53ceb2391b5f7d41",
       "url": "https://static.wixstatic.com/media/856ae2_b4c5e803066a45b0964a514a8592f4da~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0151",
@@ -2190,285 +2178,314 @@
       "id": "1630",
       "name": "cable close grip curl",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "7be8e253288711a2f1d04cb6affbd8136123e9c5132e15c950f456aa88bd2114",
       "url": "https://static.wixstatic.com/media/856ae2_1382aa4a991344558f4292e80c16fc5d~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "1631",
       "name": "cable concentration curl",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "cebdbd899a076e9c15c4d842e883bf755e59e5fa8c5d8734ad95ab18656d1122",
       "url": "https://static.wixstatic.com/media/856ae2_6f4e799fd2e94b7eb426137fe18c0634~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0152",
       "name": "cable concentration extension (on knee)",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "a769d34b845d21390398cbc832deede4e70c32fe51a113c27198b5669cccbc00",
       "url": "https://static.wixstatic.com/media/856ae2_c18df3f55349408198c01a181b92ef60~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0153",
       "name": "cable cross-over lateral pulldown",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "d866fef949f50a48afd222c77a440e02118e302db9a3b527e18855b924f104e3",
       "url": "https://static.wixstatic.com/media/856ae2_2867c374373c4b829b81cfc0a8061a35~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0154",
       "name": "cable cross-over revers fly",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "6b2c09b05fc0bafcdb454642de66b8d3bdf1d5f8c9f42b8625b201bdf47d016d",
       "url": "https://static.wixstatic.com/media/856ae2_f832b2158b304ac48ec7fd44a3b64234~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0155",
       "name": "cable cross-over variation",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "e266286681b30b0b3f699a8e8b7d098da3f30c2b0881afecb1d3d187d7eb40c3",
       "url": "https://static.wixstatic.com/media/856ae2_5a99c8a80eab493faf016e6f41f2bf1b~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0868",
       "name": "cable curl",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "08d7c1df3e492af3c653b7fd3b6a584733f8a7437d9857a4f13705fa5f8bfa8c",
       "url": "https://static.wixstatic.com/media/856ae2_d8e10fe4858b49deb6260b4c0f6aef2d~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0157",
       "name": "cable deadlift",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "0f7b98710571c3bb768b6f143393e19ce0daa174f4f84b5f092b321e00373753",
       "url": "https://static.wixstatic.com/media/856ae2_c383db518e754441aa46b85b696b2909~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0158",
       "name": "cable decline fly",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "4fadc3f6249f084b7b0b7bbc13d7914d75de561b99cfff7a2528d295b1907626",
       "url": "https://static.wixstatic.com/media/856ae2_77ca3d5f900440b0a00eb3750a3045db~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "1260",
       "name": "cable decline one arm press",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "d416ea1c528e6bed26b8377ca3e7309fd287e2feb86d12165ff4957c6c4d1ff7",
       "url": "https://static.wixstatic.com/media/856ae2_31c9df28076c414f8793f10e37a6c27a~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "1261",
       "name": "cable decline press",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "cac1ffee47abc1fe033ae4a53fffa74ff1581c9cd6fa07c0bdb41bf505710d96",
       "url": "https://static.wixstatic.com/media/856ae2_e60d1bfe3dd141aaa06a9911cb61e503~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0159",
       "name": "cable decline seated wide-grip row",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "27e9f6a66dc477194dbe6a28f4fa666e2cd9135e6b2613972bc01ae534d62596",
       "url": "https://static.wixstatic.com/media/856ae2_31b18e2c1f204a82badb6254278a42d8~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "1632",
       "name": "cable drag curl",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "26ca8a6096e8474f8a62042f26bf845a406e522ee3eda7da8702cc764745514a",
       "url": "https://static.wixstatic.com/media/856ae2_3efed4c720334699933fbc09eed0ed31~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0160",
       "name": "cable floor seated wide-grip row",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "b91f3d600d866db97fd536f0cbb7da35b9a67113ccf0a62d965f7b1bc824b743",
       "url": "https://static.wixstatic.com/media/856ae2_91f5eb3239774f25bc3ca592397be342~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0161",
       "name": "cable forward raise",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "6637e6330fd5ad116eb748ed3411c1d2b822e235d59ed012d93eae5b04443910",
       "url": "https://static.wixstatic.com/media/856ae2_988663fe98bb4be9bc17c96552785b00~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0162",
       "name": "cable front raise",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "f806cecea0f3e20c6bc1c1565c5cc14784cf22c1c4221ce0b5588f6bd331a2fd",
       "url": "https://static.wixstatic.com/media/856ae2_fb5bc312f2164c7da529cf0e8bbeae45~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0164",
       "name": "cable front shoulder raise",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "394f853e27ea918005633b47fe7b7dc3dd8d3ac4fd8649c6cfccd502da753d30",
       "url": "https://static.wixstatic.com/media/856ae2_f8ee487bf3ef4b52b094a1b08083e948~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0165",
       "name": "cable hammer curl (with rope)",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "42b3db2336f583d995857706675b07bcb1dc06f77661ff0fff1af64fe9ffce94",
       "url": "https://static.wixstatic.com/media/856ae2_6bc1a598a1ba480f8eb7c341a2066c3a~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "1722",
       "name": "cable high pulley overhead tricep extension",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "1fb418db619a52e87191151afd37890090cab294c32c251e9de296a7915510c5",
       "url": "https://static.wixstatic.com/media/856ae2_9e09de4d620d4bc4812b357f58b05f1a~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0167",
       "name": "cable high row (kneeling)",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "1d0609444e6b76b9896a1ab7fc8ccb2628758add762620461876ab3eaee4e8a0",
       "url": "https://static.wixstatic.com/media/856ae2_0e52472dfc604dfbb87d8d52fb71b047~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0168",
       "name": "cable hip adduction",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "a81a08168e161c39771b62c3062cfdf96cc0358907a8980937714bc3fe8516c0",
       "url": "https://static.wixstatic.com/media/856ae2_dfec605c91bf416a8f5d2332d3c5f84c~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "0169",
       "name": "cable incline bench press",
       "equipment": "cable",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch16-20261122",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "74d4821be2f81f77089d0fb150a8805fda2a3f51ea9406caa92c8fb753ee3280",
       "url": "https://static.wixstatic.com/media/856ae2_58f1f98739834e43959c0f1213f7a6cb~mv2.webp",
-      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified"
+      "reviewScope": "Operator exact-source visual review; independent qualified movement and physical iPhone review unverified",
+      "appVersion": "5.36.0"
     },
     {
       "id": "1318",
       "name": "cable incline bench row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0171",
       "name": "cable incline fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0170",
       "name": "cable incline fly (on stability ball)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0172",
       "name": "cable incline pushdown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0173",
       "name": "cable incline triceps extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0174",
       "name": "cable judo flip",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0860",
       "name": "cable kickback",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0175",
@@ -2483,13 +2500,15 @@
       "id": "3697",
       "name": "cable kneeling rear delt row (with rope) (male)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0176",
       "name": "cable kneeling triceps extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "2330",
@@ -2507,97 +2526,113 @@
       "id": "0177",
       "name": "cable lateral pulldown (with rope attachment)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "2616",
       "name": "cable lateral pulldown with v-bar",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0178",
       "name": "cable lateral raise",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0179",
       "name": "cable low fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0180",
       "name": "cable low seated row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "1634",
       "name": "cable lying bicep curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0182",
       "name": "cable lying close-grip curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0184",
       "name": "cable lying extension pullover (with rope attachment)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0185",
       "name": "cable lying fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0186",
       "name": "cable lying triceps extension v. 2",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0188",
       "name": "cable middle fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0189",
       "name": "cable one arm bent over row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "0190",
       "name": "cable one arm curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "1262",
       "name": "cable one arm decline chest fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "1263",
       "name": "cable one arm fly on exercise ball",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "1264",
       "name": "cable one arm incline fly on exercise ball",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch17-20261122"
     },
     {
       "id": "1265",
@@ -8233,13 +8268,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45\u0432\u00b0 calf press",
+      "name": "sled 45в° calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45\u0432\u00b0 leg press",
+      "name": "sled 45в° leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -8251,19 +8286,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45\u0432\u00b0 leg press (back pov)",
+      "name": "sled 45в° leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45\u00b0 leg press (side pov)",
+      "name": "sled 45° leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45\u0432\u00b0 leg wide press",
+      "name": "sled 45в° leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10011,50 +10046,89 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
       "artifactId": 14766883589,
       "artifactSha256": "76dc9f29f268b5e2348199dbe7b8a5ea55caf797bbdd697459e2e180b8ffdc78",
       "scope": "Reconciled from exact successful GitHub hosted/live jobs and direct current public release. Original publication ID not recovered in this session."
+    },
+    {
+      "id": "core-batch16-20261122",
+      "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+      "exactIds": [
+        "0149",
+        "3235",
+        "0150",
+        "1630",
+        "1631",
+        "0152",
+        "0153",
+        "0154",
+        "0155",
+        "0868",
+        "0157",
+        "0158",
+        "1260",
+        "1261",
+        "0159",
+        "1632",
+        "0160",
+        "0161",
+        "0162",
+        "0164",
+        "0165",
+        "1722",
+        "0167",
+        "0168",
+        "0169"
+      ],
+      "claimOwner": "owner-interactive-continuation-32b205aa4444",
+      "claimedAt": "2026-11-22T18:49:01.797Z",
+      "claimBaseBlob": "4e304e106b302ee2a943d9b83cc061d0858cb67f",
+      "newCatalogueEntries": 25,
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "priorCatalogueIllustrated": 438,
+      "targetCatalogueIllustrated": 463,
+      "existingCandidate": "0149 private PNG recovered from prior workspace; pending full-resolution QA",
+      "physicalIPhone": "UNVERIFIED",
+      "newlyGeneratedIds": 24,
+      "resumedAndCorrectedIds": [
+        "0149"
+      ],
+      "initialAndCorrectionImagesThisSession": 31,
+      "correctedIds": [
+        "0149",
+        "0154",
+        "0158",
+        "1260",
+        "0162",
+        "0155"
+      ],
+      "liveFromThisBatch": 25,
+      "appVersion": "5.36.0",
+      "releaseSourceCommit": "772035c26f09c79da4af6e92615dd45162b2b864",
+      "buildRunId": 45061499340,
+      "liveAcceptanceRunId": 45062200610,
+      "artifactId": 14768824205,
+      "artifactSha256": "a766d4daa063030b14803df863f7d8ec62c5beab4cdac157c541056b973b1810",
+      "wixRevision": "2de8681a20bb4e18bfca8485c5e1ab1acc73c6a3",
+      "observedAt": "2026-11-22T19:46:39.919Z"
     }
   ],
-  "catalogueQueued": 886,
+  "catalogueQueued": 861,
   "liveObservation": {
-    "version": "5.35.0",
-    "sourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
-    "catalogueIllustrated": 438,
-    "catalogueQueued": 886,
-    "buildRunId": 45055305257,
-    "liveAcceptanceRunId": 45055305259,
-    "scope": "Direct public manifest and exact GitHub successful four build jobs / three live jobs observed; no new publication in this session.",
-    "reconciledPriorLedgerIds": [
-      "0045",
-      "0061",
-      "0060",
-      "0064",
-      "0065",
-      "0066",
-      "0067",
-      "0068",
-      "0069",
-      "1411",
-      "1412",
-      "3017",
-      "1751",
-      "0070",
-      "0072",
-      "0073",
-      "0022",
-      "0074",
-      "0075",
-      "0076",
-      "0078",
-      "0077",
-      "0079",
-      "2187",
-      "0080"
-    ]
+    "version": "5.36.0",
+    "sourceCommit": "772035c26f09c79da4af6e92615dd45162b2b864",
+    "catalogueIllustrated": 463,
+    "catalogueQueued": 861,
+    "buildRunId": 45061499340,
+    "liveAcceptanceRunId": 45062200610,
+    "artifactSha256": "a766d4daa063030b14803df863f7d8ec62c5beab4cdac157c541056b973b1810",
+    "wixRevision": "2de8681a20bb4e18bfca8485c5e1ab1acc73c6a3",
+    "scope": "Exact GitHub artifact SHA-256; native/public release and all 70 artifact paths; all four build and three live jobs passed. HTML normalized only for Wix-injected script. Physical iPhone and qualified biomechanics unverified."
   }
 }

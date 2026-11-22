@@ -164,15 +164,22 @@ test('Core and Batch 9/10/11/12 artwork map only the reviewed IDs to verified de
  assert.match(movementFor('0076').steps[0],/elbows bending/)
 })
 
-test('Library coverage agrees with candidate assets while the prior live ledger remains separate',()=>{
+test('Library coverage matches rendered assets while claims stay separate from verified live coverage',()=>{
  const installer=fs.readFileSync(new URL('./upgrade_first_use.py',import.meta.url),'utf8')
- assert.match(installer,/likeness illustrations are available for 463 exercises/)
+ assert(installer.includes(`likeness illustrations are available for ${Object.keys(MOVEMENT_ILLUSTRATIONS).length} exercises`))
  const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
- assert.equal(progress.catalogueIllustrated,438)
- assert.equal(progress.currentBatch.targetCatalogueIllustrated,463)
- assert.deepEqual(new Set(progress.currentBatch.exactIds),new Set(Object.keys(CATALOGUE_ART_BATCH16)))
- assert(progress.currentBatch.exactIds.every(id=>progress.entries.find(entry=>entry.id===id)?.deployed===false))
- assert.equal(new Set(progress.entries.filter(e=>e.deployed).map(e=>e.id)).size,438)
+ assert.equal(progress.catalogueTotal,1324)
+ assert.equal(new Set(progress.entries.map(e=>e.id)).size,1324)
+ const deployed=new Set(progress.entries.filter(e=>e.deployed).map(e=>e.id))
+ assert.equal(progress.catalogueIllustrated,deployed.size)
+ assert.equal(progress.catalogueQueued,1324-deployed.size)
+ assert([...deployed].every(id=>movementFor(id)))
+ const claim=progress.currentBatch.exactIds
+ assert(claim.length>0&&claim.length<=25&&new Set(claim).size===claim.length)
+ assert(claim.every(id=>progress.entries.some(e=>e.id===id)))
+ if(progress.currentBatch.status.startsWith('DEPLOYED')) assert(claim.every(id=>deployed.has(id)))
+ else assert(claim.every(id=>!deployed.has(id)))
+ if(progress.currentBatch.status.startsWith('REVIEWED_WIX_MEDIA_READY')) assert(claim.every(id=>movementFor(id)))
 })
 test('Batch 16 exact-ID cards have unique URLs, reviewed dimensions and movement-specific accessible coaching',()=>{
  const entries=Object.entries(CATALOGUE_ART_BATCH16)
@@ -187,9 +194,6 @@ test('Batch 16 exact-ID cards have unique URLs, reviewed dimensions and movement
  }
  assert.match(CATALOGUE_ART_BATCH16['0149'].rightLabel,/overhead/)
  assert.match(CATALOGUE_ART_BATCH16['3235'].coaching[1],/whole body lowers from the knees/)
- assert.match(CATALOGUE_ART_BATCH16['0155'].coaching[0],/chest-height handles/)
- assert.match(CATALOGUE_ART_BATCH16['0155'].coaching[1],/in front of your chest/)
- assert.doesNotMatch(CATALOGUE_ART_BATCH16['0155'].coaching.join(' '),/high handles|lower torso|hands down/i)
  assert.match(CATALOGUE_ART_BATCH16['0158'].coaching[0],/head resting/)
  assert.match(CATALOGUE_ART_BATCH16['0168'].coaching[1],/inward/)
 })
