@@ -92,6 +92,12 @@ batch10_art = json.loads(subprocess.run(
 if len(batch10_art) != 25 or set(batch10_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
     raise SystemExit('Batch 10 artwork must add 25 distinct queued exercise IDs')
 catalogue_art.update(batch10_art)
+batch11_art = json.loads(subprocess.run(
+    ['node', '--input-type=module', '-e', "import {CATALOGUE_ART_BATCH11 as x} from './apps/trivalley-opengym/tv-catalogue-art-batch11.mjs'; console.log(JSON.stringify(x))"],
+    check=True, capture_output=True, text=True).stdout)
+if len(batch11_art) != 25 or set(batch11_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
+    raise SystemExit('Batch 11 artwork must add 25 distinct queued exercise IDs')
+catalogue_art.update(batch11_art)
 
 illustrated_count = len(movement_manifest['assets']) + len(catalogue_art)
 (dist / 'tv-catalogue-art-batch2.json').write_text(json.dumps({'batch':'20261121-reviewed-core-200','assets':list(catalogue_art.values())}, indent=2))
@@ -100,7 +106,7 @@ if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "5.30.0",
+    "version": "5.31.0",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],
@@ -112,7 +118,7 @@ release = {
     ),
     "storage": "browser-local; no client cloud sync",
     "backend": "disabled",
-    "features": ["247 additional exact-ID catalogue illustrations including 200 reviewed core references with on-demand offline caching", "corrected standing cable crunch mechanics and varied natural facial expressions", "four owner-authorized illustrated short-session presets with blended TRX and dumbbell likeness styles and separate side logging","five original Learn guides, user-label protein portions and three bodyweight workout posters with original sketches", "first-workout guide, question-led calculators with practical interpretation and recommended Main 16 default", "explicit main-16 equipment substitutions with performed-set and fresh-load safeguards", "per-equipment lifting weight conventions and next-step guidance", "user-reviewed feedback drafts without attached workout records", "13 original local calculators with formula sources and four labelled external resources", "main sixteen exercise collection and first-person setup/do/avoid/scale coaching notes", "complete catalogue integrity audit and corrected degree labels", "polished program and session briefs", "seven-day activity card with separate partial-workout and recorded rep-improvement counts", "one reviewed training-day setup, returning-user guidance and reserved navigation/timer space", "client-focused header, Settings-only healthy storage details and compact guided setup", "reviewed program setup, explicit calendar changes and iPhone installation/backup help", "first-user audit fixes: unit lock, dialog focus, partial sessions, timer recovery, typo suggestions", "optional one-time Stripe support link", "direct all-exercise lifting-weight and rep entry", "logging before optional illustrations", "body-weight shortcuts", "compact technique cues", "native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance", "interactive workout posters", "session start and finish timestamps", "poster set logging and timed holds", "local session notes", "ready-made Back/Biceps Chest/Triceps Legs program", "per-exercise rest timers", "explicit working-load selection", "program previews during active sessions", "explicit empty freestyle recovery", "owner-approved program covers", "history-based Continue my program", "program actions before long previews", "sixteen revised exercise illustrations with owner-approved likeness direction", "corrected neutral hammer-curl instructions"],
+    "features": ["322 additional exact-ID catalogue illustrations including 200 reviewed core references with on-demand offline caching", "corrected standing cable crunch mechanics and varied natural facial expressions", "four owner-authorized illustrated short-session presets with blended TRX and dumbbell likeness styles and separate side logging","five original Learn guides, user-label protein portions and three bodyweight workout posters with original sketches", "first-workout guide, question-led calculators with practical interpretation and recommended Main 16 default", "explicit main-16 equipment substitutions with performed-set and fresh-load safeguards", "per-equipment lifting weight conventions and next-step guidance", "user-reviewed feedback drafts without attached workout records", "13 original local calculators with formula sources and four labelled external resources", "main sixteen exercise collection and first-person setup/do/avoid/scale coaching notes", "complete catalogue integrity audit and corrected degree labels", "polished program and session briefs", "seven-day activity card with separate partial-workout and recorded rep-improvement counts", "one reviewed training-day setup, returning-user guidance and reserved navigation/timer space", "client-focused header, Settings-only healthy storage details and compact guided setup", "reviewed program setup, explicit calendar changes and iPhone installation/backup help", "first-user audit fixes: unit lock, dialog focus, partial sessions, timer recovery, typo suggestions", "optional one-time Stripe support link", "direct all-exercise lifting-weight and rep entry", "logging before optional illustrations", "body-weight shortcuts", "compact technique cues", "native session guidance", "record-based progress", "truthful local save status", "explicit backup confirmation", "Onyx and Gold appearance", "interactive workout posters", "session start and finish timestamps", "poster set logging and timed holds", "local session notes", "ready-made Back/Biceps Chest/Triceps Legs program", "per-exercise rest timers", "explicit working-load selection", "program previews during active sessions", "explicit empty freestyle recovery", "owner-approved program covers", "history-based Continue my program", "program actions before long previews", "sixteen revised exercise illustrations with owner-approved likeness direction", "corrected neutral hammer-curl instructions"],
     "programCovers": cover_manifest['assets'],
     "illustrationReview": {"display": "enabled", "reviewed": illustrated_count, "pending": 0, "likenessDirection": "owner-approved avatar face alongside Nick Style 3; prior deployed art preserved", "scope": "operator visual review; generated illustrations, not recorded demonstrations; qualified movement and physical iPhone review unverified"},
     "movementIllustrations": movement_manifest['assets'] + list(catalogue_art.values()),
@@ -122,7 +128,7 @@ release = {
     "iconAddon": {"version": "trinity-20261119", "appleTouchIcon": touch_name,
                   "sha256": {path: hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files}},
 }
-release["features"][0] = "297 additional exact-ID catalogue illustrations including 200 reviewed core references with on-demand offline caching"
+release["features"][0] = "322 additional exact-ID catalogue illustrations including 200 reviewed core references with on-demand offline caching"
 if release["portraitSha256"] != "ef1b3e6367cf189731f9d26abb4dd73971391717a1e0e370614ba114b50c03b8":
     raise SystemExit("Approved coach portrait checksum mismatch")
 (dist / "tv-release.json").write_text(json.dumps(release, indent=2) + "\n")

@@ -3,6 +3,7 @@ import { CATALOGUE_ART_BATCH2, APPROVED_CATALOGUE_BATCH2_IDS } from './tv-catalo
 import { CATALOGUE_ART_ABS_AVATAR, APPROVED_ABS_AVATAR_IDS } from './tv-catalogue-art-abs-avatar.mjs'
 import { CATALOGUE_ART_BATCH9, APPROVED_CATALOGUE_BATCH9_IDS } from './tv-catalogue-art-batch9.mjs'
 import { CATALOGUE_ART_BATCH10, APPROVED_CATALOGUE_BATCH10_IDS } from './tv-catalogue-art-batch10.mjs'
+import { CATALOGUE_ART_BATCH11, APPROVED_CATALOGUE_BATCH11_IDS } from './tv-catalogue-art-batch11.mjs'
 // Generated likeness illustrations, exact catalogue IDs only. New references and owner-approved proof direction.
 export const MOVEMENT_ILLUSTRATIONS = {
   "1459": {
@@ -284,9 +285,10 @@ Object.assign(MOVEMENT_ILLUSTRATIONS, CATALOGUE_ART_ABS_AVATAR)
 Object.assign(MOVEMENT_ILLUSTRATIONS, CATALOGUE_ART_CORE)
 Object.assign(MOVEMENT_ILLUSTRATIONS, CATALOGUE_ART_BATCH9)
 Object.assign(MOVEMENT_ILLUSTRATIONS, CATALOGUE_ART_BATCH10)
+Object.assign(MOVEMENT_ILLUSTRATIONS, CATALOGUE_ART_BATCH11)
 
 // Explicit reviewed allowlist: newly added assets default to pending review.
-const APPROVED_MOVEMENT_IDS = new Set(["1459", "2330", "0861", "0383", "0294", "0313", "0289", "0314", "0405", "0334", "0200", "0194", "0739", "0586", "0585", "0605", ...APPROVED_CATALOGUE_BATCH2_IDS, ...APPROVED_ABS_AVATAR_IDS, ...Object.keys(CATALOGUE_ART_CORE), ...APPROVED_CATALOGUE_BATCH9_IDS, ...APPROVED_CATALOGUE_BATCH10_IDS])
+const APPROVED_MOVEMENT_IDS = new Set(["1459", "2330", "0861", "0383", "0294", "0313", "0289", "0314", "0405", "0334", "0200", "0194", "0739", "0586", "0585", "0605", ...APPROVED_CATALOGUE_BATCH2_IDS, ...APPROVED_ABS_AVATAR_IDS, ...Object.keys(CATALOGUE_ART_CORE), ...APPROVED_CATALOGUE_BATCH9_IDS, ...APPROVED_CATALOGUE_BATCH10_IDS, ...APPROVED_CATALOGUE_BATCH11_IDS])
 export const MOVEMENT_REVIEW_STATUS = Object.freeze(Object.fromEntries(Object.keys(MOVEMENT_ILLUSTRATIONS).map(id => [id, APPROVED_MOVEMENT_IDS.has(id) ? 'approved' : 'pending_review'])))
 export function movementReferenceFor(ex) { return MOVEMENT_ILLUSTRATIONS[typeof ex === 'string' ? ex : ex?.id] || null }
 export function movementFor(ex) {
