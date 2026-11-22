@@ -1,4 +1,4 @@
-// Batch 18: 23 accepted exact-ID likeness illustrations. Held drafts 3165 and 1723 are excluded.
+// Batch 18: 25 accepted exact-ID likeness illustrations. Corrected 3165 and 1723 replace held drafts.
 export const CATALOGUE_ART_BATCH18 = Object.freeze({
   "1265": {
     "id": "1265",
@@ -688,6 +688,66 @@ export const CATALOGUE_ART_BATCH18 = Object.freeze({
     "review": {
       "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3165": {
+    "id": "3165",
+    "name": "bodyweight standing row (with towel)",
+    "width": 1200,
+    "height": 800,
+    "sha256": "4e9b71cb63a2ad70bd848e4ddeb6e605cf2204030772b3b63526d6a228c59bef",
+    "bytes": 155722,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Lean back; arms long; body straight",
+    "rightLabel": "Pull chest toward post; elbows back",
+    "coaching": [
+      "Loop one towel securely around a fixed post at chest height, grip both ends evenly and lean back with a straight body.",
+      "Keep the same towel and anchor taut as you pull your chest toward the post and drive both elbows behind you.",
+      "Avoid changing the anchor, bending at the hips or letting your shoulders shrug.",
+      "Stand more upright to reduce resistance while keeping your feet planted."
+    ],
+    "steps": [
+      "Loop one towel securely around a fixed post at chest height, grip both ends evenly and lean back with a straight body.",
+      "Keep the same towel and anchor taut as you pull your chest toward the post and drive both elbows behind you.",
+      "Avoid changing the anchor, bending at the hips or letting your shoulders shrug.",
+      "Stand more upright to reduce resistance while keeping your feet planted."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d41d08e6994f4d0c975afed130177849~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight standing row with towel. Start: Lean back with arms long and body straight. Finish: Pull chest toward the post with elbows back.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration after towel-length and anchor continuity correction; independent qualified movement review is unverified"
+    }
+  },
+  "1723": {
+    "id": "1723",
+    "name": "cable one arm tricep pushdown",
+    "width": 1200,
+    "height": 800,
+    "sha256": "40b9fef7ffadfa44b8eea706c808fbf8dc229563e9ed10979db8cc2c69125999",
+    "bytes": 175114,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Working elbow pinned; forearm bent",
+    "rightLabel": "Extend handle beside working thigh",
+    "coaching": [
+      "Stand tall beside a high pulley with one short handle in your working hand and your free hand resting on your hip.",
+      "Keep the working upper arm pinned to your ribs as you extend the elbow and press the handle beside the same-side thigh.",
+      "Avoid shoulder swing, torso lean or touching the cable with your free hand.",
+      "Use a light load and stop at a comfortable straight-arm position."
+    ],
+    "steps": [
+      "Stand tall beside a high pulley with one short handle in your working hand and your free hand resting on your hip.",
+      "Keep the working upper arm pinned to your ribs as you extend the elbow and press the handle beside the same-side thigh.",
+      "Avoid shoulder swing, torso lean or touching the cable with your free hand.",
+      "Use a light load and stop at a comfortable straight-arm position."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_1256022dbbe6445393c549d17a6adc0e~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm tricep pushdown. Start: Working elbow pinned with forearm bent. Finish: Extend the handle beside the working thigh.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration after working-hand cable-path correction; independent qualified movement review is unverified"
     }
   }
 })

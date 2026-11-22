@@ -221,8 +221,8 @@ test('Batch 17 exact-ID cards have unique URLs, reviewed dimensions and movement
 
 test('Batch 18 exact-ID cards have unique URLs, reviewed dimensions and movement-specific accessible coaching',()=>{
  const entries=Object.entries(CATALOGUE_ART_BATCH18)
- assert.equal(entries.length,23)
- assert.equal(new Set(entries.map(([,a])=>a.url)).size,23)
+ assert.equal(entries.length,25)
+ assert.equal(new Set(entries.map(([,a])=>a.url)).size,25)
  for(const [id,a] of entries){
   assert.equal(a.id,id);assert.equal(movementFor(id),a)
   assert.deepEqual([a.width,a.height],[1200,800]);assert(a.bytes>50000&&a.bytes<500000)
@@ -235,5 +235,6 @@ test('Batch 18 exact-ID cards have unique URLs, reviewed dimensions and movement
  assert.match(CATALOGUE_ART_BATCH18['0137'].coaching[1],/both elbows together/)
  assert.match(CATALOGUE_ART_BATCH18['0191'].coaching[1],/down and inward/)
  assert.match(CATALOGUE_ART_BATCH18['1635'].coaching[0],/palm down/)
- for(const id of ['3165','1723']) assert.equal(movementFor(id),null)
+ assert.match(CATALOGUE_ART_BATCH18['3165'].coaching[1],/same towel and anchor/)
+ assert.match(CATALOGUE_ART_BATCH18['1723'].coaching[2],/free hand/)
 })

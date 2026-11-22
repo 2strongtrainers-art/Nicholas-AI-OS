@@ -176,8 +176,8 @@ catalogue_art.update(batch17_art)
 batch18_art = json.loads(subprocess.run(
     ['node', '--input-type=module', '-e', "import {CATALOGUE_ART_BATCH18 as x} from './apps/trivalley-opengym/tv-catalogue-art-batch18.mjs'; console.log(JSON.stringify(x))"],
     check=True, capture_output=True, text=True).stdout)
-if len(batch18_art) != 23 or set(batch18_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
-    raise SystemExit('Batch 18 artwork must add 23 accepted distinct exercise IDs')
+if len(batch18_art) != 25 or set(batch18_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
+    raise SystemExit('Batch 18 artwork must add 25 accepted distinct exercise IDs')
 for ident, asset in batch18_art.items():
     if (asset['id'] != ident
             or not re.fullmatch(r'https://static\.wixstatic\.com/media/[A-Za-z0-9_~.-]+\.webp', asset['url'])
