@@ -8,8 +8,42 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch18-20261122",
-    "status": "CLAIMED_GENERATION_PENDING",
+    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_CORRECTIVE_HOSTED_ACCEPTANCE",
     "exactIds": [
+      "1265",
+      "1266",
+      "1267",
+      "1633",
+      "1635",
+      "1769",
+      "1770",
+      "2414",
+      "2800",
+      "3019",
+      "3156",
+      "3158",
+      "3161",
+      "3162",
+      "3166",
+      "3167",
+      "3168",
+      "3563",
+      "0105",
+      "0137",
+      "0191",
+      "0192",
+      "0193"
+    ],
+    "claimOwner": "owner-interactive-continuation-32b205aa4444",
+    "claimBaseBlob": "c7e608acf86e5f5b675fa1c998610912a82e5487",
+    "claimedAt": "2026-11-22T20:48:17.608Z",
+    "generatedCount": 25,
+    "acceptedCount": 23,
+    "deployedCount": 0,
+    "priorCatalogueIllustrated": 488,
+    "targetCatalogueIllustrated": 511,
+    "physicalIPhone": "UNVERIFIED",
+    "claimedExactIds": [
       "2800",
       "0105",
       "2414",
@@ -36,15 +70,29 @@
       "0193",
       "1723"
     ],
-    "claimOwner": "owner-interactive-continuation-32b205aa4444",
-    "claimBaseBlob": "c7e608acf86e5f5b675fa1c998610912a82e5487",
-    "claimedAt": "2026-11-22T20:48:17.608Z",
-    "generatedCount": 0,
-    "acceptedCount": 0,
-    "deployedCount": 0,
-    "priorCatalogueIllustrated": 488,
-    "targetCatalogueIllustrated": 513,
-    "physicalIPhone": "UNVERIFIED"
+    "heldExactIds": [
+      "3165",
+      "1723"
+    ],
+    "mediaReadyCount": 23,
+    "cdnChecksumsMatched": 23,
+    "successfulImageCalls": 37,
+    "failedImageCalls": 1,
+    "rejectedDraftCount": 16,
+    "claimCommit": "8827519dc1636b30fd02a01cdf6642ce2542036f",
+    "generationBlocker": {
+      "id": "1723",
+      "category": "violence",
+      "stage": "input",
+      "requestId": "fab72474-8b00-431a-80b0-7523f8216899",
+      "response": "No retry or workaround attempted; image generation stopped."
+    },
+    "concurrentCandidate": {
+      "source": "a314948178ed2aab5ec4e260be6e97edede8ffd0",
+      "liveControl": "f364f054c2fd864c1107a64f8dbb05418a34ab96",
+      "status": "PUBLISHED_CANDIDATE_NOT_CREATIVELY_ACCEPTED",
+      "reason": "3165 towel length changes; 1723 cable connects to resting hand; 0137 and 0191 generic coaching conflicts with exact source demonstration."
+    }
   },
   "entries": [
     {
@@ -60,7 +108,7 @@
     },
     {
       "id": "0002",
-      "name": "45° side bend",
+      "name": "45\u00b0 side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -1708,22 +1756,34 @@
       "id": "2800",
       "name": "barbell sitted alternate leg raise (female)",
       "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "9a15334c2e84ed178377a4609d3d144e83229bb5c8447984e5ae2d0dff069816",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0105",
       "name": "barbell standing bradford press",
       "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "c2108c6c81b303d8c1c53541fdc3626c2e6c12d72b9d358d8368ff6ac241938d",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "2414",
       "name": "barbell standing concentration curl",
       "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "006a3bc9b527b1c8dacd597da7ee2d3976b7c77e23255e78f139c3d696fb5f4a",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0117",
@@ -1916,8 +1976,12 @@
       "id": "3019",
       "name": "bench pull-ups",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "7579eb08f8692a919fc41d46a9866cbb2af73b6d7c334c3ca1b7a5bef8e5b876",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3639",
@@ -1934,8 +1998,12 @@
       "id": "1770",
       "name": "biceps leg concentration curl",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "b9446d321e631d6dc107bade969078e9e9a3cfe8d33cf476dc4d0fb249cb65cf",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0139",
@@ -1963,8 +2031,12 @@
       "id": "0137",
       "name": "body-up",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "c16a404e5e0690cf4b3feb295ef700d1d8d77268b7efbc1568643b995721d586",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3543",
@@ -2001,22 +2073,34 @@
       "id": "1769",
       "name": "bodyweight side lying biceps curl",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "4e41ac203dcfd5ceb3d97858e4e2a9478992cdcff35e1ac32c3b3f5061661d2f",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3168",
       "name": "bodyweight squatting row",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "befb03dd3affbe972d8ffdc82330329a8043243e070a308d00d77024058786a1",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3167",
       "name": "bodyweight squatting row (with towel)",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "d3209c731b558ef36abcbff3ae9d9a96dae840e74933298c9c121b0fbaebbfe5",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1373",
@@ -2033,43 +2117,65 @@
       "id": "3156",
       "name": "bodyweight standing close-grip one arm row",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "f6eb6e1bce217bc428a0e4229509703d4c8b522289981720aedc8c93c2eae6f8",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3158",
       "name": "bodyweight standing close-grip row",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "1fcc918b0557498ceec127e7bbb3c3ae06867c219155faf1b9237de2179712ef",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3162",
       "name": "bodyweight standing one arm row",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "896184102f62caa209df25f7252c29267c32ad8aa6ace8daccfb6f727d6cbc4c",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3161",
       "name": "bodyweight standing one arm row (with towel)",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "ad5e5e4416ef29f35b2ee444ce16b6172092a6af53cb000e360c679c2bd806ab",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3166",
       "name": "bodyweight standing row",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "5b278a14a626e399d50e64f365ec23808595fe1eaf19d472f02e9fa80c7fc055",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3165",
       "name": "bodyweight standing row (with towel)",
       "equipment": "body weight",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "qa_blocked",
+      "batch": "core-batch18-20261122",
+      "deployed": false,
+      "reason": "Inconsistent towel geometry"
     },
     {
       "id": "0138",
@@ -2753,71 +2859,109 @@
       "id": "1265",
       "name": "cable one arm incline press",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "eba24cb456f934c5fb409d7b6a0c4d64f2a21f1bc681950572de758320c09df5",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1266",
       "name": "cable one arm incline press on exercise ball",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "c519e7894fbd8e15b13fb36e0383775bcc2c0231dd9f0daea24aef8f3bbd8291",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0191",
       "name": "cable one arm lateral bent-over",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "bc84c4ece835d5ab2587dfc4cdd5d5d1a42ca159dd81caf352e87ef0cf63c63d",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0192",
       "name": "cable one arm lateral raise",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "149c3506c724cfa5c72374d09016584555699874bbc79f0a69a4f8659288ccc2",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1633",
       "name": "cable one arm preacher curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "863081fd2e36e96a3dd4f5de0fcdd56d42ec26068574b4ad53dfd051678ceebb",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1267",
       "name": "cable one arm press on exercise ball",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "31d81988175f31ea4318349fbd8888a92f4e8305d230f95c2a6ff6eb47ade932",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3563",
       "name": "cable one arm pulldown",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "7a1d1e50a017b00e91989a74401aecd48d9fa46f2d0c6501df64208900a54736",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1635",
       "name": "cable one arm reverse preacher curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "1509e5689a94f333e3c4bff29a7cb3dfd5851253ae01e0d71518d2669d9eee0f",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0193",
       "name": "cable one arm straight back high row (kneeling)",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "reviewed",
+      "batch": "core-batch18-20261122",
+      "assetSha256": "410be93e856cbdc670d41cfad23e04bf33b2d32d9b82623ea4b1be5a69c26d3e",
+      "appVersion": "5.38.1",
+      "reviewScope": "Operator visual review against exact source demonstration; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1723",
       "name": "cable one arm tricep pushdown",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch18-20261122"
+      "status": "qa_blocked",
+      "batch": "core-batch18-20261122",
+      "deployed": false,
+      "reason": "Cable connects to resting hand; corrective generation blocked by image tool"
     },
     {
       "id": "1636",
@@ -8393,13 +8537,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45в° calf press",
+      "name": "sled 45\u0432\u00b0 calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45в° leg press",
+      "name": "sled 45\u0432\u00b0 leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -8411,19 +8555,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45в° leg press (back pov)",
+      "name": "sled 45\u0432\u00b0 leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45° leg press (side pov)",
+      "name": "sled 45\u00b0 leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45в° leg wide press",
+      "name": "sled 45\u0432\u00b0 leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10171,7 +10315,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,

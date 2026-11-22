@@ -1,166 +1,694 @@
-// Batch 18: reviewed exact-ID generated likeness illustrations, not recorded demonstrations.
-const reviewed=(id,name,equipment,bytes,sha256,leftLabel,rightLabel,coaching,url)=>Object.freeze({
-  id,name,width:1200,height:800,bytes,sha256,equipment,
-  style:'Nick Style 3 + approved primary likeness and avatar',leftLabel,rightLabel,
-  coaching:Object.freeze(coaching),steps:Object.freeze([...coaching]),url,
-  alt:`AI-generated Nick Kaplan likeness in ${name}. Start: ${leftLabel}. Finish: ${rightLabel}.`,
-  review:Object.freeze({
-    identity:'approved private right-side gym likeness plus avatar; source photographs excluded from public repository',
-    movement:'operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified'
-  })
+// Batch 18: 23 accepted exact-ID likeness illustrations. Held drafts 3165 and 1723 are excluded.
+export const CATALOGUE_ART_BATCH18 = Object.freeze({
+  "1265": {
+    "id": "1265",
+    "name": "cable one arm incline press",
+    "width": 1200,
+    "height": 800,
+    "sha256": "eba24cb456f934c5fb409d7b6a0c4d64f2a21f1bc681950572de758320c09df5",
+    "bytes": 184992,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Head supported; one handle at chest",
+    "rightLabel": "Press above upper chest",
+    "coaching": [
+      "Use an incline bench with head and back supported, feet planted and one low rear-side cable handle clear of your head.",
+      "Press the handle above your upper chest while keeping your torso still and free hand on your abdomen.",
+      "Avoid torso twisting, shoulder shrugging or cable contact with your head.",
+      "Use a light load and a comfortable press range."
+    ],
+    "steps": [
+      "Use an incline bench with head and back supported, feet planted and one low rear-side cable handle clear of your head.",
+      "Press the handle above your upper chest while keeping your torso still and free hand on your abdomen.",
+      "Avoid torso twisting, shoulder shrugging or cable contact with your head.",
+      "Use a light load and a comfortable press range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0586dff218c64c9181ba074ac2dbf777~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm incline press. Start: Head supported; one handle at chest. Finish: Press above upper chest.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "1266": {
+    "id": "1266",
+    "name": "cable one arm incline press on exercise ball",
+    "width": 1200,
+    "height": 800,
+    "sha256": "c519e7894fbd8e15b13fb36e0383775bcc2c0231dd9f0daea24aef8f3bbd8291",
+    "bytes": 162490,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Ball supports head; incline torso",
+    "rightLabel": "Press above upper chest",
+    "coaching": [
+      "Support your whole head and upper back on a stable ball, lower your hips for an incline and plant your feet wide.",
+      "Press one low rear-side handle above your upper chest while your free hand rests on your abdomen.",
+      "Avoid neck lifting, torso twisting, ball rolling or cable contact with your head.",
+      "Use very light loads or a supported incline bench."
+    ],
+    "steps": [
+      "Support your whole head and upper back on a stable ball, lower your hips for an incline and plant your feet wide.",
+      "Press one low rear-side handle above your upper chest while your free hand rests on your abdomen.",
+      "Avoid neck lifting, torso twisting, ball rolling or cable contact with your head.",
+      "Use very light loads or a supported incline bench."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2cb77ed27f2c4a478bd66da04ed35f0b~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm incline press on exercise ball. Start: Ball supports head; incline torso. Finish: Press above upper chest.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "1267": {
+    "id": "1267",
+    "name": "cable one arm press on exercise ball",
+    "width": 1200,
+    "height": 800,
+    "sha256": "31d81988175f31ea4318349fbd8888a92f4e8305d230f95c2a6ff6eb47ade932",
+    "bytes": 175442,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Head supported; level bridge",
+    "rightLabel": "Press above middle chest",
+    "coaching": [
+      "Support your whole head and upper back on a stable ball, plant your feet wide and hold your hips level.",
+      "Press one low rear-side handle above your middle chest while keeping your free hand on your abdomen.",
+      "Avoid hip dropping, torso twisting, ball rolling or cable contact with your head.",
+      "Use very light loads or a supported flat bench."
+    ],
+    "steps": [
+      "Support your whole head and upper back on a stable ball, plant your feet wide and hold your hips level.",
+      "Press one low rear-side handle above your middle chest while keeping your free hand on your abdomen.",
+      "Avoid hip dropping, torso twisting, ball rolling or cable contact with your head.",
+      "Use very light loads or a supported flat bench."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d567df0fef2941a4aab7cd6cf10ed099~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm press on exercise ball. Start: Head supported; level bridge. Finish: Press above middle chest.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "1633": {
+    "id": "1633",
+    "name": "cable one arm preacher curl",
+    "width": 1200,
+    "height": 800,
+    "sha256": "863081fd2e36e96a3dd4f5de0fcdd56d42ec26068574b4ad53dfd051678ceebb",
+    "bytes": 167694,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Upper arm supported; palm up",
+    "rightLabel": "Curl toward working shoulder",
+    "coaching": [
+      "Sit with the whole working upper arm and elbow supported on a broad preacher pad and hold a low handle palm up.",
+      "Keep the upper arm on the pad as you curl the handle toward your shoulder.",
+      "Avoid lifting the elbow or bending your wrist.",
+      "Use a light load and stop short of elbow lock."
+    ],
+    "steps": [
+      "Sit with the whole working upper arm and elbow supported on a broad preacher pad and hold a low handle palm up.",
+      "Keep the upper arm on the pad as you curl the handle toward your shoulder.",
+      "Avoid lifting the elbow or bending your wrist.",
+      "Use a light load and stop short of elbow lock."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a9cc25b8a1844d3ea081dde7a9310a9f~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm preacher curl. Start: Upper arm supported; palm up. Finish: Curl toward working shoulder.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "1635": {
+    "id": "1635",
+    "name": "cable one arm reverse preacher curl",
+    "width": 1200,
+    "height": 800,
+    "sha256": "1509e5689a94f333e3c4bff29a7cb3dfd5851253ae01e0d71518d2669d9eee0f",
+    "bytes": 166496,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Upper arm supported; palm down",
+    "rightLabel": "Reverse-curl toward shoulder",
+    "coaching": [
+      "Sit with the whole working upper arm and elbow supported on a broad preacher pad and grip a low handle palm down.",
+      "Keep your palm down and upper arm on the pad as you reverse-curl the handle toward your shoulder.",
+      "Avoid elbow lifting, wrist bending or forcing full elbow extension.",
+      "Use a very light load and stop short of elbow lock."
+    ],
+    "steps": [
+      "Sit with the whole working upper arm and elbow supported on a broad preacher pad and grip a low handle palm down.",
+      "Keep your palm down and upper arm on the pad as you reverse-curl the handle toward your shoulder.",
+      "Avoid elbow lifting, wrist bending or forcing full elbow extension.",
+      "Use a very light load and stop short of elbow lock."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_638f56f908f64d669e7084405a79779f~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm reverse preacher curl. Start: Upper arm supported; palm down. Finish: Reverse-curl toward shoulder.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "1769": {
+    "id": "1769",
+    "name": "bodyweight side lying biceps curl",
+    "width": 1200,
+    "height": 800,
+    "sha256": "4e41ac203dcfd5ceb3d97858e4e2a9478992cdcff35e1ac32c3b3f5061661d2f",
+    "bytes": 162388,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Side-lying; elbow supported",
+    "rightLabel": "Curl torso upward slightly",
+    "coaching": [
+      "Lie on your side with bent stacked legs, bottom elbow padded and bottom hand gripping your own bottom thigh behind the knee.",
+      "Keep your bottom elbow planted and curl your torso upward slightly through the elbow and waist.",
+      "Avoid pulling your neck, yanking the knee or rolling backward.",
+      "Use a smaller lift or a seated leg-resisted curl."
+    ],
+    "steps": [
+      "Lie on your side with bent stacked legs, bottom elbow padded and bottom hand gripping your own bottom thigh behind the knee.",
+      "Keep your bottom elbow planted and curl your torso upward slightly through the elbow and waist.",
+      "Avoid pulling your neck, yanking the knee or rolling backward.",
+      "Use a smaller lift or a seated leg-resisted curl."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7eaae89e0b3a429089fd9ca81453e999~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight side lying biceps curl. Start: Side-lying; elbow supported. Finish: Curl torso upward slightly.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "1770": {
+    "id": "1770",
+    "name": "biceps leg concentration curl",
+    "width": 1200,
+    "height": 800,
+    "sha256": "b9446d321e631d6dc107bade969078e9e9a3cfe8d33cf476dc4d0fb249cb65cf",
+    "bytes": 172928,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Brace elbow; opposite foot down",
+    "rightLabel": "Curl and lift opposite leg",
+    "coaching": [
+      "Sit securely, brace your working elbow inside the same-side thigh and hook your palm under the opposite lower thigh above the knee.",
+      "Curl the working arm to lift the opposite bent leg while keeping your torso steady.",
+      "Avoid torso swing or pulling on the kneecap.",
+      "Use less leg resistance or a smaller comfortable curl range."
+    ],
+    "steps": [
+      "Sit securely, brace your working elbow inside the same-side thigh and hook your palm under the opposite lower thigh above the knee.",
+      "Curl the working arm to lift the opposite bent leg while keeping your torso steady.",
+      "Avoid torso swing or pulling on the kneecap.",
+      "Use less leg resistance or a smaller comfortable curl range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_501478ae36b14ea19015a7b50255e55a~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in biceps leg concentration curl. Start: Brace elbow; opposite foot down. Finish: Curl and lift opposite leg.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "2414": {
+    "id": "2414",
+    "name": "barbell standing concentration curl",
+    "width": 1200,
+    "height": 800,
+    "sha256": "006a3bc9b527b1c8dacd597da7ee2d3976b7c77e23255e78f139c3d696fb5f4a",
+    "bytes": 160764,
+    "equipment": "barbell",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Two hands; bar below knees",
+    "rightLabel": "Curl toward lower chest",
+    "coaching": [
+      "Take a close underhand grip with both hands on one light short bar and hold a wide-stance hip hinge.",
+      "Keep your upper arms and torso still as you curl the bar toward your lower chest.",
+      "Avoid standing up, swinging the bar or rounding your back.",
+      "Use a light short bar and a smaller comfortable curl range."
+    ],
+    "steps": [
+      "Take a close underhand grip with both hands on one light short bar and hold a wide-stance hip hinge.",
+      "Keep your upper arms and torso still as you curl the bar toward your lower chest.",
+      "Avoid standing up, swinging the bar or rounding your back.",
+      "Use a light short bar and a smaller comfortable curl range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_3b3192e94e074cd3a87a83541991c862~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in barbell standing concentration curl. Start: Two hands; bar below knees. Finish: Curl toward lower chest.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "2800": {
+    "id": "2800",
+    "name": "barbell sitted alternate leg raise (female)",
+    "width": 1200,
+    "height": 800,
+    "sha256": "9a15334c2e84ed178377a4609d3d144e83229bb5c8447984e5ae2d0dff069816",
+    "bytes": 172344,
+    "equipment": "barbell",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Sit; light bar overhead",
+    "rightLabel": "Raise one straight leg",
+    "coaching": [
+      "Sit on a mat with legs long, torso steady and a light unloaded training bar held overhead.",
+      "Alternate lifting one leg while keeping the bar steady and your spine neutral.",
+      "Avoid heavy loading, rounding your back or swinging your torso.",
+      "Bend your knees, shorten the lift or begin without a bar."
+    ],
+    "steps": [
+      "Sit on a mat with legs long, torso steady and a light unloaded training bar held overhead.",
+      "Alternate lifting one leg while keeping the bar steady and your spine neutral.",
+      "Avoid heavy loading, rounding your back or swinging your torso.",
+      "Bend your knees, shorten the lift or begin without a bar."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_dcf3a5f918a6496285a62cadeb03b2fa~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in barbell sitted alternate leg raise (female). Start: Sit; light bar overhead. Finish: Raise one straight leg.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3019": {
+    "id": "3019",
+    "name": "bench pull-ups",
+    "width": 1200,
+    "height": 800,
+    "sha256": "7579eb08f8692a919fc41d46a9866cbb2af73b6d7c334c3ca1b7a5bef8e5b876",
+    "bytes": 148632,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "One foot on stable bench",
+    "rightLabel": "Pull chest up with leg help",
+    "coaching": [
+      "Hold a secured overhead pull-up bar overhand and place one foot flat on a stable bench.",
+      "Pull your chest upward using controlled assistance from the supported leg.",
+      "Avoid kicking, an unstable bench or jutting your chin forward.",
+      "Use more leg assistance and a shorter comfortable pull."
+    ],
+    "steps": [
+      "Hold a secured overhead pull-up bar overhand and place one foot flat on a stable bench.",
+      "Pull your chest upward using controlled assistance from the supported leg.",
+      "Avoid kicking, an unstable bench or jutting your chin forward.",
+      "Use more leg assistance and a shorter comfortable pull."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_696c782713784cd4ac32747746f4b326~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bench pull-ups. Start: One foot on stable bench. Finish: Pull chest up with leg help.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3156": {
+    "id": "3156",
+    "name": "bodyweight standing close-grip one arm row",
+    "width": 1200,
+    "height": 800,
+    "sha256": "f6eb6e1bce217bc428a0e4229509703d4c8b522289981720aedc8c93c2eae6f8",
+    "bytes": 151610,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "One neutral grip; stand and lean",
+    "rightLabel": "Row chest in; elbow close",
+    "coaching": [
+      "Grip a secured vertical upright in one hand with a neutral grip and keep both feet planted.",
+      "Keep your body straight as you row your chest toward the fixed hand with the elbow close to your ribs.",
+      "Avoid torso twisting, loose grip or bending at the hips.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "steps": [
+      "Grip a secured vertical upright in one hand with a neutral grip and keep both feet planted.",
+      "Keep your body straight as you row your chest toward the fixed hand with the elbow close to your ribs.",
+      "Avoid torso twisting, loose grip or bending at the hips.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_1db9582d6f614f81b8c4ef9a5f4d58af~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight standing close-grip one arm row. Start: One neutral grip; stand and lean. Finish: Row chest in; elbow close.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3158": {
+    "id": "3158",
+    "name": "bodyweight standing close-grip row",
+    "width": 1200,
+    "height": 800,
+    "sha256": "1fcc918b0557498ceec127e7bbb3c3ae06867c219155faf1b9237de2179712ef",
+    "bytes": 149230,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Close neutral grips; arms long",
+    "rightLabel": "Row chest toward uprights",
+    "coaching": [
+      "Hold two secured vertical uprights in close neutral grips with feet flat and your body straight.",
+      "Row your chest toward the fixed grips while keeping elbows close to your ribs.",
+      "Avoid hip hinging, shrugging or changing your foot position.",
+      "Use a smaller backward lean and shorter row."
+    ],
+    "steps": [
+      "Hold two secured vertical uprights in close neutral grips with feet flat and your body straight.",
+      "Row your chest toward the fixed grips while keeping elbows close to your ribs.",
+      "Avoid hip hinging, shrugging or changing your foot position.",
+      "Use a smaller backward lean and shorter row."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2fd7c8173cd3437e9bf19d134361b899~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight standing close-grip row. Start: Close neutral grips; arms long. Finish: Row chest toward uprights.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3161": {
+    "id": "3161",
+    "name": "bodyweight standing one arm row (with towel)",
+    "width": 1200,
+    "height": 800,
+    "sha256": "ad5e5e4416ef29f35b2ee444ce16b6172092a6af53cb000e360c679c2bd806ab",
+    "bytes": 142856,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "One hand grips both towel ends",
+    "rightLabel": "Row chest toward fixed grip",
+    "coaching": [
+      "Inspect a strong towel, loop its midpoint around a secured rung and grip both ends in one hand.",
+      "Keep your body straight and feet fixed as you row your chest toward your fixed grip.",
+      "Avoid towel slipping, torso twisting or changing the grip length.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "steps": [
+      "Inspect a strong towel, loop its midpoint around a secured rung and grip both ends in one hand.",
+      "Keep your body straight and feet fixed as you row your chest toward your fixed grip.",
+      "Avoid towel slipping, torso twisting or changing the grip length.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_1a8642c346e941ec8d3f3f4d0f5438c7~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight standing one arm row (with towel). Start: One hand grips both towel ends. Finish: Row chest toward fixed grip.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3162": {
+    "id": "3162",
+    "name": "bodyweight standing one arm row",
+    "width": 1200,
+    "height": 800,
+    "sha256": "896184102f62caa209df25f7252c29267c32ad8aa6ace8daccfb6f727d6cbc4c",
+    "bytes": 145652,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "One overhand rung grip; lean",
+    "rightLabel": "Row chest toward fixed hand",
+    "coaching": [
+      "Grip a secured horizontal rung overhand in one hand and keep both feet planted.",
+      "Keep your body straight as you row your chest toward the fixed hand.",
+      "Avoid torso twisting, shoulder shrugging or bending at the hips.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "steps": [
+      "Grip a secured horizontal rung overhand in one hand and keep both feet planted.",
+      "Keep your body straight as you row your chest toward the fixed hand.",
+      "Avoid torso twisting, shoulder shrugging or bending at the hips.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_b081d0e74f48484093017ebb10ca884e~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight standing one arm row. Start: One overhand rung grip; lean. Finish: Row chest toward fixed hand.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3166": {
+    "id": "3166",
+    "name": "bodyweight standing row",
+    "width": 1200,
+    "height": 800,
+    "sha256": "5b278a14a626e399d50e64f365ec23808595fe1eaf19d472f02e9fa80c7fc055",
+    "bytes": 138658,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Two overhand grips; lean back",
+    "rightLabel": "Row chest toward fixed rung",
+    "coaching": [
+      "Hold a secured horizontal rung overhand at shoulder width with both feet flat.",
+      "Keep your body straight and row your chest toward the fixed rung without moving your feet.",
+      "Avoid hip hinging, shoulder shrugging or an unsecured rung.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "steps": [
+      "Hold a secured horizontal rung overhand at shoulder width with both feet flat.",
+      "Keep your body straight and row your chest toward the fixed rung without moving your feet.",
+      "Avoid hip hinging, shoulder shrugging or an unsecured rung.",
+      "Stand taller and use a smaller backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_36107c9cee9b40df84570428efa9ae07~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight standing row. Start: Two overhand grips; lean back. Finish: Row chest toward fixed rung.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3167": {
+    "id": "3167",
+    "name": "bodyweight squatting row (with towel)",
+    "width": 1200,
+    "height": 800,
+    "sha256": "d3209c731b558ef36abcbff3ae9d9a96dae840e74933298c9c121b0fbaebbfe5",
+    "bytes": 143670,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Squat; towel ends in both hands",
+    "rightLabel": "Row chest toward fixed grips",
+    "coaching": [
+      "Inspect a strong towel, loop its midpoint around a secured horizontal rung and grip one end in each hand.",
+      "Hold your squat and fixed foot position as you row your chest toward the grips, keeping towel length steady.",
+      "Avoid towel slipping, heels lifting or changing the grip length.",
+      "Stand taller and reduce the backward lean."
+    ],
+    "steps": [
+      "Inspect a strong towel, loop its midpoint around a secured horizontal rung and grip one end in each hand.",
+      "Hold your squat and fixed foot position as you row your chest toward the grips, keeping towel length steady.",
+      "Avoid towel slipping, heels lifting or changing the grip length.",
+      "Stand taller and reduce the backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_0a377ce32bd149b187629f06c983a2f5~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight squatting row (with towel). Start: Squat; towel ends in both hands. Finish: Row chest toward fixed grips.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3168": {
+    "id": "3168",
+    "name": "bodyweight squatting row",
+    "width": 1200,
+    "height": 800,
+    "sha256": "befb03dd3affbe972d8ffdc82330329a8043243e070a308d00d77024058786a1",
+    "bytes": 164058,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Hold rung; arms long in squat",
+    "rightLabel": "Row chest toward fixed bar",
+    "coaching": [
+      "Grip a securely bolted horizontal rung overhand and hold a comfortable squat with heels down.",
+      "Hold the squat depth and foot position as you row your chest toward the fixed bar.",
+      "Avoid heels lifting, knees collapsing inward or an unsecured rung.",
+      "Stand taller and reduce the backward lean."
+    ],
+    "steps": [
+      "Grip a securely bolted horizontal rung overhand and hold a comfortable squat with heels down.",
+      "Hold the squat depth and foot position as you row your chest toward the fixed bar.",
+      "Avoid heels lifting, knees collapsing inward or an unsecured rung.",
+      "Stand taller and reduce the backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_bdbd5631b70b41d18d5f836afa3e19b7~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in bodyweight squatting row. Start: Hold rung; arms long in squat. Finish: Row chest toward fixed bar.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "3563": {
+    "id": "3563",
+    "name": "cable one arm pulldown",
+    "width": 1200,
+    "height": 800,
+    "sha256": "7a1d1e50a017b00e91989a74401aecd48d9fa46f2d0c6501df64208900a54736",
+    "bytes": 152272,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "One arm reaches overhead",
+    "rightLabel": "Pull elbow down beside ribs",
+    "coaching": [
+      "Face a high cable in a stable split stance with one arm reaching overhead and your free hand on your hip.",
+      "Pull the working elbow down beside your ribs toward your upper chest while staying tall.",
+      "Avoid leaning backward, shrugging or yanking from the shoulder.",
+      "Use a light load and a comfortable overhead reach."
+    ],
+    "steps": [
+      "Face a high cable in a stable split stance with one arm reaching overhead and your free hand on your hip.",
+      "Pull the working elbow down beside your ribs toward your upper chest while staying tall.",
+      "Avoid leaning backward, shrugging or yanking from the shoulder.",
+      "Use a light load and a comfortable overhead reach."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_88392901ea164a7d9f0b7d3ac1fb2bea~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm pulldown. Start: One arm reaches overhead. Finish: Pull elbow down beside ribs.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "0105": {
+    "id": "0105",
+    "name": "barbell standing bradford press",
+    "width": 1200,
+    "height": 800,
+    "sha256": "c2108c6c81b303d8c1c53541fdc3626c2e6c12d72b9d358d8368ff6ac241938d",
+    "bytes": 169438,
+    "equipment": "barbell",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Bar at front shoulders",
+    "rightLabel": "Clear rear shoulder line",
+    "coaching": [
+      "Stand tall with a wide overhand grip on a light training bar at your front shoulders.",
+      "Lift just over your head in a shallow arc and lower behind with generous neck clearance.",
+      "Avoid neck contact, rib flare or forcing the shoulder range.",
+      "Use a dowel or a front press if behind-head reach is limited."
+    ],
+    "steps": [
+      "Stand tall with a wide overhand grip on a light training bar at your front shoulders.",
+      "Lift just over your head in a shallow arc and lower behind with generous neck clearance.",
+      "Avoid neck contact, rib flare or forcing the shoulder range.",
+      "Use a dowel or a front press if behind-head reach is limited."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5d6cb8f9f6734fb2b7c252c1f39a7ef2~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in barbell standing bradford press. Start: Bar at front shoulders. Finish: Clear rear shoulder line.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "0137": {
+    "id": "0137",
+    "name": "body-up",
+    "width": 1200,
+    "height": 800,
+    "sha256": "c16a404e5e0690cf4b3feb295ef700d1d8d77268b7efbc1568643b995721d586",
+    "bytes": 129592,
+    "equipment": "body weight",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Forearm plank; palms ahead",
+    "rightLabel": "Press both palms; extend elbows",
+    "coaching": [
+      "Begin in a forearm plank on a floor mat with palms ahead, toes supported and your body straight.",
+      "Press both palms into the mat and extend both elbows together into a high plank.",
+      "Avoid sagging your hips, flaring your elbows or lifting your chin.",
+      "Keep your knees on the mat and shorten the press."
+    ],
+    "steps": [
+      "Begin in a forearm plank on a floor mat with palms ahead, toes supported and your body straight.",
+      "Press both palms into the mat and extend both elbows together into a high plank.",
+      "Avoid sagging your hips, flaring your elbows or lifting your chin.",
+      "Keep your knees on the mat and shorten the press."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_91d22532d4de41f291befb9e397cc18d~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in body-up. Start: Forearm plank; palms ahead. Finish: Press both palms; extend elbows.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "0191": {
+    "id": "0191",
+    "name": "cable one arm lateral bent-over",
+    "width": 1200,
+    "height": 800,
+    "sha256": "bc84c4ece835d5ab2587dfc4cdd5d5d1a42ca159dd81caf352e87ef0cf63c63d",
+    "bytes": 161680,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Hinge; soft arm open to side",
+    "rightLabel": "Sweep arm down and across chest",
+    "coaching": [
+      "Face a shoulder-height side cable with a fixed hip hinge and your free hand braced on your front thigh.",
+      "Keep a fixed soft elbow bend as you sweep the open arm down and inward across your chest toward the opposite knee.",
+      "Avoid torso twisting, elbow pumping or a deep shoulder stretch.",
+      "Use a light load and a smaller comfortable fly arc."
+    ],
+    "steps": [
+      "Face a shoulder-height side cable with a fixed hip hinge and your free hand braced on your front thigh.",
+      "Keep a fixed soft elbow bend as you sweep the open arm down and inward across your chest toward the opposite knee.",
+      "Avoid torso twisting, elbow pumping or a deep shoulder stretch.",
+      "Use a light load and a smaller comfortable fly arc."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d6abca7603884c3f812e2e544b2da6f7~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm lateral bent-over. Start: Hinge; soft arm open to side. Finish: Sweep arm down and across chest.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "0192": {
+    "id": "0192",
+    "name": "cable one arm lateral raise",
+    "width": 1200,
+    "height": 800,
+    "sha256": "149c3506c724cfa5c72374d09016584555699874bbc79f0a69a4f8659288ccc2",
+    "bytes": 156152,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Low handle across thighs",
+    "rightLabel": "Raise arm out to shoulder height",
+    "coaching": [
+      "Stand tall with a low pulley opposite your working arm and hold the handle across your thighs.",
+      "Raise your softly bent working arm out to shoulder height while keeping your torso still.",
+      "Avoid shrugging, swinging or leaning sideways.",
+      "Use a very light load and a lower comfortable arm height."
+    ],
+    "steps": [
+      "Stand tall with a low pulley opposite your working arm and hold the handle across your thighs.",
+      "Raise your softly bent working arm out to shoulder height while keeping your torso still.",
+      "Avoid shrugging, swinging or leaning sideways.",
+      "Use a very light load and a lower comfortable arm height."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_351e8da81652489f86a7f105f9c36ea0~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm lateral raise. Start: Low handle across thighs. Finish: Raise arm out to shoulder height.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  },
+  "0193": {
+    "id": "0193",
+    "name": "cable one arm straight back high row (kneeling)",
+    "width": 1200,
+    "height": 800,
+    "sha256": "410be93e856cbdc670d41cfad23e04bf33b2d32d9b82623ea4b1be5a69c26d3e",
+    "bytes": 160440,
+    "equipment": "cable",
+    "style": "Nick Style 3 + approved primary likeness and avatar",
+    "leftLabel": "Kneel on padding; reach high",
+    "rightLabel": "Row working elbow toward hip",
+    "coaching": [
+      "Kneel on a padded mat facing a high handle with your hips near your heels and free hand on your hip.",
+      "Keep the same working arm as you row its elbow down and back toward your hip while your torso stays tall.",
+      "Avoid rocking backward, twisting or shrugging.",
+      "Use a light load and a shorter comfortable reach."
+    ],
+    "steps": [
+      "Kneel on a padded mat facing a high handle with your hips near your heels and free hand on your hip.",
+      "Keep the same working arm as you row its elbow down and back toward your hip while your torso stays tall.",
+      "Avoid rocking backward, twisting or shrugging.",
+      "Use a light load and a shorter comfortable reach."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_055af8f1403644ddbb88ce0b0124b456~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable one arm straight back high row (kneeling). Start: Kneel on padding; reach high. Finish: Row working elbow toward hip.",
+    "review": {
+      "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
+    }
+  }
 })
-
-export const CATALOGUE_ART_BATCH18=Object.freeze({
-  '2800':reviewed('2800','barbell sitted alternate leg raise (female)','barbell',169380,'6e84d1ba897e36242cd9c106e9d0dcb1fdebe88d88699622fed720209041db12','Sit tall; bar steady overhead','Lift one straight leg',[
-    'Sit tall on the floor with both legs extended and hold a deliberately light bar steady overhead.',
-    'Brace your trunk and raise one straight leg without letting the bar or your torso drift.',
-    'Avoid rounding your back, bending the moving knee or using momentum to lift the leg.',
-    'Scale by lowering the bar to the front of your thighs or performing the leg raise without a bar.'
-  ],'https://static.wixstatic.com/media/856ae2_8613d710f7f648468db2151f249c4a3e~mv2.webp'),
-  '0105':reviewed('0105','barbell standing bradford press','barbell',169256,'69b15f196c3a67aeb60ed0bea927cf196bb14444a9d248595e8e3187b55a2020','Bar at front shoulders','Bar at rear shoulder line',[
-    'Stand tall with a very light bar at the front of your shoulders and hands slightly wider than shoulder width.',
-    'Press only high enough to guide the bar in a shallow arc to the rear shoulder line, then reverse the path.',
-    'Avoid deep lowering behind your head, rib flare or forcing painful shoulder rotation.',
-    'Use a dowel or keep the entire movement in front if the behind-head path is not comfortable.'
-  ],'https://static.wixstatic.com/media/856ae2_3c2f723a6dd54ef9a5a7b89a1c1272a5~mv2.webp'),
-  '2414':reviewed('2414','barbell standing concentration curl','barbell',160640,'5f6381dc6a622512470c543e3a5b8b3d795aa50f8a21aeb10ec79ac01e06b9ac','Hinge; bar hangs low','Curl toward lower chest',[
-    'Take a shoulder-width underhand grip on a full barbell and hinge deeply at your hips with the bar hanging below your shoulders.',
-    'Keep the hinge fixed and curl the bar with both arms toward your lower chest or upper abdomen.',
-    'Avoid standing up during the curl, swinging the bar or allowing your lower back to round.',
-    'Use a light bar and a shallower supported hinge if you cannot hold the torso position comfortably.'
-  ],'https://static.wixstatic.com/media/856ae2_4a9bc910d8544a4db3f1e3da20051cc8~mv2.webp'),
-  '3019':reviewed('3019','bench pull-ups','body weight',148506,'ed42838f020ae3591bf9eb676fef985caa1f3c2351771bc852ba7dd9b153572f','One foot on bench','Pull chest upward',[
-    'Hold the pull-up bar securely and place one foot on a stable bench for controlled assistance.',
-    'Pull your chest upward while using only as much pressure from the bench foot as needed.',
-    'Avoid kicking, pushing from an unstable bench or reaching your chin forward to finish the repetition.',
-    'Increase assistance with both feet supported or decrease it by using less pressure through the foot.'
-  ],'https://static.wixstatic.com/media/856ae2_941adccff6d9455fa624f0d46529559c~mv2.webp'),
-  '1770':reviewed('1770','biceps leg concentration curl','body weight',172628,'344e0ec85881ac4667e33a1e29846673e00a824698883b4c143782038c8e57a5','Brace arm against inner thigh','Curl against leg resistance',[
-    'Sit securely, brace the working upper arm against the inside of your thigh and use the opposite leg for resistance.',
-    'Curl your forearm upward while the leg supplies smooth opposing pressure through the full controlled range.',
-    'Avoid jerking the arm, twisting the wrist or pressing so hard that the elbow or knee becomes uncomfortable.',
-    'Reduce the leg pressure and range of motion until you can keep the shoulder and upper arm still.'
-  ],'https://static.wixstatic.com/media/856ae2_63a42c01661743a59bc5a20dd35b59a3~mv2.webp'),
-  '0137':reviewed('0137','body-up','body weight',129250,'51ad6880bd4f108b8c869e2a7fc316b717aa8b473333977eb110aed7f580a542','Forearms on floor','Press onto palms',[
-    'Start in a braced forearm plank with elbows below your shoulders and your body in one straight line.',
-    'Place one palm and then the other under your shoulders to press into a high plank, then return with control.',
-    'Avoid rocking your hips, sagging through your lower back or letting your hands travel far ahead of your shoulders.',
-    'Perform the movement from your knees or alternate the leading arm to reduce fatigue and side bias.'
-  ],'https://static.wixstatic.com/media/856ae2_71ccc5bd88cb456397ac6fb008e0aaec~mv2.webp'),
-  '1769':reviewed('1769','bodyweight side lying biceps curl','body weight',162406,'77e54258048757dfc8fea0846b0e91c91c318c4a1bedd7f158d705dd014362c9','Side-lying arm and leg setup','Curl against bodyweight',[
-    'Lie on your side and secure the working hand against the same-side thigh or lower leg to create bodyweight resistance.',
-    'Curl the arm while allowing the supported leg or torso to provide smooth resistance without losing the side-lying position.',
-    'Avoid pulling on the knee joint, twisting your neck or using a sudden yank to start the repetition.',
-    'Use lighter self-resistance and a shorter curl range until the setup feels stable and controlled.'
-  ],'https://static.wixstatic.com/media/856ae2_83e512dfa5d04935ae54b620cd22cbf1~mv2.webp'),
-  '3168':reviewed('3168','bodyweight squatting row','body weight',163992,'7e3f71684a1eb391c9a810f17828a4a180adf293a5b66e2f7c174781550d586b','Hold squat; arms long','Row chest toward bars',[
-    'Hold a secure fixed bar with both hands, sit into a supported squat and keep your heels planted.',
-    'Maintain the squat as you pull your chest toward the bars by driving your elbows behind you.',
-    'Avoid letting your knees collapse inward, shrugging your shoulders or standing up to complete the row.',
-    'Use a higher hand position and a shallower squat to reduce the load on your legs and upper body.'
-  ],'https://static.wixstatic.com/media/856ae2_68f37eef659a490291433a48a55e91d5~mv2.webp'),
-  '3167':reviewed('3167','bodyweight squatting row with towel','body weight',143628,'32292870e55bb03661c326595185b9a2cb797adc924d0c97aee3ac7e4a6c2f78','Hold towel; sit into squat','Row while squat stays fixed',[
-    'Loop a strong towel around a secure fixed support, grip both ends and sit back into a balanced squat.',
-    'Keep the squat depth steady while pulling your chest toward your hands and squeezing your shoulder blades.',
-    'Avoid using a loose anchor, sliding your feet or standing up as the elbows bend.',
-    'Shorten the lean and squat depth, and inspect the towel and anchor before every set.'
-  ],'https://static.wixstatic.com/media/856ae2_907146e5191e4e4a9c89acb0e73e481b~mv2.webp'),
-  '3156':reviewed('3156','bodyweight standing one arm row','body weight',151694,'c306f10cfd779126b70423cccfc6de60b650ae2b490538c140728cebe7c2ab2a','One arm long; body leaned','Row chest toward support',[
-    'Grip a secure fixed support with one hand, lean back as one unit and keep both feet firmly planted.',
-    'Pull your chest toward the support with the working elbow while keeping your hips and shoulders square.',
-    'Avoid twisting toward the anchor, shrugging the shoulder or letting your hips sag behind your torso.',
-    'Stand more upright to reduce resistance and train both sides with the same controlled range.'
-  ],'https://static.wixstatic.com/media/856ae2_27a703423f474854b423c6db5e44dc28~mv2.webp'),
-  '3158':reviewed('3158','bodyweight standing close-grip row','body weight',149016,'42c963f8a540684a0e42c4400d4cf5e502d4aedb2e701e6c77618d1d5d785783','Close grip; body leaned','Pull chest to hands',[
-    'Take a secure close two-hand grip on the fixed support and lean back with your body braced in one line.',
-    'Pull your chest toward your hands while keeping your elbows close and shoulders down from your ears.',
-    'Avoid bending at the hips, craning your neck or bouncing out of the bottom position.',
-    'Stand closer to upright for less resistance and step farther out only after the setup is stable.'
-  ],'https://static.wixstatic.com/media/856ae2_0df07a511c8949a9bd6cfb0ed3e922dd~mv2.webp'),
-  '3162':reviewed('3162','bodyweight standing one arm row (overhand grip)','body weight',145804,'9d216d919c2278a0de9638d1e2acf02b9e70a1313cb337febd8e6e2efffcc72e','One overhand grip; lean back','Row without rotating',[
-    'Use one overhand grip on a secure fixed support and lean back with your ribs, hips and legs aligned.',
-    'Drive the working elbow back to pull your torso toward the support while keeping your chest square.',
-    'Avoid rotating your trunk, hiking the shoulder or losing your foot position during the pull.',
-    'Reduce the body angle for an easier repetition and match the setup and repetitions on both sides.'
-  ],'https://static.wixstatic.com/media/856ae2_c57841bb1ebf4d59b84ac41845b7ed3d~mv2.webp'),
-  '3161':reviewed('3161','bodyweight standing one arm row with towel','body weight',142692,'ad9a228dddd05ca6ec1122033081db097b1f2e592be50420448b749153dd3606','One-hand towel hold','Row body toward anchor',[
-    'Secure a strong towel around a fixed support, grip one end with one hand and lean back under control.',
-    'Pull your body toward the anchor with the working arm while keeping your trunk square and rigid.',
-    'Avoid using a damaged towel, rotating through your torso or letting the shoulder roll forward.',
-    'Stand more upright and use a shorter lean; inspect the towel and anchor before each set.'
-  ],'https://static.wixstatic.com/media/856ae2_945de5be4b62449180728ed194a64004~mv2.webp'),
-  '3166':reviewed('3166','bodyweight standing row','body weight',138644,'4b4bc055acf8a10395ecc451a7ffda43b1eb684eaf5b3674613aa4f8cef836f2','Arms long; body leaned','Pull chest toward support',[
-    'Hold a secure fixed support with both hands and lean back with your body straight from shoulders to ankles.',
-    'Pull your chest toward the support and squeeze your shoulder blades while keeping your feet planted.',
-    'Avoid shrugging, bending at the hips or using momentum to bounce through the repetition.',
-    'Stand more upright to reduce resistance and increase the lean only after you can control both directions.'
-  ],'https://static.wixstatic.com/media/856ae2_0264f55df0844791a2ac730e3e6c5622~mv2.webp'),
-  '3165':reviewed('3165','bodyweight standing row with towel','body weight',149696,'0afcfdd29b1cde65def228c2535a09dc33da4c8da866799c5bd1bfa81db9ba23','Towel secure; arms long','Row chest toward hands',[
-    'Loop a strong towel around a secure post, grip both ends and lean back with your body in one line.',
-    'Bend your elbows and pull your chest toward your hands while keeping your shoulders down and back.',
-    'Avoid a loose anchor, worn towel, bent hips or jerking your body to finish the row.',
-    'Use a more upright body angle and inspect both the towel and anchor before every set.'
-  ],'https://static.wixstatic.com/media/856ae2_7ef652b203fc4421822487cce79ae9cf~mv2.webp'),
-  '1265':reviewed('1265','cable one arm incline press','cable',135536,'31f5f21e8e6ea4e15364c2e1b81f6f1743e8013146f4060ecbce8d340266c12f','Handle by upper chest','Press up and forward',[
-    'Set an incline bench in front of a low cable and hold one handle beside your upper chest with feet planted.',
-    'Press the handle up and forward over your upper chest while keeping your shoulder supported by the bench.',
-    'Avoid twisting your torso, shrugging the working shoulder or letting the cable pull your wrist backward.',
-    'Use a light load, a modest incline and train both arms through the same comfortable range.'
-  ],'https://static.wixstatic.com/media/856ae2_ac4f09d319804af5b3cc371aed3af85a~mv2.webp'),
-  '1266':reviewed('1266','cable one arm incline press on exercise ball','cable',134798,'8b65878e76e39fde7328ade6b65ff7d91386ac0091f54ac1db9987ff366fee12','Incline torso; handle at chest','Press above upper chest',[
-    'Support your upper back and head on a stable ball, lower your hips for an incline and plant your feet wide.',
-    'Press one low-cable handle above your upper chest while keeping your hips, trunk and ball steady.',
-    'Avoid rolling the ball, twisting your ribs or letting your head hang unsupported.',
-    'Use a light load or replace the ball with a stable incline bench when balance is limited.'
-  ],'https://static.wixstatic.com/media/856ae2_5a35ead0e6584131bb62dbc930d6c0ff~mv2.webp'),
-  '0191':reviewed('0191','cable one arm lateral bent-over','cable',148578,'444f43977052fbcbc0981ccfb865d4f77115a9a52c303c6cd6b2ab8147951a22','Hinge; arm crosses low','Raise arm out to side',[
-    'Stand side-on to a low cable, hinge with a neutral back and hold the handle across the front of your body.',
-    'Raise the working arm out to the side with a soft elbow until it reaches a comfortable shoulder height.',
-    'Avoid standing up, rotating your trunk or shrugging the shoulder to move the cable.',
-    'Use a very light load and support the free hand on a stable surface if needed.'
-  ],'https://static.wixstatic.com/media/856ae2_652105b45d414ddbb77184ce8f1d3fb5~mv2.webp'),
-  '0192':reviewed('0192','cable one arm lateral raise','cable',170686,'c1ad161b576d599f5b5de85fb776614f0e209cb952dcf9dc7db1979396b08d07','Handle beside opposite hip','Raise arm to the side',[
-    'Stand tall beside a low cable with the handle beginning near the opposite hip and your elbow softly bent.',
-    'Raise the arm out to the side to a comfortable height while keeping your torso and wrist neutral.',
-    'Avoid leaning away, shrugging or swinging the handle through the bottom of the repetition.',
-    'Use a light load and stop below shoulder height if a higher range is not comfortable.'
-  ],'https://static.wixstatic.com/media/856ae2_0bedfdf259a24acdb58714cb7e20bef8~mv2.webp'),
-  '1633':reviewed('1633','cable one arm preacher curl','cable',170900,'74929f9ca785f9d14f345b05f3012c195195f4e5878365d96c9f57d49510f5f5','Upper arm on preacher pad','Curl handle toward shoulder',[
-    'Support the entire working upper arm on the preacher pad and hold the low cable with a palm-up grip.',
-    'Curl the handle toward your shoulder while keeping the upper arm planted and wrist aligned.',
-    'Avoid lifting the elbow from the pad, overextending the bottom or bending the wrist backward.',
-    'Use a lighter load and stop just before full elbow extension if the bottom position is uncomfortable.'
-  ],'https://static.wixstatic.com/media/856ae2_2747b6c226ea43b197acbf4e8ae24daa~mv2.webp'),
-  '1267':reviewed('1267','cable one arm press on exercise ball','cable',157690,'fa2c16be6fbea39ac825366220cb887d581e23b79a78f6210aba34318eac3dca','Ball stable; handle at chest','Press above chest',[
-    'Support your head and upper back on a stable exercise ball with feet wide and one cable handle at your chest.',
-    'Press the handle above your chest while keeping your hips level and the ball from rolling.',
-    'Avoid twisting toward the cable, dropping your hips or allowing your head to hang off the ball.',
-    'Use a light load or a stable flat bench until you can control the ball through every repetition.'
-  ],'https://static.wixstatic.com/media/856ae2_5a8ed78939e24373bdde87534ff0ea78~mv2.webp'),
-  '3563':reviewed('3563','cable one arm pulldown','cable',168220,'4342d43fdbb6ac1ea094da642f0d1f986ec7e52a3816e5bd92e69213385a4501','Arm long at high cable','Pull elbow toward ribs',[
-    'Face the high cable in a stable split or kneeling stance with one arm reaching overhead and shoulder controlled.',
-    'Pull the elbow down toward your ribs without leaning backward or rotating your torso.',
-    'Avoid yanking from the shoulder, flaring your ribs or turning the movement into a triceps press.',
-    'Use a lighter load and a shorter overhead reach if you cannot keep the trunk still.'
-  ],'https://static.wixstatic.com/media/856ae2_cf2098d0e4d548b2848854f2f77b0eea~mv2.webp'),
-  '1635':reviewed('1635','cable one arm reverse preacher curl','cable',144984,'a4fbf4e526e352a6732dbb2ef08c9eb8fb7f9f37ba37729ae52a2a4edbc779ff','Overhand grip on preacher pad','Curl with palm down',[
-    'Support the working upper arm on the preacher pad and hold the low cable with an overhand grip.',
-    'Curl the handle upward while keeping the palm down, wrist neutral and upper arm fixed to the pad.',
-    'Avoid lifting the elbow, collapsing the wrist or forcing the bottom into painful full extension.',
-    'Use a light load and reduce the range if the forearm or elbow cannot stay comfortable.'
-  ],'https://static.wixstatic.com/media/856ae2_682eaa451ac54c46a5087a818bcdce2d~mv2.webp'),
-  '0193':reviewed('0193','cable one arm straight back high row (kneeling)','cable',145102,'d0c325ba34e98a9ae343679d2988c8fbd0b92627c7d8af1c2feccc1a785245de','Tall kneeling; arm reaches high','Row elbow straight back',[
-    'Kneel tall facing a high cable with one arm reaching forward and your ribs stacked over your hips.',
-    'Row the elbow straight back beside your ribs while keeping your shoulders and pelvis square.',
-    'Avoid leaning backward, shrugging or rotating your torso to shorten the cable path.',
-    'Use a light load and a half-kneeling stance if tall kneeling does not feel stable.'
-  ],'https://static.wixstatic.com/media/856ae2_61c6b4551c6744838fab07bbf9592e5d~mv2.webp'),
-  '1723':reviewed('1723','cable one arm tricep pushdown','cable',180658,'398e8b20bb2831a8bc20c89f91f9dad5f5567ebc26e976ceba4aa3f09def3673','Elbow bent beside ribs','Straighten arm downward',[
-    'Stand beside the high cable with the working elbow close to your ribs and the handle near your chest.',
-    'Straighten the elbow to press the handle down while keeping the upper arm and shoulder still.',
-    'Avoid leaning over the handle, letting the elbow drift forward or snapping into lockout.',
-    'Use a light load, neutral wrist and comfortable range; train both arms evenly.'
-  ],'https://static.wixstatic.com/media/856ae2_6e16d47784654b2dba207a3eb301b781~mv2.webp')
-})
-
-export const APPROVED_CATALOGUE_BATCH18_IDS=Object.freeze(Object.keys(CATALOGUE_ART_BATCH18))
+export const APPROVED_CATALOGUE_BATCH18_IDS = Object.freeze(Object.keys(CATALOGUE_ART_BATCH18))

@@ -221,8 +221,8 @@ test('Batch 17 exact-ID cards have unique URLs, reviewed dimensions and movement
 
 test('Batch 18 exact-ID cards have unique URLs, reviewed dimensions and movement-specific accessible coaching',()=>{
  const entries=Object.entries(CATALOGUE_ART_BATCH18)
- assert.equal(entries.length,25)
- assert.equal(new Set(entries.map(([,a])=>a.url)).size,25)
+ assert.equal(entries.length,23)
+ assert.equal(new Set(entries.map(([,a])=>a.url)).size,23)
  for(const [id,a] of entries){
   assert.equal(a.id,id);assert.equal(movementFor(id),a)
   assert.deepEqual([a.width,a.height],[1200,800]);assert(a.bytes>50000&&a.bytes<500000)
@@ -230,8 +230,10 @@ test('Batch 18 exact-ID cards have unique URLs, reviewed dimensions and movement
   assert.match(a.sha256,/^[0-9a-f]{64}$/)
   assert.equal(a.coaching.length,4);assert(a.coaching.every(x=>x.length>20))
  }
- assert.match(CATALOGUE_ART_BATCH18['2414'].coaching[0],/shoulder-width underhand grip/)
- assert.match(CATALOGUE_ART_BATCH18['0105'].coaching[1],/shallow arc/)
- assert.match(CATALOGUE_ART_BATCH18['3167'].coaching[3],/inspect the towel/)
- assert.match(CATALOGUE_ART_BATCH18['1266'].coaching[0],/stable ball/)
+ assert.match(CATALOGUE_ART_BATCH18['2414'].coaching[0],/both hands/)
+ assert.match(CATALOGUE_ART_BATCH18['0105'].coaching[1],/neck clearance/)
+ assert.match(CATALOGUE_ART_BATCH18['0137'].coaching[1],/both elbows together/)
+ assert.match(CATALOGUE_ART_BATCH18['0191'].coaching[1],/down and inward/)
+ assert.match(CATALOGUE_ART_BATCH18['1635'].coaching[0],/palm down/)
+ for(const id of ['3165','1723']) assert.equal(movementFor(id),null)
 })

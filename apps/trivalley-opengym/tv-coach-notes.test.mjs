@@ -57,7 +57,7 @@ test('Batch 17 provides exact movement coaching while preserving Main 16 members
 test('Batch 18 provides exact movement coaching while preserving Main 16 membership',()=>{
  assert.equal(ESSENTIAL_IDS.length,16)
  for(const [id,a] of Object.entries(CATALOGUE_ART_BATCH18)) assert.deepEqual(coachNotesFor({id}),a.coaching)
- assert.match(coachNotesFor({id:'2414'})[0],/full barbell/)
+ assert.match(coachNotesFor({id:'2414'})[0],/both hands/)
  assert.match(coachNotesFor({id:'0137'})[1],/high plank/)
  assert.equal(coachNotesFor({id:'constructor'}),null)
 })
