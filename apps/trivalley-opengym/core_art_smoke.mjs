@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto'
 import { chromium, webkit } from 'playwright-core'
 
 const root = path.resolve(process.argv[2])
-const heldIds = ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226','1714']
+const repairedIds = ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226','1714']
 const engine = process.env.TV_ENGINE || 'chromium'
 const live = process.env.TV_LIVE_URL
 const format = { '.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
@@ -28,22 +28,36 @@ if (!base) {
 try {
   const release = await (await fetch(base+'tv-release.json')).json()
   const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration'))
-  const held = heldIds
-  assert.equal(staged.length,106)
+  const held = []
+  assert.equal(staged.length,150)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
   assert.equal(ids.size, 63 + staged.length)
-  assert(held.every(id => !ids.has(id)), 'A held card appeared in the release')
+  assert(repairedIds.every(id => ids.has(id)), 'A repaired card is missing from the release')
   const assets = staged.map(x => release.movementIllustrations.find(a => a.id === x.id))
   const src = asset => asset.url || './'+asset.path
   const absolute = asset => new URL(src(asset),base).href
-  await Promise.all(assets.map(async asset => {
+  async function fetchBytes(asset) {
     assert(asset?.id, 'Missing exact-ID asset')
-    const response = await fetch(absolute(asset))
-    assert(response.ok, 'Missing media '+asset.id)
-    const bytes = Buffer.from(await response.arrayBuffer())
-    assert.equal(bytes.length, asset.bytes)
-    assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256)
-  }))
+    let lastError
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const response = await fetch(absolute(asset))
+        assert(response.ok, 'Missing media '+asset.id)
+        return Buffer.from(await response.arrayBuffer())
+      } catch (error) {
+        lastError = error
+        if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 250 * attempt))
+      }
+    }
+    throw lastError
+  }
+  for (let offset = 0; offset < assets.length; offset += 8) {
+    await Promise.all(assets.slice(offset, offset + 8).map(async asset => {
+      const bytes = await fetchBytes(asset)
+      assert.equal(bytes.length, asset.bytes)
+      assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256)
+    }))
+  }
   browser = await (engine === 'webkit' ? webkit : chromium).launch({
     headless:true, ...(process.env.TV_BROWSER_PROXY ? {proxy:{server:process.env.TV_BROWSER_PROXY,bypass:'127.0.0.1,localhost'}} : {}),
     ...(engine === 'chromium' ? {executablePath:process.env.TV_CHROMIUM_BIN || undefined,args:['--no-sandbox']} : {})
@@ -113,7 +127,7 @@ try {
   assert.deepEqual(final.routines,initial.routines)
   assert.deepEqual(errors,[])
   console.log(JSON.stringify({status:'PASS',engine,scope:live?'published site':'candidate build',previewPairs:assets.length,activePairs:last.length,
-    unchangedPriorPairs:144,heldExcluded:held.length,cacheSize,checks:['media bytes and SHA-256','exact ID start/finish','no horizontal overflow at 320/390/430','offline image and log retention','existing routines and history retained'] }))
+    unchangedPriorPairs:169,repairedPairs:repairedIds.length,cacheSize,checks:['media bytes and SHA-256','exact ID start/finish','no horizontal overflow at 320/390/430','offline image and log retention','existing routines and history retained'] }))
 } finally {
   await browser?.close()
   if(server) await new Promise(resolve=>server.close(resolve))
