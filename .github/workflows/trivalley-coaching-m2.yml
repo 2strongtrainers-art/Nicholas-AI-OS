@@ -111,3 +111,43 @@ jobs:
           grep -q 'restore_drill_at' apps/trivalley-coaching-m2/supabase/008_restore_drill_gate.sql
           test -f apps/trivalley-coaching-m2/SECURITY_GATES.md
           echo "M2_STAGING_RELEASE_GATES_PASS"
+
+      - name: Check live coach portal files survive guest PWA releases (read-only)
+        run: |
+          node --input-type=module <<'NODE'
+          const host = 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com';
+          const files = [
+            'coach-login.html', 'coach-client.html', 'coach-login-client.mjs',
+            'coach-client.mjs', 'coach-login-wix.mjs', 'coach-offline-queue.mjs',
+            'coach-offline-backup.mjs', 'tv-release.json'
+          ];
+          const bodies = new Map();
+          for (const file of files) {
+            let last = 'no response';
+            for (let attempt = 1; attempt <= 3; attempt++) {
+              try {
+                const response = await fetch(host + '/' + file, {
+                  cache: 'no-store', signal: AbortSignal.timeout(15000)
+                });
+                const body = await response.text();
+                const isValid = response.status === 200 &&
+                  (file.endsWith('.html') ? /<html[\s>]/i.test(body) :
+                    file.endsWith('.mjs') ? !/<html[\s>]|<!doctype/i.test(body) &&
+                      /\b(import|export|function)\b/.test(body) : body.trim().startsWith('{'));
+                if (isValid) { bodies.set(file, body); break; }
+                last = 'HTTP ' + response.status + ', response validation ' + (isValid ? 'ok' : 'failed');
+              } catch (error) { last = error.name || 'request error'; }
+              if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+            if (!bodies.has(file)) throw Error('Hosted staging asset unavailable: /' + file + ' (' + last + ')');
+          }
+          const release = JSON.parse(bodies.get('tv-release.json'));
+          if (release.product !== 'TriValley FIT' ||
+              release.storage !== 'browser-local; no client cloud sync' ||
+              release.backend !== 'disabled' || !release.version ||
+              !release.sourceCommit || !release.mainScript) {
+            throw Error('Guest-app release identity or disabled-sync invariant changed');
+          }
+          console.log('M2_HOSTED_COACH_ASSETS_PASS: 7 coaching files retained, guest ' +
+            release.version + ', source ' + release.sourceCommit);
+          NODE
