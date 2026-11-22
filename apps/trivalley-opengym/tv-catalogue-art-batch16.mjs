@@ -240,31 +240,33 @@ export const CATALOGUE_ART_BATCH16 = Object.freeze({
       "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"
     }
   },
+  // Reconciled with the pinned 0155 animation: high-to-low crossover.
+  // Generic chest-height prose conflicts with that visual; retain the live, reviewed asset.
   "0155": {
     "id": "0155",
     "name": "cable cross-over variation",
     "width": 1200,
     "height": 800,
-    "sha256": "9646771ec87768411ad20f91081943e7b269dff9da0c96c0a68b18dd193d9a7c",
-    "bytes": 146216,
+    "sha256": "e266286681b30b0b3f699a8e8b7d098da3f30c2b0881afecb1d3d187d7eb40c3",
+    "bytes": 155792,
     "equipment": "cable",
     "style": "Nick Style 3 + approved primary likeness and avatar",
-    "leftLabel": "Chest-height pulleys; arms open",
-    "rightLabel": "Meet hands in front of chest",
+    "leftLabel": "Arms open; elbows soft",
+    "rightLabel": "Sweep hands down together",
     "coaching": [
-      "Use two chest-height handles in a stable split stance with a soft elbow bend.",
-      "Bring your hands together directly in front of your chest.",
+      "Use two high handles in a stable split stance with a soft elbow bend.",
+      "Sweep your hands down and together in front of your lower torso.",
       "Avoid pumping your elbows or forcing a deep shoulder stretch.",
       "Use a lighter load and a smaller comfortable fly arc."
     ],
     "steps": [
-      "Use two chest-height handles in a stable split stance with a soft elbow bend.",
-      "Bring your hands together directly in front of your chest.",
+      "Use two high handles in a stable split stance with a soft elbow bend.",
+      "Sweep your hands down and together in front of your lower torso.",
       "Avoid pumping your elbows or forcing a deep shoulder stretch.",
       "Use a lighter load and a smaller comfortable fly arc."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_1d5e662e539843118f0793b85c50c648~mv2.webp",
-    "alt": "AI-generated Nick Kaplan likeness in cable cross-over variation. Start: Chest-height pulleys with arms open. Finish: Hands meet in front of chest.",
+    "url": "https://static.wixstatic.com/media/856ae2_5a99c8a80eab493faf016e6f41f2bf1b~mv2.webp",
+    "alt": "AI-generated Nick Kaplan likeness in cable cross-over variation. Start: Arms open; elbows soft. Finish: Sweep hands down together.",
     "review": {
       "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; corrected cards replaced before release; independent qualified movement review is unverified"

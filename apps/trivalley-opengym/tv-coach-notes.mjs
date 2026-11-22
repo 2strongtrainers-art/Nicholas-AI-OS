@@ -1,4 +1,5 @@
 import { CATALOGUE_ART_BATCH16 } from './tv-catalogue-art-batch16.mjs'
+import { CATALOGUE_ART_BATCH17 } from './tv-catalogue-art-batch17.mjs'
 
 // Original plain-language notes for the exact sixteen illustrated split movements.
 // These are general education, not personal assessment or a recorded demonstration.
@@ -21,7 +22,7 @@ export const COACH_NOTES = {
   '0605': ['Set the shoulder pads to your height, put the balls of your feet on the platform and keep knees softly extended.', 'Raise your heels, pause briefly, then lower under control.', 'Keep the movement at your ankles; avoid bouncing or bending your knees to drive the load.', 'Lower the load and hold the machine handles for balance.']
 }
 export const ESSENTIAL_IDS = Object.freeze(Object.keys(COACH_NOTES))
-export const coachNotesFor = ex => !ex ? null : Object.hasOwn(COACH_NOTES, ex.id) ? COACH_NOTES[ex.id] : Object.hasOwn(CATALOGUE_ART_BATCH16, ex.id) ? CATALOGUE_ART_BATCH16[ex.id].coaching : null
+export const coachNotesFor = ex => !ex ? null : Object.hasOwn(COACH_NOTES, ex.id) ? COACH_NOTES[ex.id] : Object.hasOwn(CATALOGUE_ART_BATCH16, ex.id) ? CATALOGUE_ART_BATCH16[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH17, ex.id) ? CATALOGUE_ART_BATCH17[ex.id].coaching : null
 export function normalizeExerciseNames(exercises) {
   for (const ex of exercises) if (typeof ex.n === 'string') ex.n = ex.n.replaceAll('45в°', '45°')
 }
