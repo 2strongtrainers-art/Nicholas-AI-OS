@@ -199,7 +199,7 @@ jobs:
           for public_name, (source, expected_blob) in expected.items():
               source_path = root / source
               data = source_path.read_bytes()
-              blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\\x00' + data).hexdigest()
+              blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + bytes([0]) + data).hexdigest()
               assert blob == expected_blob, f'Unexpected coach source blob: {public_name}'
               assert len(data) > 500, f'Empty coach module: {public_name}'
               target = dist / public_name
