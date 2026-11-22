@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch18-20261122",
-    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_CORRECTIVE_HOSTED_ACCEPTANCE",
+    "status": "BLOCKED_PUBLISHER_CONFLICT_AFTER_CORRECTIVE_PUBLICATION",
     "exactIds": [
       "1265",
       "1266",
@@ -92,6 +92,41 @@
       "liveControl": "f364f054c2fd864c1107a64f8dbb05418a34ab96",
       "status": "PUBLISHED_CANDIDATE_NOT_CREATIVELY_ACCEPTED",
       "reason": "3165 towel length changes; 1723 cable connects to resting hand; 0137 and 0191 generic coaching conflicts with exact source demonstration."
+    },
+    "hostedAcceptance": {
+      "run": 45074110486,
+      "attempt": 2,
+      "result": "PASS_ALL_FOUR_JOBS",
+      "source": "f46bfd5f649cde7782bcdfac3eb93a0253aece1d"
+    },
+    "correctivePublication": {
+      "version": "5.38.1",
+      "source": "f46bfd5f649cde7782bcdfac3eb93a0253aece1d",
+      "artifactId": 14774492340,
+      "artifactBytes": 3788163,
+      "artifactSha256": "9b21e01aaa1c5278c4e9c1a56627e0fbcfd6eac2489b61f5691d24df34908e21",
+      "wixRevision": "197b79435c741a3c73899181698b0c1d87fff939",
+      "readback": "PASS_ALL_70_FILES_AND_SHARED_SEVEN",
+      "liveVerified": false,
+      "liveRuns": [
+        45074926034,
+        45075114809,
+        45075428012
+      ],
+      "liveStatus": "NOT_ACCEPTED; earlier failures and release displaced during final acceptance"
+    },
+    "publisherConflict": {
+      "observedAt": "2026-11-22T22:04:30.837Z",
+      "source": "66cbf32dbdbe062bac58b1a268417cb7679a15f2",
+      "wixRevision": "fa5f4a891719e5fd03f8d6af9b3cd3fd22272a2d",
+      "candidateIllustrated": 513,
+      "verifiedBaseline": 488,
+      "reason": "Another run replaced the corrective 23-card release during live acceptance. Its second corrected3165 still changes towel length and remains creatively rejected. Do not count513 or publish competing artifacts.",
+      "nextAction": "Reconcile one publisher; keep accepted23 and all488 prior records, independently re-review held alternatives before release."
+    },
+    "pendingAlternate1723": {
+      "source": "66cbf32dbdbe062bac58b1a268417cb7679a15f2",
+      "status": "EXISTS_NOT_INCLUDED_IN_ACCEPTED23_RELEASE; preserve for future independent review; do not regenerate blindly"
     }
   },
   "entries": [
@@ -108,7 +143,7 @@
     },
     {
       "id": "0002",
-      "name": "45\u00b0 side bend",
+      "name": "45° side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -8537,13 +8572,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45\u0432\u00b0 calf press",
+      "name": "sled 45в° calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45\u0432\u00b0 leg press",
+      "name": "sled 45в° leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -8555,19 +8590,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45\u0432\u00b0 leg press (back pov)",
+      "name": "sled 45в° leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45\u00b0 leg press (side pov)",
+      "name": "sled 45° leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45\u0432\u00b0 leg wide press",
+      "name": "sled 45в° leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10315,7 +10350,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
