@@ -393,6 +393,90 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1270": {
+    "id": "1270",
+    "name": "cable upper chest crossovers",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 193722,
+    "sha256": "472f390108f4aca2c388518fcd87ecff4f8533785cc574ae2ad024f71b120f0e",
+    "leftLabel": "Handles low; arms open",
+    "rightLabel": "Sweep up and across upper chest",
+    "alt": "AI-generated Nick Kaplan likeness in cable upper chest crossovers. Start: Handles low; arms open. Finish: Sweep up and across upper chest.",
+    "steps": [
+      "Keep a soft elbow bend and avoid shrugging as the hands cross."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_ee6006fa2f4f4680a0cae40589675737~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1271": {
+    "id": "1271",
+    "name": "chest and front of shoulder stretch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 166972,
+    "sha256": "56dfaed7abab7b8e079b75e85ca53e0cd98ed6bfaf55878b91f468bad62095a7",
+    "leftLabel": "Hands linked behind body",
+    "rightLabel": "Lift hands gently away",
+    "alt": "AI-generated Nick Kaplan likeness in chest and front of shoulder stretch. Start: Hands linked behind body. Finish: Lift hands gently away.",
+    "steps": [
+      "Stay tall and stop before the shoulders tip forward or pinch."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5c76a80e90a14cdaa64714eef5f2c200~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1272": {
+    "id": "1272",
+    "name": "chest stretch with exercise ball",
+    "equipment": "stability ball",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 191814,
+    "sha256": "865845557ec43ae03c417b82496d3d10999694d2ed8d3e32bb85120719f5f7cb",
+    "leftLabel": "Kneel beside ball; arm supported",
+    "rightLabel": "Rotate chest gently away",
+    "alt": "AI-generated Nick Kaplan likeness in chest stretch with exercise ball. Start: Kneel beside ball; arm supported. Finish: Rotate chest gently away.",
+    "steps": [
+      "Keep the shoulder relaxed and use a pain-free range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_e50516869e9d4149856089e3edb302d0~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1273": {
+    "id": "1273",
+    "name": "clap push up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 161696,
+    "sha256": "873a773815eaf1f8ee217644051e2e1ba526783e3ae828c2efd3f31174993659",
+    "leftLabel": "Rigid plank; chest lowered",
+    "rightLabel": "Explode up and clap",
+    "alt": "AI-generated Nick Kaplan likeness in clap push up. Start: Rigid plank; chest lowered. Finish: Explode up and clap.",
+    "steps": [
+      "Land with soft elbows and reset the plank before the next rep."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_2729f0ff1cff450abea92ee7e865af1c~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1314": {
     "id": "1314",
     "name": "back extension on exercise ball",
@@ -410,6 +494,90 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_a61a419ebe6c45c78eaca4a87aea0a6f~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1324": {
+    "id": "1324",
+    "name": "cable upper row",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 204524,
+    "sha256": "fcb7659e47c86a8be5f5a090b016d5132e01f5fb5893c6d3f3b8b80cf40272f8",
+    "leftLabel": "Arms long at upper-chest height",
+    "rightLabel": "Row elbows back and wide",
+    "alt": "AI-generated Nick Kaplan likeness in cable upper row. Start: Arms long at upper-chest height. Finish: Row elbows back and wide.",
+    "steps": [
+      "Keep the ribs down and squeeze the shoulder blades without leaning."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_16030aa228024f42b34c5a3a2f325b7c~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1325": {
+    "id": "1325",
+    "name": "cable wide grip rear pulldown behind neck",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 181126,
+    "sha256": "4944861eaebf3f5740b4f576acf7b7b882e23c458affd269ef5b4e944c69d1c9",
+    "leftLabel": "Wide grip overhead",
+    "rightLabel": "Pull only to upper-trap level",
+    "alt": "AI-generated Nick Kaplan likeness in cable wide grip rear pulldown behind neck. Start: Wide grip overhead. Finish: Pull only to upper-trap level.",
+    "steps": [
+      "Use a light load and stop if the shoulders cannot stay comfortable."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c38fed2eb2e24df5aef240664c72037d~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1326": {
+    "id": "1326",
+    "name": "chin-up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 166836,
+    "sha256": "1a8fa9545ce36fc6b8843c56f1f85d435196d5024158e24c0ffe8cf641da05cd",
+    "leftLabel": "Underhand shoulder-width grip",
+    "rightLabel": "Pull chin clearly above bar",
+    "alt": "AI-generated Nick Kaplan likeness in chin-up. Start: Underhand shoulder-width grip. Finish: Pull chin clearly above bar.",
+    "steps": [
+      "Drive elbows down and lower without swinging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_45cd424b02844adb9d8b9535c00cb33f~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1327": {
+    "id": "1327",
+    "name": "close grip chin-up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 173642,
+    "sha256": "ae8c4ac55168f8291dba8f592fd2782d76377ae44c9b12b2cda5d6e4ae68810e",
+    "leftLabel": "Close underhand grip; full hang",
+    "rightLabel": "Pull with elbows tucked",
+    "alt": "AI-generated Nick Kaplan likeness in close grip chin-up. Start: Close underhand grip; full hang. Finish: Pull with elbows tucked.",
+    "steps": [
+      "Keep the legs quiet and control the return to full extension."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_392ae10abea4463e992d29b38b23dd6a~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -454,6 +622,48 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1377": {
+    "id": "1377",
+    "name": "calf stretch with hands against wall",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 232778,
+    "sha256": "e05457e5bc5b94933b6a31389e97e60e53af9c5643dbc68fc490eee346b0dcf1",
+    "leftLabel": "Back heel down; knee straight",
+    "rightLabel": "Lean body toward wall",
+    "alt": "AI-generated Nick Kaplan likeness in calf stretch with hands against wall. Start: Back heel down; knee straight. Finish: Lean body toward wall.",
+    "steps": [
+      "Keep the back foot pointed forward and do not bounce."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_b88c724361f2458c8bf27b56d4727eeb~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1378": {
+    "id": "1378",
+    "name": "calf stretch with rope",
+    "equipment": "rope",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 169708,
+    "sha256": "a5416f72b271cc5f64a44ca3c305744affc47936c95b461ff8774904f0de7b3d",
+    "leftLabel": "Leg long; rope around forefoot",
+    "rightLabel": "Pull toes gently toward shin",
+    "alt": "AI-generated Nick Kaplan likeness in calf stretch with rope. Start: Leg long; rope around forefoot. Finish: Pull toes gently toward shin.",
+    "steps": [
+      "Keep the knee straight and the ankle relaxed."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c26a72f1e3c34982a78864f3da297cdd~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1405": {
     "id": "1405",
     "name": "back pec stretch",
@@ -471,6 +681,27 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_0d07f5a8c9b74bc285afb69f7acf091c~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1407": {
+    "id": "1407",
+    "name": "calf push stretch with hands against wall",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 201482,
+    "sha256": "f25459b6746fe88ed904cada82e79f48014ddf05f26774c0c242201a6ce00514",
+    "leftLabel": "Split stance; hands on wall",
+    "rightLabel": "Push heel down as body leans",
+    "alt": "AI-generated Nick Kaplan likeness in calf push stretch with hands against wall. Start: Split stance; hands on wall. Finish: Push heel down as body leans.",
+    "steps": [
+      "Keep the rear knee straight and pressure even through the heel."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_dc1534465f7447f6b7144bf109057c6a~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -511,6 +742,27 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_ecd78eee05084adc8fed9be374b11712~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1430": {
+    "id": "1430",
+    "name": "chest dip (on dip-pull-up cage)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 170906,
+    "sha256": "0b312853847c1fc79eb103f5a57b8bef18c8aa74340af9eea3fe931b844cbc65",
+    "leftLabel": "Supported on cage handles",
+    "rightLabel": "Lower chest between bars",
+    "alt": "AI-generated Nick Kaplan likeness in chest dip (on dip-pull-up cage). Start: Supported on cage handles. Finish: Lower chest between bars.",
+    "steps": [
+      "Keep shoulders away from ears and press smoothly to lockout."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7738c9b4f5804f65a0cb4dd43dad2747~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -653,6 +905,27 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_8d6646d8c82d4480a691eda2102a75db~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1548": {
+    "id": "1548",
+    "name": "chair leg extended stretch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 193872,
+    "sha256": "64510929f90fae1865fa26a256ed66ec61d5fb20e29907a2069582e96b5cdc64",
+    "leftLabel": "One heel forward; knee straight",
+    "rightLabel": "Hinge from hips toward foot",
+    "alt": "AI-generated Nick Kaplan likeness in chair leg extended stretch. Start: One heel forward; knee straight. Finish: Hinge from hips toward foot.",
+    "steps": [
+      "Keep the spine long and stop at a gentle hamstring stretch."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_81fe23b3d3ff41c999f0febceaeef894~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -1062,6 +1335,27 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "2398": {
+    "id": "2398",
+    "name": "close-grip push-up (on knees)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 173538,
+    "sha256": "7cec4622f0cd410cdfa4cbfa6aa114a78ad0c074eee52480844972aac28d3c8c",
+    "leftLabel": "Knees down; hands close",
+    "rightLabel": "Lower chest with elbows tucked",
+    "alt": "AI-generated Nick Kaplan likeness in close-grip push-up (on knees). Start: Knees down; hands close. Finish: Lower chest with elbows tucked.",
+    "steps": [
+      "Maintain a straight line from knees through shoulders."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_42949421c13d4b11a59dd3dc293f399b~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "2405": {
     "id": "2405",
     "name": "cable triceps pushdown (v-bar) (with arm blaster)",
@@ -1103,6 +1397,27 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "2462": {
+    "id": "2462",
+    "name": "chest dip on straight bar",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 160816,
+    "sha256": "1b3eb093e200ef686d555261a1b8b7956dda696db6e47965997e9ea648ae0b51",
+    "leftLabel": "Support above one straight bar",
+    "rightLabel": "Lower chest toward bar",
+    "alt": "AI-generated Nick Kaplan likeness in chest dip on straight bar. Start: Support above one straight bar. Finish: Lower chest toward bar.",
+    "steps": [
+      "Keep the bar close and press back up without losing shoulder control."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_8d771ce86038405ab1fff58fe9320906~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "2464": {
     "id": "2464",
     "name": "cable thibaudeau kayak row",
@@ -1140,6 +1455,27 @@ export const CATALOGUE_ART_CORE = {
       "Keep hips elevated and level while the knee crosses inward; use a smaller range if the pelvis drops."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_9cb4d5bd3d424827a22e935bcb27ca59~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "2963": {
+    "id": "2963",
+    "name": "captains chair straight leg raise",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 177634,
+    "sha256": "15ff7fb8bcc9a7712cd20632b20bbac2a73e8b9e9ddcd644efbf047f32c563cb",
+    "leftLabel": "Back supported; legs hanging straight",
+    "rightLabel": "Raise straight legs to hip height",
+    "alt": "AI-generated Nick Kaplan likeness in captains chair straight leg raise. Start: Back supported; legs hanging straight. Finish: Raise straight legs to hip height.",
+    "steps": [
+      "Keep knees extended and lower without swinging or arching."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_c9a2304667c64c46b0533f2b5af3f367~mv2.webp",
     "review": {
       "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
@@ -1223,6 +1559,27 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_742ec96846f44152aee591f7fe014ee1~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "3216": {
+    "id": "3216",
+    "name": "chest tap push-up (male)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 233428,
+    "sha256": "6db9e2d439e1237697255bccc6a72c2b94f43fac6e0f50e00686d74ca6d39c73",
+    "leftLabel": "Strong high plank",
+    "rightLabel": "Tap chest between controlled reps",
+    "alt": "AI-generated Nick Kaplan likeness in chest tap push-up (male). Start: Strong high plank. Finish: Tap chest between controlled reps.",
+    "steps": [
+      "Keep hips square and reset both hands before lowering again."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_37218c91a8ce48a2b7d7d122720b856e~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -2735,15 +3092,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved primary likeness",
-    "bytes": 155394,
-    "sha256": "c4f05a98d9d0cd53b7ca45df78110d4e84c65eb02fb453916fa77e6d75a1dcaf",
-    "leftLabel": "Cable high; brace upright",
+    "bytes": 196698,
+    "sha256": "ba3458a989d8ab967d22fbfc552494a7493bac139c8ab955bae2d67368a72752",
+    "leftLabel": "Stand tall; handle behind head",
     "rightLabel": "Curl ribs toward pelvis",
-    "alt": "AI-generated Nick Kaplan likeness in cable standing crunch. Start: Cable high; brace upright. Finish: Curl ribs toward pelvis.",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing crunch. Start: Stand tall; handle behind head. Finish: Curl ribs toward pelvis.",
     "steps": [
-      "Keep the hips stacked and the rope beside the temples; curl through the trunk without squatting or pulling with the arms."
+      "Brace the hips and bend through the trunk without pulling on the neck."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_f78ee647bffc428685ef4446535fd28c~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_b891699c47bb4ef1a5e919282f6d3e32~mv2.webp",
     "review": {
       "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
@@ -3563,6 +3920,174 @@ export const CATALOGUE_ART_CORE = {
       "Drive the elbows down while keeping only a slight, steady backward lean."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_7b94b487e76242ca9ac1d95984577a4e~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0246": {
+    "id": "0246",
+    "name": "cable upright row",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 184142,
+    "sha256": "c41a74a9a104ecae3f4bdb6a897176d420a11e566b378d260b570576524ec3b3",
+    "leftLabel": "Bar at thighs; elbows soft",
+    "rightLabel": "Lead elbows toward shoulder height",
+    "alt": "AI-generated Nick Kaplan likeness in cable upright row. Start: Bar at thighs; elbows soft. Finish: Lead elbows toward shoulder height.",
+    "steps": [
+      "Keep the bar close and stop before the shoulders roll forward."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d6c081b7f6764e68a35ac2690895ff3f~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0247": {
+    "id": "0247",
+    "name": "cable wrist curl",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 193072,
+    "sha256": "49ad59c509bf8319098aaffd2406c8b831f83dc8ac3115aeac11536788a062c3",
+    "leftLabel": "Forearms supported; palms up",
+    "rightLabel": "Curl knuckles toward forearms",
+    "alt": "AI-generated Nick Kaplan likeness in cable wrist curl. Start: Forearms supported; palms up. Finish: Curl knuckles toward forearms.",
+    "steps": [
+      "Keep the forearms planted and move only through the wrists."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_61bbb151d3ec40a29d42156eb7212756~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0248": {
+    "id": "0248",
+    "name": "cambered bar lying row",
+    "equipment": "barbell",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 237202,
+    "sha256": "8b734be9c4c06bb4a0dfd3e357766483778cc5940b6ee8c1a3e138bbf1bb6ffe",
+    "leftLabel": "Chest supported; arms long",
+    "rightLabel": "Row bar toward lower chest",
+    "alt": "AI-generated Nick Kaplan likeness in cambered bar lying row. Start: Chest supported; arms long. Finish: Row bar toward lower chest.",
+    "steps": [
+      "Keep the chest on the bench and pull the shoulder blades together."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_9151028a9a7149f1ad31e70751c1f2f6~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0251": {
+    "id": "0251",
+    "name": "chest dip",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 185850,
+    "sha256": "ac9cac1be6e56c087b122e28d6cc9a0c0134d7f131d2ffa0813146161e1b3643",
+    "leftLabel": "Support tall on parallel bars",
+    "rightLabel": "Lean and lower under control",
+    "alt": "AI-generated Nick Kaplan likeness in chest dip. Start: Support tall on parallel bars. Finish: Lean and lower under control.",
+    "steps": [
+      "Keep shoulders down and press the bars away without bouncing."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_8595db5732f74c4bb54d290d8228e32b~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0253": {
+    "id": "0253",
+    "name": "chin-ups (narrow parallel grip)",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 217722,
+    "sha256": "6bd4ca23357d2e8df100c1c74f1ef08e90b4f1153977604bff3b20133450a0c0",
+    "leftLabel": "Narrow neutral grip; full hang",
+    "rightLabel": "Pull chest between handles",
+    "alt": "AI-generated Nick Kaplan likeness in chin-ups (narrow parallel grip). Start: Narrow neutral grip; full hang. Finish: Pull chest between handles.",
+    "steps": [
+      "Keep palms facing each other and lower to a controlled full hang."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_6c3515e19583445e9ea1e3efba3d9d32~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0257": {
+    "id": "0257",
+    "name": "circles knee stretch",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 170494,
+    "sha256": "334203bf245ba68f43496978ef3244cccac64d27edfc1f2e1975f948e9a794a6",
+    "leftLabel": "Feet together; knees softly bent",
+    "rightLabel": "Circle knees with heels grounded",
+    "alt": "AI-generated Nick Kaplan likeness in circles knee stretch. Start: Feet together; knees softly bent. Finish: Circle knees with heels grounded.",
+    "steps": [
+      "Make small controlled circles and reverse direction without forcing range."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7f571c45d10e4ce489915b4c9ab27c30~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0258": {
+    "id": "0258",
+    "name": "clock push-up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 214776,
+    "sha256": "23a961398bfeea16f305575c6ff45266e87a956e029be898d5dadc05c3cda6f9",
+    "leftLabel": "Strong plank at center",
+    "rightLabel": "Step hands around the clock",
+    "alt": "AI-generated Nick Kaplan likeness in clock push-up. Start: Strong plank at center. Finish: Step hands around the clock.",
+    "steps": [
+      "Keep the trunk rigid while repositioning the hands between push-ups."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_6c83dcc9772544a6b2328844f5ec7783~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0259": {
+    "id": "0259",
+    "name": "close-grip push-up",
+    "equipment": "body weight",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 189892,
+    "sha256": "004df2995911ec72952e352fa7267e585570b690e63de45f624facff7681a127",
+    "leftLabel": "Hands close; body straight",
+    "rightLabel": "Lower with elbows tucked",
+    "alt": "AI-generated Nick Kaplan likeness in close-grip push-up. Start: Hands close; body straight. Finish: Lower with elbows tucked.",
+    "steps": [
+      "Press through the palms while keeping ribs and hips stacked."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_79521ea055cf437e95345e34a7a7ee23~mv2.webp",
     "review": {
       "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"

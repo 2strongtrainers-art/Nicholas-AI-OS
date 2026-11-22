@@ -29,7 +29,7 @@ try {
   const release = await (await fetch(base+'tv-release.json')).json()
   const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration'))
   const held = []
-  assert.equal(staged.length,175)
+  assert.equal(staged.length,200)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
   assert.equal(ids.size, 63 + staged.length)
   assert(repairedIds.every(id => ids.has(id)), 'A repaired card is missing from the release')

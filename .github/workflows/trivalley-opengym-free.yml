@@ -7,6 +7,7 @@ on:
       - feat/trivalley-opengym-art-b5-20261121
       - feat/trivalley-opengym-art-b6-20261121
       - feat/trivalley-opengym-art-b7-20261121
+      - feat/trivalley-opengym-art-b8-20261121
     paths:
       - 'apps/trivalley-opengym/**'
       - '.github/workflows/trivalley-opengym-free.yml'

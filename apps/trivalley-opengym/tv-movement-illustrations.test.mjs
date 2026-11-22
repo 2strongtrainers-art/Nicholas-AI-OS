@@ -108,12 +108,12 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
 })
 
 
-test('Core artwork maps only the 175 reviewed IDs to verified derivative assets',()=>{
+test('Core artwork maps only the 200 reviewed IDs to verified derivative assets',()=>{
  const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
  const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
  const assets=Object.values(CATALOGUE_ART_CORE)
- assert.equal(assets.length,175)
- assert.equal(new Set(assets.map(asset=>asset.url)).size,175)
+ assert.equal(assets.length,200)
+ assert.equal(new Set(assets.map(asset=>asset.url)).size,200)
  for(const asset of assets){
   assert.equal(movementFor(asset.id),asset)
   assert.equal(catalogue.get(asset.id).n,asset.name)
@@ -126,7 +126,8 @@ test('Core artwork maps only the 175 reviewed IDs to verified derivative assets'
  const repaired=['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226','1714']
  const newest=['0983','0984','0986','0987','0988','0989','0990','0991','0993','0994','0996','0997','0998','0999','1000','1001','1003','1004','1008','1009','1010','1012','1018','1022','1023']
  const batch7=['0227','0228','0229','0230','0231','1376','0232','0233','1727','0234','0235','0236','1269','0238','0237','0239','0240','2464','0241','2405','0862','0244','1645','1728','0245']
- for(const id of [...repaired,...newest,...batch7]){
+ const batch8=['1270','1324','0246','1325','0247','1407','1377','1378','0248','2963','1548','1271','0251','1430','2462','1272','3216','1326','0253','0257','1273','0258','1327','0259','2398']
+ for(const id of [...repaired,...newest,...batch7,...batch8]){
   const asset=movementFor(id)
   assert.ok(asset);assert.equal(asset.style,'Nick Style 3 + approved primary likeness')
   assert.match(asset.url,/\.webp$/);assert.match(asset.review.identity,/primary likeness/)
@@ -135,6 +136,6 @@ test('Core artwork maps only the 175 reviewed IDs to verified derivative assets'
 
 test('Library copy reports the complete live illustrated coverage',()=>{
  const firstUseInstaller=fs.readFileSync(new URL('./upgrade_first_use.py',import.meta.url),'utf8')
- assert.match(firstUseInstaller,/likeness illustrations are available for 238 exercises/)
+ assert.match(firstUseInstaller,/likeness illustrations are available for 263 exercises/)
  assert.doesNotMatch(firstUseInstaller,/available for 63 exercises/)
 })
