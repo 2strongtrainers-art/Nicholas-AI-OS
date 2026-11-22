@@ -5,6 +5,7 @@ on:
       - feat/trivalley-opengym-free-20261116
       - feat/trivalley-abs-avatar-20261120
       - feat/trivalley-opengym-art-b5-20261121
+      - feat/trivalley-opengym-art-b6-20261121
     paths:
       - 'apps/trivalley-opengym/**'
       - '.github/workflows/trivalley-opengym-free.yml'
