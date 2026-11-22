@@ -1,10 +1,11 @@
 name: TriValley openGym — live Wix browser acceptance
-# Retest after restoring cached-page compatibility assets; source release unchanged.
+# Batch 14 live acceptance: v5.34.0 / 413 illustrated catalogue entries.
 # Exercise detail clicks scroll to a verified reachable target before physical input.
 on:
   push:
     branches:
       - feat/trivalley-opengym-free-20261116
+      - feat/trivalley-opengym-art-b14-20261122
     paths:
       - '.github/workflows/trivalley-opengym-live.yml'
   workflow_dispatch:
