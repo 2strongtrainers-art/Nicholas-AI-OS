@@ -117,7 +117,7 @@ if len(batch13_art) != 25 or set(batch13_art) & (set(catalogue_art) | {a['id'] f
     raise SystemExit('Batch 13 artwork must add 25 distinct queued exercise IDs')
 for ident, asset in batch13_art.items():
     if (asset['id'] != ident
-            or not re.fullmatch(r'https://static\\.wixstatic\\.com/media/[A-Za-z0-9_~.-]+\\.webp', asset['url'])
+            or not re.fullmatch(r'https://static\.wixstatic\.com/media/[A-Za-z0-9_~.-]+\.webp', asset['url'])
             or not re.fullmatch(r'[0-9a-f]{64}', asset['sha256'])
             or asset['width'] != 1200 or asset['height'] != 800 or not 0 < asset['bytes'] < 500000):
         raise SystemExit('Invalid Batch 13 artwork metadata for ' + ident)
