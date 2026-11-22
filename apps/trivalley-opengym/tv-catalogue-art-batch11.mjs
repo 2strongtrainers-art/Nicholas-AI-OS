@@ -1,4 +1,5 @@
 // Generated derivative exercise pairs only. Private reference photographs remain outside the repository.
+// Batch 11 acceptance target: 25 exact-ID START/FINISH pairs.
 const reviewed = (id, name, equipment, bytes, sha256, leftLabel, rightLabel, step, url) => ({
   id, name, equipment, width: 1536, height: 1024,
   style: 'Nick Style 3 + approved primary likeness', bytes, sha256,
