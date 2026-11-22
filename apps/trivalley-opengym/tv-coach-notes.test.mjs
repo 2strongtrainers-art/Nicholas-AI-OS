@@ -4,6 +4,18 @@ import { pathToFileURL } from 'node:url'
 import { resolve } from 'node:path'
 import { COACH_NOTES, ESSENTIAL_IDS, coachNotesFor, normalizeExerciseNames } from './tv-coach-notes.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
+import { CATALOGUE_ART_BATCH16 } from './tv-catalogue-art-batch16.mjs'
+
+test('Batch 16 replaces contradictory generic instructions without expanding the Main 16', () => {
+  assert.equal(ESSENTIAL_IDS.length, 16)
+  for (const [id, asset] of Object.entries(CATALOGUE_ART_BATCH16)) {
+    assert.deepEqual(coachNotesFor({ id }), asset.coaching)
+    assert.equal(asset.coaching.length, 4)
+  }
+  assert.match(coachNotesFor({ id: '3235' })[1], /whole body lowers from the knees/)
+  assert.match(coachNotesFor({ id: '0149' })[1], /overhead/)
+  assert.equal(coachNotesFor({ id: 'constructor' }), null)
+})
 
 test('every split movement has exactly four usable notes and one exact identifier', () => {
   const ids = MUSCLE_SPLIT.days.flatMap(day => day.exercises.map(ex => ex[0]))
