@@ -3,47 +3,47 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 388,
+  "catalogueIllustrated": 413,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch14-20261122",
+    "id": "core-batch15-20261122",
     "status": "REVIEWED_WIX_MEDIA_READY_PENDING_HOSTED_ACCEPTANCE",
     "exactIds": [
-      "0100",
-      "0101",
-      "0102",
-      "0103",
-      "0104",
-      "0106",
-      "0107",
-      "0108",
-      "0109",
-      "0110",
-      "0111",
-      "0112",
-      "0113",
-      "0114",
-      "0115",
-      "0116",
-      "0120",
-      "1372",
-      "1456",
-      "1457",
-      "1629",
-      "2798",
-      "2799",
-      "2810",
-      "3305"
+      "1160",
+      "1258",
+      "1259",
+      "1374",
+      "1399",
+      "1494",
+      "1771",
+      "3212",
+      "3360",
+      "3543",
+      "0119",
+      "0121",
+      "0122",
+      "0124",
+      "0123",
+      "0126",
+      "0125",
+      "0127",
+      "0128",
+      "0129",
+      "0130",
+      "0139",
+      "0140",
+      "0148",
+      "0151"
     ],
     "newCatalogueEntries": 25,
-    "initialDraftsGenerated": 27,
+    "initialDraftsGenerated": 29,
     "liveFromThisBatch": 0,
-    "priorCatalogueIllustrated": 388,
-    "targetCatalogueIllustrated": 413,
+    "priorCatalogueIllustrated": 413,
+    "targetCatalogueIllustrated": 438,
     "appVersion": null,
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Twenty-five final cards passed full-resolution operator review. Nonstandard one-hand barbell concentration curl 2414 and two failed Bradford-press drafts were excluded; 3305 and 0120 replaced them. Corrected 0104 rear-bar geometry and 0110 pronated grip before upload. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified."
+    "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified."
   },
   "entries": [
     {
@@ -1711,97 +1711,177 @@
       "id": "0119",
       "name": "barbell upright row v. 2",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "ef9a6b8bf8297c95a9e8eb4bab9c9886f6a0cda3c7ef7b2f7e286f6011fbca29",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0121",
       "name": "barbell upright row v. 3",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "ee00d3a4644ff3660b3ed618f43e3d666796fe110980c4839972745ff9cd933b",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0122",
       "name": "barbell wide bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "d94d5a93f535b2b2b50bd6373d6f7136352b7be0ed7371a967d91c6b1669ff01",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "1258",
       "name": "barbell wide reverse grip bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "94b0b65a341d6d367ebb32d5caf90ad5a6382800bb2fca330d7ecc2640db6cea",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0124",
       "name": "barbell wide squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "4104afee60ebe1ff0a6bcbe8149edc854aa9656171b29c1011e035a40a6eb108",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0123",
       "name": "barbell wide-grip upright row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "758ff8557a61310fde943b5d233d0dd6949e68b983d749005aadfdd134bfd8c4",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0126",
       "name": "barbell wrist curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "2dde038066cd09dea41aa7d3fb98cea3996622982363d87b19daaa1b2dd514a3",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0125",
       "name": "barbell wrist curl v. 2",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "88f1cfb67c5e9ee83cb5e2a6a793030bb885c965f8bc307a92a6bbb78a2cb25e",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0127",
       "name": "barbell zercher squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "4e7503430896fa1ba5398437f125ae8dca009b8203231d53090d2a7839250d53",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "3212",
       "name": "basic toe touch (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "de34bd1f33bb01886a03af03cc0934b0194d6ebf1e1948216ee21e7c962717e1",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0128",
       "name": "battling ropes",
       "equipment": "rope",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "c1b2c7964c596cf35fb04e649fa9be11c0c662ccfa38a8262b3ad04264d17607",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "3360",
       "name": "bear crawl",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "cbd30013d8cfec3dc3a2fc414afd0470f4e133b8c0cc49dba582a24df8c47e9d",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "1259",
       "name": "behind head chest stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "e34c28c4f985780df92b47c7a000ecaa8fa3c28414b908ff970c20057346aca6",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0129",
       "name": "bench dip (knees bent)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "a472db7f4960e27ffd083657701def7d5487d9c1f4f27aba60ed2b5047ca782b",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "1399",
       "name": "bench dip on floor",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "36343f5db333214aafcc9594cbf0256ae0451c3b74045a3cda1ce833018c2c13",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0130",
       "name": "bench hip extension",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "2fc1c387bd15e58f339ebd1da9a1dc7b02353152c61d48eb9283d959761e8c5a",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "3019",
@@ -1830,13 +1910,23 @@
       "id": "0139",
       "name": "biceps narrow pull-ups",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "4a2eadc8da6d4eccddb911cfe83d6399fcde647e40b199204e2c71c979ee7718",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0140",
       "name": "biceps pull-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "70bbe115469b2228e431ecb4034abdde5b624416393a840d6185f9ac8bb87e45",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0137",
@@ -1848,7 +1938,12 @@
       "id": "3543",
       "name": "bodyweight drop jump squat",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "bebf28c5c9719c9cac871f94335cc70cf4282e8229694ff6da1c3b6af2d91ece",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "3544",
@@ -1863,7 +1958,12 @@
       "id": "1771",
       "name": "bodyweight kneeling triceps extension",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "1fc62123dbc569eed7bcdaddf6a2e723a8aa012859313ed7b2d9d2807d29e582",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "1769",
@@ -1943,7 +2043,12 @@
       "id": "1374",
       "name": "box jump down with one leg stabilization",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "55751bffb61a524963de64c998853c81101c1a34f9e946cd0f4310d59b160909",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "2466",
@@ -1958,7 +2063,12 @@
       "id": "1160",
       "name": "burpee",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "ad018c232a89277700fb46f36d4934d359cd12f7114464918367d562c9310b75",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0870",
@@ -1973,13 +2083,23 @@
       "id": "1494",
       "name": "butterfly yoga pose",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "9f3caa7e3b9dbc4d5a66d0164cdb8a38ea94a01d8244f1fce3f442950dc27ea7",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0148",
       "name": "cable alternate shoulder press",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "ab6060b9611767a4d5544be86976b6dddef12d50b1de7ef9b95bea40c431d94f",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "0149",
@@ -2003,7 +2123,12 @@
       "id": "0151",
       "name": "cable bench press",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed_media_ready",
+      "batch": "core-batch15-20261122",
+      "assetSha256": "6f66ab69095fcb4e01e996ccba5f20cae1f46e282a67f2d2db455dbad9c6c936",
+      "appVersion": null,
+      "reviewScope": "Operator full-resolution and contact-sheet review; targeted mechanics corrections replaced before upload. Qualified human biomechanics and physical iPhone review unverified.",
+      "deployed": false
     },
     {
       "id": "1630",
@@ -9250,276 +9375,276 @@
       "id": "0100",
       "name": "barbell skier",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "0fed17e16ec9f52fe342518d56e5f568e0de264bc321493d703618474b108715",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0101",
       "name": "barbell speed squat",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "701be03131a076c06b1f23c865bf6c25bf3b8cbd1527fc5e2af7bbc84740f3ad",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0102",
       "name": "barbell squat (on knees)",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "34ad18cf07a31f4974fc8cdac093f5b1ad9be53081691ad4261157f7ed46d476",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0103",
       "name": "barbell standing ab rollerout",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "430567483a63694be39e66a4d5ce4398df11ed8c1974b9cf00293a934ac18454",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0104",
       "name": "barbell standing back wrist curl",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "fd5617309b3f161baf3fd89596fc9cf67130f95b463969c18e2b3e5c916dfe47",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0106",
       "name": "barbell standing close grip curl",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "5bff47b55c8c2d4569f3531931e8f52d90449b49ad94ad3803d23ac3f7a8f525",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0107",
       "name": "barbell standing front raise over head",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "7fe5f833285d8a6e28038bb4292a1aff947504695700ddeace5b5141da9b4544",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0108",
       "name": "barbell standing leg calf raise",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "265f0d93701393eb1a93fcd74d2201754c45fb8198a857bf4c4b5d8aab0e41fb",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0109",
       "name": "barbell standing overhead triceps extension",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "ff4b55c55aad1a0fd8d840af36dc5d00c034e7456245e5b9a04de5fdb4c773d3",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0110",
       "name": "barbell standing reverse grip curl",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "14c53fe4836c0d6c285f364ce54615a12f5b1594a671c37215cfebf2727504f5",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0111",
       "name": "barbell standing rocking leg calf raise",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "b745b3a779eb078009c55993f9e7d44b10a3aec650a537f2bf3e6a8befa6c224",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0112",
       "name": "barbell standing twist",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "48fd8e1a9cdf70171c9f371df29bef2c8c0b48d3f91f78eda1626f57d6aff893",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0113",
       "name": "barbell standing wide-grip curl",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "bce3b5f6c97ab3340d657942a0a2181603cc73c178e3dd291bbe25e1f4485337",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0114",
       "name": "barbell step-up",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "eb97675034b1d6ba7d37ca67c94cb56eb2a7c7f3ede08104a68489037702b56b",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0115",
       "name": "barbell stiff leg good morning",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "7ee2cef1b5ba64fc43ed0227369b04a5d67dc0fa0b31556b0683569adbaecfe6",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0116",
       "name": "barbell straight leg deadlift",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "e052dcbe6ca99fc6ac4e49eea795bc54e41fa8cfe45d9797684703440145553f",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0120",
       "name": "barbell upright row",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "add9c1674513890359eed15cb9b5ca3cac1739d56c7d3530e27caec4dd75b8be",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1372",
       "name": "barbell standing calf raise",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "221bc8616eef8246538939bb73601a8d73d7a58fd3c7821bfd84e7a4e41a84d7",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1456",
       "name": "barbell standing close grip military press",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "6b8a1b2c298324b322bd2d69cda5af4e834c4c9731d700e5574aba43e0edda17",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1457",
       "name": "barbell standing wide military press",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "24b53ae8839e643f938673f7a356be21bf5cd4c645a322d3beca7a687b55789f",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1629",
       "name": "barbell standing wide grip biceps curl",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "12c42a69810434a0409dfc8c8157756d5246037c747415ff2b6c68c5b1d006f2",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "2798",
       "name": "barbell squat jump step rear lunge",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "00d0c8eadeb92daeb476ab916358e47ce18ffa8aa886386bdb73a8ef798bb41e",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "2799",
       "name": "barbell sitted alternate leg raise",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "8e6940ef0c2702c70bf3af061be30b3ae1ebddc887577ecb2667ae297cff0aa4",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "2810",
       "name": "barbell split squat v. 2",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "881b9f9bf9ea5c235da14163bbec8e4192f87371378cc96d73ec88ec0cd3505e",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "3305",
       "name": "barbell thruster",
       "equipment": "barbell",
-      "status": "reviewed_media_ready",
+      "status": "deployed_live_verified",
       "batch": "core-batch14-20261122",
       "assetSha256": "b9f91b818bf65cf2fe39ea54688e065f6417d2d7ad265234f9249320d8d5632f",
-      "appVersion": null,
+      "appVersion": "5.34.0",
       "reviewScope": "Full-resolution operator visual review; exact START/FINISH, equipment and metadata checked before release; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     }
   ],
   "previousBatches": [
@@ -9684,13 +9809,13 @@
       "physicalIPhone": "UNVERIFIED"
     }
   ],
-  "catalogueQueued": 936,
+  "catalogueQueued": 911,
   "liveObservation": {
-    "version": "5.33.0",
-    "sourceCommit": "5501094044fbc0715810183c0b0694abd3e46350",
-    "catalogueIllustrated": 388,
-    "catalogueQueued": 936,
-    "liveAcceptanceRunId": 45043578249,
-    "scope": "Native release and all four hosted acceptance jobs verified; Batch 14 remains candidate until its own deployment."
+    "version": "5.34.0",
+    "sourceCommit": "3bf96a75a2835afc4946ca69b2be025ce160540b",
+    "catalogueIllustrated": 413,
+    "catalogueQueued": 911,
+    "liveAcceptanceRunId": 45050347588,
+    "scope": "Native release and all three hosted acceptance jobs verified; Batch 15 remains candidate until its own deployment."
   }
 }

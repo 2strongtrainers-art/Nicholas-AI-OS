@@ -1,11 +1,12 @@
 name: TriValley openGym — live Wix browser acceptance
-# Batch 14 live acceptance: v5.34.0 / 413 illustrated catalogue entries.
+# Batch 15 live acceptance: v5.35.0 / 438 illustrated catalogue entries.
 # Exercise detail clicks scroll to a verified reachable target before physical input.
 on:
   push:
     branches:
       - feat/trivalley-opengym-free-20261116
       - feat/trivalley-opengym-art-b14-20261122
+      - feat/trivalley-opengym-art-b15-20261122
     paths:
       - '.github/workflows/trivalley-opengym-live.yml'
   workflow_dispatch:
@@ -31,18 +32,18 @@ jobs:
       - name: Wait for the exact published root HTML after CDN propagation
         run: |
           node --input-type=module <<'NODE'
-          const root='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/';
+          const receipt='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json';
           let ready=false;
           for(let attempt=0;attempt<18;attempt++){
-            const response=await fetch(root,{cache:'no-store',signal:AbortSignal.timeout(15000)});
-            const html=await response.text();
-            if(response.ok&&html.includes('assets/index-DvU7G__t.js')){ready=true;break;}
-            console.log('Root HTML has not reached the expected release; awaiting propagation.');
+            const response=await fetch(receipt,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+            const release=response.ok?await response.json():{};
+            if(release.version==='5.35.0'&&release.sourceCommit===process.env.GITHUB_SHA){ready=true;break;}
+            console.log('Release receipt has not reached the expected source; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
-          if(!ready)throw Error('Published root HTML remains stale; do not promote acceptance.');
+          if(!ready)throw Error('Published release remains stale; do not promote acceptance.');
           NODE
-      - name: Verify exact published TriValley v5.34.0 source and compiled asset
+      - name: Verify exact published TriValley v5.35.0 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -50,18 +51,19 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.34.0' ||
-              release.sourceCommit !== '3bf96a75a2835afc4946ca69b2be025ce160540b' ||
-              release.mainScript !== 'assets/index-DvU7G__t.js' ||
+          if (release.version !== '5.35.0' ||
+              release.sourceCommit !== process.env.GITHUB_SHA ||
+              !/^assets\/index-[A-Za-z0-9_-]+\.js$/.test(release.mainScript) ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
+          fs.appendFileSync(process.env.GITHUB_ENV, `TV_EXPECTED_JS=${release.mainScript.replace(/^assets\//,'')}\n`);
           console.log(JSON.stringify({status:'WIX_RELEASE_IDENTITY_PASS',commit:release.sourceCommit,script:release.mainScript}));
           NODE
       - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-DvU7G__t.js'
+          TV_EXPECTED_JS: ${{ env.TV_EXPECTED_JS }}
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
@@ -168,16 +170,16 @@ jobs:
       - name: Wait for the exact published root HTML after CDN propagation
         run: |
           node --input-type=module <<'NODE'
-          const root='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/';
+          const receipt='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json';
           let ready=false;
           for(let attempt=0;attempt<18;attempt++){
-            const response=await fetch(root,{cache:'no-store',signal:AbortSignal.timeout(15000)});
-            const html=await response.text();
-            if(response.ok&&html.includes('assets/index-DvU7G__t.js')){ready=true;break;}
-            console.log('Root HTML has not reached the expected release; awaiting propagation.');
+            const response=await fetch(receipt,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+            const release=response.ok?await response.json():{};
+            if(release.version==='5.35.0'&&release.sourceCommit===process.env.GITHUB_SHA){ready=true;break;}
+            console.log('Release receipt has not reached the expected source; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
-          if(!ready)throw Error('Published root HTML remains stale; do not promote acceptance.');
+          if(!ready)throw Error('Published release remains stale; do not promote acceptance.');
           NODE
       - name: Test the actual compiled app in both browser engines
         env:
