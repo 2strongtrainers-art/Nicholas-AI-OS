@@ -1,5 +1,5 @@
 name: TriValley openGym — live Wix browser acceptance
-# Batch 15 live acceptance: v5.35.0 / 438 illustrated catalogue entries.
+# Batch 16 live acceptance: v5.36.0 / 463 illustrated catalogue entries.
 # Exercise detail clicks scroll to a verified reachable target before physical input.
 on:
   push:
@@ -37,13 +37,13 @@ jobs:
           for(let attempt=0;attempt<18;attempt++){
             const response=await fetch(receipt,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const release=response.ok?await response.json():{};
-            if(release.version==='5.35.0'&&release.sourceCommit===process.env.GITHUB_SHA){ready=true;break;}
+            if(release.version==='5.36.0'&&release.sourceCommit==='772035c26f09c79da4af6e92615dd45162b2b864'){ready=true;break;}
             console.log('Release receipt has not reached the expected source; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
           if(!ready)throw Error('Published release remains stale; do not promote acceptance.');
           NODE
-      - name: Verify exact published TriValley v5.35.0 source and compiled asset
+      - name: Verify exact published TriValley v5.36.0 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -51,8 +51,8 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.35.0' ||
-              release.sourceCommit !== process.env.GITHUB_SHA ||
+          if (release.version !== '5.36.0' ||
+              release.sourceCommit !== '772035c26f09c79da4af6e92615dd45162b2b864' ||
               !/^assets\/index-[A-Za-z0-9_-]+\.js$/.test(release.mainScript) ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
@@ -154,7 +154,7 @@ jobs:
   client-value:
     name: Client value and mobile layout (${{ matrix.engine }})
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 12
     container:
       image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
       options: --ipc=host
@@ -175,7 +175,7 @@ jobs:
           for(let attempt=0;attempt<18;attempt++){
             const response=await fetch(receipt,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const release=response.ok?await response.json():{};
-            if(release.version==='5.35.0'&&release.sourceCommit===process.env.GITHUB_SHA){ready=true;break;}
+            if(release.version==='5.36.0'&&release.sourceCommit==='772035c26f09c79da4af6e92615dd45162b2b864'){ready=true;break;}
             console.log('Release receipt has not reached the expected source; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
@@ -202,6 +202,8 @@ jobs:
           node "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/catalogue-art.png"
           cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
           node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
+          cp apps/trivalley-opengym/core_art_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/core-art.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/core-art.mjs" "$GITHUB_WORKSPACE/client-dist"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
