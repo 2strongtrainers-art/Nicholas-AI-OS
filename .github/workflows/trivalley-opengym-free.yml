@@ -9,6 +9,7 @@ on:
       - feat/trivalley-opengym-art-b7-20261121
       - feat/trivalley-opengym-art-b8-20261121
       - feat/trivalley-opengym-art-b9-20261121
+      # Batch 9 acceptance uses this existing push workflow; no additional schedule or trigger.
     paths:
       - 'apps/trivalley-opengym/**'
       - '.github/workflows/trivalley-opengym-free.yml'
