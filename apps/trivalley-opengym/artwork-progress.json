@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch13-20261122",
-    "status": "GENERATED_PRIVATE_QA_NOT_LIVE",
+    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_HOSTED_ACCEPTANCE",
     "exactIds": [
       "0040",
       "0118",
@@ -43,7 +43,7 @@
     "targetCatalogueIllustrated": 388,
     "appVersion": null,
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "All 25 initial drafts generated for private QA. Exercise 1256's first draft was rejected for warped, unsupported head/neck anatomy and replaced; 1257, 1721 and 0087 also received targeted corrections. Full-resolution anatomy, equipment, start/finish, likeness and movement-mechanics review remains required before app integration. No new live count until hosted GitHub and Wix acceptance pass."
+    "reviewScope": "All 25 cards completed full-resolution operator review. Corrected a five-file filename/card-ID rotation before upload; regenerated 0087 and 1257 title panels; retained the corrected supported-head 1256. All 25 production WebPs are 1200×800 and Wix Media Manager returned READY. Candidate source awaits hosted four-job acceptance, exact artifact deployment and public readback; live count remains 363."
   },
   "entries": [
     {
@@ -1121,13 +1121,6 @@
       "deployed": true
     },
     {
-      "id": "0040",
-      "name": "barbell front raise and pullover",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
       "id": "0042",
       "name": "barbell front squat",
       "equipment": "barbell",
@@ -1666,69 +1659,6 @@
       "deployed": false
     },
     {
-      "id": "0118",
-      "name": "barbell reverse grip bent over row",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1256",
-      "name": "barbell reverse grip decline bench press",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1257",
-      "name": "barbell reverse grip incline bench press",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1317",
-      "name": "barbell reverse grip incline bench row",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1721",
-      "name": "barbell reverse grip skullcrusher",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0081",
-      "name": "barbell reverse preacher curl",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0082",
-      "name": "barbell reverse wrist curl",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0084",
-      "name": "barbell rollerout",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0083",
-      "name": "barbell rollerout from bench",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
       "id": "0085",
       "name": "barbell romanian deadlift",
       "equipment": "barbell",
@@ -1740,69 +1670,6 @@
       "deployed": true
     },
     {
-      "id": "0086",
-      "name": "barbell seated behind head military press",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0087",
-      "name": "barbell seated bradford rocky press",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0088",
-      "name": "barbell seated calf raise",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1371",
-      "name": "barbell seated calf raise",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1718",
-      "name": "barbell seated close grip behind neck triceps extension",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0089",
-      "name": "barbell seated close-grip concentration curl",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0090",
-      "name": "barbell seated good morning",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0091",
-      "name": "barbell seated overhead press",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0092",
-      "name": "barbell seated overhead triceps extension",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
       "id": "0094",
       "name": "barbell seated twist",
       "equipment": "barbell",
@@ -1810,48 +1677,6 @@
       "assetSha256": "393b2ec61fe732d68d97b28120078fd6a2c84692daf39d508eddec8b735a7838",
       "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
       "deployed": true
-    },
-    {
-      "id": "0095",
-      "name": "barbell shrug",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0096",
-      "name": "barbell side bent v. 2",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0098",
-      "name": "barbell side split squat",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0097",
-      "name": "barbell side split squat v. 2",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "1756",
-      "name": "barbell single leg deadlift",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
-    },
-    {
-      "id": "0099",
-      "name": "barbell single leg split squat",
-      "equipment": "barbell",
-      "status": "in_progress",
-      "batch": "core-batch13-20261122"
     },
     {
       "id": "2799",
@@ -9295,6 +9120,281 @@
       "name": "wrist rollerer",
       "equipment": "weighted",
       "status": "queued"
+    },
+    {
+      "id": "1256",
+      "name": "barbell reverse-grip decline bench press",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "54740081356d0d7120273a08dd516480034d4aab9458491de94933f7cb7e35ec",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "1257",
+      "name": "barbell reverse-grip incline bench press",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "8638e42475a83e74b5630aa2dc8222a0c53769f2be454d294ce02eb10d2a2edf",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "1317",
+      "name": "barbell reverse-grip incline bench row",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "9dde84025edbb3b3858a2a934caaaf79ddfb335d1c2c1a2bb79f471e9e7f8efd",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "1371",
+      "name": "barbell seated calf raise",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "eda391c5f6dcab7231edaaa7ac593478cf69f1045ab16370127329d3fa01dc1c",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "1718",
+      "name": "barbell seated close-grip behind-neck triceps extension",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "81988a700f26255327813bdd49e289d596e020114898f4c619cf254b99689188",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "1721",
+      "name": "barbell reverse-grip skullcrusher",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "2158aa72800898ccdde573eb37bde17b46be8e4fd87999a512f256679f71fca6",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "1756",
+      "name": "barbell single-leg deadlift",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "89883f2d88d046aa14cbb7dffaf040ccdb070188a3e3cdc736e62fc5e26d564f",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0040",
+      "name": "barbell front raise and pullover",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "41acc0015460dc711e4b416462a4147b95a9fd1369cce08350fd9d91acf74ff9",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0081",
+      "name": "barbell reverse preacher curl",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "67899caad0a457c05662ee22a4e6a193157143a367e3b34ea01753dbfa4b03b3",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0082",
+      "name": "barbell reverse wrist curl",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "4a5cd8e3983ee652b363d755b0952f6f34acbc5037f46e8df77a3e8f1f671307",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0083",
+      "name": "barbell rollout from bench",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "5af030c616bfcc4830f1cc1dc7a98838e81c9b46b1ae8eef29ecb8fa3b40854d",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0084",
+      "name": "barbell rollout",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "2a27478304f044792ac5dcff52ffad5ac0447a888a5ac5acc94d26c860f37aba",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0086",
+      "name": "barbell seated behind-head military press",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "a432386591e7a3b35ba01657f605f9f4d0a66c02f6b9c643cf3b0589a2d89381",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0087",
+      "name": "barbell seated Bradford / Rocky press",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "40a4c12842d4c9ceed41dea866a47ee201af10d6318a55430229665473f7f2b9",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0088",
+      "name": "barbell seated calf raise",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "2993eba822e7b5399a3ac8e7baacac9a40510285c76ad54b34529007c9ccda47",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0089",
+      "name": "barbell seated close-grip concentration curl",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "78175d57c9eac7e5da23b616329b96250761d252a8e6b9451aeca1a5195d052a",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0090",
+      "name": "barbell seated good morning",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "8b4d80e881e334d1ca36d8fbcd1d0060171a4249bde22ce9a80b386179a031e4",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0091",
+      "name": "barbell seated overhead press",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "fa2bf6f3a7bf3a6efe95e348e200ade275a61087fb530f8f7d973cb00a2f6111",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0092",
+      "name": "barbell seated overhead triceps extension",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "920dc724421fd953682172a46c86385418ec85941a5a49f77116966d38f66a6d",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0095",
+      "name": "barbell shrug",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "113938d120f0117927ff976a4d5b2ab6aedc77acf3c2faed7960cae845b170ab",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0096",
+      "name": "barbell side bend v. 2",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "d1a4f48083c8c4d263daf24050ca1608f6b7449cd52d2fcb6a50de1b8077d46e",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0097",
+      "name": "barbell side split squat v. 2",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "cbf178ee5c434728b2374b4764e5bbc3dd736e569fd1df698a09f9d0b6fc564f",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0098",
+      "name": "barbell side split squat",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "83cf78776a05cd4e861b28795eece0b2612ca23461b0e36091ecedc77223d8f1",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0099",
+      "name": "barbell single-leg split squat",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "8833ff0685eb074424e377f2db8b517f64a161c5fde76de57273b7eb52cc6a9d",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
+    },
+    {
+      "id": "0118",
+      "name": "barbell reverse-grip bent-over row",
+      "equipment": "barbell",
+      "status": "reviewed_media_ready",
+      "batch": "core-batch13-20261122",
+      "assetSha256": "fc8d81f12dddf50f885b70e29ca7fda0347a910b7269052fc20d9e26b4e53579",
+      "appVersion": null,
+      "reviewScope": "Full-resolution operator visual review; filename/card ID mapping corrected before release; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     }
   ],
   "previousBatches": [
