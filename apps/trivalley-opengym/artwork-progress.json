@@ -3,68 +3,48 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 463,
+  "catalogueIllustrated": 488,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch17-20261122",
-    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_HOSTED_ACCEPTANCE",
+    "id": "core-batch18-20261122",
+    "status": "CLAIMED_GENERATION_PENDING",
     "exactIds": [
-      "1318",
-      "0171",
-      "0170",
-      "0172",
-      "0173",
-      "0174",
-      "0860",
-      "3697",
-      "0176",
-      "0177",
-      "2616",
-      "0178",
-      "0179",
-      "0180",
-      "1634",
-      "0182",
-      "0184",
-      "0185",
-      "0186",
-      "0188",
-      "0189",
-      "0190",
-      "1262",
-      "1263",
-      "1264"
+      "2800",
+      "0105",
+      "2414",
+      "3019",
+      "1770",
+      "0137",
+      "1769",
+      "3168",
+      "3167",
+      "3156",
+      "3158",
+      "3162",
+      "3161",
+      "3166",
+      "3165",
+      "1265",
+      "1266",
+      "0191",
+      "0192",
+      "1633",
+      "1267",
+      "3563",
+      "1635",
+      "0193",
+      "1723"
     ],
     "claimOwner": "owner-interactive-continuation-32b205aa4444",
-    "claimBaseBlob": "7ea4f83d8e66d5be79d8c1b76adebc5523209989",
-    "claimedAt": "2026-11-22T19:46:39.920Z",
-    "generatedCount": 25,
-    "acceptedCount": 25,
+    "claimBaseBlob": "c7e608acf86e5f5b675fa1c998610912a82e5487",
+    "claimedAt": "2026-11-22T20:48:17.608Z",
+    "generatedCount": 0,
+    "acceptedCount": 0,
     "deployedCount": 0,
-    "priorCatalogueIllustrated": 463,
-    "targetCatalogueIllustrated": 488,
-    "physicalIPhone": "UNVERIFIED",
-    "correctedIds": [
-      "0170",
-      "0171",
-      "1634",
-      "0182",
-      "0185",
-      "1264"
-    ],
-    "initialAndCorrectionImagesThisBatch": 34,
-    "mediaReadyCount": 25,
-    "cdnChecksumsMatched": 25,
-    "reconciledPriorCorrection": {
-      "id": "0155",
-      "reason": "Pinned exact-ID animation shows high-to-low crossover; generic chest-height prose conflicts. Reuse previously reviewed high-to-low illustration and run complete gates again.",
-      "predecessorSource": "e2300353e67c2aefc466f06ddbb4d7ac56e00b31",
-      "predecessorAssetSha256": "9646771ec87768411ad20f91081943e7b269dff9da0c96c0a68b18dd193d9a7c",
-      "candidateAssetSha256": "e266286681b30b0b3f699a8e8b7d098da3f30c2b0881afecb1d3d187d7eb40c3",
-      "addsCoverage": false
-    },
-    "prepublishObservedSource": "e2300353e67c2aefc466f06ddbb4d7ac56e00b31"
+    "priorCatalogueIllustrated": 488,
+    "targetCatalogueIllustrated": 513,
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
@@ -80,7 +60,7 @@
     },
     {
       "id": "0002",
-      "name": "45\u00b0 side bend",
+      "name": "45° side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -1728,19 +1708,22 @@
       "id": "2800",
       "name": "barbell sitted alternate leg raise (female)",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0105",
       "name": "barbell standing bradford press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "2414",
       "name": "barbell standing concentration curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0117",
@@ -1933,7 +1916,8 @@
       "id": "3019",
       "name": "bench pull-ups",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3639",
@@ -1950,7 +1934,8 @@
       "id": "1770",
       "name": "biceps leg concentration curl",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0139",
@@ -1978,7 +1963,8 @@
       "id": "0137",
       "name": "body-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3543",
@@ -2015,19 +2001,22 @@
       "id": "1769",
       "name": "bodyweight side lying biceps curl",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3168",
       "name": "bodyweight squatting row",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3167",
       "name": "bodyweight squatting row (with towel)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1373",
@@ -2044,37 +2033,43 @@
       "id": "3156",
       "name": "bodyweight standing close-grip one arm row",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3158",
       "name": "bodyweight standing close-grip row",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3162",
       "name": "bodyweight standing one arm row",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3161",
       "name": "bodyweight standing one arm row (with towel)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3166",
       "name": "bodyweight standing row",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3165",
       "name": "bodyweight standing row (with towel)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0138",
@@ -2467,7 +2462,7 @@
       "assetSha256": "56a49bcff825e40dac39dd88739857bb8a7660e5c571f4dfc332f7dffd9ef49b",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0171",
@@ -2478,7 +2473,7 @@
       "assetSha256": "32fbbf16eeb666f4eca987dd4e8057ffb01ee42a27b9d3213a1e18cec9f079ae",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0170",
@@ -2489,7 +2484,7 @@
       "assetSha256": "b01d4ca138e28d41f93d3076fe519a0dc12fafba1bbd83822848fc65bb7dcba1",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0172",
@@ -2500,7 +2495,7 @@
       "assetSha256": "28f1b1f3e758293f1e0a4f4cec98604b547d9d14f5aff83f24fe6a8d92395e4a",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0173",
@@ -2511,7 +2506,7 @@
       "assetSha256": "8e55b1ab586d3e42214b00fdec38d1ec709171548f022e8d8164cf536cb1c65c",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0174",
@@ -2522,7 +2517,7 @@
       "assetSha256": "bfdad52bc56a612d2c9ab3c73dd69631b32cedde48df7a5f808cd74319ef7672",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0860",
@@ -2533,7 +2528,7 @@
       "assetSha256": "4ad8c767a18843386c7a1838e3ec3eb46d178f0abebb03df013f516852c880bb",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0175",
@@ -2553,7 +2548,7 @@
       "assetSha256": "8286c283ff871ea3b9214fad0439241acef83dbc7f46a7b21d7b8f70b15f88ee",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0176",
@@ -2564,7 +2559,7 @@
       "assetSha256": "b8d7a5cfdc2479ce57906b69c469f1334cf74dfcd8359cc0c87b011c55685295",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "2330",
@@ -2587,7 +2582,7 @@
       "assetSha256": "caa42278340b826efc42d2becf42146f16e73ea392b228d412a58bceb588c356",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "2616",
@@ -2598,7 +2593,7 @@
       "assetSha256": "9abdca8d4a6c2978b93a21e2fe2cb520aed6076f5d7a4e00492b8ff30eceed6b",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0178",
@@ -2609,7 +2604,7 @@
       "assetSha256": "6c5b17e433db43d3a68af07e1ac3f47e088b9f74f137a4e98f87abdb739be5c3",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0179",
@@ -2620,7 +2615,7 @@
       "assetSha256": "a446e9ffdb78beebb1cc831df715acefae1759ddf7b4e8db25ee5c0b13216bff",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0180",
@@ -2631,7 +2626,7 @@
       "assetSha256": "74b24c6c970e6fac4d9eb97bedb3a208824e53969e4b1c120444169fca88f61f",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1634",
@@ -2642,7 +2637,7 @@
       "assetSha256": "ed8a7239ca39c36b0c0ad2b678429e79f8c12ba29c121ec3867ea74b2c455ebd",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0182",
@@ -2653,7 +2648,7 @@
       "assetSha256": "ea7ff443e1c9b093c529b0233c50885e6d9ba1c45218e023b8f00ce3003f85a2",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0184",
@@ -2664,7 +2659,7 @@
       "assetSha256": "f6ad5806cf05f39bd36e9a732b7b6e3aca1383a234bf0302afcebc8184925cfd",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0185",
@@ -2675,7 +2670,7 @@
       "assetSha256": "061e0cc6a7c6b3f4bde4f3e80eb5b874daed852c94016d598cc049856a6be415",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0186",
@@ -2686,7 +2681,7 @@
       "assetSha256": "3503a38902dc7cdb76c3dd3b8dbb8c563904d960170b08b6efc3ac78c7afeb3d",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0188",
@@ -2697,7 +2692,7 @@
       "assetSha256": "6047aaef9fc94ca9b0f5571a3a5e0b67b44bd508559fd0ab342733a37c33ccff",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0189",
@@ -2708,7 +2703,7 @@
       "assetSha256": "8a1fddb377062b01770694682ebf5f9a50e3afc9c4bf73f09c57b761734e8cd0",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0190",
@@ -2719,7 +2714,7 @@
       "assetSha256": "a3090fcf1d209e2f9c4514b2ef1b726c0a05889e1d094bcd7139af82269041d7",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1262",
@@ -2730,7 +2725,7 @@
       "assetSha256": "c459c5349db42f75ad3f2abc1dba69bda6324f86939a84c3e933e7204cce4b71",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1263",
@@ -2741,7 +2736,7 @@
       "assetSha256": "75b20b27258b0c814c707acab94cfe673b928d5e479d3479089dafdb263f8648",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1264",
@@ -2752,67 +2747,77 @@
       "assetSha256": "429401c49f03621a1ec6b714cb9d03527dc3e901e085ed5f44f7a0ed5ecebc8e",
       "appVersion": "5.37.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1265",
       "name": "cable one arm incline press",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1266",
       "name": "cable one arm incline press on exercise ball",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0191",
       "name": "cable one arm lateral bent-over",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0192",
       "name": "cable one arm lateral raise",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1633",
       "name": "cable one arm preacher curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1267",
       "name": "cable one arm press on exercise ball",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "3563",
       "name": "cable one arm pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1635",
       "name": "cable one arm reverse preacher curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "0193",
       "name": "cable one arm straight back high row (kneeling)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1723",
       "name": "cable one arm tricep pushdown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch18-20261122"
     },
     {
       "id": "1636",
@@ -8388,13 +8393,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45\u0432\u00b0 calf press",
+      "name": "sled 45в° calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45\u0432\u00b0 leg press",
+      "name": "sled 45в° leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -8406,19 +8411,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45\u0432\u00b0 leg press (back pov)",
+      "name": "sled 45в° leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45\u00b0 leg press (side pov)",
+      "name": "sled 45° leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45\u0432\u00b0 leg wide press",
+      "name": "sled 45в° leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10166,7 +10171,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
@@ -10237,18 +10242,88 @@
       "artifactSha256": "a766d4daa063030b14803df863f7d8ec62c5beab4cdac157c541056b973b1810",
       "wixRevision": "2de8681a20bb4e18bfca8485c5e1ab1acc73c6a3",
       "observedAt": "2026-11-22T19:46:39.919Z"
+    },
+    {
+      "id": "core-batch17-20261122",
+      "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+      "exactIds": [
+        "1318",
+        "0171",
+        "0170",
+        "0172",
+        "0173",
+        "0174",
+        "0860",
+        "3697",
+        "0176",
+        "0177",
+        "2616",
+        "0178",
+        "0179",
+        "0180",
+        "1634",
+        "0182",
+        "0184",
+        "0185",
+        "0186",
+        "0188",
+        "0189",
+        "0190",
+        "1262",
+        "1263",
+        "1264"
+      ],
+      "claimOwner": "owner-interactive-continuation-32b205aa4444",
+      "claimBaseBlob": "7ea4f83d8e66d5be79d8c1b76adebc5523209989",
+      "claimedAt": "2026-11-22T19:46:39.920Z",
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "priorCatalogueIllustrated": 463,
+      "targetCatalogueIllustrated": 488,
+      "physicalIPhone": "UNVERIFIED",
+      "correctedIds": [
+        "0170",
+        "0171",
+        "1634",
+        "0182",
+        "0185",
+        "1264"
+      ],
+      "initialAndCorrectionImagesThisBatch": 34,
+      "mediaReadyCount": 25,
+      "cdnChecksumsMatched": 25,
+      "reconciledPriorCorrection": {
+        "id": "0155",
+        "reason": "Pinned exact-ID animation shows high-to-low crossover; generic chest-height prose conflicts. Reuse previously reviewed high-to-low illustration and run complete gates again.",
+        "predecessorSource": "e2300353e67c2aefc466f06ddbb4d7ac56e00b31",
+        "predecessorAssetSha256": "9646771ec87768411ad20f91081943e7b269dff9da0c96c0a68b18dd193d9a7c",
+        "candidateAssetSha256": "e266286681b30b0b3f699a8e8b7d098da3f30c2b0881afecb1d3d187d7eb40c3",
+        "addsCoverage": false
+      },
+      "prepublishObservedSource": "e2300353e67c2aefc466f06ddbb4d7ac56e00b31",
+      "liveFromThisBatch": 25,
+      "appVersion": "5.37.0",
+      "releaseSourceCommit": "1e22cea7def3200845b07c089248cdf1bc51329d",
+      "buildRunId": 45067228109,
+      "liveAcceptanceRunId": 45068049931,
+      "artifactId": 14771757084,
+      "artifactSha256": "e2d689e2e5b63fbef244d8537ccd6c8329335b116cb09c419d620ad0cea51e06",
+      "artifactBytes": 3772356,
+      "wixRevision": "4165c8fac0d07803fbe02e281d70f8491c741180",
+      "observedAt": "2026-11-22T20:48:17.608Z"
     }
   ],
-  "catalogueQueued": 861,
+  "catalogueQueued": 836,
   "liveObservation": {
-    "version": "5.36.0",
-    "sourceCommit": "772035c26f09c79da4af6e92615dd45162b2b864",
-    "catalogueIllustrated": 463,
-    "catalogueQueued": 861,
-    "buildRunId": 45061499340,
-    "liveAcceptanceRunId": 45062200610,
-    "artifactSha256": "a766d4daa063030b14803df863f7d8ec62c5beab4cdac157c541056b973b1810",
-    "wixRevision": "2de8681a20bb4e18bfca8485c5e1ab1acc73c6a3",
-    "scope": "Exact GitHub artifact SHA-256; native/public release and all 70 artifact paths; all four build and three live jobs passed. HTML normalized only for Wix-injected script. Physical iPhone and qualified biomechanics unverified."
+    "version": "5.37.0",
+    "sourceCommit": "1e22cea7def3200845b07c089248cdf1bc51329d",
+    "catalogueIllustrated": 488,
+    "catalogueQueued": 836,
+    "buildRunId": 45067228109,
+    "liveAcceptanceRunId": 45068049931,
+    "artifactSha256": "e2d689e2e5b63fbef244d8537ccd6c8329335b116cb09c419d620ad0cea51e06",
+    "wixRevision": "4165c8fac0d07803fbe02e281d70f8491c741180",
+    "scope": "Exact GitHub artifact SHA-256; native/public release and all70 artifact paths; all four hosted build jobs and all three live jobs passed. 25 new IDs plus source-grounded recorrection0155; seven coaching files retained. Physical iPhone and qualified biomechanics unverified."
   }
 }
