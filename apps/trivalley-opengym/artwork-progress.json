@@ -1679,56 +1679,8 @@
       "deployed": true
     },
     {
-      "id": "2799",
-      "name": "barbell sitted alternate leg raise",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
       "id": "2800",
       "name": "barbell sitted alternate leg raise (female)",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0100",
-      "name": "barbell skier",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0101",
-      "name": "barbell speed squat",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "2810",
-      "name": "barbell split squat v. 2",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0102",
-      "name": "barbell squat (on knees)",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "2798",
-      "name": "barbell squat jump step rear lunge",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0103",
-      "name": "barbell standing ab rollerout",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0104",
-      "name": "barbell standing back wrist curl",
       "equipment": "barbell",
       "status": "queued"
     },
@@ -1739,98 +1691,8 @@
       "status": "queued"
     },
     {
-      "id": "1372",
-      "name": "barbell standing calf raise",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0106",
-      "name": "barbell standing close grip curl",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "1456",
-      "name": "barbell standing close grip military press",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
       "id": "2414",
       "name": "barbell standing concentration curl",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0107",
-      "name": "barbell standing front raise over head",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0108",
-      "name": "barbell standing leg calf raise",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0109",
-      "name": "barbell standing overhead triceps extension",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0110",
-      "name": "barbell standing reverse grip curl",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0111",
-      "name": "barbell standing rocking leg calf raise",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0112",
-      "name": "barbell standing twist",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "1629",
-      "name": "barbell standing wide grip biceps curl",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "1457",
-      "name": "barbell standing wide military press",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0113",
-      "name": "barbell standing wide-grip curl",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0114",
-      "name": "barbell step-up",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0115",
-      "name": "barbell stiff leg good morning",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0116",
-      "name": "barbell straight leg deadlift",
       "equipment": "barbell",
       "status": "queued"
     },
@@ -1844,18 +1706,6 @@
       "appVersion": "5.18.0",
       "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
       "deployed": true
-    },
-    {
-      "id": "3305",
-      "name": "barbell thruster",
-      "equipment": "barbell",
-      "status": "queued"
-    },
-    {
-      "id": "0120",
-      "name": "barbell upright row",
-      "equipment": "barbell",
-      "status": "queued"
     },
     {
       "id": "0119",
