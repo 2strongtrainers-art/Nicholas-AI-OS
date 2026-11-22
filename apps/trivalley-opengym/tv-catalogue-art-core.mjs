@@ -372,6 +372,27 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1269": {
+    "id": "1269",
+    "name": "cable standing up straight crossovers",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 211570,
+    "sha256": "2dd714225d4c4e79b2f52a1587ad55632fc4970d43ee60ac37a00ee81688f819",
+    "leftLabel": "Arms wide; elbows soft",
+    "rightLabel": "Cross handles at chest",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing up straight crossovers. Start: Arms wide; elbows soft. Finish: Cross handles at chest.",
+    "steps": [
+      "Keep shoulders down and sweep the handles forward without swinging the torso."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_90db873674df48539e909391e23c6813~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1314": {
     "id": "1314",
     "name": "back extension on exercise ball",
@@ -409,6 +430,27 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_ddb4ac6903fb45d0a95ca8cae7bc4a74~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1376": {
+    "id": "1376",
+    "name": "cable standing one leg calf raise",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 208060,
+    "sha256": "ec0b65975dae30a5a1e60734b759e5596e8bb199d8d4fdd564d984ec9dffeee8",
+    "leftLabel": "Balance on one flat foot",
+    "rightLabel": "Rise onto forefoot",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing one leg calf raise. Start: Balance on one flat foot. Finish: Rise onto forefoot.",
+    "steps": [
+      "Lift the heel through the ankle without bending the knee or shifting the pelvis."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a20b91241e6c41409e822a36dc054794~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -614,6 +656,27 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1645": {
+    "id": "1645",
+    "name": "cable two arm curl on incline bench",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 187416,
+    "sha256": "04e5fff3aed968152831ed8ad37d28c33dbf94cabcca03566cf1d01be6751c17",
+    "leftLabel": "Recline on incline bench",
+    "rightLabel": "Curl handles to shoulders",
+    "alt": "AI-generated Nick Kaplan likeness in cable two arm curl on incline bench. Start: Recline on incline bench. Finish: Curl handles to shoulders.",
+    "steps": [
+      "Keep the shoulders on the pad and upper arms fixed as both elbows bend."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_831a97fea84d4ee1beda72593b3330b1~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1686": {
     "id": "1686",
     "name": "squat to overhead reach with twist",
@@ -795,6 +858,48 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "1727": {
+    "id": "1727",
+    "name": "cable standing reverse grip one arm overhead tricep extension",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 213364,
+    "sha256": "61d12a288ffa36771e3972ceba9572b9abb02b1fc86ed158384e9fa68434a97b",
+    "leftLabel": "Handle behind head",
+    "rightLabel": "Extend arm overhead",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing reverse grip one arm overhead tricep extension. Start: Handle behind head. Finish: Extend arm overhead.",
+    "steps": [
+      "Keep the elbow close to the ear and upper arm still throughout the extension."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_5f14464e5cf54757b478e4ed18e743f1~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "1728": {
+    "id": "1728",
+    "name": "cable two arm tricep kickback",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 214174,
+    "sha256": "9a22994571172b54b347c0e0a4090052491297d88f3a8c6a5eef0bfb8a7951d7",
+    "leftLabel": "Hinge; elbows bent",
+    "rightLabel": "Extend forearms behind",
+    "alt": "AI-generated Nick Kaplan likeness in cable two arm tricep kickback. Start: Hinge; elbows bent. Finish: Extend forearms behind.",
+    "steps": [
+      "Keep the upper arms beside the torso and avoid shoulder swing or back rounding."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d02a5733e23847d1ad3fae6535d985c3~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "1758": {
     "id": "1758",
     "name": "assisted sit-up",
@@ -957,6 +1062,27 @@ export const CATALOGUE_ART_CORE = {
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
+  "2405": {
+    "id": "2405",
+    "name": "cable triceps pushdown (v-bar) (with arm blaster)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 221526,
+    "sha256": "60ebc2d9f0a4e4ce382f71a2e69ad052f0320a11ce5468160184eda5f79f4455",
+    "leftLabel": "Arm blaster supports elbows",
+    "rightLabel": "Press V-bar to thighs",
+    "alt": "AI-generated Nick Kaplan likeness in cable triceps pushdown (v-bar) (with arm blaster). Start: Arm blaster supports elbows. Finish: Press V-bar to thighs.",
+    "steps": [
+      "Let the arm blaster hold the upper arms still while the elbows extend."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_599d68f61cb44d9ca94818d828d0170a~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
   "2429": {
     "id": "2429",
     "name": "frog crunch",
@@ -974,6 +1100,27 @@ export const CATALOGUE_ART_CORE = {
     ],
     "url": "https://static.wixstatic.com/media/856ae2_4be1bddc767641f69bd9d8ce9ef7fc8b~mv2.webp",
     "review": {
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "2464": {
+    "id": "2464",
+    "name": "cable thibaudeau kayak row",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 243676,
+    "sha256": "a4679efbcfab5e064436456cb4c29b5e44824b73bb90898dee5ede8ce07a5816",
+    "leftLabel": "One arm long; torso hinged",
+    "rightLabel": "Row handle toward hip",
+    "alt": "AI-generated Nick Kaplan likeness in cable thibaudeau kayak row. Start: One arm long; torso hinged. Finish: Row handle toward hip.",
+    "steps": [
+      "Keep the spine neutral and finish the stroke with the shoulder blade rather than a jerk."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d091747d3e204dc4a4aa29b47a179a51~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
     }
   },
@@ -2588,15 +2735,15 @@ export const CATALOGUE_ART_CORE = {
     "width": 1536,
     "height": 1024,
     "style": "Nick Style 3 + approved primary likeness",
-    "bytes": 150736,
-    "sha256": "b447c0a75c89b56678fd435b09743f6f29df23cb180575ab016e4be72e198556",
+    "bytes": 155394,
+    "sha256": "c4f05a98d9d0cd53b7ca45df78110d4e84c65eb02fb453916fa77e6d75a1dcaf",
     "leftLabel": "Cable high; brace upright",
     "rightLabel": "Curl ribs toward pelvis",
     "alt": "AI-generated Nick Kaplan likeness in cable standing crunch. Start: Cable high; brace upright. Finish: Curl ribs toward pelvis.",
     "steps": [
-      "Move through the trunk instead of pulling with the arms; keep the hips stacked over the feet."
+      "Keep the hips stacked and the rope beside the temples; curl through the trunk without squatting or pulling with the arms."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_b259dd3d4a1c4584bc957542cc330c0e~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_f78ee647bffc428685ef4446535fd28c~mv2.webp",
     "review": {
       "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
@@ -3038,6 +3185,384 @@ export const CATALOGUE_ART_CORE = {
       "Keep the ankle aligned and pause at the top; lower the heel slowly while maintaining balance."
     ],
     "url": "https://static.wixstatic.com/media/856ae2_b2717a973b134f1898c7e67ec9cb3a34~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0227": {
+    "id": "0227",
+    "name": "cable standing fly",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 205310,
+    "sha256": "9e32412e63b75f3d359f92b6d6a9695799a743994b6786bfae8f38cbe632b3f8",
+    "leftLabel": "Arms open; elbows soft",
+    "rightLabel": "Bring handles together",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing fly. Start: Arms open; elbows soft. Finish: Bring handles together.",
+    "steps": [
+      "Keep the rib cage stacked and squeeze the chest without turning the fly into a press."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_1b53da36468c45d595eb4a2f01cd442e~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0228": {
+    "id": "0228",
+    "name": "cable standing hip extension",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 201656,
+    "sha256": "23216a8d8711a6c08c3d0ecb19a4217098a2a6a3490932e9179bde4c5bb15125",
+    "leftLabel": "Ankle cuffed; hips square",
+    "rightLabel": "Extend leg behind",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing hip extension. Start: Ankle cuffed; hips square. Finish: Extend leg behind.",
+    "steps": [
+      "Move from the hip while keeping the pelvis level and the lower back quiet."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_f9c045edd77b4c918caccf1eb18aed7a~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0229": {
+    "id": "0229",
+    "name": "cable standing inner curl",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 198692,
+    "sha256": "e41f2695cffeed6683756092a4f47ebd218fd52a30aa265c73139180e9a7fbdd",
+    "leftLabel": "Underhand grip; elbows pinned",
+    "rightLabel": "Curl toward shoulders",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing inner curl. Start: Underhand grip; elbows pinned. Finish: Curl toward shoulders.",
+    "steps": [
+      "Keep the upper arms still, wrists straight and torso quiet."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_1f80405c4297440bbd394de3118db969~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0230": {
+    "id": "0230",
+    "name": "cable standing lift",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 202068,
+    "sha256": "b32f29a4d519b469ecb1045e3d3cf51e78e32e814f9e81869474e65436fc9615",
+    "leftLabel": "Handle near outside hip",
+    "rightLabel": "Lift across to shoulder",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing lift. Start: Handle near outside hip. Finish: Lift across to shoulder.",
+    "steps": [
+      "Rotate through the rib cage while keeping the hips controlled and arms long."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_69c20ff4e36241db9f32be3f2dda1d6f~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0231": {
+    "id": "0231",
+    "name": "cable standing one arm triceps extension",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 203912,
+    "sha256": "65a5ca0b87a0ca29d140d1e749ba209dfca75dd24e1aaa588ee4392c33e05968",
+    "leftLabel": "Elbow bent beside head",
+    "rightLabel": "Extend forearm overhead",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing one arm triceps extension. Start: Elbow bent beside head. Finish: Extend forearm overhead.",
+    "steps": [
+      "Keep the upper arm vertical and ribs down while the elbow straightens."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_9d4daf7b20934f40baf089a4c92f1d91~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0232": {
+    "id": "0232",
+    "name": "cable standing pulldown (with rope)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 190224,
+    "sha256": "64d8803c3c1a131169d8f7a0761bcadbb6566bb4a4b3d089bc2d3bed10d7bfc9",
+    "leftLabel": "Rope high; arms long",
+    "rightLabel": "Pull rope to thighs",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing pulldown (with rope). Start: Rope high; arms long. Finish: Pull rope to thighs.",
+    "steps": [
+      "Keep the elbows softly fixed and use the lats rather than curling the rope."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_6cb79ad389944372bc56b4c66bcab239~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0233": {
+    "id": "0233",
+    "name": "cable standing rear delt row (with rope)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 209416,
+    "sha256": "8d3d8198cc1ecdfd92ddd6476401094ad687ef04c54f24f1ebd05b698c8322ad",
+    "leftLabel": "Arms extended; rope centered",
+    "rightLabel": "Row toward upper chest",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing rear delt row (with rope). Start: Arms extended; rope centered. Finish: Row toward upper chest.",
+    "steps": [
+      "Lead with the elbows and squeeze the shoulder blades without shrugging."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_02be7a2bdd7f4403aa7afede988a8fea~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0234": {
+    "id": "0234",
+    "name": "cable standing row (v-bar)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 209048,
+    "sha256": "74db1b94581d2eb2b6f2dc37b6f16c6c6ad2481a358319898013b0e84c5863c4",
+    "leftLabel": "V-bar forward; torso steady",
+    "rightLabel": "Row to lower ribs",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing row (v-bar). Start: V-bar forward; torso steady. Finish: Row to lower ribs.",
+    "steps": [
+      "Keep the torso upright and elbows close while the shoulder blades retract."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_32d9f30da7c34c049dd9ba937e801255~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0235": {
+    "id": "0235",
+    "name": "cable standing shoulder external rotation",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 211960,
+    "sha256": "1a4fbeb7ab657efb2017a92109df8a1ec9957184d5426d1bb1cc5806405c73c6",
+    "leftLabel": "Forearm across abdomen",
+    "rightLabel": "Rotate forearm outward",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing shoulder external rotation. Start: Forearm across abdomen. Finish: Rotate forearm outward.",
+    "steps": [
+      "Pin the elbow to the side and use a small controlled shoulder rotation."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_614e893f3f4f4db2a4b88109c987a92a~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0236": {
+    "id": "0236",
+    "name": "cable standing twist row (v-bar)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 212114,
+    "sha256": "8ce1c85897be20a732862cfecc2dd81dc98aa0146ecaf415c3273f6353a9582a",
+    "leftLabel": "V-bar forward; torso square",
+    "rightLabel": "Row and rotate slightly",
+    "alt": "AI-generated Nick Kaplan likeness in cable standing twist row (v-bar). Start: V-bar forward; torso square. Finish: Row and rotate slightly.",
+    "steps": [
+      "Combine a controlled row with rib-cage rotation while the hips remain stable."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_b1ad7360cbde4fc3a3f14103274b4394~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0238": {
+    "id": "0238",
+    "name": "cable straight arm pulldown",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 197850,
+    "sha256": "6022ed9c6a6c6be8eba4cc2920f0014bb48d926dccb48cf74f0d8664c7e3f0bf",
+    "leftLabel": "Bar high; arms long",
+    "rightLabel": "Pull bar to thighs",
+    "alt": "AI-generated Nick Kaplan likeness in cable straight arm pulldown. Start: Bar high; arms long. Finish: Pull bar to thighs.",
+    "steps": [
+      "Keep the elbows nearly fixed and move from the shoulders without leaning back."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a8ca102d9b02486597ee07cd48bdd1eb~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0237": {
+    "id": "0237",
+    "name": "cable straight arm pulldown (with rope)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 205150,
+    "sha256": "ce1f19d61192c21da4e772edc8981f24fb2b47d6b94aebeacfb7effac2858cde",
+    "leftLabel": "Rope high; arms long",
+    "rightLabel": "Pull rope to thighs",
+    "alt": "AI-generated Nick Kaplan likeness in cable straight arm pulldown (with rope). Start: Rope high; arms long. Finish: Pull rope to thighs.",
+    "steps": [
+      "Keep both rope strands connected and drive the hands down with the lats."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_e6a5fd655d484295b16e6d0eb8d80c84~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0239": {
+    "id": "0239",
+    "name": "cable straight back seated row",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 226586,
+    "sha256": "faf2d9b3f88ac2dc9ab1ae615fd0ca99805042d26ae33c3644a01c93c2e3549f",
+    "leftLabel": "Feet braced; arms extended",
+    "rightLabel": "Row handle to ribs",
+    "alt": "AI-generated Nick Kaplan likeness in cable straight back seated row. Start: Feet braced; arms extended. Finish: Row handle to ribs.",
+    "steps": [
+      "Keep a neutral spine and avoid rocking backward as the shoulder blades squeeze."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_f9a1e986a78e4dbaaa921301e41fcb1b~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0240": {
+    "id": "0240",
+    "name": "cable supine reverse fly",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 198298,
+    "sha256": "b96b03299478bb07b12599be4fb8617e0e6f74ed28ed5c08448cbee284a350a3",
+    "leftLabel": "Handles crossed over chest",
+    "rightLabel": "Open arms toward floor",
+    "alt": "AI-generated Nick Kaplan likeness in cable supine reverse fly. Start: Handles crossed over chest. Finish: Open arms toward floor.",
+    "steps": [
+      "Keep the head supported, elbows soft and both cables under control."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_a351cceccb1043658cfe3cebab254375~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0241": {
+    "id": "0241",
+    "name": "cable triceps pushdown (v-bar)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 209216,
+    "sha256": "d14a95dbcd8947ae5e48bf615e4de8ae948d4ab9a9e1b5287bc86da6383bf1f0",
+    "leftLabel": "Elbows bent and pinned",
+    "rightLabel": "Press V-bar to thighs",
+    "alt": "AI-generated Nick Kaplan likeness in cable triceps pushdown (v-bar). Start: Elbows bent and pinned. Finish: Press V-bar to thighs.",
+    "steps": [
+      "Keep the upper arms still and wrists neutral through the pushdown."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_d8ff2508beec4f2bba62fe59f763ae74~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0862": {
+    "id": "0862",
+    "name": "cable twist (up-down)",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 198942,
+    "sha256": "2dc3497d723a57a8825ee44639caf5b662334c001a838d7352e2c1ec132a058b",
+    "leftLabel": "Hands at upper shoulder",
+    "rightLabel": "Rotate down to opposite hip",
+    "alt": "AI-generated Nick Kaplan likeness in cable twist (up-down). Start: Hands at upper shoulder. Finish: Rotate down to opposite hip.",
+    "steps": [
+      "Rotate the rib cage while keeping the hips and knees controlled."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_792562b441a442768c5273190e58b41c~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0244": {
+    "id": "0244",
+    "name": "cable twisting pull",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 217988,
+    "sha256": "de4bc667931e5858651ba55eb5a0afc47511068748250cc3241ad39cfdb24cb8",
+    "leftLabel": "One arm long; torso square",
+    "rightLabel": "Pull and rotate to ribs",
+    "alt": "AI-generated Nick Kaplan likeness in cable twisting pull. Start: One arm long; torso square. Finish: Pull and rotate to ribs.",
+    "steps": [
+      "Keep the hips stable and row the handle without leaning backward."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_e5bfdaa48c1c4072b51ac9c83409f5ec~mv2.webp",
+    "review": {
+      "identity": "approved private primary likeness reference; source photo excluded from public repository",
+      "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
+    }
+  },
+  "0245": {
+    "id": "0245",
+    "name": "cable underhand pulldown",
+    "equipment": "cable",
+    "width": 1536,
+    "height": 1024,
+    "style": "Nick Style 3 + approved primary likeness",
+    "bytes": 227230,
+    "sha256": "dcfc32de1ca80ec97815280252033cb7d26bcbcaa24346270c1dcc9deaacf1b8",
+    "leftLabel": "Underhand grip overhead",
+    "rightLabel": "Pull bar to upper chest",
+    "alt": "AI-generated Nick Kaplan likeness in cable underhand pulldown. Start: Underhand grip overhead. Finish: Pull bar to upper chest.",
+    "steps": [
+      "Drive the elbows down while keeping only a slight, steady backward lean."
+    ],
+    "url": "https://static.wixstatic.com/media/856ae2_7b94b487e76242ca9ac1d95984577a4e~mv2.webp",
     "review": {
       "identity": "approved private primary likeness reference; source photo excluded from public repository",
       "movement": "operator-reviewed against the exact catalogue demonstration; independent qualified movement review is unverified"
