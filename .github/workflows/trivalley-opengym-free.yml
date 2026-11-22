@@ -168,6 +168,73 @@ jobs:
             ${{ runner.temp }}/trivalley-browser/navigation.png
           retention-days: 7
           if-no-files-found: ignore
+      - name: Checkout pinned coaching portal files for shared Wix hosting
+        uses: actions/checkout@v4
+        with:
+          ref: a83d8423df112b939b6debac7450eb3b14f15212
+          path: verified-coaching-source
+          persist-credentials: false
+      - name: Bundle verified coach portals into shared Wix upload artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+          root = Path('verified-coaching-source/apps/trivalley-coaching-m2')
+          dist = Path('upstream/frontend/dist')
+          # Pin the known-good staging pages. Update this list only after M2 tests
+          # and exact hosted source readback; do not silently fetch from a mutable branch.
+          expected = {
+              'coach-login.html': ('supabase/companion/coach-login.html', '82f4162ae64b8eadee9af9f7898aeeccc45951e9'),
+              'coach-client.html': ('supabase/companion/coach-client.html', '181a92d2b31307c62f9da6d49636004f571d9c7b'),
+              'coach-login-client.mjs': ('supabase/companion/coach-login-client.mjs', '090f08c105cb7c4ddae6ba1e24ed13eadeb666e1'),
+              'coach-client.mjs': ('supabase/companion/coach-client.mjs', '158c579147b0b75716a3347bb55bda32ab32d6a5'),
+              'coach-login-wix.mjs': ('src/wix-login-browser.mjs', '81d62b140434afe1bd5cde740f45e2bd5ab4eab0'),
+              'coach-offline-queue.mjs': ('src/offline-queue.mjs', 'abe595c96f88d4bf51123d82e1a7234ac2a0c690'),
+              'coach-offline-backup.mjs': ('src/offline-backup.mjs', '638fec4eb7c9c6a59d0dba003fe34f2a61ce53fd'),
+          }
+          assert dist.joinpath('index.html').is_file()
+          assert dist.joinpath('tv-release.json').is_file()
+          for public_name, (source, expected_blob) in expected.items():
+              source_path = root / source
+              data = source_path.read_bytes()
+              blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\\x00' + data).hexdigest()
+              assert blob == expected_blob, f'Unexpected coach source blob: {public_name}'
+              assert len(data) > 500, f'Empty coach module: {public_name}'
+              target = dist / public_name
+              if target.exists():
+                  assert target.read_bytes() == data, f'Conflicting guest file: {public_name}'
+              else:
+                  shutil.copyfile(source_path, target)
+              assert target.read_bytes() == data
+          total_bytes = sum(p.stat().st_size for p in dist.rglob('*') if p.is_file())
+          assert total_bytes < 20 * 1024 * 1024, 'Wix static payload exceeds hosting budget'
+          assert len([p for p in expected if (dist/p).is_file()]) == 7
+          print('WIX_SHARED_ARTIFACT_COACH_PORTALS_PASS', len(expected), total_bytes)
+          PY
+      - name: Check hosted coaching URLs before allowing a guest upload artifact
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request
+          host = 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+          files = [
+              'coach-login.html', 'coach-client.html', 'coach-login-client.mjs',
+              'coach-client.mjs', 'coach-login-wix.mjs', 'coach-offline-queue.mjs',
+              'coach-offline-backup.mjs',
+          ]
+          for name in files:
+              req = urllib.request.Request(host + name, headers={'User-Agent':'TriValley-host-integrity/1'})
+              with urllib.request.urlopen(req, timeout=20) as response:
+                  data = response.read()
+                  assert response.status == 200 and len(data) > 500, 'Missing: ' + name
+                  if name.endswith('.mjs'):
+                      assert b'<html' not in data[:256].lower(), 'HTML served as module: ' + name
+                  else:
+                      assert b'<html' in data[:300].lower(), 'Invalid coach page: ' + name
+          print('WIX_HOSTED_COACH_PORTALS_PASS', len(files))
+          PY
       - name: Upload public-app deployment bundle for Wix
         uses: actions/upload-artifact@v4
         with:
