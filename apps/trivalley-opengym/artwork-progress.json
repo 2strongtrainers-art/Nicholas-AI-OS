@@ -7,41 +7,41 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch12-20261122",
-    "status": "REVIEWED_MEDIA_VERIFIED_INTEGRATION_TESTS_PENDING",
+    "id": "core-batch13-20261122",
+    "status": "CLAIMED_GENERATION_IN_PROGRESS",
     "exactIds": [
-      "1411",
-      "1412",
-      "1751",
-      "2187",
-      "3017",
-      "0022",
-      "0045",
-      "0060",
-      "0061",
-      "0064",
-      "0065",
-      "0066",
-      "0067",
-      "0068",
-      "0069",
-      "0070",
-      "0072",
-      "0073",
-      "0074",
-      "0075",
-      "0076",
-      "0077",
-      "0078",
-      "0079",
-      "0080"
+      "0040",
+      "0118",
+      "1256",
+      "1257",
+      "1317",
+      "1721",
+      "0081",
+      "0082",
+      "0084",
+      "0083",
+      "0086",
+      "0087",
+      "0088",
+      "1371",
+      "1718",
+      "0089",
+      "0090",
+      "0091",
+      "0092",
+      "0095",
+      "0096",
+      "0098",
+      "0097",
+      "1756",
+      "0099"
     ],
     "newCatalogueEntries": 25,
-    "priorCatalogueIllustrated": 338,
-    "targetCatalogueIllustrated": 363,
-    "appVersion": "5.32.0",
+    "priorCatalogueIllustrated": 363,
+    "targetCatalogueIllustrated": 388,
+    "appVersion": null,
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Owner-requested retry complete; one-arm barbell geometry and rear-delt distinction corrected. Wix media hashes verified. Independent qualified movement and physical iPhone review remain unverified."
+    "reviewScope": "Owner-authorized Batch 13 claim. Generate from the pinned exact-source movements using approved Nick Style 3 likeness references; review equipment, support points, START/FINISH distinction and movement-specific geometry before integration. No new live count until hosted and Wix acceptance pass."
   },
   "entries": [
     {
@@ -1122,7 +1122,8 @@
       "id": "0040",
       "name": "barbell front raise and pullover",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0042",
@@ -1666,55 +1667,64 @@
       "id": "0118",
       "name": "barbell reverse grip bent over row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1256",
       "name": "barbell reverse grip decline bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1257",
       "name": "barbell reverse grip incline bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1317",
       "name": "barbell reverse grip incline bench row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1721",
       "name": "barbell reverse grip skullcrusher",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0081",
       "name": "barbell reverse preacher curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0082",
       "name": "barbell reverse wrist curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0084",
       "name": "barbell rollerout",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0083",
       "name": "barbell rollerout from bench",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0085",
@@ -1731,55 +1741,64 @@
       "id": "0086",
       "name": "barbell seated behind head military press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0087",
       "name": "barbell seated bradford rocky press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0088",
       "name": "barbell seated calf raise",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1371",
       "name": "barbell seated calf raise",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1718",
       "name": "barbell seated close grip behind neck triceps extension",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0089",
       "name": "barbell seated close-grip concentration curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0090",
       "name": "barbell seated good morning",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0091",
       "name": "barbell seated overhead press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0092",
       "name": "barbell seated overhead triceps extension",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0094",
@@ -1794,37 +1813,43 @@
       "id": "0095",
       "name": "barbell shrug",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0096",
       "name": "barbell side bent v. 2",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0098",
       "name": "barbell side split squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0097",
       "name": "barbell side split squat v. 2",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "1756",
       "name": "barbell single leg deadlift",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "0099",
       "name": "barbell single leg split squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch13-20261122"
     },
     {
       "id": "2799",
