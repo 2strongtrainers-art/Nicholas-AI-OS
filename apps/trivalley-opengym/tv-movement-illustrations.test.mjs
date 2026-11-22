@@ -79,8 +79,8 @@ test('Start/Finish art is visible in preview, active posters and Focus without m
   assert.match(phaseInstaller,/MovementIllustration ex=\{ex\} poster/)
   assert.match(tools,/MovementIllustration ex=\{ex\} poster/)
   assert.match(css,/\.tv-movement-poster/)
-  assert.equal(MOVEMENT_REVIEW_STATUS['0002'], undefined) // queued artwork must never appear as Nick
-  assert.equal(movementFor('0002'),null)
+  assert.equal(MOVEMENT_REVIEW_STATUS['0002'], 'approved') // formerly held; repaired exact-ID artwork is now accepted
+  assert.equal(movementFor('0002').id,'0002')
 })
 
 test('Avatar abs batch uses ten real exact catalogue IDs without replacing the previous 53',()=>{
@@ -108,12 +108,12 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
 })
 
 
-test('Core artwork maps only the 106 reviewed IDs to verified derivative assets',()=>{
+test('Core artwork maps only the 150 reviewed IDs to verified derivative assets',()=>{
  const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
  const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
  const assets=Object.values(CATALOGUE_ART_CORE)
- assert.equal(assets.length,106)
- assert.equal(new Set(assets.map(asset=>asset.url)).size,106)
+ assert.equal(assets.length,150)
+ assert.equal(new Set(assets.map(asset=>asset.url)).size,150)
  for(const asset of assets){
   assert.equal(movementFor(asset.id),asset)
   assert.equal(catalogue.get(asset.id).n,asset.name)
@@ -123,5 +123,11 @@ test('Core artwork maps only the 106 reviewed IDs to verified derivative assets'
   assert.match(asset.sha256,/^[a-f0-9]{64}$/)
   assert(asset.steps[0].length>30)
  }
- for(const id of ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','1714'])assert.equal(movementFor(id),null)
+ const repaired=['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226','1714']
+ const newest=['0983','0984','0986','0987','0988','0989','0990','0991','0993','0994','0996','0997','0998','0999','1000','1001','1003','1004','1008','1009','1010','1012','1018','1022','1023']
+ for(const id of [...repaired,...newest]){
+  const asset=movementFor(id)
+  assert.ok(asset);assert.equal(asset.style,'Nick Style 3 + approved primary likeness')
+  assert.match(asset.url,/\.webp$/);assert.match(asset.review.identity,/primary likeness/)
+ }
 })
