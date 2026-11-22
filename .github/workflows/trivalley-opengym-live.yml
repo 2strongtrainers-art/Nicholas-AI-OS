@@ -23,6 +23,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: f46bfd5f649cde7782bcdfac3eb93a0253aece1d
+      - name: Wait for service-worker control before testing offline reloads
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for name in ['illustrated_smoke.mjs', 'catalogue_art_smoke.mjs']:
+              path = Path('apps/trivalley-opengym') / name
+              source = path.read_text()
+              old = 'await context.setOffline(true)'
+              assert source.count(old) == 1, name
+              ready = 'await page.waitForFunction(() => navigator.serviceWorker.controller !== null, undefined, {timeout: 60000}); '
+              path.write_text(source.replace(old, ready + old))
+          PY
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -168,6 +180,18 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           ref: f46bfd5f649cde7782bcdfac3eb93a0253aece1d
+      - name: Wait for service-worker control before testing offline reloads
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for name in ['illustrated_smoke.mjs', 'catalogue_art_smoke.mjs']:
+              path = Path('apps/trivalley-opengym') / name
+              source = path.read_text()
+              old = 'await context.setOffline(true)'
+              assert source.count(old) == 1, name
+              ready = 'await page.waitForFunction(() => navigator.serviceWorker.controller !== null, undefined, {timeout: 60000}); '
+              path.write_text(source.replace(old, ready + old))
+          PY
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: '24'
