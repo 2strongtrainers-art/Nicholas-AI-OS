@@ -187,6 +187,9 @@ test('Batch 16 exact-ID cards have unique URLs, reviewed dimensions and movement
  }
  assert.match(CATALOGUE_ART_BATCH16['0149'].rightLabel,/overhead/)
  assert.match(CATALOGUE_ART_BATCH16['3235'].coaching[1],/whole body lowers from the knees/)
+ assert.match(CATALOGUE_ART_BATCH16['0155'].coaching[0],/chest-height handles/)
+ assert.match(CATALOGUE_ART_BATCH16['0155'].coaching[1],/in front of your chest/)
+ assert.doesNotMatch(CATALOGUE_ART_BATCH16['0155'].coaching.join(' '),/high handles|lower torso|hands down/i)
  assert.match(CATALOGUE_ART_BATCH16['0158'].coaching[0],/head resting/)
  assert.match(CATALOGUE_ART_BATCH16['0168'].coaching[1],/inward/)
 })
