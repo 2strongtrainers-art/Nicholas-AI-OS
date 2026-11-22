@@ -6,6 +6,7 @@ import { COACH_NOTES, ESSENTIAL_IDS, coachNotesFor, normalizeExerciseNames } fro
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 import { CATALOGUE_ART_BATCH16 } from './tv-catalogue-art-batch16.mjs'
 import { CATALOGUE_ART_BATCH17 } from './tv-catalogue-art-batch17.mjs'
+import { CATALOGUE_ART_BATCH18 } from './tv-catalogue-art-batch18.mjs'
 
 test('Batch 16 replaces contradictory generic instructions without expanding the Main 16', () => {
   assert.equal(ESSENTIAL_IDS.length, 16)
@@ -51,4 +52,12 @@ test('Batch 17 provides exact movement coaching while preserving Main 16 members
  assert.match(coachNotesFor({id:'0182'})[0],/high pulley/)
  assert.match(coachNotesFor({id:'0184'})[1],/elbow bend/)
  assert.equal(coachNotesFor({id:'toString'}),null)
+})
+
+test('Batch 18 provides exact movement coaching while preserving Main 16 membership',()=>{
+ assert.equal(ESSENTIAL_IDS.length,16)
+ for(const [id,a] of Object.entries(CATALOGUE_ART_BATCH18)) assert.deepEqual(coachNotesFor({id}),a.coaching)
+ assert.match(coachNotesFor({id:'2414'})[0],/full barbell/)
+ assert.match(coachNotesFor({id:'0137'})[1],/high plank/)
+ assert.equal(coachNotesFor({id:'constructor'}),null)
 })

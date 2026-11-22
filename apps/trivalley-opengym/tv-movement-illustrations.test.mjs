@@ -12,10 +12,11 @@ import { CATALOGUE_ART_BATCH14 } from './tv-catalogue-art-batch14.mjs'
 import { CATALOGUE_ART_BATCH15 } from './tv-catalogue-art-batch15.mjs'
 import { CATALOGUE_ART_BATCH16 } from './tv-catalogue-art-batch16.mjs'
 import { CATALOGUE_ART_BATCH17 } from './tv-catalogue-art-batch17.mjs'
+import { CATALOGUE_ART_BATCH18 } from './tv-catalogue-art-batch18.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length+Object.keys(CATALOGUE_ART_BATCH15).length+Object.keys(CATALOGUE_ART_BATCH16).length+Object.keys(CATALOGUE_ART_BATCH17).length)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length+Object.keys(CATALOGUE_ART_BATCH15).length+Object.keys(CATALOGUE_ART_BATCH16).length+Object.keys(CATALOGUE_ART_BATCH17).length+Object.keys(CATALOGUE_ART_BATCH18).length)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -110,7 +111,7 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)&&!(id in CATALOGUE_ART_BATCH15)&&!(id in CATALOGUE_ART_BATCH16)&&!(id in CATALOGUE_ART_BATCH17)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)&&!(id in CATALOGUE_ART_BATCH15)&&!(id in CATALOGUE_ART_BATCH16)&&!(id in CATALOGUE_ART_BATCH17)&&!(id in CATALOGUE_ART_BATCH18)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
@@ -216,4 +217,21 @@ test('Batch 17 exact-ID cards have unique URLs, reviewed dimensions and movement
  assert.match(CATALOGUE_ART_BATCH17['0186'].coaching[0],/floor mat/)
  assert.match(CATALOGUE_ART_BATCH17['1262'].coaching[0],/below your hips/)
  assert.match(CATALOGUE_ART_BATCH17['1263'].coaching[0],/hips level/)
+})
+
+test('Batch 18 exact-ID cards have unique URLs, reviewed dimensions and movement-specific accessible coaching',()=>{
+ const entries=Object.entries(CATALOGUE_ART_BATCH18)
+ assert.equal(entries.length,25)
+ assert.equal(new Set(entries.map(([,a])=>a.url)).size,25)
+ for(const [id,a] of entries){
+  assert.equal(a.id,id);assert.equal(movementFor(id),a)
+  assert.deepEqual([a.width,a.height],[1200,800]);assert(a.bytes>50000&&a.bytes<500000)
+  assert.match(a.url,/^https:\/\/static\.wixstatic\.com\/media\/[A-Za-z0-9_~.-]+\.webp$/)
+  assert.match(a.sha256,/^[0-9a-f]{64}$/)
+  assert.equal(a.coaching.length,4);assert(a.coaching.every(x=>x.length>20))
+ }
+ assert.match(CATALOGUE_ART_BATCH18['2414'].coaching[0],/shoulder-width underhand grip/)
+ assert.match(CATALOGUE_ART_BATCH18['0105'].coaching[1],/shallow arc/)
+ assert.match(CATALOGUE_ART_BATCH18['3167'].coaching[3],/inspect the towel/)
+ assert.match(CATALOGUE_ART_BATCH18['1266'].coaching[0],/stable ball/)
 })

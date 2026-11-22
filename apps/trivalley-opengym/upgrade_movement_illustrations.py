@@ -22,6 +22,7 @@ shutil.copyfile(assets/'tv-catalogue-art-batch14.mjs',front/'src/lib/tv-catalogu
 shutil.copyfile(assets/'tv-catalogue-art-batch15.mjs',front/'src/lib/tv-catalogue-art-batch15.mjs')
 shutil.copyfile(assets/'tv-catalogue-art-batch16.mjs',front/'src/lib/tv-catalogue-art-batch16.mjs')
 shutil.copyfile(assets/'tv-catalogue-art-batch17.mjs',front/'src/lib/tv-catalogue-art-batch17.mjs')
+shutil.copyfile(assets/'tv-catalogue-art-batch18.mjs',front/'src/lib/tv-catalogue-art-batch18.mjs')
 shutil.copyfile(assets/'MovementIllustration.jsx',front/'src/components/MovementIllustration.jsx')
 shutil.copyfile(assets/'tv-movement-illustrations.mjs',front/'src/lib/tv-movement-illustrations.js')
 shutil.copyfile(assets/'movement-illustrations.css',front/'src/movement-illustrations.css')
