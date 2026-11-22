@@ -36,13 +36,13 @@ jobs:
           for(let attempt=0;attempt<18;attempt++){
             const response=await fetch(root,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const html=await response.text();
-            if(response.ok&&html.includes('assets/index-E3yhjaDP.js')){ready=true;break;}
+            if(response.ok&&html.includes('assets/index-DvU7G__t.js')){ready=true;break;}
             console.log('Root HTML has not reached the expected release; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
           if(!ready)throw Error('Published root HTML remains stale; do not promote acceptance.');
           NODE
-      - name: Verify exact published TriValley v5.20.1 source and compiled asset
+      - name: Verify exact published TriValley v5.34.0 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -50,9 +50,9 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.20.1' ||
-              release.sourceCommit !== 'd09422be10ecac0aa8505047a29f58b3304b0f03' ||
-              release.mainScript !== 'assets/index-E3yhjaDP.js' ||
+          if (release.version !== '5.34.0' ||
+              release.sourceCommit !== '3bf96a75a2835afc4946ca69b2be025ce160540b' ||
+              release.mainScript !== 'assets/index-DvU7G__t.js' ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
           }
@@ -61,7 +61,7 @@ jobs:
       - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
         env:
           TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
-          TV_EXPECTED_JS: 'index-E3yhjaDP.js'
+          TV_EXPECTED_JS: 'index-DvU7G__t.js'
           TV_EXPECT_LIBRARY_V3: '1'
           TV_EXPECT_COMPACT_VERSE: '1'
           TV_EXPECT_V4: '1'
@@ -173,7 +173,7 @@ jobs:
           for(let attempt=0;attempt<18;attempt++){
             const response=await fetch(root,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const html=await response.text();
-            if(response.ok&&html.includes('assets/index-E3yhjaDP.js')){ready=true;break;}
+            if(response.ok&&html.includes('assets/index-DvU7G__t.js')){ready=true;break;}
             console.log('Root HTML has not reached the expected release; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
