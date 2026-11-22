@@ -12,6 +12,7 @@ const batch10Ids = new Set(['0023','0024','0026','0028','0029','0030','0031','00
 const batch11Ids = new Set(['0044','0046','0047','0048','0049','0050','0051','0052','0053','0054','0055','0056','0057','0058','0059','0063','1409','1410','1435','1461','1462','1545','1719','1720','3562'])
 const batch12Ids = new Set(['0022','0045','0060','0061','0064','0065','0066','0067','0068','0069','0070','0072','0073','0074','0075','0076','0077','0078','0079','0080','1411','1412','1751','2187','3017'])
 const batch13Ids = new Set(['0040','0081','0082','0083','0084','0086','0087','0088','0089','0090','0091','0092','0095','0096','0097','0098','0099','0118','1256','1257','1317','1371','1718','1721','1756'])
+const batch14Ids = new Set(['0100','0101','0102','0103','0104','0106','0107','0108','0109','0110','0111','0112','0113','0114','0115','0116','0120','1372','1456','1457','1629','2798','2799','2810','3305'])
 const engine = process.env.TV_ENGINE || 'chromium'
 const live = process.env.TV_LIVE_URL
 const format = { '.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
@@ -32,14 +33,14 @@ if (!base) {
 }
 try {
   const release = await (await fetch(base+'tv-release.json')).json()
-  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id) && !batch11Ids.has(asset.id) && !batch12Ids.has(asset.id) && !batch13Ids.has(asset.id))
+  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id) && !batch11Ids.has(asset.id) && !batch12Ids.has(asset.id) && !batch13Ids.has(asset.id) && !batch14Ids.has(asset.id))
   const held = []
   assert.equal(staged.length,200)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
-  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size + batch11Ids.size + batch12Ids.size + batch13Ids.size)
+  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size + batch11Ids.size + batch12Ids.size + batch13Ids.size + batch14Ids.size)
   assert(repairedIds.every(id => ids.has(id)), 'A repaired card is missing from the release')
-  const assets = [...staged, ...[...batch12Ids, ...batch13Ids].map(id => release.movementIllustrations.find(a => a.id === id))]
-  assert(assets.every(Boolean), 'A Batch 12 or 13 card is missing from the release')
+  const assets = [...staged, ...[...batch12Ids, ...batch13Ids, ...batch14Ids].map(id => release.movementIllustrations.find(a => a.id === id))]
+  assert(assets.every(Boolean), 'A Batch 12, 13 or 14 card is missing from the release')
   const src = asset => asset.url || './'+asset.path
   const absolute = asset => new URL(src(asset),base).href
   async function fetchBytes(asset) {
