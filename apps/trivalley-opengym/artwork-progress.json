@@ -3,30 +3,45 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 53,
+  "catalogueIllustrated": 363,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "nick-abs-avatar-20261120-01",
-    "status": "REVIEWED_INTEGRATION_TESTS_PENDING_NOT_DEPLOYED",
+    "id": "core-batch12-20261122",
+    "status": "REVIEWED_MEDIA_VERIFIED_INTEGRATION_TESTS_PENDING",
     "exactIds": [
-      "0001",
-      "0003",
-      "0006",
-      "0262",
-      "0267",
-      "0276",
-      "3640",
-      "0687",
-      "0871",
-      "3639"
+      "1411",
+      "1412",
+      "1751",
+      "2187",
+      "3017",
+      "0022",
+      "0045",
+      "0060",
+      "0061",
+      "0064",
+      "0065",
+      "0066",
+      "0067",
+      "0068",
+      "0069",
+      "0070",
+      "0072",
+      "0073",
+      "0074",
+      "0075",
+      "0076",
+      "0077",
+      "0078",
+      "0079",
+      "0080"
     ],
-    "newCatalogueEntries": 10,
-    "priorCatalogueIllustrated": 53,
-    "targetCatalogueIllustrated": 63,
-    "appVersion": "5.21.0",
+    "newCatalogueEntries": 25,
+    "priorCatalogueIllustrated": 338,
+    "targetCatalogueIllustrated": 363,
+    "appVersion": "5.32.0",
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Owner-authorized avatar face with Nick Style 3; original reference photographs kept private. Independent publisher active; recheck latest source and host before publishing."
+    "reviewScope": "Owner-requested retry complete; one-arm barbell geometry and rear-delt distinction corrected. Wix media hashes verified. Independent qualified movement and physical iPhone review remain unverified."
   },
   "entries": [
     {
@@ -38,13 +53,16 @@
       "assetSha256": "32b32551548acb8c22bb9bd870fd5d464a8bee5c10bf90098c94f0881b335f8d",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0002",
-      "name": "45\u00b0 side bend",
+      "name": "45° side bend",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0003",
@@ -55,13 +73,16 @@
       "assetSha256": "b247b39eb1d684271ac8e4b55f0c4122cf25890fc570e582549b5f80e211df60",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1512",
       "name": "all fours squad stretch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3ca73476c009c89e1adfb93f9afa0c07782bff2118ee548655976bc75d140d4f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0006",
@@ -72,694 +93,1030 @@
       "assetSha256": "65707f303e7767fb22dd4b851837494d27c31a70e208b3ab32591bcc74912f26",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0007",
       "name": "alternate lateral pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "878defa6e5179b5f9ec0637974f40bc14df017a6db08de3e8440d58d43866034",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1368",
       "name": "ankle circles",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3cb4e0f004ab1e76db928f467867bd66e47d159017691fd5e21e4c694b33e786",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3293",
       "name": "archer pull up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1fec14e5dd2949b945ae1d086e30dc3621724d13afc96d1ab2db8ae25edb416e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3294",
       "name": "archer push up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1575b4008ee900b2d8221c807f237d268f56cb4b825301dfbbd639630e1154a7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2355",
       "name": "arm slingers hanging bent knee legs",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3bf1ced7c96fde522be4f09985a61630c5c66ed908559cf433f13d8a795123b5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2333",
       "name": "arm slingers hanging straight legs",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a3a297e951eba477beaee57270045965f06db25884a381d82839d83583600af3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3214",
       "name": "arms apart circular toe touch (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9a2c41c98b8db49512e148c72e9aebbd066a87b387bbfd10d3054b8fa46a2898",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3204",
       "name": "arms overhead full sit-up (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "29120b4db27b1305b9dcd8d54a33d1e52f04dd905b2b94bfb353112fe79a6d5f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0009",
       "name": "assisted chest dip (kneeling)",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1abcec1c7dd7c5ad8d76f5cb9f83d96fa37c9e02a6d88c884df007c9350c12a5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0011",
       "name": "assisted hanging knee raise",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5134400ff237285cda7c791e011525d56099cc7edbe5fa6efcfeb068c23b5c1a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0010",
       "name": "assisted hanging knee raise with throw down",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e993b12cb9212460fa40aea44452ffae29ba175d20ccb85a8c333f2e5acc237f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1708",
       "name": "assisted lying calves stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b4340adfee55f1d28d2277c92d63c79a2f256d40f1b35e6c600ed0a092daa815",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1709",
       "name": "assisted lying glutes stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5331b61b036e6b08ce58afeb52dbf166992bb9b036d666bfd8ed003212c81f3a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1710",
       "name": "assisted lying gluteus and piriformis stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "dcf6ba4d05e074d1a58efed23e35ff95ad24f37c2decca96cea545756781a76e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0012",
       "name": "assisted lying leg raise with lateral throw down",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "df4b4a6843f2e0f2bcc7c5e0d5181254d1843637f3926c0bfd00d874c00dd416",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0013",
       "name": "assisted lying leg raise with throw down",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ccd76c69d59e1770ec2990f1ea45c07ed01551960222db7147916865952a9164",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0014",
       "name": "assisted motion russian twist",
       "equipment": "medicine ball",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7dde0580ef745655d9969a30664352e446824247ee8821a3686fc82f45647ab4",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0015",
       "name": "assisted parallel close grip pull-up",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "06c3a7fe336df9c1b9e1107dd7df2257f3d850077a8832927260494d1642e809",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0016",
       "name": "assisted prone hamstring",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "30eda86841b93b9b8cb0ffda3441227c7d494419b0211a5879fd42c445afb518",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1713",
       "name": "assisted prone lying quads stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9359351ad1a74e15e392ff5f87e7ce17d5129fea4ac3d4a286f3f18fa6a40df7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1714",
       "name": "assisted prone rectus femoris stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "351ce691d3aaddab8e888e4e989a797610fe7c9913fddd908004efd7ae7be3f8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0017",
       "name": "assisted pull-up",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d73159cb2290e17f7436a84e263ca54ca25c41a0887f7254f2443cdc73688c54",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1716",
       "name": "assisted seated pectoralis major stretch with stability ball",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a12a078f88389f5840a5fee639544e3fb4feb81746b01f1784b8a105717b2550",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1712",
       "name": "assisted side lying adductor stretch",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4fbeeb1a9cd157c6eb93c7582fa0b1e5ef0695a09de11afb88d194447ff5df89",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1758",
       "name": "assisted sit-up",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3af1dbde76c83003087d6cd43e7f782a5ccd77c7f5d112782413fcbf111c1799",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1431",
       "name": "assisted standing chin-up",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "56972f993fb486b64b165e4f64e944bfe27c1dc64a169ecfd1dc0a14e9012268",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1432",
       "name": "assisted standing pull-up",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9ae3a746f3a2a8e968f10d0d7cb4b7e16ca6095659fdfad17aa9c2ba135e425b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0018",
       "name": "assisted standing triceps extension (with towel)",
       "equipment": "assisted",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7483bb0ac8f2b7c5922da86bcad4f24ea0c10662d3edfb856adde925b6f22ce2",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0019",
       "name": "assisted triceps dip (kneeling)",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "76ea992fd0d22b14e6996933bb130a386038c6d05e88b772de930f159467f95e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2364",
       "name": "assisted wide-grip chest dip (kneeling)",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8291d8952e78bc584dc66f81d6b91c41f70a264bcb3fe14cd4924f665f0cf208",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3220",
       "name": "astride jumps (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "14e417c0568319f71a996f189242ec7859ce791c7c933aa5721e3b9325ce0c04",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3672",
       "name": "back and forth step",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a637de8430c8480ddb463f33123e136b2972a752497ec0cbd358b27de57fe3c1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1314",
       "name": "back extension on exercise ball",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8b095c282419745048cc516bb5d69b0b4dd36f790def122eac874db951cacb9f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3297",
       "name": "back lever",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9c74a332792cfb860c4af5f484708b00f0bda487e10566bf99f54673bd800fcd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1405",
       "name": "back pec stretch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6fc513eed6b272289a18f83b8c967f9046e101838c88db87c52139d506194609",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1473",
       "name": "backward jump",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "cce311ceded9b286e0c1516e3cf069356fb6487c6e8597f3fed449a19366acc5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0020",
       "name": "balance board",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fc8f4c8790c0eee2a29de2c80ff9f1441aa5afc8742f4640109596c3d019bb90",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0968",
       "name": "band alternating biceps curl",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0d910e975a8c7478148f67cb8714b423a491768925fae96fa4f52276e8fe4b91",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0969",
       "name": "band alternating v-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3ffbf683aa0b49c603c7497377e5510647c61d3a69194237ac0fde5a8b1086e5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0970",
       "name": "band assisted pull-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b74727fac576a824eab96624475f96c69757bf130cd5108b347714ff03ce6d39",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0971",
       "name": "band assisted wheel rollerout",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "be62a12a68954b2fba7b907d99e84fe32a216a209191fc511dd6ac693f405abc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1254",
       "name": "band bench press",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "eb0d469c486ad6ad093f46fbce177326a62d84f58a74e8cc0e0b7775d20e19bc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0980",
       "name": "band bent-over hip extension",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "926304f68db2f3195f1c8001531b57464af66a14552cec0a2471a00c3c53b1c2",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0972",
       "name": "band bicycle crunch",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c79ff88c71cb3c86f1401934ef86a76f11b2a97a0904468510dfc66281d013bf",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0974",
       "name": "band close-grip pulldown",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7c3ccd51aaae96ff374a7a0d718ca03e8daab398bf5d6b414a4bd9abd743e400",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0975",
       "name": "band close-grip push-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b913892aa8b2629baad3ecd5107cce2b21574d07cc979462aca58ae850d6079f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0976",
       "name": "band concentration curl",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "462e7ff2d9501e60a2be2f3c912e88a3a9ed65bc9108c716fde2a3404afbb336",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3117",
       "name": "band fixed back close grip pulldown",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5ff59d5a2a4183a72fab79f4b0004932cca4d739563982869903e498de663b1a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3116",
       "name": "band fixed back underhand pulldown",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e15c87d46d7cea1c0512343009e5326f708905bc5a636377fa5db2c2d252f788",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0977",
       "name": "band front lateral raise",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b1d9b5fe1ee15ec70a025475de89b022c946ad0ed53a256d9f7250a74896adc7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0978",
       "name": "band front raise",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "209d048970eb9674caae667fd5c9e6d8dd245bd13f73b1e163c5b593bc5f9bff",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1408",
       "name": "band hip lift",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b581b489b98affa0aa47a365212469440c9513d2f69b624f1b2402cc64ccf7dd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0979",
       "name": "band horizontal pallof press",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0ce59fa820689e5e729a08e1e38172acbb36678f9778836ad576e4549a8325c7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0981",
       "name": "band jack knife sit-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7a36c36e65566a483ba701666ad048a0db280e8006ae5220a1378e6e41637894",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0983",
       "name": "band kneeling one arm pulldown",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8e0e327df2cd40e7ab96c3ae70fc569059293935fbcee47dbb21888264da9192",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0985",
       "name": "band kneeling twisting crunch",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a9c855b061dc1a2e8a53cd70c2f0187bbed263bed29b83ab0c8832735b06a065",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0984",
       "name": "band lying hip internal rotation",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "91b4a6edc8a74b5781f63e7d983689ffc8f108a755364993fbedf19d2e2dbed9",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1002",
       "name": "band lying straight leg raise",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fb53cd24aaf86371b01403c19f8af4084a6f3ae413728592da5ebdf188dce18b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0986",
       "name": "band one arm overhead biceps curl",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "82e5befb796478fdd88f52b82c3d477c0b2ff051ec52f897f8710848b938fbfa",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0987",
       "name": "band one arm single leg split squat",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c89eb08d507b0b74e7242163fbaa741c516208131866be5eebad34cf6d3c773e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0988",
       "name": "band one arm standing low row",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "33a530a2c0833a2ad11f85a27399d3bfadbc5f4a59aa1271591452e79fc2f88d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0989",
       "name": "band one arm twisting chest press",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4927a092fdfa13c387847c7c9bde466f3b25a1ce1ca5eec1be5a3f99bd3bdc5c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0990",
       "name": "band one arm twisting seated row",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "15ac7d4307b21d2d8a678b88dedda226f9fe4d1aaa42bf2c65d0a47631f017bd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0991",
       "name": "band pull through",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3ffecec91a2c2dc29185a20e9fca58ca76fa616c94cb1fdc66f2438560838d6c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0992",
       "name": "band push sit-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "081911ae4d53c91c593d67d7188ddde51f0fdfd3716728082911f02610ae6897",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0993",
       "name": "band reverse fly",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "534fc379862ce662243d487765f8f82869f4fe532ef7755afd6db45d613e120f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0994",
       "name": "band reverse wrist curl",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7590af3844dfef9fab1c9c55f7505106c954267266c05a343bc2dc64e59f7a1b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0996",
       "name": "band seated hip internal rotation",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "16269986c6859c4ade9123ce73e7d69f564c91c81114284de2b9d1c15a958827",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1011",
       "name": "band seated twist",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5b8f0bc3720d23dfe7707b09d6180045379d289a40ea73ea0866c38006735217",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0997",
       "name": "band shoulder press",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6d104e4c285777ad9229f5cf9c551c10e33c180257ecb63ec0210efb05864064",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1018",
       "name": "band shrug",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "447e955b55ea701e816e6ff7982e6a644cd26b7a2adfd3b23243bb0004e2773b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0998",
       "name": "band side triceps extension",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "45367a77a40fe1a4e3e8cd27f6adc550ea88ab52247b5378422f8f13d0174f60",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0999",
       "name": "band single leg calf raise",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "50509cf43cf18ce08a2714b82a6240fd52bbcd39ac3f4335dd2f26ebc7da6e2e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1000",
       "name": "band single leg reverse calf raise",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d390fc48725b15117a2a7f1a211055ff71d95c751c2c6de77101dca31351990b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1001",
       "name": "band single leg split squat",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f96d2477870e97f845468f6baaead352516c34c0dbd0c7f598a3a1e8a3f53d46",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1004",
       "name": "band squat",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "051b0225417e3b25a19d91c250a68a474f5f40b7ed919d909049ecbca5e36e9c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1003",
       "name": "band squat row",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "88993cd5d69b1a116d6ad9552cc23caefb329ca16bf43e67d99336ed175c4711",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1005",
       "name": "band standing crunch",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7850386422f57f3d5361af7bd4aa64c349e5d7833d689b5aad945a6b7814ea52",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1022",
       "name": "band standing rear delt row",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0d6f74d1aec70cb5efef59640c52ae7fc39d7cc8010ec29e22a7363c5bdc22a0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1007",
       "name": "band standing twisting crunch",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f2f59f0b516ab1c9e2cf693ab996f09704064ef6bd2c1cbd13b8b2825d00f3e7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1008",
       "name": "band step-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ddeb9e0040430ed8f4618bb3c94036be740f537d2daf7130dc592281912d776c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1009",
       "name": "band stiff leg deadlift",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5e1a5ffc7266c6bc8054eb82675c2e2ec9fdbf4715e503ea390d65e6e499dc76",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1023",
       "name": "band straight back stiff leg deadlift",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c20e30680e3ec0247a8d54c10e2c843f58cb76cd283ffbcd94da0d253a27358d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1010",
       "name": "band straight leg deadlift",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3af5b00b7ded33958fc355a022d2e76c3e917f0c19f76e8e1cf6a0aa42caa6e8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1012",
       "name": "band twisting overhead press",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "74070dd69e148bac24efee417bd9205f0b3dd58ee1ab51c94c1fdc74c70151bd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1369",
       "name": "band two legs calf raise - (band under both legs) v. 2",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e8eb08a5746067bceb54e6d907fdf3050c505970ac5309f67eddb2c5555ecddb",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1013",
       "name": "band underhand pulldown",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "11c4b8d5df6a389d3d10899ad204b3f382cc020c05b15d015ec9047d21e6ca1c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1014",
       "name": "band v-up",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "dba4d202fd954803582b68bf50eb2b3af8bd2c809b9244b5edcdd59b8b89c225",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1015",
       "name": "band vertical pallof press",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a69e51c3805d85977c7200c9a387237d10c6735af8ed7905b494e6162fb0403e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1016",
       "name": "band wrist curl",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "28e395008952f4bf930f78166736d088ec76f187e598c5435b16d746e4db5cc6",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1017",
       "name": "band y-raise",
       "equipment": "band",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4cd3247a4800e98c6b06db2029d5a759665537ba42e4242bc041e231aaa8fc1d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0023",
       "name": "barbell alternate biceps curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "34e9aba46b1f52a4df3c9ac6f2b6ab441b9188d0e91ed510d23f7a890de6d6c5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0024",
       "name": "barbell bench front squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c55f08d55a9cd7500749659948b883631ecb5d111829a793c841075652a433f1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0025",
       "name": "barbell bench press",
       "equipment": "barbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0026",
       "name": "barbell bench squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "18b3200e082317fed2fb3d2f01823f3b3f5fe46809e500e639e1184a391b7902",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1316",
       "name": "barbell bent arm pullover",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ec11a0a323f5133674c60a0e776c0036011062feed9cf010001d3c08128e7d8c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0027",
       "name": "barbell bent over row",
       "equipment": "barbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2407",
       "name": "barbell biceps curl (with arm blaster)",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "caeab11046c73e4b5e69198b2e89fe170f49d84cd8139c19353fc438e5712fad",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0028",
       "name": "barbell clean and press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "94c4dafad54cdb98d5a6cc7388745526b768c10f7b0d3dbcd4f9618a2cae3afe",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0029",
       "name": "barbell clean-grip front squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3387e25d8173025909c7a1f4ec894c4cfa14e9acfcbb65224f940abf60e72761",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0030",
       "name": "barbell close-grip bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ab1cdd921113011838791debb57e4493e4e3ee0dd8c04e40427a86b39e41663a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0031",
       "name": "barbell curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a8bd4cf5fb69393a70bb7938d112bddf2de6846461b256d349c1359fc22ecd36",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0032",
       "name": "barbell deadlift",
       "equipment": "barbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "4ec2ca7a1bfef32c2835c0c68e292aba8a0b4492a985adeaee31db2d78189adc",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0033",
       "name": "barbell decline bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0f78a5264a4990c7caf2cd5247b2d9471656f5e3da153e94695bf390b8d9a317",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0034",
       "name": "barbell decline bent arm pullover",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "913e4c36eca1bb648ec307a578cab7f91d818c4971b4041712fd0b5d07a4e000",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0035",
       "name": "barbell decline close grip to skull press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "401fcc23ea1ecb8bf9e05fd803cb939a8e1ddc0893534dc08da896fe254e3652",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1255",
       "name": "barbell decline pullover",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9d79938ab3939bc731a4dc38b66069a576bc71db3915caf86bb6aba24cd06460",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0036",
       "name": "barbell decline wide-grip press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "da91d04fdcc25525a3e340bda76d0c9c78aec1205fb00b682b798a0edcfac164",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0037",
       "name": "barbell decline wide-grip pullover",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4088a54473a045a9f8fc5cea69ab594503def50d7e0f2b9b36b19fcefcf1c20b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0038",
       "name": "barbell drag curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "20a7c444cae0b09279f0bae5c8076cd8341eefce3b6d3d5b9b14ced3668219e2",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1370",
       "name": "barbell floor calf raise",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0f420ba906fec7596b8396618c20846756e19dcc5fe615372317ad6a30c23ffe",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0039",
       "name": "barbell front chest squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ca93e89b8f40cd7ce6f8703dc622a36f5c254d797760f0f7413d86e81f0d0480",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0041",
       "name": "barbell front raise",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5300961f1447480598f8855928bfa8554ed9efa1fd7af2c88a2bf52c1762d3d5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0040",
@@ -771,328 +1128,539 @@
       "id": "0042",
       "name": "barbell front squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "01d2734638582468b3e463a94145741fb1a29ab9de2843726cfe47276610a6ad",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0043",
       "name": "barbell full squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "20759157d83045f6e887f254d0bbd9ac5da01f1a2161ff154497a30c7a757623",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1461",
       "name": "barbell full squat (back pov)",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c9b566bae4748016247dde37cceb562894be545c9e3013a5f8aca51972d7dcb2",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1462",
       "name": "barbell full squat (side pov)",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a94016441a5f73be0b147d1930033adba5428957a701c47db133888751ee4f64",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1545",
       "name": "barbell full zercher squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5b50f479953549b4dc3aacd60e50cfa6e72e7d1b9e1cae379a7a16c72538618d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1409",
       "name": "barbell glute bridge",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "83ebb4b69c19c808b4b75b051af93de49305fa3e079d85456a3fa6f9a72862a3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3562",
       "name": "barbell glute bridge two legs on bench (male)",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9956bde6ddec77caf0e87557a2ceb82c64d1a65f1be1d86dca635478e624fed5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0044",
       "name": "barbell good morning",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "cdef4201e6d81f52359e6ca8e4d23b9458820ead25f544dc7ee75b5cb6b378a8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0045",
       "name": "barbell guillotine bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "02baa9985f022dfc202c714293e0f0934c46522dee721080562bbb333df3114f",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0046",
       "name": "barbell hack squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "eb59d10aa077ede2bc7ee97b7c0a77441934cf60d617baab468f086c7b830e33",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1436",
       "name": "barbell high bar squat",
       "equipment": "barbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0047",
       "name": "barbell incline bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a914f3704e965cf508c40eee4a301b61b951c0d5abd0c88619d093c704b657ba",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1719",
       "name": "barbell incline close grip bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "34fdd73600b67952e4e6280bc82dbffd77d2a1eb0b18dc3dd157229e59a0c8dd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0048",
       "name": "barbell incline reverse-grip press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8b043dec1d2501eda011052af6a36d4ba55dca6b79e672a2bab864366ab1b92b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0049",
       "name": "barbell incline row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5dfc63d195d316b1e900edd532f9ed40e2916d394eb7766e180a1705c3c20e94",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0050",
       "name": "barbell incline shoulder raise",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "286f94667f1ea5369363cacd7f1f10008b7aff906b4df38c7feabe3cb4aad324",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0051",
       "name": "barbell jefferson squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "bbc8f26ce49def31bf53c3844c265fac113fcbd6608c1da38c0d4979a86727b9",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0052",
       "name": "barbell jm bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d45e3acd0cedc5a432d2d30f2c18caa541cd01e3af1ecdb50e6703032b80efea",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0053",
       "name": "barbell jump squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "95750e89cf16b517751203a4e3b293c40da7c188ff4608b65ee9a8e7e1331467",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1410",
       "name": "barbell lateral lunge",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "53b7d4db1d0f78c97fa4faf1265c48e0a5fa9df3c2d82f424175a8bb98b5fca1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1435",
       "name": "barbell low bar squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b567bdaa5365f4a9e03a263e9d7259813c318dcec3eba8eebf6f3b40c3b5cffd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0054",
       "name": "barbell lunge",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c6a29dc3bbd5df2eede129620eb9b127907f103f305da53a7702e7415e57b12d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1720",
       "name": "barbell lying back of the head tricep extension",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "839e9e7ad9c1c9a06407923eb48bceaaea6b990be6dffffa3b32dabf1539ee16",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0055",
       "name": "barbell lying close-grip press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f164aa0ee652d4246539e15da849aaf34501a48f1d5013fa06c59ac428617169",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0056",
       "name": "barbell lying close-grip triceps extension",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "36803513e6413bdac831457cec1f288b41a9500728d949a107714b74c323ad70",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0057",
       "name": "barbell lying extension",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a54a74f19fbd7518e3f9c620a159f80def4e381a2825a1e23139af7a199ea410",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0058",
       "name": "barbell lying lifting (on hip)",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "07a26604ec5c6e9d27a8b99ed47aff96e748786f28f6ebb082ce3ead67b8bfb0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0059",
       "name": "barbell lying preacher curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "73a217a7b654bfd461774960989cee3207506a2ffcb04c113296f4e4e8668f52",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0061",
       "name": "barbell lying triceps extension",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "db11f3c760b1ad3c3efba8e051247909cde94dae74208748c50acc94a68d136f",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0060",
       "name": "barbell lying triceps extension skull crusher",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9f45ab96a7f88cc2596d45fb966b53a2047456e346e49aade40f1d97fe016385",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0063",
       "name": "barbell narrow stance squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "002a474e73b03cad2e4c0e46f1172fc10fd03e0b9775bc4793bf4fa46f28d0f0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0064",
       "name": "barbell one arm bent over row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a428d7219983927317bf314b6b94b9d26cb4370fdfce52ec0cbe26d9a0986f5f",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0065",
       "name": "barbell one arm floor press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b84514ac9b9c4acf12e79fa33d36ef192f9710eff4ec223f89d6b789f236dcc4",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0066",
       "name": "barbell one arm side deadlift",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "24669a619d9207efd019da1914ea10a878dfa578b21485b6e266a1dadae9b87b",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0067",
       "name": "barbell one arm snatch",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3025afeb93ef0e6c24eef642ffbca898a4a10a0a9eb2187da9960a47499448f6",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0068",
       "name": "barbell one leg squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "331bcb2293cba26676c2ff58cfb7dc6f87ba5eadd12aa1db1b7c95f9514bdbf4",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0069",
       "name": "barbell overhead squat",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9740e421e00460f048edf737d31366bd597127b29ac102480d7067bb205516ef",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "1411",
       "name": "barbell palms down wrist curl over a bench",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1cea0f6fe4d6e6c485f3e48bd8c4577fcb4e3ab7536619b93a998acdb5c1493f",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "1412",
       "name": "barbell palms up wrist curl over a bench",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "96de52b25fb9b553ba466a40b90032762172483d10a8dd8f0badba1ecb163dca",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "3017",
       "name": "barbell pendlay row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c277246797b4c377ec58a62e3dabcadc24ddc8322eaa81697cdf2f1159c54a13",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "1751",
       "name": "barbell pin presses",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2f236b4861087df476c7a4f0bb485da93bd0ef248dc350d3a7abcaed382a0d95",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0070",
       "name": "barbell preacher curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "74701397fdb28e967e83ece61b364ae0318d1bd7c53c930b1c2528131eaa362e",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0071",
       "name": "barbell press sit-up",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "dd657cf984c48d4aa4e0d79d834dcd2b9f5d1e3028a36ad32b0fdc26e872807d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0072",
       "name": "barbell prone incline curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3cd4fd0cc5fb481dda963ecf86fffa9d4b49a3638c17c41d0947782072453ae9",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0073",
       "name": "barbell pullover",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "056f585faaaafc1f8af4e4a21d6c1f7decbf7d5752a7cc58f1c8a94e4efdbc85",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0022",
       "name": "barbell pullover to press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "cbb45b618af3d80ab6b0a6e66f0d8ea20a4d3367c68ceebf29a546c67747cbe8",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0074",
       "name": "barbell rack pull",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3b2c4e94b40904a1654c6017563de64bfa28127f72407bfb0f7570d1af0622c1",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0075",
       "name": "barbell rear delt raise",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b3e68742f0cf8d7c2de362461b61c687b03ea4582dd9c4109c03ba5e38b963df",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0076",
       "name": "barbell rear delt row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "db67f62241db5276160033a9dac579294bc88b1db7f0868d6e0a9978dddfca59",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0078",
       "name": "barbell rear lunge",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "128cc639b0ae274c7d1c71ff8947a2c99e01826b45797f8c2e3f6120a5bc70cf",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0077",
       "name": "barbell rear lunge v. 2",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7b0c8625371d02aedd306a8ee8dd4f8dba167f6ce84cfd53360caffad76b3a84",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0079",
       "name": "barbell revers wrist curl v. 2",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "75ebb3f456363b268f17eef410bff560fb88be6bbab2fadc81806b2cacd4c86a",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "2187",
       "name": "barbell reverse close-grip bench press",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e5172922a995f8e370d96b00cde87af0b20269335868ce8c540d469cf2eda2a1",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0080",
       "name": "barbell reverse curl",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7087a998b3e0a29997f0ba222ee00de3c6d94c5bd0953ce229d14a72a5fa2301",
+      "reviewScope": "Owner-feedback correction and operator visual review; qualified human movement and physical iPhone review unverified",
+      "batch": "core-batch12-20261122",
+      "appVersion": "5.32.0",
+      "deployed": false
     },
     {
       "id": "0118",
@@ -1152,10 +1720,12 @@
       "id": "0085",
       "name": "barbell romanian deadlift",
       "equipment": "barbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0086",
@@ -1215,7 +1785,10 @@
       "id": "0094",
       "name": "barbell seated twist",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "393b2ec61fe732d68d97b28120078fd6a2c84692daf39d508eddec8b735a7838",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0095",
@@ -1413,10 +1986,12 @@
       "id": "0117",
       "name": "barbell sumo deadlift",
       "equipment": "barbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "828efb88633f4e5f99f46636485690a69e594ce144374a86b901befe68722070",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3305",
@@ -1541,7 +2116,7 @@
       "assetSha256": "752c65d5ec7e7a6a3b4daf9ed0135a97ea7ff86db5b06dcfc44d233841482ca2",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1770",
@@ -1577,7 +2152,10 @@
       "id": "3544",
       "name": "bodyweight incline side plank",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0013d872e9a63eb9731ff6a5da51b014d340357cd83cd450ee769b8d94f9724c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1771",
@@ -1607,10 +2185,12 @@
       "id": "1373",
       "name": "bodyweight standing calf raise",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3156",
@@ -1652,7 +2232,10 @@
       "id": "0138",
       "name": "bottoms-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5117cf5a604c21644b2a72e2c93a934511ef8eaacbd02589bdf74f96fa5e7806",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1374",
@@ -1664,7 +2247,10 @@
       "id": "2466",
       "name": "bridge - mountain climber (cross body)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a61131d1f1c66643105b9b32ca9d2adc087e1460bbe7bde9467d9800f29a2b2d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1160",
@@ -1676,7 +2262,10 @@
       "id": "0870",
       "name": "butt-ups",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a49a6c93e0b4e890a2ffb9745853bf886932d8aa1ef42b3fc43a1284c3aed9de",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1494",
@@ -1892,7 +2481,10 @@
       "id": "0175",
       "name": "cable kneeling crunch",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c2bf620f696b7b8f3fcdb86d2a8b0142877fc7975a00e0ea60aabe3451b850fb",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3697",
@@ -1910,10 +2502,13 @@
       "id": "2330",
       "name": "cable lat pulldown full range of motion",
       "equipment": "cable",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-2330-20261119-v2.webp",
       "sha256": "f4487d4f35d0b1807a15e700572cb4ff7840c5ba9de812cf27b6cd02b669b028",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "f4487d4f35d0b1807a15e700572cb4ff7840c5ba9de812cf27b6cd02b669b028",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0177",
@@ -2087,10 +2682,13 @@
       "id": "0194",
       "name": "cable overhead triceps extension (rope attachment)",
       "equipment": "cable",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0194-20261119-v2.webp",
       "sha256": "80199494f73a5bdecd383c35142d8a963bbb085867cd501a9fed8d2ac10009ca",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "80199494f73a5bdecd383c35142d8a963bbb085867cd501a9fed8d2ac10009ca",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1319",
@@ -2150,10 +2748,13 @@
       "id": "0200",
       "name": "cable pushdown (with rope attachment)",
       "equipment": "cable",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0200-20261119-v2.webp",
       "sha256": "fe899e32ee399563d1b1a6d5faaa7345f723ddbbc40b5f5c7618f34df7e74623",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "fe899e32ee399563d1b1a6d5faaa7345f723ddbbc40b5f5c7618f34df7e74623",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0202",
@@ -2183,7 +2784,10 @@
       "id": "0873",
       "name": "cable reverse crunch",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7ff2ac2fa0c15eb70ea3bcbf109c6ad1bdbc85310f0d41137b231ad8bca277ef",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0206",
@@ -2285,7 +2889,10 @@
       "id": "0211",
       "name": "cable russian twists (on stability ball)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b4d7a8d201c6b8cf381beab4e6d7bb381631d9c4228ac3159e130c8b4a45cab3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2144",
@@ -2297,7 +2904,10 @@
       "id": "0212",
       "name": "cable seated crunch",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ec92941cf853d30e5cc8c00afa65278f2e1e29d96c06437ea5fbfcf96a47d169",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1641",
@@ -2339,10 +2949,13 @@
       "id": "0861",
       "name": "cable seated row",
       "equipment": "cable",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0861-20261119-v2.webp",
       "sha256": "8bae21fc1fee9149204af81ee4018025373569e8fc8dce1e634720db32cb4ae8",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "8bae21fc1fee9149204af81ee4018025373569e8fc8dce1e634720db32cb4ae8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0216",
@@ -2378,7 +2991,10 @@
       "id": "0222",
       "name": "cable side bend",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e9bc3951bd012ac0696a5c74fc30247a0a09a6c7cc16b5357e42760046144318",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0221",
@@ -2390,7 +3006,10 @@
       "id": "0223",
       "name": "cable side crunch",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9aacc24e43431a3ae89bf2964d24122c2035387b545ec9c8923a72832c5aa454",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1717",
@@ -2426,337 +3045,505 @@
       "id": "0226",
       "name": "cable standing crunch",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ba3458a989d8ab967d22fbfc552494a7493bac139c8ab955bae2d67368a72752",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0874",
       "name": "cable standing crunch (with rope attachment)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "14d05864853814cead89595a37fad985fb328bf612fb6011151526e31dd81bef",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0227",
       "name": "cable standing fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9e32412e63b75f3d359f92b6d6a9695799a743994b6786bfae8f38cbe632b3f8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0228",
       "name": "cable standing hip extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "23216a8d8711a6c08c3d0ecb19a4217098a2a6a3490932e9179bde4c5bb15125",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0229",
       "name": "cable standing inner curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e41f2695cffeed6683756092a4f47ebd218fd52a30aa265c73139180e9a7fbdd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0230",
       "name": "cable standing lift",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b32f29a4d519b469ecb1045e3d3cf51e78e32e814f9e81869474e65436fc9615",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0231",
       "name": "cable standing one arm triceps extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "65a5ca0b87a0ca29d140d1e749ba209dfca75dd24e1aaa588ee4392c33e05968",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1376",
       "name": "cable standing one leg calf raise",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ec0b65975dae30a5a1e60734b759e5596e8bb199d8d4fdd564d984ec9dffeee8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0232",
       "name": "cable standing pulldown (with rope)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "64d8803c3c1a131169d8f7a0761bcadbb6566bb4a4b3d089bc2d3bed10d7bfc9",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0233",
       "name": "cable standing rear delt row (with rope)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8d3d8198cc1ecdfd92ddd6476401094ad687ef04c54f24f1ebd05b698c8322ad",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1727",
       "name": "cable standing reverse grip one arm overhead tricep extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "61d12a288ffa36771e3972ceba9572b9abb02b1fc86ed158384e9fa68434a97b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0234",
       "name": "cable standing row (v-bar)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "74db1b94581d2eb2b6f2dc37b6f16c6c6ad2481a358319898013b0e84c5863c4",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0235",
       "name": "cable standing shoulder external rotation",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1a4fbeb7ab657efb2017a92109df8a1ec9957184d5426d1bb1cc5806405c73c6",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0236",
       "name": "cable standing twist row (v-bar)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8ce1c85897be20a732862cfecc2dd81dc98aa0146ecaf415c3273f6353a9582a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1269",
       "name": "cable standing up straight crossovers",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2dd714225d4c4e79b2f52a1587ad55632fc4970d43ee60ac37a00ee81688f819",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0238",
       "name": "cable straight arm pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6022ed9c6a6c6be8eba4cc2920f0014bb48d926dccb48cf74f0d8664c7e3f0bf",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0237",
       "name": "cable straight arm pulldown (with rope)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ce1f19d61192c21da4e772edc8981f24fb2b47d6b94aebeacfb7effac2858cde",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0239",
       "name": "cable straight back seated row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "faf2d9b3f88ac2dc9ab1ae615fd0ca99805042d26ae33c3644a01c93c2e3549f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0240",
       "name": "cable supine reverse fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b96b03299478bb07b12599be4fb8617e0e6f74ed28ed5c08448cbee284a350a3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2464",
       "name": "cable thibaudeau kayak row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a4679efbcfab5e064436456cb4c29b5e44824b73bb90898dee5ede8ce07a5816",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0241",
       "name": "cable triceps pushdown (v-bar)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d14a95dbcd8947ae5e48bf615e4de8ae948d4ab9a9e1b5287bc86da6383bf1f0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2405",
       "name": "cable triceps pushdown (v-bar) (with arm blaster)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "60ebc2d9f0a4e4ce382f71a2e69ad052f0320a11ce5468160184eda5f79f4455",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0242",
       "name": "cable tuck reverse crunch",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "20af07ee4e75d37a53f4c1e13448b563d2ff28dbe916e9c8d62f0199ca3c754f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0243",
       "name": "cable twist",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "81a7be3592f86272207c797c10a72da0ddebf5d03726e5552866d3d21ff47ecb",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0862",
       "name": "cable twist (up-down)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2dc3497d723a57a8825ee44639caf5b662334c001a838d7352e2c1ec132a058b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0244",
       "name": "cable twisting pull",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "de4bc667931e5858651ba55eb5a0afc47511068748250cc3241ad39cfdb24cb8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1645",
       "name": "cable two arm curl on incline bench",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "04e5fff3aed968152831ed8ad37d28c33dbf94cabcca03566cf1d01be6751c17",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1728",
       "name": "cable two arm tricep kickback",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9a22994571172b54b347c0e0a4090052491297d88f3a8c6a5eef0bfb8a7951d7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0245",
       "name": "cable underhand pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "dcfc32de1ca80ec97815280252033cb7d26bcbcaa24346270c1dcc9deaacf1b8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1270",
       "name": "cable upper chest crossovers",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "472f390108f4aca2c388518fcd87ecff4f8533785cc574ae2ad024f71b120f0e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1324",
       "name": "cable upper row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fcb7659e47c86a8be5f5a090b016d5132e01f5fb5893c6d3f3b8b80cf40272f8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0246",
       "name": "cable upright row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "c41a74a9a104ecae3f4bdb6a897176d420a11e566b378d260b570576524ec3b3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1325",
       "name": "cable wide grip rear pulldown behind neck",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4944861eaebf3f5740b4f576acf7b7b882e23c458affd269ef5b4e944c69d1c9",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0247",
       "name": "cable wrist curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "49ad59c509bf8319098aaffd2406c8b831f83dc8ac3115aeac11536788a062c3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1407",
       "name": "calf push stretch with hands against wall",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f25459b6746fe88ed904cada82e79f48014ddf05f26774c0c242201a6ce00514",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1377",
       "name": "calf stretch with hands against wall",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e05457e5bc5b94933b6a31389e97e60e53af9c5643dbc68fc490eee346b0dcf1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1378",
       "name": "calf stretch with rope",
       "equipment": "rope",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a5416f72b271cc5f64a44ca3c305744affc47936c95b461ff8774904f0de7b3d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0248",
       "name": "cambered bar lying row",
       "equipment": "barbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8b734be9c4c06bb4a0dfd3e357766483778cc5940b6ee8c1a3e138bbf1bb6ffe",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2963",
       "name": "captains chair straight leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "15ff7fb8bcc9a7712cd20632b20bbac2a73e8b9e9ddcd644efbf047f32c563cb",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1548",
       "name": "chair leg extended stretch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "64510929f90fae1865fa26a256ed66ec61d5fb20e29907a2069582e96b5cdc64",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1271",
       "name": "chest and front of shoulder stretch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "56dfaed7abab7b8e079b75e85ca53e0cd98ed6bfaf55878b91f468bad62095a7",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0251",
       "name": "chest dip",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ac9cac1be6e56c087b122e28d6cc9a0c0134d7f131d2ffa0813146161e1b3643",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1430",
       "name": "chest dip (on dip-pull-up cage)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0b312853847c1fc79eb103f5a57b8bef18c8aa74340af9eea3fe931b844cbc65",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2462",
       "name": "chest dip on straight bar",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1b3eb093e200ef686d555261a1b8b7956dda696db6e47965997e9ea648ae0b51",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1272",
       "name": "chest stretch with exercise ball",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "865845557ec43ae03c417b82496d3d10999694d2ed8d3e32bb85120719f5f7cb",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3216",
       "name": "chest tap push-up (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6db9e2d439e1237697255bccc6a72c2b94f43fac6e0f50e00686d74ca6d39c73",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1326",
       "name": "chin-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1a8fa9545ce36fc6b8843c56f1f85d435196d5024158e24c0ffe8cf641da05cd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0253",
       "name": "chin-ups (narrow parallel grip)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6bd4ca23357d2e8df100c1c74f1ef08e90b4f1153977604bff3b20133450a0c0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0257",
       "name": "circles knee stretch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "334203bf245ba68f43496978ef3244cccac64d27edfc1f2e1975f948e9a794a6",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1273",
       "name": "clap push up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "873a773815eaf1f8ee217644051e2e1ba526783e3ae828c2efd3f31174993659",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0258",
       "name": "clock push-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "23a961398bfeea16f305575c6ff45266e87a956e029be898d5dadc05c3cda6f9",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1327",
       "name": "close grip chin-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ae8c4ac55168f8291dba8f592fd2782d76377ae44c9b12b2cda5d6e4ae68810e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0259",
       "name": "close-grip push-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "004df2995911ec72952e352fa7267e585570b690e63de45f624facff7681a127",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2398",
       "name": "close-grip push-up (on knees)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7cec4622f0cd410cdfa4cbfa6aa114a78ad0c074eee52480844972aac28d3c8c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0260",
       "name": "cocoons",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0a4185234b1874704ed1e1f32e9c064b00c62d64642945c2d3cedbeeef02b19e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1468",
       "name": "crab twist toe touch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6cc7978a7e4b69c6032c6879b6f57ab0d50b4b40082adf32ef59dff324849779",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0262",
@@ -2767,7 +3554,7 @@
       "assetSha256": "3d26efe06e2b4a7504107e1c4649b1762c0919d744b4c1549851439d0fd3f4ef",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0267",
@@ -2778,40 +3565,54 @@
       "assetSha256": "b16491d5971fa653d6f098a879d8bfc4220052d548035611ef82a0ba8ed5d02f",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0271",
       "name": "crunch (on stability ball)",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3c8229ee82dee73b6c79bdb0259fc33b2c37871da0d16d9173696a8fbb1176e0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0272",
       "name": "crunch (on stability ball, arms straight)",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0062f0745d35b82f6d626aa9c6ce208cb6ee1d456abd8df7b784c2d052215c33",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0274",
       "name": "crunch floor",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3016",
       "name": "curl-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ef43987819ef35676b3a62f01b996aa70537236946eefac992ab7666a565a619",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3769",
       "name": "curtsey squat",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2c2c534e350628a9b0f1e0d2dac4069cd81af4902efa5e0da0a164b2427919a5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2331",
@@ -2828,25 +3629,34 @@
       "assetSha256": "1758bcec5d1383699eb7d1603db25dbc75739862eab5394aebccedf30e3c3acc",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0277",
       "name": "decline crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "51095d5b3221f58044af595b6330792204cfaf471bd710bff714185ddf00c4c3",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0279",
       "name": "decline push-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "372932a4ce9409d7d93ac88dc92c452e8f4c439515967433e7d8b7c0dd928986",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0282",
       "name": "decline sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "48add7eaa5d84a5615c6d079e12e686ac591edcb739c46b11c04302416a68cc1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1274",
@@ -2858,13 +3668,19 @@
       "id": "0283",
       "name": "diamond push-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a282b7ddf63308ee6f745e231c9d3133eb61c5ddc8aa2a71a97dd0e35bcb9172",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0284",
       "name": "donkey calf raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "e1fb60a697bcfb6ec3b51d70ccc73f938942689badce18bd0186162eb710349a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1275",
@@ -2876,7 +3692,10 @@
       "id": "0285",
       "name": "dumbbell alternate biceps curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "28f75c0b9b942d0c19ada64e9b1a4cc8db4d1ec0296245b0de29d1c2a950398b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2403",
@@ -2888,19 +3707,28 @@
       "id": "1646",
       "name": "dumbbell alternate hammer preacher curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9249055836cece807a72520508308b4d3097cb2467824610b39a2abd00f9a032",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1647",
       "name": "dumbbell alternate preacher curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2da1844aa3a6e84dd50d356255d0f71d6d6121b89c9a880ef695f88befd7c536",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1648",
       "name": "dumbbell alternate seated hammer curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "21df2fc250d2bd65f04399b8a24ec6be6ff8e9edff734c977cb2e9c4411675ca",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0286",
@@ -2924,7 +3752,10 @@
       "id": "2137",
       "name": "dumbbell arnold press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8fe90c0bdbf731e80d1697f27872e54b9569a4c31d62f512e650f8fdb694e5a0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0287",
@@ -2942,10 +3773,13 @@
       "id": "0289",
       "name": "dumbbell bench press",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0289-20261119-v2.webp",
       "sha256": "7bc6960c0d6436d3dc7168c49d3b6524580d51b4cf7f012aab10b31799b52437",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "7bc6960c0d6436d3dc7168c49d3b6524580d51b4cf7f012aab10b31799b52437",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0290",
@@ -2957,13 +3791,19 @@
       "id": "0291",
       "name": "dumbbell bench squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b35998c98b33d7530785ef6073745b969c7464b6293cc97517ba83a002be2d0f",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0293",
       "name": "dumbbell bent over row",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "17f6bd86c2849dc5017d15848b79a213b399bfcee3a1a91bdc1d0beea8083a8d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1651",
@@ -2987,10 +3827,13 @@
       "id": "0294",
       "name": "dumbbell biceps curl",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0294-20261119-v2.webp",
       "sha256": "6b0e0491d1f6847af19f7a48e04d27aea505bc11904d336eb14a67b258d26dd1",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "6b0e0491d1f6847af19f7a48e04d27aea505bc11904d336eb14a67b258d26dd1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2401",
@@ -3002,7 +3845,10 @@
       "id": "1654",
       "name": "dumbbell biceps curl reverse",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4adaf9f7e6506b0a8f0f90dc4d7c64a33a6221b852747fef8a4a47f0a0b0b8a5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1655",
@@ -3020,19 +3866,28 @@
       "id": "1201",
       "name": "dumbbell burpee",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "0bd40a58d32e7872a841a612111099bdc82c3f4bf42bb67d7f1f530834c5266c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0295",
       "name": "dumbbell clean",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "248f4a76db3e08490c2c5307e6ea27e6bc5c7fd0f45600fb7f75382874ce1bf6",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1731",
       "name": "dumbbell close grip press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "11eeacbd771b5144877fd5c59625060d1e69902e7e3917ff80addb584a2ecc4e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0296",
@@ -3044,22 +3899,30 @@
       "id": "0297",
       "name": "dumbbell concentration curl",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3635",
       "name": "dumbbell contralateral forward lunge",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b29916660ac2b42b246c866bc9676c117b9c10e4d2f1fe6683efc7ea5d754a63",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0298",
       "name": "dumbbell cross body hammer curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "5dfcc83f0ef5115bc0e6d03d02fbad20b85f91226baf400bdf3ff8009f7f1927",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1657",
@@ -3071,7 +3934,10 @@
       "id": "0299",
       "name": "dumbbell cuban press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ff87eba23284ce29a8f0a68fcc117e22b30a6301f3e8f17b1032930e633e0daf",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2136",
@@ -3083,19 +3949,28 @@
       "id": "0300",
       "name": "dumbbell deadlift",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f1ebed467ab5c99b238b8844dde60f634ec4d5ff1575ba53e72252cb5330a85e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0301",
       "name": "dumbbell decline bench press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "af1b89dbd758f2d29a0bdd97307186b950b7e416c76c25b643d9dde342d2acf9",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0302",
       "name": "dumbbell decline fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "09faf129a9da5da8d5ab1df81fc57e0e6f9dd6e09a89a73ac81b8b2e937afe37",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0303",
@@ -3149,10 +4024,12 @@
       "id": "0308",
       "name": "dumbbell fly",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1277",
@@ -3170,40 +4047,53 @@
       "id": "0310",
       "name": "dumbbell front raise",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0309",
       "name": "dumbbell front raise v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4166a2f8a172fee4c52f1168a7cec42c37730ce7c3dde9c58be321125d3fc5ec",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0311",
       "name": "dumbbell full can lateral raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fba6e79e90e9bf17ab15f1f9fe928f701bb9399a5a4fcae9ee6a6fb78fa6bea5",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1760",
       "name": "dumbbell goblet squat",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "139096e30e430be05164f79089ceface80a1507787f3dd5ad638820cc7ec1f2a",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0313",
       "name": "dumbbell hammer curl",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0313-20261119-v2.webp",
       "sha256": "81f1b69777206ce1a65d2d38b3c303a4466a6268bde36708cfff8f1916acf6da",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "81f1b69777206ce1a65d2d38b3c303a4466a6268bde36708cfff8f1916acf6da",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1659",
@@ -3233,16 +4123,22 @@
       "id": "3545",
       "name": "dumbbell incline alternate press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9379e3cb2d5afe608b033910dd6b8e6141ff8c695cbc0f037f7cda023ee7ff44",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0314",
       "name": "dumbbell incline bench press",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0314-20261119-v2.webp",
       "sha256": "383cc927679f762b9d311f1b9b42b5b0c512ade4fb8af6742d4a679c522fa860",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "383cc927679f762b9d311f1b9b42b5b0c512ade4fb8af6742d4a679c522fa860",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0315",
@@ -3428,10 +4324,12 @@
       "id": "0333",
       "name": "dumbbell kickback",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1734",
@@ -3449,10 +4347,13 @@
       "id": "0334",
       "name": "dumbbell lateral raise",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0334-20261119-v2.webp",
       "sha256": "5150e9967352fb8334230b224a014fa836ab9d1ebd6a3c7e1fd478fe9a2cb43e",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "5150e9967352fb8334230b224a014fa836ab9d1ebd6a3c7e1fd478fe9a2cb43e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0335",
@@ -3464,10 +4365,12 @@
       "id": "0336",
       "name": "dumbbell lunge",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1658",
@@ -3941,10 +4844,12 @@
       "id": "0375",
       "name": "dumbbell pullover",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-04",
       "appVersion": "5.20.1",
-      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268"
+      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1294",
@@ -4004,10 +4909,12 @@
       "id": "0381",
       "name": "dumbbell rear lunge",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-04",
       "appVersion": "5.20.1",
-      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268"
+      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0382",
@@ -4025,10 +4932,13 @@
       "id": "0383",
       "name": "dumbbell reverse fly",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0383-20261119-v2.webp",
       "sha256": "5500e6502dff0efcb296c6f18abfb570ab4a52540e6cf2912b966810221c8e17",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "5500e6502dff0efcb296c6f18abfb570ab4a52540e6cf2912b966810221c8e17",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1330",
@@ -4070,10 +4980,13 @@
       "id": "1459",
       "name": "dumbbell romanian deadlift",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-1459-20261119-v2.webp",
       "sha256": "287a20df652307b79fa355d2aff25a4f0fb0b03584ec8753717db2ab818fe295",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "287a20df652307b79fa355d2aff25a4f0fb0b03584ec8753717db2ab818fe295",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0386",
@@ -4157,37 +5070,45 @@
       "id": "1379",
       "name": "dumbbell seated calf raise",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-04",
       "appVersion": "5.20.1",
-      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98"
+      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0391",
       "name": "dumbbell seated curl",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "appVersion": "5.19.0",
       "batch": "nick-catalogue-20261120-03",
-      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e"
+      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0392",
       "name": "dumbbell seated front raise",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "appVersion": "5.19.0",
       "batch": "nick-catalogue-20261120-03",
-      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e"
+      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1678",
       "name": "dumbbell seated hammer curl",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "appVersion": "5.19.0",
       "batch": "nick-catalogue-20261120-03",
-      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc"
+      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0393",
@@ -4205,10 +5126,12 @@
       "id": "0396",
       "name": "dumbbell seated lateral raise",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "appVersion": "5.19.0",
       "batch": "nick-catalogue-20261120-03",
-      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc"
+      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0395",
@@ -4262,10 +5185,12 @@
       "id": "0401",
       "name": "dumbbell seated palms up wrist curl",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-04",
       "appVersion": "5.20.1",
-      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98"
+      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0402",
@@ -4289,19 +5214,24 @@
       "id": "0405",
       "name": "dumbbell seated shoulder press",
       "equipment": "dumbbell",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0405-20261119-v2.webp",
       "sha256": "de5c19ff2b6726b03b9823abba20b800a369cccdfff8cd94f1c0b5774ad42212",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "de5c19ff2b6726b03b9823abba20b800a369cccdfff8cd94f1c0b5774ad42212",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0404",
       "name": "dumbbell seated shoulder press (parallel grip)",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-04",
       "appVersion": "5.20.1",
-      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98"
+      "assetSha256": "e9f9bea95cef5da725ead8d363663280b0bae542cd0c3e65d2a839ceb92e2d98",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2188",
@@ -4313,16 +5243,21 @@
       "id": "0406",
       "name": "dumbbell shrug",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "66c933050c8b448b86fe1f0a2e4c87a5475fc3a08b0aa83bbff475edabfc1222",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0407",
       "name": "dumbbell side bend",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "1c37554a774a01515e573ec0c0549ed215ff755b34f31823075f5bfa10c25895",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0408",
@@ -4364,10 +5299,12 @@
       "id": "0410",
       "name": "dumbbell single leg split squat",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-04",
       "appVersion": "5.20.1",
-      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268"
+      "assetSha256": "e88ea2b996f0ef848191f8445e833a6e7987a0e28d827369e2363d3ef8a60268",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0411",
@@ -4379,10 +5316,12 @@
       "id": "0413",
       "name": "dumbbell squat",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3560",
@@ -4436,10 +5375,12 @@
       "id": "0417",
       "name": "dumbbell standing calf raise",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0418",
@@ -4505,10 +5446,12 @@
       "id": "0426",
       "name": "dumbbell standing overhead press",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "appVersion": "5.19.0",
       "batch": "nick-catalogue-20261120-03",
-      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc"
+      "assetSha256": "7ff1d356f99e077ea1c743c2781d2e68e8cfcdf8230ac5ea46de4a7b72c6dddc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0427",
@@ -4526,10 +5469,12 @@
       "id": "0429",
       "name": "dumbbell standing reverse curl",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "appVersion": "5.19.0",
       "batch": "nick-catalogue-20261120-03",
-      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e"
+      "assetSha256": "375fe02380e1920353520f1b882e53acba428f1e306fcf2143cb3a90d5bd5c8e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0430",
@@ -4553,10 +5498,12 @@
       "id": "0431",
       "name": "dumbbell step-up",
       "equipment": "dumbbell",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "31309022225d1d8b0622f980b8b5a019b0cf81993205449632f124bce0e757d7",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2796",
@@ -5000,7 +5947,10 @@
       "id": "0459",
       "name": "flutter kicks",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b17a6e76b054d03557344900aca9c901e60ed6de72b1e3f42f2c8732ab62fa8b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1472",
@@ -5024,7 +5974,10 @@
       "id": "2429",
       "name": "frog crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6f4e27941b7b13a25831c22873da8d8f45a662ce305f98bd0b1d73587fd7a246",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3301",
@@ -5048,7 +6001,10 @@
       "id": "0464",
       "name": "front plank with twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3ad30decb86063f3aa4eeaea1ff9fd59b27722ca53634d8332f72bb9edaeb362",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3315",
@@ -5078,13 +6034,19 @@
       "id": "3561",
       "name": "glute bridge march",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d51cacabb8234583f813eab862f32bd52d9df321b0e64faf00dff4185e2ec0d0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3523",
       "name": "glute bridge two legs on bench (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fde11476a3074b2145c0e4e1af70878cd71d1927af600cdf56ade8ac154b491d",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3193",
@@ -5102,7 +6064,10 @@
       "id": "0469",
       "name": "groin crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "209e8b7a63c4a185fb2464580fe6e8faf67c386f44dd5edfb7e09bcfef423949",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1383",
@@ -5174,13 +6139,19 @@
       "id": "0472",
       "name": "hanging leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fd45a0c89d19f20f5f7f16c1ea54c8f6b7385bd40298dcff2ba1274273ccf1b0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1761",
       "name": "hanging oblique knee raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f5c4dfcd7df719a61de28d84f9cb3e805c53ef6eb6a3c6c65cece334fccf3b3e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0473",
@@ -5198,7 +6169,10 @@
       "id": "0475",
       "name": "hanging straight leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4bf7fa88d0ff85fada8950f945f6f881f9c78235f33e13ac53b5bcafff5b7311",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0476",
@@ -5282,10 +6256,12 @@
       "id": "0493",
       "name": "incline push-up",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3785",
@@ -5309,7 +6285,10 @@
       "id": "0495",
       "name": "incline twisting sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "76ced92ea8238777efffba82f629dc9a28ca8af11399e51f9e8d37a03a61535e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1564",
@@ -5393,13 +6372,19 @@
       "id": "0507",
       "name": "jackknife sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2e0ba2babdc2b7780bd5e110e64781586cacdee545889fa5ad4a3f7d1a159bae",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0508",
       "name": "janda sit-up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4d3a9ba7f08825b4f7feb3105a35e2577fd436bbdfe49bb084c27cfdd0b4a936",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2612",
@@ -5686,7 +6671,7 @@
       "assetSha256": "fadb51c009ccd7f6a07531749beb8297122feab19cc5569910dafbda898ec245",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "1420",
@@ -5704,16 +6689,21 @@
       "id": "3239",
       "name": "kneeling plank tap shoulder (male)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "eddcf8db109ae2cb30e5f14fac0577c5ca9f52c958be4db785d05c266d43b51b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3211",
       "name": "kneeling push-up (male)",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3288",
@@ -5929,19 +6919,25 @@
       "id": "0585",
       "name": "lever leg extension",
       "equipment": "leverage machine",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0585-20261119-v2.webp",
       "sha256": "b5899c52e0f3883ccd02feb9139358894624e75f186e04355a3652161d2cdb6e",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "b5899c52e0f3883ccd02feb9139358894624e75f186e04355a3652161d2cdb6e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0586",
       "name": "lever lying leg curl",
       "equipment": "leverage machine",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0586-20261119-v2.webp",
       "sha256": "2f66a79dd17bbbbda6c55336f3a09e1eb83b81205915fc0c452e3bfbc83885df",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "2f66a79dd17bbbbda6c55336f3a09e1eb83b81205915fc0c452e3bfbc83885df",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3195",
@@ -6169,10 +7165,13 @@
       "id": "0605",
       "name": "lever standing calf raise",
       "equipment": "leverage machine",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0605-20261119-v2.webp",
       "sha256": "35736a88b3b63edc4daafaca004fdb19215066bd6ca1d37e2545a5f4ae694569",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "35736a88b3b63edc4daafaca004fdb19215066bd6ca1d37e2545a5f4ae694569",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3758",
@@ -6214,10 +7213,12 @@
       "id": "3013",
       "name": "low glute bridge on floor",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "e803d3d860a755787765d85f9811432df3d7a42643e8145160e01744555f1664",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1352",
@@ -6235,7 +7236,10 @@
       "id": "1688",
       "name": "lunge with twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "9fca3cd269e0b3a1e2c6822750f71653bfb79c9f81504d35a74a910360d0aaff",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0613",
@@ -6253,13 +7257,19 @@
       "id": "0620",
       "name": "lying leg raise flat bench",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "4462f66f75de313931b27384ed82bf62764523fdd03d28f205ceef51c66722d6",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0865",
       "name": "lying leg-hip raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "71e810b2fd5c8196cdb9176c4d5ae73b00d25bdf4c8ceb26c50ba44b792c77d6",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1301",
@@ -6355,7 +7365,10 @@
       "id": "0630",
       "name": "mountain climber",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "838b01bcee1053109b4a0d1c9a86592d9951fecf7ee72572c5972b46a87e913b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0631",
@@ -6385,19 +7398,28 @@
       "id": "0634",
       "name": "negative crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d093fbaad99b374f2cd9f04ce6a4d54e8e2973eb8aa79313e02be995c8a255d1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1495",
       "name": "oblique crunch v. 2",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "6566c196341cf170e3a2caa4a900b54be0e4040e0b8cb1cc3ddb7e8793871706",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0635",
       "name": "oblique crunches floor",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "48b6c5efa01d4e0ac38bbbb64ef6f18122fd3948ff2df5e4cacb6a7329f0e025",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0636",
@@ -6487,7 +7509,10 @@
       "id": "1422",
       "name": "pelvic tilt into bridge",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "8276d21177386e39be6d5c2670ff12d88ff70f9e3234d7445b55b8319dd2790c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1388",
@@ -6541,7 +7566,10 @@
       "id": "3665",
       "name": "power point plank",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "7c5352d7e055157089220319fd4d0ea4c59482844fefdb27a55c92df78a4c0e4",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3203",
@@ -6571,10 +7599,12 @@
       "id": "0652",
       "name": "pull-up",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "e02affa8732a12111f7a03fd700bddcb7d582a457ea5844ab5159235144dc74d",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1689",
@@ -6598,10 +7628,12 @@
       "id": "0662",
       "name": "push-up",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "108f555db1216728a239b5dad372e13253f386b9690d955fc79bb1b3721671ea",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0653",
@@ -6625,10 +7657,12 @@
       "id": "0659",
       "name": "push-up (wall)",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0658",
@@ -6670,7 +7704,10 @@
       "id": "0664",
       "name": "push-up to side plank",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "3963d361b2d1e7bc0e902a7c48be3bfbba25e06aa9a1b91cd785503919cca7f1",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3533",
@@ -6766,10 +7803,12 @@
       "id": "0872",
       "name": "reverse crunch",
       "equipment": "body weight",
-      "status": "deployed",
+      "status": "reviewed",
       "batch": "nick-catalogue-20261120-02",
       "assetSha256": "492ce32ac0a365d9dcd7162174d8a6dac7248cefe6943c1b914c68263452eac8",
-      "appVersion": "5.18.0"
+      "appVersion": "5.18.0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0672",
@@ -6805,7 +7844,10 @@
       "id": "3663",
       "name": "reverse plank with leg lift",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "fb95c404ddc8075b905e514fce1dca9dee7c2aaa73acec3b1ddf1877de04ad5e",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0677",
@@ -6906,7 +7948,7 @@
       "assetSha256": "11b1b3cc815362f6c1b691e97a59c9dc9f403d7bc0d71c04a08013d36fb11a1b",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "3012",
@@ -6948,7 +7990,10 @@
       "id": "0689",
       "name": "seated leg raise",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "a94e3a8430341850806e005752d3da242eb74609d63c1ee26613692ac5755833",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0690",
@@ -6966,7 +8011,10 @@
       "id": "0691",
       "name": "seated side crunch (wall)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "99f2977d1141df12b24ccc5afa43d7c82627626d3ccd6f6936377741daae35db",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1587",
@@ -7026,13 +8074,19 @@
       "id": "1774",
       "name": "side bridge hip abduction",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "29ddf5a748ecc0557f963055594ecac5e3876bb81bbb107f1c39676e999c84da",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0705",
       "name": "side bridge v. 2",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f4f3bcee4f022cf618f380d44c7c447bb6a303862aa8d3ff391ffb6de1a7ffeb",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0709",
@@ -7062,7 +8116,10 @@
       "id": "1775",
       "name": "side plank hip adduction",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2bf71cd1e17ffc0214bbc38a43781253f09827f2749ce3f95d3f3f980db78ff8",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0716",
@@ -7104,7 +8161,10 @@
       "id": "3645",
       "name": "single leg bridge with outstretched leg",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "d30e693c71c9353a3f0a0b98c67b04313a9132978450c6c4d02b5baa54daec5b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0727",
@@ -7134,13 +8194,19 @@
       "id": "0735",
       "name": "sit-up v. 2",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "90a37c91efcf28bfcec7a17afb6d887d6ede36b836c0d395ce2f5f3e8c9b647b",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3679",
       "name": "sit-up with arms on chest",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "738895aba1bd817554d975a3dd9dc2906d871060e4d57355393f85fee23812fd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3361",
@@ -7174,34 +8240,37 @@
     },
     {
       "id": "0738",
-      "name": "sled 45\u0432\u00b0 calf press",
+      "name": "sled 45в° calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45\u0432\u00b0 leg press",
+      "name": "sled 45в° leg press",
       "equipment": "sled machine",
-      "status": "existing_deployed",
+      "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
       "sha256": "3356ea6ae80db093a759dfc192b6e9ac648da01ceb702293d6e185d041b0cd84",
-      "verification": "Prior scoped release evidence; fresh readback required before changing status."
+      "verification": "Prior scoped release evidence; fresh readback required before changing status.",
+      "assetSha256": "3356ea6ae80db093a759dfc192b6e9ac648da01ceb702293d6e185d041b0cd84",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "1464",
-      "name": "sled 45\u0432\u00b0 leg press (back pov)",
+      "name": "sled 45в° leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45\u00b0 leg press (side pov)",
+      "name": "sled 45° leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45\u0432\u00b0 leg wide press",
+      "name": "sled 45в° leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -7575,7 +8644,10 @@
       "id": "2329",
       "name": "spine twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "cc939df0cf6089330d5a0601fa249c82182ab5ce38fc1bc10977670e35b235bd",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2368",
@@ -7605,7 +8677,10 @@
       "id": "1686",
       "name": "squat to overhead reach with twist",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "08fc19544a25dd3439062c8f4bf9ad238033fcc53bb4cfed594d8fffdc70214a",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2297",
@@ -7737,7 +8812,10 @@
       "id": "0807",
       "name": "suspended reverse crunch",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "ce993c7e237b853a6570750a51fbf0feef35af5c8560af24716288c0baa52cfc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "0808",
@@ -7826,7 +8904,7 @@
       "assetSha256": "b8341af45885f9cca401df5fa89066488b70abc28000dabc038eabee11f02327",
       "appVersion": "5.21.0",
       "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true
     },
     {
       "id": "0818",
@@ -7838,7 +8916,10 @@
       "id": "1466",
       "name": "twist hip lift",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "f40cf0cc05f095da06a50a0a5a655b60e9d6c19bd9955277e78e350356c324e0",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2802",
@@ -7880,7 +8961,10 @@
       "id": "0826",
       "name": "vertical leg raise (on parallel bars)",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "b259cc9c6255a891a754ad649f11fe5bbe8bd1e6b1353d3baf0ccbd936c103dc",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "2141",
@@ -8126,7 +9210,10 @@
       "id": "0857",
       "name": "wheel rollerout",
       "equipment": "wheel roller",
-      "status": "queued"
+      "status": "reviewed",
+      "assetSha256": "2fb59288390b623319084dc45703db73b8a82bcfee373b6ed333804ff8ef013c",
+      "reviewScope": "Previously verified live exact-ID illustration; qualified human movement and physical iPhone review unverified",
+      "deployed": true
     },
     {
       "id": "3637",

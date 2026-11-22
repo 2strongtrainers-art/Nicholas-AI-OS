@@ -6,10 +6,11 @@ import { CATALOGUE_ART_CORE } from './tv-catalogue-art-core.mjs'
 import { CATALOGUE_ART_BATCH9 } from './tv-catalogue-art-batch9.mjs'
 import { CATALOGUE_ART_BATCH10 } from './tv-catalogue-art-batch10.mjs'
 import { CATALOGUE_ART_BATCH11 } from './tv-catalogue-art-batch11.mjs'
+import { CATALOGUE_ART_BATCH12 } from './tv-catalogue-art-batch12.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -104,14 +105,14 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
 })
 
 
-test('Core and Batch 9/10/11 artwork map only the reviewed IDs to verified derivative assets',()=>{
+test('Core and Batch 9/10/11/12 artwork map only the reviewed IDs to verified derivative assets',()=>{
  const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
  const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
  const assets=Object.values(CATALOGUE_ART_CORE)
@@ -133,15 +134,32 @@ test('Core and Batch 9/10/11 artwork map only the reviewed IDs to verified deriv
  const batch9=['0279','0283','0284','0285','0291','0293','0295','0298','0299','0300','0301','0302','0309','0311','1201','1646','1647','1648','1654','1731','2137','3016','3545','3635','3769']
  const batch10=['0023','0024','0026','0028','0029','0030','0031','0033','0034','0035','0036','0037','0038','0039','0041','0042','0043','1013','1016','1017','1255','1316','1369','1370','2407']
  const batch11=['0044','0046','0047','0048','0049','0050','0051','0052','0053','0054','0055','0056','0057','0058','0059','0063','1409','1410','1435','1461','1462','1545','1719','1720','3562']
- for(const id of [...repaired,...newest,...batch7,...batch8,...batch9,...batch10,...batch11]){
+ const batch12=['0022','0045','0060','0061','0064','0065','0066','0067','0068','0069','0070','0072','0073','0074','0075','0076','0077','0078','0079','0080','1411','1412','1751','2187','3017']
+ for(const id of [...repaired,...newest,...batch7,...batch8,...batch9,...batch10,...batch11,...batch12]){
   const asset=movementFor(id)
   assert.ok(asset);assert.equal(asset.style,'Nick Style 3 + approved primary likeness')
   assert.match(asset.url,/\.webp$/);assert.match(asset.review.identity,/primary likeness/)
  }
+ for(const id of batch12){
+  const asset=movementFor(id)
+  assert.deepEqual([asset.width,asset.height],[1200,800])
+  assert.ok(asset.bytes>100000&&asset.bytes<500000)
+  assert.match(asset.review.movement,/corrected after owner feedback/)
+ }
+ assert.match(movementFor('0064').leftLabel,/Full bar/)
+ assert.match(movementFor('0065').steps[0],/balance point/)
+ assert.match(movementFor('0066').steps[0],/parallel to the feet/)
+ assert.match(movementFor('0075').steps[0],/behind the body/)
+ assert.match(movementFor('0076').steps[0],/elbows bending/)
 })
 
 test('Library copy reports the complete live illustrated coverage',()=>{
  const firstUseInstaller=fs.readFileSync(new URL('./upgrade_first_use.py',import.meta.url),'utf8')
- assert.match(firstUseInstaller,/likeness illustrations are available for 338 exercises/)
+ assert.match(firstUseInstaller,/likeness illustrations are available for 363 exercises/)
  assert.doesNotMatch(firstUseInstaller,/available for 63 exercises/)
+ const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
+ assert.equal(progress.catalogueIllustrated,363)
+ assert.equal(progress.currentBatch.targetCatalogueIllustrated,363)
+ assert.deepEqual(new Set(progress.currentBatch.exactIds),new Set(Object.keys(CATALOGUE_ART_BATCH12)))
+ assert(progress.currentBatch.exactIds.every(id=>progress.entries.find(entry=>entry.id===id)?.deployed===false))
 })
