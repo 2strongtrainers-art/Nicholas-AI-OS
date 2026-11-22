@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch13-20261122",
-    "status": "CLAIMED_GENERATION_IN_PROGRESS",
+    "status": "GENERATED_PRIVATE_QA_NOT_LIVE",
     "exactIds": [
       "0040",
       "0118",
@@ -37,11 +37,13 @@
       "0099"
     ],
     "newCatalogueEntries": 25,
+    "initialDraftsGenerated": 25,
+    "liveFromThisBatch": 0,
     "priorCatalogueIllustrated": 363,
     "targetCatalogueIllustrated": 388,
     "appVersion": null,
     "physicalIPhone": "UNVERIFIED",
-    "reviewScope": "Owner-authorized Batch 13 claim. Generate from the pinned exact-source movements using approved Nick Style 3 likeness references; review equipment, support points, START/FINISH distinction and movement-specific geometry before integration. No new live count until hosted and Wix acceptance pass."
+    "reviewScope": "All 25 initial drafts generated for private QA. Exercise 1256's first draft was rejected for warped, unsupported head/neck anatomy and replaced; 1257, 1721 and 0087 also received targeted corrections. Full-resolution anatomy, equipment, start/finish, likeness and movement-mechanics review remains required before app integration. No new live count until hosted GitHub and Wix acceptance pass."
   },
   "entries": [
     {
