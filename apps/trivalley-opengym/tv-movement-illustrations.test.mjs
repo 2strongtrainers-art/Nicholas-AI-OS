@@ -102,7 +102,7 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
