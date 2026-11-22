@@ -8,6 +8,7 @@ import { chromium, webkit } from 'playwright-core'
 const root = path.resolve(process.argv[2])
 const repairedIds = ['0634','0691','0735','0826','1466','1495','3204','0459','3239','1774','2329','2466','0002','0969','0985','1011','1014','0226','1714']
 const batch9Ids = new Set(['0279','0283','0284','0285','0291','0293','0295','0298','0299','0300','0301','0302','0309','0311','1201','1646','1647','1648','1654','1731','2137','3016','3545','3635','3769'])
+const batch10Ids = new Set(['0023','0024','0026','0028','0029','0030','0031','0033','0034','0035','0036','0037','0038','0039','0041','0042','0043','1013','1016','1017','1255','1316','1369','1370','2407'])
 const engine = process.env.TV_ENGINE || 'chromium'
 const live = process.env.TV_LIVE_URL
 const format = { '.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
@@ -28,11 +29,11 @@ if (!base) {
 }
 try {
   const release = await (await fetch(base+'tv-release.json')).json()
-  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id))
+  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id))
   const held = []
   assert.equal(staged.length,200)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
-  assert.equal(ids.size, 63 + staged.length + batch9Ids.size)
+  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size)
   assert(repairedIds.every(id => ids.has(id)), 'A repaired card is missing from the release')
   const assets = staged.map(x => release.movementIllustrations.find(a => a.id === x.id))
   const src = asset => asset.url || './'+asset.path

@@ -86,6 +86,12 @@ batch9_art = json.loads(subprocess.run(
 if len(batch9_art) != 25 or set(batch9_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
     raise SystemExit('Batch 9 artwork must add 25 distinct queued exercise IDs')
 catalogue_art.update(batch9_art)
+batch10_art = json.loads(subprocess.run(
+    ['node', '--input-type=module', '-e', "import {CATALOGUE_ART_BATCH10 as x} from './apps/trivalley-opengym/tv-catalogue-art-batch10.mjs'; console.log(JSON.stringify(x))"],
+    check=True, capture_output=True, text=True).stdout)
+if len(batch10_art) != 25 or set(batch10_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
+    raise SystemExit('Batch 10 artwork must add 25 distinct queued exercise IDs')
+catalogue_art.update(batch10_art)
 
 illustrated_count = len(movement_manifest['assets']) + len(catalogue_art)
 (dist / 'tv-catalogue-art-batch2.json').write_text(json.dumps({'batch':'20261121-reviewed-core-200','assets':list(catalogue_art.values())}, indent=2))
@@ -94,7 +100,7 @@ if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "5.29.0",
+    "version": "5.30.0",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],
@@ -116,7 +122,7 @@ release = {
     "iconAddon": {"version": "trinity-20261119", "appleTouchIcon": touch_name,
                   "sha256": {path: hashlib.sha256((dist / path).read_bytes()).hexdigest() for path in icon_files}},
 }
-release["features"][0] = "272 additional exact-ID catalogue illustrations including 200 reviewed core references with on-demand offline caching"
+release["features"][0] = "297 additional exact-ID catalogue illustrations including 200 reviewed core references with on-demand offline caching"
 if release["portraitSha256"] != "ef1b3e6367cf189731f9d26abb4dd73971391717a1e0e370614ba114b50c03b8":
     raise SystemExit("Approved coach portrait checksum mismatch")
 (dist / "tv-release.json").write_text(json.dumps(release, indent=2) + "\n")
