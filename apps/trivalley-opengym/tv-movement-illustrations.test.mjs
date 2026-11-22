@@ -8,10 +8,11 @@ import { CATALOGUE_ART_BATCH10 } from './tv-catalogue-art-batch10.mjs'
 import { CATALOGUE_ART_BATCH11 } from './tv-catalogue-art-batch11.mjs'
 import { CATALOGUE_ART_BATCH12 } from './tv-catalogue-art-batch12.mjs'
 import { CATALOGUE_ART_BATCH13 } from './tv-catalogue-art-batch13.mjs'
+import { CATALOGUE_ART_BATCH14 } from './tv-catalogue-art-batch14.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -106,7 +107,7 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
@@ -156,11 +157,11 @@ test('Core and Batch 9/10/11/12 artwork map only the reviewed IDs to verified de
 
 test('Library copy reports candidate coverage while the live ledger stays unchanged pending deployment',()=>{
  const firstUseInstaller=fs.readFileSync(new URL('./upgrade_first_use.py',import.meta.url),'utf8')
- assert.match(firstUseInstaller,/likeness illustrations are available for 388 exercises/)
+ assert.match(firstUseInstaller,/likeness illustrations are available for 413 exercises/)
  assert.doesNotMatch(firstUseInstaller,/available for 63 exercises/)
  const progress=JSON.parse(fs.readFileSync(new URL('./artwork-progress.json',import.meta.url)))
- assert.equal(progress.catalogueIllustrated,363)
- assert.equal(progress.currentBatch.targetCatalogueIllustrated,388)
- assert.deepEqual(new Set(progress.currentBatch.exactIds),new Set(Object.keys(CATALOGUE_ART_BATCH13)))
+ assert.equal(progress.catalogueIllustrated,388)
+ assert.equal(progress.currentBatch.targetCatalogueIllustrated,413)
+ assert.deepEqual(new Set(progress.currentBatch.exactIds),new Set(Object.keys(CATALOGUE_ART_BATCH14)))
  assert(progress.currentBatch.exactIds.every(id=>progress.entries.find(entry=>entry.id===id)?.deployed===false))
 })
