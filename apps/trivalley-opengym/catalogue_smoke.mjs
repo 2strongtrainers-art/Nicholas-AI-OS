@@ -28,6 +28,9 @@ if (!chrome) throw new Error('No Chrome/Chromium executable available for actual
 const assert=(value,why)=>{if(!value)throw new Error(why)};
 let browser,page;const errors=[];
 try {
+  const release = await (await fetch(url+'tv-release.json')).json();
+  const structuredIds = new Set(release.structuredCoachingIds || []);
+  assert(structuredIds.size >= 16, 'Structured coaching allowlist missing from release');
   browser=await puppeteer.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
   page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.setViewport({width:390,height:844,deviceScaleFactor:2,isMobile:true,hasTouch:true});
@@ -62,12 +65,12 @@ try {
     }));
     assert(details.name && details.add && (details.instructions>0 || details.notes===4),'Incomplete details '+id+': '+JSON.stringify(details));
     assert(!details.overflow,'Details overflow '+id);
-    if(details.notes===4) {illustrated++; assert(details.picture,'Main exercise illustration missing '+id)} else written++;
+    if(details.notes===4) {illustrated++; assert(structuredIds.has(id),'Unexpected structured coaching '+id); assert(details.picture,'Coached exercise illustration missing '+id)} else { written++; assert(!structuredIds.has(id),'Structured coaching missing '+id); }
     await page.$eval('[aria-label="Close exercise details"]',button=>button.click());
     await page.waitForFunction(()=>!document.getElementById('modal-root'));
     if(index%200===0) console.log('Checked exercise details '+(index+1)+'/'+ids.length);
   }
-  assert(illustrated===16 && written===1308,'Exercise guidance coverage mismatch');
+  assert(illustrated===structuredIds.size && written===1324-structuredIds.size,'Exercise guidance coverage mismatch');
   await page.click('[data-testid="tv-mode-essentials"]');
   assert(await page.$$eval('[data-testid="tv-exercise-card"]',n=>n.length)===16,'Main 16 filter missing');
   for(const width of [320,390,430]) {

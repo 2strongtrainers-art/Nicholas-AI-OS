@@ -184,6 +184,7 @@ release = {
     "illustrationReview": {"display": "enabled", "reviewed": illustrated_count, "pending": 0, "likenessDirection": "owner-approved avatar face alongside Nick Style 3; prior deployed art preserved", "scope": "operator visual review; generated illustrations, not recorded demonstrations; qualified movement and physical iPhone review unverified"},
     "movementIllustrations": movement_manifest['assets'] + list(catalogue_art.values()),
     "catalogueIllustrated": illustrated_count,
+    "structuredCoachingIds": [a['id'] for a in movement_manifest['assets']] + [ident for ident, asset in catalogue_art.items() if asset.get('coaching')],
     "catalogueQueued": 1324 - illustrated_count,
     "portraitSha256": hashlib.sha256((dist / "assets/tv-coach-portrait.webp").read_bytes()).hexdigest(),
     "iconAddon": {"version": "trinity-20261119", "appleTouchIcon": touch_name,
