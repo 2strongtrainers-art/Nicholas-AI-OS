@@ -193,7 +193,7 @@ if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "5.38.1",
+    "version": "5.38.2",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],

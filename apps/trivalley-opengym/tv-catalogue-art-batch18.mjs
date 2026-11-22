@@ -695,8 +695,8 @@ export const CATALOGUE_ART_BATCH18 = Object.freeze({
     "name": "bodyweight standing row (with towel)",
     "width": 1200,
     "height": 800,
-    "sha256": "4e9b71cb63a2ad70bd848e4ddeb6e605cf2204030772b3b63526d6a228c59bef",
-    "bytes": 155722,
+    "sha256": "a4be912a838119bd2ce5c42ba5f7c94c813a894a9a39964b885336274835ce8b",
+    "bytes": 141104,
     "equipment": "body weight",
     "style": "Nick Style 3 + approved primary likeness and avatar",
     "leftLabel": "Lean back; arms long; body straight",
@@ -713,11 +713,11 @@ export const CATALOGUE_ART_BATCH18 = Object.freeze({
       "Avoid changing the anchor, bending at the hips or letting your shoulders shrug.",
       "Stand more upright to reduce resistance while keeping your feet planted."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_d41d08e6994f4d0c975afed130177849~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_f8fb9020639a45bab2dd7ad833fb0e1b~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in bodyweight standing row with towel. Start: Lean back with arms long and body straight. Finish: Pull chest toward the post with elbows back.",
     "review": {
       "identity": "approved private right-side gym likeness plus avatar; source photographs excluded from public repository",
-      "movement": "operator-reviewed against the exact catalogue demonstration after towel-length and anchor continuity correction; independent qualified movement review is unverified"
+      "movement": "operator-reviewed against the exact catalogue demonstration after fixed-hand, fixed-anchor and near-identical towel-span correction; independent qualified movement review is unverified"
     }
   },
   "1723": {
