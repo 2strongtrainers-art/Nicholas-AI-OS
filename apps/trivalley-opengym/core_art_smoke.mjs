@@ -94,7 +94,11 @@ try {
     await img.evaluate(e => e.decode())
     assert.equal(new URL(await img.getAttribute('src'),base).href,absolute(asset))
     assert.deepEqual(await figure.locator('.tv-movement-phases strong').allTextContents(),['START','FINISH'])
-    assert.deepEqual(await img.evaluate(e=>[e.naturalWidth,e.naturalHeight]),[1536,1024])
+    assert.deepEqual(
+      await img.evaluate(e=>[e.naturalWidth,e.naturalHeight]),
+      [asset.width,asset.height],
+      'Rendered media dimensions must match the exact-ID manifest'
+    )
   }
   const batches=Math.ceil(assets.length/8)
   for (let i=0;i<batches;i++) {
