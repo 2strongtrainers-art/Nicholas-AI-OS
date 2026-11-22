@@ -131,3 +131,9 @@ test('Core artwork maps only the 150 reviewed IDs to verified derivative assets'
   assert.match(asset.url,/\.webp$/);assert.match(asset.review.identity,/primary likeness/)
  }
 })
+
+test('Library copy reports the complete live illustrated coverage',()=>{
+ const firstUseInstaller=fs.readFileSync(new URL('./upgrade_first_use.py',import.meta.url),'utf8')
+ assert.match(firstUseInstaller,/likeness illustrations are available for 213 exercises/)
+ assert.doesNotMatch(firstUseInstaller,/available for 63 exercises/)
+})
