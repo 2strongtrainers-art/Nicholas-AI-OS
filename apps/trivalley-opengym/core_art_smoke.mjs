@@ -11,6 +11,7 @@ const batch9Ids = new Set(['0279','0283','0284','0285','0291','0293','0295','029
 const batch10Ids = new Set(['0023','0024','0026','0028','0029','0030','0031','0033','0034','0035','0036','0037','0038','0039','0041','0042','0043','1013','1016','1017','1255','1316','1369','1370','2407'])
 const batch11Ids = new Set(['0044','0046','0047','0048','0049','0050','0051','0052','0053','0054','0055','0056','0057','0058','0059','0063','1409','1410','1435','1461','1462','1545','1719','1720','3562'])
 const batch12Ids = new Set(['0022','0045','0060','0061','0064','0065','0066','0067','0068','0069','0070','0072','0073','0074','0075','0076','0077','0078','0079','0080','1411','1412','1751','2187','3017'])
+const batch13Ids = new Set(['0040','0081','0082','0083','0084','0086','0087','0088','0089','0090','0091','0092','0095','0096','0097','0098','0099','0118','1256','1257','1317','1371','1718','1721','1756'])
 const engine = process.env.TV_ENGINE || 'chromium'
 const live = process.env.TV_LIVE_URL
 const format = { '.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
@@ -31,14 +32,14 @@ if (!base) {
 }
 try {
   const release = await (await fetch(base+'tv-release.json')).json()
-  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id) && !batch11Ids.has(asset.id) && !batch12Ids.has(asset.id))
+  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id) && !batch11Ids.has(asset.id) && !batch12Ids.has(asset.id) && !batch13Ids.has(asset.id))
   const held = []
   assert.equal(staged.length,200)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
-  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size + batch11Ids.size + batch12Ids.size)
+  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size + batch11Ids.size + batch12Ids.size + batch13Ids.size)
   assert(repairedIds.every(id => ids.has(id)), 'A repaired card is missing from the release')
-  const assets = [...staged, ...[...batch12Ids].map(id => release.movementIllustrations.find(a => a.id === id))]
-  assert(assets.every(Boolean), 'A Batch 12 card is missing from the release')
+  const assets = [...staged, ...[...batch12Ids, ...batch13Ids].map(id => release.movementIllustrations.find(a => a.id === id))]
+  assert(assets.every(Boolean), 'A Batch 12 or 13 card is missing from the release')
   const src = asset => asset.url || './'+asset.path
   const absolute = asset => new URL(src(asset),base).href
   async function fetchBytes(asset) {
@@ -136,7 +137,7 @@ try {
   assert.deepEqual(final.routines,initial.routines)
   assert.deepEqual(errors,[])
   console.log(JSON.stringify({status:'PASS',engine,scope:live?'published site':'candidate build',previewPairs:assets.length,activePairs:last.length,
-    unchangedPriorPairs:169,repairedPairs:repairedIds.length,cacheSize,checks:['media bytes and SHA-256','exact ID start/finish','no horizontal overflow at 320/390/430','offline image and log retention','existing routines and history retained'] }))
+    unchangedPriorPairs:194,repairedPairs:repairedIds.length,cacheSize,checks:['media bytes and SHA-256','exact ID start/finish','no horizontal overflow at 320/390/430','offline image and log retention','existing routines and history retained'] }))
 } finally {
   await browser?.close()
   if(server) await new Promise(resolve=>server.close(resolve))
