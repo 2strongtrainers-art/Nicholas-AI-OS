@@ -1,6 +1,7 @@
 import http from 'node:http'
 import fs from 'node:fs'
 import path from 'node:path'
+import {createHash} from 'node:crypto'
 import {chromium,webkit} from 'playwright-core'
 const root=path.resolve(process.argv[2]||'dist'),shot=process.argv[3]||'/tmp/learning.png',engine=process.env.TV_ENGINE||'chromium'
 const assert=(v,m)=>{if(!v)throw Error(m)}
@@ -9,6 +10,11 @@ if(!url){const types={'.html':'text/html','.js':'text/javascript','.css':'text/c
 try{
  browser=await(engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})})
  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});page=await context.newPage();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message))
+ const release=await(await context.request.get(url+'tv-release.json')).json()
+ const artwork=release.bodyweightPosterIllustrations
+ assert(artwork?.length===8&&new Set(artwork.map(a=>a.url)).size===8,'Eight distinct bodyweight likeness references missing from release')
+ for(const a of artwork){const r=await context.request.get(a.url,{timeout:25000});assert(r.ok(),'Poster media request failed '+a.id);const raw=await r.body();assert(createHash('sha256').update(raw).digest('hex')===a.sha256,'Poster media digest differs '+a.id)}
+ const checkNickImages=async()=>{assert(await page.getByTestId('tv-nick-art').count()===3,'Expected three exact Nick movement references');assert(await page.getByTestId('tv-poster-sketch').count()===0,'Superseded stick figures still rendered');assert(await page.getByTestId('tv-nick-art').locator('img').evaluateAll(async imgs=>{await Promise.all(imgs.map(img=>{img.loading='eager';return img.decode()}));return imgs.every(img=>img.complete&&img.naturalWidth===1200&&img.naturalHeight===800)}),'Poster images failed to decode')}
  const go=async route=>{await page.goto(url+'#'+route,{waitUntil:'networkidle'});await page.locator('h1').first().waitFor()}
  const storage=()=>page.evaluate(()=>localStorage.getItem('gym_state_v1'))
  const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('gym_state_v1')))
@@ -30,7 +36,7 @@ try{
  for(const width of [320,390,430]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),'Protein guide overflow '+width)}
  assert(await storage()===before,'Label calculation changed training state');await go('/posters');await page.getByTestId('tv-quick-posters').waitFor();await a11y()
  for(const key of ['lower-body','plank-practice','easy-circuit']){
-  await go('/posters/'+key);await page.getByTestId('tv-poster-preview').waitFor();assert(await page.getByTestId('tv-poster-movement').count()===3,'Poster does not contain three movements');assert(await page.getByTestId('tv-poster-sketch').count()===3,'Original movement sketches missing')
+  await go('/posters/'+key);await page.getByTestId('tv-poster-preview').waitFor();assert(await page.getByTestId('tv-poster-movement').count()===3,'Poster does not contain three movements');await checkNickImages()
   assert(!(await page.getByTestId('tv-poster-preview').innerText()).includes('Unknown exercise'),'Preview has unresolved exercise');assert(await storage()===before,'Preview installed a program or started a workout')
   await a11y()
   for(const width of [320,390,430]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>{const app=document.querySelector('#app'),dock=document.querySelector('[data-testid="tv-training-dock"]');return document.documentElement.scrollWidth<=innerWidth+2&&app.getBoundingClientRect().bottom<=dock.getBoundingClientRect().top-5}),'Poster overlaps navigation or viewport '+width)}
@@ -55,6 +61,6 @@ try{
  }
  assert(await page.evaluate(()=>JSON.parse(localStorage.getItem('tv_rest_timer_v1')).total===60),'Circuit did not start its specified round rest')
  await go('/posters/lower-body');await page.screenshot({path:shot,fullPage:true})
- await page.evaluate(async()=>{if(navigator.serviceWorker?.controller)await navigator.serviceWorker.ready});await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.getByTestId('tv-poster-preview').waitFor();assert(await page.getByTestId('tv-poster-sketch').count()===3,'Poster sketches failed offline');await context.setOffline(false)
- assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'LEARNING_AND_POSTERS_BROWSER_PASS',engine,checks:['five read-only lessons','label known answer and invalid rejection','stale result removal and focus','route-local input clearing','three original illustrated previews without mutation','320-430px no overlap','automated accessibility','explicit append-only save','distinct left/right holds','native timed logging and reload','active-session protection','partial history and timestamps','two-round moving circuit labels','offline poster sketches'],physicalIPhone:'UNVERIFIED'}))
+ await page.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}))});await context.setOffline(true);await page.reload({waitUntil:'domcontentloaded'});await page.getByTestId('tv-poster-preview').waitFor();await checkNickImages();await context.setOffline(false)
+ assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'LEARNING_AND_POSTERS_BROWSER_PASS',engine,checks:['five read-only lessons','label known answer and invalid rejection','stale result removal and focus','route-local input clearing','three original illustrated previews without mutation','320-430px no overlap','automated accessibility','explicit append-only save','distinct left/right holds','native timed logging and reload','active-session protection','partial history and timestamps','two-round moving circuit labels','eight exact SHA-verified Nick references and offline decoded images'],physicalIPhone:'UNVERIFIED'}))
 }catch(e){console.error(JSON.stringify({error:e.message,engine,page:page?await page.locator('body').innerText().catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true}).catch(()=>{});throw e}finally{await browser?.close();if(server)await new Promise(r=>server.close(r))}

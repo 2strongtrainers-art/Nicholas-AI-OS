@@ -35,3 +35,13 @@ test('label scaling is exact before display rounding and blank/invalid/inconsist
  assert.equal(proteinPortion({servingGrams:100,proteinGrams:12,wantedProtein:25}).foodGrams,100*25/12)
  for(const change of [{proteinGrams:''},{servingGrams:0},{wantedProtein:NaN},{proteinGrams:201},{wantedProtein:201},{servingGrams:'Infinity'},{proteinGrams:0.01,wantedProtein:200}])assert.throws(()=>proteinPortion({servingGrams:200,proteinGrams:20,wantedProtein:25,...change}))
 })
+import {BODYWEIGHT_POSTER_ART,bodyweightArtFor} from './tv-bodyweight-art.mjs'
+test('all eight original bodyweight poster movements bind to distinct exact likeness assets, including separate side supports',()=>{
+ const ids=['squat','bridge','calf','plank','side-left','side-right','wall-push','march'].map(k=>'tv-poster-v1-'+k)
+ assert.deepEqual(Object.keys(BODYWEIGHT_POSTER_ART).sort(),[...ids].sort())
+ assert.equal(new Set(Object.values(BODYWEIGHT_POSTER_ART).map(a=>a.url)).size,8)
+ for(const id of ids){const d=posterExercise(id),a=bodyweightArtFor(d,d);assert.ok(a);assert.equal(a.name,d.n);assert.equal(a.width,1200);assert.equal(a.height,800);assert.match(a.sha256,/^[0-9a-f]{64}$/)
+  for(const change of [{id:'wrong'},{n:'Changed'},{eq:'dumbbell'},{pose:'different'},{st:['Changed instructions']},{tvPosterVersion:2}])assert.equal(bodyweightArtFor({...d,...change},d),null)
+ }
+ assert.notEqual(BODYWEIGHT_POSTER_ART['tv-poster-v1-side-left'].url,BODYWEIGHT_POSTER_ART['tv-poster-v1-side-right'].url)
+})

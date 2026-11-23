@@ -1,12 +1,13 @@
 import {posterExercise} from '../lib/tv-learning.js'
 import {useState} from 'react'
 import {illustratedArtFor} from '../lib/tv-illustrated-presets.mjs'
+import {bodyweightArtFor} from '../lib/tv-bodyweight-art.mjs'
 
 function NickExerciseArt({asset,compact=false}){
  const [failed,setFailed]=useState(false)
  return <figure className={'tv-nick-art'+(compact?' tv-nick-art-compact':'')} data-testid="tv-nick-art" data-style={asset.style}>
   {failed?<p role="status">Illustration unavailable. Use the written setup and coaching cues.</p>:<div className="tv-nick-art-window" style={{aspectRatio:asset.width+'/'+asset.cropHeight}}>
-   <img src={asset.url} alt={asset.name+': generated Nick likeness showing setup and movement positions.'} width={asset.width} height={asset.height} loading="lazy" decoding="async" style={{transform:`translateY(-${asset.top/asset.height*100}%)`}} onError={()=>setFailed(true)}/>
+   <img src={asset.url} alt={asset.name+': generated Nick likeness. '+(asset.description || 'Setup and movement positions.')} width={asset.width} height={asset.height} loading="lazy" decoding="async" style={{transform:`translateY(-${asset.top/asset.height*100}%)`}} onError={()=>setFailed(true)}/>
   </div>}
   {!compact&&<figcaption>AI-generated likeness illustration · not a video or a personal form assessment. {asset.sideNote}</figcaption>}
  </figure>
@@ -37,7 +38,7 @@ function Pose({type,phase,right}){
 export default function PosterSketch({ex,compact=false,collapsible=false}){
  const d=posterExercise(ex?.id)
  if(!d||ex?.tvPosterVersion!==1||ex.n!==d.n)return null
- const asset=illustratedArtFor(ex)
+ const asset=bodyweightArtFor(ex,d)||illustratedArtFor(ex)
  if(asset){const figure=<NickExerciseArt asset={asset} compact={compact}/>;return collapsible?<details className="tv-movement-reference"><summary>View Nick’s setup & movement illustration</summary>{figure}</details>:figure}
  if(d.pose==='illustration')return <p className="small muted">This exercise has been edited. Use its saved written instructions; the original illustration is hidden.</p>
  const labels=d.pose==='plank'?['Knees down option','Hold with control']:d.pose==='side'?['Supported setup','Lift and hold']:d.pose==='march'?['One step','Then the other']:['Set up','Move with control']

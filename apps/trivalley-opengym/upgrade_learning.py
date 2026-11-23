@@ -6,7 +6,7 @@ def edit(path,old,new):
  p=front/path;s=p.read_text()
  if s.count(old)!=1:raise RuntimeError(f'{path}: expected one learning anchor: {old[:100]}')
  p.write_text(s.replace(old,new,1))
-for name,target in [('Learn.jsx','src/views/Learn.jsx'),('WorkoutPosters.jsx','src/views/WorkoutPosters.jsx'),('PosterSketch.jsx','src/components/PosterSketch.jsx'),('tv-learning.mjs','src/lib/tv-learning.js'),('tv-illustrated-presets.mjs','src/lib/tv-illustrated-presets.mjs'),('learning.css','src/learning.css')]:shutil.copyfile(assets/name,front/target)
+for name,target in [('Learn.jsx','src/views/Learn.jsx'),('WorkoutPosters.jsx','src/views/WorkoutPosters.jsx'),('PosterSketch.jsx','src/components/PosterSketch.jsx'),('tv-learning.mjs','src/lib/tv-learning.js'),('tv-illustrated-presets.mjs','src/lib/tv-illustrated-presets.mjs'),('tv-bodyweight-art.mjs','src/lib/tv-bodyweight-art.mjs'),('learning.css','src/learning.css')]:shutil.copyfile(assets/name,front/target)
 edit('src/main.jsx',"import './first-use.css'","import './first-use.css'\nimport './learning.css'")
 edit('src/App.jsx',"import StartGuide from './views/StartGuide.jsx'","import StartGuide from './views/StartGuide.jsx'\nimport Learn from './views/Learn.jsx'\nimport WorkoutPosters from './views/WorkoutPosters.jsx'")
 edit('src/App.jsx','              <Route path="/start" element={<StartGuide />} />','              <Route path="/start" element={<StartGuide />} />\n              <Route path="/learn" element={<Learn />} />\n              <Route path="/learn/:slug" element={<Learn />} />\n              <Route path="/posters" element={<WorkoutPosters />} />\n              <Route path="/posters/:slug" element={<WorkoutPosters />} />')
