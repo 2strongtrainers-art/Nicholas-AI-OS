@@ -7,80 +7,43 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch19-20261122",
-    "status": "VERIFIED_LIVE",
+    "id": "core-batch20-20261123",
+    "status": "CLAIMED_GENERATION_PENDING",
     "exactIds": [
-      "1636",
-      "1637",
-      "1319",
-      "0195",
-      "1268",
-      "0196",
-      "0198",
-      "0197",
-      "1638",
-      "0201",
-      "0199",
-      "0202",
-      "0203",
-      "0204",
-      "0205",
-      "0206",
-      "2406",
-      "1413",
-      "0209",
-      "0210",
-      "0207",
-      "0208",
-      "1320",
-      "1321",
-      "1322"
+      "1639",
+      "1724",
+      "1725",
+      "1726",
+      "1640",
+      "1323",
+      "2144",
+      "1641",
+      "0213",
+      "0214",
+      "1642",
+      "1643",
+      "0215",
+      "0216",
+      "2399",
+      "0218",
+      "0219",
+      "0220",
+      "0221",
+      "1717",
+      "1644",
+      "0224",
+      "1375",
+      "0225",
+      "2331"
     ],
-    "claimOwner": "owner-interactive-continuation-78636ccec7bf",
-    "claimedAt": "2026-11-23T01:30:15.058Z",
-    "generatedCount": 25,
-    "acceptedCount": 25,
-    "deployedCount": 25,
-    "priorCatalogueIllustrated": 513,
-    "targetCatalogueIllustrated": 538,
-    "physicalIPhone": "UNVERIFIED",
-    "correctedCount": 9,
-    "rejectedSupersededCount": 9,
-    "privateReviewFile": "TriValley_Core_Batch19_PRIVATE_REVIEW_2026-11-22.zip",
-    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
-    "mediaReady": 25,
-    "cdnSha256Matched": 25,
-    "executionOwner": "owner-interactive-continuation-bc0cfd478a93",
-    "sourceReview": "Pinned catalogue demonstration endpoints independently inspected; conflicting prose corrected before release",
-    "expressionEditedIds": [
-      "0195",
-      "0196",
-      "0198",
-      "0199",
-      "0201",
-      "0202",
-      "0203",
-      "0206",
-      "0207",
-      "0208",
-      "0209",
-      "0210",
-      "1268",
-      "1320",
-      "1321",
-      "1322",
-      "1413",
-      "2406"
-    ],
-    "candidateAppVersion": "5.39.0",
-    "reviewedAt": "2026-11-23T13:49:38.153Z",
-    "appVersion": "5.39.0",
-    "verifiedAt": "2026-11-23T14:05:18.170Z",
-    "sourceCommit": "6d0ab7358bca5544c2e0ea01593d37b34e118b5a",
-    "buildRunId": 45187830629,
-    "liveAcceptanceRunId": 45189593460,
-    "mechanicsAndIdentityRevisedCount": 17,
-    "expressionEditedCount": 18
+    "claimOwner": "owner-interactive-bc0cfd478a93-b20",
+    "claimedAt": "2026-11-23T14:35:49.166Z",
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0,
+    "priorCatalogueIllustrated": 538,
+    "targetCatalogueIllustrated": 563,
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
@@ -3267,37 +3230,43 @@
       "id": "1639",
       "name": "cable rope hammer preacher curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1724",
       "name": "cable rope high pulley overhead tricep extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1725",
       "name": "cable rope incline tricep extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1726",
       "name": "cable rope lying on floor tricep extension",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1640",
       "name": "cable rope one arm hammer preacher curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1323",
       "name": "cable rope seated row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0211",
@@ -3312,7 +3281,8 @@
       "id": "2144",
       "name": "cable seated chest press",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0212",
@@ -3327,37 +3297,43 @@
       "id": "1641",
       "name": "cable seated curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0213",
       "name": "cable seated high row (v-bar)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0214",
       "name": "cable seated one arm alternate row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1642",
       "name": "cable seated one arm concentration curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1643",
       "name": "cable seated overhead curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0215",
       "name": "cable seated rear lateral raise",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0861",
@@ -3375,31 +3351,36 @@
       "id": "0216",
       "name": "cable seated shoulder internal rotation",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "2399",
       "name": "cable seated twist",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0218",
       "name": "cable seated wide-grip row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0219",
       "name": "cable shoulder press",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0220",
       "name": "cable shrug",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0222",
@@ -3414,7 +3395,8 @@
       "id": "0221",
       "name": "cable side bend crunch (bosu ball)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0223",
@@ -3429,31 +3411,36 @@
       "id": "1717",
       "name": "cable squat row (with rope attachment)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1644",
       "name": "cable squatting curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0224",
       "name": "cable standing back wrist curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "1375",
       "name": "cable standing calf raise",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0225",
       "name": "cable standing cross-over high reverse fly",
       "equipment": "cable",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0226",
@@ -4032,7 +4019,8 @@
       "id": "2331",
       "name": "cycle cross trainer",
       "equipment": "leverage machine",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch20-20261123"
     },
     {
       "id": "0276",
@@ -10719,6 +10707,82 @@
       ],
       "observedAt": "2026-11-22T22:25:47Z",
       "finalScope": "All 25 cards accepted after creative QA; 18 deterministic tests, four hosted build jobs and three live browser jobs passed. Exact live receipt v5.38.2/513. Physical iPhone and qualified biomechanics unverified."
+    },
+    {
+      "id": "core-batch19-20261122",
+      "status": "VERIFIED_LIVE",
+      "exactIds": [
+        "1636",
+        "1637",
+        "1319",
+        "0195",
+        "1268",
+        "0196",
+        "0198",
+        "0197",
+        "1638",
+        "0201",
+        "0199",
+        "0202",
+        "0203",
+        "0204",
+        "0205",
+        "0206",
+        "2406",
+        "1413",
+        "0209",
+        "0210",
+        "0207",
+        "0208",
+        "1320",
+        "1321",
+        "1322"
+      ],
+      "claimOwner": "owner-interactive-continuation-78636ccec7bf",
+      "claimedAt": "2026-11-23T01:30:15.058Z",
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "priorCatalogueIllustrated": 513,
+      "targetCatalogueIllustrated": 538,
+      "physicalIPhone": "UNVERIFIED",
+      "correctedCount": 9,
+      "rejectedSupersededCount": 9,
+      "privateReviewFile": "TriValley_Core_Batch19_PRIVATE_REVIEW_2026-11-22.zip",
+      "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+      "mediaReady": 25,
+      "cdnSha256Matched": 25,
+      "executionOwner": "owner-interactive-continuation-bc0cfd478a93",
+      "sourceReview": "Pinned catalogue demonstration endpoints independently inspected; conflicting prose corrected before release",
+      "expressionEditedIds": [
+        "0195",
+        "0196",
+        "0198",
+        "0199",
+        "0201",
+        "0202",
+        "0203",
+        "0206",
+        "0207",
+        "0208",
+        "0209",
+        "0210",
+        "1268",
+        "1320",
+        "1321",
+        "1322",
+        "1413",
+        "2406"
+      ],
+      "candidateAppVersion": "5.39.0",
+      "reviewedAt": "2026-11-23T13:49:38.153Z",
+      "appVersion": "5.39.0",
+      "verifiedAt": "2026-11-23T14:05:18.170Z",
+      "sourceCommit": "6d0ab7358bca5544c2e0ea01593d37b34e118b5a",
+      "buildRunId": 45187830629,
+      "liveAcceptanceRunId": 45189593460,
+      "mechanicsAndIdentityRevisedCount": 17,
+      "expressionEditedCount": 18
     }
   ],
   "catalogueQueued": 786,
