@@ -7,150 +7,43 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch18-20261122",
-    "status": "DEPLOYED_LIVE_BROWSER_VERIFIED",
+    "id": "core-batch19-20261122",
+    "status": "IN_PROGRESS_GENERATION_AND_REVIEW",
     "exactIds": [
-      "2800",
-      "0105",
-      "2414",
-      "3019",
-      "1770",
-      "0137",
-      "1769",
-      "3168",
-      "3167",
-      "3156",
-      "3158",
-      "3162",
-      "3161",
-      "3166",
-      "3165",
-      "1265",
-      "1266",
-      "0191",
-      "0192",
-      "1633",
-      "1267",
-      "3563",
-      "1635",
-      "0193",
-      "1723"
+      "1636",
+      "1637",
+      "1319",
+      "0195",
+      "1268",
+      "0196",
+      "0198",
+      "0197",
+      "1638",
+      "0201",
+      "0199",
+      "0202",
+      "0203",
+      "0204",
+      "0205",
+      "0206",
+      "2406",
+      "1413",
+      "0209",
+      "0210",
+      "0207",
+      "0208",
+      "1320",
+      "1321",
+      "1322"
     ],
-    "claimOwner": "owner-interactive-continuation-32b205aa4444",
-    "claimBaseBlob": "c7e608acf86e5f5b675fa1c998610912a82e5487",
-    "claimedAt": "2026-11-22T20:48:17.608Z",
-    "generatedCount": 25,
-    "acceptedCount": 25,
-    "deployedCount": 25,
-    "priorCatalogueIllustrated": 488,
-    "targetCatalogueIllustrated": 513,
-    "physicalIPhone": "UNVERIFIED",
-    "claimedExactIds": [
-      "2800",
-      "0105",
-      "2414",
-      "3019",
-      "1770",
-      "0137",
-      "1769",
-      "3168",
-      "3167",
-      "3156",
-      "3158",
-      "3162",
-      "3161",
-      "3166",
-      "3165",
-      "1265",
-      "1266",
-      "0191",
-      "0192",
-      "1633",
-      "1267",
-      "3563",
-      "1635",
-      "0193",
-      "1723"
-    ],
-    "heldExactIds": [],
-    "mediaReadyCount": 25,
-    "cdnChecksumsMatched": 25,
-    "successfulImageCalls": 37,
-    "failedImageCalls": 1,
-    "rejectedDraftCount": 16,
-    "claimCommit": "8827519dc1636b30fd02a01cdf6642ce2542036f",
-    "generationBlocker": {
-      "id": "1723",
-      "category": "violence",
-      "stage": "input",
-      "requestId": "fab72474-8b00-431a-80b0-7523f8216899",
-      "response": "No retry or workaround attempted; image generation stopped."
-    },
-    "concurrentCandidate": {
-      "source": "a314948178ed2aab5ec4e260be6e97edede8ffd0",
-      "liveControl": "f364f054c2fd864c1107a64f8dbb05418a34ab96",
-      "status": "PUBLISHED_CANDIDATE_NOT_CREATIVELY_ACCEPTED",
-      "reason": "3165 towel length changes; 1723 cable connects to resting hand; 0137 and 0191 generic coaching conflicts with exact source demonstration."
-    },
-    "hostedAcceptance": {
-      "run": 45074110486,
-      "attempt": 2,
-      "result": "PASS_ALL_FOUR_JOBS",
-      "source": "f46bfd5f649cde7782bcdfac3eb93a0253aece1d"
-    },
-    "correctivePublication": {
-      "version": "5.38.1",
-      "source": "f46bfd5f649cde7782bcdfac3eb93a0253aece1d",
-      "artifactId": 14774492340,
-      "artifactBytes": 3788163,
-      "artifactSha256": "9b21e01aaa1c5278c4e9c1a56627e0fbcfd6eac2489b61f5691d24df34908e21",
-      "wixRevision": "197b79435c741a3c73899181698b0c1d87fff939",
-      "readback": "PASS_ALL_70_FILES_AND_SHARED_SEVEN",
-      "liveVerified": false,
-      "liveRuns": [
-        45074926034,
-        45075114809,
-        45075428012
-      ],
-      "liveStatus": "NOT_ACCEPTED; earlier failures and release displaced during final acceptance"
-    },
-    "publisherConflict": {
-      "observedAt": "2026-11-22T22:04:30.837Z",
-      "source": "66cbf32dbdbe062bac58b1a268417cb7679a15f2",
-      "wixRevision": "fa5f4a891719e5fd03f8d6af9b3cd3fd22272a2d",
-      "candidateIllustrated": 513,
-      "verifiedBaseline": 488,
-      "reason": "Another run replaced the corrective 23-card release during live acceptance. Its second corrected3165 still changes towel length and remains creatively rejected. Do not count513 or publish competing artifacts.",
-      "nextAction": "Reconcile one publisher; keep accepted23 and all488 prior records, independently re-review held alternatives before release."
-    },
-    "pendingAlternate1723": {
-      "source": "66cbf32dbdbe062bac58b1a268417cb7679a15f2",
-      "status": "EXISTS_NOT_INCLUDED_IN_ACCEPTED23_RELEASE; preserve for future independent review; do not regenerate blindly"
-    },
-    "liveFromThisBatch": 25,
-    "appVersion": "5.38.2",
-    "releaseSourceCommit": "5bbc7c605ed92caa5828b5a537ee997fd9769954",
-    "buildRunId": 45076523514,
-    "liveAcceptanceRunId": 45077127853,
-    "artifactId": 14775656227,
-    "artifactBytes": 3790091,
-    "artifactSha256": "541b7eff15e0a6f2e4f282ba8b17c9cccce16f9a3e6ea968e0f97333a67b0e6f",
-    "correctedIds": [
-      "0105",
-      "2414",
-      "3019",
-      "0137",
-      "3167",
-      "3162",
-      "1265",
-      "1633",
-      "3563",
-      "0193",
-      "3165",
-      "1723"
-    ],
-    "observedAt": "2026-11-22T22:25:47Z",
-    "finalScope": "All 25 cards accepted after creative QA; 18 deterministic tests, four hosted build jobs and three live browser jobs passed. Exact live receipt v5.38.2/513. Physical iPhone and qualified biomechanics unverified."
+    "claimOwner": "owner-interactive-continuation-78636ccec7bf",
+    "claimedAt": "2026-11-23T01:30:15.058Z",
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0,
+    "priorCatalogueIllustrated": 513,
+    "targetCatalogueIllustrated": 538,
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
@@ -3029,13 +2922,15 @@
       "id": "1636",
       "name": "cable overhead curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1637",
       "name": "cable overhead curl on exercise ball",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0194",
@@ -3053,55 +2948,64 @@
       "id": "1319",
       "name": "cable palm rotational row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0195",
       "name": "cable preacher curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1268",
       "name": "cable press on exercise ball",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0196",
       "name": "cable pull through (with rope)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0198",
       "name": "cable pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0197",
       "name": "cable pulldown (pro lat bar)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1638",
       "name": "cable pulldown bicep curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0201",
       "name": "cable pushdown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0199",
       "name": "cable pushdown (straight arm) v. 2",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0200",
@@ -3119,25 +3023,29 @@
       "id": "0202",
       "name": "cable rear delt row (stirrups)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0203",
       "name": "cable rear delt row (with rope)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0204",
       "name": "cable rear drive",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0205",
       "name": "cable rear pulldown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0873",
@@ -3152,61 +3060,71 @@
       "id": "0206",
       "name": "cable reverse curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "2406",
       "name": "cable reverse grip triceps pushdown (sz-bar) (with arm blaster)",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1413",
       "name": "cable reverse one arm curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0209",
       "name": "cable reverse preacher curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0210",
       "name": "cable reverse wrist curl",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0207",
       "name": "cable reverse-grip pushdown",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "0208",
       "name": "cable reverse-grip straight back seated high row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1320",
       "name": "cable rope crossover seated row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1321",
       "name": "cable rope elevated seated row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1322",
       "name": "cable rope extension incline bench row",
       "equipment": "cable",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch19-20261122"
     },
     {
       "id": "1639",
