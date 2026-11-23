@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch24-20261123",
-    "status": "CLAIMED",
+    "status": "GENERATED_REVIEWED_NOT_LIVE",
     "exactIds": [
       "0342",
       "0344",
@@ -41,9 +41,25 @@
     "claimedAt": "2026-11-23T22:11:03.171222+00:00",
     "priorCatalogueIllustrated": 638,
     "targetCatalogueIllustrated": 663,
-    "generatedCount": 0,
-    "acceptedCount": 0,
-    "deployedCount": 0
+    "generatedCount": 25,
+    "acceptedCount": 25,
+    "deployedCount": 0,
+    "successfulImageCalls": 41,
+    "rejectedSupersededCount": 16,
+    "correctedIds": [
+      "0347",
+      "1661",
+      "1662",
+      "0352",
+      "1286",
+      "1287",
+      "1288",
+      "1663"
+    ],
+    "candidateAppVersion": "5.44.0",
+    "mediaReady": 25,
+    "reviewedAt": "2026-11-23T22:42:16.902617+00:00",
+    "qualifiedHumanMovementReview": "UNVERIFIED"
   },
   "entries": [
     {
@@ -5349,176 +5365,251 @@
       "id": "0342",
       "name": "dumbbell lying one arm press v. 2",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "32032eb94eaca54cfe4f8f095c96ece6d09854bfc767c9f6af1bc7c17980fba5",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0344",
       "name": "dumbbell lying one arm pronated triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "bedcce6b883de8dce1c078d65372126271d09e9e7f0bc8ec28a89843ca3729d2",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0345",
       "name": "dumbbell lying one arm rear lateral raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "cae8a8fcf9beb41ec4af4c673602fd4610f2a8d19060919c4195cb2c51c2cbfa",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0346",
       "name": "dumbbell lying one arm supinated triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "2bc5789122a2cf5f4917b1fba1fa1fe6854e92ffb03890e73d43f040ce9b6901",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0347",
       "name": "dumbbell lying pronation",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "7ef5985b239d5b2edcad4a4c0c2fcf759fa34bbd2ef52b55b1ef7aeabe6ddf11",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2705",
       "name": "dumbbell lying pronation on floor",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "33138fec40546c1e5a727481db721a32b5292359d0021efe7d18dee1e4459eca",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1284",
       "name": "dumbbell lying pullover on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "05917d76cfd8ec2804a36b4289559d7924afc7b255b8c395a02c8c2ba68d83b5",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1328",
       "name": "dumbbell lying rear delt row",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "e456bc1d1243e137b7878a78469e06fce2654f9efdb3e570f458842f1c36b9d8",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0348",
       "name": "dumbbell lying rear lateral raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "9612305f61bcf025cfed5339a4d5f1ab0e01cbc9e7f569523c90469e574bb160",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1735",
       "name": "dumbbell lying single extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "a8a9f198732f042af16f1c34011e1ba8d018895ce43c7e299451158be54f0437",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0349",
       "name": "dumbbell lying supination",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "b00eb5541e693b534fd315fd4275cb006db5848e9dfc4718659fb3073e87c656",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2706",
       "name": "dumbbell lying supination on floor",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "bb234c4322e4ce371189308575f981894ece5f4617a56447f0c307edde517a6d",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1661",
       "name": "dumbbell lying supine biceps curl",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "5adf20c50080b097eb7e4438c727abeac7074497845754eb2210dff790603417",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0350",
       "name": "dumbbell lying supine curl",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "68c35797d10d078155e8539eb706f28a54cedbc5b03ec36ef783f545b7a1f106",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0351",
       "name": "dumbbell lying triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "b39c0c3b382b6d99a3dd731d4c0705111ddb9efdbe83588cff8d92d88c20ca70",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1662",
       "name": "dumbbell lying wide curl",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "cd6ba049b05603a3c8d1e2e4f8e7153a475928927fb626c5019bc4ccf28a660a",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0352",
       "name": "dumbbell neutral grip bench press",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "2c9dfb7ab27c7f4565d30ed2614b26fabac67aa5d1b2b6ad267e10ce124354de",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1285",
       "name": "dumbbell one arm bench fly",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "b09d4a39ba7eac4f051ec4f91dc496c125e82147c47a02536c4c76c500c631e2",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0292",
       "name": "dumbbell one arm bent-over row",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "9f3e8adbd8053ba91e670e47102fb55a25c5e873ac6247cbdb3726b0e7b09f2e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1286",
       "name": "dumbbell one arm chest fly on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "35e25ceddda986c5bcd2379822d198c3ab7a95fe31accf32b4844a03ad1d8838",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0353",
       "name": "dumbbell one arm concentration curl (on stability ball)",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "b026503887ca3d7b7734e542fd16b256de6ce23cae37d21118d54f56f1f9134c",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1287",
       "name": "dumbbell one arm decline chest press",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "33337c632e012acfbef4f934984ae969a31c1e908ecbd4db2e0ad2c984ce5b2c",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1288",
       "name": "dumbbell one arm fly on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "1dd72e6a739529d5053e786cb9264dfe0d45e112b523470f6df44d5c36eb67cf",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1736",
       "name": "dumbbell one arm french press on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "245ba8024cce0d14ba3e7e2b4fb88be8bc3c65a5e73654f2038c8dec36335da6",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1663",
       "name": "dumbbell one arm hammer preacher curl",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch24-20261123"
+      "status": "reviewed",
+      "batch": "core-batch24-20261123",
+      "assetSha256": "83a0bcc5cd80bf883598f4c8bf8eb7f0716e47eda5b5d9454269912e18f12bb9",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1621",
@@ -11450,22 +11541,156 @@
         "sourceCommit": "e0c626998b86db595be6596ad770474cc9d8cc86",
         "liveAcceptanceRunId": 45256333429
       }
+    },
+    {
+      "id": "core-batch22-20261123",
+      "status": "VERIFIED_LIVE",
+      "exactIds": [
+        "1437",
+        "1277",
+        "1732",
+        "1659",
+        "0312",
+        "2402",
+        "1664",
+        "0315",
+        "0316",
+        "0318",
+        "0317",
+        "0319",
+        "1278",
+        "0320",
+        "0321",
+        "1618",
+        "0322",
+        "1279",
+        "1280",
+        "1619",
+        "1620",
+        "0323",
+        "1281",
+        "1282",
+        "0324"
+      ],
+      "claimOwner": "owner-interactive-bc0cfd478a93-b22",
+      "claimedAt": "2026-11-23T19:23:23.827892+00:00",
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "priorCatalogueIllustrated": 588,
+      "targetCatalogueIllustrated": 613,
+      "previousBatchExpressionReview": {
+        "batch": 21,
+        "reviewed": 25,
+        "revisionIds": [
+          "2403",
+          "0286",
+          "1649",
+          "1652",
+          "1655",
+          "1656"
+        ]
+      },
+      "mediaReady": 25,
+      "cdnSha256Matched": 25,
+      "rejectedSupersededCount": 9,
+      "successfulImageCalls": 34,
+      "previousExpressionRevisions": 6,
+      "appVersion": "5.42.0",
+      "reviewedAt": "2026-11-23T19:59:16.538135+00:00",
+      "qualifiedHumanMovementReview": "UNVERIFIED",
+      "verifiedAt": "2026-11-23T20:13:37.399587+00:00",
+      "sourceCommit": "e0c626998b86db595be6596ad770474cc9d8cc86",
+      "buildRunId": 45254975687,
+      "liveAcceptanceRunId": 45256333429,
+      "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+      "privateReviewFile": "TriValley_Batch22_PRIVATE_REVIEW_2026-11-23.zip",
+      "correctedIds": [
+        "1437",
+        "1277",
+        "0318",
+        "0317",
+        "0319",
+        "0320",
+        "1278",
+        "0322",
+        "1279"
+      ]
+    },
+    {
+      "id": "core-batch23-20261123",
+      "status": "VERIFIED_LIVE",
+      "exactIds": [
+        "1283",
+        "0325",
+        "0326",
+        "0327",
+        "0328",
+        "0329",
+        "3542",
+        "0330",
+        "0331",
+        "1733",
+        "3541",
+        "0332",
+        "1734",
+        "1660",
+        "0335",
+        "1658",
+        "0337",
+        "1729",
+        "0338",
+        "0863",
+        "0339",
+        "0340",
+        "2470",
+        "0341",
+        "0343"
+      ],
+      "claimOwner": "owner-interactive-15861b558bea-b23",
+      "claimedAt": "2026-11-23T21:10:03.294407+00:00",
+      "claimBaseCommit": "897b27ea027a101c3bc04d2af121c1adbf7773de",
+      "priorCatalogueIllustrated": 613,
+      "targetCatalogueIllustrated": 638,
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "successfulImageCalls": 29,
+      "rejectedSupersededCount": 4,
+      "correctedIds": [
+        "1283",
+        "1729",
+        "0340"
+      ],
+      "mediaReady": 25,
+      "cdnSha256Matched": 25,
+      "reviewedAt": "2026-11-23T21:44:35.262Z",
+      "qualifiedHumanMovementReview": "UNVERIFIED",
+      "appVersion": "5.43.0",
+      "verifiedAt": "2026-11-23T22:07:56.840024+00:00",
+      "sourceCommit": "6b405f0ac5578fc0b478cb8f8afc921a753e37de",
+      "buildRunId": 45273736105,
+      "liveAcceptanceRunId": 45275255946,
+      "liveAcceptanceAttempt": 2,
+      "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+      "privateReviewFile": "TriValley_Batch23_PRIVATE_REVIEW_2026-11-23.zip"
     }
   ],
-  "catalogueQueued": 711,
+  "catalogueQueued": 686,
   "liveObservation": {
-    "version": "5.42.0",
-    "sourceCommit": "e0c626998b86db595be6596ad770474cc9d8cc86",
-    "catalogueIllustrated": 613,
-    "catalogueQueued": 711,
-    "buildRunId": 45254975687,
-    "liveAcceptanceRunId": 45256333429,
-    "artifactId": 14858635635,
-    "artifactSha256": "9bfa1059bbabef13340359af8f923bb36008ed57d1ebd380be483f32cf053bc8",
-    "nativeRevision": "8d9e0d6091570e7f30ac698c4e026468ef5c45d4",
-    "uploadId": "48a85136-bd74-4a87-bba7-ef7361222f3e",
-    "verifiedAt": "2026-11-23T20:13:37.399587+00:00",
+    "version": "5.43.0",
+    "sourceCommit": "6b405f0ac5578fc0b478cb8f8afc921a753e37de",
+    "catalogueIllustrated": 638,
+    "catalogueQueued": 686,
+    "buildRunId": 45273736105,
+    "liveAcceptanceRunId": 45275255946,
+    "liveAcceptanceAttempt": 2,
+    "artifactId": 14866188227,
+    "artifactSha256": "24bd05c62fb51c2a3b1e51a78e3a257a73665c00901a7b794b61b1e736a43da2",
+    "nativeRevision": "df35960aed8771a6319d5a0fd9634edb2ed072ac",
+    "uploadId": "c0f95084-e3c1-43ae-9322-03477f175cb7",
+    "observedAt": "2026-11-23T22:44:12.256646+00:00",
     "customBodyweightReferences": 8,
-    "scope": "25new exact-ID cards and six prior expression revisions;582other prior catalogue and8custom bodyweight records preserved. Hosted and live Chromium/WebKit,mobile,accessibility,offline and all1324detail routes passed. Seven coaching portal files preserved byteforbyte.14old bundle paths archived and byte-verified before deletion. Physical iPhone and qualified human movement review unverified."
+    "scope": "Batch23 verified live from saved hosted/native/live receipts and fresh public release. Batch24 reviewed candidates remain NOT LIVE until every acceptance gate passes. Seven current coaching files preserved."
   }
 }
