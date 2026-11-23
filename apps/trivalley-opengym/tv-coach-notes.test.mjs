@@ -74,3 +74,15 @@ test('Batch 20 accessible coaching resolves exact catalogue IDs without changing
  assert.equal(ESSENTIAL_IDS.length,16)
  for(const [id,a] of Object.entries(CATALOGUE_ART_BATCH20))assert.deepEqual(coachNotesFor({id}),a.coaching)
 })
+
+
+import { CATALOGUE_ART_BATCH23 } from './tv-catalogue-art-batch23.mjs'
+test('Batch23 exposes four structured coaching fields for every new exact ID',()=>{
+ assert.equal(ESSENTIAL_IDS.length,16)
+ for(const [id,asset] of Object.entries(CATALOGUE_ART_BATCH23)){
+  const notes=coachNotesFor({id})
+  assert.deepEqual(notes,asset.coaching,id)
+  assert.equal(notes.length,4,id)
+ }
+ assert.equal(coachNotesFor({id:'constructor'}),null)
+})
