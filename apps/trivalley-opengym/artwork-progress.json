@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch22-20261123",
-    "status": "CLAIMED",
+    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_ACCEPTANCE",
     "exactIds": [
       "1437",
       "1277",
@@ -38,8 +38,8 @@
     ],
     "claimOwner": "owner-interactive-bc0cfd478a93-b22",
     "claimedAt": "2026-11-23T19:23:23.827892+00:00",
-    "generatedCount": 0,
-    "acceptedCount": 0,
+    "generatedCount": 25,
+    "acceptedCount": 25,
     "deployedCount": 0,
     "priorCatalogueIllustrated": 588,
     "targetCatalogueIllustrated": 613,
@@ -54,7 +54,15 @@
         "1655",
         "1656"
       ]
-    }
+    },
+    "mediaReady": 25,
+    "cdnSha256Matched": 25,
+    "rejectedSupersededCount": 9,
+    "successfulImageCalls": 34,
+    "previousExpressionRevisions": 6,
+    "appVersion": "5.42.0",
+    "reviewedAt": "2026-11-23T19:59:16.538135+00:00",
+    "qualifiedHumanMovementReview": "UNVERIFIED"
   },
   "entries": [
     {
@@ -4229,7 +4237,9 @@
       "assetSha256": "28f0ca7b1dd02bd7763b8eacc884d38e1040bef9b719b01e700b8acc3ca31b97",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
       "deployed": true,
-      "appVersion": "5.41.0"
+      "appVersion": "5.41.0",
+      "candidateExpressionSha256": "38bb03fb2d86e37c7ab2ae4603bfc711f709975413c0050151b68896274e828b",
+      "expressionRevisionPending": true
     },
     {
       "id": "1646",
@@ -4267,7 +4277,9 @@
       "assetSha256": "bef4b2d08a62d77d9885532d0dbd0cc7bb173189cc3ff705064bc9d24fc3057b",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
       "deployed": true,
-      "appVersion": "5.41.0"
+      "appVersion": "5.41.0",
+      "candidateExpressionSha256": "597e6ce47634d0d2cdf5febc16eba1d7f91a1c7527b219bc404ea07fe29a0578",
+      "expressionRevisionPending": true
     },
     {
       "id": "1649",
@@ -4278,7 +4290,9 @@
       "assetSha256": "5e606499dd8872fe376451f3b6aa52569040cb640f67d1fe17aa6c547504db47",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
       "deployed": true,
-      "appVersion": "5.41.0"
+      "appVersion": "5.41.0",
+      "candidateExpressionSha256": "ac4aeca0c44e8197a9387dc1d3292bb682ef97be4421f156986a9a6df6a62066",
+      "expressionRevisionPending": true
     },
     {
       "id": "1650",
@@ -4383,7 +4397,9 @@
       "assetSha256": "89308ebb15ca18aab66e9598f2407fbc3834882dd50e9e9485cd2e1f73b74ce4",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
       "deployed": true,
-      "appVersion": "5.41.0"
+      "appVersion": "5.41.0",
+      "candidateExpressionSha256": "4defc5b2e248208fc907ddf9a8ea4ab06279617148ec1623c7fc900bccb4cbd7",
+      "expressionRevisionPending": true
     },
     {
       "id": "1653",
@@ -4437,7 +4453,9 @@
       "assetSha256": "2b98319b12a1c21055f1e363dca9b90799ea273c285303ad59066ccc1bd95258",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
       "deployed": true,
-      "appVersion": "5.41.0"
+      "appVersion": "5.41.0",
+      "candidateExpressionSha256": "1f2c6f150106071463bd72b6f945d57c727075a42a547507f9190eaf58b0f271",
+      "expressionRevisionPending": true
     },
     {
       "id": "1656",
@@ -4448,7 +4466,9 @@
       "assetSha256": "ccc6c896e4b4e8a7d64e8e127591cd0d76b3f0a887ec2814b22f708b6a17e0f8",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
       "deployed": true,
-      "appVersion": "5.41.0"
+      "appVersion": "5.41.0",
+      "candidateExpressionSha256": "46b9944e3aa0945b0cd5a7b78e09de8fdb3e52bbbf5b3468d2c45953a58aa5c4",
+      "expressionRevisionPending": true
     },
     {
       "id": "1201",
@@ -4656,7 +4676,11 @@
       "id": "1437",
       "name": "dumbbell finger curls",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "0339ad8c317b0ca8437366c590c1434abeb7ede909aeb44ef9410355cc05a5af",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0308",
@@ -4673,13 +4697,21 @@
       "id": "1277",
       "name": "dumbbell fly on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "c7beff41527bb83d1039f61789597686978c02f18989033ebf4afb9d50eeefcf",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1732",
       "name": "dumbbell forward lunge triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "e69d9824b62b90d15a8eebd7b89c209391febab5b9470f2cefd5ceaf17ab8d57",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0310",
@@ -4737,25 +4769,41 @@
       "id": "1659",
       "name": "dumbbell hammer curl on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "05204b2cf55a0b25283bde9c9ec6ee2f50cf3e7c9d07579ad3243b3c25069ab7",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0312",
       "name": "dumbbell hammer curl v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "0f8624a0b2edc78f909df4548424db7684001e9b7b92f9c1f588836df01928fb",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "2402",
       "name": "dumbbell hammer curls (with arm blaster)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "04d401c320c77fc68ef258638804941404c5e60b45b3896d4db2843e2563bb0c",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1664",
       "name": "dumbbell high curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "72a3ad7bcaf5bf3e473abed6a7ade6a1013681b35dae4778db53ab3b41615e95",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "3545",
@@ -4782,109 +4830,181 @@
       "id": "0315",
       "name": "dumbbell incline biceps curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "7eae6092127abbc9e71b19df9d1c720ec3abaca03d484c8d13438a013ac28edf",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0316",
       "name": "dumbbell incline breeding",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "ed4d541701bb95a87c22211517d32d0f5203e01f90c901f2cdb53b9e8f3a867e",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0318",
       "name": "dumbbell incline curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "fa1a5b203649258ff4737515f9e55ab6be266063268959011f5c148d54a30d31",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0317",
       "name": "dumbbell incline curl v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "9e7143f8bec73911a404b44cd59c815c4b3aa39176a3c48b8aa126e8a2257bcb",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0319",
       "name": "dumbbell incline fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "b16b7f8d36917d50f77b8ba101a501cc2b85ca088d05d3ef3ef32838f8ba120d",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1278",
       "name": "dumbbell incline fly on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "19c853769a3f6bd6613ae7272bc06607ac4057ec0b2a08fc5e9a5f0ce6313de0",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0320",
       "name": "dumbbell incline hammer curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "d9bd5179692bac2f0a88bea65e79ec6c6baaeadc580bec8ce05c3daa80a86d32",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0321",
       "name": "dumbbell incline hammer press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "034fcf6fa29fd6b4c910f4be04060768ec0cfb77c56420e6b5bff6e5a6d4ca1a",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1618",
       "name": "dumbbell incline hammer press on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "4fd4efa139f8d0d1ac3c6dc5ad85ae8fd701b9554822c55b142dd5bdc291e795",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0322",
       "name": "dumbbell incline inner biceps curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "1f397ebd64ca62a97ae737a8468f2d80b0af5a6aa65bf084577f2399cd7360dc",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1279",
       "name": "dumbbell incline one arm fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "601147cd2f87d986fd9ebfd7a18d1dc434119865f9906ad3632f41cb70e0f84e",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1280",
       "name": "dumbbell incline one arm fly on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "38ea6bb133b1a3e53799457fc66f713a1149c42f9862bd958737c797b4335848",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1619",
       "name": "dumbbell incline one arm hammer press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "30c31efb1a6242aa1973ceca2c6193fa358eed288b0d3bf9325527114640c5f3",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1620",
       "name": "dumbbell incline one arm hammer press on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "16da545792959710dcb5d48e297229de371ceb2d90e9ca352bc4c1ca586527d4",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0323",
       "name": "dumbbell incline one arm lateral raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "84924bda05539633d1966f3f8adcff4e5cb924d5026d9000f0670778d9913b80",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1281",
       "name": "dumbbell incline one arm press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "5c64685b50a5409a92c1a27106abfa7c58a8ebf80f7bc911d1418b288d4606f9",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1282",
       "name": "dumbbell incline one arm press on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "bc0c0c78ca1254c79d85c82d79152836ffe25dc817b5254c783c5fd2c44c5707",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0324",
       "name": "dumbbell incline palm-in press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "reviewed_pending_deployment",
+      "assetSha256": "0b24be5598a553e34057e1214d4c9513ba0694715f1af6e904879ba9913933ce",
+      "candidateAppVersion": "5.42.0",
+      "reviewScope": "Operator visual/source/likeness review; qualified human movement and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1283",

@@ -1,4 +1,4 @@
-// Batch 21: 25 exact-ID reviewed generated likeness cards.
+// Batch21:25 exact-ID cards; six expression revisions in v5.42.0.
 export const CATALOGUE_ART_BATCH21 = Object.freeze({
   "1274": {
     "id": "1274",
@@ -66,8 +66,8 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
     "equipment": "dumbbell",
     "width": 1200,
     "height": 800,
-    "sha256": "28f0ca7b1dd02bd7763b8eacc884d38e1040bef9b719b01e700b8acc3ca31b97",
-    "bytes": 153106,
+    "sha256": "38bb03fb2d86e37c7ab2ae4603bfc711f709975413c0050151b68896274e828b",
+    "bytes": 157432,
     "style": "Nick Style 3 + approved primary likeness",
     "leftLabel": "Brace upper arms; palms forward",
     "rightLabel": "Curl one side; alternate",
@@ -83,11 +83,12 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
       "Avoid leaning back, lifting the elbows away from the support or swinging the dumbbells.",
       "Use lighter weights or an ordinary stable seated alternating curl."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_78d8be4bfb334346ac175833605c51dc~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_5735653ec6ff423fbce73d34d6569d08~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in dumbbell alternate biceps curl (with arm blaster). Start: Brace upper arms; palms forward. Finish: Curl one side; alternate.",
     "review": {
-      "identity": "approved right-side gym likeness with avatar facial detail; natural movement-appropriate expressions; private source photos excluded",
-      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified"
+      "identity": "Prior batch expression revised against same approved right-side identity; all25 visually reviewed,6 revised,19 retained",
+      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified",
+      "expression": "START: a genuine warm closed-mouth smile, soft cheeks and friendly eyes. FINISH: concentrated eyes looking toward the working arm with a tiny restrained smile, jaw relaxed."
     }
   },
   "0286": {
@@ -96,8 +97,8 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
     "equipment": "dumbbell",
     "width": 1200,
     "height": 800,
-    "sha256": "bef4b2d08a62d77d9885532d0dbd0cc7bb173189cc3ff705064bc9d24fc3057b",
-    "bytes": 142354,
+    "sha256": "597e6ce47634d0d2cdf5febc16eba1d7f91a1c7527b219bc404ea07fe29a0578",
+    "bytes": 144936,
     "style": "Nick Style 3 + approved primary likeness",
     "leftLabel": "Both weights at shoulders",
     "rightLabel": "Press one side overhead",
@@ -113,11 +114,12 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
       "Avoid side-bending, shrugging or arching your lower back to reach higher.",
       "Use lighter weights, a back-supported seat and a smaller comfortable overhead range."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_9db0a152e4d4428086d13b2c2f93f630~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_09376b22eaa5469f95ba3827da9da8bc~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in dumbbell alternate side press. Start: Both weights at shoulders. Finish: Press one side overhead.",
     "review": {
-      "identity": "approved right-side gym likeness with avatar facial detail; natural movement-appropriate expressions; private source photos excluded",
-      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified"
+      "identity": "Prior batch expression revised against same approved right-side identity; all25 visually reviewed,6 revised,19 retained",
+      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified",
+      "expression": "START: calm alert concentration looking forward, relaxed closed lips. FINISH: a gentle exhale with slightly parted lips, attentive eyes straight ahead."
     }
   },
   "1649": {
@@ -126,8 +128,8 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
     "equipment": "dumbbell",
     "width": 1200,
     "height": 800,
-    "sha256": "5e606499dd8872fe376451f3b6aa52569040cb640f67d1fe17aa6c547504db47",
-    "bytes": 156094,
+    "sha256": "ac4aeca0c44e8197a9387dc1d3292bb682ef97be4421f156986a9a6df6a62066",
+    "bytes": 158652,
     "style": "Nick Style 3 + approved primary likeness",
     "leftLabel": "Sit on ball; one leg raised",
     "rightLabel": "Alternate curls; hold balance",
@@ -143,11 +145,12 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
       "Avoid rolling the ball, leaning back or placing the raised foot on top of the ball.",
       "Keep both feet down or use a stable bench before adding the balance demand."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_d109adf473474d55bf18118670e770fa~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_e35bfda0a4c3436eb7c0f1c87c5d825d~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in dumbbell alternating bicep curl with leg raised on exercise ball. Start: Sit on ball; one leg raised. Finish: Alternate curls; hold balance.",
     "review": {
-      "identity": "approved right-side gym likeness with avatar facial detail; natural movement-appropriate expressions; private source photos excluded",
-      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified"
+      "identity": "Prior batch expression revised against same approved right-side identity; all25 visually reviewed,6 revised,19 retained",
+      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified",
+      "expression": "START: eyes quietly attentive toward the working hand, relaxed neutral lips. FINISH: subtle determined brow and lightly pursed lips while maintaining neutral neck. Avoid the repeated camera-facing smirk."
     }
   },
   "1650": {
@@ -306,8 +309,8 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
     "equipment": "dumbbell",
     "width": 1200,
     "height": 800,
-    "sha256": "89308ebb15ca18aab66e9598f2407fbc3834882dd50e9e9485cd2e1f73b74ce4",
-    "bytes": 160960,
+    "sha256": "4defc5b2e248208fc907ddf9a8ea4ab06279617148ec1623c7fc900bccb4cbd7",
+    "bytes": 161226,
     "style": "Nick Style 3 + approved primary likeness",
     "leftLabel": "Sit tall; one leg raised",
     "rightLabel": "Curl both weights together",
@@ -323,11 +326,12 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
       "Avoid alternating the arms, rolling the ball or using trunk momentum.",
       "Keep both feet grounded or use a stable bench and lighter weights."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_15272983a5544183b27f30cc4a6fc96e~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_afa156c6b9384871b8e36ade5bc340d2~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in dumbbell bicep curl on exercise ball with leg raised. Start: Sit tall; one leg raised. Finish: Curl both weights together.",
     "review": {
-      "identity": "approved right-side gym likeness with avatar facial detail; natural movement-appropriate expressions; private source photos excluded",
-      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified"
+      "identity": "Prior batch expression revised against same approved right-side identity; all25 visually reviewed,6 revised,19 retained",
+      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified",
+      "expression": "START: relaxed attentive forward eyes with a small friendly closed-mouth smile. FINISH: focused forward eyes and slightly parted lips in a gentle exhale; mild effort, no grin."
     }
   },
   "1653": {
@@ -396,8 +400,8 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
     "equipment": "dumbbell",
     "width": 1200,
     "height": 800,
-    "sha256": "2b98319b12a1c21055f1e363dca9b90799ea273c285303ad59066ccc1bd95258",
-    "bytes": 150398,
+    "sha256": "1f2c6f150106071463bd72b6f945d57c727075a42a547507f9190eaf58b0f271",
+    "bytes": 158150,
     "style": "Nick Style 3 + approved primary likeness",
     "leftLabel": "Squat; arms long between knees",
     "rightLabel": "Stand tall; curl both weights",
@@ -413,11 +417,12 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
       "Avoid collapsing the knees inward, lifting the heels or adding an overhead press.",
       "Practise the squat and curl separately with lighter weights and a smaller squat range."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_b89799c623474835800a04e764ebb7c1~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_4f57cf7251e5484aa27a5c7471762e49~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in dumbbell biceps curl squat. Start: Squat; arms long between knees. Finish: Stand tall; curl both weights.",
     "review": {
-      "identity": "approved right-side gym likeness with avatar facial detail; natural movement-appropriate expressions; private source photos excluded",
-      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified"
+      "identity": "Prior batch expression revised against same approved right-side identity; all25 visually reviewed,6 revised,19 retained",
+      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified",
+      "expression": "START: composed straight-ahead eyes, lips lightly together, brow relaxed. FINISH: determined forward eyes, softly parted lips on an exhale and subtle concentration. Avoid an off-camera smirk."
     }
   },
   "1656": {
@@ -426,8 +431,8 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
     "equipment": "dumbbell",
     "width": 1200,
     "height": 800,
-    "sha256": "ccc6c896e4b4e8a7d64e8e127591cd0d76b3f0a887ec2814b22f708b6a17e0f8",
-    "bytes": 150914,
+    "sha256": "46b9944e3aa0945b0cd5a7b78e09de8fdb3e52bbbf5b3468d2c45953a58aa5c4",
+    "bytes": 152468,
     "style": "Nick Style 3 + approved primary likeness",
     "leftLabel": "Sit on dome; feet raised",
     "rightLabel": "Curl both weights; hold balance",
@@ -443,11 +448,12 @@ export const CATALOGUE_ART_BATCH21 = Object.freeze({
       "Avoid inverting the BOSU, jerking the trunk or dropping the feet unexpectedly.",
       "Keep the feet grounded or use a stable bench and lighter weights."
     ],
-    "url": "https://static.wixstatic.com/media/856ae2_c50ca0beb9754404abaeeb91f17c1799~mv2.webp",
+    "url": "https://static.wixstatic.com/media/856ae2_db6ea8b09f5844c6a525346c2f245e44~mv2.webp",
     "alt": "AI-generated Nick Kaplan likeness in dumbbell biceps curl v sit on bosu ball. Start: Sit on dome; feet raised. Finish: Curl both weights; hold balance.",
     "review": {
-      "identity": "approved right-side gym likeness with avatar facial detail; natural movement-appropriate expressions; private source photos excluded",
-      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified"
+      "identity": "Prior batch expression revised against same approved right-side identity; all25 visually reviewed,6 revised,19 retained",
+      "movement": "operator-reviewed against exact pinned demonstration; qualified human movement and physical iPhone review unverified",
+      "expression": "START: concentrated forward gaze, closed relaxed lips and gentle brow focus. FINISH: a restrained pleased half-smile with relaxed cheeks and the same neutral neck angle. Do not repeat the previous sideways camera smirk."
     }
   },
   "0296": {
