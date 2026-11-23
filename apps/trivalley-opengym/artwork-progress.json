@@ -3,12 +3,12 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 538,
+  "catalogueIllustrated": 563,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch20-20261123",
-    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_ACCEPTANCE",
+    "status": "VERIFIED_LIVE",
     "exactIds": [
       "1639",
       "1724",
@@ -40,21 +40,28 @@
     "claimedAt": "2026-11-23T14:35:49.166Z",
     "generatedCount": 25,
     "acceptedCount": 25,
-    "deployedCount": 0,
+    "deployedCount": 25,
     "priorCatalogueIllustrated": 538,
     "targetCatalogueIllustrated": 563,
     "physicalIPhone": "UNVERIFIED",
-    "mediaReady": 25,
-    "cdnSha256Matched": 25,
-    "candidateAppVersion": "5.40.0",
     "creativeHoldIds": [],
     "customPosterGenerated": 8,
     "customPosterAccepted": 8,
+    "mediaReady": 25,
+    "cdnSha256Matched": 25,
     "rejectedCatalogueCandidates": 6,
     "rejectedCustomPosterCandidates": 3,
-    "imageCalls": 42,
-    "reviewedAt": "2026-11-23T15:16:01.552Z",
-    "ownerCorrection": "2331 arm/handle linkage rejected after owner feedback; v4 rebuilt with clearer opposite arm stroke. All superseded variants excluded."
+    "reviewedAt": "2026-11-23T15:14:13.582003+00:00",
+    "appVersion": "5.40.0",
+    "verifiedAt": "2026-11-23T15:27:33.752670+00:00",
+    "sourceCommit": "dda99536890b1eea70faae131b535aedfa27a103",
+    "buildRunId": 45203308310,
+    "liveAcceptanceRunId": 45204499686,
+    "customPosterDeployed": 8,
+    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+    "privateReviewFile": "TriValley_Batch20_and_Bodyweight_Nick_REVIEW_2026-11-23.zip",
+    "ownerCorrection": "Cycle arms and handle linkage rebuilt through final v4; natural expression and gaze variation preserve the same recognizable Nick identity.",
+    "qualifiedHumanMovementReview": "UNVERIFIED"
   },
   "entries": [
     {
@@ -70,7 +77,7 @@
     },
     {
       "id": "0002",
-      "name": "45° side bend",
+      "name": "45\u00b0 side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -3241,67 +3248,67 @@
       "id": "1639",
       "name": "cable rope hammer preacher curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "e92256fef11660d0ad281220868386960a662e90c7a83a7dc5ba999522f3ee0b",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1724",
       "name": "cable rope high pulley overhead tricep extension",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "94046defcc69c29adbf388142a6807016ab517d323cc2fe61fe8726d6a67f322",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1725",
       "name": "cable rope incline tricep extension",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "bcc038ceb934cfb166f983a2eedeaa6612bbb67bcebd07933f80a67a3cfa2a5a",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1726",
       "name": "cable rope lying on floor tricep extension",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "078536d75d52a45456e7d93665eaeb4f400b5ff822fe2138e99f092fbba379dd",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1640",
       "name": "cable rope one arm hammer preacher curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "e7d1f5f4e90a99da7dc53b67998b3eca3860477fba3b1845892cbd71cfc55375",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1323",
       "name": "cable rope seated row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "edf81dfd95ea6059d00a6c43604cb43c2f964ffe156e4b8f2c812deddae2b5a1",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0211",
@@ -3316,12 +3323,12 @@
       "id": "2144",
       "name": "cable seated chest press",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "6550e45c9b53be9fa1dcc96742cc1d3b5c39c4c55f8f1bc26b641d37ce256152",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0212",
@@ -3336,67 +3343,67 @@
       "id": "1641",
       "name": "cable seated curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "5c61efb639ba1ce802fa801883cac94439592d9a08eb72bcde32b30b5bd1e8d3",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0213",
       "name": "cable seated high row (v-bar)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "28ec17095498f64afc5eec1f02df60463e3581881dfa6ca352d77763e0bd1986",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0214",
       "name": "cable seated one arm alternate row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "2f2745b7fb7e7ad5b0f0a505ad94d339675316c71cb5de4208edace00c94e46a",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1642",
       "name": "cable seated one arm concentration curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "20954f5cf7f1722812486e8e1e66d889198f93f537c2fceb16f3a18971d3647e",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1643",
       "name": "cable seated overhead curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "62ca5fbab90e29e98b791a43d4adba3b6912a94102e85467b8aa7648916a0320",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0215",
       "name": "cable seated rear lateral raise",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "1f92cda961d7dde9d706ce199c38f822c3803635ff9cda4cf1353daba40104c9",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0861",
@@ -3414,56 +3421,56 @@
       "id": "0216",
       "name": "cable seated shoulder internal rotation",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "7fab1db38f16f5e970d2026d62334f42bdcef977a9b76ae7d8fe4514c9c2effb",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "2399",
       "name": "cable seated twist",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "50321a39438e018d15e2cbba42f513d48839049553ac3083e5c7350bdbc50a19",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0218",
       "name": "cable seated wide-grip row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "b9cf3ed22218f4fde30cfff37f97ec4723007253ce04fb17964d507617415f99",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0219",
       "name": "cable shoulder press",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "d0d246a4ab68bf3b670b5c94f342d52172989188240b4fb51b151ac99453c400",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0220",
       "name": "cable shrug",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "2a8cee4a910050f6ace953ea7958fe64bd0604db217ca5bf0c648b3c5ceb4122",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0222",
@@ -3478,12 +3485,12 @@
       "id": "0221",
       "name": "cable side bend crunch (bosu ball)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "a8dab0d7ea78c4c9eabcbf11d85419cd6f176305c588c13cd8ffc17a081777e0",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0223",
@@ -3498,56 +3505,56 @@
       "id": "1717",
       "name": "cable squat row (with rope attachment)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "132d683b90c0fe124af3947410ecb8d21d1b3d76c0f02f3815f1da7b7cccfa3e",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1644",
       "name": "cable squatting curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "6458f1933a9734d3f46e59adcbf7667421d6e0b9f8e38bf94083bcb69d85013c",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0224",
       "name": "cable standing back wrist curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "fafedca0df1cf33848146a5a2889b0131d405883a36c0e5c88f2a523ca0a3815",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "1375",
       "name": "cable standing calf raise",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "5d78f25596bf47b7747124bbdc3f7b5607a369cbae72bb5ee19db88c890e9a58",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0225",
       "name": "cable standing cross-over high reverse fly",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "aeaea2634a8da8848a6cb338919a78724fb3e027be12c2d98614c6dc09ca8cf8",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0226",
@@ -4126,12 +4133,12 @@
       "id": "2331",
       "name": "cycle cross trainer",
       "equipment": "leverage machine",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch20-20261123",
-      "deployed": false,
+      "deployed": true,
       "assetSha256": "67fb1e651b532666bcd59d1ecd840c31d7816d01b1d5f530940f74f8cb5c9227",
-      "candidateAppVersion": "5.40.0",
-      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified"
+      "reviewScope": "Operator source/identity/equipment review; cycle arms corrected after owner feedback; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.40.0"
     },
     {
       "id": "0276",
@@ -8753,13 +8760,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45в° calf press",
+      "name": "sled 45\u0432\u00b0 calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45в° leg press",
+      "name": "sled 45\u0432\u00b0 leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -8771,19 +8778,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45в° leg press (back pov)",
+      "name": "sled 45\u0432\u00b0 leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45° leg press (side pov)",
+      "name": "sled 45\u00b0 leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45в° leg wide press",
+      "name": "sled 45\u0432\u00b0 leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10531,7 +10538,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
@@ -10896,19 +10903,20 @@
       "expressionEditedCount": 18
     }
   ],
-  "catalogueQueued": 786,
+  "catalogueQueued": 761,
   "liveObservation": {
-    "version": "5.39.0",
-    "sourceCommit": "6d0ab7358bca5544c2e0ea01593d37b34e118b5a",
-    "catalogueIllustrated": 538,
-    "catalogueQueued": 786,
-    "buildRunId": 45187830629,
-    "liveAcceptanceRunId": 45189593460,
-    "artifactId": 14823908626,
-    "artifactSha256": "0a0343d8f7f9cc80cdbb4d6a4aa9b30408959f80b24164a2212ad57cbbbd0e4c",
-    "nativeRevision": "9316c254abb3a941086406c39b6b260a3d01254c",
-    "uploadId": "d1b03f72-2e5d-4c92-807d-d510d2fb24fd",
-    "verifiedAt": "2026-11-23T14:05:18.170Z",
-    "scope": "25 final phase-pair cards; 513 predecessor records unchanged; all 1324 live routes, Chromium, WebKit, mobile, accessibility and offline assertions passed. Seven current coaching portal files preserved; 63 exact tested frontend paths patched. Physical iPhone and qualified biomechanics unverified."
+    "version": "5.40.0",
+    "sourceCommit": "dda99536890b1eea70faae131b535aedfa27a103",
+    "catalogueIllustrated": 563,
+    "catalogueQueued": 761,
+    "buildRunId": 45203308310,
+    "liveAcceptanceRunId": 45204499686,
+    "artifactId": 14830999705,
+    "artifactSha256": "14637a33ed0b741af27c576cf49550a5a02103d5017d2fd80584d0bfb518a8c7",
+    "nativeRevision": "54676e8e7cb28848c51a3d41085b4b7b28a77e66",
+    "uploadId": "7fe99000-40ad-4380-858a-f5ac1dc42e60",
+    "verifiedAt": "2026-11-23T15:27:33.752670+00:00",
+    "customBodyweightReferences": 8,
+    "scope": "25 final exact-ID phase-pair cards plus eight separate custom bodyweight references. All 538 predecessor records unchanged. Hosted and live Chromium/WebKit, all 1324 detail routes, mobile, accessibility and offline checks passed. Seven current coaching portal files preserved. Physical iPhone and qualified human movement review unverified."
   }
 }
