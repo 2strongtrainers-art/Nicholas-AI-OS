@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch19-20261122",
-    "status": "IN_PROGRESS_GENERATION_AND_REVIEW",
+    "status": "GENERATED_PRIVATE_REVIEW_READY",
     "exactIds": [
       "1636",
       "1637",
@@ -38,12 +38,19 @@
     ],
     "claimOwner": "owner-interactive-continuation-78636ccec7bf",
     "claimedAt": "2026-11-23T01:30:15.058Z",
-    "generatedCount": 0,
-    "acceptedCount": 0,
+    "generatedCount": 25,
+    "acceptedCount": 25,
     "deployedCount": 0,
     "priorCatalogueIllustrated": 513,
     "targetCatalogueIllustrated": 538,
-    "physicalIPhone": "UNVERIFIED"
+    "physicalIPhone": "UNVERIFIED",
+    "correctedCount": 9,
+    "rejectedSupersededCount": 9,
+    "savedAt": "2026-11-23T03:00:00.000Z",
+    "privateReviewFile": "TriValley_Core_Batch19_PRIVATE_REVIEW_2026-11-22.zip",
+    "privateReviewLibraryFileId": "libfile_fde3_f-ddc5a48eb530819186664048b028ca76_05d34ca9816081918921e8c0ed10831c",
+    "privateReviewSha256": "b14d6ec2193e953870c4ad8126d7b407758b343780a27cc8351efd26d843b917",
+    "releaseGate": "NOT_LIVE_PENDING_INTEGRATION_TEST_DEPLOY_AND_LIVE_READBACK"
   },
   "entries": [
     {
@@ -2922,15 +2929,21 @@
       "id": "1636",
       "name": "cable overhead curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "8cdddd36e3e923aa451008cf0825be25d7aa0ff2d81394e7270eb32ed812de66",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1637",
       "name": "cable overhead curl on exercise ball",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "4e529a6ffdefd6e2150eccc1904510749cf23e14962883e76e23450aaf918348",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0194",
@@ -2948,64 +2961,91 @@
       "id": "1319",
       "name": "cable palm rotational row",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "991af65d0972367e664fff3b9bf161a44afe3171670beb39e008837a72f25843",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0195",
       "name": "cable preacher curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "420747c9351a67041558d554251d7bea6ba4ac04bdbb9710c535cc7b183393f4",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1268",
       "name": "cable press on exercise ball",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "36cb6f7e89649874577750e4bcf4e1e3a15b0b8d793f081a42b46903feed2e52",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0196",
       "name": "cable pull through (with rope)",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "650cd9f625f0689752a071dbb4b2456af225d8801d258926783a67074746009f",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0198",
       "name": "cable pulldown",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "c1db76853321348ebc15996e742eefb1a26c21d69c69eab13b74fbff30c796a6",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0197",
       "name": "cable pulldown (pro lat bar)",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "8ee3359e6a607b798e92720a87bf23bc55dad73f8fca7949c6a615500f48f23b",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1638",
       "name": "cable pulldown bicep curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "b960a686a25f6a18cc83f5b91c2c1243ed350e1a311cb491cabea0680fd39b36",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0201",
       "name": "cable pushdown",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "5c39dc7a69721b3a51c99926f7c6b245239b5d8a0cb471ccb6fc0afae4568aea",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0199",
       "name": "cable pushdown (straight arm) v. 2",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "c2ac284788fa676186c098bd2cb1bc452ee299424d2c7fc7b37f40ea16c1f941",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0200",
@@ -3023,29 +3063,41 @@
       "id": "0202",
       "name": "cable rear delt row (stirrups)",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "4496f9f140dbba951388139e5240e8ff17005701814a99a0df47d2567b1df600",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0203",
       "name": "cable rear delt row (with rope)",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "b61687c61aaf6d35fef27d64b6bea007cceafe726cf0aed6cb6899ef5929f21c",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0204",
       "name": "cable rear drive",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "dbf2bcbba508fa76c3bb06f641caebb2164f5c5b55461d15a683d2b36bd56d0e",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0205",
       "name": "cable rear pulldown",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "f913294774f4710e3ccd6d96805815673c6f71ed9272afa979561075d5db7914",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0873",
@@ -3060,71 +3112,101 @@
       "id": "0206",
       "name": "cable reverse curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "c4997c13190b7b8d2cdefecff082ff5b72d577eb86a51635fdf0550e3af64402",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "2406",
       "name": "cable reverse grip triceps pushdown (sz-bar) (with arm blaster)",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "948a029112f787733a2a3f8240a860e1cf4bb2aaba08bda24c7abf87dff230c1",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1413",
       "name": "cable reverse one arm curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "f8b46fd1e4bce5b20a6e02f860e00b8bea3561207846903a03b85761bdd431a6",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0209",
       "name": "cable reverse preacher curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "1b94ca1a20e6e69b017bc8483fc19e83820bdf40d4f85107dc2a55b6d5ed171c",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0210",
       "name": "cable reverse wrist curl",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "00b3d14bf75e841f96c736cc8d86d180d3209b5cb143f54c5ddd2a724a463161",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0207",
       "name": "cable reverse-grip pushdown",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "472a56d95383781fa11dbc33fc53f8f47307bb9b58dc284e2a27da49a5334e64",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "0208",
       "name": "cable reverse-grip straight back seated high row",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "92d4dfac1b1ef79b7fc74325b426e0943c8ea09e7a0075173e7de6cdcaff02fa",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1320",
       "name": "cable rope crossover seated row",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "c023be0a864f56c95e18783105e8f843cd44e11c2cf34f2c4a52e331cf39b8b8",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1321",
       "name": "cable rope elevated seated row",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "332dfd97e8141f09b42d6d932e856508ec65af6e22950d55da62744f42a8af94",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1322",
       "name": "cable rope extension incline bench row",
       "equipment": "cable",
-      "status": "in_progress",
-      "batch": "core-batch19-20261122"
+      "status": "generated_review_pending",
+      "batch": "core-batch19-20261122",
+      "assetSha256": "a2724036dcc193f4c168b2d93114b79338967971b570de7adea89e7a9db47800",
+      "reviewScope": "Operator visual and mechanical QA; qualified biomechanics, app integration, hosted deployment, and physical iPhone review unverified",
+      "deployed": false
     },
     {
       "id": "1639",
