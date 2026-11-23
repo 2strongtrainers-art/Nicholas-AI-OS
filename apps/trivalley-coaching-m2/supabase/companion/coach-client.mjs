@@ -301,16 +301,20 @@ el("submitCheckin").addEventListener("click",async()=>{
   const item=selected();if(!item||!pilot?.syncEnabled)return;
   el("submitCheckin").disabled=true;
   try{
+    const attention=el("attentionType").value;
+    const note=el("comment").value.trim();
+    const comment=((attention?"[Attention: "+attention+"] ":"")+note).slice(0,500);
     const payload={assignmentId:item.assignment.id,
       weekOf:monday(),completionRating:Number(el("rating").value),
-      comment:el("comment").value.slice(0,500),
-      requestReview:el("requestReview").checked};
+      comment,requestReview:el("requestReview").checked||Boolean(attention)};
     const event=await pendingCheckinId(payload);
     await request("/v1/me/checkins",{method:"POST",
       body:{checkinId:event.id,...payload}});
     try{sessionStorage.removeItem(event.key)}catch{}
-    el("comment").value="";el("requestReview").checked=false;
-    say("Private weekly check-in received by your coach.","success");
+    el("comment").value="";el("attentionType").value="";el("requestReview").checked=false;
+    say(attention
+      ?"Your "+attention.toLowerCase()+" flag was sent to Nick's Needs Attention list."
+      :"Private weekly check-in received by your coach.","success");
   }catch{say("Check-in was not accepted. Retry without changing the fields; the same event ID will be reused.","error")}
   finally{el("submitCheckin").disabled=false}
 });
