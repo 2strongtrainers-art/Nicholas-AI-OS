@@ -3,12 +3,12 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 563,
+  "catalogueIllustrated": 588,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch21-20261123",
-    "status": "REVIEWED_WIX_MEDIA_READY_PENDING_ACCEPTANCE",
+    "status": "VERIFIED_LIVE",
     "exactIds": [
       "1274",
       "1275",
@@ -40,7 +40,7 @@
     "claimedAt": "2026-11-23T17:25:23.081671+00:00",
     "generatedCount": 25,
     "acceptedCount": 25,
-    "deployedCount": 0,
+    "deployedCount": 25,
     "priorCatalogueIllustrated": 563,
     "targetCatalogueIllustrated": 588,
     "physicalIPhone": "UNVERIFIED",
@@ -50,7 +50,20 @@
     "successfulImageCalls": 30,
     "appVersion": "5.41.0",
     "reviewedAt": "2026-11-23T17:55:03.932507+00:00",
-    "qualifiedHumanMovementReview": "UNVERIFIED"
+    "qualifiedHumanMovementReview": "UNVERIFIED",
+    "verifiedAt": "2026-11-23T18:10:52.330579+00:00",
+    "sourceCommit": "25e5017c8706fb04b036896aae804bb16b1a801c",
+    "buildRunId": 45233332420,
+    "liveAcceptanceRunId": 45234500660,
+    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+    "privateReviewFile": "TriValley_Batch21_PRIVATE_REVIEW_2026-11-23.zip",
+    "correctedIds": [
+      "1274",
+      "0288",
+      "0303",
+      "0304",
+      "0307"
+    ]
   },
   "entries": [
     {
@@ -4171,12 +4184,12 @@
       "id": "1274",
       "name": "deep push up",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "30175e64139a2c96e58c38c8c289611203ba0f113105d29ac3d2d8bb73201b3b",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0283",
@@ -4200,12 +4213,12 @@
       "id": "1275",
       "name": "drop push up",
       "equipment": "body weight",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "73da20ddea332b9fb063451f1015ea560ae2784e34fa02a32f51aa0578a048d6",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0285",
@@ -4220,12 +4233,12 @@
       "id": "2403",
       "name": "dumbbell alternate biceps curl (with arm blaster)",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "28f0ca7b1dd02bd7763b8eacc884d38e1040bef9b719b01e700b8acc3ca31b97",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1646",
@@ -4258,34 +4271,34 @@
       "id": "0286",
       "name": "dumbbell alternate side press",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "bef4b2d08a62d77d9885532d0dbd0cc7bb173189cc3ff705064bc9d24fc3057b",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1649",
       "name": "dumbbell alternating bicep curl with leg raised on exercise ball",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "5e606499dd8872fe376451f3b6aa52569040cb640f67d1fe17aa6c547504db47",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1650",
       "name": "dumbbell alternating seated bicep curl on exercise ball",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "ccc9065eaf46995f7d7f11f7fd35e125d741065e34062dbace30a1d2b7930d77",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "2137",
@@ -4300,23 +4313,23 @@
       "id": "0287",
       "name": "dumbbell arnold press v. 2",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "2145fa85c36ac45c09c0852598beacceb04c588f4578a331527225dd9ca0761d",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0288",
       "name": "dumbbell around pullover",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "fab400199a0912667e6716f890d9bda9c6e3a4807556c0bdd25e474fd3833928",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0289",
@@ -4334,12 +4347,12 @@
       "id": "0290",
       "name": "dumbbell bench seated press",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "161fffd95708a6d47c39a3a8e22e9b397a50a673066738f21180fa6c60707a6f",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0291",
@@ -4363,34 +4376,34 @@
       "id": "1651",
       "name": "dumbbell bicep curl lunge with bowling motion",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "5289f61102020185acd78e465731aa3ff77f500daee885248a7aad9cc32d002a",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1652",
       "name": "dumbbell bicep curl on exercise ball with leg raised",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "89308ebb15ca18aab66e9598f2407fbc3834882dd50e9e9485cd2e1f73b74ce4",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1653",
       "name": "dumbbell bicep curl with stork stance",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "585df2707904e3e4220180e42c86ef859218718f5f1e560f56123d7ebd3db01e",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0294",
@@ -4408,12 +4421,12 @@
       "id": "2401",
       "name": "dumbbell biceps curl (with arm blaster)",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "b9a93e576fea9cf3ece745d3de2b86417fee5b187858249643a974f60fb22671",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1654",
@@ -4428,23 +4441,23 @@
       "id": "1655",
       "name": "dumbbell biceps curl squat",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "2b98319b12a1c21055f1e363dca9b90799ea273c285303ad59066ccc1bd95258",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1656",
       "name": "dumbbell biceps curl v sit on bosu ball",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "ccc6c896e4b4e8a7d64e8e127591cd0d76b3f0a887ec2814b22f708b6a17e0f8",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1201",
@@ -4477,12 +4490,12 @@
       "id": "0296",
       "name": "dumbbell close-grip press",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "c7d7879fa2b25e3bac45e20286355a9cece37442f83062dafdacf73d4ce6fd83",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0297",
@@ -4517,12 +4530,12 @@
       "id": "1657",
       "name": "dumbbell cross body hammer curl v. 2",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "1b211cf3951bdc3ac1cb67c34b9865bf05918ce8846e0286f2ca01b62b79046e",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0299",
@@ -4537,12 +4550,12 @@
       "id": "2136",
       "name": "dumbbell cuban press v. 2",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "7673e6172dd30d5d4df486ab2d11c50ded27db726d5cb2401e9920187510bf6b",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0300",
@@ -4575,78 +4588,78 @@
       "id": "0303",
       "name": "dumbbell decline hammer press",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "8fec84e8dd8feb383458e101b175308e04059d974d70f47913070569c5cde0e9",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1276",
       "name": "dumbbell decline one arm fly",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "e9357a1ab180c7f978d46278d81a1977495875f0c64da3e3c876e3d66126de40",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1617",
       "name": "dumbbell decline one arm hammer press",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "a1d9f1097cd8154705ecb67a1acb86dd42c1844d079c7311f6933f2cc428f3df",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0305",
       "name": "dumbbell decline shrug",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "fb1ec39127e721e59f76b416fea5b7cc924fa9cdb54b19eeb5b3b9dfe9f3ed0f",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0304",
       "name": "dumbbell decline shrug v. 2",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "4c3c827474c5f0ea25d62fe225f519579aca64b28daba9442ff08b5f46f3a82b",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0306",
       "name": "dumbbell decline triceps extension",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "f21435db4a299fa38ac508753a836d08360498152596b7328ae7c95d1ec9e941",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "0307",
       "name": "dumbbell decline twist fly",
       "equipment": "dumbbell",
-      "status": "reviewed_pending_deployment",
+      "status": "deployed_live_verified",
       "batch": "core-batch21-20261123",
       "assetSha256": "6e761a608252826b75d899ce143fedd1f3d84561c0afe7c9c8b8fd6c71c8ac4f",
-      "candidateAppVersion": "5.41.0",
       "reviewScope": "Operator visual and exact source review; qualified human movement and physical iPhone review unverified",
-      "deployed": false
+      "deployed": true,
+      "appVersion": "5.41.0"
     },
     {
       "id": "1437",
@@ -11074,20 +11087,20 @@
       "qualifiedHumanMovementReview": "UNVERIFIED"
     }
   ],
-  "catalogueQueued": 761,
+  "catalogueQueued": 736,
   "liveObservation": {
-    "version": "5.40.0",
-    "sourceCommit": "dda99536890b1eea70faae131b535aedfa27a103",
-    "catalogueIllustrated": 563,
-    "catalogueQueued": 761,
-    "buildRunId": 45203308310,
-    "liveAcceptanceRunId": 45204499686,
-    "artifactId": 14830999705,
-    "artifactSha256": "14637a33ed0b741af27c576cf49550a5a02103d5017d2fd80584d0bfb518a8c7",
-    "nativeRevision": "54676e8e7cb28848c51a3d41085b4b7b28a77e66",
-    "uploadId": "7fe99000-40ad-4380-858a-f5ac1dc42e60",
-    "verifiedAt": "2026-11-23T15:27:33.752670+00:00",
+    "version": "5.41.0",
+    "sourceCommit": "25e5017c8706fb04b036896aae804bb16b1a801c",
+    "catalogueIllustrated": 588,
+    "catalogueQueued": 736,
+    "buildRunId": 45233332420,
+    "liveAcceptanceRunId": 45234500660,
+    "artifactId": 14847753471,
+    "artifactSha256": "f6069144f25f3f0135206a4d38c359ee226edf5d61efff12104c066cc00be734",
+    "nativeRevision": "b2667459fb2b4d599d229278cb03d5fe90671976",
+    "uploadId": "dbb7e81f-20a3-4502-954d-b80a1ee6fab1",
+    "verifiedAt": "2026-11-23T18:10:52.330579+00:00",
     "customBodyweightReferences": 8,
-    "scope": "25 final exact-ID phase-pair cards plus eight separate custom bodyweight references. All 538 predecessor records unchanged. Hosted and live Chromium/WebKit, all 1324 detail routes, mobile, accessibility and offline checks passed. Seven current coaching portal files preserved. Physical iPhone and qualified human movement review unverified."
+    "scope": "25 new exact-ID phase-pair cards; all563 predecessor records and eight custom bodyweight records unchanged. Hosted and live Chromium/WebKit, mobile, accessibility, offline and all1324detail routes passed. Seven coaching portal files preserved. Physical iPhone and qualified human movement review unverified."
   }
 }
