@@ -86,10 +86,12 @@ a{color:#e8cea0;text-decoration-color:#9b7d51}footer{border-top:1px solid #34415
 <p id="queueStatus" class="small" role="status" aria-live="polite">No queued workouts.</p>
 </section>
 <section class="card"><h2>Weekly coach check-in</h2>
+<p>Tell Nick what changed between sessions so your plan can be adjusted quickly.</p>
 <label for="rating">How did your training go?</label><select id="rating"><option value="5">5 — Excellent</option><option value="4">4 — Good</option><option value="3">3 — Average</option><option value="2">2 — Challenging</option><option value="1">1 — Poor</option></select>
-<label for="comment">Training note (optional, do not include medical information)</label><textarea id="comment" maxlength="500"></textarea>
-<div class="checks"><input id="requestReview" type="checkbox"><label for="requestReview">Request coach review</label></div>
-<button id="submitCheckin" class="secondary" disabled>Send check-in</button>
+<label for="attentionType">What needs attention?</label><select id="attentionType"><option value="">Nothing right now</option><option value="Pain or discomfort">Pain or discomfort</option><option value="Technique question">Technique question</option><option value="Program question">Program question</option><option value="Recovery concern">Recovery concern</option></select>
+<label for="comment">Training note or question (optional; do not include diagnoses or medical records)</label><textarea id="comment" maxlength="430" placeholder="What happened, what exercise was involved, and what do you need from Nick?"></textarea>
+<div class="checks"><input id="requestReview" type="checkbox"><label for="requestReview">I need a response from Nick</label></div>
+<button id="submitCheckin" class="secondary" disabled>Send private check-in</button>
 </section>
 <section class="card"><h2>My records and privacy</h2>
 <p>Your coach can only see accounts they are explicitly assigned. You can export your own coaching records and request deletion.</p>

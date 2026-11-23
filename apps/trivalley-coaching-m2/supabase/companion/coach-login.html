@@ -56,7 +56,13 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 #noticeDetails p{font-size:12px;color:#c3cfe0;line-height:1.65;margin:12px 0}
 .checks{display:flex;gap:9px;align-items:flex-start;margin:13px 0}.checks input{width:18px;height:18px;min-height:18px;margin:1px 0 0}
 .checks label{margin:0;font-size:12px;flex:1}
-#releaseNotice{padding:12px;background:#172336;border:1px solid #4a5a73;border-radius:10px;margin-top:12px}</style>
+#releaseNotice{padding:12px;background:#172336;border:1px solid #4a5a73;border-radius:10px;margin-top:12px}
+.attention-summary{grid-template-columns:repeat(3,minmax(0,1fr));margin:14px 0}
+.attention-entry{border-left:4px solid #d0a568}
+.attention-entry[data-priority="high"]{border-left-color:#f0a06b;background:#251b19}
+.attention-entry[data-priority="clear"]{border-left-color:#71af91}
+.attention-entry ul{margin:2px 0 0;padding-left:18px;color:#c6d1df;font-size:12px;line-height:1.65}
+@media(max-width:520px){.attention-summary{grid-template-columns:1fr}.attention-summary .metric{display:flex;justify-content:space-between;align-items:center}.attention-summary .metric b{font-size:20px}}</style>
 </head>
 <body>
 <main>
@@ -85,6 +91,17 @@ footer{border-top:1px solid #344153;padding-top:20px;margin-top:34px}
 <div class="buttonrow">
 <button id="reload" class="secondary" type="button">Refresh client list</button>
 <button id="endSession" class="secondary" type="button">End this session</button>
+</div>
+<div class="program-library" aria-labelledby="attentionTitle">
+<h2 id="attentionTitle">Needs Attention</h2>
+<p>Your private coaching triage view. It surfaces response requests, low weekly ratings, client concerns, missing weekly check-ins, and clients without a logged workout in the last seven days.</p>
+<div class="stats attention-summary">
+<div class="metric"><b id="attentionUrgent">0</b><span>High priority</span></div>
+<div class="metric"><b id="attentionOpen">0</b><span>Open flags</span></div>
+<div class="metric"><b id="attentionClients">0</b><span>Clients reviewed</span></div>
+</div>
+<div class="buttonrow"><button id="refreshAttention" class="secondary" type="button">Refresh Needs Attention</button></div>
+<div id="attentionList" class="program-list" role="region" aria-live="polite"><p class="small">Sign in to review coaching activity.</p></div>
 </div>
 <div class="program-library" aria-labelledby="programTitle">
 <h2 id="programTitle">Private program library</h2>
