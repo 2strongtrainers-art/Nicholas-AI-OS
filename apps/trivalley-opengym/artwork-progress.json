@@ -3,12 +3,12 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 513,
+  "catalogueIllustrated": 538,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch19-20261122",
-    "status": "INTEGRATED_AWAITING_HOSTED_ACCEPTANCE",
+    "status": "VERIFIED_LIVE",
     "exactIds": [
       "1636",
       "1637",
@@ -40,16 +40,14 @@
     "claimedAt": "2026-11-23T01:30:15.058Z",
     "generatedCount": 25,
     "acceptedCount": 25,
-    "deployedCount": 0,
+    "deployedCount": 25,
     "priorCatalogueIllustrated": 513,
     "targetCatalogueIllustrated": 538,
     "physicalIPhone": "UNVERIFIED",
     "correctedCount": 9,
     "rejectedSupersededCount": 9,
-    "savedAt": "2026-11-23T03:00:00.000Z",
     "privateReviewFile": "TriValley_Core_Batch19_PRIVATE_REVIEW_2026-11-22.zip",
-    "privateReviewSha256": "b14d6ec2193e953870c4ad8126d7b407758b343780a27cc8351efd26d843b917",
-    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PENDING",
+    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
     "mediaReady": 25,
     "cdnSha256Matched": 25,
     "executionOwner": "owner-interactive-continuation-bc0cfd478a93",
@@ -75,7 +73,14 @@
       "2406"
     ],
     "candidateAppVersion": "5.39.0",
-    "reviewedAt": "2026-11-23T13:49:38.153Z"
+    "reviewedAt": "2026-11-23T13:49:38.153Z",
+    "appVersion": "5.39.0",
+    "verifiedAt": "2026-11-23T14:05:18.170Z",
+    "sourceCommit": "6d0ab7358bca5544c2e0ea01593d37b34e118b5a",
+    "buildRunId": 45187830629,
+    "liveAcceptanceRunId": 45189593460,
+    "mechanicsAndIdentityRevisedCount": 17,
+    "expressionEditedCount": 18
   },
   "entries": [
     {
@@ -2954,23 +2959,23 @@
       "id": "1636",
       "name": "cable overhead curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "f145040975f9fca0380f9d92340edfbabb9cf434317e8cb0e5052fc737ade23e",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1637",
       "name": "cable overhead curl on exercise ball",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "5ced48c4f45b3fb958452a08c9a4f29d8d27f6f476967e33bd1cf3aa688aa852",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0194",
@@ -2988,100 +2993,100 @@
       "id": "1319",
       "name": "cable palm rotational row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "bff62d417d432a844b1c5b5cf47c4b55461052aba34c4c2f5669ac7b51a45731",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0195",
       "name": "cable preacher curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "24eb62535c7dcc64062e9d48dfb999e531c7556434d55566d524037925a2b1ce",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1268",
       "name": "cable press on exercise ball",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "0095e080e3376d2b65ce6fa2115da0f6df71b4aa47ff7522f7cd2d7dfc261932",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0196",
       "name": "cable pull through (with rope)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "3e1f047316cde45671a1b6068d775bae80f23b1e75dda9a9b211e818a433cff1",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0198",
       "name": "cable pulldown",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "06d5f174122e4278c013d9668eb6561cf008ea742bb0afb1b3caa1d9e4cf113d",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0197",
       "name": "cable pulldown (pro lat bar)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "2843bdaa24a1fa6532d4556309485a8e1ee604b66b61fdc85a18c2b91c25dd2e",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1638",
       "name": "cable pulldown bicep curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "7c9ced37bb90cf053c415ec90a0ad33646539de1c67e029542a6aa0c8c760a7a",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0201",
       "name": "cable pushdown",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "dcfaea48bd1fed728e4ac63a574e03f33a6b10b1c2e24cd2e8bc3bf9b0ae7db5",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0199",
       "name": "cable pushdown (straight arm) v. 2",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "ad84b185108d06e3050341c1daecc76eb5d7d488e82b88e4eeedb018e3e77708",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0200",
@@ -3099,45 +3104,45 @@
       "id": "0202",
       "name": "cable rear delt row (stirrups)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "158a5f5c88cf4d625aba49d8bd63075c3472fab48364b932fcbfafb5fc94c78f",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0203",
       "name": "cable rear delt row (with rope)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "df0b1e4be554cc70fe47ac59cfe31767104ecc6ea315a6db6cc93acf989b7043",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0204",
       "name": "cable rear drive",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "a0ce3872aab5d1f3822b201673a8c151f1cb5636ccf4ad49fbbd70e5b09e273b",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0205",
       "name": "cable rear pulldown",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "0393cabddd9425794a14ca55de2255e6b30ae0fe220d485ace8ca95a073e4f6b",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0873",
@@ -3152,111 +3157,111 @@
       "id": "0206",
       "name": "cable reverse curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "149a413a4e52ad6b278ebaf24ce1dbdca23ed67baf186b6e3678a1bdad08ea4e",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "2406",
       "name": "cable reverse grip triceps pushdown (sz-bar) (with arm blaster)",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "9a69ae43a4df66d95e2001ab50a971f7ab78e10b260419a95fd7d77f456b342f",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1413",
       "name": "cable reverse one arm curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "4a24d8b093f618422ea1534b894bf89dba23a2933828c43a1961607925576103",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0209",
       "name": "cable reverse preacher curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "fabae9a71385f171b9cb0217831652ddadb8417c6743445c8ba91ab47ba0d050",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0210",
       "name": "cable reverse wrist curl",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "73ecc8e3c90f0393fa7d2c0cd6138267164ef2ea24c5ee136edf56da0fbba402",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0207",
       "name": "cable reverse-grip pushdown",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "b97f52bd7b6f8a33bef19ff8c9455f929102b5a5143fe12a03f5e27074c1bfb1",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "0208",
       "name": "cable reverse-grip straight back seated high row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "01b1722643bca8314f324d62270d06674f34cc8ad40fc1dffe1dbd79125d43cc",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1320",
       "name": "cable rope crossover seated row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "de9fdacb827a4ca828ee431c426720b67a93458897c4c6d75000929e18effd5d",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1321",
       "name": "cable rope elevated seated row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "488d8c059db54af7c0aaf4bc68731d9b6818ce25a75fe8916a8962eb60947148",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1322",
       "name": "cable rope extension incline bench row",
       "equipment": "cable",
-      "status": "reviewed_candidate",
+      "status": "deployed_live_verified",
       "batch": "core-batch19-20261122",
       "assetSha256": "be7dc3fcdbb777961717b5fff22b1545e541280ed19b129fc377ac04033f1af0",
       "reviewScope": "Operator visual review against pinned catalogue demonstration and varied natural expressions; independent qualified movement and physical iPhone review unverified",
-      "deployed": false,
-      "candidateAppVersion": "5.39.0"
+      "deployed": true,
+      "appVersion": "5.39.0"
     },
     {
       "id": "1639",
@@ -10716,18 +10721,19 @@
       "finalScope": "All 25 cards accepted after creative QA; 18 deterministic tests, four hosted build jobs and three live browser jobs passed. Exact live receipt v5.38.2/513. Physical iPhone and qualified biomechanics unverified."
     }
   ],
-  "catalogueQueued": 811,
+  "catalogueQueued": 786,
   "liveObservation": {
-    "version": "5.38.2",
-    "sourceCommit": "5bbc7c605ed92caa5828b5a537ee997fd9769954",
-    "catalogueIllustrated": 513,
-    "catalogueQueued": 811,
-    "buildRunId": 45076523514,
-    "liveAcceptanceRunId": 45077127853,
-    "artifactId": 14775656227,
-    "artifactSha256": "541b7eff15e0a6f2e4f282ba8b17c9cccce16f9a3e6ea968e0f97333a67b0e6f",
-    "liveArtifactId": 14776285102,
-    "liveArtifactSha256": "2acd0408bd56e97b6c4b7c7dfe5513e55c6b3ec47a66e45f3f6b9f18d0ab872f",
-    "scope": "Exact artifact upload and public receipt; all 1324 live routes, Chromium, WebKit, mobile, accessibility and offline assertions passed. Physical iPhone and qualified biomechanics unverified."
+    "version": "5.39.0",
+    "sourceCommit": "6d0ab7358bca5544c2e0ea01593d37b34e118b5a",
+    "catalogueIllustrated": 538,
+    "catalogueQueued": 786,
+    "buildRunId": 45187830629,
+    "liveAcceptanceRunId": 45189593460,
+    "artifactId": 14823908626,
+    "artifactSha256": "0a0343d8f7f9cc80cdbb4d6a4aa9b30408959f80b24164a2212ad57cbbbd0e4c",
+    "nativeRevision": "9316c254abb3a941086406c39b6b260a3d01254c",
+    "uploadId": "d1b03f72-2e5d-4c92-807d-d510d2fb24fd",
+    "verifiedAt": "2026-11-23T14:05:18.170Z",
+    "scope": "25 final phase-pair cards; 513 predecessor records unchanged; all 1324 live routes, Chromium, WebKit, mobile, accessibility and offline assertions passed. Seven current coaching portal files preserved; 63 exact tested frontend paths patched. Physical iPhone and qualified biomechanics unverified."
   }
 }
