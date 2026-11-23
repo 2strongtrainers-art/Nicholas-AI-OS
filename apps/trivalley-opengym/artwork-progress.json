@@ -7,79 +7,43 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch22-20261123",
-    "status": "VERIFIED_LIVE",
+    "id": "core-batch23-20261123",
+    "status": "CLAIMED",
     "exactIds": [
-      "1437",
-      "1277",
-      "1732",
-      "1659",
-      "0312",
-      "2402",
-      "1664",
-      "0315",
-      "0316",
-      "0318",
-      "0317",
-      "0319",
-      "1278",
-      "0320",
-      "0321",
-      "1618",
-      "0322",
-      "1279",
-      "1280",
-      "1619",
-      "1620",
-      "0323",
-      "1281",
-      "1282",
-      "0324"
+      "1283",
+      "0325",
+      "0326",
+      "0327",
+      "0328",
+      "0329",
+      "3542",
+      "0330",
+      "0331",
+      "1733",
+      "3541",
+      "0332",
+      "1734",
+      "1660",
+      "0335",
+      "1658",
+      "0337",
+      "1729",
+      "0338",
+      "0863",
+      "0339",
+      "0340",
+      "2470",
+      "0341",
+      "0343"
     ],
-    "claimOwner": "owner-interactive-bc0cfd478a93-b22",
-    "claimedAt": "2026-11-23T19:23:23.827892+00:00",
-    "generatedCount": 25,
-    "acceptedCount": 25,
-    "deployedCount": 25,
-    "priorCatalogueIllustrated": 588,
-    "targetCatalogueIllustrated": 613,
-    "previousBatchExpressionReview": {
-      "batch": 21,
-      "reviewed": 25,
-      "revisionIds": [
-        "2403",
-        "0286",
-        "1649",
-        "1652",
-        "1655",
-        "1656"
-      ]
-    },
-    "mediaReady": 25,
-    "cdnSha256Matched": 25,
-    "rejectedSupersededCount": 9,
-    "successfulImageCalls": 34,
-    "previousExpressionRevisions": 6,
-    "appVersion": "5.42.0",
-    "reviewedAt": "2026-11-23T19:59:16.538135+00:00",
-    "qualifiedHumanMovementReview": "UNVERIFIED",
-    "verifiedAt": "2026-11-23T20:13:37.399587+00:00",
-    "sourceCommit": "e0c626998b86db595be6596ad770474cc9d8cc86",
-    "buildRunId": 45254975687,
-    "liveAcceptanceRunId": 45256333429,
-    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
-    "privateReviewFile": "TriValley_Batch22_PRIVATE_REVIEW_2026-11-23.zip",
-    "correctedIds": [
-      "1437",
-      "1277",
-      "0318",
-      "0317",
-      "0319",
-      "0320",
-      "1278",
-      "0322",
-      "1279"
-    ]
+    "claimOwner": "owner-interactive-15861b558bea-b23",
+    "claimedAt": "2026-11-23T21:10:03.294407+00:00",
+    "claimBaseCommit": "897b27ea027a101c3bc04d2af121c1adbf7773de",
+    "priorCatalogueIllustrated": 613,
+    "targetCatalogueIllustrated": 638,
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0
   },
   "entries": [
     {
@@ -95,7 +59,7 @@
     },
     {
       "id": "0002",
-      "name": "45\u00b0 side bend",
+      "name": "45° side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -5076,73 +5040,85 @@
       "id": "1283",
       "name": "dumbbell incline press on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0325",
       "name": "dumbbell incline raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0326",
       "name": "dumbbell incline rear lateral raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0327",
       "name": "dumbbell incline row",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0328",
       "name": "dumbbell incline shoulder raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0329",
       "name": "dumbbell incline shrug",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "3542",
       "name": "dumbbell incline t-raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0330",
       "name": "dumbbell incline triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0331",
       "name": "dumbbell incline twisted flyes",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "1733",
       "name": "dumbbell incline two arm extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "3541",
       "name": "dumbbell incline y-raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0332",
       "name": "dumbbell iron cross",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0333",
@@ -5159,13 +5135,15 @@
       "id": "1734",
       "name": "dumbbell kickbacks on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "1660",
       "name": "dumbbell kneeling bicep curl exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0334",
@@ -5183,7 +5161,8 @@
       "id": "0335",
       "name": "dumbbell lateral to front raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0336",
@@ -5200,61 +5179,71 @@
       "id": "1658",
       "name": "dumbbell lunge with bicep curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0337",
       "name": "dumbbell lying extension (across face)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "1729",
       "name": "dumbbell lying alternate extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0338",
       "name": "dumbbell lying elbow press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0863",
       "name": "dumbbell lying external shoulder rotation",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0339",
       "name": "dumbbell lying femoral",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0340",
       "name": "dumbbell lying hammer press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "2470",
       "name": "dumbbell lying on floor rear delt raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0341",
       "name": "dumbbell lying one arm deltoid rear",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0343",
       "name": "dumbbell lying one arm press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch23-20261123"
     },
     {
       "id": "0342",
@@ -9064,13 +9053,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45\u0432\u00b0 calf press",
+      "name": "sled 45в° calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45\u0432\u00b0 leg press",
+      "name": "sled 45в° leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -9082,19 +9071,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45\u0432\u00b0 leg press (back pov)",
+      "name": "sled 45в° leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45\u00b0 leg press (side pov)",
+      "name": "sled 45° leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45\u0432\u00b0 leg wide press",
+      "name": "sled 45в° leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10842,7 +10831,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
