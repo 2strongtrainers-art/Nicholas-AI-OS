@@ -21,6 +21,7 @@ const batch19Ids = new Set(['1636','1637','1319','0195','1268','0196','0198','01
 const batch20Ids = new Set(["1639", "1724", "1725", "1726", "1640", "1323", "2144", "1641", "0213", "0214", "1642", "1643", "0215", "0216", "2399", "0218", "0219", "0220", "0221", "1717", "1644", "0224", "1375", "0225", "2331"])
 const batch21Ids = new Set(["1274", "1275", "2403", "0286", "1649", "1650", "0287", "0288", "0290", "1651", "1652", "1653", "2401", "1655", "1656", "0296", "1657", "2136", "0303", "1276", "1617", "0305", "0304", "0306", "0307"])
 const batch22Ids = new Set(["1437", "1277", "1732", "1659", "0312", "2402", "1664", "0315", "0316", "0318", "0317", "0319", "1278", "0320", "0321", "1618", "0322", "1279", "1280", "1619", "1620", "0323", "1281", "1282", "0324"])
+const batch23Ids = new Set(["1283", "0325", "0326", "0327", "0328", "0329", "3542", "0330", "0331", "1733", "3541", "0332", "1734", "1660", "0335", "1658", "0337", "1729", "0338", "0863", "0339", "0340", "2470", "0341", "0343"])
 const engine = process.env.TV_ENGINE || 'chromium'
 const live = process.env.TV_LIVE_URL
 const format = { '.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
@@ -41,13 +42,13 @@ if (!base) {
 }
 try {
   const release = await (await fetch(base+'tv-release.json')).json()
-  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id) && !batch11Ids.has(asset.id) && !batch12Ids.has(asset.id) && !batch13Ids.has(asset.id) && !batch14Ids.has(asset.id) && !batch15Ids.has(asset.id) && !batch16Ids.has(asset.id) && !batch17Ids.has(asset.id) && !batch18Ids.has(asset.id) && !batch19Ids.has(asset.id) && !batch20Ids.has(asset.id) && !batch21Ids.has(asset.id) && !batch22Ids.has(asset.id))
+  const staged = release.movementIllustrations.filter(asset => asset.review?.movement?.startsWith('operator-reviewed against the exact catalogue demonstration') && !batch9Ids.has(asset.id) && !batch10Ids.has(asset.id) && !batch11Ids.has(asset.id) && !batch12Ids.has(asset.id) && !batch13Ids.has(asset.id) && !batch14Ids.has(asset.id) && !batch15Ids.has(asset.id) && !batch16Ids.has(asset.id) && !batch17Ids.has(asset.id) && !batch18Ids.has(asset.id) && !batch19Ids.has(asset.id) && !batch20Ids.has(asset.id) && !batch21Ids.has(asset.id) && !batch22Ids.has(asset.id) && !batch23Ids.has(asset.id))
   const held = []
   assert.equal(staged.length,200)
   const ids = new Set(release.movementIllustrations.map(x => x.id))
-  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size + batch11Ids.size + batch12Ids.size + batch13Ids.size + batch14Ids.size + batch15Ids.size + batch16Ids.size + batch17Ids.size + batch18Ids.size + batch19Ids.size + batch20Ids.size + batch21Ids.size + batch22Ids.size)
+  assert.equal(ids.size, 63 + staged.length + batch9Ids.size + batch10Ids.size + batch11Ids.size + batch12Ids.size + batch13Ids.size + batch14Ids.size + batch15Ids.size + batch16Ids.size + batch17Ids.size + batch18Ids.size + batch19Ids.size + batch20Ids.size + batch21Ids.size + batch22Ids.size + batch23Ids.size)
   assert(repairedIds.every(id => ids.has(id)), 'A repaired card is missing from the release')
-  const assets = [...staged, ...[...batch12Ids, ...batch13Ids, ...batch14Ids, ...batch15Ids, ...batch16Ids, ...batch17Ids, ...batch18Ids, ...batch19Ids, ...batch20Ids,...batch21Ids, ...batch22Ids].map(id => release.movementIllustrations.find(a => a.id === id))]
+  const assets = [...staged, ...[...batch12Ids, ...batch13Ids, ...batch14Ids, ...batch15Ids, ...batch16Ids, ...batch17Ids, ...batch18Ids, ...batch19Ids, ...batch20Ids,...batch21Ids, ...batch22Ids, ...batch23Ids].map(id => release.movementIllustrations.find(a => a.id === id))]
   assert(assets.every(Boolean), 'A Batch 12 through 21 card is missing from the release')
   const src = asset => asset.url || './'+asset.path
   const absolute = asset => new URL(src(asset),base).href

@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch23-20261123",
-    "status": "CLAIMED",
+    "status": "GENERATED_REVIEWED_NOT_LIVE",
     "exactIds": [
       "1283",
       "0325",
@@ -41,9 +41,21 @@
     "claimBaseCommit": "897b27ea027a101c3bc04d2af121c1adbf7773de",
     "priorCatalogueIllustrated": 613,
     "targetCatalogueIllustrated": 638,
-    "generatedCount": 0,
-    "acceptedCount": 0,
-    "deployedCount": 0
+    "generatedCount": 25,
+    "acceptedCount": 25,
+    "deployedCount": 0,
+    "successfulImageCalls": 29,
+    "rejectedSupersededCount": 4,
+    "correctedIds": [
+      "1283",
+      "1729",
+      "0340"
+    ],
+    "candidateAppVersion": "5.43.0",
+    "mediaReady": 25,
+    "cdnSha256Matched": 25,
+    "reviewedAt": "2026-11-23T21:44:35.262Z",
+    "qualifiedHumanMovementReview": "UNVERIFIED"
   },
   "entries": [
     {
@@ -5040,85 +5052,121 @@
       "id": "1283",
       "name": "dumbbell incline press on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "6387cc06abe89d9729126614b35a89882810a4433d43df24c6bb5afb6a5d8e9c",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0325",
       "name": "dumbbell incline raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "360a2d9fac353113db0911414559eeb4b4d1df836bbf223ca16d73883b5b52e1",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0326",
       "name": "dumbbell incline rear lateral raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "76a3980ef7716742264fd7df1f2522fb9bca922f87733869f93b19f7fa51d37c",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0327",
       "name": "dumbbell incline row",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "eed22a13a3f3c2abfd3ee54893eb5ecd1142b09a6a04a80388fb42cb67089232",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0328",
       "name": "dumbbell incline shoulder raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "caab3eb45c88536997ccae86152fec8313ce5042f8794ad09c770b3aaaadc23e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0329",
       "name": "dumbbell incline shrug",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "d5bbf04ab34cfe07327401c17971474c8e9f2e38909f4881331ae8aa41d6149c",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "3542",
       "name": "dumbbell incline t-raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "f4d3734b561af65f741d232c05fdbd11ea82784ebb8b0443da5629ba3f65c598",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0330",
       "name": "dumbbell incline triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "bda9e938d706263f3b4feea5524e662d87e11645a6ecb8075a602fa9145fff96",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0331",
       "name": "dumbbell incline twisted flyes",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "03de0bfc81498dee403149d6a10d80bfe72d4b13156ce5494c78a2d1722326c4",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1733",
       "name": "dumbbell incline two arm extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "0327cd6d47501d4af175e94e0d5924c2927147b55e45ac2c53c8bd811cb973eb",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "3541",
       "name": "dumbbell incline y-raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "d8795dfb92bc3a5acff1125051ea85b9f1462d68c9b25e4aacf1cac138084a62",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0332",
       "name": "dumbbell iron cross",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "9f48b24d60e2d7c36e4c858d9dbd50c7dda26399b8820bf6b5cb75d350e1e718",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0333",
@@ -5135,15 +5183,21 @@
       "id": "1734",
       "name": "dumbbell kickbacks on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "979bddfaf7f88c186d9ec4ee7e4b43ec2a3b044e8837cb67fbf31c2aa52cbe75",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1660",
       "name": "dumbbell kneeling bicep curl exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "0138f19befb737f2636bef55115c9dfda19adec38d653183b0374ecc0c374d1b",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0334",
@@ -5161,8 +5215,11 @@
       "id": "0335",
       "name": "dumbbell lateral to front raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "a61c54926757b5badb6bc003a22ffefa1fafcf308a7e824b3aee6bb3097d7ed6",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0336",
@@ -5179,71 +5236,101 @@
       "id": "1658",
       "name": "dumbbell lunge with bicep curl",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "8bb68c954b48a13a83a0a86e6e66365a860e16eef9129aeb4c382b44d285ab4e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0337",
       "name": "dumbbell lying extension (across face)",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "b3cdfff797159de77fce131681aef6d062a868c653cf3adf57367d0757fa1ad9",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1729",
       "name": "dumbbell lying alternate extension",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "c67956d40aef793a936d8bb04fcb844bd570a75f3404301ad2b6979006f5c807",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0338",
       "name": "dumbbell lying elbow press",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "639febcd867f8b9e08a6729010a476487761070806170114ff192d5800132a97",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0863",
       "name": "dumbbell lying external shoulder rotation",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "ad030307801c178d0cc722e84325cf524aa3d4011aa948425f9a0a986b91f66d",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0339",
       "name": "dumbbell lying femoral",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "34beabe5baa99fdf17351db0933058af37175983651fe9520c4f83ffd004b5ae",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0340",
       "name": "dumbbell lying hammer press",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "8f7da55cf6eb003b01bf68db6bf9a125e0783eeb9a4ff4f65873ca2565f1eb1c",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2470",
       "name": "dumbbell lying on floor rear delt raise",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "9337831bd229d5510b0139f543f2032a7cda65e15f01f1e9a6dc6521cd8815ec",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0341",
       "name": "dumbbell lying one arm deltoid rear",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "1797c9ed63040e4aa6d4084402eccc4bc843e367bfcfd0fa25b0a9cf78b4752f",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0343",
       "name": "dumbbell lying one arm press",
       "equipment": "dumbbell",
-      "status": "claimed",
-      "batch": "core-batch23-20261123"
+      "status": "reviewed",
+      "batch": "core-batch23-20261123",
+      "assetSha256": "fc606e0f1449c04f9ea26f936db1db0fb6811eb95a7ee30c09e5059169d9e378",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0342",
