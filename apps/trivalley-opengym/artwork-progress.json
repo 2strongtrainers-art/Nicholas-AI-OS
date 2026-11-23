@@ -7,61 +7,43 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch20-20261123",
-    "status": "VERIFIED_LIVE",
+    "id": "core-batch21-20261123",
+    "status": "CLAIMED_GENERATION_IN_PROGRESS",
     "exactIds": [
-      "1639",
-      "1724",
-      "1725",
-      "1726",
-      "1640",
-      "1323",
-      "2144",
-      "1641",
-      "0213",
-      "0214",
-      "1642",
-      "1643",
-      "0215",
-      "0216",
-      "2399",
-      "0218",
-      "0219",
-      "0220",
-      "0221",
-      "1717",
-      "1644",
-      "0224",
-      "1375",
-      "0225",
-      "2331"
+      "1274",
+      "1275",
+      "2403",
+      "0286",
+      "1649",
+      "1650",
+      "0287",
+      "0288",
+      "0290",
+      "1651",
+      "1652",
+      "1653",
+      "2401",
+      "1655",
+      "1656",
+      "0296",
+      "1657",
+      "2136",
+      "0303",
+      "1276",
+      "1617",
+      "0305",
+      "0304",
+      "0306",
+      "0307"
     ],
-    "claimOwner": "owner-interactive-bc0cfd478a93-b20",
-    "claimedAt": "2026-11-23T14:35:49.166Z",
-    "generatedCount": 25,
-    "acceptedCount": 25,
-    "deployedCount": 25,
-    "priorCatalogueIllustrated": 538,
-    "targetCatalogueIllustrated": 563,
-    "physicalIPhone": "UNVERIFIED",
-    "creativeHoldIds": [],
-    "customPosterGenerated": 8,
-    "customPosterAccepted": 8,
-    "mediaReady": 25,
-    "cdnSha256Matched": 25,
-    "rejectedCatalogueCandidates": 6,
-    "rejectedCustomPosterCandidates": 3,
-    "reviewedAt": "2026-11-23T15:14:13.582003+00:00",
-    "appVersion": "5.40.0",
-    "verifiedAt": "2026-11-23T15:27:33.752670+00:00",
-    "sourceCommit": "dda99536890b1eea70faae131b535aedfa27a103",
-    "buildRunId": 45203308310,
-    "liveAcceptanceRunId": 45204499686,
-    "customPosterDeployed": 8,
-    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
-    "privateReviewFile": "TriValley_Batch20_and_Bodyweight_Nick_REVIEW_2026-11-23.zip",
-    "ownerCorrection": "Cycle arms and handle linkage rebuilt through final v4; natural expression and gaze variation preserve the same recognizable Nick identity.",
-    "qualifiedHumanMovementReview": "UNVERIFIED"
+    "claimOwner": "owner-interactive-bc0cfd478a93-b21",
+    "claimedAt": "2026-11-23T17:25:23.081671+00:00",
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0,
+    "priorCatalogueIllustrated": 563,
+    "targetCatalogueIllustrated": 588,
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
@@ -4182,7 +4164,8 @@
       "id": "1274",
       "name": "deep push up",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0283",
@@ -4206,7 +4189,8 @@
       "id": "1275",
       "name": "drop push up",
       "equipment": "body weight",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0285",
@@ -4221,7 +4205,8 @@
       "id": "2403",
       "name": "dumbbell alternate biceps curl (with arm blaster)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1646",
@@ -4254,19 +4239,22 @@
       "id": "0286",
       "name": "dumbbell alternate side press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1649",
       "name": "dumbbell alternating bicep curl with leg raised on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1650",
       "name": "dumbbell alternating seated bicep curl on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "2137",
@@ -4281,13 +4269,15 @@
       "id": "0287",
       "name": "dumbbell arnold press v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0288",
       "name": "dumbbell around pullover",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0289",
@@ -4305,7 +4295,8 @@
       "id": "0290",
       "name": "dumbbell bench seated press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0291",
@@ -4329,19 +4320,22 @@
       "id": "1651",
       "name": "dumbbell bicep curl lunge with bowling motion",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1652",
       "name": "dumbbell bicep curl on exercise ball with leg raised",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1653",
       "name": "dumbbell bicep curl with stork stance",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0294",
@@ -4359,7 +4353,8 @@
       "id": "2401",
       "name": "dumbbell biceps curl (with arm blaster)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1654",
@@ -4374,13 +4369,15 @@
       "id": "1655",
       "name": "dumbbell biceps curl squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1656",
       "name": "dumbbell biceps curl v sit on bosu ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1201",
@@ -4413,7 +4410,8 @@
       "id": "0296",
       "name": "dumbbell close-grip press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0297",
@@ -4448,7 +4446,8 @@
       "id": "1657",
       "name": "dumbbell cross body hammer curl v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0299",
@@ -4463,7 +4462,8 @@
       "id": "2136",
       "name": "dumbbell cuban press v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0300",
@@ -4496,43 +4496,50 @@
       "id": "0303",
       "name": "dumbbell decline hammer press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1276",
       "name": "dumbbell decline one arm fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1617",
       "name": "dumbbell decline one arm hammer press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0305",
       "name": "dumbbell decline shrug",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0304",
       "name": "dumbbell decline shrug v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0306",
       "name": "dumbbell decline triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "0307",
       "name": "dumbbell decline twist fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch21-20261123"
     },
     {
       "id": "1437",
@@ -10901,6 +10908,63 @@
       "liveAcceptanceRunId": 45189593460,
       "mechanicsAndIdentityRevisedCount": 17,
       "expressionEditedCount": 18
+    },
+    {
+      "id": "core-batch20-20261123",
+      "status": "VERIFIED_LIVE",
+      "exactIds": [
+        "1639",
+        "1724",
+        "1725",
+        "1726",
+        "1640",
+        "1323",
+        "2144",
+        "1641",
+        "0213",
+        "0214",
+        "1642",
+        "1643",
+        "0215",
+        "0216",
+        "2399",
+        "0218",
+        "0219",
+        "0220",
+        "0221",
+        "1717",
+        "1644",
+        "0224",
+        "1375",
+        "0225",
+        "2331"
+      ],
+      "claimOwner": "owner-interactive-bc0cfd478a93-b20",
+      "claimedAt": "2026-11-23T14:35:49.166Z",
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "priorCatalogueIllustrated": 538,
+      "targetCatalogueIllustrated": 563,
+      "physicalIPhone": "UNVERIFIED",
+      "creativeHoldIds": [],
+      "customPosterGenerated": 8,
+      "customPosterAccepted": 8,
+      "mediaReady": 25,
+      "cdnSha256Matched": 25,
+      "rejectedCatalogueCandidates": 6,
+      "rejectedCustomPosterCandidates": 3,
+      "reviewedAt": "2026-11-23T15:14:13.582003+00:00",
+      "appVersion": "5.40.0",
+      "verifiedAt": "2026-11-23T15:27:33.752670+00:00",
+      "sourceCommit": "dda99536890b1eea70faae131b535aedfa27a103",
+      "buildRunId": 45203308310,
+      "liveAcceptanceRunId": 45204499686,
+      "customPosterDeployed": 8,
+      "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+      "privateReviewFile": "TriValley_Batch20_and_Bodyweight_Nick_REVIEW_2026-11-23.zip",
+      "ownerCorrection": "Cycle arms and handle linkage rebuilt through final v4; natural expression and gaze variation preserve the same recognizable Nick identity.",
+      "qualifiedHumanMovementReview": "UNVERIFIED"
     }
   ],
   "catalogueQueued": 761,
