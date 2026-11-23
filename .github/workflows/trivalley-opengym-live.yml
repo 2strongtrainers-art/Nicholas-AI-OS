@@ -1,5 +1,5 @@
 name: TriValley openGym — live Wix browser acceptance
-# Batch 19 live acceptance: v5.39.0 / 538 illustrated catalogue entries.
+# Batch 20 and eight bodyweight references: v5.40.0 / 563 illustrated catalogue entries.
 # Exercise detail clicks scroll to a verified reachable target before physical input.
 on:
   push:
@@ -37,13 +37,13 @@ jobs:
           for(let attempt=0;attempt<18;attempt++){
             const response=await fetch(receipt,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const release=response.ok?await response.json():{};
-            if(release.version==='5.39.0'&&release.sourceCommit==='6d0ab7358bca5544c2e0ea01593d37b34e118b5a'){ready=true;break;}
+            if(release.version==='5.40.0'&&release.sourceCommit==='dda99536890b1eea70faae131b535aedfa27a103'){ready=true;break;}
             console.log('Release receipt has not reached the expected source; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
           if(!ready)throw Error('Published release remains stale; do not promote acceptance.');
           NODE
-      - name: Verify exact published TriValley v5.39.0 source and compiled asset
+      - name: Verify exact published TriValley v5.40.0 source and compiled asset
         run: |
           curl --fail --location --silent --show-error --max-time 25 \
             'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
@@ -51,8 +51,8 @@ jobs:
           node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
           const fs = require('node:fs');
           const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-          if (release.version !== '5.39.0' ||
-              release.sourceCommit !== '6d0ab7358bca5544c2e0ea01593d37b34e118b5a' ||
+          if (release.version !== '5.40.0' ||
+              release.sourceCommit !== 'dda99536890b1eea70faae131b535aedfa27a103' ||
               !/^assets\/index-[A-Za-z0-9_-]+\.js$/.test(release.mainScript) ||
               release.storage !== 'browser-local; no client cloud sync') {
             throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
@@ -175,7 +175,7 @@ jobs:
           for(let attempt=0;attempt<18;attempt++){
             const response=await fetch(receipt,{cache:'no-store',signal:AbortSignal.timeout(15000)});
             const release=response.ok?await response.json():{};
-            if(release.version==='5.39.0'&&release.sourceCommit==='6d0ab7358bca5544c2e0ea01593d37b34e118b5a'){ready=true;break;}
+            if(release.version==='5.40.0'&&release.sourceCommit==='dda99536890b1eea70faae131b535aedfa27a103'){ready=true;break;}
             console.log('Release receipt has not reached the expected source; awaiting propagation.');
             await new Promise(r=>setTimeout(r,5000));
           }
