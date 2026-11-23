@@ -439,6 +439,90 @@ function textNode(tag,text,className){
   if(className)node.className=className;
   return node;
 }
+function currentMonday(){
+  const d=new Date(),offset=(d.getUTCDay()+6)%7;
+  d.setUTCDate(d.getUTCDate()-offset);
+  return d.toISOString().slice(0,10);
+}
+function daysSince(date){
+  const timestamp=Date.parse(String(date||"").slice(0,10)+"T00:00:00Z");
+  return Number.isFinite(timestamp)?Math.floor((Date.now()-timestamp)/86400000):null;
+}
+function concernFrom(comment){
+  const match=String(comment||"").match(/^\[Attention: ([^\]]{1,60})\]/);
+  return match?match[1]:null;
+}
+async function refreshAttention(){
+  const root=el("attentionList");
+  root.replaceChildren(textNode("p","Reviewing private client activity...","small"));
+  const roster=await apiGet("/v1/coach/clients");
+  const clients=Array.isArray(roster.clients)?roster.clients:[];
+  el("attentionClients").textContent=String(clients.length);
+  if(!clients.length){
+    el("attentionUrgent").textContent="0";el("attentionOpen").textContent="0";
+    root.replaceChildren(textNode("p","No assigned active clients yet. Needs Attention will populate after an opted-in client receives a program.","small"));
+    return;
+  }
+  const week=currentMonday();
+  const results=await Promise.all(clients.map(async client=>{
+    const id=encodeURIComponent(client.id);
+    const [progressResult,checkinResult]=await Promise.allSettled([
+      apiGet("/v1/coach/clients/"+id+"/progress"),
+      apiGet("/v1/coach/clients/"+id+"/checkins")
+    ]);
+    const flags=[];
+    if(progressResult.status==="fulfilled"){
+      const progress=progressResult.value.progress||{};
+      const dates=Array.isArray(progress.completedWorkoutDates)?progress.completedWorkoutDates.slice().sort():[];
+      const last=dates.at(-1)||null,elapsed=daysSince(last);
+      if(last===null)flags.push({priority:"medium",text:"No coached workout has been logged yet."});
+      else if(elapsed!==null&&elapsed>=7)flags.push({priority:"medium",text:"No coached workout logged for "+elapsed+" days."});
+    }else flags.push({priority:"medium",text:"Workout activity could not be checked."});
+    if(checkinResult.status==="fulfilled"){
+      const items=Array.isArray(checkinResult.value.items)?checkinResult.value.items:[];
+      if(!items.some(item=>item.weekOf===week))
+        flags.push({priority:"medium",text:"No weekly check-in received for week of "+week+"."});
+      const pending=items.filter(item=>item.reviewStatus==="pending");
+      const concerns=[...new Set(pending.map(item=>concernFrom(item.comment)).filter(Boolean))];
+      for(const concern of concerns)flags.push({priority:"high",text:concern+" flag is waiting for review."});
+      const responseRequests=pending.filter(item=>item.requestReview===true).length;
+      if(responseRequests)flags.push({priority:"high",text:responseRequests+" check-in response request"+(responseRequests===1?"":"s")+" waiting."});
+      const lowRatings=pending.filter(item=>Number(item.completionRating)<=2).length;
+      if(lowRatings)flags.push({priority:"high",text:lowRatings+" low training rating"+(lowRatings===1?"":"s")+" waiting for review."});
+      const routinePending=pending.filter(item=>!item.requestReview&&Number(item.completionRating)>2&&!concernFrom(item.comment)).length;
+      if(routinePending)flags.push({priority:"medium",text:routinePending+" routine check-in"+(routinePending===1?"":"s")+" awaiting review."});
+    }else flags.push({priority:"medium",text:"Weekly check-ins could not be checked."});
+    return {client,flags,high:flags.filter(flag=>flag.priority==="high").length};
+  }));
+  results.sort((a,b)=>b.high-a.high||b.flags.length-a.flags.length);
+  const urgent=results.reduce((sum,item)=>sum+item.high,0);
+  const open=results.reduce((sum,item)=>sum+item.flags.length,0);
+  el("attentionUrgent").textContent=String(urgent);
+  el("attentionOpen").textContent=String(open);
+  root.replaceChildren();
+  for(const item of results){
+    const name=item.client.displayName||item.client.display_name||"Assigned client";
+    const card=textNode("article",undefined,"program-entry attention-entry");
+    card.dataset.priority=item.high?"high":item.flags.length?"medium":"clear";
+    card.append(textNode("strong",name));
+    if(!item.flags.length)card.append(textNode("small","Clear: recent workout and this week's check-in are present with no response request."));
+    else{
+      const list=document.createElement("ul");
+      for(const flag of item.flags)list.append(textNode("li",flag.text));
+      card.append(list);
+    }
+    root.append(card);
+  }
+}
+el("refreshAttention").addEventListener("click",async()=>{
+  el("refreshAttention").disabled=true;
+  try{await refreshAttention()}
+  catch{rootAttentionError()}
+  finally{el("refreshAttention").disabled=false}
+});
+function rootAttentionError(){
+  el("attentionList").replaceChildren(textNode("p","Needs Attention is temporarily unavailable. No coaching records were changed.","small"));
+}
 function populatePublished(){
   const select=el("publishedProgram");
   select.replaceChildren();
@@ -707,6 +791,7 @@ async function showCoach() {
   try{await refreshClientGate();await refreshClientRoster()}catch{
     el("clientGate").textContent="Enrollment controls unavailable. Client enrollment remains blocked.";
   }
+  try{await refreshAttention()}catch{rootAttentionError()}
   try{await refreshDeletionRequests()}catch{
     el("deletionList").replaceChildren(textNode("p","Deletion review unavailable."));
   }
@@ -733,6 +818,8 @@ el("endSession").addEventListener("click",()=>{
   token=null;
   login.cancel();
   el("programList").replaceChildren();
+  el("attentionList").replaceChildren(textNode("p","Sign in to review coaching activity.","small"));
+  el("attentionUrgent").textContent="0";el("attentionOpen").textContent="0";el("attentionClients").textContent="0";
   el("workspace").hidden=true;
   el("login-panel").hidden=false;
   el("login").disabled=false;
