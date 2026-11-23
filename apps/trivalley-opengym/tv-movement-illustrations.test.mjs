@@ -15,6 +15,7 @@ import { CATALOGUE_ART_BATCH17 } from './tv-catalogue-art-batch17.mjs'
 import { CATALOGUE_ART_BATCH18 } from './tv-catalogue-art-batch18.mjs'
 import { CATALOGUE_ART_BATCH19 } from './tv-catalogue-art-batch19.mjs'
 import { CATALOGUE_ART_BATCH20 } from './tv-catalogue-art-batch20.mjs'
+import { CATALOGUE_ART_BATCH21 } from './tv-catalogue-art-batch21.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Batch 19 exact IDs match catalogue names and preserve prior image records',()=>{
  const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
@@ -38,7 +39,7 @@ test('Batch 19 exact IDs match catalogue names and preserve prior image records'
 })
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length+Object.keys(CATALOGUE_ART_BATCH15).length+Object.keys(CATALOGUE_ART_BATCH16).length+Object.keys(CATALOGUE_ART_BATCH17).length+Object.keys(CATALOGUE_ART_BATCH18).length+Object.keys(CATALOGUE_ART_BATCH19).length+Object.keys(CATALOGUE_ART_BATCH20).length)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length+Object.keys(CATALOGUE_ART_BATCH15).length+Object.keys(CATALOGUE_ART_BATCH16).length+Object.keys(CATALOGUE_ART_BATCH17).length+Object.keys(CATALOGUE_ART_BATCH18).length+Object.keys(CATALOGUE_ART_BATCH19).length+Object.keys(CATALOGUE_ART_BATCH20).length+Object.keys(CATALOGUE_ART_BATCH21).length)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -133,7 +134,7 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)&&!(id in CATALOGUE_ART_BATCH15)&&!(id in CATALOGUE_ART_BATCH16)&&!(id in CATALOGUE_ART_BATCH17)&&!(id in CATALOGUE_ART_BATCH18)&&!(id in CATALOGUE_ART_BATCH19)&&!(id in CATALOGUE_ART_BATCH20)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)&&!(id in CATALOGUE_ART_BATCH15)&&!(id in CATALOGUE_ART_BATCH16)&&!(id in CATALOGUE_ART_BATCH17)&&!(id in CATALOGUE_ART_BATCH18)&&!(id in CATALOGUE_ART_BATCH19)&&!(id in CATALOGUE_ART_BATCH20)&&!(id in CATALOGUE_ART_BATCH21)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
@@ -274,4 +275,21 @@ test('Batch 20 binds exact catalogue names, equipment and unique media while pre
  assert.match(CATALOGUE_ART_BATCH20['0216'].coaching[0],/floor/)
  assert.match(CATALOGUE_ART_BATCH20['1726'].coaching[0],/whole head/)
  assert.match(CATALOGUE_ART_BATCH20['0214'].coaching[1],/other arm stays forward/)
+})
+
+test('Batch 21 preserves exact catalogue bindings and source-specific coaching',()=>{
+ const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
+ const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
+ assert.equal(Object.keys(CATALOGUE_ART_BATCH21).length,25)
+ assert.equal(new Set(Object.values(CATALOGUE_ART_BATCH21).map(a=>a.url)).size,25)
+ for(const [id,a] of Object.entries(CATALOGUE_ART_BATCH21)){
+  assert.equal(a.id,id);assert.equal(a.name,catalogue.get(id).n);assert.equal(a.equipment,catalogue.get(id).eq)
+  assert.equal(movementFor(id),a);assert.deepEqual([a.width,a.height],[1200,800]);assert.match(a.sha256,/^[0-9a-f]{64}$/)
+  assert.equal(a.coaching.length,4);assert(a.coaching.every(x=>x.length>20))
+ }
+ assert.match(CATALOGUE_ART_BATCH21['0296'].coaching[0],/one vertical dumbbell/)
+ assert.match(CATALOGUE_ART_BATCH21['1649'].coaching[0],/Sit upright/)
+ assert.match(CATALOGUE_ART_BATCH21['1275'].coaching[0],/advanced depth push-up/)
+ assert.match(CATALOGUE_ART_BATCH21['0303'].coaching[0],/head lower than your hips/)
+ assert.match(CATALOGUE_ART_BATCH21['0307'].coaching[1],/elbow bend nearly unchanged/)
 })
