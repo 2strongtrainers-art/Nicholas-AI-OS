@@ -3,12 +3,12 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 613,
+  "catalogueIllustrated": 638,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch23-20261123",
-    "status": "GENERATED_REVIEWED_NOT_LIVE",
+    "status": "VERIFIED_LIVE",
     "exactIds": [
       "1283",
       "0325",
@@ -43,7 +43,7 @@
     "targetCatalogueIllustrated": 638,
     "generatedCount": 25,
     "acceptedCount": 25,
-    "deployedCount": 0,
+    "deployedCount": 25,
     "successfulImageCalls": 29,
     "rejectedSupersededCount": 4,
     "correctedIds": [
@@ -51,11 +51,18 @@
       "1729",
       "0340"
     ],
-    "candidateAppVersion": "5.43.0",
     "mediaReady": 25,
     "cdnSha256Matched": 25,
     "reviewedAt": "2026-11-23T21:44:35.262Z",
-    "qualifiedHumanMovementReview": "UNVERIFIED"
+    "qualifiedHumanMovementReview": "UNVERIFIED",
+    "appVersion": "5.43.0",
+    "verifiedAt": "2026-11-23T22:07:56.840024+00:00",
+    "sourceCommit": "6b405f0ac5578fc0b478cb8f8afc921a753e37de",
+    "buildRunId": 45273736105,
+    "liveAcceptanceRunId": 45275255946,
+    "liveAcceptanceAttempt": 2,
+    "releaseGate": "HOSTED_BUILD_AND_LIVE_ACCEPTANCE_PASSED",
+    "privateReviewFile": "TriValley_Batch23_PRIVATE_REVIEW_2026-11-23.zip"
   },
   "entries": [
     {
@@ -71,7 +78,7 @@
     },
     {
       "id": "0002",
-      "name": "45° side bend",
+      "name": "45\u00b0 side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -5055,8 +5062,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "6387cc06abe89d9729126614b35a89882810a4433d43df24c6bb5afb6a5d8e9c",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0325",
@@ -5065,8 +5073,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "360a2d9fac353113db0911414559eeb4b4d1df836bbf223ca16d73883b5b52e1",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0326",
@@ -5075,8 +5084,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "76a3980ef7716742264fd7df1f2522fb9bca922f87733869f93b19f7fa51d37c",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0327",
@@ -5085,8 +5095,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "eed22a13a3f3c2abfd3ee54893eb5ecd1142b09a6a04a80388fb42cb67089232",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0328",
@@ -5095,8 +5106,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "caab3eb45c88536997ccae86152fec8313ce5042f8794ad09c770b3aaaadc23e",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0329",
@@ -5105,8 +5117,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "d5bbf04ab34cfe07327401c17971474c8e9f2e38909f4881331ae8aa41d6149c",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "3542",
@@ -5115,8 +5128,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "f4d3734b561af65f741d232c05fdbd11ea82784ebb8b0443da5629ba3f65c598",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0330",
@@ -5125,8 +5139,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "bda9e938d706263f3b4feea5524e662d87e11645a6ecb8075a602fa9145fff96",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0331",
@@ -5135,8 +5150,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "03de0bfc81498dee403149d6a10d80bfe72d4b13156ce5494c78a2d1722326c4",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "1733",
@@ -5145,8 +5161,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "0327cd6d47501d4af175e94e0d5924c2927147b55e45ac2c53c8bd811cb973eb",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "3541",
@@ -5155,8 +5172,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "d8795dfb92bc3a5acff1125051ea85b9f1462d68c9b25e4aacf1cac138084a62",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0332",
@@ -5165,8 +5183,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "9f48b24d60e2d7c36e4c858d9dbd50c7dda26399b8820bf6b5cb75d350e1e718",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0333",
@@ -5186,8 +5205,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "979bddfaf7f88c186d9ec4ee7e4b43ec2a3b044e8837cb67fbf31c2aa52cbe75",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "1660",
@@ -5196,8 +5216,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "0138f19befb737f2636bef55115c9dfda19adec38d653183b0374ecc0c374d1b",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0334",
@@ -5218,8 +5239,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "a61c54926757b5badb6bc003a22ffefa1fafcf308a7e824b3aee6bb3097d7ed6",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0336",
@@ -5239,8 +5261,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "8bb68c954b48a13a83a0a86e6e66365a860e16eef9129aeb4c382b44d285ab4e",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0337",
@@ -5249,8 +5272,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "b3cdfff797159de77fce131681aef6d062a868c653cf3adf57367d0757fa1ad9",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "1729",
@@ -5259,8 +5283,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "c67956d40aef793a936d8bb04fcb844bd570a75f3404301ad2b6979006f5c807",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0338",
@@ -5269,8 +5294,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "639febcd867f8b9e08a6729010a476487761070806170114ff192d5800132a97",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0863",
@@ -5279,8 +5305,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "ad030307801c178d0cc722e84325cf524aa3d4011aa948425f9a0a986b91f66d",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0339",
@@ -5289,8 +5316,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "34beabe5baa99fdf17351db0933058af37175983651fe9520c4f83ffd004b5ae",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0340",
@@ -5299,8 +5327,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "8f7da55cf6eb003b01bf68db6bf9a125e0783eeb9a4ff4f65873ca2565f1eb1c",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "2470",
@@ -5309,8 +5338,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "9337831bd229d5510b0139f543f2032a7cda65e15f01f1e9a6dc6521cd8815ec",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0341",
@@ -5319,8 +5349,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "1797c9ed63040e4aa6d4084402eccc4bc843e367bfcfd0fa25b0a9cf78b4752f",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0343",
@@ -5329,8 +5360,9 @@
       "status": "reviewed",
       "batch": "core-batch23-20261123",
       "assetSha256": "fc606e0f1449c04f9ea26f936db1db0fb6811eb95a7ee30c09e5059169d9e378",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.43.0"
     },
     {
       "id": "0342",
@@ -9140,13 +9172,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45в° calf press",
+      "name": "sled 45\u0432\u00b0 calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45в° leg press",
+      "name": "sled 45\u0432\u00b0 leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -9158,19 +9190,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45в° leg press (back pov)",
+      "name": "sled 45\u0432\u00b0 leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45° leg press (side pov)",
+      "name": "sled 45\u00b0 leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45в° leg wide press",
+      "name": "sled 45\u0432\u00b0 leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -10918,7 +10950,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
