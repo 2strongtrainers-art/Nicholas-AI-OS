@@ -7,106 +7,43 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch25-20261123",
-    "status": "VERIFIED_LIVE",
+    "id": "core-batch26-20261123",
+    "status": "CLAIMED",
     "exactIds": [
-      "1621",
-      "1289",
-      "0354",
-      "0355",
-      "0356",
-      "1290",
-      "1665",
-      "1666",
-      "1291",
-      "0358",
-      "0359",
-      "1622",
-      "1414",
-      "1667",
-      "1668",
-      "1669",
-      "1415",
-      "0361",
-      "0360",
-      "3888",
-      "1670",
-      "1671",
-      "0362",
-      "0363",
-      "0364"
+      "1672",
+      "1292",
+      "0365",
+      "0366",
+      "1441",
+      "0367",
+      "0368",
+      "0369",
+      "1329",
+      "1623",
+      "0370",
+      "0371",
+      "0372",
+      "1673",
+      "1293",
+      "0373",
+      "0374",
+      "1674",
+      "1294",
+      "1295",
+      "1700",
+      "0376",
+      "2292",
+      "0377",
+      "0378"
     ],
-    "claimOwner": "owner-interactive-15861b558bea-b25",
-    "claimBaseCommit": "63ef3fd7ead22cf8e7ae7d065856afd0ceb2ea5a",
-    "claimedAt": "2026-11-24T00:23:14.064678+00:00",
-    "priorCatalogueIllustrated": 663,
-    "targetCatalogueIllustrated": 688,
-    "generatedCount": 25,
-    "acceptedCount": 25,
-    "deployedCount": 25,
-    "successfulImageCalls": 35,
-    "recoveredImagesWithoutDeliveredToolResult": 2,
-    "selectedExactIds": [
-      "1621",
-      "1289",
-      "0354",
-      "0355",
-      "0356",
-      "1290",
-      "1665",
-      "1666",
-      "1291",
-      "0358",
-      "0359",
-      "1622",
-      "1414",
-      "1667",
-      "1668",
-      "1669",
-      "1415",
-      "0361",
-      "0360",
-      "3888",
-      "1670",
-      "1671",
-      "0362",
-      "0363",
-      "0364"
-    ],
-    "rejectedNeedsCorrectionIds": [],
-    "pendingReviewIds": [],
-    "interruptedUnreconciledRequestIds": [],
-    "privateCheckpointFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip",
-    "privateCheckpointLibraryId": "libfile_fde3_f-fadbbfc06d988191b204ff7693cec4e8_05d34ca9816081918921e8c0ed10831c",
-    "checkpointAt": "2026-11-24T00:36:20.615917+00:00",
-    "qualifiedHumanMovementReview": "UNVERIFIED",
-    "physicalIPhone": "UNVERIFIED",
-    "savedCandidateResults": 37,
-    "rejectedSupersededCount": 12,
-    "correctedIds": [
-      "1621",
-      "1291",
-      "0358",
-      "1622",
-      "1414",
-      "1415",
-      "3888",
-      "0364"
-    ],
-    "candidateAppVersion": "5.45.0",
-    "mediaReady": 25,
-    "reviewedAt": "2026-11-24T01:30:09.879521+00:00",
-    "interruptedRequestReconciled": "0359 had no saved PNG; generated v1 after fresh filesystem check. Recovered1291/0358v1 both superseded by corrected v2.",
-    "privateReviewFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip",
-    "appVersion": "5.45.0",
-    "sourceCommit": "4ebfeff1f8fc8b238e06fad2b5b81a3eaac24c18",
-    "buildRunId": 45306169943,
-    "liveAcceptanceRunId": 45307091944,
-    "liveAcceptanceAttempt": 1,
-    "liveControlCommit": "9fe9a89ffa0e4cf9df80c9fcf864f34d69ed09c1",
-    "verifiedAt": "2026-11-24T01:51:40.936363+00:00",
-    "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
-    "cdnSha256Matched": 25
+    "claimOwner": "owner-interactive-15861b558bea-b26",
+    "claimBaseCommit": "ef3051019b8a918a34220d3846c81700b59bfb2f",
+    "claimedAt": "2026-11-24T03:45:16.363565+00:00",
+    "priorCatalogueIllustrated": 688,
+    "targetCatalogueIllustrated": 713,
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0
   },
   "entries": [
     {
@@ -5937,109 +5874,145 @@
       "id": "1672",
       "name": "dumbbell one arm zottman preacher curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1292",
       "name": "dumbbell one leg fly on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0365",
       "name": "dumbbell over bench neutral wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0366",
       "name": "dumbbell over bench one arm neutral wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1441",
       "name": "dumbbell over bench one arm reverse wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0367",
       "name": "dumbbell over bench one arm wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0368",
       "name": "dumbbell over bench revers wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0369",
       "name": "dumbbell over bench wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1329",
       "name": "dumbbell palm rotational bent over row",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1623",
       "name": "dumbbell palms in incline bench press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0370",
       "name": "dumbbell peacher hammer curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0371",
       "name": "dumbbell plyo squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0372",
       "name": "dumbbell preacher curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1673",
       "name": "dumbbell preacher curl over exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1293",
       "name": "dumbbell press on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0373",
       "name": "dumbbell pronate-grip triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0374",
       "name": "dumbbell prone incline curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1674",
       "name": "dumbbell prone incline hammer curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0375",
@@ -6056,43 +6029,57 @@
       "id": "1294",
       "name": "dumbbell pullover hip extension on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1295",
       "name": "dumbbell pullover on exercise ball",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "1700",
       "name": "dumbbell push press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0376",
       "name": "dumbbell raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "2292",
       "name": "dumbbell rear delt raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0377",
       "name": "dumbbell rear delt row_shoulder",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0378",
       "name": "dumbbell rear fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "in_progress",
+      "batch": "core-batch26-20261123",
+      "claimOwner": "owner-interactive-15861b558bea-b26"
     },
     {
       "id": "0380",
@@ -11911,6 +11898,108 @@
       "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
       "privateReviewFile": "TriValley_Batch24_PRIVATE_REVIEW_2026-11-23.zip",
       "physicalIPhone": "UNVERIFIED",
+      "cdnSha256Matched": 25
+    },
+    {
+      "id": "core-batch25-20261123",
+      "status": "VERIFIED_LIVE",
+      "exactIds": [
+        "1621",
+        "1289",
+        "0354",
+        "0355",
+        "0356",
+        "1290",
+        "1665",
+        "1666",
+        "1291",
+        "0358",
+        "0359",
+        "1622",
+        "1414",
+        "1667",
+        "1668",
+        "1669",
+        "1415",
+        "0361",
+        "0360",
+        "3888",
+        "1670",
+        "1671",
+        "0362",
+        "0363",
+        "0364"
+      ],
+      "claimOwner": "owner-interactive-15861b558bea-b25",
+      "claimBaseCommit": "63ef3fd7ead22cf8e7ae7d065856afd0ceb2ea5a",
+      "claimedAt": "2026-11-24T00:23:14.064678+00:00",
+      "priorCatalogueIllustrated": 663,
+      "targetCatalogueIllustrated": 688,
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "successfulImageCalls": 35,
+      "recoveredImagesWithoutDeliveredToolResult": 2,
+      "selectedExactIds": [
+        "1621",
+        "1289",
+        "0354",
+        "0355",
+        "0356",
+        "1290",
+        "1665",
+        "1666",
+        "1291",
+        "0358",
+        "0359",
+        "1622",
+        "1414",
+        "1667",
+        "1668",
+        "1669",
+        "1415",
+        "0361",
+        "0360",
+        "3888",
+        "1670",
+        "1671",
+        "0362",
+        "0363",
+        "0364"
+      ],
+      "rejectedNeedsCorrectionIds": [],
+      "pendingReviewIds": [],
+      "interruptedUnreconciledRequestIds": [],
+      "privateCheckpointFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip",
+      "privateCheckpointLibraryId": "libfile_fde3_f-fadbbfc06d988191b204ff7693cec4e8_05d34ca9816081918921e8c0ed10831c",
+      "checkpointAt": "2026-11-24T00:36:20.615917+00:00",
+      "qualifiedHumanMovementReview": "UNVERIFIED",
+      "physicalIPhone": "UNVERIFIED",
+      "savedCandidateResults": 37,
+      "rejectedSupersededCount": 12,
+      "correctedIds": [
+        "1621",
+        "1291",
+        "0358",
+        "1622",
+        "1414",
+        "1415",
+        "3888",
+        "0364"
+      ],
+      "candidateAppVersion": "5.45.0",
+      "mediaReady": 25,
+      "reviewedAt": "2026-11-24T01:30:09.879521+00:00",
+      "interruptedRequestReconciled": "0359 had no saved PNG; generated v1 after fresh filesystem check. Recovered1291/0358v1 both superseded by corrected v2.",
+      "privateReviewFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip",
+      "appVersion": "5.45.0",
+      "sourceCommit": "4ebfeff1f8fc8b238e06fad2b5b81a3eaac24c18",
+      "buildRunId": 45306169943,
+      "liveAcceptanceRunId": 45307091944,
+      "liveAcceptanceAttempt": 1,
+      "liveControlCommit": "9fe9a89ffa0e4cf9df80c9fcf864f34d69ed09c1",
+      "verifiedAt": "2026-11-24T01:51:40.936363+00:00",
+      "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
       "cdnSha256Matched": 25
     }
   ],
