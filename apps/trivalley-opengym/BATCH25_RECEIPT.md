@@ -1,0 +1,16 @@
+# Batch25 verified live — v5.45.0
+
+25new exact-ID START/FINISH pairs actually live.688 /1,324 catalogue exercises illustrated,636remaining.663prior catalogue records and8custom bodyweight records unchanged. Batch26 UNCLAIMED; reconcile fresh branch,ledger and release before claiming another batch.
+
+- Runtime source:`4ebfeff1f8fc8b238e06fad2b5b81a3eaac24c18`.
+- Hosted build[45306169943](https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/45306169943):all4jobs PASS,attempt1. Local109helper and211upstream tests and build/dist checks PASS. Browser coverage includes Chromium,WebKit,mobile accessibility,offline and all1,324detail routes.
+- Live control:`9fe9a89ffa0e4cf9df80c9fcf864f34d69ed09c1`. Final live[45307091944](https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/45307091944):all3jobs PASS,attempt1.
+- Artifact14880234802 SHA256`49125d531a8e90a464ec3bd72a594f81ee5b9e8a388910d884241bd92dd93595`;63path frontend-only ZIP SHA256`4b054a35a8098286ecf00dd382ef7b695486f2c91eadd3400ff88957553365a8`.
+- Main`assets/index-CvYw6TsK.js`,SHA256`4636ba11dfdd07644a0d6cb28a2c32f15f99238d49fc7328328d4991cb009f63`.All63native saved frontend files match tested bytes EXACTLY.
+- Native revision`1007cf23098e0cc5f1d16beeda5b61d84f6617db`,upload`878fcf16-b25f-4f6a-b38b-a69885b40795`,86files/18910803bytes.7CURRENTcoaching files unchanged byteforbyte. Untrimmed projection23175131bytes;14proven obsolete bundles/4,264,328bytes were durably archived and freshly native-hash-verified before exact deletion. Preserved prepublicationcurrent5.44.1 andprevious5.44.0 families. Path-preserving patch used;no legacy flattening uploader or stale portal replacement.
+
+All25 MediaREADY and CDN SHA256 matched.37saved image assets comprise35delivered/saved tool results and2recovered after an earlier interruption;25selected,12superseded. Eight corrected IDs:1621,1291,0358,1414,1415,1622,3888,0364. Corrections address ball/bench head support,hammer/underhand/neutral grips,pullover mechanics,preacher-pad contact,closed thumbs,neck alignment and forearm support.1622thicker-beard facial drift was rejected. Every final face and both movement phases were compared to Nick,the RIGHT-hand primary gym subject,and approved avatar detail. Natural expression variety respects head/neck alignment. Operator visual QA is not owner likeness certification or qualified human movement approval.
+
+Resolved local execution errors: wrong test glob initially included a Vitest-only file under Node; the exact109helper command and211upstream Vitest suite pass. An initial upstream run omitted workflow upgrades; the full existing transformation chain then passed211tests. An initial dist check used the wrong working directory; correct repository-root rerun passes. Initial logs retained. No failed hosted or live checks for this release; both runs passed attempt1.
+
+Physical iPhoneSafari,VoiceOver,HomeScreeninstallation,iOSFilesbackup/restore and qualified human movement approval remain UNVERIFIED. Automated WebKit is not physical iPhone acceptance. Artwork deployment preserved the main website,$497checkout,clientdata,unrelated workflows,approvalgates,pausedstates and schedules. No merge,purchase,outboundsend or newautomation. Owner separately authorized later price presentation on the main website; its completion is recorded separately from artwork.

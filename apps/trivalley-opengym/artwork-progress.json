@@ -3,12 +3,12 @@
   "catalogueVersion": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
   "catalogueSha256": "82ff3a3cd10f8329a20eda3e860692a2fc48c53887a4661b4b4cff7bd3e5fd3d",
   "catalogueTotal": 1324,
-  "catalogueIllustrated": 663,
+  "catalogueIllustrated": 688,
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch25-20261123",
-    "status": "GENERATED_REVIEWED_NOT_LIVE",
+    "status": "VERIFIED_LIVE",
     "exactIds": [
       "1621",
       "1289",
@@ -43,7 +43,7 @@
     "targetCatalogueIllustrated": 688,
     "generatedCount": 25,
     "acceptedCount": 25,
-    "deployedCount": 0,
+    "deployedCount": 25,
     "successfulImageCalls": 35,
     "recoveredImagesWithoutDeliveredToolResult": 2,
     "selectedExactIds": [
@@ -97,7 +97,16 @@
     "mediaReady": 25,
     "reviewedAt": "2026-11-24T01:30:09.879521+00:00",
     "interruptedRequestReconciled": "0359 had no saved PNG; generated v1 after fresh filesystem check. Recovered1291/0358v1 both superseded by corrected v2.",
-    "privateReviewFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip"
+    "privateReviewFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip",
+    "appVersion": "5.45.0",
+    "sourceCommit": "4ebfeff1f8fc8b238e06fad2b5b81a3eaac24c18",
+    "buildRunId": 45306169943,
+    "liveAcceptanceRunId": 45307091944,
+    "liveAcceptanceAttempt": 1,
+    "liveControlCommit": "9fe9a89ffa0e4cf9df80c9fcf864f34d69ed09c1",
+    "verifiedAt": "2026-11-24T01:51:40.936363+00:00",
+    "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
+    "cdnSha256Matched": 25
   },
   "entries": [
     {
@@ -5680,8 +5689,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "ecdc476fd8ea9938642eff0e1c87d6dc7614d82f1a064798b2b8538e1d378c49",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1289",
@@ -5689,8 +5699,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "c9c516fcbafbdc72d717df8de80e0c896afb839f54c09cd2d185db980afa8861",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0354",
@@ -5698,8 +5709,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "4f9945fe7bcd2f4fa39ad543d45c67bcd1494018babe514ac1b969d79bc8c960",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0355",
@@ -5707,8 +5719,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "bbc4b2507b732088c2114c19736f535889d09ba39659271349ee208ff834fffe",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0356",
@@ -5716,8 +5729,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "41b3302c58278c45e3899341396bf1a07e094841a08e5d72a920ca1d6f0b740f",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1290",
@@ -5725,8 +5739,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "bc39f7cebcb9b60bef26668d7b4514e97e2b2e7bf39fd7e58ec9a3ddf68942f0",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1665",
@@ -5734,8 +5749,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "14e6e95070aceade3d17fb524ae69b0b9ffe9b54714bca9907fd9c5b86315ff5",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1666",
@@ -5743,8 +5759,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "5e4d2759a6eb5bb57c64089864a61e82351eca3d6c7a5f3fb2a147dca6428145",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1291",
@@ -5752,8 +5769,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "2c82d5b47d434bea3b7183a68a2314b3d2705b83308a499456ae14a1ee26d4e8",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0358",
@@ -5761,8 +5779,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "c3848c668ff4aee1ca06569109070245d90269ec6f2651835361615ae972d909",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0359",
@@ -5770,8 +5789,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "7d5bd85ea63184072cd928f903bf7e528926eb399fbebe1c5ebcb7b360b9d23e",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1622",
@@ -5779,8 +5799,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "611078674670e7c8abda873291784d419021b4b4718357fcc279f22ae5529dda",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1414",
@@ -5788,8 +5809,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "0b072f78c269988a1634aa416f04ae2d907b600145fc66d2ed284beea9eb6788",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1667",
@@ -5797,8 +5819,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "ad7c402940e9aad456a541fcdd5384c184a74842428a90907087df6b9a85a8aa",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1668",
@@ -5806,8 +5829,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "07a89f1843b7aaef3f119d63dd7c7ec1b6a33ea8b6a231118317830a6f9711fd",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1669",
@@ -5815,8 +5839,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "f39eea3574b738a2f4e66621f606692ed19428add7394c624023da1871e8b432",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1415",
@@ -5824,8 +5849,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "b6ec69c1abfbf43612294d584b326805783d68264f6b0f49000a65fb5602492a",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0361",
@@ -5833,8 +5859,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "13212de92b3e3676a549baded7f5beff25f49acfdf693689b9acb7e646118ad5",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0360",
@@ -5842,8 +5869,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "67eaf20bec94f960d60c47e509d229e3e2cb071c7ffa197068120fc136dd63d3",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "3888",
@@ -5851,8 +5879,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "61e30e28e48e3f6bbd688a29beba819e601ce5c497c98572f5f91ce15b7daba6",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1670",
@@ -5860,8 +5889,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "a834d49428644b4624fc599bb65d7bb74a34e96ab5890b12d6bb94b86b81f872",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1671",
@@ -5869,8 +5899,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "0fcf6c16cbda2b9d0a7755fa5e8e4bbd7563b7a0d7617fed21d3c61f575d6e93",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0362",
@@ -5878,8 +5909,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "d6c121360a0b6f1b784e5c69dd0491a550e8f0b742400cdd246e8c337c88ed57",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0363",
@@ -5887,8 +5919,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "66823a7b34c83d7f16f6a52e6cd30de376d527a8194ccf564ebc4e3a148279e1",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "0364",
@@ -5896,8 +5929,9 @@
       "equipment": "dumbbell",
       "status": "reviewed",
       "assetSha256": "b8bbd4ef67a997c2f0e977f6782a7c20861bb7479754e70ff29fdab4b9a0403c",
-      "deployed": false,
-      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
+      "deployed": true,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified",
+      "appVersion": "5.45.0"
     },
     {
       "id": "1672",
@@ -11880,22 +11914,22 @@
       "cdnSha256Matched": 25
     }
   ],
-  "catalogueQueued": 661,
+  "catalogueQueued": 636,
   "liveObservation": {
-    "version": "5.44.1",
-    "sourceCommit": "590d945a7165fafe888281ce2c8ced17a7fee7cb",
-    "catalogueIllustrated": 663,
-    "catalogueQueued": 661,
-    "buildRunId": 45294773747,
-    "liveAcceptanceRunId": 45295838420,
+    "version": "5.45.0",
+    "sourceCommit": "4ebfeff1f8fc8b238e06fad2b5b81a3eaac24c18",
+    "catalogueIllustrated": 688,
+    "catalogueQueued": 636,
+    "buildRunId": 45306169943,
+    "liveAcceptanceRunId": 45307091944,
     "liveAcceptanceAttempt": 1,
-    "artifactId": 14874764837,
-    "artifactSha256": "079ec10c643952b0d53dc015fedc477436d687033e6bbd999173737dfec78e6c",
-    "nativeRevision": "74ae772a56ce3fb9923124eeb9f42b5d1a450843",
-    "uploadId": "4a8500ee-3c86-4e35-8a82-228d9ba3cd25",
-    "verifiedAt": "2026-11-24T00:21:39.880799+00:00",
+    "artifactId": 14880234802,
+    "artifactSha256": "49125d531a8e90a464ec3bd72a594f81ee5b9e8a388910d884241bd92dd93595",
+    "nativeRevision": "1007cf23098e0cc5f1d16beeda5b61d84f6617db",
+    "uploadId": "878fcf16-b25f-4f6a-b38b-a69885b40795",
+    "verifiedAt": "2026-11-24T01:51:40.936363+00:00",
     "customBodyweightReferences": 8,
-    "scope": "App audit fixes only: initial dialog focus, closed-disclosure keyboard access, duplicate Close and exact source attribution. All663catalogue and8custom illustration records unchanged.4hosted and3live jobs PASS;63native frontend hashes match;7CURRENTcoachingfiles unchanged;zero deletions. Physical iPhone/human approval unverified."
+    "scope": "25 new exact-ID pairs;663 prior catalogue and8 custom records unchanged. Hosted4jobs and live3jobs pass attempt1.63native saved files match tested bytes;7CURRENTcoaching files unchanged.14obsolete bundles archived and native-hash-verified before deletion;current5.44.1 andprevious5.44.0 bundle families retained. Physical iPhone and qualified human movement approval UNVERIFIED."
   },
   "auditReleases": [
     {
