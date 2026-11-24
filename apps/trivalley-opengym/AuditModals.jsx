@@ -1,8 +1,19 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { useUI } from '../store/useUI.js'
 
-const tabbables = el => [...el.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
-  .filter(n => !n.disabled && !n.closest('[inert]') && n.getClientRects().length && getComputedStyle(n).visibility !== 'hidden')
+// Closed <details> descendants can still report layout rectangles. Only the
+// disclosure's own summary is reachable until the disclosure is opened.
+const inClosedDetails = node => {
+  for (let parent = node.parentElement; parent; parent = parent.parentElement) {
+    if (parent.tagName === 'DETAILS' && !parent.open) {
+      const summary = [...parent.children].find(child => child.tagName === 'SUMMARY')
+      if (!summary?.contains(node)) return true
+    }
+  }
+  return false
+}
+const tabbables = el => [...el.querySelectorAll('button, a[href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])')]
+  .filter(n => !n.disabled && !n.closest('[inert],[hidden]') && !inClosedDetails(n) && n.getClientRects().length && getComputedStyle(n).visibility !== 'hidden')
 
 function Sheet({ sheet, top }) {
   const ref = useRef(null)

@@ -75,7 +75,9 @@ try{
  assert(await page.$eval('.tv-strength-estimate',n=>!n.open),'Example strength estimate should start collapsed');
  assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Exercise dialog left initial focus behind the overlay');
  assert(await page.$$eval('[role="dialog"] button',ns=>ns.filter(n=>n.getClientRects().length&&/^Close/.test(n.getAttribute('aria-label')||n.textContent.trim())).length===1),'Exercise dialog has duplicate visible Close controls');
- for(let i=0;i<14;i++){if(i>=7)await page.keyboard.down('Shift');await page.keyboard.press('Tab');if(i>=7)await page.keyboard.up('Shift');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Exercise dialog keyboard focus escaped')}
+ let estimateReached=false;
+ for(let i=0;i<14;i++){if(i>=7)await page.keyboard.down('Shift');await page.keyboard.press('Tab');if(i>=7)await page.keyboard.up('Shift');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Exercise dialog keyboard focus escaped');estimateReached ||= await page.evaluate(()=>document.activeElement?.matches('.tv-strength-estimate > summary'))}
+ assert(estimateReached,'Keyboard cannot reach the optional estimate disclosure');
  await page.screenshot({path:shot,fullPage:true});
  await page.addScriptTag({content:fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8')});
  const axe=await page.evaluate(async()=>await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));
