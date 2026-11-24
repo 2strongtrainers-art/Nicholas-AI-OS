@@ -108,3 +108,14 @@ test('Batch25 exposes four structured coaching fields for every new exact ID',()
  }
  assert.equal(coachNotesFor({id:'constructor'}),null)
 })
+
+import { CATALOGUE_ART_BATCH26 } from './tv-catalogue-art-batch26.mjs'
+test('Batch26 exposes four structured coaching fields for every new exact ID',()=>{
+ assert.equal(ESSENTIAL_IDS.length,16)
+ for(const [id,asset] of Object.entries(CATALOGUE_ART_BATCH26)){
+  const notes=coachNotesFor({id})
+  assert.deepEqual(notes,asset.coaching,id)
+  assert.equal(notes.length,4,id)
+ }
+ assert.equal(coachNotesFor({id:'constructor'}),null)
+})
