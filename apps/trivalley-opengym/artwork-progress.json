@@ -40,23 +40,34 @@
     "claimBaseCommit": "80477965b7ba1c1034e44a188f68c507db7188e0",
     "priorCatalogueIllustrated": 788,
     "targetCatalogueIllustrated": 813,
-    "generatedCount": 1,
+    "generatedCount": 2,
     "acceptedCount": 0,
     "deployedCount": 0,
-    "successfulImageCalls": 4,
-    "savedCandidateResults": 1,
-    "rejectedWrongMovementCount": 3,
+    "successfulImageCalls": 7,
+    "savedCandidateResults": 2,
+    "rejectedWrongMovementCount": 5,
     "sourceGIFsRetrieved": 25,
     "sourceReviewScope": "25 exact GIFs retrieved and visually sampled; source/prose discrepancies and movement holds retained privately. Some transparent frame overlays prevent definitive variant clearance. Qualified movement and physical iPhone unverified.",
     "candidateId": "0437",
     "candidateSha256": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76",
-    "privateReviewFile": "TriValley_Batch30_PRIVATE_PARTIAL_REVIEW_2026-11-24.zip",
-    "privateReviewZipSha256": "b41eb7bc8c6634dbf90ff7d4dfb4d6c50439d8022dc58089762598cc7098fd78",
+    "privateReviewFile": "TriValley_Batch30_PRIVATE_PARTIAL_REVIEW_v2_2026-11-24.zip",
+    "privateReviewZipSha256": "5e20bd13489b01c4ceaac97eec83266c72a2949d7428c017e8b0d9fce0e44701",
     "ownerLikenessApproval": "PENDING",
     "qualifiedHumanMovementReview": "UNVERIFIED",
     "physicalIPhone": "UNVERIFIED",
-    "nextStep": "Resume this same batch; generate and review the remaining 24 exact-ID cards, correct 0437 if necessary, exclude wrong-movement outputs. Do not publish until identity, technique, hashes, current protected build and single-publisher/post-upload acceptance gates pass.",
-    "releaseGate": "NO_NEW_ARTWORK_PUBLICATION"
+    "nextStep": "Continue the same 25 IDs: 23 still need individual drafts, 0437 and 1742 require exact movement and owner likeness review. Image generator returned two wrong-ID contact sheets with false completion labels; reject whole sheets. Do not publish or count until verified identity, movement, SHA and release gates pass.",
+    "releaseGate": "NO_NEW_ARTWORK_PUBLICATION",
+    "candidateIds": [
+      "0437",
+      "1742"
+    ],
+    "candidateSha256s": {
+      "1742": "145c0b2e8ed720ff9c07bd49b81ecc205895fbfe54333893f9c313e86a83f3cf",
+      "0437": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76"
+    },
+    "previousPrivateReviewFile": "TriValley_Batch30_PRIVATE_PARTIAL_REVIEW_2026-11-24.zip",
+    "previousPrivateReviewZipSha256": "b41eb7bc8c6634dbf90ff7d4dfb4d6c50439d8022dc58089762598cc7098fd78",
+    "privateReviewLibraryId": "libfile_fde3_f-af2742e0447481918051354fbdadb49d_05d34ca9816081918921e8c0ed10831c"
   },
   "entries": [
     {
@@ -7308,12 +7319,14 @@
       "id": "1742",
       "name": "dumbbell tricep kickback with stork stance",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": true,
+      "candidateSha256": "145c0b2e8ed720ff9c07bd49b81ecc205895fbfe54333893f9c313e86a83f3cf",
+      "reviewScope": "Private exact-ID draft only; verify original source dumbbell count, free-hand position, elbow/wrist alignment and owner likeness before release."
     },
     {
       "id": "1743",
