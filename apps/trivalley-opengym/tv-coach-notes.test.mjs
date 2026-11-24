@@ -43,7 +43,12 @@ test('catalogue entries and every programmed prescription resolve without invent
   const { EXDB } = await import(pathToFileURL(resolve(process.env.TV_CATALOGUE_PATH)).href)
   assert.equal(EXDB.length,1324)
   assert.equal(new Set(EXDB.map(ex => ex.id)).size,1324)
+  const wrist = EXDB.find(ex => ex.id === '0397')
+  const wristIdentity = { id: wrist.id, n: wrist.n, eq: wrist.eq }
   normalizeExerciseNames(EXDB)
+  assert.deepEqual({ id: wrist.id, n: wrist.n, eq: wrist.eq }, wristIdentity)
+  assert.equal(wrist.bp, 'lower arms')
+  assert.equal(wrist.tg, 'forearms')
   for (const ex of EXDB) {
     for(const key of ['id','n','eq','bp','tg']) assert.equal(typeof ex[key], 'string', `${ex.id}: ${key}`)
     assert(ex.st.length > 0 && ex.st.every(step => typeof step === 'string' && step.trim().length > 0), ex.id)

@@ -35,5 +35,9 @@ export const COACH_NOTES = {
 export const ESSENTIAL_IDS = Object.freeze(Object.keys(COACH_NOTES))
 export const coachNotesFor = ex => !ex ? null : Object.hasOwn(COACH_NOTES, ex.id) ? COACH_NOTES[ex.id] : Object.hasOwn(CATALOGUE_ART_BATCH16, ex.id) ? CATALOGUE_ART_BATCH16[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH17, ex.id) ? CATALOGUE_ART_BATCH17[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH18, ex.id) ? CATALOGUE_ART_BATCH18[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH19, ex.id) ? CATALOGUE_ART_BATCH19[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH20, ex.id) ? CATALOGUE_ART_BATCH20[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH21, ex.id) ? CATALOGUE_ART_BATCH21[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH22, ex.id) ? CATALOGUE_ART_BATCH22[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH23, ex.id) ? CATALOGUE_ART_BATCH23[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH24, ex.id) ? CATALOGUE_ART_BATCH24[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH25, ex.id) ? CATALOGUE_ART_BATCH25[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH26, ex.id) ? CATALOGUE_ART_BATCH26[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH27, ex.id) ? CATALOGUE_ART_BATCH27[ex.id].coaching : Object.hasOwn(CATALOGUE_ART_BATCH28, ex.id) ? CATALOGUE_ART_BATCH28[ex.id].coaching : null
 export function normalizeExerciseNames(exercises) {
-  for (const ex of exercises) if (typeof ex.n === 'string') ex.n = ex.n.replaceAll('45в°', '45°')
+  for (const ex of exercises) {
+    if (typeof ex.n === 'string') ex.n = ex.n.replaceAll('45в°', '45°')
+    // Exact 0397 demonstration moves only at the wrists; inherited biceps tags describe a different curl.
+    if (ex.id === '0397') { ex.bp = 'lower arms'; ex.tg = 'forearms' }
+  }
 }
