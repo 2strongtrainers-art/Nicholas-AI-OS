@@ -11714,19 +11714,38 @@
   ],
   "catalogueQueued": 661,
   "liveObservation": {
-    "version": "5.44.0",
-    "sourceCommit": "5ede9ab20379a6f5c566d743c8b0cfa785d7449d",
+    "version": "5.44.1",
+    "sourceCommit": "590d945a7165fafe888281ce2c8ced17a7fee7cb",
     "catalogueIllustrated": 663,
     "catalogueQueued": 661,
-    "buildRunId": 45283139526,
-    "liveAcceptanceRunId": 45284643237,
-    "liveAcceptanceAttempt": 2,
-    "artifactId": 14870672967,
-    "artifactSha256": "8a2390ec9271ed0723498beff9e0941972df32c0fa082f93dec652cbaa73fdbd",
-    "nativeRevision": "85bb9ddbbdac608698e0e2a0fc698f266a4dbbd8",
-    "uploadId": "73dc81c3-7b3a-4e7a-a2f3-46db26f55478",
-    "verifiedAt": "2026-11-23T23:05:55.222149+00:00",
+    "buildRunId": 45294773747,
+    "liveAcceptanceRunId": 45295838420,
+    "liveAcceptanceAttempt": 1,
+    "artifactId": 14874764837,
+    "artifactSha256": "079ec10c643952b0d53dc015fedc477436d687033e6bbd999173737dfec78e6c",
+    "nativeRevision": "74ae772a56ce3fb9923124eeb9f42b5d1a450843",
+    "uploadId": "4a8500ee-3c86-4e35-8a82-228d9ba3cd25",
+    "verifiedAt": "2026-11-24T00:21:39.880799+00:00",
     "customBodyweightReferences": 8,
-    "scope": "25new exact-ID cards,638prior catalogue and8custom bodyweight records unchanged; hosted4jobs and live3jobs passed.63saved frontend files matched tested bytes exactly;7current coaching files unchanged.14proven obsolete bundles archived and freshly native-hash-verified before deletion; current+previous families retained. Physical iPhone and qualified human movement approval unverified."
-  }
+    "scope": "App audit fixes only: initial dialog focus, closed-disclosure keyboard access, duplicate Close and exact source attribution. All663catalogue and8custom illustration records unchanged.4hosted and3live jobs PASS;63native frontend hashes match;7CURRENTcoachingfiles unchanged;zero deletions. Physical iPhone/human approval unverified."
+  },
+  "auditReleases": [
+    {
+      "version": "5.44.1",
+      "sourceCommit": "590d945a7165fafe888281ce2c8ced17a7fee7cb",
+      "liveControlCommit": "dea4e708955e4dd406d3a977bd79ac25687a2ae5",
+      "buildRunId": 45294773747,
+      "liveAcceptanceRunId": 45295838420,
+      "liveAcceptanceAttempt": 1,
+      "catalogueIllustrated": 663,
+      "catalogueQueued": 661,
+      "nativeRevision": "74ae772a56ce3fb9923124eeb9f42b5d1a450843",
+      "nativeBytes": 20817663,
+      "nativeFiles": 93,
+      "frontendByteMatches": 63,
+      "coachingFilesPreserved": 7,
+      "newArtCount": 0,
+      "physicalIPhone": "UNVERIFIED"
+    }
+  ]
 }
