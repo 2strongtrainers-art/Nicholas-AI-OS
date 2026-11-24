@@ -69,7 +69,7 @@ test("coaching homepage renders, fits the viewport, and passes scoped accessibil
     (document.querySelector("#tv-coaching-hero").compareDocumentPosition(el) &
       Node.DOCUMENT_POSITION_FOLLOWING) !== 0
   ))).toBe(true);
-  await expect(hero.getByRole("link", { name: "Explore online coaching", exact: true }))
+  await expect(hero.getByRole("link", { name: "explore your coaching options", exact: true }))
     .toHaveCSS("text-decoration-line", "underline");
   const accessibility = await new AxeBuilder({ page }).include(heroId)
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
@@ -95,7 +95,7 @@ test("local coaching starts with the application and offers the $297 assessment"
 
 test("online coaching links to live Stripe enrollment at $497 per month", async ({ page }) => {
   const hero = await openHome(page);
-  await hero.getByRole("link", { name: "Explore online coaching", exact: true }).press("Enter");
+  await hero.getByRole("link", { name: "explore your coaching options", exact: true }).press("Enter");
   await expect(page).toHaveURL(url => url.pathname === "/coaching");
   const enroll = page.getByRole("link", { name: "Start Online Coaching — $497/month", exact: true });
   await expect(enroll).toBeVisible();
