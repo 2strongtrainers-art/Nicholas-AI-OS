@@ -1,0 +1,104 @@
+<script>
+(() => {
+  const KEY='__tvCoachingConversionController';if(window[KEY])window[KEY].dispose();let frame=null;
+  const ID = "tv-online-coaching-conversion-v1";
+  const STRIPE = "https://buy.stripe.com/dRm28sfiqb7ggrt4U2f3a00";
+  const INTAKE = "https://www.trivalley.fit/coaching";
+  const RESULTS = "https://www.trivalley.fit/results";
+
+  function mount() {
+    const path = location.pathname.replace(/\/$/, "") || "/";
+    if (!["/book-online","/coaching"].includes(path)) {
+      const old = document.getElementById(ID);
+      if (old) old.remove();
+      return;
+    }
+    if (document.getElementById(ID)) return;
+
+    const wrap = document.createElement("section");
+    wrap.id = ID;
+    wrap.setAttribute("aria-label","Elite Online Coaching details");
+    wrap.innerHTML = `
+      <style>
+        #${ID}{max-width:1100px;margin:48px auto;padding:0 20px;font-family:Arial,Helvetica,sans-serif}
+        #${ID} .tv-card{background:#111;color:#f5f5f5;border:1px solid #393939;border-radius:18px;padding:28px;box-shadow:0 16px 40px rgba(0,0,0,.18)}
+        #${ID} .tv-eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#ffe444;font-weight:700;margin-bottom:8px}
+        #${ID} h2{font-size:clamp(28px,4vw,42px);line-height:1.08;margin:0 0 12px;color:#fff}
+        #${ID} .tv-lead{font-size:18px;line-height:1.55;color:#ddd;max-width:820px;margin:0 0 26px}
+        #${ID} .tv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}
+        #${ID} .tv-box{background:#191919;border:1px solid #333;border-radius:12px;padding:18px}
+        #${ID} h3{font-size:18px;margin:0 0 8px;color:#fff}
+        #${ID} p,#${ID} li{color:#d6d6d6;line-height:1.55}
+        #${ID} ul{margin:8px 0 0;padding-left:20px}
+        #${ID} .tv-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+        #${ID} .tv-step{border-left:3px solid #ffe444;padding:12px 14px;background:#171717}
+        #${ID} .tv-step strong{display:block;color:#fff;margin-bottom:5px}
+        #${ID} .tv-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+        #${ID} a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:700}
+        #${ID} .tv-primary{background:#ffe444;color:#111}
+        #${ID} .tv-secondary{border:1px solid #777;color:#fff;background:#1c1c1c}
+        #${ID} .tv-note{font-size:13px;color:#aaa;margin-top:14px}
+        @media(max-width:760px){
+          #${ID} .tv-grid,#${ID} .tv-steps{grid-template-columns:1fr}
+          #${ID} .tv-card{padding:22px}
+          #${ID} .tv-actions a{width:100%}
+        }
+      </style>
+      <div class="tv-card">
+        <div class="tv-eyebrow">Elite Online Coaching · $497/month</div>
+        <h2>Know exactly what happens before you enroll.</h2>
+        <p class="tv-lead">Online coaching can be started directly. The $297 Elite Assessment is for local, hybrid, and private coaching paths.</p>
+
+        <div class="tv-grid">
+          <div class="tv-box">
+            <h3>Best fit if you want</h3>
+            <ul>
+              <li>Individualized programming around your goals and schedule</li>
+              <li>Remote technique review and coaching feedback</li>
+              <li>Accountability and ongoing plan adjustments</li>
+              <li>A structured option you can follow from your own gym or home setup</li>
+            </ul>
+          </div>
+          <div class="tv-box">
+            <h3>Probably not the best fit if</h3>
+            <ul>
+              <li>You need hands-on supervision during every training session</li>
+              <li>You are looking for a one-time generic workout instead of ongoing coaching</li>
+              <li>You would rather start with an in-person or hybrid assessment process</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>What happens after checkout</h3>
+        <div class="tv-steps">
+          <div class="tv-step"><strong>1. Enroll</strong><span>Complete the secure $497/month Stripe checkout.</span></div>
+          <div class="tv-step"><strong>2. Complete intake</strong><span>Use the same email at the coaching intake so your responses can be matched correctly.</span></div>
+          <div class="tv-step"><strong>3. Initial plan</strong><span>Your goals, training history, schedule, and equipment are reviewed to build your starting plan and next steps.</span></div>
+        </div>
+
+        <div class="tv-actions">
+          <a class="tv-primary" href="${STRIPE}">Start Online Coaching — $497/month</a>
+          <a class="tv-secondary" href="mailto:2strongtrainers@gmail.com?subject=Coaching%20question">Ask a Question First</a>
+          <a class="tv-secondary" href="${RESULTS}">See Client Results</a>
+        </div>
+        <p class="tv-note">No separate $297 assessment purchase is required to begin the online coaching option.</p>
+      </div>`;
+
+    const footer = document.querySelector("footer");
+    if (footer && footer.parentNode) footer.parentNode.insertBefore(wrap, footer);
+    else document.body.appendChild(wrap);
+  }
+
+  const run=()=>{if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;mount();});};
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run, {once:true});
+  else run();
+  const observer=new MutationObserver(()=>{
+    const path=location.pathname.replace(/\/$/,'')||'/';
+    const existing=document.getElementById(ID);
+    if(['/book-online','/coaching'].includes(path)){if(!existing)run();}else if(existing)run();
+  });
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('popstate',run);
+  window[KEY]={dispose(){observer.disconnect();window.removeEventListener('popstate',run);if(frame!==null)cancelAnimationFrame(frame);}};
+})();
+</script>

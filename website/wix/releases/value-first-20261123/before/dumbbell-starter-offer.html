@@ -1,0 +1,69 @@
+<script>
+(()=>{
+const ID="tv-dumbbell-starter-v21";
+const PRODUCT="https://www.trivalley.fit/product-page/four-week-dumbbell-strength-starter";
+const images=["https://static.wixstatic.com/media/856ae2_cbd5575dd16d481f95d14628e56dae58~mv2.png/v1/fill/w_498,h_645,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/856ae2_cbd5575dd16d481f95d14628e56dae58~mv2.png","https://static.wixstatic.com/media/856ae2_7503c0cd50a64fe3b57d431053ed3dc3~mv2.jpg","https://static.wixstatic.com/media/856ae2_261459a134c24fe694fd685e340ba15d~mv2.jpg"];
+function track(action){
+ window.dataLayer=window.dataLayer||[];
+ window.dataLayer.push({event:"tvf_dumbbell",eventCategory:"Dumbbell Starter",eventAction:action,eventLabel:"v2.2",eventValue:39});
+ window.dispatchEvent(new CustomEvent("tvf_dumbbell",{detail:{action,label:"v2.2",value:39}}));
+}
+function style(root){
+ const s=document.createElement("style");
+ s.textContent=`#${ID}{grid-area:auto;box-sizing:border-box;width:100%;max-width:1120px;margin:24px auto;padding:0 20px;font-family:Arial,Helvetica,sans-serif;position:relative}#${ID} *{box-sizing:border-box}#${ID} .wrap{background:linear-gradient(180deg,#171717,#0d0d0d);color:#fff;border:1px solid #414141;border-radius:18px;padding:32px}#${ID} .eye{font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#e2c476;font-weight:800;margin:0 0 12px}#${ID} .offer-title{font-size:clamp(30px,4vw,48px);line-height:1.12;margin:0 0 14px;color:#fff;max-width:850px}#${ID} h2,#${ID} h3{font-size:21px;margin:0 0 10px;color:#fff}#${ID} p,#${ID} li{color:#e0e0e0;line-height:1.55;font-size:18px}#${ID} .lead{max-width:860px;margin:0 0 16px}#${ID} .price{font-size:36px;font-weight:800;color:#fff;margin-bottom:4px}#${ID} .once,#${ID} .note{font-size:15px;color:#ccc;line-height:1.5}#${ID} .gallery{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin:24px 0}#${ID} .gallery img{width:100%;height:300px;object-fit:contain;object-position:top;border-radius:10px;border:1px solid #414141;background:#111}#${ID} .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}#${ID} .box{background:#1c1c1c;border:1px solid #414141;border-radius:12px;padding:20px}#${ID} ul{margin:0;padding-left:22px}#${ID} .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}#${ID} .step{background:#1c1c1c;border-left:3px solid #d8b45b;padding:16px;font-size:17px;line-height:1.5}#${ID} .step strong{display:block;color:#fff;margin-bottom:6px}#${ID} details{background:#191919;border:1px solid #414141;border-radius:10px;padding:16px;margin:10px 0}#${ID} summary{cursor:pointer;color:#fff;font-weight:700;font-size:18px;line-height:1.45;min-height:28px}#${ID} details p{margin:12px 0 0}#${ID} .actions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 12px}#${ID} a{color:#e2c476}#${ID} .actions a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 20px;border-radius:9px;text-decoration:none;font-weight:800;font-size:18px;line-height:1.25;text-align:center}#${ID} .primary{background:#d8b45b;color:#111}#${ID} .secondary{border:1px solid #999;background:#1d1d1d;color:#fff}#${ID} a:focus-visible,#${ID} summary:focus-visible{outline:3px solid #fff;outline-offset:4px}#${ID} .policy{margin-top:24px;padding-top:22px;border-top:1px solid #555}@media(max-width:760px){#${ID}{margin:12px auto;padding:0 12px}#${ID} .wrap{padding:20px}#${ID} .grid,#${ID} .steps{grid-template-columns:1fr}#${ID} .gallery{grid-template-columns:1fr}#${ID} .gallery img{height:auto;max-height:460px;object-fit:contain}#${ID} .actions a{width:100%}#${ID} .offer-title{font-size:30px}#${ID} .note{font-size:15px}}`;
+ root.appendChild(s);
+}
+function actions(){return `<div class="actions"><a class="primary tv-product" href="${PRODUCT}">Get the Dumbbell Starter — $39</a><a class="secondary" href="/coaching">Explore personal coaching</a></div>`;}
+function sales(){
+ const x=document.createElement("section");x.id=ID;x.setAttribute("aria-label","Four-Week Dumbbell Strength Starter");
+ x.innerHTML=`<div class="wrap"><div class="eye">TriValley.Fit · Four-week strength starter</div><h2 class="offer-title">Your dumbbells. A clear plan. Your next four weeks.</h2><p class="lead">Start strength training at home with two full-body workouts, illustrated exercise guides and a simple plan for what to do next.</p><div class="price">$39</div><div class="once">One-time digital purchase · No subscription</div>${actions()}<p class="note">Secure Wix checkout · Download after confirmed payment · 24-hour refund request window</p><details class="previews"><summary>Preview the workbook and workout cards</summary><div class="gallery">${images.map((u,i)=>`<img data-tv-src="${u}" width="${[498,850,675][i]}" height="${[645,1100,1200][i]}" alt="${["Dumbbell Strength Starter v2.2 workbook cover; illustrated trainer, not a photograph of Nick","Week 1 versus Week 4 progress scorecard preview","Phone-friendly dumbbell workout card preview"][i]}" loading="lazy" decoding="async">`).join("")}</div><p class="note">The cover uses an illustrated trainer, not a photograph of Nick.</p></details><details class="program-details"><summary>See the contents, schedule and access steps</summary><div class="grid"><div class="box"><h2>Your v2.2 package</h2><ul><li>28-page fillable workbook</li><li>12 planned sessions and 8 movement guides</li><li>Phone-friendly workout cards</li><li>Printable and fillable training logs</li><li>Readable HTML companion and START_HERE guide</li><li>Week 1 versus Week 4 progress scorecard</li></ul></div><div class="box"><h2>A plan that fits your week</h2><ul><li>Three sessions per week for four weeks</li><li>Two-day option: complete 12 sessions over six weeks</li><li>20-minute fallback option</li><li>Simple repetition and load progression</li><li>Dumbbell-selection and readiness guidance</li><li>At least one rest day between sessions</li></ul></div></div><h2>From purchase to your first session</h2><div class="steps"><div class="step"><strong>1. Buy once</strong>Review the program and complete Wix checkout.</div><div class="step"><strong>2. Save your files</strong>After confirmed payment, download from your thank-you page or emailed link. The emailed link lasts 30 days.</div><div class="step"><strong>3. Start with START_HERE</strong>Unzip the package, check readiness and equipment, then follow Workout A.</div></div></details>${actions()}<div class="policy"><h2>Questions before buying</h2><details><summary>What equipment do I need?</summary><p>Dumbbells with manageable load options, a stable non-wheeled chair, a nonslip mat, a timer and clear floor space.</p></details><details><summary>Who is this for?</summary><p>Independent adult beginners and returning exercisers who can move safely and control dumbbells. This is general fitness education, not individualized rehabilitation or medical care. If injury, symptoms, surgery, pregnancy/postpartum considerations or a condition affect readiness, get individual guidance before using the plan.</p></details><details><summary>Are videos or personal coaching included?</summary><p>No. You receive illustrated guides, written instructions, workout cards, logs and a readable HTML companion. Exercise videos and individualized coaching are separate.</p></details><details><summary>How does the 24-hour refund policy work?</summary><p>Request a refund within 24 hours of purchase by emailing <a href="mailto:2strongtrainers@gmail.com">2strongtrainers@gmail.com</a> with your order number. Requests received within that window qualify for a refund of the program purchase price to the original payment method. Contact the same address for duplicate charges, incorrect files or access problems. Applicable consumer rights are not limited. Coaching and training services follow their separately stated policies.</p></details><details><summary>What if I cannot open or download the files?</summary><p>Email <a href="mailto:2strongtrainers@gmail.com">2strongtrainers@gmail.com</a> with your order number so we can check your purchase and restore access. Do not send card details or medical records. PDF forms require a compatible reader; save and reopen a test entry. Download and save your package before your emailed link expires.</p></details><p class="note">Digital files for purchaser personal use. No physical shipment. Do not redistribute or resell. Results vary. Stronger Today. Healthier Tomorrow.</p></div></div>`;
+ style(x);x.querySelectorAll(".previews,.program-details").forEach(d=>{d.open=window.matchMedia("(min-width:761px)").matches;});
+ const previews=x.querySelector('.previews');
+ function loadPreviews(){x.querySelectorAll('img[data-tv-src]').forEach(img=>{img.src=img.dataset.tvSrc;img.removeAttribute('data-tv-src');});}
+ if(previews.open)loadPreviews();else previews.addEventListener('toggle',()=>{if(previews.open)loadPreviews();},{once:true});x.querySelectorAll(".tv-product").forEach(a=>a.addEventListener("click",()=>track("Product Page Click")));
+ const impression=new IntersectionObserver((entries,watcher)=>{
+  if(!x.isConnected){watcher.disconnect();return;}
+  if(entries.some(entry=>entry.isIntersecting)){track("Offer View");watcher.disconnect();}
+ });
+ impression.observe(x.querySelector(".offer-title"));return x;
+}
+function accessHelp(){
+ const x=document.createElement("section");x.id=ID;x.setAttribute("aria-label","Digital order access help");
+ x.innerHTML='<div class="wrap"><div class="eye">Order access help</div><h2>Need your Dumbbell Starter files?</h2><p class="lead">This page does not verify payment or provide a download. Email Nick with your order number so your purchase can be checked.</p><div class="actions"><a class="primary" href="mailto:2strongtrainers@gmail.com?subject=Dumbbell%20Starter%20access%20help">Get order access help</a><a class="secondary" href="/">Return to TriValley.fit</a></div><p class="note">Do not include card details or medical records. No payment is taken on this page.</p></div>';
+ style(x);return x;
+}
+function mount(){
+ const path=location.pathname.replace(/\/$/,"")||"/",q=new URLSearchParams(location.search);
+ const isHelp=path==="/coaching"&&q.get("purchase")==="dumbbell-starter-v2-1";
+ const isSales=["/","/home"].includes(path);
+ const key=isHelp?"access-help":isSales?"sales:"+path:"";
+ const native=document.querySelector("#PAGES_CONTAINER > #SITE_PAGES");
+ if(isSales&&!native)return;
+ const old=document.getElementById(ID);
+ function place(x){
+  if(isHelp){if(document.body.firstChild!==x)document.body.insertBefore(x,document.body.firstChild);return;}
+  if(native&&(x.parentNode!==native.parentNode||x.previousElementSibling!==native))native.after(x);
+ }
+ if(old&&old.dataset.tvViewKey===key){place(old);return;}
+ if(old)old.remove();if(!key)return;
+ const x=isHelp?accessHelp():sales();x.dataset.tvViewKey=key;place(x);
+ if(isHelp)x.scrollIntoView({behavior:"smooth",block:"start"});
+}
+const controllerKey="__tvDumbbellStarterV21Controller",previous=window[controllerKey];
+if(previous&&typeof previous.dispose==="function")previous.dispose();
+let frame=null;const run=()=>{if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;mount();});};
+function changed(){
+ const p=location.pathname.replace(/\/$/," ").trim()||"/";
+ const help=p==="/coaching"&&new URLSearchParams(location.search).get("purchase")==="dumbbell-starter-v2-1";
+ const salesPage=["/","/home"].includes(p),old=document.getElementById(ID);
+ if(!help&&!salesPage){if(old)run();return;}
+ const key=help?"access-help":"sales:"+p,native=document.querySelector("#PAGES_CONTAINER > #SITE_PAGES");
+ if(salesPage&&!native)return;
+ if(old&&old.dataset.tvViewKey===key&&(help||(old.parentNode===native.parentNode&&old.previousElementSibling===native)))return;
+ run();
+}
+const observer=new MutationObserver(changed);observer.observe(document.documentElement,{childList:true,subtree:true});window.addEventListener("popstate",run);
+window[controllerKey]={dispose(){observer.disconnect();window.removeEventListener("popstate",run);document.removeEventListener("DOMContentLoaded",run);if(frame!==null)cancelAnimationFrame(frame);frame=null;}};
+run();if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run,{once:true});
+})();
+</script>

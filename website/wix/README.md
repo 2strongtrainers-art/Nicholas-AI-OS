@@ -1,6 +1,6 @@
 # TriValley.fit Wix release and reporting
 
-The two published HTML files match the Classic site's coaching embed (revision 4) and the Dumbbell offer (revision 12) verified November 12, 2026. Both use the existing essential body-start placement. Revision 4 underlines the inline online coaching link. Wix owns page content, bookings, products and checkout.
+The five presentation embeds in this directory were reconciled to fresh Wix native code on November23,2026 for value-first pricing. The release manifest under `releases/value-first-20261123/` records exact IDs, before revisions and rollback hashes. Until native publication and live verification are recorded there, these files are prepared candidates. Wix owns page content, bookings, products and checkout.
 
 Use the matching Wix custom-embed revision when applying a change. Retain the prior content for a rollback. Confirm the published page in a fresh visitor session. Keep paid files, analytics exports, customer records and credentials in the authorized systems.
 

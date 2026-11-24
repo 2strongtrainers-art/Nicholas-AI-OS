@@ -1,0 +1,49 @@
+<script>
+(() => {
+  const KEY='__tvCopyClarifierController';if(window[KEY])window[KEY].dispose();
+  let frame=null;
+  const homeOld = "Start with the $297 Elite Assessment: a full movement screen, weak-link analysis, and your phase-one plan. Then choose the coaching path that fits your life — online, in-person, or hybrid.";
+  const homeNew = "Choose the coaching path that fits your life. Online coaching can be started directly at $497/month. For local, hybrid, and private coaching, start with the $297 Elite Assessment: a full movement screen, weak-link analysis, and your phase-one plan.";
+
+  const coachingHeadingOld = "Assessment-First Coaching Built Around Your Body, Goals, and Schedule";
+  const coachingHeadingNew = "Coaching Built Around Your Body, Goals, and Schedule";
+
+  const coachingOld = "Every client starts with an assessment so the coaching plan can be built around your goals, movement quality, training history, strength level, schedule, and desired level of support.";
+  const coachingNew = "For local, hybrid, and private coaching, the $297 Elite Assessment is the starting point so your plan can be built around your goals, movement quality, training history, strength level, schedule, and desired level of support. Online coaching can be started directly at $497/month without a separate assessment purchase.";
+
+  function replaceText(root,from,to){
+    if(!root)return;
+    root.querySelectorAll('p,h1,h2,h3,h4,h5,h6').forEach(el=>{
+      if(!el.textContent.includes(from))return;
+      const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+      while(walker.nextNode()){const node=walker.currentNode;if(node.nodeValue.includes(from))node.nodeValue=node.nodeValue.replace(from,to);}
+    });
+  }
+
+  function apply() {
+    const path = (location.pathname.replace(/\/$/, "") || "/");
+    if (path === "/" || path === "/home") {
+      replaceText(document.getElementById("PAGES_CONTAINER"), homeOld, homeNew);
+    }
+    if (path === "/coaching") {
+      replaceText(document.getElementById("PAGES_CONTAINER"), coachingHeadingOld, coachingHeadingNew);
+      replaceText(document.getElementById("PAGES_CONTAINER"), coachingOld, coachingNew);
+    }
+    if (path === "/results") {
+      const main=document.getElementById('PAGES_CONTAINER');
+      replaceText(main,'acheive','achieve');replaceText(main,'Acheive','Achieve');replaceText(main,'ACHEIVE','ACHIEVE');
+    }
+  }
+
+  const run=()=>{if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;apply();});};
+  const observer=new MutationObserver(records=>{
+    const path=location.pathname.replace(/\/$/,'')||'/';
+    if(!['/','/home','/coaching','/results'].includes(path))return;
+    if(records.some(r=>!(r.target instanceof Element)||!r.target.closest('#tv-dumbbell-starter-v21,#tv-site-support,#tv-mobile-purchase,#tv-online-coaching-conversion-v1')))run();
+  });
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('popstate',run);
+  window[KEY]={dispose(){observer.disconnect();window.removeEventListener('popstate',run);if(frame!==null)cancelAnimationFrame(frame);}};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+})();
+</script>
