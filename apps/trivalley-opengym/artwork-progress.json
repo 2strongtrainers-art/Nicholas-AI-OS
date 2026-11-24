@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch25-20261123",
-    "status": "CLAIMED",
+    "status": "PARTIAL_GENERATION_CHECKPOINT_NOT_LIVE",
     "exactIds": [
       "1621",
       "1289",
@@ -41,9 +41,35 @@
     "claimedAt": "2026-11-24T00:23:14.064678+00:00",
     "priorCatalogueIllustrated": 663,
     "targetCatalogueIllustrated": 688,
-    "generatedCount": 0,
-    "acceptedCount": 0,
-    "deployedCount": 0
+    "generatedCount": 10,
+    "acceptedCount": 8,
+    "deployedCount": 0,
+    "successfulImageCalls": 9,
+    "recoveredImagesWithoutDeliveredToolResult": 2,
+    "selectedExactIds": [
+      "1621",
+      "1289",
+      "0354",
+      "0355",
+      "0356",
+      "1290",
+      "1665",
+      "1666"
+    ],
+    "rejectedNeedsCorrectionIds": [
+      "1291"
+    ],
+    "pendingReviewIds": [
+      "0358"
+    ],
+    "interruptedUnreconciledRequestIds": [
+      "0359"
+    ],
+    "privateCheckpointFile": "TriValley_Batch25_PARTIAL_CHECKPOINT_2026-11-23.zip",
+    "privateCheckpointLibraryId": "libfile_fde3_f-fadbbfc06d988191b204ff7693cec4e8_05d34ca9816081918921e8c0ed10831c",
+    "checkpointAt": "2026-11-24T00:36:20.615917+00:00",
+    "qualifiedHumanMovementReview": "UNVERIFIED",
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
