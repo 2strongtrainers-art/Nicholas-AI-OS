@@ -128,3 +128,12 @@ test('Batch27 renders four specific coaching fields for all25newIDs without chan
  }
  assert.equal(coachNotesFor({id:'constructor'}),null)
 })
+
+import { CATALOGUE_ART_BATCH28 } from './tv-catalogue-art-batch28.mjs'
+test('Batch28 renders four specific coaching fields for all25newIDs without changing Main16',()=>{
+ assert.equal(ESSENTIAL_IDS.length,16)
+ for(const [id,asset] of Object.entries(CATALOGUE_ART_BATCH28)){
+  const notes=coachNotesFor({id});assert.deepEqual(notes,asset.coaching,id);assert.equal(notes.length,4,id)
+ }
+ assert.equal(coachNotesFor({id:'constructor'}),null)
+})

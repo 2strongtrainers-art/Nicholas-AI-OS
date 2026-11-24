@@ -22,6 +22,7 @@ import { CATALOGUE_ART_BATCH24 } from './tv-catalogue-art-batch24.mjs'
 import { CATALOGUE_ART_BATCH25 } from './tv-catalogue-art-batch25.mjs'
 import { CATALOGUE_ART_BATCH26 } from './tv-catalogue-art-batch26.mjs'
 import { CATALOGUE_ART_BATCH27 } from './tv-catalogue-art-batch27.mjs'
+import { CATALOGUE_ART_BATCH28 } from './tv-catalogue-art-batch28.mjs'
 import { MUSCLE_SPLIT } from './tv-programs.mjs'
 test('Batch 19 exact IDs match catalogue names and preserve prior image records',()=>{
  const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
@@ -45,7 +46,7 @@ test('Batch 19 exact IDs match catalogue names and preserve prior image records'
 })
 test('Every prescribed exercise maps to one distinct two-position asset; other exercises do not inherit a pose',()=>{
   const ids=MUSCLE_SPLIT.days.flatMap(day=>day.exercises.map(ex=>ex[0])).sort()
-  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length+Object.keys(CATALOGUE_ART_BATCH15).length+Object.keys(CATALOGUE_ART_BATCH16).length+Object.keys(CATALOGUE_ART_BATCH17).length+Object.keys(CATALOGUE_ART_BATCH18).length+Object.keys(CATALOGUE_ART_BATCH19).length+Object.keys(CATALOGUE_ART_BATCH20).length+Object.keys(CATALOGUE_ART_BATCH21).length+Object.keys(CATALOGUE_ART_BATCH22).length+Object.keys(CATALOGUE_ART_BATCH23).length+Object.keys(CATALOGUE_ART_BATCH24).length+Object.keys(CATALOGUE_ART_BATCH25).length+Object.keys(CATALOGUE_ART_BATCH26).length+Object.keys(CATALOGUE_ART_BATCH27).length)
+  assert.ok(ids.every(id=>movementReferenceFor(id))); assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).length,63+Object.keys(CATALOGUE_ART_CORE).length+Object.keys(CATALOGUE_ART_BATCH9).length+Object.keys(CATALOGUE_ART_BATCH10).length+Object.keys(CATALOGUE_ART_BATCH11).length+Object.keys(CATALOGUE_ART_BATCH12).length+Object.keys(CATALOGUE_ART_BATCH13).length+Object.keys(CATALOGUE_ART_BATCH14).length+Object.keys(CATALOGUE_ART_BATCH15).length+Object.keys(CATALOGUE_ART_BATCH16).length+Object.keys(CATALOGUE_ART_BATCH17).length+Object.keys(CATALOGUE_ART_BATCH18).length+Object.keys(CATALOGUE_ART_BATCH19).length+Object.keys(CATALOGUE_ART_BATCH20).length+Object.keys(CATALOGUE_ART_BATCH21).length+Object.keys(CATALOGUE_ART_BATCH22).length+Object.keys(CATALOGUE_ART_BATCH23).length+Object.keys(CATALOGUE_ART_BATCH24).length+Object.keys(CATALOGUE_ART_BATCH25).length+Object.keys(CATALOGUE_ART_BATCH26).length+Object.keys(CATALOGUE_ART_BATCH27).length+Object.keys(CATALOGUE_ART_BATCH28).length)
   assert.equal(new Set(ids.map(id=>movementReferenceFor(id).path)).size,16)
   assert.equal(movementReferenceFor({id:'unknown'}),null)
   assert.equal(movementReferenceFor({id:'custom-0313'}),null)
@@ -140,7 +141,7 @@ test('Avatar abs batch uses ten real exact catalogue IDs without replacing the p
   urls.add(art.url);assert.equal(movementFor('custom-'+id),null)
  }
  assert.equal(urls.size,10)
- assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)&&!(id in CATALOGUE_ART_BATCH15)&&!(id in CATALOGUE_ART_BATCH16)&&!(id in CATALOGUE_ART_BATCH17)&&!(id in CATALOGUE_ART_BATCH18)&&!(id in CATALOGUE_ART_BATCH19)&&!(id in CATALOGUE_ART_BATCH20)&&!(id in CATALOGUE_ART_BATCH21)&&!(id in CATALOGUE_ART_BATCH22)&&!(id in CATALOGUE_ART_BATCH23)&&!(id in CATALOGUE_ART_BATCH24)&&!(id in CATALOGUE_ART_BATCH25)&&!(id in CATALOGUE_ART_BATCH26)&&!(id in CATALOGUE_ART_BATCH27)).length,53)
+ assert.equal(Object.keys(MOVEMENT_ILLUSTRATIONS).filter(id=>!expected.includes(id)&&!(id in CATALOGUE_ART_CORE)&&!(id in CATALOGUE_ART_BATCH9)&&!(id in CATALOGUE_ART_BATCH10)&&!(id in CATALOGUE_ART_BATCH11)&&!(id in CATALOGUE_ART_BATCH12)&&!(id in CATALOGUE_ART_BATCH13)&&!(id in CATALOGUE_ART_BATCH14)&&!(id in CATALOGUE_ART_BATCH15)&&!(id in CATALOGUE_ART_BATCH16)&&!(id in CATALOGUE_ART_BATCH17)&&!(id in CATALOGUE_ART_BATCH18)&&!(id in CATALOGUE_ART_BATCH19)&&!(id in CATALOGUE_ART_BATCH20)&&!(id in CATALOGUE_ART_BATCH21)&&!(id in CATALOGUE_ART_BATCH22)&&!(id in CATALOGUE_ART_BATCH23)&&!(id in CATALOGUE_ART_BATCH24)&&!(id in CATALOGUE_ART_BATCH25)&&!(id in CATALOGUE_ART_BATCH26)&&!(id in CATALOGUE_ART_BATCH27)&&!(id in CATALOGUE_ART_BATCH28)).length,53)
  assert.match(movementFor('0276').steps[1],/opposite leg/)
  assert.match(movementFor('0262').steps[1],/both feet remain grounded/)
  assert.match(movementFor('3639').steps[1],/shoulders stay on the mat/)
@@ -429,4 +430,24 @@ test('Batch27 exact catalogue mapping preserves reverse grips, support and alter
  assert.match(CATALOGUE_ART_BATCH27['1737'].coaching[1],/both elbows backward together/)
  assert.match(CATALOGUE_ART_BATCH27['3547'].coaching[1],/reverse that sequence/)
  assert.match(CATALOGUE_ART_BATCH27['0394'].coaching[0],/empty hand/)
+})
+
+test('Batch28 exact catalogue mapping preserves neutral and reverse grips, support and alternating mechanics',()=>{
+ const text=fs.readFileSync(process.env.TV_CATALOGUE_PATH,'utf8')
+ const catalogue=new Map(JSON.parse(text.slice(text.indexOf('[')).trim().replace(/;$/,'')).map(ex=>[ex.id,ex]))
+ assert.equal(Object.keys(CATALOGUE_ART_BATCH28).length,25)
+ assert.equal(new Set(Object.values(CATALOGUE_ART_BATCH28).map(a=>a.url)).size,25)
+ for(const [id,a] of Object.entries(CATALOGUE_ART_BATCH28)){
+  assert.equal(a.name,catalogue.get(id).n);assert.equal(a.equipment,catalogue.get(id).eq)
+  assert.equal(movementFor(id),a);assert.deepEqual([a.width,a.height],[1200,800]);assert.match(a.sha256,/^[0-9a-f]{64}$/)
+  assert.equal(a.coaching.length,4);assert(a.coaching.every(x=>x.length>20));assert(a.review.expression.length>20)
+ }
+ assert.match(CATALOGUE_ART_BATCH28['0397'].coaching[1],/small wrist arc/)
+ assert.match(CATALOGUE_ART_BATCH28['0403'].coaching[1],/overhand grip/)
+ assert.match(CATALOGUE_ART_BATCH28['2188'].coaching[1],/both elbows together/)
+ assert.match(CATALOGUE_ART_BATCH28['3664'].coaching[0],/support palm below the shoulder/)
+ assert.match(CATALOGUE_ART_BATCH28['2805'].coaching[1],/rear toes stay supported/)
+ assert.match(CATALOGUE_ART_BATCH28['0415'].coaching[1],/opposite arm forward/)
+ assert.match(CATALOGUE_ART_BATCH28['1739'].coaching[1],/return it before extending the opposite/)
+
 })

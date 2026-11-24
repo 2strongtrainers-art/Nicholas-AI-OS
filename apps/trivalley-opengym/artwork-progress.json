@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch28-20261124",
-    "status": "CLAIMED_NOT_GENERATED",
+    "status": "GENERATED_REVIEWED_NOT_LIVE",
     "exactIds": [
       "0395",
       "0397",
@@ -41,11 +41,31 @@
     "claimedAt": "2026-11-24T13:15:41.560070+00:00",
     "priorCatalogueIllustrated": 738,
     "targetCatalogueIllustrated": 763,
-    "generatedCount": 0,
-    "acceptedCount": 0,
+    "generatedCount": 25,
+    "acceptedCount": 25,
     "deployedCount": 0,
     "qualifiedHumanMovementReview": "UNVERIFIED",
-    "physicalIPhone": "UNVERIFIED"
+    "physicalIPhone": "UNVERIFIED",
+    "successfulImageCalls": 32,
+    "savedCandidateResults": 32,
+    "recoveredImagesWithoutDeliveredToolResult": 0,
+    "blockedImageRequests": 0,
+    "inputRejectedImageRequests": 0,
+    "interruptedRequestsWithoutResult": 1,
+    "deliveredImagesRecoveredAfterOrchestrationInterruption": 2,
+    "rejectedSupersededCount": 7,
+    "correctedIds": [
+      "0397",
+      "0400",
+      "0415",
+      "1739",
+      "3664"
+    ],
+    "candidateAppVersion": "5.48.0",
+    "mediaReady": 25,
+    "cdnSha256Matched": 25,
+    "reviewedAt": "2026-11-24T13:49:37.251993+00:00",
+    "privateReviewLibraryId": "libfile_fde3_f-e3b8ee7a92b481919aab4d3d7d470e9a_05d34ca9816081918921e8c0ed10831c"
   },
   "entries": [
     {
@@ -6577,65 +6597,89 @@
       "id": "0395",
       "name": "dumbbell seated lateral raise v. 2",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "0d874f7aa850ab7720ec12911d4a1c52299afb70ba8e079c1beb12f4e916abbe",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0397",
       "name": "dumbbell seated neutral wrist curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "900f24999643f330193e5441d51ef89aa24c220caf30af106952c949d7482f9e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1679",
       "name": "dumbbell seated one arm bicep curl on exercise ball with leg raised",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "5e4fe26334dc2896fbda4ba1c753fb717d1921b8fe2679645c0e2e782448f416",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0398",
       "name": "dumbbell seated one arm kickback",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "05dd3f89eb66c8e0e89216ba977dc8024bdb25bec718b72de270ecbc87b62d72",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0399",
       "name": "dumbbell seated one arm rotate",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "4b8a9381b47efe9ae46f723a875577a0339e7a9eb4f5c33215599eebcf571f66",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0400",
       "name": "dumbbell seated one leg calf raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "1d8129c6aebe74ff2714cfebb8e4fa6d046ce3a7d40cac3cbf1f140841b256c4",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1380",
       "name": "dumbbell seated one leg calf raise - hammer grip",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "3c0f0851b9af80d5f9efbfc0a0909b0dbea40ab5398d96d9957e14397d87ba9e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1381",
       "name": "dumbbell seated one leg calf raise - palm up",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "b3c78b51230b509e834eb736f5b76068ad3fe951b053ad442df62a5ff732f670",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0401",
@@ -6652,25 +6696,34 @@
       "id": "0402",
       "name": "dumbbell seated preacher curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "d3fd63dc1acf78484a72ef90e789d0e1e30dcdbfebc9d4750a7395eb0f427e73",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0403",
       "name": "dumbbell seated revers grip concentration curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "c74e9925d9456baaf55ce9349b6c71d7a08910ed4d4051c21ebda6823fbcb602",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1738",
       "name": "dumbbell seated reverse grip one arm overhead tricep extension",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "a620fd04c634585ad6e0d697862f966c612d715a60a3266d0983dbf2dc06bd2e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0405",
@@ -6699,9 +6752,12 @@
       "id": "2188",
       "name": "dumbbell seated triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "457f7aed41dd9477e0cb408ed65df1460389fc82ff8d8799f734ecad4b78a513",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0406",
@@ -6727,49 +6783,67 @@
       "id": "0408",
       "name": "dumbbell side lying one hand raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "a1f9d9fa8a182ad56c3249e19b62f5e8850258d18d69afc09759903f491dc38e",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "3664",
       "name": "dumbbell side plank with rear fly",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "ded7d508205b86e392916e973d7a7d240bd2be80bbbb5f97a403162e9880b329",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "3548",
       "name": "dumbbell single arm overhead carry",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "5c3e636f733cb1d3e7a1e0636da7eed39aabea2f8eb1c1e0fce12121b938bc94",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0409",
       "name": "dumbbell single leg calf raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "8b3450e3536f7a1cb3d7caf5294ffe4824cae0c082877704aae8ce0b73ed8b7d",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1757",
       "name": "dumbbell single leg deadlift",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "1d7a0861d44de400c53276411496024b513e09eccf86ef731dae9b7893eadf1b",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2805",
       "name": "dumbbell single leg deadlift with stepbox support",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "a6413a44f3080c6005191968ab22b19390fcd87e8ea7cfe65346026d37633b9d",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0410",
@@ -6786,9 +6860,12 @@
       "id": "0411",
       "name": "dumbbell single leg squat",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "d933e665fa17e87ddc84054fabb0a2985527d478f06877dae71aa8dbf04127fe",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0413",
@@ -6805,49 +6882,67 @@
       "id": "3560",
       "name": "dumbbell standing alternate hammer curl and press",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "374e9e80d10a7d504b37b72d8afb9c0b1e9f80f5c4e6e9283e48c61439ab7329",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0414",
       "name": "dumbbell standing alternate overhead press",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "1791a1b8cb3b53debf54786513a04b5ff42ffcd7765d39226239f73d6f7a1cc9",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0415",
       "name": "dumbbell standing alternate raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "bce1863ec5338e70275a816353d2b11584f5d07a3f48c99ee947350f16349d37",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1739",
       "name": "dumbbell standing alternating tricep kickback",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "fead82ac08642a5f049ca87c20a78ce1e46c63aa9697dc76fec7dc6c0b155f46",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2143",
       "name": "dumbbell standing around world",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "310152c7e35f85639208216f3c379a6c71d393623232f7e9cce0c4fd09de9dd3",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1740",
       "name": "dumbbell standing bent over one arm triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch28-20261124",
-      "claimOwner": "owner-interactive-15861b558bea-b28"
+      "claimOwner": "owner-interactive-15861b558bea-b28",
+      "assetSha256": "433f778e5ad4bfbd2e4d8f13ffe38dfc7317df3c2482fe5cf6928d0ffd2df2a8",
+      "deployed": false,
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1741",
