@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """First-user audit fixes, applied after all existing original-source patches."""
 from pathlib import Path
-import shutil, sys
+import os, re, shutil, sys
 front=Path(sys.argv[1]).resolve()
 assets=Path(__file__).resolve().parent
 def edit(path, old, new):
@@ -86,7 +86,11 @@ s=p.read_text();import re
 s,n=re.subn(r'<a href="[^"]+" target="_blank" rel="noopener noreferrer"\s+className="tv-upstream-credit">openGym</a>', '<a href="https://donate.stripe.com/bJe3cw6LUfnw8Z1biqf3a02" target="_blank" rel="noopener noreferrer" className="tv-support-link" aria-label="Donate: optional one-time support for Nick’s work, opens Stripe in a new tab">Donate</a>',s)
 if n!=1:raise RuntimeError('Donation anchor mismatch')
 p.write_text(s)
-edit('src/views/Settings.jsx','<a href="https://github.com/DuarteSantos8/openGym" target="_blank" rel="noopener">source code</a>', '<a href="https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/feat/trivalley-opengym-free-20261116/apps/trivalley-opengym" target="_blank" rel="noopener noreferrer">Modified source · AGPL</a> · <a href="https://github.com/alexpcosta/opengym" target="_blank" rel="noopener noreferrer">openGym upstream</a>')
+source_ref = os.environ.get('GITHUB_SHA', 'feat/trivalley-opengym-art-b15-20261122')
+if os.environ.get('GITHUB_SHA') and not re.fullmatch(r'[0-9a-f]{40}', source_ref):
+ raise RuntimeError('Invalid corresponding-source commit')
+source_url = 'https://github.com/2strongtrainers-art/Nicholas-AI-OS/tree/' + source_ref + '/apps/trivalley-opengym'
+edit('src/views/Settings.jsx','<a href="https://github.com/DuarteSantos8/openGym" target="_blank" rel="noopener">source code</a>', '<a href="' + source_url + '" target="_blank" rel="noopener noreferrer">Modified source · AGPL</a> · <a href="https://github.com/alexpcosta/opengym" target="_blank" rel="noopener noreferrer">openGym upstream</a>')
 
 # Persist wall-clock rest deadline, scoped to the active workout. No history/state migration.
 edit('src/store/useUI.js',"import { create }", "import { recoverRest } from '../lib/tv-audit-safety.js'\nimport { create }")

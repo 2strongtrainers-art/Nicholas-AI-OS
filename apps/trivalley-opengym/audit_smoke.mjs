@@ -33,6 +33,8 @@ try{
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('gym_state_v1')).bodyweight.some(b=>b.w===221.5));
  if(!process.env.TV_LIVE_URL)await page.evaluate(()=>{document.querySelector('#qa-hosted-banner')?.remove();document.documentElement.dataset.tvFreeHosted='0'});
  await page.goto(url+'#/settings',{waitUntil:'networkidle0'});
+ const release=await(await fetch(url+'tv-release.json')).json();
+ if(/^[0-9a-f]{40}$/.test(release.sourceCommit))assert(await page.$$eval('a',nodes=>nodes.find(a=>a.textContent.includes('Modified source'))?.href)===release.source,'Modified-source credit does not match the exact runtime commit');
  assert(await page.evaluate(()=>[...document.querySelectorAll('.seg button')].filter(b=>b.textContent==='kg'||b.textContent==='lb').some(b=>b.disabled)),'Saved weight does not lock alternate unit');
  await page.goto(url+'#/plan',{waitUntil:'networkidle0'});await page.waitForSelector('[data-testid="tv-open-setup"]');await page.click('[data-testid="tv-open-setup"]');await page.waitForSelector('#tv-setup-schedule');await page.select('#tv-setup-schedule','none');await clickText('Review my setup');await page.waitForSelector('[data-testid="tv-setup-review"]');await clickText('Confirm program and training days');
  await page.goto(url+'#/home',{waitUntil:'networkidle0'});await page.waitForSelector('[data-testid="tv-program-next-name"]');
@@ -71,10 +73,15 @@ try{
  assert(await page.$$eval('[role="dialog"] [data-testid="tv-coach-notes"] dt',ns=>ns.map(n=>n.textContent).join('|')==='Setup|Do this|Avoid|Make it easier'),'Four coaching sections missing');
  assert(await page.$$eval('[role="dialog"] .steps-list',ns=>ns.length===0),'Old and new instructions are duplicated');
  assert(await page.$eval('.tv-strength-estimate',n=>!n.open),'Example strength estimate should start collapsed');
+ assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Exercise dialog left initial focus behind the overlay');
+ assert(await page.$$eval('[role="dialog"] button',ns=>ns.filter(n=>n.getClientRects().length&&/^Close/.test(n.getAttribute('aria-label')||n.textContent.trim())).length===1),'Exercise dialog has duplicate visible Close controls');
+ for(let i=0;i<14;i++){if(i>=7)await page.keyboard.down('Shift');await page.keyboard.press('Tab');if(i>=7)await page.keyboard.up('Shift');assert(await page.evaluate(()=>!!document.activeElement?.closest('[role="dialog"]')),'Exercise dialog keyboard focus escaped')}
  await page.screenshot({path:shot,fullPage:true});
  await page.addScriptTag({content:fs.readFileSync(new URL('./node_modules/axe-core/axe.min.js',import.meta.url),'utf8')});
  const axe=await page.evaluate(async()=>await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}}));
  assert(!axe.violations.length,'Dialog accessibility: '+JSON.stringify(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
+ await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('[role="dialog"]'));
+ await page.waitForFunction(selector=>document.activeElement===document.querySelector(selector),{timeout:3000},detailSelector);
  assert(!errors.length,errors.join('; '));console.log(JSON.stringify({status:'FIRST_USER_AUDIT_FIXES_PASS',checks:['donation link','blank valid body-weight entry','modal initial focus, Tab, Shift+Tab, Escape, restore','unit lock','named lifting fields','rest deadline after reload','partial history and program day','progress title','typo suggestion','readable detail title','single full instructions','dialog accessibility'],physicalIPhoneAcceptance:'PENDING'}));
 }catch(e){console.error(JSON.stringify({error:e.message,page:page?await page.evaluate(()=>document.body.innerText.slice(0,6000)).catch(()=>null):null}));if(page)await page.screenshot({path:shot,fullPage:true,timeout:10000}).catch(()=>{});throw e}
 finally{if(browser)await browser.close();if(server)await new Promise(r=>server.close(r))}

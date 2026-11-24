@@ -19,22 +19,25 @@ There is **no new paid hosting**, AI inference, account system, third-party work
 ## Rights and safety
 
 - DAREBEE graphics and programs are not used. DAREBEE's license does not authorize redistribution in third-party apps.
-- Third-party exercise photos/GIFs from the upstream exercise dataset are removed. In their place are original, generic positioning visuals. These are *not* exercise-specific technique illustrations.
+- Third-party exercise photos/GIFs from the upstream exercise dataset are removed. Reviewed exact-ID Nick likeness illustrations are mapped only to their matching catalogue movements; remaining entries retain written guidance. Counts and current verified release receipts are in `artwork-progress.json`. Generated illustrations are not recorded demonstrations or qualified human movement approval.
 - Exercise names/instructions/data from the upstream data project have their own licenses and attribution; the upstream NOTICE must be consulted for each added use.
 - The original OpenGym license and copyright notices remain valid. The modification script and the full pinned upstream source together provide reproducible corresponding source.
 - All saved client workouts stay on that browser device. Clearing browser data can erase them; export a JSON backup regularly.
 
 ## Wix deployment target
 
-Reuse existing separate site `d32a63dd-3244-4033-b1ac-7b1bfeab6651` with the connected Wix Headless file uploader once the GitHub build artifact is successfully generated and accepted. Its existing publicly served URL is https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com. Do not change the established website https://www.trivalley.fit/ or its coaching/Stripe flows.
+Reuse only the existing companion site `d32a63dd-3244-4033-b1ac-7b1bfeab6651`. Its served URL is https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com. Preserve the main business website https://www.trivalley.fit/, its $497 checkout and all client data.
 
-## Acceptance gates
+Read the current Wix static publishing instructions before every publication. Use the verified path-preserving `wix.headless.files.patch` route with literal site-relative paths. Do **not** use the legacy uploader that flattens nested files.
 
-- [ ] Workflow successfully clones and builds the pinned actual OpenGym source.
-- [ ] Original OpenGym frontend tests pass.
-- [ ] GitHub artifact ZIP downloaded/handed to Wix.
-- [ ] Wix release replacement confirmed by upload receipt and read-back.
-- [ ] Live TriValley OpenGym UI actually loads/records workouts.
-- [ ] Physical iOS installation and offline workout logging verified.
+1. Require all existing hosted acceptance jobs to pass for the exact source and artifact.
+2. Derive a frontend-only ZIP from that artifact, preserving every included byte. Exclude all seven CURRENT coaching files: `coach-login.html`, `coach-client.html`, `coach-login-client.mjs`, `coach-client.mjs`, `coach-login-wix.mjs`, `coach-offline-queue.mjs`, `coach-offline-backup.mjs`. Never restore them from stale build archives.
+3. Guard the current native revision and release identity. Capture the seven current file hashes, calculate the merged native inventory against the 20 MiB total limit, and recheck the revision immediately before patching.
+4. If cleanup is needed, durably archive and verify rollback bytes against current native files first. Remove only proven obsolete bundle paths that are outside incoming, current and previous bundle families and are not referenced by retained files. Never blindly delete assets.
+5. Verify all saved frontend bytes against the tested artifact and all seven coaching files against their current pre-publication hashes. Then require the existing final live browser acceptance to pass before marking new IDs live.
 
-**Do not call this fully deployed until the Wix deployment receipt and live checks are observed.**
+## Acceptance and audit evidence
+
+Use current `artwork-progress.json`, `tv-release.json`, the exact batch receipt and hosted/live run IDs as the source of truth. A checked box or old README is not current deployment evidence. Keep failed and passing attempts, and preserve the owner's version-guarded private resume history. Append a completed batch to ledger history before claiming the next genuinely queued IDs.
+
+Automated Chromium/WebKit, accessibility, logging, recovery and offline checks are required. Physical iPhone Safari, VoiceOver, Home Screen installation, iOS Files backup/restore and qualified human movement approval remain unverified until separately observed. Automated WebKit does not establish physical iPhone acceptance.

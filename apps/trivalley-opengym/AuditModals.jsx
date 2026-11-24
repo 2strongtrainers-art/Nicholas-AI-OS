@@ -12,7 +12,13 @@ function Sheet({ sheet, top }) {
     const el = ref.current
     const heading = el.querySelector('h3,h2,h1')
     if (heading) { heading.id ||= 'tv-dialog-title-' + sheet.id; el.setAttribute('aria-labelledby', heading.id); el.removeAttribute('aria-label') }
-    const focusFirst = () => (el.querySelector('input:not([disabled]), textarea:not([disabled])') || tabbables(el)[0] || el).focus({preventScroll:true})
+    // Inputs inside collapsed details cannot receive focus. Pick from the same
+    // visible, enabled controls used by the keyboard trap.
+    const focusFirst = () => {
+      const nodes = tabbables(el)
+      const target = nodes.find(n => n.matches('input,textarea')) || nodes[0] || el
+      target.focus({preventScroll:true})
+    }
     focusFirst()
     const onFocus = e => { if (!el.contains(e.target)) focusFirst() }
     const onKey = e => {
