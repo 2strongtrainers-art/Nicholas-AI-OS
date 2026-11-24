@@ -1,0 +1,40 @@
+{
+  "observedAt": "2026-11-24T02:04:35.578263+00:00",
+  "method": "Read-only live cloud Chromium DOM and screenshot review;no form/cart/checkout submission",
+  "urls": [
+    "https://www.trivalley.fit/",
+    "https://www.trivalley.fit/coaching",
+    "https://www.trivalley.fit/product-page/four-week-dumbbell-strength-starter"
+  ],
+  "home": {
+    "heroHasPrice": false,
+    "nativeIntroHasPrice": false,
+    "knowledgeBeforeInvestment": true,
+    "productContentsAndFAQBeforePrice": true,
+    "lateInvestmentCards": 1,
+    "dumbbellOffer": 1,
+    "horizontalOverflow": false,
+    "stripeCheckout": "https://buy.stripe.com/dRm28sfiqb7ggrt4U2f3a00",
+    "programDetailsOpen": true
+  },
+  "coaching": {
+    "introHasPrice": false,
+    "fitAndResultsBeforeInvestment": true,
+    "detailsFontPixels": 18,
+    "ctaFontPixels": 18,
+    "formGapPixels": 52,
+    "formId": "form-7cd5eadd-6db0-4e9f-9200-ab0e38475a88",
+    "inputCount": 5,
+    "consentChecked": false,
+    "horizontalOverflow": false
+  },
+  "nativeProduct": {
+    "price": "$39.00",
+    "addToCartPresent": true,
+    "sampleLinkPresent": true,
+    "cartUntouched": true
+  },
+  "corrections": "Moved coaching detail section initially inherited10px native font;explicit18px correction saved at native revision5 and visibly verified in fresh visitor document. A pre-propagation reload still displayed earlier code; fresh QA-tagged visit confirmed18px.",
+  "physicalIPhone": "UNVERIFIED",
+  "automatedMobileWebKit": "8PASS1CARTSKIP"
+}
