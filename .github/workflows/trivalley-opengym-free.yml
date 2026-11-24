@@ -171,7 +171,7 @@ jobs:
       - name: Checkout pinned coaching portal files for shared Wix hosting
         uses: actions/checkout@v4
         with:
-          ref: a83d8423df112b939b6debac7450eb3b14f15212
+          ref: bbd91673e966eab78f0a5d05b52d4acda7098181
           path: verified-coaching-source
           persist-credentials: false
       - name: Bundle verified coach portals into shared Wix upload artifact
@@ -186,10 +186,10 @@ jobs:
           # Pin the known-good staging pages. Update this list only after M2 tests
           # and exact hosted source readback; do not silently fetch from a mutable branch.
           expected = {
-              'coach-login.html': ('supabase/companion/coach-login.html', '82f4162ae64b8eadee9af9f7898aeeccc45951e9'),
-              'coach-client.html': ('supabase/companion/coach-client.html', '181a92d2b31307c62f9da6d49636004f571d9c7b'),
-              'coach-login-client.mjs': ('supabase/companion/coach-login-client.mjs', '090f08c105cb7c4ddae6ba1e24ed13eadeb666e1'),
-              'coach-client.mjs': ('supabase/companion/coach-client.mjs', '158c579147b0b75716a3347bb55bda32ab32d6a5'),
+              'coach-login.html': ('supabase/companion/coach-login.html', '52bb7a5ba36c67c4c404f37a4697519005e213f7'),
+              'coach-client.html': ('supabase/companion/coach-client.html', 'cbb120060d993a0d8b77833d015474638e7a6c55'),
+              'coach-login-client.mjs': ('supabase/companion/coach-login-client.mjs', '03b2539229964191b0488c0a41f6d3c126b1da06'),
+              'coach-client.mjs': ('supabase/companion/coach-client.mjs', '53a35fd82942ebead35fdafa70307d9981622975'),
               'coach-login-wix.mjs': ('src/wix-login-browser.mjs', '81d62b140434afe1bd5cde740f45e2bd5ab4eab0'),
               'coach-offline-queue.mjs': ('src/offline-queue.mjs', 'abe595c96f88d4bf51123d82e1a7234ac2a0c690'),
               'coach-offline-backup.mjs': ('src/offline-backup.mjs', '638fec4eb7c9c6a59d0dba003fe34f2a61ce53fd'),
