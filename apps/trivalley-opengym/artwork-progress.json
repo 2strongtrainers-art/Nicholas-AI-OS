@@ -7,69 +7,45 @@
   "policy": "Resume queued exact IDs; never replace deployed records without a versioned verified receipt. Styles may alternate across exercises, but each phase pair uses one consistent identity. No actual video or human biomechanics certification implied.",
   "batchSize": 25,
   "currentBatch": {
-    "id": "core-batch27-20261124",
-    "status": "VERIFIED_LIVE",
+    "id": "core-batch28-20261124",
+    "status": "CLAIMED_NOT_GENERATED",
     "exactIds": [
-      "0380",
-      "0379",
-      "0382",
-      "1624",
-      "1330",
-      "1331",
-      "2327",
-      "0384",
-      "1675",
-      "0385",
-      "0386",
-      "2397",
-      "0387",
-      "1676",
-      "0388",
-      "3546",
-      "0389",
-      "2317",
-      "1730",
-      "1737",
-      "1677",
-      "0390",
-      "3547",
-      "0393",
-      "0394"
+      "0395",
+      "0397",
+      "1679",
+      "0398",
+      "0399",
+      "0400",
+      "1380",
+      "1381",
+      "0402",
+      "0403",
+      "1738",
+      "2188",
+      "0408",
+      "3664",
+      "3548",
+      "0409",
+      "1757",
+      "2805",
+      "0411",
+      "3560",
+      "0414",
+      "0415",
+      "1739",
+      "2143",
+      "1740"
     ],
-    "claimOwner": "owner-interactive-15861b558bea-b27",
-    "claimBaseCommit": "2303fb7db0b2aaf342a8342afdd143da98a4acef",
-    "claimedAt": "2026-11-24T12:12:00.589615+00:00",
-    "priorCatalogueIllustrated": 713,
-    "targetCatalogueIllustrated": 738,
-    "generatedCount": 25,
-    "acceptedCount": 25,
-    "deployedCount": 25,
+    "claimOwner": "owner-interactive-15861b558bea-b28",
+    "claimBaseCommit": "2ebabd4dcc2defd96596ff03df57b8c2ce4363e4",
+    "claimedAt": "2026-11-24T13:15:41.560070+00:00",
+    "priorCatalogueIllustrated": 738,
+    "targetCatalogueIllustrated": 763,
+    "generatedCount": 0,
+    "acceptedCount": 0,
+    "deployedCount": 0,
     "qualifiedHumanMovementReview": "UNVERIFIED",
-    "physicalIPhone": "UNVERIFIED",
-    "successfulImageCalls": 27,
-    "savedCandidateResults": 27,
-    "recoveredImagesWithoutDeliveredToolResult": 0,
-    "blockedImageRequests": 0,
-    "inputRejectedImageRequests": 1,
-    "rejectedSupersededCount": 2,
-    "correctedIds": [
-      "1624",
-      "1331"
-    ],
-    "candidateAppVersion": "5.47.0",
-    "mediaReady": 25,
-    "cdnSha256Matched": 25,
-    "reviewedAt": "2026-11-24T12:46:12.083159+00:00",
-    "privateReviewLibraryId": "libfile_fde3_f-29787e2ab77c8191a6d51d7032a372ae_05d34ca9816081918921e8c0ed10831c",
-    "appVersion": "5.47.0",
-    "sourceCommit": "05124885a71f3311f14c8ca14d741eb0aecd97a9",
-    "buildRunId": 45397253001,
-    "liveAcceptanceRunId": 45398898678,
-    "liveAcceptanceAttempt": 1,
-    "liveControlCommit": "34bfffc8d1731fb58ece317ed19d59dbe499d862",
-    "verifiedAt": "2026-11-24T13:03:53.940576+00:00",
-    "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
-    "privateReviewFile": "TriValley_Batch27_PRIVATE_REVIEW_2026-11-24.zip"
+    "physicalIPhone": "UNVERIFIED"
   },
   "entries": [
     {
@@ -6601,49 +6577,65 @@
       "id": "0395",
       "name": "dumbbell seated lateral raise v. 2",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0397",
       "name": "dumbbell seated neutral wrist curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1679",
       "name": "dumbbell seated one arm bicep curl on exercise ball with leg raised",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0398",
       "name": "dumbbell seated one arm kickback",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0399",
       "name": "dumbbell seated one arm rotate",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0400",
       "name": "dumbbell seated one leg calf raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1380",
       "name": "dumbbell seated one leg calf raise - hammer grip",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1381",
       "name": "dumbbell seated one leg calf raise - palm up",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0401",
@@ -6660,19 +6652,25 @@
       "id": "0402",
       "name": "dumbbell seated preacher curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0403",
       "name": "dumbbell seated revers grip concentration curl",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1738",
       "name": "dumbbell seated reverse grip one arm overhead tricep extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0405",
@@ -6701,7 +6699,9 @@
       "id": "2188",
       "name": "dumbbell seated triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0406",
@@ -6727,37 +6727,49 @@
       "id": "0408",
       "name": "dumbbell side lying one hand raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "3664",
       "name": "dumbbell side plank with rear fly",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "3548",
       "name": "dumbbell single arm overhead carry",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0409",
       "name": "dumbbell single leg calf raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1757",
       "name": "dumbbell single leg deadlift",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "2805",
       "name": "dumbbell single leg deadlift with stepbox support",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0410",
@@ -6774,7 +6786,9 @@
       "id": "0411",
       "name": "dumbbell single leg squat",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0413",
@@ -6791,37 +6805,49 @@
       "id": "3560",
       "name": "dumbbell standing alternate hammer curl and press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0414",
       "name": "dumbbell standing alternate overhead press",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "0415",
       "name": "dumbbell standing alternate raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1739",
       "name": "dumbbell standing alternating tricep kickback",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "2143",
       "name": "dumbbell standing around world",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1740",
       "name": "dumbbell standing bent over one arm triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed",
+      "batch": "core-batch28-20261124",
+      "claimOwner": "owner-interactive-15861b558bea-b28"
     },
     {
       "id": "1741",
@@ -12347,6 +12373,71 @@
       "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
       "privateReviewFile": "TriValley_Batch26_PRIVATE_REVIEW_2026-11-23.zip",
       "privateReviewLibraryId": "libfile_fde3_f-a76e01d61c0c8191836bd4c487c16fb4_05d34ca9816081918921e8c0ed10831c"
+    },
+    {
+      "id": "core-batch27-20261124",
+      "status": "VERIFIED_LIVE",
+      "exactIds": [
+        "0380",
+        "0379",
+        "0382",
+        "1624",
+        "1330",
+        "1331",
+        "2327",
+        "0384",
+        "1675",
+        "0385",
+        "0386",
+        "2397",
+        "0387",
+        "1676",
+        "0388",
+        "3546",
+        "0389",
+        "2317",
+        "1730",
+        "1737",
+        "1677",
+        "0390",
+        "3547",
+        "0393",
+        "0394"
+      ],
+      "claimOwner": "owner-interactive-15861b558bea-b27",
+      "claimBaseCommit": "2303fb7db0b2aaf342a8342afdd143da98a4acef",
+      "claimedAt": "2026-11-24T12:12:00.589615+00:00",
+      "priorCatalogueIllustrated": 713,
+      "targetCatalogueIllustrated": 738,
+      "generatedCount": 25,
+      "acceptedCount": 25,
+      "deployedCount": 25,
+      "qualifiedHumanMovementReview": "UNVERIFIED",
+      "physicalIPhone": "UNVERIFIED",
+      "successfulImageCalls": 27,
+      "savedCandidateResults": 27,
+      "recoveredImagesWithoutDeliveredToolResult": 0,
+      "blockedImageRequests": 0,
+      "inputRejectedImageRequests": 1,
+      "rejectedSupersededCount": 2,
+      "correctedIds": [
+        "1624",
+        "1331"
+      ],
+      "candidateAppVersion": "5.47.0",
+      "mediaReady": 25,
+      "cdnSha256Matched": 25,
+      "reviewedAt": "2026-11-24T12:46:12.083159+00:00",
+      "privateReviewLibraryId": "libfile_fde3_f-29787e2ab77c8191a6d51d7032a372ae_05d34ca9816081918921e8c0ed10831c",
+      "appVersion": "5.47.0",
+      "sourceCommit": "05124885a71f3311f14c8ca14d741eb0aecd97a9",
+      "buildRunId": 45397253001,
+      "liveAcceptanceRunId": 45398898678,
+      "liveAcceptanceAttempt": 1,
+      "liveControlCommit": "34bfffc8d1731fb58ece317ed19d59dbe499d862",
+      "verifiedAt": "2026-11-24T13:03:53.940576+00:00",
+      "releaseGate": "HOSTED_BUILD_NATIVE_SAVED_BYTES_AND_LIVE_ACCEPTANCE_PASSED",
+      "privateReviewFile": "TriValley_Batch27_PRIVATE_REVIEW_2026-11-24.zip"
     }
   ],
   "catalogueQueued": 586,
