@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch27-20261124",
-    "status": "CLAIMED_NOT_GENERATED",
+    "status": "GENERATED_REVIEWED_NOT_LIVE",
     "exactIds": [
       "0380",
       "0379",
@@ -41,11 +41,26 @@
     "claimedAt": "2026-11-24T12:12:00.589615+00:00",
     "priorCatalogueIllustrated": 713,
     "targetCatalogueIllustrated": 738,
-    "generatedCount": 0,
-    "acceptedCount": 0,
+    "generatedCount": 25,
+    "acceptedCount": 25,
     "deployedCount": 0,
     "qualifiedHumanMovementReview": "UNVERIFIED",
-    "physicalIPhone": "UNVERIFIED"
+    "physicalIPhone": "UNVERIFIED",
+    "successfulImageCalls": 27,
+    "savedCandidateResults": 27,
+    "recoveredImagesWithoutDeliveredToolResult": 0,
+    "blockedImageRequests": 0,
+    "inputRejectedImageRequests": 1,
+    "rejectedSupersededCount": 2,
+    "correctedIds": [
+      "1624",
+      "1331"
+    ],
+    "candidateAppVersion": "5.47.0",
+    "mediaReady": 25,
+    "cdnSha256Matched": 25,
+    "reviewedAt": "2026-11-24T12:46:12.083159+00:00",
+    "privateReviewLibraryId": "libfile_fde3_f-29787e2ab77c8191a6d51d7032a372ae_05d34ca9816081918921e8c0ed10831c"
   },
   "entries": [
     {
@@ -6187,19 +6202,23 @@
       "id": "0380",
       "name": "dumbbell rear lateral raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "37eb5feee1db9182b81f06f403735313f41f0f123f351d63d0d70aabd14f676a",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0379",
       "name": "dumbbell rear lateral raise (support head)",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "0b154f48899629f951ec230ac90c4384975fc66c62186352415038b79e304c31",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0381",
@@ -6216,19 +6235,23 @@
       "id": "0382",
       "name": "dumbbell revers grip biceps curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "87ca065d9698419e91dd976fad2dd324306f1f2ceb03c3eaaf380347e29be5c6",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1624",
       "name": "dumbbell reverse bench press",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "30f79bbec4a0e587a72f22e994f462928544aa5c04f93174238c0efc7f6a8135",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0383",
@@ -6246,55 +6269,67 @@
       "id": "1330",
       "name": "dumbbell reverse grip incline bench one arm row",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "5ff847a9ffbb57dc9f442f926355dc2d0e2d526ae6f0cf12e6ae72e7131d3b8f",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1331",
       "name": "dumbbell reverse grip incline bench two arm row",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "0c8df856833efab1863284b884463f5764b47e70564f6d21cd473a3bba27da55",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2327",
       "name": "dumbbell reverse grip row (female)",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "62ee1f163e42aeae72077c132208b01b0b6cf3c1b2835c6c7b1eeb60d1df0bc7",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0384",
       "name": "dumbbell reverse preacher curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "7e62bbb133ff1cbfcfbe26dfe0c1bda0418d4aceee0685d1d09d1caea70919f8",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1675",
       "name": "dumbbell reverse spider curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "ee300894236487337052e49ff0cfff3f5addb2539339c4ff716faf4edcfa4e28",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0385",
       "name": "dumbbell reverse wrist curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "0203fbc5fe2c17a5da5d305f7615a30ae727c464c23972400b8245466753cdf1",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1459",
@@ -6312,118 +6347,144 @@
       "id": "0386",
       "name": "dumbbell rotation reverse fly",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "a8a1afd28ddc46ab781afabbaabfc114487d49980771ea33d1d7c827232a1678",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2397",
       "name": "dumbbell scott press",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "200c52b59dedd614bedb2e578f3455b3e470fbbaea51de29cfe095dc18216df9",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0387",
       "name": "dumbbell seated alternate front raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "313c0a4179d0a1869ab19dd535d3949b970eee80bb4484cf7b8dae7492c287b9",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1676",
       "name": "dumbbell seated alternate hammer curl on exercise ball",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "1f9468c063bc1071bd9edf77128b66af728633c6537b1fbe7330f841baed66a0",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0388",
       "name": "dumbbell seated alternate press",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "a49f79133ee950d472bcb2c5aab3445dc00d8082c00b20c8a972ab2f62903097",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "3546",
       "name": "dumbbell seated alternate shoulder",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "ba570b888242fe2a1b14c1930aa24e9378fcf59fa69a7117f592e69280fa2aa8",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0389",
       "name": "dumbbell seated bench extension",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "dd5ef66336a9cf56bc10e958a5c4902521c8404b96882dd49a9ff141b67e0058",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "2317",
       "name": "dumbbell seated bent arm lateral raise",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "07ae3a2f814f96e90f9b6a9d2ce28434db2e0e9f909f500db852f228a8906237",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1730",
       "name": "dumbbell seated bent over alternate kickback",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "b1a551b4159a71e1b3e23caa89e5e89dc5572fadfffc81c31b2040b37520caa2",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1737",
       "name": "dumbbell seated bent over triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "bc6ed894cd88758859de1f0b6b3f0898ae09a627fce21e8c487f43fbd179c0d7",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1677",
       "name": "dumbbell seated bicep curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "c8285ac34d1170fb618c8dfd07eb37314b0a51ceb0c143b6c36817eb5634e2d2",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0390",
       "name": "dumbbell seated biceps curl (on stability ball)",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "77067e0e0b38a5644f7a75eb39e210943f156851cc2c247d4af2eb04301e5857",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "3547",
       "name": "dumbbell seated biceps curl to shoulder press",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "f5a4ca9d7ea7cb89424eae5d9c001b95e80b7c2f6486c012b64c125b4087656e",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "1379",
@@ -6473,19 +6534,23 @@
       "id": "0393",
       "name": "dumbbell seated inner biceps curl",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "cebe02784b2dc7bfc8fb7d01bb3bc859b9e53097642a20c6dfdd5a6b46e83579",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0394",
       "name": "dumbbell seated kickback",
       "equipment": "dumbbell",
-      "status": "claimed",
+      "status": "reviewed",
       "batch": "core-batch27-20261124",
       "claimOwner": "owner-interactive-15861b558bea-b27",
-      "deployed": false
+      "deployed": false,
+      "assetSha256": "eac31877a384a8f3d2cccc3e1efec3f826c40bfc8b6e235548daae65572187bd",
+      "reviewScope": "Operator visual review; qualified human movement and physical iPhone review unverified"
     },
     {
       "id": "0396",

@@ -290,6 +290,19 @@ for ident, asset in batch26_art.items():
         raise SystemExit('Invalid Batch 26 artwork metadata for ' + ident)
 catalogue_art.update(batch26_art)
 
+batch27_art = json.loads(subprocess.run(
+    ['node', '--input-type=module', '-e', "import {CATALOGUE_ART_BATCH27 as x} from './apps/trivalley-opengym/tv-catalogue-art-batch27.mjs'; console.log(JSON.stringify(x))"],
+    check=True, capture_output=True, text=True).stdout)
+if len(batch27_art) != 25 or set(batch27_art) & (set(catalogue_art) | {a['id'] for a in movement_manifest['assets']}):
+    raise SystemExit('Batch 27 artwork must add 25 accepted distinct exercise IDs')
+for ident, asset in batch27_art.items():
+    if (asset['id'] != ident
+            or not re.fullmatch(r'https://static\.wixstatic\.com/media/[A-Za-z0-9_~.-]+\.webp', asset['url'])
+            or not re.fullmatch(r'[0-9a-f]{64}', asset['sha256'])
+            or asset['width'] != 1200 or asset['height'] != 800 or not 0 < asset['bytes'] < 500000):
+        raise SystemExit('Invalid Batch 27 artwork metadata for ' + ident)
+catalogue_art.update(batch27_art)
+
 illustrated_count = len(movement_manifest['assets']) + len(catalogue_art)
 (dist / 'tv-catalogue-art-batch2.json').write_text(json.dumps({'batch':'20261121-reviewed-core-200','assets':list(catalogue_art.values())}, indent=2))
 source_sha = os.environ.get("GITHUB_SHA", "")
@@ -297,7 +310,7 @@ if source_sha and not re.fullmatch(r"[0-9a-f]{40}", source_sha):
     raise SystemExit("Invalid source commit identifier")
 release = {
     "product": "TriValley FIT",
-    "version": "5.46.0",
+    "version": "5.47.0",
     "sourceCommit": source_sha or "local-unversioned",
     "upstreamCommit": "678bf5bf10446e8997a77d43e89c9b2721d8d0fc",
     "mainScript": entry_js[0],
