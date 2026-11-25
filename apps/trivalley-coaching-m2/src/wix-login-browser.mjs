@@ -34,6 +34,51 @@ async function post(fetchImpl,url,body,token) {
     body:JSON.stringify(body),redirect:'error'
   }));
 }
+// Wix requests a fragment response. Accept a single unambiguous query response
+// defensively as well; neither transport changes exact path, state or PKCE checks.
+const CALLBACK_FIELDS=['code','state','error','access_token','refresh_token','id_token'];
+function hasResultFields(params){return CALLBACK_FIELDS.some(key=>params.has(key))}
+function callbackChannels(url){
+  return [new URLSearchParams(url.hash.slice(1)),new URLSearchParams(url.search)];
+}
+export function hasWixCallbackResult(callbackUrl){
+  try{return callbackChannels(new URL(callbackUrl)).some(hasResultFields)}catch{return false}
+}
+function callbackParams(url){
+  const channels=callbackChannels(url).filter(hasResultFields);
+  if(channels.length>1)throw new Error('Ambiguous OAuth callback transport');
+  const params=channels[0]||new URLSearchParams();
+  if(CALLBACK_FIELDS.some(key=>params.getAll(key).length>1)||
+    ['access_token','refresh_token','id_token'].some(key=>params.has(key))||
+    (params.has('error')&&params.has('code')))
+    throw new Error('Ambiguous or unsupported OAuth callback');
+  return params;
+}
+// A redirect can restore a cached Safari page or deliver a hash change instead
+// of executing the entrypoint again. Keep pending state until a new attempt,
+// explicit cancellation, or actual redemption; an empty return is not a result.
+// No token or callback URL is persisted by this observer.
+export function installWixCallbackObserver({target,hasPending,onResult,onIncomplete}){
+  let inFlight=false;
+  async function inspect(){
+    if(inFlight)return false;
+    const href=target.location.href;
+    if(!hasWixCallbackResult(href)){
+      if(hasPending())onIncomplete();
+      return false;
+    }
+    inFlight=true;
+    try{await onResult(href);return true}
+    finally{inFlight=false}
+  }
+  const onReturn=()=>{void inspect()};
+  target.addEventListener('pageshow',onReturn);
+  target.addEventListener('hashchange',onReturn);
+  return {inspect,dispose(){
+    target.removeEventListener('pageshow',onReturn);
+    target.removeEventListener('hashchange',onReturn);
+  }};
+}
 export function createWixMemberLogin({
   fetchImpl=globalThis.fetch,cryptoImpl=globalThis.crypto,
   storage=globalThis.sessionStorage,now=()=>Date.now(),
@@ -68,8 +113,8 @@ export function createWixMemberLogin({
   async function complete(callbackUrl) {
     let url;
     try{url=new URL(callbackUrl)}catch{throw new Error('Invalid OAuth callback URL')}
-    if(url.origin+url.pathname!==redirectUri)throw new Error('OAuth callback origin mismatch');
-    const params=new URLSearchParams(url.hash.replace(/^#/,''));
+    if(url.username||url.password||url.origin+url.pathname!==redirectUri)throw new Error('OAuth callback origin mismatch');
+    const params=callbackParams(url);
     if(params.has('error'))throw new Error('Wix login cancelled or declined');
     const code=params.get('code'),state=params.get('state');
     if(typeof code!=='string'||!code||code.length>4096||!state||state.length>256)
