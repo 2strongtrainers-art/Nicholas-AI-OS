@@ -1,4 +1,4 @@
-import {createWixMemberLogin} from "./coach-login-wix.mjs";
+import {createWixMemberLogin,hasWixCallbackResult,installWixCallbackObserver} from "./coach-login-wix.mjs";
 import {createOfflineWorkoutQueue} from "./coach-offline-queue.mjs";
 import {validateOfflineQueue,mergeOfflineQueues} from "./coach-offline-backup.mjs";
 const CLIENT_ID="d61ad4ca-bfe1-4792-b1d6-099567dd79d0";
@@ -447,28 +447,40 @@ el("deleteMine").addEventListener("click",async()=>{
       ". Contact TriValley.fit for handling and confirmation.";
   }catch{el("privacyStatus").textContent="Deletion request could not be submitted. Contact TriValley.fit directly."}
 });
-window.addEventListener("pageshow",event=>{
-  if(event.persisted&&!location.hash.includes("code=")&&login.hasPending?.()){
-    login.cancel();say("Wix returned without a complete sign-in result. Try signing in again.","error");
-  }
-});
-(async()=>{
-  try{const p=await pilotStatus();if(!p.enrollmentEnabled) say("Pilot infrastructure is active; client enrollment and workout submission are currently locked.");}
-  catch{say("Coaching pilot status is unavailable. No new client data can be submitted.","error")}
-  const params=new URLSearchParams(location.hash.slice(1));
-  if(!params.has("code")&&!params.has("error"))return;
+function reportIncompleteReturn(){
+  el("signInButton").disabled=false;
+  say("Wix returned without a complete sign-in result (WIX_RETURN_MISSING). A later valid return will be checked automatically; otherwise start a fresh sign-in.","error");
+}
+async function handleWixReturn(callbackUrl){
   try{
     say("Verifying Wix member authentication...");
-    const member=await login.complete(location.href);
-    cleanCallback();accessToken=member.accessToken;
+    cleanCallback(); // Remove the return parameters before any network request.
+    const member=await login.complete(callbackUrl);
+    accessToken=member.accessToken;
     try{await refresh()}
     catch(e){
       if(e.status===401||e.status===404)await showInvite();
       else throw e;
     }
   }catch{
-    accessToken=null;cleanCallback();
+    login.cancel();accessToken=null;cleanCallback();
     el("signIn").hidden=false;el("signInButton").disabled=false;
     say("Wix or private coaching verification could not complete. Start a fresh login.","error");
+  }
+}
+const wixReturnObserver=installWixCallbackObserver({
+  target:window,hasPending:login.hasPending,
+  onResult:handleWixReturn,onIncomplete:reportIncompleteReturn
+});
+(async()=>{
+  if(await wixReturnObserver.inspect()||login.hasPending()||accessToken)return;
+  // Do not overwrite an authentication status if the user started signing in
+  // while the anonymous pilot-status request was in flight.
+  const isAnonymous=()=>!accessToken&&!login.hasPending()&&!hasWixCallbackResult(location.href);
+  try{
+    const p=await pilotStatus();
+    if(!p.enrollmentEnabled&&isAnonymous())say("Pilot infrastructure is active; client enrollment and workout submission are currently locked.");
+  }catch{
+    if(isAnonymous())say("Coaching pilot status is unavailable. No new client data can be submitted.","error");
   }
 })();
