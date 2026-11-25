@@ -8,7 +8,7 @@
   "batchSize": 25,
   "currentBatch": {
     "id": "core-batch30-20261124",
-    "status": "CLAIMED_GENERATION_PENDING",
+    "status": "PRIVATE_DRAFT_REVIEW_HOLD",
     "exactIds": [
       "1742",
       "1743",
@@ -40,30 +40,76 @@
     "claimBaseCommit": "80477965b7ba1c1034e44a188f68c507db7188e0",
     "priorCatalogueIllustrated": 788,
     "targetCatalogueIllustrated": 813,
-    "generatedCount": 2,
+    "generatedCount": 25,
     "acceptedCount": 0,
     "deployedCount": 0,
     "successfulImageCalls": 7,
-    "savedCandidateResults": 2,
+    "savedCandidateResults": 25,
     "rejectedWrongMovementCount": 5,
     "sourceGIFsRetrieved": 25,
     "sourceReviewScope": "25 exact GIFs retrieved and visually sampled; source/prose discrepancies and movement holds retained privately. Some transparent frame overlays prevent definitive variant clearance. Qualified movement and physical iPhone unverified.",
     "candidateId": "0437",
     "candidateSha256": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76",
-    "privateReviewFile": "TriValley_Batch30_PRIVATE_PARTIAL_REVIEW_v2_2026-11-24.zip",
-    "privateReviewZipSha256": "5e20bd13489b01c4ceaac97eec83266c72a2949d7428c017e8b0d9fce0e44701",
+    "privateReviewFile": "TriValley_Batch30_PRIVATE_REVIEW_2026-11-24.zip",
+    "privateReviewZipSha256": "eb330ab03e4a243d59afb7f68c7936342521739815b8f24735c31792e92ae89e",
     "ownerLikenessApproval": "PENDING",
     "qualifiedHumanMovementReview": "UNVERIFIED",
     "physicalIPhone": "UNVERIFIED",
-    "nextStep": "Continue the same 25 IDs: 23 still need individual drafts, 0437 and 1742 require exact movement and owner likeness review. Image generator returned two wrong-ID contact sheets with false completion labels; reject whole sheets. Do not publish or count until verified identity, movement, SHA and release gates pass.",
+    "nextStep": "25 private drafts saved. Correct0443fixed-camera side clarity and1334finish alignment; retain qualified exact-variant and owner likeness review holds. Batch31 separately reserved for owner-requested private creation only.",
     "releaseGate": "NO_NEW_ARTWORK_PUBLICATION",
     "candidateIds": [
+      "1742",
+      "1743",
       "0437",
-      "1742"
+      "1765",
+      "0864",
+      "5201",
+      "0438",
+      "0439",
+      "2294",
+      "2189",
+      "1167",
+      "3287",
+      "1772",
+      "0443",
+      "3292",
+      "1332",
+      "1333",
+      "1334",
+      "1335",
+      "1336",
+      "1744",
+      "1559",
+      "1338",
+      "1339",
+      "1341"
     ],
     "candidateSha256s": {
-      "1742": "145c0b2e8ed720ff9c07bd49b81ecc205895fbfe54333893f9c313e86a83f3cf",
-      "0437": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76"
+      "1742": "1a653691a1fedf0bc34f5d1c698330086a0fae30a3f769a93cb3aa0cf2d561f7",
+      "1743": "332482a70f47363434d738520e58167a417659b191d3b31ff49df5e4e47de05a",
+      "0437": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76",
+      "1765": "92821ad4e88da18d8199b3bd8e8cfbbcf3c17de68a507620dc04b0b0115780eb",
+      "0864": "4bc11c967dc7d287d14b94e85bb2cee7b29068fa4708c23634459c0e66296d66",
+      "5201": "2c447d2691b10a70f050e651189995a79c6fca60ec5743fa2227bbb0da937c45",
+      "0438": "f4550b241c7dbdf54a9a2f1a6d1a0c998a83aecbc45db2306e31a990a8643e89",
+      "0439": "be0d24226b21ca0a0c1b3c32484cdd4bdb4d3c099e536053cbcfe8d3371c631c",
+      "2294": "44484fb1acf0f9b5d4bc684bb4335d212c1050a41d265caa6fc2fa6c0c6456b9",
+      "2189": "1f2b9ef5d12c647640f50f4be9e8dff6a5d970d3a9c82b0519b62d8c6f71cf11",
+      "1167": "9373ba334fabfe48ea5bf38d8642d771c665ebbe3b49c5ce62d38ef5c5758d3d",
+      "3287": "fd086a64154e447829dd8243d1f07f7794a48a5a1e1507bf6d5d9a633bd34fa2",
+      "1772": "f040a16c8638d0f771ef1fc30f90f7bc66c0274240e5a811d22aa403cb5b2528",
+      "0443": "26fec960b5c494e6e33b5b599fb54677bf0aa04dfa20285ffae05c9c49e4ec17",
+      "3292": "5142babb363676ecc23bf33bbb150d34b9e80d47d6474d3e1f692e15cf092d4d",
+      "1332": "7e58bde631093c5a53a640e52f5840d51c70f2babe4f39e88f35a4163858349c",
+      "1333": "242d417339e4f4f0db4b8d437b54e5568cbc20dbedeb5a736a4e045e8cc928ae",
+      "1334": "09a3a558ad6ed0551346c4d5429d0d58a4e29ca05d91f2de08b8266eeebe41f9",
+      "1335": "2af66cda9db37349a9fdf871bf881ea7617252fb6b1aef4d0b111489a453ca88",
+      "1336": "72a8c39a28b844eb9fc005b2bb2b25c1ce17bb4e770edce26c081ff42952a983",
+      "1744": "9efeb84bd77c3c00ee8397a89253a12eefb5c08f8fdebe921ff915488c40fa5c",
+      "1559": "d7e8f4908acdc32c55294e3ceac61f0aed9429445d7b1415d80bf9f1ab473644",
+      "1338": "32b6bb239fe5242e67403d6e6ec5d6f96f918a8e3ff16310c2789ca0058c7c72",
+      "1339": "d22a5fe69c17e37e5002341b2524576b884f5c902b59e74857957751d99d3000",
+      "1341": "aaeec2c91c325a744b4dca1e9a8d2cb86ba0887188267200c93fa0538123b80d"
     },
     "previousPrivateReviewFile": "TriValley_Batch30_PRIVATE_PARTIAL_REVIEW_2026-11-24.zip",
     "previousPrivateReviewZipSha256": "b41eb7bc8c6634dbf90ff7d4dfb4d6c50439d8022dc58089762598cc7098fd78",
@@ -83,7 +129,7 @@
     },
     {
       "id": "0002",
-      "name": "45° side bend",
+      "name": "45\u00b0 side bend",
       "equipment": "body weight",
       "status": "reviewed",
       "assetSha256": "99e3bfd56c551a253b50f3e3e2edeb28fa26df07f1dd49390eedf99d7a46030c",
@@ -7326,18 +7372,20 @@
       "releaseAccepted": false,
       "generated": true,
       "candidateSha256": "145c0b2e8ed720ff9c07bd49b81ecc205895fbfe54333893f9c313e86a83f3cf",
-      "reviewScope": "Private exact-ID draft only; verify original source dumbbell count, free-hand position, elbow/wrist alignment and owner likeness before release."
+      "reviewScope": "Private exact-ID draft only; verify original source dumbbell count, free-hand position, elbow/wrist alignment and owner likeness before release.",
+      "assetSha256": "1a653691a1fedf0bc34f5d1c698330086a0fae30a3f769a93cb3aa0cf2d561f7"
     },
     {
       "id": "1743",
       "name": "dumbbell twisting bench press",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "332482a70f47363434d738520e58167a417659b191d3b31ff49df5e4e47de05a"
     },
     {
       "id": "0437",
@@ -7350,399 +7398,497 @@
       "releaseAccepted": false,
       "generated": true,
       "candidateSha256": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76",
-      "reviewScope": "Private exact-ID draft only; owner likeness and wrist/elbow/source alignment review pending."
+      "reviewScope": "Private exact-ID draft only; owner likeness and wrist/elbow/source alignment review pending.",
+      "assetSha256": "f19315e0952eae3cf18a659a0d67782547dea6eb40267ea7a31ce1cbb7b5ea76"
     },
     {
       "id": "1765",
       "name": "dumbbell upright row (back pov)",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "92821ad4e88da18d8199b3bd8e8cfbbcf3c17de68a507620dc04b0b0115780eb"
     },
     {
       "id": "0864",
       "name": "dumbbell upright shoulder external rotation",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "4bc11c967dc7d287d14b94e85bb2cee7b29068fa4708c23634459c0e66296d66"
     },
     {
       "id": "5201",
       "name": "dumbbell waiter biceps curl",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "2c447d2691b10a70f050e651189995a79c6fca60ec5743fa2227bbb0da937c45"
     },
     {
       "id": "0438",
       "name": "dumbbell w-press",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "f4550b241c7dbdf54a9a2f1a6d1a0c998a83aecbc45db2306e31a990a8643e89"
     },
     {
       "id": "0439",
       "name": "dumbbell zottman curl",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "be0d24226b21ca0a0c1b3c32484cdd4bdb4d3c099e536053cbcfe8d3371c631c"
     },
     {
       "id": "2294",
       "name": "dumbbell zottman preacher curl",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "44484fb1acf0f9b5d4bc684bb4335d212c1050a41d265caa6fc2fa6c0c6456b9"
     },
     {
       "id": "2189",
       "name": "dumbbells seated triceps extension",
       "equipment": "dumbbell",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "1f2b9ef5d12c647640f50f4be9e8dff6a5d970d3a9c82b0519b62d8c6f71cf11"
     },
     {
       "id": "1167",
       "name": "dynamic chest stretch (male)",
       "equipment": "body weight",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "9373ba334fabfe48ea5bf38d8642d771c665ebbe3b49c5ce62d38ef5c5758d3d"
     },
     {
       "id": "3287",
       "name": "elbow dips",
       "equipment": "body weight",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "fd086a64154e447829dd8243d1f07f7794a48a5a1e1507bf6d5d9a633bd34fa2"
     },
     {
       "id": "1772",
       "name": "elbow lift - reverse push-up",
       "equipment": "body weight",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "f040a16c8638d0f771ef1fc30f90f7bc66c0274240e5a811d22aa403cb5b2528"
     },
     {
       "id": "0443",
       "name": "elbow-to-knee",
       "equipment": "body weight",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "26fec960b5c494e6e33b5b599fb54677bf0aa04dfa20285ffae05c9c49e4ec17"
     },
     {
       "id": "3292",
       "name": "elevator",
       "equipment": "body weight",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "5142babb363676ecc23bf33bbb150d34b9e80d47d6474d3e1f692e15cf092d4d"
     },
     {
       "id": "1332",
       "name": "exercise ball alternating arm ups",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "7e58bde631093c5a53a640e52f5840d51c70f2babe4f39e88f35a4163858349c"
     },
     {
       "id": "1333",
       "name": "exercise ball back extension with arms extended",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "242d417339e4f4f0db4b8d437b54e5568cbc20dbedeb5a736a4e045e8cc928ae"
     },
     {
       "id": "1334",
       "name": "exercise ball back extension with hands behind head",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "09a3a558ad6ed0551346c4d5429d0d58a4e29ca05d91f2de08b8266eeebe41f9"
     },
     {
       "id": "1335",
       "name": "exercise ball back extension with knees off ground",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "2af66cda9db37349a9fdf871bf881ea7617252fb6b1aef4d0b111489a453ca88"
     },
     {
       "id": "1336",
       "name": "exercise ball back extension with rotation",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "72a8c39a28b844eb9fc005b2bb2b25c1ce17bb4e770edce26c081ff42952a983"
     },
     {
       "id": "1744",
       "name": "exercise ball dip",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "9efeb84bd77c3c00ee8397a89253a12eefb5c08f8fdebe921ff915488c40fa5c"
     },
     {
       "id": "1559",
       "name": "exercise ball hip flexor stretch",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "d7e8f4908acdc32c55294e3ceac61f0aed9429445d7b1415d80bf9f1ab473644"
     },
     {
       "id": "1338",
       "name": "exercise ball hug",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "32b6bb239fe5242e67403d6e6ec5d6f96f918a8e3ff16310c2789ca0058c7c72"
     },
     {
       "id": "1339",
       "name": "exercise ball lat stretch",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "d22a5fe69c17e37e5002341b2524576b884f5c902b59e74857957751d99d3000"
     },
     {
       "id": "1341",
       "name": "exercise ball lower back stretch (pyramid)",
       "equipment": "stability ball",
-      "status": "claimed_generation_pending",
+      "status": "generated_review_pending",
       "batch": "core-batch30-20261124",
       "claimOwner": "owner-chat-batch30-20261124-private-review",
       "deployed": false,
       "releaseAccepted": false,
-      "generated": false
+      "generated": false,
+      "assetSha256": "aaeec2c91c325a744b4dca1e9a8d2cb86ba0887188267200c93fa0538123b80d"
     },
     {
       "id": "1342",
       "name": "exercise ball lying side lat stretch",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1382",
       "name": "exercise ball on the wall calf raise",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "3241",
       "name": "exercise ball on the wall calf raise (tennis ball between ankles)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "3240",
       "name": "exercise ball on the wall calf raise (tennis ball between knees)",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1416",
       "name": "exercise ball one leg prone lower body rotation",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1417",
       "name": "exercise ball one legged diagonal kick hamstring curl",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1296",
       "name": "exercise ball pike push up",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1343",
       "name": "exercise ball prone leg raise",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1560",
       "name": "exercise ball seated hamstring stretch",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1745",
       "name": "exercise ball seated triceps stretch",
       "equipment": "stability ball",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1746",
       "name": "exercise ball supine triceps extension",
       "equipment": "dumbbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1747",
       "name": "ez bar french press on exercise ball",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "3010",
       "name": "ez bar lying bent arms pullover",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1748",
       "name": "ez bar lying close grip triceps extension behind head",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1344",
       "name": "ez bar reverse grip bent over row",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1682",
       "name": "ez bar seated close grip concentration curl",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1749",
       "name": "ez bar standing french press",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0445",
       "name": "ez barbell anti gravity press",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "1627",
       "name": "ez barbell close grip preacher curl",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0446",
       "name": "ez barbell close-grip curl",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0447",
       "name": "ez barbell curl",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0448",
       "name": "ez barbell decline close grip face press",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "2186",
       "name": "ez barbell decline triceps extension",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0449",
       "name": "ez barbell incline triceps extension",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0450",
       "name": "ez barbell jm bench press",
       "equipment": "ez barbell",
-      "status": "queued"
+      "status": "claimed_generation_pending",
+      "batch": "core-batch31-20261124-private",
+      "claimOwner": "owner-chat-next25-20261124-private",
+      "deployed": false
     },
     {
       "id": "0451",
@@ -10131,13 +10277,13 @@
     },
     {
       "id": "0738",
-      "name": "sled 45в° calf press",
+      "name": "sled 45\u0432\u00b0 calf press",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0739",
-      "name": "sled 45в° leg press",
+      "name": "sled 45\u0432\u00b0 leg press",
       "equipment": "sled machine",
       "status": "reviewed",
       "assetPath": "assets/tv-movement-0739-20261119-v2.webp",
@@ -10149,19 +10295,19 @@
     },
     {
       "id": "1464",
-      "name": "sled 45в° leg press (back pov)",
+      "name": "sled 45\u0432\u00b0 leg press (back pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "1463",
-      "name": "sled 45° leg press (side pov)",
+      "name": "sled 45\u00b0 leg press (side pov)",
       "equipment": "sled machine",
       "status": "queued"
     },
     {
       "id": "0740",
-      "name": "sled 45в° leg wide press",
+      "name": "sled 45\u0432\u00b0 leg wide press",
       "equipment": "sled machine",
       "status": "queued"
     },
@@ -11909,7 +12055,7 @@
       "targetCatalogueIllustrated": 438,
       "appVersion": "5.35.0",
       "physicalIPhone": "UNVERIFIED",
-      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200×800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
+      "reviewScope": "Twenty-five final cards passed full-resolution operator review and a 25-card contact-sheet audit. Four first drafts were replaced for clearer Zercher cradle, reverse-grip bench, supported wrist curl and floor-dip depth. All accepted WebPs are 1200\u00d7800 and Wix Media Manager returned READY; qualified biomechanics and physical iPhone review remain unverified.",
       "releaseSourceCommit": "909a29e2bf1135a7f903685a03a3d841f192fb94",
       "buildRunId": 45055305257,
       "liveAcceptanceRunId": 45055305259,
@@ -13018,6 +13164,46 @@
       "coachingFilesPreserved": 7,
       "newArtCount": 0,
       "physicalIPhone": "UNVERIFIED"
+    }
+  ],
+  "pendingPrivateBatches": [
+    {
+      "id": "core-batch31-20261124-private",
+      "exactIds": [
+        "1342",
+        "1382",
+        "3241",
+        "3240",
+        "1416",
+        "1417",
+        "1296",
+        "1343",
+        "1560",
+        "1745",
+        "1746",
+        "1747",
+        "3010",
+        "1748",
+        "1344",
+        "1682",
+        "1749",
+        "0445",
+        "1627",
+        "0446",
+        "0447",
+        "0448",
+        "2186",
+        "0449",
+        "0450"
+      ],
+      "status": "CLAIMED_PRIVATE_GENERATION",
+      "generatedCount": 0,
+      "acceptedCount": 0,
+      "deployedCount": 0,
+      "claimBaseCommit": "1373b3f622333ff3e2b30d08065ab22121b75dd7",
+      "ownerLikenessApproval": "PENDING",
+      "qualifiedHumanMovementReview": "UNVERIFIED",
+      "releaseGate": "NO_NEW_ARTWORK_PUBLICATION"
     }
   ]
 }
