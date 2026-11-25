@@ -1,4 +1,4 @@
-import {createWixMemberLogin} from "./coach-login-wix.mjs";
+import {createWixMemberLogin,installWixCallbackObserver} from "./coach-login-wix.mjs";
 const OAUTH_CLIENT="d61ad4ca-bfe1-4792-b1d6-099567dd79d0";
 const CALLBACK="https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/coach-login.html";
 const API="https://kszzvzysxwetwapbhzgy.supabase.co/functions/v1/trivalley-coaching-api";
@@ -825,34 +825,24 @@ el("endSession").addEventListener("click",()=>{
   el("login").disabled=false;
   status("This page's session ended. Wix may remain signed in on its own website.");
 });
-function hasWixResult() {
-  const params=new URLSearchParams(window.location.hash.slice(1));
-  return params.has("code")||params.has("error")||params.has("state");
-}
 function reportIncompleteReturn() {
-  if(!login.hasPending?.())return;
-  login.cancel();
+  // An empty page restoration is not proof that Wix cancelled the transaction.
+  // Preserve its time-limited PKCE verifier until a real result or fresh login.
   el("login").disabled=false;
-  status("Wix returned without a sign-in result (WIX_RETURN_MISSING). Coaching access is still locked. Tap Continue securely with Wix to try again.","error");
+  status("Wix returned without a sign-in result (WIX_RETURN_MISSING). Coaching access remains locked. A later valid return will be checked automatically; otherwise start a fresh sign-in.","error");
 }
-window.addEventListener("pageshow",event=>{
-  if(event.persisted&&!hasWixResult())reportIncompleteReturn();
-});
-(async()=>{
-  if(!hasWixResult()) {
-    reportIncompleteReturn();
-    return;
-  }
+async function handleWixReturn(callbackUrl){
   status("Checking Wix member and secure coaching permissions...");
   let stage="wix";
   try {
-    const member=await login.complete(window.location.href);
-    cleanup();
+    cleanup(); // Remove the return parameters before any network request.
+    const member=await login.complete(callbackUrl);
     token=member.accessToken;
     status("Wix member verified; checking private owner permissions...");
     stage="api";
     await showCoach();
   } catch(e) {
+    login.cancel();
     token=null;
     cleanup();
     el("login").disabled=false;
@@ -863,4 +853,9 @@ window.addEventListener("pageshow",event=>{
       :"Wix sign-in completed, but the private coaching API rejected it ("+safeApiCode+"). Access remains blocked. Share only this error code for troubleshooting, never a token.";
     status(message,"error");
   }
-})();
+}
+const wixReturnObserver=installWixCallbackObserver({
+  target:window,hasPending:login.hasPending,
+  onResult:handleWixReturn,onIncomplete:reportIncompleteReturn
+});
+void wixReturnObserver.inspect();
