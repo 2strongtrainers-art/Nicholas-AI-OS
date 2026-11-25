@@ -157,6 +157,106 @@ jobs:
             ${{ runner.temp }}/trivalley-browser/navigation.png
           retention-days: 7
           if-no-files-found: ignore
+      - name: Checkout pinned coaching portal files for shared Wix hosting
+        uses: actions/checkout@v4
+        with:
+          ref: 12a5a865f9f23a2dd66523d155f1d2819f6d741a
+          path: verified-coaching-source
+          persist-credentials: false
+      - name: Bundle verified coach portals into shared Wix upload artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+          root = Path('verified-coaching-source/apps/trivalley-coaching-m2')
+          dist = Path('upstream/frontend/dist')
+          # Pin the tested M2 candidate (CI 45677814638). Packaging is NOT
+          # permission to upload; the shared host can still serve the prior source.
+          # The following check rejects unknown or mixed coaching bytes.
+          expected = {
+              'coach-login.html': ('supabase/companion/coach-login.html', '52bb7a5ba36c67c4c404f37a4697519005e213f7'),
+              'coach-client.html': ('supabase/companion/coach-client.html', 'cbb120060d993a0d8b77833d015474638e7a6c55'),
+              'coach-login-client.mjs': ('supabase/companion/coach-login-client.mjs', '197defb11fdc87fb622609c41da438e58e240f8c'),
+              'coach-client.mjs': ('supabase/companion/coach-client.mjs', '9794833fa82334e236a0dea17cb86bc4e9202b4a'),
+              'coach-login-wix.mjs': ('src/wix-login-browser.mjs', '869b8a8741386bb6f2f4d39ff318914b0b89f2fd'),
+              'coach-offline-queue.mjs': ('src/offline-queue.mjs', 'abe595c96f88d4bf51123d82e1a7234ac2a0c690'),
+              'coach-offline-backup.mjs': ('src/offline-backup.mjs', '638fec4eb7c9c6a59d0dba003fe34f2a61ce53fd'),
+          }
+          assert dist.joinpath('index.html').is_file()
+          assert dist.joinpath('tv-release.json').is_file()
+          for public_name, (source, expected_blob) in expected.items():
+              source_path = root / source
+              data = source_path.read_bytes()
+              blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + bytes([0]) + data).hexdigest()
+              assert blob == expected_blob, f'Unexpected coach source blob: {public_name}'
+              assert len(data) > 500, f'Empty coach module: {public_name}'
+              target = dist / public_name
+              if target.exists():
+                  assert target.read_bytes() == data, f'Conflicting guest file: {public_name}'
+              else:
+                  shutil.copyfile(source_path, target)
+              assert target.read_bytes() == data
+          total_bytes = sum(p.stat().st_size for p in dist.rglob('*') if p.is_file())
+          assert total_bytes < 20 * 1024 * 1024, 'Wix static payload exceeds hosting budget'
+          assert len([p for p in expected if (dist/p).is_file()]) == 7
+          print('WIX_SHARED_ARTIFACT_COACH_PORTALS_PASS', len(expected), total_bytes)
+          PY
+      - name: Verify exact shared-host bytes and release candidate state (read-only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, urllib.request
+          from pathlib import Path
+          host = 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+          prior = {
+              'coach-login.html': '52bb7a5ba36c67c4c404f37a4697519005e213f7',
+              'coach-client.html': 'cbb120060d993a0d8b77833d015474638e7a6c55',
+              'coach-login-client.mjs': '03b2539229964191b0488c0a41f6d3c126b1da06',
+              'coach-client.mjs': '53a35fd82942ebead35fdafa70307d9981622975',
+              'coach-login-wix.mjs': '81d62b140434afe1bd5cde740f45e2bd5ab4eab0',
+              'coach-offline-queue.mjs': 'abe595c96f88d4bf51123d82e1a7234ac2a0c690',
+              'coach-offline-backup.mjs': '638fec4eb7c9c6a59d0dba003fe34f2a61ce53fd',
+          }
+          def blob(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + bytes([0]) + data).hexdigest()
+          def read(name):
+              req = urllib.request.Request(host + name, headers={'User-Agent':'TriValley-host-integrity/2', 'Cache-Control':'no-cache'})
+              with urllib.request.urlopen(req, timeout=20) as response:
+                  data = response.read()
+                  assert response.status == 200 and len(data) > 500, 'Missing: ' + name
+                  return data
+          bundled = {name: blob((Path('upstream/frontend/dist') / name).read_bytes()) for name in prior}
+          live = {name: blob(read(name)) for name in prior}
+          assert live == prior or live == bundled, 'STOP-SHIP: unknown or mixed hosted coaching source; no eligible guest upload'
+          manifest = json.loads(read('tv-release.json'))
+          assert manifest.get('product') == 'TriValley FIT'
+          assert manifest.get('storage') == 'browser-local; no client cloud sync'
+          assert manifest.get('backend') == 'disabled'
+          assert manifest.get('version') and manifest.get('sourceCommit')
+          state = 'candidate_matches_host' if live == bundled else 'prior_host_candidate_not_deployed'
+          receipt = {
+              'state': state,
+              'guestVersion': manifest['version'],
+              'guestSourceCommit': manifest['sourceCommit'],
+              'coachCandidateCommit': '12a5a865f9f23a2dd66523d155f1d2819f6d741a',
+              'liveCoachBlobs': live,
+              'bundledCoachBlobs': bundled,
+              'uploadAuthorized': False,
+              'requiredBeforeUpload': 'Exclusive publisher, current live manifest and exact source preflight, additive upload and independent post-readback; owner art and coaching acceptance gates unchanged.',
+          }
+          Path('shared-host-preflight.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print('WIX_SHARED_HOST_EXACT_BYTES_PASS', state, manifest['version'])
+          PY
+      - name: Upload read-only shared-host preflight receipt (not release authorization)
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-shared-host-preflight
+          path: shared-host-preflight.json
+          retention-days: 7
+          if-no-files-found: error
       - name: Upload public-app deployment bundle for Wix
         uses: actions/upload-artifact@v4
         with:
