@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {webcrypto} from 'node:crypto';
-import {createWixMemberLogin} from '../src/wix-login-browser.mjs';
+import {createWixMemberLogin,hasWixCallbackResult,installWixCallbackObserver} from '../src/wix-login-browser.mjs';
 const CLIENT_ID='82db080c-df7a-4995-9e72-d9fe9babd503';
 const CALLBACK='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/index.html';
 const MEMBER='11111111-1111-4111-8111-111111111111';
@@ -116,4 +116,66 @@ test('untrusted login redirect and upstream error clear pending PKCE state',asyn
 });
 test('missing WebCrypto or browser session storage refuses login',()=>{
   assert.throws(()=>createWixMemberLogin({cryptoImpl:{},storage:new Map()}),/prerequisites/);
+});
+
+test('single query callback requires the same exact PKCE state and one-time exchange',async()=>{
+  const {client,calls}=harness();
+  const {expectedState}=await client.begin();
+  const url=CALLBACK+'?code=one-time-code&state='+expectedState;
+  assert.equal(hasWixCallbackResult(url),true);
+  const member=await client.complete(url);
+  assert.equal(member.memberId,MEMBER);
+  await assert.rejects(client.complete(url),/state missing/);
+  assert.equal(calls.filter(x=>x.body?.grantType==='authorization_code').length,1);
+});
+test('mixed callback channels, duplicate parameters and injected tokens cannot redeem',async()=>{
+  for(const build of [
+    state=>CALLBACK+'?state='+state+'#code=one-time-code',
+    state=>CALLBACK+'#code=one-time-code&code=another&state='+state,
+    state=>CALLBACK+'?code=one-time-code&state='+state+'&state='+state,
+    state=>CALLBACK+'#code=one-time-code&state='+state+'&access_token=untrusted',
+    state=>CALLBACK+'#code=one-time-code&state='+state+'&error=denied'
+  ]){
+    const {client,calls}=harness();
+    const {expectedState}=await client.begin();
+    await assert.rejects(client.complete(build(expectedState)),/Ambiguous/);
+    assert.equal(calls.filter(x=>x.body?.grantType==='authorization_code').length,0);
+  }
+});
+test('callback result detection ignores a plain return and unrelated navigation',()=>{
+  assert.equal(hasWixCallbackResult(CALLBACK),false);
+  assert.equal(hasWixCallbackResult(CALLBACK+'#/home'),false);
+  assert.equal(hasWixCallbackResult(CALLBACK+'?view=coach'),false);
+  assert.equal(hasWixCallbackResult(CALLBACK+'#error=access_denied'),true);
+  assert.equal(hasWixCallbackResult(CALLBACK+'?state=returned'),true);
+});
+test('cached page return and late hash change retain pending state and redeem once',async()=>{
+  const {client,calls}=harness();
+  const {expectedState}=await client.begin();
+  const target=new EventTarget();
+  target.location={href:CALLBACK};
+  let incomplete=0,exchanges=0,resolveDone;
+  const done=new Promise(resolve=>{resolveDone=resolve});
+  const observer=installWixCallbackObserver({target,
+    hasPending:client.hasPending,
+    onIncomplete:()=>{incomplete++},
+    onResult:async href=>{
+      exchanges++;
+      target.location.href=CALLBACK;
+      const member=await client.complete(href);
+      resolveDone(member);
+    }});
+  assert.equal(await observer.inspect(),false);
+  assert.equal(incomplete,1);
+  assert.equal(client.hasPending(),true);
+  target.dispatchEvent(new Event('pageshow'));
+  assert.equal(client.hasPending(),true);
+  target.location.href=CALLBACK+'#code=one-time-code&state='+expectedState;
+  target.dispatchEvent(new Event('hashchange'));
+  target.dispatchEvent(new Event('pageshow'));
+  assert.equal((await done).memberId,MEMBER);
+  assert.equal(exchanges,1);
+  assert.equal(client.hasPending(),false);
+  assert.equal(calls.filter(x=>x.body?.grantType==='authorization_code').length,1);
+  observer.dispose();
 });
