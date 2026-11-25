@@ -1,0 +1,20 @@
+name: n8n Cloudflare continuity checks
+on:
+  pull_request:
+    paths:
+      - 'services/n8n-cloudflare-continuity/**'
+      - 'workflows/n8n/global-intel-readonly-handoff.json'
+      - '.github/workflows/n8n-cloudflare-continuity-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test services/n8n-cloudflare-continuity/worker.test.mjs
