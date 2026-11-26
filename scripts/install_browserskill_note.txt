@@ -1,0 +1,1 @@
+BrowserSkill installation is managed by scripts/install_browserskill.sh and the self-hosted macOS workflow.

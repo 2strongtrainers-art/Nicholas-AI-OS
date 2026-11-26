@@ -1,0 +1,41 @@
+name: Install BrowserSkill
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/install-browserskill
+    paths:
+      - scripts/install_browserskill.sh
+      - .github/workflows/install-browserskill.yml
+
+jobs:
+  install:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 20
+    steps:
+      - name: Check out Nicholas-AI-OS
+        uses: actions/checkout@v4
+
+      - name: Verify Nicholas Mac host
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -s)" = "Darwin"
+          mkdir -p "$HOME/.local/bin"
+
+      - name: Install BrowserSkill
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x scripts/install_browserskill.sh
+          ./scripts/install_browserskill.sh
+
+      - name: Verify BrowserSkill
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$PATH"
+          test -x "$HOME/.local/bin/bsk"
+          "$HOME/.local/bin/bsk" --help >/dev/null 2>&1 || true
+          echo "BROWSERSKILL_INSTALL=PASS"
