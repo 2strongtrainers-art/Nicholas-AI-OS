@@ -1,0 +1,10 @@
+{
+  "codec": "h264",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "frames": 240,
+  "duration_seconds": 8,
+  "audio": "none, intentionally silent",
+  "mp4_sha256": "032725c6f8295c54ae1d439e8e5bed5e8675ea05df3671adcffcf8c899a1b53e"
+}
