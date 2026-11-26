@@ -1,0 +1,24 @@
+/* Keep routine clients focused on training; failures remain visible on every route. */
+.tv-client-header{max-width:760px;padding:8px 16px;margin:0 auto 12px;min-height:52px;box-sizing:border-box}
+.tv-client-header .tv-topbar-brand{font-size:12px;letter-spacing:.07em;gap:8px}
+.tv-client-header .tv-topbar-actions{gap:10px}
+.tv-client-header .tv-support-link{font-size:14px;min-height:44px;display:flex;align-items:center;padding:0 8px}
+.tv-client-more{position:relative;font-size:14px}
+.tv-client-more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;padding:0 10px;border:1px solid var(--sep);border-radius:10px;color:var(--label);list-style:none}
+.tv-client-more>summary::-webkit-details-marker{display:none}
+.tv-client-more>summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.tv-client-more-panel{position:absolute;top:50px;right:0;min-width:220px;max-width:calc(100vw - 32px);display:grid;padding:8px;border:1px solid var(--sep);border-radius:12px;background:var(--surface);box-shadow:0 12px 32px #0008;z-index:5000}
+.tv-client-more:not([open])>.tv-client-more-panel{display:none}
+.tv-client-more-panel button,.tv-client-header .tv-client-more-panel a{display:flex;align-items:center;box-sizing:border-box;min-height:46px;padding:10px 12px;margin:0;border:0;border-radius:8px;background:transparent;color:var(--label);font:500 15px/1.4 system-ui;text-align:left;text-decoration:none}
+.tv-client-more-panel button:hover,.tv-client-more-panel a:hover{background:var(--surface-2)}
+.tv-setting-up>.tv-eyebrow{display:none}
+.tv-setting-up>h2{font-size:24px;margin:0 0 10px}
+.tv-setting-up .tv-program-setup-guide{border:0;padding:0;margin:14px 0 20px}
+.tv-setting-up .tv-program-setup-guide h3{font-size:20px;margin:0 0 8px}
+.tv-setting-up .tv-program-setup-guide label{margin:12px 0 6px}
+.tv-unit-options{margin:12px 0}
+.tv-unit-options>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:14px;color:var(--label-2)}
+.tv-setting-up .tv-setup-actions{gap:8px;margin:12px 0}
+.tv-setting-up .tv-setup-actions button{min-height:48px}
+:root[data-tv-free-hosted="1"] #app{padding-bottom:calc(210px + env(safe-area-inset-bottom))}
+@media(max-width:480px){.tv-setting-up{padding:16px}.tv-client-header{padding-inline:12px}.tv-setting-up .tv-program-setup-guide>p{font-size:14px;line-height:1.45}.tv-setting-up .tv-setup-actions{flex-direction:column}}
