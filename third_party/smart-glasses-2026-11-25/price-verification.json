@@ -1,0 +1,137 @@
+{
+  "date_pacific": "2026-11-25",
+  "source": "RayNeo official store guest-cart JSON responses; fresh session per variant",
+  "method": [
+    "POST /cart/add.js (exact variant, quantity 1)",
+    "GET /cart.js",
+    "POST /cart/update.js (discount RAYNEO5)"
+  ],
+  "currency": "USD",
+  "standard_total_cents": 34955,
+  "portable_charging_case_bundle_total_cents": 36660,
+  "tax_and_delivery": "Buyer-specific checkout not verified",
+  "no_purchase": true,
+  "evidence": [
+    {
+      "variant_id": 52531632472351,
+      "before": {
+        "item_count": 1,
+        "original_total_price": 38900,
+        "total_price": 36900,
+        "total_discount": 2000,
+        "discount_codes": [],
+        "cart_level_discount_applications": [],
+        "items": [
+          {
+            "variant_id": 52531632472351,
+            "product_title": "RayNeo iO Smart Glasses",
+            "variant_title": "Polar Night (Grey) / Standard",
+            "quantity": 1,
+            "original_line_price": 38900,
+            "final_line_price": 36900,
+            "discounts": [
+              {
+                "amount": 2000,
+                "title": "Spend $299, Save $20"
+              }
+            ]
+          }
+        ]
+      },
+      "after_RAYNEO5": {
+        "item_count": 1,
+        "original_total_price": 38900,
+        "total_price": 34955,
+        "total_discount": 3945,
+        "discount_codes": [
+          {
+            "code": "RAYNEO5",
+            "applicable": true
+          }
+        ],
+        "cart_level_discount_applications": [],
+        "items": [
+          {
+            "variant_id": 52531632472351,
+            "product_title": "RayNeo iO Smart Glasses",
+            "variant_title": "Polar Night (Grey) / Standard",
+            "quantity": 1,
+            "original_line_price": 38900,
+            "final_line_price": 34955,
+            "discounts": [
+              {
+                "amount": 1945,
+                "title": "RAYNEO5"
+              },
+              {
+                "amount": 2000,
+                "title": "Spend $299, Save $20"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "variant_id": 52843112562975,
+      "before": {
+        "item_count": 1,
+        "original_total_price": 42800,
+        "total_price": 38800,
+        "total_discount": 4000,
+        "discount_codes": [],
+        "cart_level_discount_applications": [],
+        "items": [
+          {
+            "variant_id": 52843112562975,
+            "product_title": "RayNeo iO Smart Glasses",
+            "variant_title": "Polar Night (Grey) / Charging Case Bundle",
+            "quantity": 1,
+            "original_line_price": 42800,
+            "final_line_price": 38800,
+            "discounts": [
+              {
+                "amount": 4000,
+                "title": "Spend $400, Save $40"
+              }
+            ]
+          }
+        ]
+      },
+      "after_RAYNEO5": {
+        "item_count": 1,
+        "original_total_price": 42800,
+        "total_price": 36660,
+        "total_discount": 6140,
+        "discount_codes": [
+          {
+            "code": "RAYNEO5",
+            "applicable": true
+          }
+        ],
+        "cart_level_discount_applications": [],
+        "items": [
+          {
+            "variant_id": 52843112562975,
+            "product_title": "RayNeo iO Smart Glasses",
+            "variant_title": "Polar Night (Grey) / Charging Case Bundle",
+            "quantity": 1,
+            "original_line_price": 42800,
+            "final_line_price": 36660,
+            "discounts": [
+              {
+                "amount": 2140,
+                "title": "RAYNEO5"
+              },
+              {
+                "amount": 4000,
+                "title": "Spend $400, Save $40"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "supersedes": "Contradictory earlier browser-automation coupon conclusions"
+}

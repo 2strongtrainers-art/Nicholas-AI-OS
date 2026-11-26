@@ -1,0 +1,304 @@
+{
+  "research_date_pacific": "2026-11-25",
+  "repositories": [
+    {
+      "repo": "even-realities/evenhub-templates",
+      "kind": "glasses-development-source",
+      "commit": "8cb01354f5ee914c5fab97d06e6d13b28eeb5815",
+      "license": "MIT",
+      "url": "https://github.com/even-realities/evenhub-templates",
+      "upstream_skill_paths": [],
+      "archive_members": 52,
+      "status": "source-acquired",
+      "bytes": 18532,
+      "sha256": "5759c97b0d385bb48194200d9a412c88e5d642a2a67a98716b951d746524e97f",
+      "runtime_status": "not-installed",
+      "archive": "sources/even-realities--evenhub-templates-8cb01354f5ee.tar.gz",
+      "archive_url": "https://codeload.github.com/even-realities/evenhub-templates/tar.gz/8cb01354f5ee914c5fab97d06e6d13b28eeb5815",
+      "license_files": [
+        "evenhub-templates-8cb01354f5ee914c5fab97d06e6d13b28eeb5815/LICENSE"
+      ]
+    },
+    {
+      "repo": "even-realities/everything-evenhub",
+      "kind": "glasses-development-source",
+      "commit": "cb8321fbe2a11d5aaf08fa12088cbe9b9fc5bac2",
+      "license": "MIT",
+      "url": "https://github.com/even-realities/everything-evenhub",
+      "upstream_skill_paths": [
+        "harness/SKILL.md",
+        "plugins/everything-evenhub/skills/background-state/SKILL.md",
+        "plugins/everything-evenhub/skills/build-and-deploy/SKILL.md",
+        "plugins/everything-evenhub/skills/cli-reference/SKILL.md",
+        "plugins/everything-evenhub/skills/design-guidelines/SKILL.md",
+        "plugins/everything-evenhub/skills/device-features/SKILL.md",
+        "plugins/everything-evenhub/skills/font-measurement/SKILL.md",
+        "plugins/everything-evenhub/skills/glasses-ui/SKILL.md",
+        "plugins/everything-evenhub/skills/handle-input/SKILL.md",
+        "plugins/everything-evenhub/skills/quickstart/SKILL.md",
+        "plugins/everything-evenhub/skills/sdk-reference/SKILL.md",
+        "plugins/everything-evenhub/skills/simulator-automation/SKILL.md",
+        "plugins/everything-evenhub/skills/template/SKILL.md",
+        "plugins/everything-evenhub/skills/test-with-simulator/SKILL.md"
+      ],
+      "archive_members": 79,
+      "status": "source-acquired",
+      "bytes": 76165,
+      "sha256": "3fb673a0820649ccee35be690ea236e75c44cb21ce0223509add5fe6b888c85c",
+      "runtime_status": "not-installed",
+      "archive": "sources/even-realities--everything-evenhub-cb8321fbe2a1.tar.gz",
+      "archive_url": "https://codeload.github.com/even-realities/everything-evenhub/tar.gz/cb8321fbe2a11d5aaf08fa12088cbe9b9fc5bac2",
+      "license_files": [
+        "everything-evenhub-cb8321fbe2a11d5aaf08fa12088cbe9b9fc5bac2/LICENSE"
+      ]
+    },
+    {
+      "repo": "even-realities/enterprise_sdk",
+      "kind": "glasses-development-source",
+      "commit": "278aa6c893f17ac58a4d3987bd8f5311a6988144",
+      "license": "Apache-2.0",
+      "url": "https://github.com/even-realities/enterprise_sdk",
+      "upstream_skill_paths": [],
+      "archive_members": 318,
+      "status": "source-acquired",
+      "bytes": 6786081,
+      "sha256": "f670d7c31b45b1304248f2910ed4a1b4d1289d94fe972a74d24cb94662d03883",
+      "runtime_status": "not-installed",
+      "archive": "sources/even-realities--enterprise_sdk-278aa6c893f1.tar.gz",
+      "archive_url": "https://codeload.github.com/even-realities/enterprise_sdk/tar.gz/278aa6c893f17ac58a4d3987bd8f5311a6988144",
+      "license_files": [
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/LICENSE",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/native/licenses/ANDROID_THIRD_PARTY_NOTICES.md",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/native/licenses/IOS_THIRD_PARTY_NOTICES.md",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/native/licenses/flutter_ezw_ble_LICENSE",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/native/licenses/flutter_ezw_utils_LICENSE",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/native/licenses/liblc3_LICENSE",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/third_party/flutter_ezw_lc3/LICENSE",
+        "enterprise_sdk-278aa6c893f17ac58a4d3987bd8f5311a6988144/third_party/flutter_ezw_utils/LICENSE"
+      ]
+    },
+    {
+      "repo": "Mentra-Community/Mentra-Bluetooth-SDK-Starter-Kit",
+      "kind": "glasses-development-source",
+      "commit": "75696dcafd372eff5cbed281bfd995db4dbc77ae",
+      "license": "Apache-2.0",
+      "url": "https://github.com/Mentra-Community/Mentra-Bluetooth-SDK-Starter-Kit",
+      "upstream_skill_paths": [],
+      "archive_members": 364,
+      "status": "source-acquired",
+      "bytes": 12303272,
+      "sha256": "7f99164657380a100e8896f5301ca30a29488aa3a93e600bea92cb320c0b386e",
+      "runtime_status": "not-installed",
+      "archive": "sources/Mentra-Community--Mentra-Bluetooth-SDK-Starter-Kit-75696dcafd37.tar.gz",
+      "archive_url": "https://codeload.github.com/Mentra-Community/Mentra-Bluetooth-SDK-Starter-Kit/tar.gz/75696dcafd372eff5cbed281bfd995db4dbc77ae",
+      "license_files": [
+        "Mentra-Bluetooth-SDK-Starter-Kit-75696dcafd372eff5cbed281bfd995db4dbc77ae/LICENSE"
+      ]
+    },
+    {
+      "repo": "FJiangArthur/Even-G2-Intelligence",
+      "kind": "glasses-development-source",
+      "commit": "ce596e4551bd9adbee3a4cde4ee7f0a6c4a77ba6",
+      "license": "MIT",
+      "url": "https://github.com/FJiangArthur/Even-G2-Intelligence",
+      "upstream_skill_paths": [],
+      "archive_members": 306,
+      "status": "source-acquired",
+      "bytes": 1768318,
+      "sha256": "25afb38b4f162dab746b676783fe0a8bada295d1858c5625338e157327a978b8",
+      "runtime_status": "not-installed",
+      "archive": "sources/FJiangArthur--Even-G2-Intelligence-ce596e4551bd.tar.gz",
+      "archive_url": "https://codeload.github.com/FJiangArthur/Even-G2-Intelligence/tar.gz/ce596e4551bd9adbee3a4cde4ee7f0a6c4a77ba6",
+      "license_files": [
+        "Even-G2-Intelligence-ce596e4551bd9adbee3a4cde4ee7f0a6c4a77ba6/LICENSE",
+        "Even-G2-Intelligence-ce596e4551bd9adbee3a4cde4ee7f0a6c4a77ba6/apps/g2-plugin/public/g1/licenses/OFL-Fraunces.txt",
+        "Even-G2-Intelligence-ce596e4551bd9adbee3a4cde4ee7f0a6c4a77ba6/apps/g2-plugin/public/g1/licenses/OFL-Inter.txt"
+      ]
+    },
+    {
+      "repo": "tntpsu/even-voice-shim",
+      "kind": "glasses-development-source",
+      "commit": "fae35aa49a6c6873c776ed6e1f9562715742434a",
+      "license": "MIT",
+      "url": "https://github.com/tntpsu/even-voice-shim",
+      "upstream_skill_paths": [],
+      "archive_members": 26,
+      "status": "source-acquired",
+      "bytes": 24824,
+      "sha256": "b170708f6dd9b47af5cc649f018393eea0a81243bddd4c2902e9d9f615999729",
+      "runtime_status": "not-installed",
+      "archive": "sources/tntpsu--even-voice-shim-fae35aa49a6c.tar.gz",
+      "archive_url": "https://codeload.github.com/tntpsu/even-voice-shim/tar.gz/fae35aa49a6c6873c776ed6e1f9562715742434a",
+      "license_files": [
+        "even-voice-shim-fae35aa49a6c6873c776ed6e1f9562715742434a/LICENSE"
+      ]
+    },
+    {
+      "repo": "r4stl1n/even-realities-app-template",
+      "kind": "glasses-development-source",
+      "commit": "e65600e94c5bedd42d8c51a0329b36d51572c334",
+      "license": "MIT",
+      "url": "https://github.com/r4stl1n/even-realities-app-template",
+      "upstream_skill_paths": [],
+      "archive_members": 102,
+      "status": "source-acquired",
+      "bytes": 285095,
+      "sha256": "0b7def3f76a4760bac364953783bb2545723b0f0766ed2ec364695fb723675ff",
+      "runtime_status": "not-installed",
+      "archive": "sources/r4stl1n--even-realities-app-template-e65600e94c5b.tar.gz",
+      "archive_url": "https://codeload.github.com/r4stl1n/even-realities-app-template/tar.gz/e65600e94c5bedd42d8c51a0329b36d51572c334",
+      "license_files": [
+        "even-realities-app-template-e65600e94c5bedd42d8c51a0329b36d51572c334/LICENSE.md"
+      ]
+    },
+    {
+      "repo": "Klayertan/rokid-lyrics-ios",
+      "kind": "glasses-development-source",
+      "commit": "ceb15b57bbc7e90f52273650c37b6f59bb69348e",
+      "license": "MIT",
+      "url": "https://github.com/Klayertan/rokid-lyrics-ios",
+      "upstream_skill_paths": [],
+      "archive_members": 150,
+      "status": "source-acquired",
+      "bytes": 1099111,
+      "sha256": "38198776be236ae4e4f56e6c013169b2856d97d2a5d4461390dc14a94fbc8929",
+      "runtime_status": "not-installed",
+      "archive": "sources/Klayertan--rokid-lyrics-ios-ceb15b57bbc7.tar.gz",
+      "archive_url": "https://codeload.github.com/Klayertan/rokid-lyrics-ios/tar.gz/ceb15b57bbc7e90f52273650c37b6f59bb69348e",
+      "license_files": [
+        "rokid-lyrics-ios-ceb15b57bbc7e90f52273650c37b6f59bb69348e/LICENSE"
+      ]
+    },
+    {
+      "repo": "brilliantlabsAR/brilliant_sdk",
+      "kind": "glasses-development-source",
+      "commit": "9d17e96ce1b0f1d33d270315a3816d2e8cd0523b",
+      "license": "BSD-3-Clause",
+      "url": "https://github.com/brilliantlabsAR/brilliant_sdk",
+      "upstream_skill_paths": [
+        ".claude/skills/glasses-app/SKILL.md",
+        ".claude/skills/release/SKILL.md"
+      ],
+      "archive_members": 2937,
+      "status": "source-acquired",
+      "bytes": 51288827,
+      "sha256": "94ea3302f0e0bc19186790c55451fbd8069f85e54be905620da95032ad03f49d",
+      "runtime_status": "not-installed",
+      "archive": "sources/brilliantlabsAR--brilliant_sdk-9d17e96ce1b0.tar.gz",
+      "archive_url": "https://codeload.github.com/brilliantlabsAR/brilliant_sdk/tar.gz/9d17e96ce1b0f1d33d270315a3816d2e8cd0523b",
+      "license_files": [
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/brilliant_ble/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/brilliant_msg/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/brilliant_sdk/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/ancs_notifications/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/audio_clip/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/audio_clip_lc3/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/audio_clip_pcm/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/audio_duplex_sprites/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/ble_throughput/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/camera/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/classification_mobilenet/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/image_gen_pollinations/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/imu_compass/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/realtime_openai/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/sound_effect_player/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/sprite_anim/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/sprite_viewer/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/teleprompter/LICENSE.md",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/flutter/packages/simple_brilliant_app/example/vision_api/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/python/packages/brilliant_ble/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/python/packages/brilliant_msg/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/python/packages/brilliant_sdk/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/webbluetooth/packages/brilliant-ble/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/webbluetooth/packages/brilliant-msg/LICENSE",
+        "brilliant_sdk-9d17e96ce1b0f1d33d270315a3816d2e8cd0523b/webbluetooth/packages/brilliant-sdk/LICENSE"
+      ]
+    },
+    {
+      "repo": "meta/meta-wearables-webapp",
+      "kind": "glasses-development-source",
+      "commit": "1fd6a9f52fbda20ce065f47b7144f019807abc00",
+      "license": "NOASSERTION",
+      "url": "https://github.com/meta/meta-wearables-webapp",
+      "upstream_skill_paths": [
+        "plugins/meta-wearables-webapp-game/skills/add-webapp-game-logging/SKILL.md",
+        "plugins/meta-wearables-webapp-game/skills/create-webapp-game/SKILL.md",
+        "plugins/meta-wearables-webapp-game/skills/iterate-webapp-game/SKILL.md",
+        "plugins/meta-wearables-webapp-game/skills/read-webapp-game-docs/SKILL.md",
+        "plugins/meta-wearables-webapp-game/skills/update-webapp-game-framework/SKILL.md",
+        "plugins/meta-wearables-webapp-game/skills/validate-webapp-game/SKILL.md",
+        "plugins/meta-wearables-webapp-game/skills/webapp-game-director/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-build/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-device/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-optimize-performance/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-publish/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-test/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-ui/SKILL.md",
+        "plugins/meta-wearables-webapp/skills/ai-glasses-webapp-webmcp/SKILL.md"
+      ],
+      "archive_members": 324,
+      "status": "source-acquired",
+      "bytes": 711110,
+      "sha256": "54ff9fcf0095846ab4e3bc172ddad766acbe92c92800631a2aff535a9a73ffdd",
+      "runtime_status": "not-installed",
+      "archive": "sources/meta--meta-wearables-webapp-1fd6a9f52fbd.tar.gz",
+      "archive_url": "https://codeload.github.com/meta/meta-wearables-webapp/tar.gz/1fd6a9f52fbda20ce065f47b7144f019807abc00",
+      "license_files": [
+        "meta-wearables-webapp-1fd6a9f52fbda20ce065f47b7144f019807abc00/LICENSE",
+        "meta-wearables-webapp-1fd6a9f52fbda20ce065f47b7144f019807abc00/plugins/meta-wearables-webapp/skills/ai-glasses-webapp-optimize-performance/LICENSE",
+        "meta-wearables-webapp-1fd6a9f52fbda20ce065f47b7144f019807abc00/plugins/meta-wearables-webapp/skills/ai-glasses-webapp-publish/scripts/vendor/ui-toolkit/LICENSE",
+        "meta-wearables-webapp-1fd6a9f52fbda20ce065f47b7144f019807abc00/plugins/meta-wearables-webapp/skills/ai-glasses-webapp-test/scripts/vendor/ui-toolkit/LICENSE",
+        "meta-wearables-webapp-1fd6a9f52fbda20ce065f47b7144f019807abc00/plugins/meta-wearables-webapp/skills/ai-glasses-webapp-ui/scripts/vendor/ui-toolkit/LICENSE"
+      ],
+      "reviewed_license": "BSD-3-Clause text; GitHub metadata NOASSERTION"
+    },
+    {
+      "repo": "hkust-spark/xg-glass-sdk",
+      "kind": "glasses-development-source",
+      "commit": "c697e7faadde27762c9aa3954f6ed7e65961c28f",
+      "license": "Apache-2.0",
+      "url": "https://github.com/hkust-spark/xg-glass-sdk",
+      "upstream_skill_paths": [],
+      "archive_members": 655,
+      "status": "source-acquired",
+      "bytes": 529840,
+      "sha256": "35a456c0e39fbc3171c78fa83c502b745e8025d59424033755f6e8ece07c2b61",
+      "runtime_status": "not-installed",
+      "archive": "sources/hkust-spark--xg-glass-sdk-c697e7faadde.tar.gz",
+      "archive_url": "https://codeload.github.com/hkust-spark/xg-glass-sdk/tar.gz/c697e7faadde27762c9aa3954f6ed7e65961c28f",
+      "license_files": [
+        "xg-glass-sdk-c697e7faadde27762c9aa3954f6ed7e65961c28f/LICENSE"
+      ]
+    },
+    {
+      "repo": "Tobi1chi/OpenRayneo",
+      "kind": "optional-mac-android-source",
+      "commit": "ca836b93b7691c06e5399b924e2748fc196fab46",
+      "license": "Apache-2.0",
+      "url": "https://github.com/Tobi1chi/OpenRayneo",
+      "upstream_skill_paths": [
+        ".agents/skills/openrayneo-api/SKILL.md"
+      ],
+      "archive_members": 439,
+      "status": "source-acquired",
+      "bytes": 10191326,
+      "sha256": "1eb870146daf6e0d99ab875714cb1ef0493306e5c3f70185d96c080b6b220931",
+      "runtime_status": "not-installed",
+      "archive": "sources/Tobi1chi--OpenRayneo-ca836b93b769.tar.gz",
+      "archive_url": "https://codeload.github.com/Tobi1chi/OpenRayneo/tar.gz/ca836b93b7691c06e5399b924e2748fc196fab46",
+      "license_files": [
+        "OpenRayneo-ca836b93b7691c06e5399b924e2748fc196fab46/LICENSE",
+        "OpenRayneo-ca836b93b7691c06e5399b924e2748fc196fab46/ThirdParty/RobotoCondensed/LICENSE",
+        "OpenRayneo-ca836b93b7691c06e5399b924e2748fc196fab46/ThirdParty/SherpaOnnx/LICENSE",
+        "OpenRayneo-ca836b93b7691c06e5399b924e2748fc196fab46/ThirdParty/SourceHanSans/LICENSE.txt",
+        "OpenRayneo-ca836b93b7691c06e5399b924e2748fc196fab46/ThirdParty/WhisperKit/LICENSE",
+        "OpenRayneo-ca836b93b7691c06e5399b924e2748fc196fab46/integrations/dsh-go/LICENSE"
+      ]
+    }
+  ],
+  "activation": "none",
+  "hardware_acceptance": "not-tested"
+}
