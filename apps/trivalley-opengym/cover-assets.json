@@ -1,0 +1,31 @@
+{
+  "kind": "Revised exact-exercise illustrations reused as decorative program covers",
+  "date": "2026-11-19",
+  "notMovementInstructions": true,
+  "assets": [
+    {
+      "key": "back-biceps",
+      "path": "assets/tv-movement-2330-20261119-v2.webp",
+      "width": 1200,
+      "height": 800,
+      "sha256": "f4487d4f35d0b1807a15e700572cb4ff7840c5ba9de812cf27b6cd02b669b028",
+      "bytes": 109404
+    },
+    {
+      "key": "chest-triceps",
+      "path": "assets/tv-movement-0314-20261119-v2.webp",
+      "width": 1200,
+      "height": 800,
+      "sha256": "383cc927679f762b9d311f1b9b42b5b0c512ade4fb8af6742d4a679c522fa860",
+      "bytes": 138724
+    },
+    {
+      "key": "legs",
+      "path": "assets/tv-movement-1459-20261119-v2.webp",
+      "width": 1200,
+      "height": 800,
+      "sha256": "287a20df652307b79fa355d2aff25a4f0fb0b03584ec8753717db2ab818fe295",
+      "bytes": 107220
+    }
+  ]
+}

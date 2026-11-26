@@ -1,0 +1,44 @@
+.tv-movement-reference {margin:14px 0;border:1px solid var(--sep);border-radius:12px;overflow:hidden}
+.tv-movement-reference > summary {padding:12px;min-height:44px;cursor:pointer;color:var(--acc);font-size:14px;line-height:1.5}
+.tv-movement-figure {margin:0;width:100%;overflow:hidden;border-radius:10px;background:var(--surface)}
+.tv-movement-figure > img {display:block;width:100%;height:auto;max-height:none;object-fit:contain;aspect-ratio:3/2}
+.tv-movement-phases {display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--sep);background:var(--surface-2)}
+.tv-movement-phases span {padding:10px 8px;color:var(--label);font-size:12px;line-height:1.4;text-align:center;overflow-wrap:anywhere}
+.tv-movement-phases span + span {border-left:1px solid var(--sep)}
+.tv-movement-figure figcaption {display:grid;gap:8px;padding:12px;color:var(--label-2);font-size:11px;line-height:1.5}
+.tv-movement-brand {display:flex;gap:7px;align-items:center;color:var(--acc);font-size:10px;font-weight:700;letter-spacing:.05em}
+.tv-movement-brand img {flex:0 0 22px;object-fit:contain}
+.tv-movement-figure a {display:inline-flex;align-items:center;min-height:44px;color:var(--acc);width:fit-content}
+.tv-movement-media {display:block!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important}
+.tv-movement-media .tv-ex-info {padding:14px}
+.tv-thumb-photo {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.tv-thumb {position:relative}
+.tv-movement-reference summary:focus-visible,.tv-movement-figure a:focus-visible {outline:3px solid var(--acc);outline-offset:-3px}
+.tv-movement-figure .sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.tv-exercise-detail-heading {display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tv-exercise-detail-heading h3 {min-width:0}
+.tv-exercise-detail-heading .btn {flex-shrink:0;min-height:44px}
+.tv-poster-number {flex:0 0 2.25ch;white-space:nowrap}
+
+
+/* Visible Start/Finish reference on a workout preview and during logging.
+   Native aspect ratios preserve each reviewed pair, including Wix atlas crops. */
+.tv-movement-poster{margin:12px 0 15px;border:1px solid rgba(193,157,99,.4);
+  border-radius:15px;box-shadow:0 3px 15px rgba(0,0,0,.09)}
+.tv-movement-poster-heading{display:flex;justify-content:space-between;flex-wrap:wrap;
+  gap:4px 12px;padding:10px 12px;color:var(--label);background:var(--surface-2)}
+.tv-movement-poster-heading strong{font-size:10px;line-height:1.45;
+  font-weight:800;letter-spacing:.08em;color:var(--acc)}
+.tv-movement-poster-heading span{font-size:11px;line-height:1.45}
+.tv-movement-phases strong{display:block;color:var(--acc);font-size:10px;
+  font-weight:800;letter-spacing:.1em;margin:0 0 3px}
+.tv-movement-poster .tv-movement-phases span{font-size:12px;padding:11px 8px}
+.tv-movement-poster figcaption{gap:4px;padding:9px 11px;font-size:10px}
+.tv-movement-poster figcaption .tv-movement-brand{font-size:9px;letter-spacing:.04em}
+.tv-movement-poster img{object-fit:contain}
+@media(max-width:390px){
+  .tv-movement-poster{margin:10px 0 12px}
+  .tv-movement-poster-heading{padding:9px 10px}
+  .tv-movement-poster .tv-movement-phases span{padding:9px 6px;font-size:11px;line-height:1.45}
+  .tv-movement-poster figcaption{padding:9px}
+}

@@ -1,0 +1,30 @@
+.tv-ready-programs {margin:8px 0 20px!important;border:1px solid var(--acc-line)}
+.tv-ready-programs h2 {font-size:25px;line-height:1.2;margin:9px 0 12px;letter-spacing:-.02em}
+.tv-ready-programs p {line-height:1.6;margin:11px 0}
+.tv-program-preview {border-top:1px solid var(--sep);border-bottom:1px solid var(--sep);margin:17px 0}
+.tv-program-preview summary {cursor:pointer;color:var(--acc);padding:13px 0;min-height:44px;font-size:15px;line-height:1.5}
+.tv-program-day {padding:13px 0;border-top:1px solid var(--sep)}
+.tv-program-day h3 {font-size:18px;margin:3px 0 12px;color:var(--label)}
+.tv-program-day ol {padding-left:21px;margin:0}
+.tv-program-day li {padding:7px 0;line-height:1.5;font-size:14px}
+.tv-program-day li span {display:block;color:var(--label-2);font-size:13px}
+.tv-program-schedule {display:grid;gap:9px;font-size:14px;font-weight:600;margin:17px 0 8px}
+.tv-program-schedule select {max-width:100%;width:100%;min-height:48px;padding:11px;border:1px solid var(--sep);border-radius:10px;background:var(--surface-2);color:var(--label);font:inherit;font-size:14px}
+.tv-ready-programs > .btn {width:100%;min-height:50px;white-space:normal}
+.tv-ready-programs button:disabled {opacity:.65;cursor:default}
+.tv-program-launchers {margin-top:18px;border-top:1px solid var(--sep)}
+.tv-program-launcher {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:13px;padding:14px 0;border-bottom:1px solid var(--sep)}
+.tv-program-launcher strong {font-size:15px;line-height:1.5}
+.tv-program-launcher > span > span {display:block;margin-top:4px}
+.tv-program-launcher > div {display:flex;gap:8px}
+.tv-program-launcher .btn {min-height:44px;min-width:62px}
+.tv-program-launcher > div {flex-wrap:wrap}
+.tv-current-session,.tv-empty-session-help {padding:16px;margin:14px 0;border:1px solid var(--acc-line);border-radius:14px;background:var(--acc-soft);line-height:1.6}
+.tv-current-session p,.tv-empty-session-help p {font-size:14px;margin:8px 0 12px}
+.tv-current-session .btn,.tv-empty-session-help .btn {white-space:normal;min-height:48px}
+.tv-current-session .tv-text-action {display:block;margin-top:8px}
+.tv-program-detail {margin-top:14px}
+.tv-program-receipt {padding:10px 12px;border-left:2px solid var(--acc);background:var(--acc-soft)}
+.tv-load-note {font-size:13px;line-height:1.6;color:var(--label-2);background:var(--surface-2);border-radius:10px;padding:12px;margin:10px 0}
+.tv-workout-prep {margin-bottom:14px}.tv-workout-prep p {line-height:1.6;font-size:13px}
+.tv-workout-prep summary {min-height:44px;padding:10px 0;cursor:pointer;line-height:1.5}
