@@ -1,0 +1,97 @@
+{
+  "version": "draft-2026-11-17",
+  "status": "NOT_ENROLLING_REVIEW_REQUIRED",
+  "scope": "Public-safe class themes. Private coach lessons and guardian records are excluded.",
+  "tracks": [
+    {
+      "id": "explorers",
+      "age": "6–8",
+      "class_minutes": 45
+    },
+    {
+      "id": "builders",
+      "age": "9–10",
+      "class_minutes": 55
+    },
+    {
+      "id": "connectors",
+      "age": "11–12",
+      "class_minutes": 60
+    }
+  ],
+  "weeks": [
+    {
+      "week": 1,
+      "theme": "Start, stop & safe space",
+      "session_a": "Freeze / traffic lights; chase without collisions",
+      "session_b": "Partners pass “stop” signal; decelerate under control"
+    },
+    {
+      "week": 2,
+      "theme": "Landing & hopping",
+      "session_a": "Quiet two-foot jump; balance sticks",
+      "session_b": "Land from line hops; optional single-leg shape"
+    },
+    {
+      "week": 3,
+      "theme": "Throwing & catching",
+      "session_a": "Foam ball underhand release; rainbow catches",
+      "session_b": "Partner catch variations, different trajectories"
+    },
+    {
+      "week": 4,
+      "theme": "Balance & rotation",
+      "session_a": "Paths, quarter-turns, crawling patterns",
+      "session_b": "Balance then transfer object safely"
+    },
+    {
+      "week": 5,
+      "theme": "Acceleration & posture",
+      "session_a": "Start positions and 5–10 m run-to-space",
+      "session_b": "Speed up then brake; safe tagging game"
+    },
+    {
+      "week": 6,
+      "theme": "Lateral steps & turns",
+      "session_a": "Mirror walk, shuffle, cones with walk-through",
+      "session_b": "Side step → plant → turn with braking"
+    },
+    {
+      "week": 7,
+      "theme": "Push, pull & carry",
+      "session_a": "Wall push, rope-pull imitation, small object carry",
+      "session_b": "Hands and trunk control, partner carry relay"
+    },
+    {
+      "week": 8,
+      "theme": "Rhythm & repeated hops",
+      "session_a": "Clap/step/skip rhythm; low bounces",
+      "session_b": "Alternate feet and choose dance or rope pattern"
+    },
+    {
+      "week": 9,
+      "theme": "Reaction & decisions",
+      "session_a": "Color/number response with choice",
+      "session_b": "Safe open-space decision games"
+    },
+    {
+      "week": 10,
+      "theme": "Teamwork & invasion games",
+      "session_a": "Pass/share/receive and fairness roles",
+      "session_b": "Small-sided non-contact games, multiple scoring paths"
+    },
+    {
+      "week": 11,
+      "theme": "Multi-sport combination",
+      "session_a": "Throw → move → catch; kick → stop → pass",
+      "session_b": "Co-design safe obstacle/game sequence"
+    },
+    {
+      "week": 12,
+      "theme": "Celebration & self-reflection",
+      "session_a": "Repeat personal observation task, record wins",
+      "session_b": "Child chooses favorite challenge and next goal"
+    }
+  ],
+  "source": "Owner-private TriValley Academy Field Manual v1.0, November 17, 2026"
+}
