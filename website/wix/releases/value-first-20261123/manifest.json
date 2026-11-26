@@ -1,0 +1,70 @@
+{
+  "status": "VERIFIED_LIVE",
+  "siteId": "9e6343d9-5a1c-45e2-8596-f73408e38402",
+  "baseMain": "7b6afb6bf03a6184c630e28254e27a3f24cc0905",
+  "changes": [
+    {
+      "id": "0df50191-baee-47d2-9372-4e4a63dcf6d5",
+      "expectedRevision": "5",
+      "beforeSha256": "65b014bb5b6e585249c309da71701fbdbdd808d43157601fd560524f3be9bacc",
+      "afterSha256": "d5dd9e6dc7a70642320065a39c1aa986c225f9854f58af17ba9f44384572a8a2",
+      "name": "TriValley coaching homepage and guide samples",
+      "sourcePath": "website/wix/coaching-homepage-and-samples.html",
+      "rollbackPath": "website/wix/releases/value-first-20261123/before/coaching-homepage-and-samples.html",
+      "publishedRevision": "6"
+    },
+    {
+      "id": "7aefc6ce-3b41-4e1e-a7bb-f5bcf557588a",
+      "expectedRevision": "8",
+      "beforeSha256": "26260b23097543bda3668a29f6875efdc82e59e348c800b72c63cd6c80042121",
+      "afterSha256": "ffb3bec1a30dd220973a5763c8ed7d1b771b7186e7b4143461b7c91a1daef8d8",
+      "name": "TriValley mobile and desktop experience repairs - Nov 9 2026",
+      "sourcePath": "website/wix/mobile-desktop-repairs.html",
+      "rollbackPath": "website/wix/releases/value-first-20261123/before/mobile-desktop-repairs.html",
+      "publishedRevision": "9"
+    },
+    {
+      "id": "f04e1f21-29c9-4e80-89ba-62a1a2cc5c46",
+      "expectedRevision": "12",
+      "beforeSha256": "a68beb458cb9a48daf0a12193a8edd73dbd7ff523314ac98d02f44ad6523113a",
+      "afterSha256": "dae988ca809591f703f2e6a70942f237361dae6a9ad591b1e04f731b56a98d09",
+      "name": "TriValley Dumbbell Starter v2.2 - accessible live offer",
+      "sourcePath": "website/wix/dumbbell-starter-offer.html",
+      "rollbackPath": "website/wix/releases/value-first-20261123/before/dumbbell-starter-offer.html",
+      "publishedRevision": "13"
+    },
+    {
+      "id": "5aaf5f24-e0de-4a50-9fa7-51b413f160c0",
+      "expectedRevision": "2",
+      "beforeSha256": "b8e3f2bfa96ae980408fdf0b7772254f5897c1720b9d6c6364ae27e6540bc651",
+      "afterSha256": "ff37c9579448b70e50fdc70506e19d5770e81ccb604bf26fb58f523491a361a3",
+      "name": "TriValley Coaching Copy Clarifier v1",
+      "sourcePath": "website/wix/coaching-copy-clarifier.html",
+      "rollbackPath": "website/wix/releases/value-first-20261123/before/coaching-copy-clarifier.html",
+      "publishedRevision": "3"
+    },
+    {
+      "id": "d21edbfb-4713-4008-990f-2240fc9151bf",
+      "expectedRevision": "3",
+      "beforeSha256": "76bcfedbf5c0a5427ffd72acae74a678da27184cda684f80e7fa50fa2f32e61f",
+      "afterSha256": "3ff4bf0a9c015e10a7812cca9bdd68e1fb51cb843d677c218815a100113b9875",
+      "name": "TriValley Online Coaching Conversion v1",
+      "sourcePath": "website/wix/online-coaching-conversion.html",
+      "rollbackPath": "website/wix/releases/value-first-20261123/before/online-coaching-conversion.html",
+      "publishedRevision": "5"
+    }
+  ],
+  "validation": "Five scripts syntaxPASS;all5nativeHTMLmatch;6unrelatedembedsunchanged;read-only public DOM/screenshot reviewPASS. Hostedall3jobsPASSattempt1:WebKit8pass1cartskip;Chromium7pass1resolvedflaky1cartskip;contract9Node+16PythonPASS.",
+  "preserved": "Amounts497/month,297assessment,39one-time;Stripecheckout/nativeproduct/form/consent/appguide/otherembeds unchanged.",
+  "sourceCommit": "ba1673502b2a25fa6637ecc3802e22c68c7b9425",
+  "allFiveNativeHtmlMatched": true,
+  "unrelatedEmbedsPreserved": 6,
+  "preservedCheckoutUrl": "https://buy.stripe.com/dRm28sfiqb7ggrt4U2f3a00",
+  "lastCorrection": "Inherited10pxcoachingdetailfont correctedtoexplicit18pxandverifiedfreshvisitor.",
+  "verifiedAt": "2026-11-24T02:07:16.148224+00:00",
+  "qaRunId": 45309646160,
+  "qaAttempt": 1,
+  "qaControlCommit": "2759944001ab42481378c6530bc237a807474dff",
+  "qaUrl": "https://github.com/2strongtrainers-art/Nicholas-AI-OS/actions/runs/45309646160",
+  "limitations": "PhysicaliPhoneUNVERIFIED. Chromium homepage new-text lookup timedoutfirst;existingtestretry passed without changingassertions or runtime. No form/cart/paymentactions performed."
+}

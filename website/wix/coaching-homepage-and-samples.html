@@ -185,10 +185,10 @@
         <h1 id="tv-coaching-hero-title">Personal training in the Tri-Valley. <span>Online coaching.</span></h1>
         <p class="coach-lead">Build strength with a plan that fits your goals and schedule. Train one-on-one in San Ramon or work with Nick online.</p>
         <div class="coach-actions">
-          <a class="coach-action primary" href="/service-page/start-here-elite-assessment">Start with an Assessment</a>
+          <a class="coach-action primary" href="/coaching">Apply for Local Coaching</a>
           <a class="coach-action" href="/fitness-guides">Shop Fitness Guides</a>
         </div>
-        <p class="coach-options">The local assessment is 60 minutes and costs $297. <a href="/coaching">Explore online coaching</a> for direct enrollment.</p>
+        <p class="coach-options">Learn how I approach training, nutrition and a plan built around you. <a href="/results">See client results</a>, then <a href="/coaching">explore your coaching options</a>.</p>
       </div>
       <figure>
         <img src="${photoSize(720, 1125)}"
@@ -211,6 +211,18 @@
     if (!existing) native.before(createHero());
     const detailsTitle = native.querySelector("#WRchTxt4 h2");
     if (detailsTitle?.textContent.trim() === titleBefore) detailsTitle.textContent = "How coaching works";
+
+    // Scope to the one existing homepage assessment button, preserving its structure.
+    const lowerCta = native.querySelector('#comp-mvy9vzvu a[data-testid="linkElement"]');
+    const lowerLabel = lowerCta?.querySelector('span');
+    if (lowerCta && lowerLabel && lowerCta.textContent.trim() === "Start with the Assessment"
+      && lowerCta.getAttribute("aria-label") === "Start with the Assessment"
+      && (lowerCta.getAttribute("href") === "https://www.trivalley.fit/book-online"
+        || lowerCta.getAttribute("href") === "/book-online")) {
+      lowerCta.setAttribute("href", "/coaching");
+      lowerCta.setAttribute("aria-label", "Apply for Coaching");
+      lowerLabel.textContent = "Apply for Coaching";
+    }
   }
 
   function updateSample(spec) {

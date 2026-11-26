@@ -1,0 +1,75 @@
+{
+  "initial": {
+    "ok": true,
+    "siteId": "9e6343d9-5a1c-45e2-8596-f73408e38402",
+    "sourceCommit": "b39a7f4e5407aefbf713cf6118931119148b813b",
+    "outcomes": [
+      {
+        "id": "0df50191-baee-47d2-9372-4e4a63dcf6d5",
+        "status": 200
+      },
+      {
+        "id": "7aefc6ce-3b41-4e1e-a7bb-f5bcf557588a",
+        "status": 200
+      },
+      {
+        "id": "f04e1f21-29c9-4e80-89ba-62a1a2cc5c46",
+        "status": 200
+      },
+      {
+        "id": "5aaf5f24-e0de-4a50-9fa7-51b413f160c0",
+        "status": 200
+      },
+      {
+        "id": "d21edbfb-4713-4008-990f-2240fc9151bf",
+        "status": 200
+      }
+    ],
+    "checks": [
+      {
+        "id": "0df50191-baee-47d2-9372-4e4a63dcf6d5",
+        "revision": "6",
+        "htmlMatches": true,
+        "categoryUnchanged": true,
+        "metadataUnchanged": true
+      },
+      {
+        "id": "7aefc6ce-3b41-4e1e-a7bb-f5bcf557588a",
+        "revision": "9",
+        "htmlMatches": true,
+        "categoryUnchanged": true,
+        "metadataUnchanged": true
+      },
+      {
+        "id": "f04e1f21-29c9-4e80-89ba-62a1a2cc5c46",
+        "revision": "13",
+        "htmlMatches": true,
+        "categoryUnchanged": true,
+        "metadataUnchanged": true
+      },
+      {
+        "id": "5aaf5f24-e0de-4a50-9fa7-51b413f160c0",
+        "revision": "3",
+        "htmlMatches": true,
+        "categoryUnchanged": true,
+        "metadataUnchanged": true
+      },
+      {
+        "id": "d21edbfb-4713-4008-990f-2240fc9151bf",
+        "revision": "4",
+        "htmlMatches": true,
+        "categoryUnchanged": true,
+        "metadataUnchanged": true
+      }
+    ],
+    "nativeInventory": 11,
+    "untouchedEmbeds": 6,
+    "unrelatedUnchanged": true
+  },
+  "fontCorrection": {
+    "ok": true,
+    "sourceCommit": "ba1673502b2a25fa6637ecc3802e22c68c7b9425",
+    "revision": "5",
+    "unrelatedUnchanged": true
+  }
+}

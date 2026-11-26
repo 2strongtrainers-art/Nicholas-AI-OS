@@ -1,0 +1,83 @@
+<script>
+(() => {
+  const KEY='__tvCopyClarifierController';if(window[KEY])window[KEY].dispose();
+  let frame=null;
+  const homeOld = "Start with the $297 Elite Assessment: a full movement screen, weak-link analysis, and your phase-one plan. Then choose the coaching path that fits your life — online, in-person, or hybrid.";
+  const homeNew = "Your goals and movement guide your training. Explore my approach to training and nutrition below, then choose the coaching path that fits your life.";
+
+  const coachingHeadingOld = "Assessment-First Coaching Built Around Your Body, Goals, and Schedule";
+  const coachingHeadingNew = "Coaching Built Around Your Body, Goals, and Schedule";
+
+  const coachingOld = "Every client starts with an assessment so the coaching plan can be built around your goals, movement quality, training history, strength level, schedule, and desired level of support.";
+  const coachingNew = "Your goals, movement quality, training history, schedule and desired level of support shape your coaching plan. Explore the approach and what is included before choosing your next step.";
+
+  function replaceText(root,from,to){
+    if(!root)return;
+    root.querySelectorAll('p,h1,h2,h3,h4,h5,h6').forEach(el=>{
+      if(!el.textContent.includes(from))return;
+      const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+      while(walker.nextNode()){const node=walker.currentNode;if(node.nodeValue.includes(from))node.nodeValue=node.nodeValue.replace(from,to);}
+    });
+  }
+
+
+  const investmentId = "tv-home-investment";
+  function syncHomeInvestment(onHome) {
+    const old = document.getElementById(investmentId);
+    if (!onHome) { if (old) old.remove(); return; }
+    const copy = document.getElementById("WRchTxt9");
+    const paragraph = copy && copy.querySelector("p");
+    if (paragraph && copy.dataset.tvValueFirstCopy !== "1") {
+      paragraph.textContent = homeNew;
+      copy.dataset.tvValueFirstCopy = "1";
+    }
+    const link = document.querySelector('#StBttn0 a');
+    if (link && link.getAttribute("href") !== "/coaching") {
+      link.setAttribute("href", "/coaching");
+      link.setAttribute("aria-label", "Explore online coaching");
+      const label = link.querySelector("span");
+      if (label) label.textContent = "Explore Coaching";
+    }
+    const offer = document.getElementById("tv-dumbbell-starter-v21");
+    if (!offer || !offer.querySelector(".offer-title")) return;
+    let section = old;
+    if (!section) {
+      section = document.createElement("section");
+      section.id = investmentId;
+      section.setAttribute("aria-labelledby", "tv-home-investment-title");
+      section.innerHTML = `<style>
+        #tv-home-investment{box-sizing:border-box;grid-area:auto;width:min(1120px,calc(100% - 40px));margin:28px auto 40px;padding:32px;border:1px solid #665135;border-radius:18px;background:#121314;color:#f8f5ee;font:18px/1.55 Arial,Helvetica,sans-serif}
+        #tv-home-investment *{box-sizing:border-box}#tv-home-investment h2{font-size:clamp(28px,4vw,40px);line-height:1.15;margin:0 0 16px;color:#fff}#tv-home-investment h3{font-size:22px;margin:0 0 8px;color:#ebc681}#tv-home-investment .choices{display:grid;grid-template-columns:1fr 1fr;gap:24px}#tv-home-investment p{color:#ded9d0;margin:8px 0 18px}#tv-home-investment a{display:inline-flex;align-items:center;min-height:48px;padding:12px 18px;border-radius:8px;font-weight:700;text-decoration:none;background:#e4bb73;color:#18130e}#tv-home-investment a:focus-visible{outline:3px solid #fff;outline-offset:4px}#tv-home-investment .amount{font-size:28px;font-weight:700;color:#fff}#tv-home-investment .note{font-size:15px;margin-bottom:0}@media(max-width:760px){#tv-home-investment{width:calc(100% - 24px);padding:22px}#tv-home-investment .choices{grid-template-columns:1fr}#tv-home-investment a{width:100%;justify-content:center}}
+      </style><h2 id="tv-home-investment-title">Choose your next step</h2><div class="choices"><div><h3>Ongoing online coaching</h3><p>Individualized programming, remote technique feedback, accountability and ongoing plan adjustments.</p><p class="amount">$497/month</p><a href="https://buy.stripe.com/dRm28sfiqb7ggrt4U2f3a00">Start Online Coaching — $497/month</a><p class="note">Enroll directly. No separate assessment purchase is required for online coaching.</p></div><div><h3>Local, private or hybrid coaching</h3><p>Start with a short application. If it is a fit, you can choose a separate Elite Assessment: a movement screen, weak-link analysis and your phase-one plan.</p><p class="amount">$297 Elite Assessment</p><a href="/coaching">Apply for Local Coaching</a><p class="note">There is no payment on the application. Ongoing training options are discussed separately.</p></div></div>`;
+    }
+    if (offer.nextElementSibling !== section) offer.after(section);
+  }
+
+  function apply() {
+    const path = (location.pathname.replace(/\/$/, "") || "/");
+    syncHomeInvestment(path === "/" || path === "/home");
+    if (path === "/" || path === "/home") {
+      replaceText(document.getElementById("PAGES_CONTAINER"), homeOld, homeNew);
+    }
+    if (path === "/coaching") {
+      replaceText(document.getElementById("PAGES_CONTAINER"), coachingHeadingOld, coachingHeadingNew);
+      replaceText(document.getElementById("PAGES_CONTAINER"), coachingOld, coachingNew);
+    }
+    if (path === "/results") {
+      const main=document.getElementById('PAGES_CONTAINER');
+      replaceText(main,'acheive','achieve');replaceText(main,'Acheive','Achieve');replaceText(main,'ACHEIVE','ACHIEVE');
+    }
+  }
+
+  const run=()=>{if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;apply();});};
+  const observer=new MutationObserver(records=>{
+    const path=location.pathname.replace(/\/$/,'')||'/';
+    if(!['/','/home','/coaching','/results'].includes(path)&&!document.getElementById(investmentId))return;
+    if(records.some(r=>!(r.target instanceof Element)||!r.target.closest('#tv-dumbbell-starter-v21,#tv-site-support,#tv-mobile-purchase,#tv-online-coaching-conversion-v1,#tv-home-investment')))run();
+  });
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('popstate',run);
+  window[KEY]={dispose(){observer.disconnect();window.removeEventListener('popstate',run);if(frame!==null)cancelAnimationFrame(frame);}};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+})();
+</script>
