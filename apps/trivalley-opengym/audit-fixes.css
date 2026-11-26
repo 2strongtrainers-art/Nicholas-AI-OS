@@ -1,0 +1,17 @@
+.tv-exercise-detail-heading {gap:12px;align-items:flex-start}
+.tv-exercise-detail-heading h3 {min-width:0;flex:1;overflow-wrap:normal;word-break:normal}
+.tv-exercise-detail-heading .btn {width:auto;flex:0 0 auto;min-height:44px}
+.tv-dialog-close {display:block;margin:0 0 12px auto;min-width:70px;min-height:44px;padding:8px 16px;border:1px solid var(--sep);border-radius:12px;background:var(--surface-2);color:var(--label)}
+.tv-bodyweight-input {display:block;box-sizing:border-box;width:100%;font-size:22px;margin:10px 0;min-height:48px;padding:10px 14px;border:1px solid var(--sep);border-radius:12px;background:var(--surface-2);color:var(--label)}
+.seg button:disabled {opacity:.45;cursor:not-allowed}
+.tv-finish-action {width:auto!important;display:flex;gap:6px;padding:8px 12px!important}
+.tv-written-guidance {grid-template-columns:1fr!important}
+.tv-coaching-card .tv-coach-mark {float:right;width:44px;height:44px;margin:0 0 12px 14px}
+.tv-program-art-photo {object-fit:cover;object-position:center 38%}
+.tv-support-link {white-space:nowrap}
+.tv-finish-note {line-height:1.5;margin:12px 0}
+.center {box-sizing:border-box;max-height:calc(100dvh - 48px);overflow-y:auto;overscroll-behavior:contain}
+/* The free host reserves this same area for navigation. Keep dialog actions
+   above its banner too; standalone installed apps retain their normal layout. */
+:root[data-tv-free-hosted="1"] .sheet {bottom:calc(76px + env(safe-area-inset-bottom));max-height:calc(100dvh - 100px - env(safe-area-inset-bottom))}
+:root[data-tv-free-hosted="1"] .center {top:calc(50% - 38px);max-height:calc(100dvh - 124px - env(safe-area-inset-bottom))}

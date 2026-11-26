@@ -1,0 +1,14 @@
+.tv-get-started h2,.tv-program-setup-guide h3{margin:8px 0 12px;line-height:1.2}
+.tv-get-started p,.tv-program-setup-guide p,.tv-app-help p{line-height:1.55}
+.tv-setup-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0}
+.tv-setup-actions button{min-height:46px;white-space:normal;text-align:center;line-height:1.3}
+.tv-program-setup-guide{border:1px solid var(--acc);border-radius:16px;padding:20px;margin:20px 0}
+.tv-program-setup-guide label{display:block;font-weight:700;margin:18px 0 8px}
+.tv-program-setup-guide select{width:100%;max-width:460px;min-height:48px;padding:10px 12px;color:var(--text,#f7f5ee);background:var(--surface,#202426);border:1px solid #827b65;border-radius:10px;font-size:16px}
+.tv-program-setup-guide select:disabled{opacity:.8}
+.tv-program-setup-guide ul,.tv-app-help ol{padding-left:24px;line-height:1.65}
+.tv-program-setup-guide li,.tv-app-help li{margin:8px 0}
+.tv-app-help summary{cursor:pointer;min-height:48px;padding:10px 0;font-weight:700}
+.tv-app-help h3{font-size:18px;line-height:1.3;margin:20px 0 8px}
+.tv-program-schedule-note{padding:12px;border-left:3px solid var(--acc);line-height:1.5}
+@media(max-width:480px){.tv-program-setup-guide{padding:16px}.tv-setup-actions{align-items:stretch;flex-direction:column}.tv-setup-actions button{width:100%}}
