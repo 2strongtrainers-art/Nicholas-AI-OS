@@ -237,10 +237,12 @@ jobs:
               req = urllib.request.Request(host + name, headers={'User-Agent':'TriValley-host-integrity/2', 'Cache-Control':'no-cache'})
               with urllib.request.urlopen(req, timeout=20) as response:
                   data = response.read()
+                  print('WIX_SHARED_HOST_RESPONSE_META', json.dumps({'path': name, 'status': response.status, 'bytes': len(data), 'contentType': response.headers.get('Content-Type'), 'contentEncoding': response.headers.get('Content-Encoding')}, sort_keys=True), flush=True)
                   assert response.status == 200 and len(data) > 500, 'Missing: ' + name
                   return data
           bundled = {name: blob((Path('upstream/frontend/dist') / name).read_bytes()) for name in prior}
           live = {name: blob(read(name)) for name in prior}
+          print('WIX_SHARED_HOST_BLOB_DIAGNOSTIC', json.dumps({name: {'live': live[name], 'prior': prior[name], 'candidate': bundled[name]} for name in prior}, sort_keys=True), flush=True)
           assert live == prior or live == bundled, 'STOP-SHIP: unknown or mixed hosted coaching source; no eligible guest upload'
           manifest = json.loads(read('tv-release.json'))
           assert manifest.get('product') == 'TriValley FIT'
