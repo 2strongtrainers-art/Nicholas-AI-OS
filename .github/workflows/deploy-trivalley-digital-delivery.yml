@@ -1,0 +1,36 @@
+name: Deploy TriValley Digital Delivery
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/deploy-trivalley-digital-delivery.yml"
+      - "services/trivalley-digital-delivery/**"
+      - "scripts/deploy_trivalley_digital_delivery.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-deploy:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 15
+    steps:
+      - name: Check out trusted main
+        uses: actions/checkout@v5
+
+      - name: Test worker
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/services/trivalley-digital-delivery"
+          npm install --no-audit --no-fund
+          npm test
+
+      - name: Deploy with owner-only local secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          NICHOLAS_AI_OS_ROOT="$GITHUB_WORKSPACE" \
+            bash "$GITHUB_WORKSPACE/scripts/deploy_trivalley_digital_delivery.sh"
