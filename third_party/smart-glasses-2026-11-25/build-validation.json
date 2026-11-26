@@ -1,0 +1,30 @@
+{
+  "date_pacific": "2026-11-25",
+  "repository": "even-realities/evenhub-templates",
+  "commit": "8cb01354f5ee914c5fab97d06e6d13b28eeb5815",
+  "template": "minimal",
+  "environment": "Linux; no glasses or iPhone connected",
+  "commands": [
+    "npm install --ignore-scripts --no-audit --no-fund",
+    "npm run build"
+  ],
+  "result": "passed",
+  "checks": [
+    "TypeScript tsc --noEmit",
+    "Vite production build"
+  ],
+  "output": {
+    "dist/index.html_bytes_approx": 1140,
+    "bundle": "index-Bhjeanv7.js",
+    "bundle_kB": 69.91
+  },
+  "limitations": [
+    "No ASR provider configured",
+    "No live provider calls",
+    "No iPhone build or physical hardware acceptance",
+    "Only official minimal template built; other sources not built or activated"
+  ],
+  "node_version": "v24.22.3",
+  "npm_version": "11.19.1",
+  "resolved_sdk_version": "0.0.10"
+}
