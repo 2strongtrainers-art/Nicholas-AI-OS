@@ -1,0 +1,13 @@
+{
+  "name": "trivalley-coaching-m2-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Synthetic-only coach-to-client API/domain proof; fail closed until verified identity and durable storage",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
