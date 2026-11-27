@@ -1,0 +1,100 @@
+<script>
+/* Website entry point for the existing Training Companion. No account, billing or storage changes. */
+(() => {
+  if (window.__tvTrainingInstallV1) return;
+  window.__tvTrainingInstallV1 = true;
+  const app = 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/';
+  const styleId = 'tv-training-app-style';
+  const cardId = 'tv-training-app';
+  const css = `
+  #DrpDwnMn0-1ek4itemsContainer.tv-app-menu-ready > li:not([data-index="__more__"]){width:20%!important}
+  #tv-app-menu-item{display:inline-block;position:relative;height:38px;vertical-align:top;box-sizing:border-box}
+  #tv-app-menu-link{display:flex;align-items:center;justify-content:center;height:38px;color:#dfcb91;font:700 17px Arial,sans-serif;text-decoration:none;border-radius:6px}
+  #tv-app-menu-link:hover{background:#29251c}
+  #tv-app-menu-link:focus-visible{outline:3px solid #dfcb91;outline-offset:2px}
+  #tv-training-app,#tv-training-app *{box-sizing:border-box}
+  #tv-training-app{display:block;position:relative;isolation:isolate;max-width:1100px;width:calc(100% - 32px);margin:28px auto;padding:clamp(22px,4vw,42px);border:1px solid #6e6244;border-radius:24px;background:linear-gradient(135deg,#101416,#1d211e);color:#f6f4ec;font-family:Arial,sans-serif;line-height:1.55;scroll-margin-top:110px}
+  #tv-training-app .tv-app-heading{display:flex;align-items:center;gap:18px;margin:0 0 16px}
+  #tv-training-app .tv-app-icon{width:68px;height:68px;border-radius:16px;flex:0 0 68px}
+  #tv-training-app .tv-app-kicker{margin:0 0 5px;font-size:12px;font-weight:700;letter-spacing:.11em;color:#dfcb91}
+  #tv-training-app h2{margin:0;color:#fff;font-size:clamp(27px,4vw,40px);line-height:1.16;font-weight:800;letter-spacing:-.025em}
+  #tv-training-app p{margin:10px 0;font-size:17px;color:#e1e1da;max-width:75ch}
+  #tv-training-app .tv-app-features{display:flex;flex-wrap:wrap;gap:8px 20px;margin:16px 0 22px;padding-left:20px;color:#e5d6ab;font-size:16px}
+  #tv-training-app .tv-app-open{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 24px;border:1px solid #dfcb91;border-radius:12px;background:#dfcb91;color:#161914;text-decoration:none;font-weight:800;font-size:17px;line-height:1.35}
+  #tv-training-app a:focus-visible,#tv-training-app summary:focus-visible{outline:3px solid #fff;outline-offset:4px}
+  #tv-training-app details{margin-top:18px;border:1px solid #767a6a;border-radius:12px;background:#181d19}
+  #tv-training-app summary{min-height:48px;cursor:pointer;padding:12px 16px;color:#f4e5b7;font-size:17px;font-weight:700}
+  #tv-training-app .tv-app-steps{padding:0 18px 18px}
+  #tv-training-app ol{list-style:decimal;padding-left:24px;margin:8px 0 16px;font-size:17px;color:#f0f0e8}
+  #tv-training-app li{padding:4px 0}
+  #tv-training-app .tv-app-help{color:#e7d9ad;text-underline-offset:3px;font-size:16px}
+  #tv-training-app .tv-app-note{font-size:14px;color:#c8c9bf;margin-top:18px}
+  @media(max-width:480px){#tv-training-app{width:calc(100% - 24px);margin:20px auto;padding:22px 18px;border-radius:18px}#tv-training-app .tv-app-heading{align-items:flex-start;gap:12px}#tv-training-app .tv-app-icon{width:52px;height:52px;flex-basis:52px;border-radius:12px}#tv-training-app .tv-app-kicker{font-size:10px;letter-spacing:.07em}#tv-training-app h2{font-size:27px}#tv-training-app .tv-app-open{width:100%}#tv-training-app .tv-app-features{display:block}#tv-training-app summary{font-size:16px}}
+  `;
+  const markup = `
+    <div class="tv-app-heading">
+      <img class="tv-app-icon" src="${app}icon-192-trinity-20261119.png" width="68" height="68" alt="TriValley.fit Training app Trinity knot icon" loading="lazy">
+      <div><p class="tv-app-kicker">TRIVALLEY.FIT · FREE TRAINING APP</p><h2 id="tv-training-app-heading" tabindex="-1">Your workouts. Ready on your phone.</h2></div>
+    </div>
+    <p>Open the Training Companion to follow a ready-made program, log your sets and reps, and keep your workout moving.</p>
+    <ul class="tv-app-features"><li>Ready-made workout splits</li><li>Set and weight logging</li><li>Rest timers and progress</li></ul>
+    <a class="tv-app-open" href="${app}" target="_blank" rel="noopener noreferrer" aria-label="Open the TriValley.fit training app in a new tab">Open training app</a>
+    <details data-tv-app-install><summary>Install on your iPhone Home Screen</summary><div class="tv-app-steps">
+      <p>This is a web app that you install through your browser.</p>
+      <ol><li>Use <strong>Open training app</strong> above, then open that page in <strong>Safari</strong>.</li><li>Tap <strong>Share</strong>. Depending on your Safari layout, open the page menu first.</li><li>Choose <strong>Add to Home Screen</strong>.</li><li>Enable <strong>Open as Web App</strong>, then tap <strong>Add</strong>.</li></ol>
+      <p>Launch your workouts from the Trinity knot icon on your Home Screen. If you already logged workouts in Safari, export a backup before installing, then check your history in the installed app. Import that backup in Settings if needed.</p>
+      <p><a class="tv-app-help" href="https://support.apple.com/guide/iphone/open-as-web-app-iphea86e5236/27/ios/27" target="_blank" rel="noopener noreferrer">Apple’s iPhone installation guide <span class="tv-app-sr">(opens in a new tab)</span></a></p>
+      <p class="tv-app-note">On other devices, open the app and use your browser’s Install or Add to Home Screen option when available.</p>
+    </div></details>
+    <p class="tv-app-note">Workouts stay on the device you use. Save a copy with the backup controls in the app’s Settings. Before training offline, wait for the app to confirm “Offline app cached”.</p>
+  `;
+  let queued = false, lastJump = '';
+  function focusAppEntry(link) {
+    link.addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const card = document.getElementById(cardId);
+      if (location.pathname !== '/' || !card) return;
+      event.preventDefault(); event.stopPropagation();
+      card.scrollIntoView({block:'start'});
+      card.querySelector('h2').focus({preventScroll:true});
+    });
+  }
+  function mount() {
+    queued = false;
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style'); style.id = styleId; style.textContent = css; document.head.append(style);
+    }
+    const menu = document.getElementById('DrpDwnMn0-1ek4itemsContainer');
+    if (menu && !document.getElementById('tv-app-menu-item')) {
+      const item = document.createElement('li'); item.id = 'tv-app-menu-item';
+      const link = document.createElement('a'); link.id = 'tv-app-menu-link';link.href = '/#tv-training-app';link.textContent = 'Get the App';
+      focusAppEntry(link);item.append(link);menu.classList.add('tv-app-menu-ready');menu.prepend(item);
+    }
+    const heroActions = document.querySelector('#tv-coaching-hero .coach-actions');
+    if (heroActions && !document.getElementById('tv-app-hero-link')) {
+      const link = document.createElement('a');link.id='tv-app-hero-link';link.className='coach-action';link.href='/#tv-training-app';link.textContent='Get the free training app';focusAppEntry(link);heroActions.prepend(link);
+    }
+    const path = location.pathname.replace(/\/+$/, '') || '/';
+    const existing = document.getElementById(cardId);
+    if (!['/', '/fitness-guides'].includes(path)) { existing?.remove(); return; }
+    const anchor = document.getElementById(path === '/' ? 'tv-coaching-hero' : 'tv-guide-chooser');
+    if (!anchor?.parentElement) return;
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style'); style.id = styleId; style.textContent = css; document.head.append(style);
+    }
+    const card = existing || Object.assign(document.createElement('section'), {id:cardId});
+    if (!existing) {card.setAttribute('aria-labelledby','tv-training-app-heading');card.innerHTML=markup;}
+    if (card.previousElementSibling !== anchor) anchor.insertAdjacentElement('afterend',card);
+    if (location.hash === '#tv-training-app' && lastJump !== location.href) {
+      lastJump = location.href;
+      requestAnimationFrame(() => {card.scrollIntoView({block:'start'});card.querySelector('h2').focus({preventScroll:true});});
+    }
+    if (location.hash !== '#tv-training-app') lastJump = '';
+  }
+  function schedule() {if (!queued) {queued=true;setTimeout(mount,120);}}
+  function start() {mount();new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});}
+  window.addEventListener('popstate',schedule);window.addEventListener('hashchange',schedule);
+  if (document.body) start();else document.addEventListener('DOMContentLoaded',start,{once:true});
+})();
+
+</script>

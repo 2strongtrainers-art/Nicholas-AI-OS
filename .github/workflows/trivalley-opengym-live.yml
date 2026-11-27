@@ -1,0 +1,215 @@
+name: TriValley openGym — live Wix browser acceptance
+# Retest after restoring cached-page compatibility assets; source release unchanged.
+# Exercise detail clicks scroll to a verified reachable target before physical input.
+on:
+  push:
+    branches:
+      - feat/trivalley-opengym-free-20261116
+    paths:
+      - '.github/workflows/trivalley-opengym-live.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-browser:
+    name: Test the actual Wix-hosted app in mobile Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install free browser QA driver
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-live"
+          npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund puppeteer-core@24
+          cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-live/smoke.mjs"
+      - name: Wait for the exact published root HTML after CDN propagation
+        run: |
+          node --input-type=module <<'NODE'
+          const root='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/';
+          let ready=false;
+          for(let attempt=0;attempt<18;attempt++){
+            const response=await fetch(root,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+            const html=await response.text();
+            if(response.ok&&html.includes('assets/index-E3yhjaDP.js')){ready=true;break;}
+            console.log('Root HTML has not reached the expected release; awaiting propagation.');
+            await new Promise(r=>setTimeout(r,5000));
+          }
+          if(!ready)throw Error('Published root HTML remains stale; do not promote acceptance.');
+          NODE
+      - name: Verify exact published TriValley v5.20.1 source and compiled asset
+        run: |
+          curl --fail --location --silent --show-error --max-time 25 \
+            'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/tv-release.json' \
+            -o "$RUNNER_TEMP/trivalley-live/tv-release.json"
+          node - "$RUNNER_TEMP/trivalley-live/tv-release.json" <<'NODE'
+          const fs = require('node:fs');
+          const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (release.version !== '5.20.1' ||
+              release.sourceCommit !== 'd09422be10ecac0aa8505047a29f58b3304b0f03' ||
+              release.mainScript !== 'assets/index-E3yhjaDP.js' ||
+              release.storage !== 'browser-local; no client cloud sync') {
+            throw new Error('Hosted release identity mismatch: ' + JSON.stringify(release));
+          }
+          console.log(JSON.stringify({status:'WIX_RELEASE_IDENTITY_PASS',commit:release.sourceCommit,script:release.mainScript}));
+          NODE
+      - name: Verify live Wix v5 Today, library, backup, scripture, workouts and offline restart
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+          TV_EXPECTED_JS: 'index-E3yhjaDP.js'
+          TV_EXPECT_LIBRARY_V3: '1'
+          TV_EXPECT_COMPACT_VERSE: '1'
+          TV_EXPECT_V4: '1'
+        run: node "$RUNNER_TEMP/trivalley-live/smoke.mjs" unused "$RUNNER_TEMP/trivalley-live/live.png"
+      - name: Test live guidance, summaries, backup confirmation and failed-save recovery
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/v5_smoke.mjs "$RUNNER_TEMP/trivalley-live/v5.mjs"
+          node "$RUNNER_TEMP/trivalley-live/v5.mjs" unused "$RUNNER_TEMP/trivalley-live/live-premium.png"
+      - name: Run automated accessibility audit on actual Wix-hosted v5
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          npm install --prefix "$RUNNER_TEMP/trivalley-live" --no-audit --no-fund axe-core@4.10.3
+          cp apps/trivalley-opengym/a11y_smoke.mjs "$RUNNER_TEMP/trivalley-live/a11y.mjs"
+          node "$RUNNER_TEMP/trivalley-live/a11y.mjs" unused
+      - name: Verify live interactive poster session and finish timestamps
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/poster_smoke.mjs "$RUNNER_TEMP/trivalley-live/poster.mjs"
+          node "$RUNNER_TEMP/trivalley-live/poster.mjs" unused "$RUNNER_TEMP/trivalley-live/live-poster.png"
+      - name: Verify live ready-made programs and safe scheduling
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/programs_smoke.mjs "$RUNNER_TEMP/trivalley-live/programs.mjs"
+          node "$RUNNER_TEMP/trivalley-live/programs.mjs" unused "$RUNNER_TEMP/trivalley-live/live-programs.png"
+      - name: Verify live coach covers, next-session memory and reachable controls
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/visuals_smoke.mjs "$RUNNER_TEMP/trivalley-live/visuals.mjs"
+          node "$RUNNER_TEMP/trivalley-live/visuals.mjs" unused "$RUNNER_TEMP/trivalley-live/live-visuals.png"
+      - name: Verify sixteen revised exercise images, direct weight entry and offline exercise details
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/movements_smoke.mjs "$RUNNER_TEMP/trivalley-live/movements.mjs"
+          node "$RUNNER_TEMP/trivalley-live/movements.mjs" unused "$RUNNER_TEMP/trivalley-live/live-movements.png"
+      - name: Verify live first-user audit fixes and optional donation link
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/audit_smoke.mjs "$RUNNER_TEMP/trivalley-live/audit.mjs"
+          node "$RUNNER_TEMP/trivalley-live/audit.mjs" unused "$RUNNER_TEMP/trivalley-live/live-audit.png"
+      - name: Verify live reviewed setup and installation guidance
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/setup_smoke.mjs "$RUNNER_TEMP/trivalley-live/setup.mjs"
+          node "$RUNNER_TEMP/trivalley-live/setup.mjs" unused "$RUNNER_TEMP/trivalley-live/live-setup.png"
+      - name: Verify live reserved navigation, timer clearance and one setup path
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/navigation_smoke.mjs "$RUNNER_TEMP/trivalley-live/navigation.mjs"
+          node "$RUNNER_TEMP/trivalley-live/navigation.mjs" unused "$RUNNER_TEMP/trivalley-live/live-navigation.png"
+      - name: Open every live exercise detail and verify coaching coverage
+        env:
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          cp apps/trivalley-opengym/catalogue_smoke.mjs "$RUNNER_TEMP/trivalley-live/catalogue.mjs"
+          node "$RUNNER_TEMP/trivalley-live/catalogue.mjs" unused "$RUNNER_TEMP/trivalley-live/live-catalogue.png"
+      - name: Upload live mobile screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-opengym-live-mobile-qa
+          path: |
+            ${{ runner.temp }}/trivalley-live/live.png
+            ${{ runner.temp }}/trivalley-live/live-library.png
+            ${{ runner.temp }}/trivalley-live/live-premium.png
+            ${{ runner.temp }}/trivalley-live/live-poster.png
+            ${{ runner.temp }}/trivalley-live/live-programs.png
+            ${{ runner.temp }}/trivalley-live/live-visuals.png
+            ${{ runner.temp }}/trivalley-live/live-visuals-home.png
+            ${{ runner.temp }}/trivalley-live/live-movements.png
+            ${{ runner.temp }}/trivalley-live/live-audit.png
+            ${{ runner.temp }}/trivalley-live/live-setup.png
+            ${{ runner.temp }}/trivalley-live/live-navigation.png
+            ${{ runner.temp }}/trivalley-live/live-catalogue.png
+          retention-days: 7
+          if-no-files-found: ignore
+
+
+  client-value:
+    name: Client value and mobile layout (${{ matrix.engine }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
+      options: --ipc=host
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+      - name: Wait for the exact published root HTML after CDN propagation
+        run: |
+          node --input-type=module <<'NODE'
+          const root='https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/';
+          let ready=false;
+          for(let attempt=0;attempt<18;attempt++){
+            const response=await fetch(root,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+            const html=await response.text();
+            if(response.ok&&html.includes('assets/index-E3yhjaDP.js')){ready=true;break;}
+            console.log('Root HTML has not reached the expected release; awaiting propagation.');
+            await new Promise(r=>setTimeout(r,5000));
+          }
+          if(!ready)throw Error('Published root HTML remains stale; do not promote acceptance.');
+          NODE
+      - name: Test the actual compiled app in both browser engines
+        env:
+          TV_ENGINE: ${{ matrix.engine }}
+          TV_LIVE_URL: 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-client-value"
+          npm install --prefix "$RUNNER_TEMP/trivalley-client-value" --no-audit --no-fund playwright-core@1.65.0 axe-core@4.10.3
+          cp apps/trivalley-opengym/client_value_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/test.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/test.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/progress.png"
+          cp apps/trivalley-opengym/workout_tools_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/workout-tools.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/workout-tools.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/workout-tools.png"
+          cp apps/trivalley-opengym/calculators_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/calculators.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/calculators.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/calculators.png"
+          cp apps/trivalley-opengym/learning_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/learning.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/learning.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/learning.png"
+          cp apps/trivalley-opengym/illustrated_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/illustrated.png"
+          cp apps/trivalley-opengym/catalogue_art_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/catalogue-art.png"
+          cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivalley-live-client-value-${{ matrix.engine }}
+          path: |
+            ${{ runner.temp }}/trivalley-client-value/progress.png
+            ${{ runner.temp }}/trivalley-client-value/calculators.png
+            ${{ runner.temp }}/trivalley-client-value/first-use.png
+            ${{ runner.temp }}/trivalley-client-value/workout-tools.png
+            ${{ runner.temp }}/trivalley-client-value/learning.png
+            ${{ runner.temp }}/trivalley-client-value/catalogue-art.png
+            ${{ runner.temp }}/trivalley-client-value/illustrated.png
+          retention-days: 7
+

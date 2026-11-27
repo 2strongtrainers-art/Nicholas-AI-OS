@@ -1,0 +1,407 @@
+name: TriValley openGym — free build and review
+on:
+  push:
+    branches:
+      - feat/trivalley-opengym-free-20261116
+    paths:
+      - 'apps/trivalley-opengym/**'
+      - '.github/workflows/trivalley-opengym-free.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-open-gym:
+    name: Build pinned OpenGym frontend without external exercise media
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout TriValley build definitions
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Clone the exact screenshot repository source (no credentials)
+        run: |
+          git clone --filter=blob:none https://github.com/alexpcosta/opengym.git upstream
+          git -C upstream checkout --detach 678bf5bf10446e8997a77d43e89c9b2721d8d0fc
+          test "$(git -C upstream rev-parse HEAD)" = "678bf5bf10446e8997a77d43e89c9b2721d8d0fc"
+      - name: Apply TriValley original-visuals and data-safety patch
+        run: |
+          python3 apps/trivalley-opengym/patch_opengym.py upstream/frontend
+          python3 apps/trivalley-opengym/add_daily_verse.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_v4.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_v5.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_v6.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_programs.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_visuals.py upstream/frontend
+          python3 apps/trivalley-opengym/fetch_covers.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_movement_illustrations.py upstream/frontend
+          python3 apps/trivalley-opengym/fetch_movements.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_iphone.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_audit.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_setup.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_client_interface.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_navigation.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_client_value.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_coach_notes.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_calculators.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_workout_tools.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_first_use.py upstream/frontend
+          python3 apps/trivalley-opengym/upgrade_learning.py upstream/frontend
+          curl --fail --location --silent --show-error --retry 2 --max-time 25 \
+            'https://static.wixstatic.com/media/856ae2_c38d74eea9814eca8746480856abb82f~mv2.png' \
+            -o upstream/frontend/public/trivalley-triquetra.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, struct
+          path = Path('upstream/frontend/public/trivalley-triquetra.png')
+          raw = path.read_bytes()
+          assert raw.startswith(b'\x89PNG\r\n\x1a\n') and len(raw) < 150000, 'Logo asset must be a small valid PNG'
+          assert struct.unpack('>II', raw[16:24]) == (72,72), 'Expected 72px reviewed triquetra'
+          print('Brand source SHA-256:', hashlib.sha256(raw).hexdigest())
+          PY
+          cp apps/trivalley-opengym/branding/*.png upstream/frontend/public/
+          mkdir -p upstream/frontend/public/assets
+          curl --fail --location --silent --show-error --retry 2 --max-time 25 \
+            'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/assets/tv-coach-portrait.webp' \
+            -o upstream/frontend/public/assets/tv-coach-portrait.webp
+          echo 'ef1b3e6367cf189731f9d26abb4dd73971391717a1e0e370614ba114b50c03b8  upstream/frontend/public/assets/tv-coach-portrait.webp' | sha256sum --check
+      - name: Test deterministic exercise discovery and validated backup recovery
+        env:
+          TV_CATALOGUE_PATH: upstream/frontend/src/lib/exercises-data.js
+        run: node --test apps/trivalley-opengym/tv-exercise-search.test.mjs apps/trivalley-opengym/tv-backup.test.mjs apps/trivalley-opengym/tv-training-insights.test.mjs apps/trivalley-opengym/tv-poster.test.mjs apps/trivalley-opengym/tv-programs.test.mjs apps/trivalley-opengym/tv-movement-illustrations.test.mjs apps/trivalley-opengym/tv-audit-safety.test.mjs apps/trivalley-opengym/tv-setup.test.mjs apps/trivalley-opengym/tv-navigation.test.mjs apps/trivalley-opengym/tv-weekly-progress.test.mjs apps/trivalley-opengym/tv-coach-notes.test.mjs apps/trivalley-opengym/tv-calculators.test.mjs apps/trivalley-opengym/tv-workout-tools.test.mjs apps/trivalley-opengym/tv-learning.test.mjs apps/trivalley-opengym/tv-illustrated-presets.test.mjs
+      - name: Install locked dependencies
+        working-directory: upstream/frontend
+        run: npm ci --no-audit --no-fund
+      - name: Install OpenGym coach test dependencies without starting its backend
+        working-directory: upstream/api
+        run: npm ci --no-audit --no-fund
+      - name: Run OpenGym training tests
+        working-directory: upstream/frontend
+        run: npm test
+      - name: Compile real OpenGym React/Vite guest-mode app
+        working-directory: upstream/frontend
+        env:
+          VITE_DEMO: '1'
+          VITE_TRIVALLEY_FREE: '1'
+        run: npm run build
+      - name: Verify self-contained assets and build offline cache
+        run: python3 apps/trivalley-opengym/check_dist.py upstream/frontend/dist
+      - name: Install free local browser test driver
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-browser"
+          npm install --prefix "$RUNNER_TEMP/trivalley-browser" --no-audit --no-fund puppeteer-core@24 axe-core@4.10.3
+          cp apps/trivalley-opengym/browser_smoke.mjs "$RUNNER_TEMP/trivalley-browser/smoke.mjs"
+          cp apps/trivalley-opengym/a11y_smoke.mjs "$RUNNER_TEMP/trivalley-browser/a11y.mjs"
+          cp apps/trivalley-opengym/v5_smoke.mjs "$RUNNER_TEMP/trivalley-browser/v5.mjs"
+          cp apps/trivalley-opengym/poster_smoke.mjs "$RUNNER_TEMP/trivalley-browser/poster.mjs"
+          cp apps/trivalley-opengym/programs_smoke.mjs "$RUNNER_TEMP/trivalley-browser/programs.mjs"
+          cp apps/trivalley-opengym/movements_smoke.mjs "$RUNNER_TEMP/trivalley-browser/movements.mjs"
+          cp apps/trivalley-opengym/setup_smoke.mjs "$RUNNER_TEMP/trivalley-browser/setup.mjs"
+          cp apps/trivalley-opengym/navigation_smoke.mjs "$RUNNER_TEMP/trivalley-browser/navigation.mjs"
+          cp apps/trivalley-opengym/audit_smoke.mjs "$RUNNER_TEMP/trivalley-browser/audit.mjs"
+          cp apps/trivalley-opengym/visuals_smoke.mjs "$RUNNER_TEMP/trivalley-browser/visuals.mjs"
+      - name: Test actual mobile Chromium UI, saved plan and offline reload
+        if: ${{ !cancelled() }}
+        env:
+          TV_EXPECT_LIBRARY_V3: '1'
+          TV_EXPECT_COMPACT_VERSE: '1'
+          TV_EXPECT_V4: '1'
+        run: node "$RUNNER_TEMP/trivalley-browser/smoke.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/mobile.png"
+      - name: Audit automated WCAG mobile accessibility across training routes
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/a11y.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist"
+      - name: Verify guidance, progress, backup confirmation and storage failure in Chromium
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/v5.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/premium.png"
+      - name: Verify interactive posters, timed sets and finished-session timestamps
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/poster.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/poster.png"
+      - name: Verify ready-made programs, schedule preservation, loads and exercise rest timers
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/programs.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/programs.png"
+      - name: Verify owner cover images, program continuation, mobile controls and offline artwork
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/visuals.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/visuals.png"
+      - name: Verify exact exercise images, technique cues, accessible references and offline coverage
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/movements.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/movements.png"
+      - name: Verify first-user audit fixes in the actual mobile browser
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/audit.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/audit.png"
+      - name: Verify reviewed onboarding, calendar relocation and installation help
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/setup.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/setup.png"
+      - name: Verify unambiguous setup and nonoverlapping navigation and timers
+        if: ${{ !cancelled() }}
+        run: node "$RUNNER_TEMP/trivalley-browser/navigation.mjs" "$GITHUB_WORKSPACE/upstream/frontend/dist" "$RUNNER_TEMP/trivalley-browser/navigation.png"
+      - name: Upload mobile browser QA screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-opengym-mobile-smoke
+          path: |
+            ${{ runner.temp }}/trivalley-browser/mobile.png
+            ${{ runner.temp }}/trivalley-browser/mobile-library.png
+            ${{ runner.temp }}/trivalley-browser/premium.png
+            ${{ runner.temp }}/trivalley-browser/poster.png
+            ${{ runner.temp }}/trivalley-browser/programs.png
+            ${{ runner.temp }}/trivalley-browser/visuals.png
+            ${{ runner.temp }}/trivalley-browser/visuals-home.png
+            ${{ runner.temp }}/trivalley-browser/movements.png
+            ${{ runner.temp }}/trivalley-browser/audit.png
+            ${{ runner.temp }}/trivalley-browser/setup.png
+            ${{ runner.temp }}/trivalley-browser/navigation.png
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Checkout pinned coaching portal files for shared Wix hosting
+        uses: actions/checkout@v4
+        with:
+          ref: 12a5a865f9f23a2dd66523d155f1d2819f6d741a
+          path: verified-coaching-source
+          persist-credentials: false
+      - name: Bundle verified coach portals into shared Wix upload artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+          root = Path('verified-coaching-source/apps/trivalley-coaching-m2')
+          dist = Path('upstream/frontend/dist')
+          # Pin the tested M2 candidate (CI 45677814638). Packaging is NOT
+          # permission to upload; the shared host can still serve the prior source.
+          # The following check rejects unknown or mixed coaching bytes.
+          expected = {
+              'coach-login.html': ('supabase/companion/coach-login.html', '52bb7a5ba36c67c4c404f37a4697519005e213f7'),
+              'coach-client.html': ('supabase/companion/coach-client.html', 'cbb120060d993a0d8b77833d015474638e7a6c55'),
+              'coach-login-client.mjs': ('supabase/companion/coach-login-client.mjs', '197defb11fdc87fb622609c41da438e58e240f8c'),
+              'coach-client.mjs': ('supabase/companion/coach-client.mjs', '9794833fa82334e236a0dea17cb86bc4e9202b4a'),
+              'coach-login-wix.mjs': ('src/wix-login-browser.mjs', '869b8a8741386bb6f2f4d39ff318914b0b89f2fd'),
+              'coach-offline-queue.mjs': ('src/offline-queue.mjs', 'abe595c96f88d4bf51123d82e1a7234ac2a0c690'),
+              'coach-offline-backup.mjs': ('src/offline-backup.mjs', '638fec4eb7c9c6a59d0dba003fe34f2a61ce53fd'),
+          }
+          assert dist.joinpath('index.html').is_file()
+          assert dist.joinpath('tv-release.json').is_file()
+          for public_name, (source, expected_blob) in expected.items():
+              source_path = root / source
+              data = source_path.read_bytes()
+              blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + bytes([0]) + data).hexdigest()
+              assert blob == expected_blob, f'Unexpected coach source blob: {public_name}'
+              assert len(data) > 500, f'Empty coach module: {public_name}'
+              target = dist / public_name
+              if target.exists():
+                  assert target.read_bytes() == data, f'Conflicting guest file: {public_name}'
+              else:
+                  shutil.copyfile(source_path, target)
+              assert target.read_bytes() == data
+          total_bytes = sum(p.stat().st_size for p in dist.rglob('*') if p.is_file())
+          assert total_bytes < 20 * 1024 * 1024, 'Wix static payload exceeds hosting budget'
+          assert len([p for p in expected if (dist/p).is_file()]) == 7
+          print('WIX_SHARED_ARTIFACT_COACH_PORTALS_PASS', len(expected), total_bytes)
+          PY
+      - name: Verify exact shared-host bytes and release candidate state (read-only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, urllib.request
+          from pathlib import Path
+          host = 'https://headless-lukuteamnwo-1strongtrainer-140e.wix-site-host.com/'
+          prior = {
+              'coach-login.html': '52bb7a5ba36c67c4c404f37a4697519005e213f7',
+              'coach-client.html': 'cbb120060d993a0d8b77833d015474638e7a6c55',
+              'coach-login-client.mjs': '03b2539229964191b0488c0a41f6d3c126b1da06',
+              'coach-client.mjs': '53a35fd82942ebead35fdafa70307d9981622975',
+              'coach-login-wix.mjs': '81d62b140434afe1bd5cde740f45e2bd5ab4eab0',
+              'coach-offline-queue.mjs': 'abe595c96f88d4bf51123d82e1a7234ac2a0c690',
+              'coach-offline-backup.mjs': '638fec4eb7c9c6a59d0dba003fe34f2a61ce53fd',
+          }
+          def blob(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + bytes([0]) + data).hexdigest()
+          def read(name):
+              req = urllib.request.Request(host + name, headers={'User-Agent':'TriValley-host-integrity/2', 'Cache-Control':'no-cache'})
+              with urllib.request.urlopen(req, timeout=20) as response:
+                  data = response.read()
+                  print('WIX_SHARED_HOST_RESPONSE_META', json.dumps({'path': name, 'status': response.status, 'bytes': len(data), 'contentType': response.headers.get('Content-Type'), 'contentEncoding': response.headers.get('Content-Encoding')}, sort_keys=True), flush=True)
+                  assert response.status == 200 and len(data) > 500, 'Missing: ' + name
+                  return data
+          bundled = {name: blob((Path('upstream/frontend/dist') / name).read_bytes()) for name in prior}
+          # Diagnostic only: do not normalize, approve or ignore changed bytes.
+          from html.parser import HTMLParser
+          from urllib.parse import urlsplit
+          def html_delta(expected, actual):
+              prefix = 0
+              while prefix < min(len(expected), len(actual)) and expected[prefix] == actual[prefix]:
+                  prefix += 1
+              suffix = 0
+              while suffix < min(len(expected), len(actual)) - prefix and expected[-1-suffix] == actual[-1-suffix]:
+                  suffix += 1
+              if len(actual) > len(expected) and prefix + suffix == len(expected):
+                  extra = len(actual) - len(expected)
+                  for at in range(max(0, prefix-256), prefix+1):
+                      chunk = actual[at:at+extra]
+                      if chunk.lstrip().startswith(b'<') and chunk.rstrip().endswith(b'>') and actual[:at]+actual[at+extra:] == expected:
+                          prefix, suffix = at, len(expected)-at
+                          break
+              removed = expected[prefix:len(expected)-suffix]
+              added = actual[prefix:len(actual)-suffix]
+              class Tags(HTMLParser):
+                  def __init__(self):
+                      super().__init__()
+                      self.tags, self.script_hosts = [], []
+                  def handle_starttag(self, tag, attrs):
+                      self.tags.append(tag)
+                      if tag == 'script':
+                          src = dict(attrs).get('src') or ''
+                          try:
+                              u = urlsplit(src)
+                              if u.hostname:
+                                  self.script_hosts.append(u.hostname)
+                          except ValueError:
+                              pass
+              parser = Tags()
+              parser.feed(added.decode('utf-8', errors='replace'))
+              parser.close()
+              return {'prefixBytes': prefix, 'suffixBytes': suffix, 'removedBytes': len(removed),
+                      'addedBytes': len(added), 'addedSha256': hashlib.sha256(added).hexdigest(),
+                      'removedSha256': hashlib.sha256(removed).hexdigest(),
+                      'singleInsertion': not removed and bool(added),
+                      'tags': parser.tags[:20], 'scriptHosts': parser.script_hosts[:10]}
+          source=b'<html><head></head><body>test</body></html>'
+          extra=b'<script src="https://static.example.invalid/wix.js?x=private"></script>'
+          fixture=html_delta(source,source.replace(b'</head>',extra+b'</head>'))
+          assert fixture['singleInsertion'] and fixture['addedBytes']==len(extra) and fixture['addedSha256']==hashlib.sha256(extra).hexdigest() and fixture['scriptHosts']==['static.example.invalid']
+          assert not html_delta(source,source.replace(b'test',b'evil'))['singleInsertion']
+          assert not html_delta(source,source)['singleInsertion']
+          assert html_delta(b'abc',b'abcX')['addedBytes']==1
+          assert html_delta(b'abcX',b'abc')['removedBytes']==1
+          assert 'private' not in str(fixture)
+          print('HTML_DELTA_DIAGNOSTIC_FIXTURES_PASS 6', flush=True)
+          live_bytes = {name: read(name) for name in prior}
+          live = {name: blob(data) for name, data in live_bytes.items()}
+          for name in prior:
+              if name.endswith('.html') and live[name] != bundled[name]:
+                  expected = (Path('upstream/frontend/dist') / name).read_bytes()
+                  assert blob(expected) == prior[name], 'Diagnostic reference HTML must match prior source'
+                  print('WIX_SHARED_HOST_HTML_DELTA', json.dumps({'path': name, **html_delta(expected, live_bytes[name])}, sort_keys=True), flush=True)
+          print('WIX_SHARED_HOST_BLOB_DIAGNOSTIC', json.dumps({name: {'live': live[name], 'prior': prior[name], 'candidate': bundled[name]} for name in prior}, sort_keys=True), flush=True)
+          assert live == prior or live == bundled, 'STOP-SHIP: unknown or mixed hosted coaching source; no eligible guest upload'
+          manifest = json.loads(read('tv-release.json'))
+          assert manifest.get('product') == 'TriValley FIT'
+          assert manifest.get('storage') == 'browser-local; no client cloud sync'
+          assert manifest.get('backend') == 'disabled'
+          assert manifest.get('version') and manifest.get('sourceCommit')
+          state = 'candidate_matches_host' if live == bundled else 'prior_host_candidate_not_deployed'
+          receipt = {
+              'state': state,
+              'guestVersion': manifest['version'],
+              'guestSourceCommit': manifest['sourceCommit'],
+              'coachCandidateCommit': '12a5a865f9f23a2dd66523d155f1d2819f6d741a',
+              'liveCoachBlobs': live,
+              'bundledCoachBlobs': bundled,
+              'uploadAuthorized': False,
+              'requiredBeforeUpload': 'Exclusive publisher, current live manifest and exact source preflight, additive upload and independent post-readback; owner art and coaching acceptance gates unchanged.',
+          }
+          Path('shared-host-preflight.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print('WIX_SHARED_HOST_EXACT_BYTES_PASS', state, manifest['version'])
+          PY
+      - name: Upload read-only shared-host preflight receipt (not release authorization)
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-shared-host-preflight
+          path: shared-host-preflight.json
+          retention-days: 7
+          if-no-files-found: error
+      - name: Upload public-app deployment bundle for Wix
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivalley-opengym-wix-build
+          path: upstream/frontend/dist/
+          retention-days: 7
+          if-no-files-found: error
+
+
+
+  client-value:
+    name: Client value and mobile layout (${{ matrix.engine }})
+    needs: build-open-gym
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:9beb546099e11f52d62e505537914870e01a67e0e6b00ae41da4775324e73dbe
+      options: --ipc=host
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@v4
+        with:
+          name: trivalley-opengym-wix-build
+          path: client-dist
+      - name: Test the actual compiled app in both browser engines
+        env:
+          TV_ENGINE: ${{ matrix.engine }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-client-value"
+          npm install --prefix "$RUNNER_TEMP/trivalley-client-value" --no-audit --no-fund playwright-core@1.65.0 axe-core@4.10.3
+          cp apps/trivalley-opengym/client_value_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/test.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/test.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/progress.png"
+          cp apps/trivalley-opengym/workout_tools_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/workout-tools.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/workout-tools.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/workout-tools.png"
+          cp apps/trivalley-opengym/calculators_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/calculators.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/calculators.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/calculators.png"
+          cp apps/trivalley-opengym/learning_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/learning.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/learning.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/learning.png"
+          cp apps/trivalley-opengym/illustrated_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/illustrated.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/illustrated.png"
+          cp apps/trivalley-opengym/catalogue_art_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/catalogue-art.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/catalogue-art.png"
+          cp apps/trivalley-opengym/first_use_smoke.mjs "$RUNNER_TEMP/trivalley-client-value/first-use.mjs"
+          node "$RUNNER_TEMP/trivalley-client-value/first-use.mjs" "$GITHUB_WORKSPACE/client-dist" "$RUNNER_TEMP/trivalley-client-value/first-use.png"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivalley-client-value-${{ matrix.engine }}
+          path: |
+            ${{ runner.temp }}/trivalley-client-value/progress.png
+            ${{ runner.temp }}/trivalley-client-value/calculators.png
+            ${{ runner.temp }}/trivalley-client-value/first-use.png
+            ${{ runner.temp }}/trivalley-client-value/learning.png
+            ${{ runner.temp }}/trivalley-client-value/catalogue-art.png
+          retention-days: 7
+
+  catalogue-integrity:
+    name: Open all 1324 exercise details in mobile Chromium
+    needs: build-open-gym
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          name: trivalley-opengym-wix-build
+          path: catalogue-dist
+      - name: Check every rendered exercise and coaching coverage
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivalley-catalogue"
+          npm install --prefix "$RUNNER_TEMP/trivalley-catalogue" --no-audit --no-fund puppeteer-core@24
+          cp apps/trivalley-opengym/catalogue_smoke.mjs "$RUNNER_TEMP/trivalley-catalogue/test.mjs"
+          node "$RUNNER_TEMP/trivalley-catalogue/test.mjs" "$GITHUB_WORKSPACE/catalogue-dist" "$RUNNER_TEMP/trivalley-catalogue/catalogue.png"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivalley-complete-catalogue
+          path: ${{ runner.temp }}/trivalley-catalogue/catalogue.png
+          retention-days: 7
