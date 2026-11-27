@@ -241,7 +241,64 @@ jobs:
                   assert response.status == 200 and len(data) > 500, 'Missing: ' + name
                   return data
           bundled = {name: blob((Path('upstream/frontend/dist') / name).read_bytes()) for name in prior}
-          live = {name: blob(read(name)) for name in prior}
+          # Diagnostic only: do not normalize, approve or ignore changed bytes.
+          from html.parser import HTMLParser
+          from urllib.parse import urlsplit
+          def html_delta(expected, actual):
+              prefix = 0
+              while prefix < min(len(expected), len(actual)) and expected[prefix] == actual[prefix]:
+                  prefix += 1
+              suffix = 0
+              while suffix < min(len(expected), len(actual)) - prefix and expected[-1-suffix] == actual[-1-suffix]:
+                  suffix += 1
+              if len(actual) > len(expected) and prefix + suffix == len(expected):
+                  extra = len(actual) - len(expected)
+                  for at in range(max(0, prefix-256), prefix+1):
+                      chunk = actual[at:at+extra]
+                      if chunk.lstrip().startswith(b'<') and chunk.rstrip().endswith(b'>') and actual[:at]+actual[at+extra:] == expected:
+                          prefix, suffix = at, len(expected)-at
+                          break
+              removed = expected[prefix:len(expected)-suffix]
+              added = actual[prefix:len(actual)-suffix]
+              class Tags(HTMLParser):
+                  def __init__(self):
+                      super().__init__()
+                      self.tags, self.script_hosts = [], []
+                  def handle_starttag(self, tag, attrs):
+                      self.tags.append(tag)
+                      if tag == 'script':
+                          src = dict(attrs).get('src') or ''
+                          try:
+                              u = urlsplit(src)
+                              if u.hostname:
+                                  self.script_hosts.append(u.hostname)
+                          except ValueError:
+                              pass
+              parser = Tags()
+              parser.feed(added.decode('utf-8', errors='replace'))
+              parser.close()
+              return {'prefixBytes': prefix, 'suffixBytes': suffix, 'removedBytes': len(removed),
+                      'addedBytes': len(added), 'addedSha256': hashlib.sha256(added).hexdigest(),
+                      'removedSha256': hashlib.sha256(removed).hexdigest(),
+                      'singleInsertion': not removed and bool(added),
+                      'tags': parser.tags[:20], 'scriptHosts': parser.script_hosts[:10]}
+          source=b'<html><head></head><body>test</body></html>'
+          extra=b'<script src="https://static.example.invalid/wix.js?x=private"></script>'
+          fixture=html_delta(source,source.replace(b'</head>',extra+b'</head>'))
+          assert fixture['singleInsertion'] and fixture['addedBytes']==len(extra) and fixture['addedSha256']==hashlib.sha256(extra).hexdigest() and fixture['scriptHosts']==['static.example.invalid']
+          assert not html_delta(source,source.replace(b'test',b'evil'))['singleInsertion']
+          assert not html_delta(source,source)['singleInsertion']
+          assert html_delta(b'abc',b'abcX')['addedBytes']==1
+          assert html_delta(b'abcX',b'abc')['removedBytes']==1
+          assert 'private' not in str(fixture)
+          print('HTML_DELTA_DIAGNOSTIC_FIXTURES_PASS 6', flush=True)
+          live_bytes = {name: read(name) for name in prior}
+          live = {name: blob(data) for name, data in live_bytes.items()}
+          for name in prior:
+              if name.endswith('.html') and live[name] != bundled[name]:
+                  expected = (Path('upstream/frontend/dist') / name).read_bytes()
+                  assert blob(expected) == prior[name], 'Diagnostic reference HTML must match prior source'
+                  print('WIX_SHARED_HOST_HTML_DELTA', json.dumps({'path': name, **html_delta(expected, live_bytes[name])}, sort_keys=True), flush=True)
           print('WIX_SHARED_HOST_BLOB_DIAGNOSTIC', json.dumps({name: {'live': live[name], 'prior': prior[name], 'candidate': bundled[name]} for name in prior}, sort_keys=True), flush=True)
           assert live == prior or live == bundled, 'STOP-SHIP: unknown or mixed hosted coaching source; no eligible guest upload'
           manifest = json.loads(read('tv-release.json'))
